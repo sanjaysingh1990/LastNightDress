@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#9fa8da</color>
+    <color name="primary_dark">#be4d66</color>
+
+    <color name="text_primary">#D9FFFFFF</color>
+    <color name="text_secondary">#D9000000</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000</color>
+    <color name="indigo500">#561942</color>
+    <color name="divider">#1f000000</color>
+    <color name="accent">#be4d66</color>
+    <color name="heading">#4d4e50</color>
+    <color name="setting_header_back">#eff1f4</color>
+    <color name="setting_header_textcolor">#9ea6b0</color>
+    <color name="app_color">#561942</color>
+    <color name="back_black">#1d1f21</color>
+
+</resources>

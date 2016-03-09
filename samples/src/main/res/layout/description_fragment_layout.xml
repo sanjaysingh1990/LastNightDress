@@ -1,0 +1,74 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+
+    android:id="@+id/rootview"
+    android:background="@drawable/gradient_back_splash"
+    >
+
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+   android:layout_centerInParent="true"
+    >
+
+
+    <EditText
+
+        android:id="@+id/emojicon_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:hint="write a description about your self..."
+        android:textSize="15sp"
+
+        android:gravity="top"
+        android:textColorHint="#fff"
+        android:maxLines="5"
+        android:maxLength="150"
+        android:textColor="#fff"
+        android:layout_gravity="center_vertical"
+        android:background="@null"
+
+       />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#ffffff"
+        android:layout_marginTop="5dp"
+        />
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="150"
+    android:id="@+id/leftchar"
+    android:gravity="right"
+    android:layout_marginTop="5dp"
+    android:textColor="#fff"
+    android:textSize="11sp"
+    />
+
+</LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="NEXT"
+        android:textSize="18sp"
+        android:layout_gravity="right"
+        android:layout_marginTop="20dp"
+        android:textColor="#fff"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:clickable="true"
+        android:id="@+id/next"
+        />
+</RelativeLayout>

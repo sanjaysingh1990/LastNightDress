@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+<LinearLayout
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/black"
+    android:layout_alignParentBottom="true"
+    >
+<ImageView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:src="@drawable/paypal_logo"
+    android:layout_gravity="center_horizontal"
+    />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#fff"
+        android:text="Buy or sell around the globe.We process and\n convert 26 currencies from 203 markets to make\n spending and selling simple and secure"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:id="@+id/text"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        />
+</LinearLayout>
+    </RelativeLayout>

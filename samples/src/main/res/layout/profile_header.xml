@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="400dp"
+              android:layout_height="wrap_content">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/imageView"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/image1"
+        android:layout_marginTop="10dp"
+
+        android:layout_gravity="center_horizontal"
+        />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/rating_star_empty"
+            android:id="@+id/star1"
+            />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/rating_star_empty"
+            android:id="@+id/star2"
+            android:layout_marginLeft="5dp"
+            />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/rating_star_empty"
+            android:id="@+id/star3"
+            android:layout_marginLeft="5dp"
+            />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/rating_star_empty"
+            android:id="@+id/star4"
+            android:layout_marginLeft="5dp"
+            />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/rating_star_empty"
+            android:id="@+id/star5"
+            android:layout_marginLeft="5dp"
+            />
+    </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Lnd user status..."
+        android:textColorHint="#dadada"
+        android:id="@+id/desc"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/ratingBar"
+        android:layout_centerHorizontal="true"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:gravity="center_horizontal"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="City, State"
+        android:id="@+id/userlocation"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:textColor="#9ea6b0"
+        android:textSize="14sp"
+        android:drawablePadding="5dp"
+        android:gravity="center_vertical"
+        />
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:background="#f3f4f5"
+        android:layout_marginTop="13dp"
+        >
+        <TextView
+            android:id="@+id/editprofile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit my profile"
+            android:padding="13dp"
+            android:layout_centerInParent="true"
+            android:drawablePadding="5dp"
+            android:textColor="#9ea6b0"
+            android:gravity="center_vertical"
+            android:clickable="true"
+
+            />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/tabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/profile"
+
+        >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:padding="5dp"
+            >
+
+
+
+            <TextView
+                android:id="@+id/probank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="banks"
+                android:layout_gravity="center"
+                android:textSize="14sp"
+                android:drawablePadding="3dp"
+                android:drawableTop="@drawable/bank_lock_icon"
+                android:textColor="#9ea6b0"
+                android:clickable="true"
+                android:onClick="showDialog"
+                />
+
+        </LinearLayout>
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#dadada"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:padding="5dp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textSize="12sp"
+                android:layout_gravity="center"
+                android:textColor="#be4d66"
+                android:id="@+id/totalswaps"
+                />
+
+
+            <TextView
+                android:id="@+id/proswaps"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="swaps"
+
+                android:textSize="14sp"
+                android:layout_gravity="center"
+                android:textColor="#9ea6b0"
+                />
+
+        </LinearLayout>
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#dadada"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            />
+        <LinearLayout
+            android:id="@+id/followers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:padding="5dp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textSize="12sp"
+                android:layout_gravity="center"
+                android:textColor="#be4d66"
+                android:id="@+id/totalfollowers"
+                />
+
+
+            <TextView
+                android:id="@+id/profollowers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="followers"
+                android:textColor="#9ea6b0"
+                android:textSize="14sp"
+                android:layout_gravity="center"
+
+                />
+
+        </LinearLayout>
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#dadada"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:padding="5dp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textSize="12sp"
+                android:layout_gravity="center"
+                android:textColor="#be4d66"
+                android:id="@+id/totalfollowing"
+                />
+
+
+            <TextView
+                android:id="@+id/profollowing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="following"
+                android:textColor="#9ea6b0"
+                android:textSize="14sp"
+                android:layout_gravity="center"
+
+                />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="#dadada"
+        android:layout_below="@+id/tabs"
+
+        android:id="@+id/finalview"
+        />
+</LinearLayout>

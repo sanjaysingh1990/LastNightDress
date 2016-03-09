@@ -1,0 +1,126 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#fff">
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        >
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_weight="1"
+    >
+    <EditText
+        android:id="@+id/firstname"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:hint="First name"
+        android:layout_below="@+id/profile"
+        android:background="@null"
+        android:layout_marginTop="3dp"
+        android:paddingLeft="20dp"
+        android:textColorHint="#dadada"
+        android:textColor="#000000"
+        android:textSize="16sp"
+
+        />
+    <EditText
+        android:id="@+id/lastname"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:hint="Last name"
+        android:layout_below="@+id/profile"
+        android:background="@null"
+        android:layout_marginTop="3dp"
+        android:paddingLeft="20dp"
+        android:textColorHint="#dadada"
+        android:textColor="#000000"
+        android:textSize="16sp"
+
+        />
+    <EditText
+        android:id="@+id/priuname"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:hint="User name"
+        android:layout_below="@+id/profile"
+        android:background="@null"
+        android:layout_marginTop="3dp"
+        android:paddingLeft="20dp"
+        android:textColorHint="#dadada"
+        android:textColor="#000000"
+        android:textSize="16sp"
+
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="* username must be unique and it will not change once created."
+        android:textColor="#be4d66"
+        android:textSize="10sp"
+        android:paddingLeft="20dp"
+        />
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:hint="Email"
+        android:textSize="16sp"
+
+        android:layout_marginTop="3dp"
+        android:id="@+id/priemail"
+        android:background="@null"
+        android:paddingLeft="20dp"
+        android:textColorHint="#dadada"
+        android:textColor="#000000"
+
+        />
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:hint="Password"
+
+        android:layout_marginTop="3dp"
+        android:id="@+id/pripass"
+        android:background="@null"
+        android:paddingLeft="20dp"
+        android:textColorHint="#dadada"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:inputType="textPassword"
+        />
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:hint="Confirm Password"
+        android:inputType="textPassword"
+        android:layout_marginTop="3dp"
+        android:id="@+id/priconfirmpass"
+        android:background="@null"
+        android:paddingLeft="20dp"
+        android:textColorHint="#dadada"
+        android:textColor="#000000"
+        android:textSize="16sp"
+
+        />
+
+    <Spinner
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:id="@+id/country"
+        android:background="@null"
+        android:paddingLeft="13dp"
+        android:entries="@array/country_arrays"
+        />
+
+
+</LinearLayout>
+    </ScrollView>
+</LinearLayout>

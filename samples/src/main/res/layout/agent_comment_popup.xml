@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    >
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Comment"
+    android:textSize="18sp"
+    android:textColor="#000"
+    android:textStyle="bold"
+    android:gravity="center"
+    android:layout_marginTop="20dp"
+    />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="If your not able to post a comment\n that means you are not an LND agent"
+        android:textSize="15sp"
+        android:textColor="#000"
+        android:gravity="center"
+        android:layout_marginTop="30dp"
+        />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon2"
+            />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon1"
+            android:layout_marginLeft="20dp"
+            />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon3"
+            android:layout_marginLeft="20dp"
+            />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="30dp"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Close"
+            android:layout_weight="1"
+            android:textColor="#be4d66"
+            android:padding="10dp"
+            android:gravity="center_horizontal"
+            android:background="#e8e9eb"
+            android:id="@+id/cancel"
+            android:textSize="16sp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Learn More"
+            android:layout_weight="1"
+            android:textColor="#be4d66"
+            android:padding="10dp"
+            android:gravity="center_horizontal"
+            android:background="#e8e9eb"
+            android:layout_marginLeft="1dp"
+            android:textSize="16sp"
+            android:id="@+id/swapcontinue"
+            />
+    </LinearLayout>
+</LinearLayout>

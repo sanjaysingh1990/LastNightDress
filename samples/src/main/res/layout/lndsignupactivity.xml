@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_back_splash"
+    >
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerInParent="true"
+
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Last Night's Dress"
+            android:textColor="#fff"
+            android:id="@+id/heading"
+            android:gravity="center_horizontal"
+            android:textSize="38sp"
+            android:textStyle="bold"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Where Fashionistas Blossom into\nCorporate Queens"
+            android:textColor="#fff"
+            android:textSize="13sp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:gravity="center_horizontal"
+            android:id="@+id/subheading"
+            />
+    </LinearLayout>
+</RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="20dp"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/facebook_button_drawable"
+            android:clickable="true"
+            android:id="@+id/fbsignup"
+            >
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Log in with Facebook"
+   android:layout_centerInParent="true"
+    android:clickable="true"
+    android:textColor="#3b5998"
+    android:textSize="14sp"
+    android:textStyle="bold"
+    android:drawableLeft="@drawable/facebook_icon"
+    android:gravity="center_horizontal"
+    android:drawablePadding="10dp"
+    android:id="@+id/fbtext"
+    />
+    </RelativeLayout>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginTop="30dp"
+    >
+<View
+    android:layout_width="match_parent"
+    android:layout_height="1dp"
+    android:background="#20ffffff"
+    android:layout_weight="1"
+    android:layout_gravity="center_vertical"
+    android:layout_marginRight="10dp"
+    />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="OR"
+        android:textColor="#ffffff"
+        android:layout_weight="0"
+        android:textSize="14sp"
+        android:id="@+id/ortext"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#20ffffff"
+        android:layout_weight="1"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="10dp"
+        />
+</LinearLayout>
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Sign up with email"
+    android:textColor="#fff"
+    android:gravity="center_horizontal"
+    android:layout_marginTop="20dp"
+    android:id="@+id/signup"
+    android:clickable="true"
+    />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="0"
+
+
+        >
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#30ffffff"
+            android:layout_weight="0"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Already have an account? Log in."
+            android:gravity="center_horizontal"
+            android:textColor="#fff"
+            android:padding="15dp"
+            android:background="@drawable/textview_click"
+            android:clickable="true"
+            android:id="@+id/login"
+            />
+    </LinearLayout>
+</LinearLayout>

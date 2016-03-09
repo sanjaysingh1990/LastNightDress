@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Alert"
+        android:textSize="18sp"
+        android:textColor="#000"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Wrong username/\npassword"
+        android:textSize="15sp"
+        android:textColor="#000"
+        android:gravity="center"
+        android:layout_marginTop="30dp"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="40dp"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ok"
+            android:layout_weight="1"
+            android:textColor="#be4d66"
+            android:padding="10dp"
+            android:gravity="center_horizontal"
+            android:background="#dbdbdb"
+
+            android:id="@+id/ok"
+            />
+    </LinearLayout>
+</LinearLayout>

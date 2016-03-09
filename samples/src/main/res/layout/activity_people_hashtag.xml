@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/coordinatorLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    >
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:elevation="0dp"
+        >
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            style="@style/header"
+            android:background="@color/white"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp"
+            android:contentInsetRight="0dp"
+            android:contentInsetEnd="0dp"
+            app:contentInsetRight="0dp"
+            app:contentInsetEnd="0dp"
+            >
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:background="#fff"
+                    android:paddingLeft="45dp"
+                    android:paddingRight="5dp"
+                    android:id="@+id/main"
+                    android:layout_gravity="center_vertical"
+
+                    >
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="#dadada"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        />
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/search_icon"
+                        android:layout_weight="0"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="20dp"
+
+                        />
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:hint="Search people"
+                        android:textColorHint="#dadada"
+                        android:layout_weight="1"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:id="@+id/search"
+                        android:textColor="#000000"
+                        android:layout_marginTop="3dp"
+                        />
+                </LinearLayout>
+              <View
+                  android:layout_width="match_parent"
+                  android:layout_height="1dp"
+                  android:background="#dadada"
+                  android:layout_gravity="bottom" />
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/back_arrow"
+                    android:layout_gravity="left|center_vertical"
+                    android:background="?attr/selectableItemBackground"
+                    android:layout_marginLeft="10dp"
+                    android:onClick="back"
+                    />
+
+                    />
+            </FrameLayout>
+            </android.support.v7.widget.Toolbar>
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabTextColor="#dadada"
+            app:tabSelectedTextColor="@color/accent"
+            app:tabIndicatorColor="@color/accent"
+            app:tabIndicatorHeight="2dp"
+
+            />
+    </android.support.design.widget.AppBarLayout>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+</android.support.design.widget.CoordinatorLayout>

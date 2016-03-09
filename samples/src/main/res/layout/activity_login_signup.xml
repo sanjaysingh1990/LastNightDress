@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:id="@+id/mainlayout"
+   >
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="vertical"
+       android:layout_centerInParent="true"
+       android:id="@+id/linearLayout">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Last Night's Dress"
+        android:id="@+id/heading"
+        android:gravity="center_horizontal"
+        android:textColor="#be4d66"
+        android:textSize="44sp"
+
+
+        />
+
+
+
+       <LinearLayout
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="40dp"
+           android:layout_gravity="center_horizontal"
+           >
+
+
+           <de.hdodenhof.circleimageview.CircleImageView
+               xmlns:app="http://schemas.android.com/apk/res-auto"
+               android:layout_width="55dp"
+               android:layout_height="55dp"
+               android:src="@drawable/logo"
+
+               android:layout_gravity="center_horizontal"
+
+               android:id="@+id/logo"
+               app:civ_border_width="1dp"
+               app:civ_border_color="#ffffff"/>
+       </LinearLayout>
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:textSize="17sp"
+           android:text="Where fashionista blossom\n Into Corporate queens"
+           android:id="@+id/about"
+           android:layout_below="@+id/linearLayout"
+           android:layout_centerHorizontal="true"
+           android:layout_marginTop="40dp"
+           android:gravity="center"
+           android:layout_gravity="center_horizontal"
+           />
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:textAppearance="?android:attr/textAppearanceSmall"
+           android:text="Login"
+           android:id="@+id/login"
+           android:layout_gravity="center_horizontal"
+           android:layout_marginTop="52dp"
+           android:textColor="#be4d66"
+           android:clickable="true"
+           android:onClick="login"
+           android:textSize="16sp"
+           />
+   </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        >
+      <RelativeLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:padding="13dp"
+          android:background="#e8e9eb"
+          android:clickable="true"
+          android:onClick="signup"
+          >
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:textColor="#6E6E6E"
+              android:text="Sign up with email"
+              android:layout_centerInParent="true"
+
+              />
+      </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="13dp"
+            android:background="@drawable/gradient_back"
+            android:clickable="true"
+            >
+            <TextView
+                android:id="@+id/login_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#fff"
+                android:text="Continue with Facebook"
+                android:layout_centerInParent="true"
+                android:drawableRight="@drawable/proceed_arrow"
+                android:drawablePadding="2dp"
+                android:gravity="center_vertical"
+
+                />
+        </RelativeLayout>
+        </LinearLayout>
+
+
+
+
+</RelativeLayout>

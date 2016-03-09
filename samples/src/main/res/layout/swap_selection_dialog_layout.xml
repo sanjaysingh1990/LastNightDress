@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Swap with Cindy"
+        android:textSize="18sp"
+        android:textColor="#000"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        android:id="@+id/alertTitle"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select the one item your\ninterested inswapping with"
+        android:textSize="16sp"
+        android:textColor="#000"
+        android:gravity="center"
+        android:layout_marginTop="30dp"
+        android:id="@+id/alertmessage"
+        android:lineSpacingMultiplier="1.2"
+        />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Don't show me this again"
+        android:id="@+id/alertcheckBox"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dp"
+
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="40dp"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Continue"
+            android:layout_weight="1"
+            android:textColor="#be4d66"
+            android:padding="10dp"
+            android:gravity="center_horizontal"
+            android:background="#dbdbdb"
+            android:textStyle="bold"
+            android:id="@+id/alertcontinue"
+            android:clickable="true"
+            />
+    </LinearLayout>
+</LinearLayout>

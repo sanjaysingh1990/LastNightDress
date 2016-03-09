@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Bank allows in-app purchases"
+    android:textSize="18sp"
+    android:textColor="#000"
+    android:textStyle="bold"
+    android:gravity="center"
+    android:layout_marginTop="20dp"
+
+    />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/bank_unlock_icon"
+        android:layout_marginTop="20dp"
+android:layout_gravity="center_horizontal"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="How to unlock ?\n You need a four star rating or higher"
+        android:textSize="15sp"
+        android:textColor="#000"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        android:id="@+id/dialogmsg"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="50dp"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:layout_weight="1"
+            android:textColor="#be4d66"
+            android:padding="10dp"
+            android:gravity="center_horizontal"
+            android:background="#e8e9eb"
+            android:id="@+id/cancel"
+            android:textSize="16sp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Know more"
+            android:layout_weight="1"
+            android:textColor="#be4d66"
+            android:padding="10dp"
+            android:gravity="center_horizontal"
+            android:background="#e8e9eb"
+            android:layout_marginLeft="1dp"
+            android:id="@+id/nomore"
+            android:textSize="16sp"
+            />
+    </LinearLayout>
+</LinearLayout>

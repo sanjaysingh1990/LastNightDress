@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    >
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="SWAP REQUEST"
+    android:textSize="18sp"
+    android:textColor="#000"
+    android:textStyle="bold"
+    android:gravity="center"
+    android:layout_marginTop="20dp"
+    />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Swap is a cool way to enhance your\n wardrobe, as with everything know\n who you are swapping with"
+        android:textSize="15sp"
+        android:textColor="#000"
+        android:gravity="center"
+        android:layout_marginTop="30dp"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="40dp"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:layout_weight="1"
+            android:textColor="#be4d66"
+            android:padding="10dp"
+            android:gravity="center_horizontal"
+            android:background="#e8e9eb"
+            android:id="@+id/cancel"
+            android:textSize="16sp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Continue"
+            android:layout_weight="1"
+            android:textColor="#be4d66"
+            android:padding="10dp"
+            android:gravity="center_horizontal"
+            android:background="#e8e9eb"
+            android:layout_marginLeft="1dp"
+            android:textSize="16sp"
+            android:id="@+id/swapcontinue"
+            />
+    </LinearLayout>
+</LinearLayout>

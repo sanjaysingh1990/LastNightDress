@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.eowise.recyclerview.stickyheaders.samples.NewMessage.NewMessageActivity"
+    android:background="@color/white"
+    >
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/header"
+        android:background="@color/white"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        android:contentInsetRight="0dp"
+        android:contentInsetEnd="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetEnd="0dp"
+
+        >
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            >
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Purchase Return Shipping Label"
+                android:textSize="18sp"
+                android:textColor="#000"
+                android:id="@+id/heading"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_horizontal"
+                />
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/back_arrow"
+                android:layout_weight="0"
+                android:background="?attr/selectableItemBackground"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="left|center_vertical"
+                android:onClick="back"
+                />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#dadada"
+                android:layout_gravity="bottom"
+                />
+
+        </FrameLayout>
+    </android.support.v7.widget.Toolbar>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:text="Select package weight"
+        android:textColorHint="#dadada"
+        android:layout_weight="0"
+        android:layout_gravity="center_vertical"
+        android:textSize="14sp"
+        android:padding="12dp"
+        android:textColor="#757575"
+
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#dadada"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:textColor="#757575"
+        android:text="Once you have purchased your shipping label you have 24 hrs to drop the package to the nearest post office. When we receive your package, an LND representative will review your claim and you will be notified with an update via email"
+        android:gravity="center_horizontal"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="20dp"
+        android:background="@drawable/purchse_rounded_corners"
+        android:orientation="horizontal"
+        android:layout_marginBottom="30dp"
+       android:layout_gravity="center_horizontal"
+        >
+
+        <TextView
+            android:layout_width="145dp"
+            android:layout_height="wrap_content"
+            android:text="Same Payment"
+            android:textSize="16sp"
+
+            android:gravity="center"
+            android:layout_gravity="center_vertical"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:onClick="samepayment"
+            android:clickable="true"
+            android:id="@+id/samepayment"
+            android:textColor="#fff"
+            android:drawableLeft="@drawable/payment_selection"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:background="#be4d66"
+            android:drawablePadding="5dp"
+
+            />
+
+        <TextView
+            android:layout_width="145dp"
+            android:layout_height="wrap_content"
+            android:text="New  Payment"
+            android:textSize="16sp"
+
+            android:gravity="center"
+            android:layout_gravity="center_vertical"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:onClick="newpayment"
+            android:clickable="true"
+            android:id="@+id/newpayment"
+            android:textColor="#be4d66"
+            android:background="#e8e9eb"
+
+            />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+
+
+
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Submit Claim"
+            android:textColor="#be4d66"
+            android:layout_gravity="bottom"
+            android:background="#e8e9eb"
+            android:gravity="center"
+            android:padding="10dp"
+
+            android:textSize="16sp"
+            android:clickable="true"
+            android:onClick="claimSubmit"
+            />
+
+
+    </LinearLayout>
+</LinearLayout>

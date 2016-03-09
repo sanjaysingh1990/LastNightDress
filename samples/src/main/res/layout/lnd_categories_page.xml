@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_below="@+id/linearLayout"
+    android:background="#222427"
+
+    >
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    >
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="SELECT A CATEGORY"
+    android:textColor="#828282"
+   android:layout_centerInParent="true"
+    android:textSize="20sp"
+    android:id="@+id/category"
+    android:visibility="visible"
+    android:gravity="center_horizontal"
+
+    />
+</RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/ll"
+       android:layout_centerInParent="true"
+       android:layout_marginLeft="40dp"
+       android:layout_marginRight="40dp"
+        android:layout_weight="0"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+
+            >
+         <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:orientation="vertical"
+             android:layout_weight="1"
+
+             >
+             <LinearLayout
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:orientation="vertical"
+                 android:layout_gravity="right"
+                 >
+            <ImageView
+
+                android:layout_width="200px"
+                android:layout_height="210px"
+                android:layout_gravity="right"
+                android:src="@drawable/category_dress"
+                android:clickable="true"
+                android:background="@drawable/category_rounded_corner"
+                android:id="@+id/dress"
+
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Dresses"
+                android:textColor="#828282"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="3dp"
+                android:id="@+id/dresstext"
+                />
+             </LinearLayout>
+         </LinearLayout>
+<View
+    android:layout_width="18dp"
+    android:layout_height="match_parent"
+    android:layout_weight="0"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                >
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="left"
+                    >
+                <ImageView
+                    android:layout_width="200px"
+                    android:layout_height="210px"
+                    android:layout_gravity="left"
+                    android:src="@drawable/category_handbags"
+                    android:clickable="true"
+                    android:background="@drawable/category_rounded_corner"
+                    android:id="@+id/handbags"
+
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Handbags"
+                    android:textColor="#828282"
+                    android:gravity="center_horizontal"
+                    android:layout_marginTop="3dp"
+                    android:id="@+id/handbagstext"
+                    />
+</LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="15dp"
+
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    >
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_gravity="right"
+                        >
+                    <ImageView
+                        android:layout_width="200px"
+                        android:layout_height="210px"
+                        android:layout_gravity="right"
+                        android:src="@drawable/category_shoes"
+                        android:clickable="true"
+                        android:background="@drawable/category_rounded_corner"
+                        android:id="@+id/shoes"
+
+                        />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Shoes"
+                        android:textColor="#828282"
+                        android:gravity="center_horizontal"
+                        android:layout_marginTop="3dp"
+                        android:id="@+id/shoestext"
+                        />
+</LinearLayout>
+                </LinearLayout>
+                <View
+                    android:layout_width="18dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    >
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_gravity="left"
+                        >
+                    <ImageView
+                        android:layout_width="200px"
+                        android:layout_height="210px"
+                        android:layout_gravity="left"
+                        android:src="@drawable/category_jewellery"
+                        android:clickable="true"
+                        android:background="@drawable/category_rounded_corner"
+                        android:id="@+id/jewellery"
+
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Jewellery"
+                        android:textColor="#828282"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="3dp"
+                        android:id="@+id/jewellerytext"
+                        />
+</LinearLayout>
+                </LinearLayout>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:layout_weight="1"
+
+    >    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="POST DRESS"
+        android:textColor="#be4d66"
+        android:gravity="bottom|center_horizontal"
+        android:textSize="13sp"
+        android:clickable="true"
+
+        android:id="@+id/post"
+        android:layout_alignParentBottom="true"
+       android:layout_centerHorizontal="true"
+        android:background="@drawable/category_buttonselected_corner"
+        android:layout_marginBottom="15dp"
+        ></TextView>
+</RelativeLayout>
+
+
+</LinearLayout>

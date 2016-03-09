@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="0dp"
+
+
+    >
+
+
+          <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:padding="15dp"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="#Shirt"
+            android:id="@+id/hashtagbrand"
+            android:layout_marginLeft="5dp"
+            android:textColor="#be4d66"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            />
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_weight="0"
+    android:text="1"
+    android:textColor="#000"
+    android:textSize="16sp"
+    android:id="@+id/total"
+    />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#dadada"
+        android:layout_marginLeft="22dp"
+        android:layout_marginRight="10dp"
+        />
+
+</LinearLayout>

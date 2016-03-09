@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    >
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/black"
+        app:popupTheme="@style/AppTheme.PopupOverlay"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+
+        >
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                >
+
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/cancel_action"
+                    android:layout_weight="0"
+                    android:layout_gravity="center_vertical|left"
+                    android:background="?attr/selectableItemBackground"
+                    android:layout_marginLeft="10dp"
+                    android:id="@+id/back"
+                    android:onClick="cancel"
+
+                    />
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/capture_done"
+                    android:layout_weight="0"
+                    android:layout_gravity="center_vertical|right"
+                    android:background="?attr/selectableItemBackground"
+                    android:layout_marginRight="10dp"
+                    android:onClick="done"
+
+                    />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#dadada"
+                    android:layout_gravity="bottom" />
+            </FrameLayout>
+
+    </android.support.v7.widget.Toolbar>
+<ImageView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/rounded_corners_image"
+    android:layout_weight="1"
+    android:layout_marginTop="10dp"
+    android:id="@+id/mainimg"
+
+    android:adjustViewBounds="true"
+    />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:orientation="horizontal"
+        android:paddingLeft="5px"
+        android:paddingRight="5px"
+        android:layout_marginTop="10dp"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+
+            >
+
+            <ImageView
+                android:layout_width="150px"
+                android:layout_height="150px"
+                android:background="@drawable/rounded_corners_image"
+                android:layout_centerInParent="true"
+                android:id="@+id/image1"
+                android:scaleType="fitXY"
+                android:adjustViewBounds="true"
+
+                />
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/close_favorate"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:background="?attr/selectableItemBackground"
+                />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+
+            >
+
+            <ImageView
+                android:layout_width="150px"
+                android:layout_height="150px"
+                android:background="@drawable/rounded_corners_image"
+                android:layout_centerInParent="true"
+                android:id="@+id/image2"
+                android:scaleType="fitXY"
+                android:adjustViewBounds="true"
+                />
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/close_favorate"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:background="?attr/selectableItemBackground"
+                />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+
+            >
+
+            <ImageView
+                android:layout_width="150px"
+                android:layout_height="150px"
+                android:background="@drawable/rounded_corners_image"
+                android:layout_centerInParent="true"
+                android:id="@+id/image3"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                />
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/close_favorate"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:background="?attr/selectableItemBackground"
+                />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+
+            >
+
+            <ImageButton
+                android:layout_width="150px"
+                android:layout_height="150px"
+                android:src="@drawable/camera"
+                android:layout_centerInParent="true"
+                android:id="@+id/image4"
+                android:background="@drawable/rounded_corners_image"
+
+                />
+        </RelativeLayout>
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:padding="20dp"
+        >
+        <RelativeLayout
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:background="@drawable/outer_circle"
+            android:layout_centerInParent="true"
+            >
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/inner_circle"
+            android:layout_centerInParent="true"
+            android:id="@+id/camera"
+            />
+        </RelativeLayout>
+    </RelativeLayout>
+</LinearLayout>

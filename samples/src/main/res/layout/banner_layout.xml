@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="20dp">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#f2f2f2"
+
+        android:orientation="horizontal"
+        android:padding="15dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <ImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/bannerimg"
+                android:layout_width="78dp"
+                android:layout_height="78dp"
+                android:layout_marginTop="2dp"
+                android:adjustViewBounds="true"
+                android:background="#000"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_launcher" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:layout_weight="1"
+                android:orientation="vertical"
+
+                android:paddingLeft="15dp"
+
+                >
+
+                <TextView
+                    android:id="@+id/brandname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/image"
+                    android:lineSpacingMultiplier="1.1"
+
+                    android:singleLine="true"
+                    android:text="Marciano"
+                    android:textColor="#000"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+
+                <!-- purached action and status -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="0dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/sellertext"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:layout_toRightOf="@+id/image"
+                        android:layout_weight="0"
+                        android:lineSpacingMultiplier="1.1"
+                        android:singleLine="true"
+                        android:text="Seller:"
+                        android:textColor="#757575"
+
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/sellername"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="3dp"
+                        android:layout_weight="1"
+                        android:singleLine="true"
+                        android:text="Olivia Newton Wilde"
+                        android:textColor="#be4d66"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="0dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/sizepricetext"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/image"
+                        android:layout_weight="0"
+                        android:lineSpacingMultiplier="1.1"
+                        android:text="Size:"
+                        android:textColor="#757575"
+                        android:textSize="14sp"
+
+
+                        />
+
+                    <TextView
+                        android:id="@+id/size"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="1"
+                        android:text="2"
+                        android:textColor="#000"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="0dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/listpricetext"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/image"
+                        android:layout_weight="0"
+                        android:lineSpacingMultiplier="1.1"
+                        android:text="List Price:"
+                        android:textColor="#757575"
+
+                        android:textSize="14sp"
+
+                        />
+
+                    <TextView
+                        android:id="@+id/listprice"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="1"
+                        android:text="$104.99"
+                        android:textColor="#000"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:orientation="horizontal">
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:orientation="horizontal">
+
+                </LinearLayout>
+            </LinearLayout>
+            <!-- END HERE -->
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

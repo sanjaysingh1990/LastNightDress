@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    >
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/header"
+        android:background="@color/white"
+        app:popupTheme="@style/AppTheme.PopupOverlay"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                >
+
+                <TextView
+                    android:id="@+id/heading"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Rate User"
+                    android:textColor="@color/heading_color"
+                    android:textSize="18sp"
+
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_horizontal"
+                    />
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/back_arrow"
+                    android:layout_weight="0"
+                    android:layout_gravity="center_vertical|left"
+                    android:background="?attr/selectableItemBackground"
+                    android:layout_marginLeft="10dp"
+                    android:id="@+id/back"
+                    android:onClick="back"
+
+                    />
+            </FrameLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#dadada"
+                android:layout_alignParentBottom="true"
+                />
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    android:scrollbars="none"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/mainprofilepic"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/empty_user"
+            android:layout_marginTop="30dp"
+
+            android:layout_gravity="center_horizontal"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Olivia Newton Wilde"
+            android:textSize="16sp"
+            android:textColor="#be4d66"
+            android:layout_marginLeft="3dp"
+            android:layout_weight="1"
+            android:singleLine="true"
+            android:id="@+id/sellername"
+            android:gravity="center_horizontal"
+
+            />
+
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ratingBar"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+           android:progressTint="@color/app_color"
+            android:secondaryProgressTint="@color/app_color"
+            android:stepSize="1"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="15dp"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Add a comment"
+                android:textSize="15sp"
+                android:textColor="#000"
+                android:gravity="left"
+               android:layout_marginTop="10dp"
+                />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:hint="write your comment here..."
+                android:background="@drawable/rounded"
+                android:layout_marginTop="5dp"
+                android:id="@+id/yourcomment"
+                android:textColorHint="#dadada"
+                />
+        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="CAUTION: When leaving a comment, the use of  profanity or any false information about the user can result in your account being suspended. Once your rating has been submitted the user has the option to start a case.
+"
+            android:textSize="13sp"
+            android:textColor="#757575"
+            android:gravity="left"
+
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="20dp"
+            />
+    </LinearLayout>
+</ScrollView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+
+        android:layout_gravity="bottom"
+
+        >
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Submit My Rating"
+            android:textColor="#b4b4b4"
+            android:background="#e8e9eb"
+            android:gravity="center"
+            android:padding="10dp"
+            android:layout_marginLeft="1dp"
+            android:textSize="16sp"
+            android:id="@+id/actionbutton"
+
+            android:onClick="submitRating"
+            />
+
+
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+   android:orientation="vertical"
+    tools:context="com.eowise.recyclerview.stickyheaders.samples.NewMessage.NewMessageActivity"
+    android:background="@color/white"
+    >
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/header"
+        android:background="@color/white"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        android:contentInsetRight="0dp"
+        android:contentInsetEnd="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetEnd="0dp"
+
+        >
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            >
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="New Message"
+                    android:textSize="18sp"
+                    android:textColor="@color/heading_color"
+                   android:id="@+id/heading"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_horizontal"
+                    />
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/back_arrow"
+                android:layout_weight="0"
+                android:background="?attr/selectableItemBackground"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="left|center_vertical"
+                android:onClick="back"
+                />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#dadada"
+                android:layout_gravity="bottom"
+                />
+
+        </FrameLayout>
+    </android.support.v7.widget.Toolbar>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#fff"
+        android:id="@+id/main"
+        android:paddingLeft="10dp"
+        android:paddingRight="5dp"
+        android:paddingTop="13dp"
+        android:padding="13dp"
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/search_icon"
+            android:layout_weight="0"
+            />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="Type your search here"
+            android:textColorHint="#dadada"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:textSize="14sp"
+            android:layout_marginLeft="5dp"
+            />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#dadada" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        />
+</LinearLayout>

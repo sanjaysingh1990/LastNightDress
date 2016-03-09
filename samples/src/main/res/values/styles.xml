@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:textColor">@color/text_secondary</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+    </style>
+
+    <style name="Widget.HeaderBar.Spinner" parent="Widget.AppCompat.Spinner">
+        <item name="android:divider">@null</item>
+        <item name="android:dividerHeight">0dp</item>
+    </style>
+
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_up_dialog</item>
+        <item name="android:windowExitAnimation">@anim/slide_down_dialog</item>
+    </style>
+
+    <style name="DialogSlideAnim" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowAnimationStyle">@style/DialogAnimation</item>
+
+
+    </style>
+
+    <style name="DialogAnimation3">
+        <item name="android:windowEnterAnimation">@anim/left_slide</item>
+        <item name="android:windowExitAnimation">@anim/right_slide</item>
+    </style>
+
+    <style name="DialogSlideAnim3" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowAnimationStyle">@style/DialogAnimation3</item>
+
+
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="AppThemeBlue" parent="AppTheme">
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@color/white</item>
+        <item name="colorAccent">@color/color_accent_pink</item>
+    </style>
+
+    <style name="RoboTheme" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@android:color/primary_text_light</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginTop">10dp</item>
+    </style>
+
+    <style name="button">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textColor">@color/accent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:gravity">center_vertical|center_horizontal</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:layout_marginLeft">8dp</item>
+        <item name="android:layout_marginRight">8dp</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="button_holder">
+        <item name="cardBackgroundColor">@color/white</item>
+        <item name="cardCornerRadius">2dp</item>
+        <item name="cardElevation">6dp</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">72dp</item>
+        <item name="android:layout_margin">6dp</item>
+    </style>
+
+    <style name="chat_text_message_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="chat_timings">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="myspinnerstyle" parent="@android:style/Widget.PopupMenu">
+
+        <item name="android:background">@color/back_black</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="AppFullScreenTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="header">
+        <item name="android:layout_height">47dp</item>
+        <item name="android:layout_width">match_parent</item>
+
+    </style>
+
+    <style name="PopupWindowAnimation" parent="android:Animation">
+
+        <item name="android:windowEnterAnimation">@anim/slide_down_dialog</item>
+
+        <item name="android:windowExitAnimation">@anim/slide_up_dialog</item>
+
+    </style>
+
+
+    <style name="StarRatingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/rating_bar</item>
+        <item name="android:minHeight">30dip</item>
+        <item name="android:maxHeight">30dip</item>
+    </style>
+    <style name="myRecyclerViewStyle">
+        <!-- NOTE: clipChildren should be true on API level 10 -->
+        <item name="android:clipChildren">true</item>
+        <item name="android:clipToPadding">false</item>
+        <item name="android:paddingBottom">@dimen/activity_vertical_margin</item>
+        <item name="android:paddingLeft">@dimen/activity_horizontal_margin</item>
+        <item name="android:paddingRight">@dimen/activity_horizontal_margin</item>
+        <item name="android:paddingTop">@dimen/activity_vertical_margin</item>
+        <item name="android:scrollbarStyle">outsideOverlay</item>
+        <item name="android:scrollbars">vertical</item>
+    </style>
+</resources>

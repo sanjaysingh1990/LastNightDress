@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:orientation="vertical"
+
+    >
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_weight="1"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            >
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/notipropic"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/image1"
+         />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="gjkdfhgkjerdghfks"
+            android:id="@+id/notiuname"
+            android:layout_toRightOf="@+id/image"
+           android:layout_gravity="center_vertical"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:lineSpacingMultiplier="1.1"
+            android:textSize="14sp"
+            android:layout_weight="1"
+            />
+        </LinearLayout>
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/image1"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/notiimage"
+            android:background="#000"
+            android:layout_weight="0"
+            />
+    </LinearLayout>
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="25dp"
+            android:id="@+id/swapcheck"
+            android:visibility="visible"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Continue"
+                android:layout_weight="1"
+                android:textColor="#be4d66"
+                android:padding="6dp"
+                android:gravity="center_horizontal"
+                android:background="#e8e9eb"
+                android:id="@+id/swapcontinue"
+                android:textSize="14sp"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="No Thanks"
+                android:layout_weight="1"
+                android:textColor="#be4d66"
+                android:padding="6dp"
+                android:gravity="center_horizontal"
+                android:background="#e8e9eb"
+                android:layout_marginLeft="1dp"
+                android:textSize="14sp"
+                android:id="@+id/swapcancel"
+                />
+        </LinearLayout>
+
+
+    <View
+        android:layout_height="0.5dp"
+        android:layout_width="fill_parent"
+        android:layout_marginLeft="60dp"
+        android:background="#dadada"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        />
+</LinearLayout>

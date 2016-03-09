@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#fff"
+    >
+    <android.support.v7.widget.Toolbar
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/toolbar"
+        android:minHeight="?attr/actionBarSize"
+        android:background="#FFFFFF"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        >
+
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Create a Profile"
+            android:gravity = "center"
+            android:id="@+id/heading"
+           android:layout_gravity="center_vertical"
+            android:textColor="@android:color/black"
+            android:textSize="18dp"
+            />
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left|center_vertical"
+        android:background="?attr/selectableItemBackground"
+        android:src="@drawable/back_arrow"
+        android:layout_marginLeft="10dp"
+        android:onClick="back"
+        />
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|center_vertical"
+        android:background="?attr/selectableItemBackground"
+        android:src="@drawable/save_icon"
+        android:layout_marginRight="10dp"
+        android:onClick="saveData"
+
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#dadada"
+        android:layout_gravity="bottom" />
+</FrameLayout>
+    </android.support.v7.widget.Toolbar>
+    <FrameLayout
+        android:id="@+id/addphoto"
+        android:layout_width="fill_parent"
+        android:layout_height="120dp"
+        android:layout_below="@+id/toolbar"
+        android:background="@drawable/gradient_back"
+        android:orientation="horizontal"
+        >
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/empty_user_profile"
+            android:gravity="center"
+            android:id="@+id/profileimg"
+            android:clickable="true"
+            android:onClick="imgoptions"
+
+            android:layout_gravity="center_horizontal|center_vertical"
+         />
+
+        <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:background="@drawable/gradient_back2"
+    android:text="Choose another username"
+    android:gravity="center"
+    android:textColor="#fff"
+    android:id="@+id/unametaken"
+    android:visibility="gone"
+
+    />
+
+    </FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="8dp"
+
+            android:layout_gravity="center_vertical"
+
+            >
+            <TextView
+                android:id="@+id/priv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Private"
+                android:onClick="selectFrag"
+                android:clickable="true"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:drawableBottom="@drawable/line_1"
+                android:linksClickable="true"
+                android:contextClickable="true"
+                android:textColor="#be4d66"
+                android:textSize="17sp"
+                />
+
+            <TextView
+                android:id="@+id/shop"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:onClick="selectFrag"
+                android:text="Shop"
+                android:clickable="true"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:drawableBottom="@drawable/line_2"
+                android:contextClickable="true"
+                android:textColor="#dadada"
+                android:textSize="17sp"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <fragment
+        android:name="com.eowise.recyclerview.stickyheaders.samples.UserProfile.PrivateFragment"
+        android:id="@+id/fragment_place"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

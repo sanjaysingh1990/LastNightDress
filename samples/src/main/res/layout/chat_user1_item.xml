@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="5dp"
+    android:paddingTop="5dp"
+
+    >
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginRight="10dp"
+    android:layout_marginLeft="10dp"
+    >
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="33dp"
+        android:layout_height="33dp"
+        android:src="@drawable/image1"
+        android:id="@+id/chatpic"
+        android:layout_weight="0"
+        android:layout_gravity="bottom"
+        />
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:background="@drawable/left_bubble"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="6dp"
+        android:orientation="horizontal"
+        android:layout_marginRight="10dp"
+        >
+
+
+            <TextView
+                android:id="@+id/message_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:textColor="#000"
+               android:layout_weight="1"
+                android:textSize="13sp"
+                android:autoLink="web"
+                android:maxWidth="280dp"
+                android:text="Rahul Agrawal Rahul AgrawalRahul AgrawalRahul AgrawalRahul AgrawalRahul AgrawalRahul AgrawalRahul AgrawalRahul AgrawalRahul AgrawalRahul Agrawal "
+                android:layout_gravity="center_vertical"
+                />
+
+
+
+        <TextView
+            android:id="@+id/time_text"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+
+            android:layout_marginLeft="5dp"
+            style="@style/chat_timings"
+            android:paddingRight="0dp"
+            android:textColor="#757575"
+            android:paddingBottom="2dp"
+            android:text="1w"
+            android:layout_weight="0"
+            android:layout_gravity="bottom"
+            />
+
+    </LinearLayout>
+</LinearLayout>
+</RelativeLayout>

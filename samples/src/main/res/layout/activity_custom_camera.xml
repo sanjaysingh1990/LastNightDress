@@ -1,0 +1,117 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="#00000000"
+     >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        >
+ <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+     android:background="#222427"
+        android:layout_gravity="top"
+        android:padding="7dp"
+         >
+        <ImageButton
+     android:id="@+id/finish"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:src="@drawable/cancel_action"
+     android:layout_alignParentLeft="true"
+     android:background="?android:attr/selectableItemBackground"
+            android:layout_centerVertical="true"
+      />
+        <ImageButton
+     android:id="@+id/done"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:src="@drawable/ok_icon" 
+     android:layout_alignParentRight="true"
+       android:background="?android:attr/selectableItemBackground"
+   
+     />
+    </RelativeLayout>
+
+ <ImageView
+     android:id="@+id/circleimage"
+     android:layout_width="fill_parent"
+     android:layout_height="334dp"
+     
+     android:src="@drawable/circle" />
+
+ <RelativeLayout
+     android:layout_width="fill_parent"
+     android:layout_height="150dp"
+     android:background="#222427"
+     android:paddingRight="20dp"
+     android:paddingLeft="20dp"
+     android:id="@+id/lowercontrol"
+     >
+
+     <RelativeLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_marginTop="30dp"
+         >
+
+         <ImageView
+             android:id="@+id/showimg"
+             android:layout_width="55dp"
+             android:layout_height="55dp"
+             android:src="@drawable/image1"
+             android:layout_gravity="center_vertical"
+             android:layout_marginRight="15dp"
+             android:adjustViewBounds="true"
+             android:scaleType="centerCrop"
+             />
+
+         <ImageButton
+             android:id="@+id/capture"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:background="?android:attr/selectableItemBackground"
+             android:layout_marginLeft="10dp"
+             android:layout_marginRight="10dp"
+             android:layout_centerInParent="true"
+             android:layout_centerVertical="true"
+
+              />
+         <LinearLayout
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:orientation="horizontal"
+             android:layout_alignParentRight="true"
+             android:layout_centerVertical="true"
+             >
+         <ImageButton
+         android:id="@+id/flashlight"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+
+         android:src="@drawable/flash_off"
+          android:background="?android:attr/selectableItemBackground"
+            android:layout_gravity="center_vertical"
+          />
+<ImageButton
+         android:id="@+id/camerarotate"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+
+         android:src="@drawable/switch_camera"
+          android:background="?android:attr/selectableItemBackground"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+          />
+         </LinearLayout>
+     </RelativeLayout>
+
+
+ </RelativeLayout>
+
+</LinearLayout>
+</FrameLayout>

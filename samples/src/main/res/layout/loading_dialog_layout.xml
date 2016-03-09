@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#65000000"
+    >
+
+
+    <com.eowise.recyclerview.stickyheaders.samples.Loading.AVLoadingIndicatorView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:indicator="LineSpinFadeLoader"
+        android:layout_centerInParent="true"
+        />
+
+</RelativeLayout>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="country_names">
+
+
+
+
+
+    </string-array>
+    <string-array name="color_names">
+
+
+        <item>Red</item>
+
+        <item>Green</item>
+
+
+        <item>Pink</item>
+
+        <item>Yellow</item>
+
+
+
+
+    </string-array>
+    <string-array name="size_length">
+
+        <item>XS</item>
+        <item>2XS</item>
+        <item>X</item>
+        <item>S</item>
+
+
+
+
+    </string-array>
+</resources>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:background="#00000000"
+
+    >
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:orientation="vertical"
+        android:background="#00000000"
+        >
+
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="LND Commission Structure"
+    android:gravity="center_horizontal"
+    android:padding="10dp"
+    android:textColor="#000"
+    android:background="#fff"
+    />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#dadada"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="$50 - $100 - 20%"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:textColor="#000"
+        android:background="#fff"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#dadada"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="$101 - $199 - 17.5%"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:textColor="#000"
+        android:background="#fff"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#dadada"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="$200 - $299 - 15%"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:textColor="#000"
+        android:background="#fff"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#dadada"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="$300 - $399 - 15%"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:textColor="#000"
+        android:background="#fff"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#dadada"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="$400 - above - 20%"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:textColor="#000"
+        android:background="#fff"
+        android:id="@+id/above"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#dadada"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/cost_popup_menu"
+        android:padding="15dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="Close"
+        android:textColor="#be4d66"
+        android:clickable="true"
+        android:id="@+id/close"
+        />
+        </LinearLayout>
+</LinearLayout>

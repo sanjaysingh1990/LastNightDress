@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="country_names">
+
+
+
+
+
+    </string-array>
+    <string-array name="color_names">
+
+
+        <item>Red</item>
+
+        <item>Green</item>
+
+
+        <item>Pink</item>
+
+        <item>Yellow</item>
+
+
+
+
+    </string-array>
+    <string-array name="size_length">
+
+        <item>XS</item>
+        <item>2XS</item>
+        <item>X</item>
+        <item>S</item>
+
+
+
+
+    </string-array>
+    <string-array name="paypalinstruction">
+
+        <item>Buy or sell around the globe.We process and convert 26 currencies from 203 markets to make spending and selling simple and secure</item>
+        <item>PayPal offers you availability, convenience, and security.</item>
+        <item>Run your online business without fear of online fraud and theft. PayPal comes through offering superb security and fraud protection for both consumers and merchant.</item>
+        <item>We monitor transactions 24/7. So rest easy — even when you let your guard down, we won’t.</item>
+        <item>If there’s a problem with a transaction, we’ll put a hold on the funds until the issue is resolved. We investigate and stay involved every step of the way.</item>
+        <item>Click the link below to get started.</item>
+
+
+
+
+    </string-array>
+
+
+</resources>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:background="#fff"
+
+    >
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="15dp"
+        >
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:hint="SEND TO"
+            android:textColor="#b4b4b4"
+            android:textSize="16sp"
+            android:background="@null"
+            />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/search_icon"
+            android:layout_weight="0"
+            android:background="?attr/selectableItemBackground"
+            />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#b4b4b4"
+        />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:padding="10dp"
+        />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:hint="Type your message here..."
+            android:gravity="left"
+            android:clickable="true"
+            android:id="@+id/messagetext"
+            android:background="@null"
+            android:visibility="gone"
+
+            />
+
+
+        <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#b4b4b4"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="CANCEL"
+        android:gravity="center_horizontal"
+        android:clickable="true"
+        android:id="@+id/cancel"
+        android:background="#f3f4f5"
+        android:textColor="#be4d66"
+        />
+
+</LinearLayout>
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:visibility="gone"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No followers yet..."
+        android:id="@+id/showtext"
+        android:textColor="#000"
+        android:textSize="16sp"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:visibility="gone"
+        />
+</FrameLayout>
+</RelativeLayout>

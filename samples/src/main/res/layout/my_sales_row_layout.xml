@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="0dp"
+    >
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_weight="1"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            >
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/notipropic"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/image1"
+                app:civ_border_width="1dp"
+                app:civ_border_color="#dadada"
+                android:layout_gravity="top"
+                />
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="vertical"
+               android:layout_weight="1"
+               android:paddingLeft="8dp"
+               android:paddingRight="8dp"
+               android:layout_gravity="center_vertical"
+               android:layout_marginTop="2dp"
+               >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Oliva Newton Wilde"
+                android:id="@+id/buyeruname"
+                android:layout_toRightOf="@+id/image"
+
+                android:lineSpacingMultiplier="1.1"
+
+                android:textColor="#be4d66"
+                android:singleLine="true"
+                android:textStyle="bold"
+                />
+               <!-- purached action and status -->
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:orientation="horizontal"
+                   >
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="Purchased: Marciano "
+                   android:id="@+id/brandname"
+                   android:layout_toRightOf="@+id/image"
+
+                   android:lineSpacingMultiplier="1.1"
+                   android:textSize="12sp"
+
+                   android:singleLine="true"
+                   android:textStyle="bold"
+                   />
+                   <TextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:text="3m"
+                       android:textSize="12sp"
+                       android:textColor="#bababa"
+                       android:layout_marginLeft="3dp"
+                       />
+               </LinearLayout>
+               <LinearLayout
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:orientation="horizontal"
+                   android:background="@drawable/rounded_corners_status"
+                   android:padding="5dp"
+                   android:layout_marginTop="3dp"
+                   android:clickable="true"
+                   android:id="@+id/orderdetails"
+
+                   >
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="Status:"
+                   android:textSize="12sp"
+                   android:textColor="#8b8b8b"
+                   android:id="@+id/statustext"
+                   />
+                   <TextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:text="In Process"
+                       android:id="@+id/status"
+                       android:textColor="#000"
+                       android:layout_marginLeft="5dp"
+                       android:textSize="12sp"
+                       />
+
+               </LinearLayout>
+           </LinearLayout>
+            <!-- END HERE -->
+
+        </LinearLayout>
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/image1"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/notiimage"
+            android:background="#000"
+            android:layout_weight="0"
+            />
+    </LinearLayout>
+
+
+
+
+
+
+
+    <View
+        android:layout_height="0.5dp"
+        android:layout_width="fill_parent"
+
+        android:background="#dadada"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        />
+</LinearLayout>
+

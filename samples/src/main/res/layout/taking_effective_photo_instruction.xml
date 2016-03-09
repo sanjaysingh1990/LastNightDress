@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#222427"
+    >
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#222427"
+        android:padding="10dp"
+        android:text="Instructions On Taking\nEffective Photos"
+        android:textStyle="bold"
+        android:gravity="center_horizontal"
+        android:textSize="19sp"
+        android:textColor="#fff"
+        android:layout_weight="0"
+        android:id="@+id/heading"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        >
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            >
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/dresshanger2"
+            android:scaleType="fitXY"
+            />
+      <RelativeLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:paddingLeft="2dp"
+          android:paddingRight="2dp"
+          android:paddingTop="10dp"
+          android:paddingBottom="10dp"
+          android:layout_gravity="bottom"
+          android:background="#CC222427"
+          >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerHorizontal="true"
+            >
+          <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+              android:id="@+id/subheading1"
+            android:text="Be a queen bee and model your outfits, show off the\n features to help maximize sales"
+            android:textStyle="bold"
+            android:gravity="center_horizontal"
+            android:textSize="12sp"
+            android:textColor="#fff"
+            android:layout_centerHorizontal="true"
+
+
+            />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableRight="@drawable/right_photo"
+                android:layout_gravity="right"
+                android:drawablePadding="15dp"
+                android:layout_marginTop="-15dp"
+                />
+        </LinearLayout>
+      </RelativeLayout>
+
+        </FrameLayout>
+    </LinearLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        >
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/dresshanger1"
+            android:scaleType="centerCrop"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:paddingTop="5dp"
+
+            android:layout_gravity="bottom"
+            android:background="#CC222427"
+
+            >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_centerHorizontal="true"
+                    >
+                <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Don’t be a lazy Lucy, no one wants to see your outfits\n on a hanger or on your bed"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                android:textColor="#fff"
+                android:layout_centerHorizontal="true"
+                android:gravity="center_horizontal"
+                android:id="@+id/subheading2"
+                />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableRight="@drawable/wrong_photo"
+                        android:layout_gravity="right"
+                        android:drawablePadding="20dp"
+                        android:layout_marginTop="-10dp"
+                        />
+                    <CheckBox
+                        android:checked="false"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Don't show this again"
+                        android:textColor="#ffffff"
+                        android:id="@+id/checkbox"
+                        android:scaleX="0.65"
+                        android:scaleY="0.65"
+                        android:textSize="16sp"
+                        android:layout_gravity="center_horizontal"
+                        android:buttonTint="#dadada"
+                        android:layout_marginTop="-15dp"
+                        android:button="@drawable/checkbox_selector"
+
+                        android:paddingLeft="10dp"
+
+                        />
+                </LinearLayout>
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </FrameLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:background="#be4d66"
+        android:text="Got it"
+        android:textColor="#fff"
+        android:capitalize="characters"
+        android:onClick="capture"
+        android:layout_weight="0"
+        />
+</LinearLayout>
