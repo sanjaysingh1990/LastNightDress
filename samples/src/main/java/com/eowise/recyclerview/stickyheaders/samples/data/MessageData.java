@@ -8,15 +8,15 @@ public class MessageData
 private String uname;
     private String message;
     private int type;
-    public String getMsgid() {
+    public int getMsgid() {
         return msgid;
     }
 
-    public void setMsgid(String msgid) {
+    public void setMsgid(int msgid) {
         this.msgid = msgid;
     }
 
-    private String msgid;
+    private int msgid;
 
     public UserType getUserType() {
         return userType;
@@ -60,17 +60,17 @@ private String uname;
         this.time = time;
     }
 
-    public String getMsgindicator() {
+    public int getMsgindicator() {
         return msgindicator;
     }
 
-    public void setMsgindicator(String msgindicator) {
+    public void setMsgindicator(int msgindicator) {
         this.msgindicator = msgindicator;
     }
 
     private String profilepic;
     private String time;
-    private String msgindicator;
+    private int msgindicator;
 
     public String getSender_id() {
         return sender_id;

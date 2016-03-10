@@ -281,7 +281,7 @@ public class PrivateFragment extends Fragment {
 
     public static void setResult(int requestCode, int resultCode, Intent data) {
 
-
+       Log.e("called",(requestCode == GALLERY_INTENT_CALLED && resultCode == Activity.RESULT_OK)+"");
         if (requestCode == CAMERA) {
             // If image available
             if (resultCode == Activity.RESULT_OK) {
@@ -331,7 +331,7 @@ public class PrivateFragment extends Fragment {
                 // Encode Image to String
                 imageurl = Base64.encodeToString(byte_arr, 0);
             } catch (Exception e) {
-                e.printStackTrace();
+               Log.e("error",e.getMessage()+"'");
             }
         }
 

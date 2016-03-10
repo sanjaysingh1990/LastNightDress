@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,7 +54,6 @@ public class PeopleBrandHashTapAdapter extends RecyclerView.Adapter {
             return VIEW_BRAND;
         else if(items.get(position).getType()==4)
             return VIEW_HASHTAG;
-
         else
          return  VIEW_NORESULT;
     }
@@ -102,6 +102,7 @@ public class PeopleBrandHashTapAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         PeopleData pd = items.get(position);
+        Log.e("type", holder.getItemViewType() + "");
         switch (holder.getItemViewType()) {
             case VIEW_ITEM:
 

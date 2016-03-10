@@ -54,6 +54,7 @@ import com.eowise.recyclerview.stickyheaders.samples.Paypal.PayPalAccountCreatio
 import com.eowise.recyclerview.stickyheaders.samples.PostDataShop.Lnd_Post_Instruction;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.Home_List_Data;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.ConstantValues;
 import com.eowise.recyclerview.stickyheaders.samples.data.CameraData;
 
 import org.json.JSONArray;
@@ -77,8 +78,11 @@ import github.ankushsachdeva.emojicon.EmojiconsPopup;
 import github.ankushsachdeva.emojicon.emoji.Emojicon;
 
 public class EditPostDressShop extends AppCompatActivity implements View.OnClickListener {
-    @Bind({R.id.size1, R.id.size2, R.id.size3, R.id.size4, R.id.size5, R.id.size6, R.id.size7, R.id.numsize1, R.id.numsize2, R.id.numsize3, R.id.numsize4, R.id.numsize5, R.id.numsize6, R.id.numsize7, R.id.numsize8, R.id.numsize9, R.id.numsize10, R.id.numsize11, R.id.numsize12})
-    List<TextView> dresssize;
+    @Bind({R.id.size1, R.id.size2, R.id.size3, R.id.size4, R.id.size5, R.id.size6, R.id.size7})
+    List<TextView> dresssize1;
+    @Bind({R.id.numsize1, R.id.numsize2, R.id.numsize3, R.id.numsize4, R.id.numsize5, R.id.numsize6, R.id.numsize7, R.id.numsize8, R.id.numsize9, R.id.numsize10, R.id.numsize11, R.id.numsize12})
+    List<TextView> dresssize2;
+
     @Bind({R.id.dresstype1, R.id.dresstype2, R.id.dresstype3, R.id.dresstype4})
     List<TextView> lnddresstype;
 
@@ -164,11 +168,15 @@ public class EditPostDressShop extends AppCompatActivity implements View.OnClick
         heading.setTypeface(ImageLoaderImage.hfont);
 
 
-        //size listener
-        for (int i = 0; i < dresssize.size(); i++) {
-            dresssize.get(i).setOnClickListener(this);
+        //size1 listener
+        for (int i = 0; i < dresssize1.size(); i++) {
+            dresssize1.get(i).setOnClickListener(this);
         }
 
+        //size2 listener
+        for (int i = 0; i < dresssize2.size(); i++) {
+            dresssize2.get(i).setOnClickListener(this);
+        }
 
         //dress type listener
         for (int i = 0; i < lnddresstype.size(); i++) {
@@ -245,61 +253,104 @@ public class EditPostDressShop extends AppCompatActivity implements View.OnClick
         //read post_id
         Bundle extra = getIntent().getExtras();
         if (extra != null) {
-            Home_List_Data hld = (Home_List_Data)extra.getSerializable("data");
-           setValues(hld);
+            Home_List_Data hld = (Home_List_Data) extra.getSerializable("data");
+            setValues(hld);
         }
         setupEmoji();
 
 
     }
-private void setValues(Home_List_Data hld)
-{
-    //set images
-    for(int i=0;i<images.size();i++)
-    {
-        if(hld.getImageurls().get(i).length()!=0)
-        ImageLoaderImage.imageLoader.displayImage(hld.getImageurls().get(i),images.get(i),ImageLoaderImage.options);
+
+    private void setValues(Home_List_Data hld) {
+        //set images
+        for (int i = 0; i < images.size(); i++) {
+            if (hld.getImageurls().get(i).length() > 0)
+                ImageLoaderImage.imageLoader.displayImage(hld.getImageurls().get(i), images.get(i), ImageLoaderImage.options);
+        }
+        //set brand
+        brand.setText(hld.getBrandname());
+        //set description
+        desc.setText(hld.getDescription());
+        //pricewas
+        pricewas.setText(hld.getPricewas());
+        //pricenow
+        pricenow.setText(hld.getPricenow());
+
+        // condition
+        try {
+            int val = Integer.parseInt(hld.getConditon());
+            if (val >= 1 && val <= 10)
+                conditionspinner.setSelection(val);
+            else if (val == 11)
+                lastnightdress.setBackgroundColor(Color.parseColor("#be4d66"));
+            else
+                conditionnew.setBackgroundColor(Color.parseColor("#be4d66"));
+
+        } catch (Exception ex) {
+
+        }
+
+        //dress type
+        try {
+
+            int val = Integer.parseInt(hld.getProdtype());
+            Toast.makeText(EditPostDressShop.this, val + "", Toast.LENGTH_SHORT).show();
+            lnddresstype.get(val - 1).setBackgroundColor(Color.parseColor("#be4d66"));
+
+            String[] color = hld.getColors().split(",");
+            //color
+            for (int i = 0; i < color.length; i++) {
+                Arrays.sort(ConstantValues.color);
+                int index = Arrays.binarySearch(ConstantValues.color, color[i]);
+                this.color.get(index).setBackgroundColor(Color.parseColor("#be4d66"));
+                col[index] = 1;
+                colorlist[index] = ConstantValues.color[index];
+
+            }
+        } catch (Exception ex)
+
+        {
+
+        }
+        //size1
+        try {
+
+            String[] size1 = hld.getSize().split(",");
+
+            for (int i = 0; i < size1.length; i++) {
+                Arrays.sort(ConstantValues.size1);
+                int index = Arrays.binarySearch(ConstantValues.size1, size1[i]);
+                this.dresssize1.get(index).setBackgroundColor(Color.parseColor("#be4d66"));
+                sizetype1[index] = 1;
+                sizetypelist1[index] = ConstantValues.size1[index];
+
+            }
+
+        } catch (Exception ex) {
+
+        }
+
+        //size2
+        try {
+
+            String[] size2 = hld.getSize().split(",");
+
+            for (int i = 0; i < size2.length; i++) {
+                Arrays.sort(ConstantValues.size2);
+                int index = Arrays.binarySearch(ConstantValues.size2, size2[i]);
+                Log.e("invalue", index + "");
+                this.dresssize2.get(index).setBackgroundColor(Color.parseColor("#be4d66"));
+                sizetype1[index] = 1;
+                sizetypelist1[index] = ConstantValues.size1[index];
+
+            }
+
+        } catch (Exception ex) {
+
+        }
+
     }
-    //set brand
-    brand.setText(hld.getBrandname());
-    //set description
-    desc.setText(hld.getDescription());
-    //pricewas
-    pricewas.setText(hld.getPricewas());
-    //pricenow
-    pricenow.setText(hld.getPricenow());
 
-    // condition
-    try
-    {
-        int val=Integer.parseInt(hld.getConditon());
-        if(val>=1&&val<=10)
-            conditionspinner.setSelection(val);
-        else if(val==11)
-            lastnightdress.setBackgroundColor(Color.parseColor("#be4d66"));
-        else
-        conditionnew.setBackgroundColor(Color.parseColor("#be4d66"));
-
-    }
-    catch(Exception ex)
-    {
-
-    }
-
-    //dress type
-    try
-    {
-
-        int val=Integer.parseInt(hld.getProdtype());
-        Toast.makeText(EditPostDressShop.this,val+"",Toast.LENGTH_SHORT).show();
-        lnddresstype.get(val-1).setBackgroundColor(Color.parseColor("#be4d66"));
-    }
-    catch (Exception ex)
-    {
-
-    }
-
-}
     @Override
     protected void onResume() {
         super.onResume();
@@ -956,11 +1007,16 @@ private void setValues(Home_List_Data hld)
             @Override
             public void onClick(View v) {
                 alert.dismiss();
-                Intent galleryIntent = new Intent(Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                // Start the Intent
-                startActivityForResult(galleryIntent, GALLERY_INTENT_CALLED);
-
+                try {
+                    Intent galleryIntent = new Intent(Intent.ACTION_PICK,
+                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    // Start the Intent
+                    startActivityForResult(galleryIntent, GALLERY_INTENT_CALLED);
+                }
+                catch (Exception ex)
+                {
+                    Toast.makeText(EditPostDressShop.this,"Application not available",Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
@@ -1030,7 +1086,7 @@ private void setValues(Home_List_Data hld)
 
 
     private void selectDress() {
-        for (int i = 0; i <lnddresstype.size(); i++) {
+        for (int i = 0; i < lnddresstype.size(); i++) {
             lnddresstype.get(i).setBackgroundColor(Color.parseColor("#1d1f21"));
         }
 
@@ -1294,19 +1350,17 @@ private void setValues(Home_List_Data hld)
     }
 
     private void clearSizetype1() {
-        for (int i = 0; i < 7; i++) {
-            dresssize.get(i).setBackgroundColor(Color.parseColor("#1d1f21"));
+        for (int i = 0; i < dresssize1.size(); i++) {
+            dresssize1.get(i).setBackgroundColor(Color.parseColor("#1d1f21"));
             sizetypelist1[i] = "";
         }
     }
 
     private void clearSizetype2() {
-        for (int i = 7; i < dresssize.size(); i++) {
-            dresssize.get(i).setBackgroundColor(Color.parseColor("#1d1f21"));
-
-        }
-        for (int i = 0; i < sizetypelist2.length; i++) {
+        for (int i = 0; i < dresssize2.size(); i++) {
+            dresssize2.get(i).setBackgroundColor(Color.parseColor("#1d1f21"));
             sizetypelist2[i] = "";
+
         }
     }
 

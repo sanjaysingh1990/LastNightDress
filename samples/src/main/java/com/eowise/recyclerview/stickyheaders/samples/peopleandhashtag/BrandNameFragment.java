@@ -106,7 +106,7 @@ public class BrandNameFragment extends Fragment {
             public void onResponse(String response) {
 
 
-                //   Log.e("response hashtag", response.toString());
+                 // Log.e("response hashtag", response.toString());
                 try {
                     itemList.clear();
                     JSONObject jobj = new JSONObject(response.toString());
@@ -119,6 +119,7 @@ public class BrandNameFragment extends Fragment {
                         brand.setType(3);
                         itemList.add(brand);
                     }
+
                     if(jarray.length()==0)
                     {
                         PeopleData pd=new PeopleData();
@@ -131,7 +132,7 @@ public class BrandNameFragment extends Fragment {
 
 
                 } catch (Exception ex) {
-                    //Log.e("json parsing error", ex.getMessage());
+                    Log.e("json parsing error", ex.getMessage());
                 }
             }
         }, new Response.ErrorListener() {

@@ -89,13 +89,13 @@ public class LndUserDescriptionFragment extends Fragment implements View.OnClick
         try {
            if(profiletype==1) {
                jsonprivate.put("description", descText.getText().toString());
-               //Log.e("privatedata", jsonprivate.toString());
+              // Log.e("privatedata", jsonprivate.toString());
                registerprivateUser(jsonprivate.toString());
            }
             else if(profiletype==2)
            {
                jsonshop.put("description", descText.getText().toString());
-               registerprivateUser(jsonshop.toString());
+              registerprivateUser(jsonshop.toString());
               // Log.e("shopdata", jsonshop.toString());
            }
            } catch (JSONException ex) {
@@ -113,7 +113,7 @@ public class LndUserDescriptionFragment extends Fragment implements View.OnClick
             @Override
             public void onResponse(String response) {
                 pDialog.dismiss();
-                Log.e("reslogin", response.toString());
+               // Log.e("reslogin", response.toString());
                 try
                 {
                     JSONObject jobj=new JSONObject(response.toString());

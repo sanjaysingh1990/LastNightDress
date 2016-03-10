@@ -17,35 +17,21 @@
 package com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage;
 
 
+import com.eowise.recyclerview.stickyheaders.samples.data.ConcreteData1;
+import com.eowise.recyclerview.stickyheaders.samples.data.MessageData;
 import com.h6ah4i.android.widget.advrecyclerview.swipeable.RecyclerViewSwipeManager;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class ExampleDataProvider2 extends AbstractDataProvider2 {
-    private List<ConcreteData> mData;
-    private ConcreteData mLastRemovedData;
+   private  List<ConcreteData1> mData;
+    private ConcreteData1 mLastRemovedData;
     private int mLastRemovedPosition = -1;
 
     public ExampleDataProvider2() {
-        final String atoz = "ABCDEFGHIJH";
 
         mData = new LinkedList<>();
-
-
-        for (int j = 0; j < atoz.length(); j++) {
-            final long id = mData.size();
-            final int viewType = 0;
-            final String text = Character.toString(atoz.charAt(j));
-            final int swipeReaction = RecyclerViewSwipeManager.REACTION_CAN_SWIPE_UP | RecyclerViewSwipeManager.REACTION_CAN_SWIPE_DOWN;
-
-            mData.add(new ConcreteData(id, viewType, text, swipeReaction, 1));
-            if(j==atoz.length()-1)
-                mData.add(new ConcreteData(id, viewType, text, swipeReaction, 2));
-
-
-        }
-
 
     }
 
@@ -91,86 +77,33 @@ public class ExampleDataProvider2 extends AbstractDataProvider2 {
             return;
         }
 
-        final ConcreteData item = mData.remove(fromPosition);
+        final ConcreteData1 item = mData.remove(fromPosition);
 
         mData.add(toPosition, item);
         mLastRemovedPosition = -1;
     }
 
     @Override
+    public void addItem(MessageData md) {
+        final long id = mData.size();
+        final int viewType = 0;
+
+        final int swipeReaction = RecyclerViewSwipeManager.REACTION_CAN_SWIPE_UP | RecyclerViewSwipeManager.REACTION_CAN_SWIPE_DOWN;
+
+        mData.add(new ConcreteData1(id, viewType,md.getUname(),md.getMessage(),md.getProfilepic(),md.getDatetime(),md.getSender_id(),md.getMsgid(),md.getMsgindicator()));
+
+
+
+    }
+
+    @Override
     public void removeItem(int position) {
         //noinspection UnnecessaryLocalVariable
-        final ConcreteData removedItem = mData.remove(position);
+        final ConcreteData1 removedItem = mData.remove(position);
 
         mLastRemovedData = removedItem;
         mLastRemovedPosition = position;
     }
 
-    public static final class ConcreteData extends Data {
 
-        private final long mId;
-        private final String mText;
-        private final int mViewType;
-        private boolean mPinned;
-        private int msgtype;
-
-        ConcreteData(long id, int viewType, String text, int swipeReaction, int msgtype) {
-            mId = id;
-            mViewType = viewType;
-            mText = makeText(id, text, swipeReaction);
-            this.msgtype = msgtype;
-        }
-
-        private static String makeText(long id, String text, int swipeReaction) {
-            final StringBuilder sb = new StringBuilder();
-
-            sb.append(id);
-            sb.append(" - ");
-            sb.append(text);
-
-            return sb.toString();
-        }
-
-        @Override
-        public boolean isSectionHeader() {
-            return false;
-        }
-
-        @Override
-        public int getViewType() {
-            return mViewType;
-        }
-
-        @Override
-        public long getId() {
-            return mId;
-        }
-
-
-        @Override
-        public String toString() {
-            return mText;
-        }
-
-        @Override
-        public String getText() {
-            return mText;
-        }
-
-        @Override
-        public boolean isPinned() {
-            return mPinned;
-        }
-
-        @Override
-        public int getMessageType() {
-            return msgtype;
-        }
-
-
-        @Override
-        public void setPinned(boolean pinned) {
-            mPinned = pinned;
-        }
-    }
 }

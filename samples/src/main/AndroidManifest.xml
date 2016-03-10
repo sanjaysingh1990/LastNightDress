@@ -49,11 +49,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LndMessage.MessageActivity"
-            android:label="@string/title_activity_message"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
-        <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_message"
             android:screenOrientation="portrait"

@@ -1,30 +1,15 @@
 package com.eowise.recyclerview.stickyheaders.samples.adapters;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Parcelable;
-import android.support.v4.view.GestureDetectorCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -38,16 +23,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
-import com.eowise.recyclerview.stickyheaders.samples.LndMessage.NotificationFragment;
 import com.eowise.recyclerview.stickyheaders.samples.LndMessage.SwapRequestActivity;
 import com.eowise.recyclerview.stickyheaders.samples.R;
-import com.eowise.recyclerview.stickyheaders.samples.data.LndHomeData;
 import com.eowise.recyclerview.stickyheaders.samples.data.NotificationData;
 import com.eowise.recyclerview.stickyheaders.samples.data.PersonDataProvider;
-import com.eowise.recyclerview.stickyheaders.samples.listeners.OnEditListener;
-import com.eowise.recyclerview.stickyheaders.samples.listeners.OnRemoveListener;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.HashMap;

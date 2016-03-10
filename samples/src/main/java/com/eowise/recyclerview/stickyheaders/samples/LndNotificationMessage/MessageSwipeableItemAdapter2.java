@@ -17,6 +17,7 @@
 package com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Message;
 import android.support.v4.view.ViewCompat;
@@ -26,10 +27,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
+import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.NewMessage.SendMessageActivity;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
 import com.eowise.recyclerview.stickyheaders.samples.data.RecyclerHeaderViewHolder;
 import com.h6ah4i.android.widget.advrecyclerview.swipeable.SwipeableItemAdapter;
 import com.h6ah4i.android.widget.advrecyclerview.swipeable.SwipeableItemConstants;
@@ -63,16 +70,37 @@ class MessageSwipeableItemAdapter2
 
     }
 
-    public static class MyViewHolder extends AbstractSwipeableItemViewHolder {
+    public static class MyViewHolder extends AbstractSwipeableItemViewHolder implements View.OnClickListener{
         public PagerSwipeItemFrameLayout mContainer;
-        public TextView mTextView;
-
+        public TextView uname,message;
+        LinearLayout fullmsg;
+        public ImageView profilepic,messindicator;
         public MyViewHolder(View v) {
             super(v);
             mContainer = (PagerSwipeItemFrameLayout) v.findViewById(R.id.container);
-            mTextView = (TextView) v.findViewById(android.R.id.text1);
-
+            uname = (TextView) v.findViewById(R.id.uname);
+            message = (TextView) v.findViewById(R.id.msg);
+            profilepic = (ImageView) v.findViewById(R.id.profilepic);
+            messindicator = (ImageView) v.findViewById(R.id.messidicator);
+            fullmsg = (LinearLayout) v.findViewById(R.id.fullmsg);
+            fullmsg.setOnClickListener(this);
         }
+
+            @Override
+            public void onClick(View v) {
+                final AbstractDataProvider2.Data item = mProvider.getItem(getAdapterPosition());
+                Intent sendmsg=new Intent(con, SendMessageActivity.class);
+                sendmsg.putExtra("uname",item.username());
+                sendmsg.putExtra("user_id",item.senderid());
+                sendmsg.putExtra("msgstatus",item.msgstatus());
+                sendmsg.putExtra("msgid",item.msgid());
+                item.changestatus();
+                MessageFragment.myItemAdapter.notifyDataSetChanged();
+
+
+                con.startActivity(sendmsg);
+            }
+
 
         @Override
         public View getSwipeableContainerView() {
@@ -124,6 +152,15 @@ class MessageSwipeableItemAdapter2
 
                 ((MyViewHolder) holder).mContainer.setCanSwipeLeft(mCanSwipeLeft);
                 ((MyViewHolder) holder).mContainer.setCanSwipeRight(!mCanSwipeLeft);
+                ((MyViewHolder) holder).uname.setText(Capitalize.capitalizeFirstLetter(item.username()));
+                ((MyViewHolder) holder).message.setText(item.message());
+                ImageLoaderImage.imageLoader.displayImage(item.profilePic(), ((MyViewHolder) holder).profilepic, ImageLoaderImage.options);
+                if(item.msgstatus()==0)
+                    ((MyViewHolder) holder).messindicator.setImageResource(R.drawable.color_icon);
+                else
+                    ((MyViewHolder) holder).messindicator.setVisibility(View.INVISIBLE);
+
+
                 break;
 
         }
@@ -186,7 +223,7 @@ class MessageSwipeableItemAdapter2
 
     @Override
     public SwipeResultAction onSwipeItem(RecyclerView.ViewHolder holder, final int position, int result) {
-        Log.d(TAG, "onSwipeItem(position = " + position + ", result = " + result + ")");
+      //  Log.d(TAG, "onSwipeItem(position = " + position + ", result = " + result + ")");
 
         if (position == RecyclerView.NO_POSITION) {
             return null;

@@ -56,6 +56,7 @@ import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.HomeImageSlide
 import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.Home_List_Data;
 import com.eowise.recyclerview.stickyheaders.samples.UserProfile.OtherUserProfileActivity;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.ConstantValues;
 import com.eowise.recyclerview.stickyheaders.samples.adapters.SentToAdapter;
 import com.eowise.recyclerview.stickyheaders.samples.data.FollowersFollowingData;
 import com.eowise.recyclerview.stickyheaders.samples.interfaces.TagClick;
@@ -197,7 +198,7 @@ public class LndUserFullPostAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         notifyDataSetChanged();
                     }
                     int pos=Integer.parseInt(item.getConditon());
-                    vh2.condition.setText(ImageLoaderImage.condition[pos]);
+                    vh2.condition.setText(ConstantValues.condition[pos]);
                 } catch (Exception ex) {
 
                 }
@@ -236,7 +237,7 @@ public class LndUserFullPostAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         vh3.spaceview.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 80));
                     }
                     int pos=Integer.parseInt(item.getConditon());
-                    vh3.condition.setText(ImageLoaderImage.condition[pos]);
+                    vh3.condition.setText(ConstantValues.condition[pos]);
 
                 } catch (Exception ex) {
 
@@ -927,7 +928,7 @@ public class LndUserFullPostAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             popupwindow.dismiss();
             try
             {
-                sizecolor.setText(Capitalize.capitalizeFirstLetter(ImageLoaderImage.metaltype[Integer.parseInt(sizecolorvalues[pos])]));
+                sizecolor.setText(Capitalize.capitalizeFirstLetter(ConstantValues.metaltype[Integer.parseInt(sizecolorvalues[pos])]));
 
             }
             catch(Exception ex)
@@ -953,7 +954,7 @@ public class LndUserFullPostAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 // setting the ID and text for every items in the list
                 try
                 {
-                    text=ImageLoaderImage.metaltype[Integer.parseInt(getItem(position))];
+                    text=ConstantValues.metaltype[Integer.parseInt(getItem(position))];
                 }
                 catch (Exception ex)
                 {

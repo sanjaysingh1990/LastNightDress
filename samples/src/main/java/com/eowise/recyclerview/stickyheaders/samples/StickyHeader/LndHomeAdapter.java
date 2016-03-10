@@ -56,6 +56,7 @@ import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.SQLDB.FavoriteData;
 import com.eowise.recyclerview.stickyheaders.samples.UserProfile.OtherUserProfileActivity;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.ConstantValues;
 import com.eowise.recyclerview.stickyheaders.samples.adapters.SentToAdapter;
 import com.eowise.recyclerview.stickyheaders.samples.data.Chat_Banner_Data;
 import com.eowise.recyclerview.stickyheaders.samples.data.FollowersFollowingData;
@@ -273,7 +274,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 //start
 
                 try {
-                    vh2.condition.setText(ImageLoaderImage.condition[Integer.parseInt(item.getConditon())]);
+                    vh2.condition.setText(ConstantValues.condition[Integer.parseInt(item.getConditon())]);
 
                 } catch (Exception ex) {
 
@@ -290,7 +291,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         notifyDataSetChanged();
                     }
                     int pos = Integer.parseInt(item.getConditon());
-                    vh2.condition.setText(ImageLoaderImage.condition[pos]);
+                    vh2.condition.setText(ConstantValues.condition[pos]);
                 } catch (Exception ex) {
 
                 }
@@ -329,7 +330,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         vh3.spaceview.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 100));
                     }
                     int pos = Integer.parseInt(item.getConditon());
-                    vh3.condition.setText(ImageLoaderImage.condition[pos]);
+                    vh3.condition.setText(ConstantValues.condition[pos]);
 
                 } catch (Exception ex) {
 
@@ -468,7 +469,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             v.startAnimation(fadeInAnimation);
             popupwindow.dismiss();
             try {
-                sizecolor.setText(Capitalize.capitalizeFirstLetter(ImageLoaderImage.metaltype[Integer.parseInt(sizecolorvalues[pos])]));
+                sizecolor.setText(Capitalize.capitalizeFirstLetter(ConstantValues.metaltype[Integer.parseInt(sizecolorvalues[pos])]));
 
             } catch (Exception ex) {
                 sizecolor.setText(Capitalize.capitalizeFirstLetter(sizecolorvalues[pos]));
@@ -493,7 +494,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 String text = "";
                 // setting the ID and text for every items in the list
                 try {
-                    text = ImageLoaderImage.metaltype[Integer.parseInt(getItem(position))];
+                    text = ConstantValues.metaltype[Integer.parseInt(getItem(position))];
                 } catch (Exception ex) {
                     text = Capitalize.capitalizeFirstLetter(getItem(position));
 

@@ -172,7 +172,7 @@ public class PeopleFragment extends Fragment {
         StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/readname.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                   Log.e("data", response.toString());
+                  // Log.e("data", response.toString());
                itemList.clear();
 
 
@@ -190,7 +190,7 @@ public class PeopleFragment extends Fragment {
 
                         pd.setType(1);
                         itemList.add(pd);
-                        //itemList2.add(pd);
+
                     }
                     if(jarray.length()==0)
                     {

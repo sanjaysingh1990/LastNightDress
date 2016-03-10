@@ -22,21 +22,40 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+import com.eowise.recyclerview.stickyheaders.samples.data.ConcreteData1;
+import com.eowise.recyclerview.stickyheaders.samples.data.MessageData;
 import com.h6ah4i.android.widget.advrecyclerview.animator.GeneralItemAnimator;
 import com.h6ah4i.android.widget.advrecyclerview.animator.SwipeDismissItemAnimator;
 import com.h6ah4i.android.widget.advrecyclerview.swipeable.RecyclerViewSwipeManager;
 import com.h6ah4i.android.widget.advrecyclerview.touchguard.RecyclerViewTouchActionGuardManager;
 import com.h6ah4i.android.widget.advrecyclerview.utils.WrapperAdapterUtils;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
+
 public class MessageFragment extends Fragment {
     private static final String ARG_DATA_PROVIDER = "data provider";
     private static final String ARG_CAN_SWIPE_LEFT = "can swipe left";
+    public static AbstractDataProvider2 mProvider;
 
     public static MessageFragment newInstance(String dataProvider, boolean canSwipeLeft) {
         MessageFragment fragment = new MessageFragment();
@@ -56,7 +75,8 @@ public class MessageFragment extends Fragment {
     private RecyclerView.Adapter mWrappedAdapter;
     private RecyclerViewSwipeManager mRecyclerViewSwipeManager;
     private RecyclerViewTouchActionGuardManager mRecyclerViewTouchActionGuardManager;
-     MessageSwipeableItemAdapter2 myItemAdapter;
+   static  MessageSwipeableItemAdapter2 myItemAdapter;
+
     public MessageFragment() {
         super();
     }
@@ -80,7 +100,7 @@ public class MessageFragment extends Fragment {
 
 
         mRecyclerView = (RecyclerView) getView().findViewById(R.id.recycler_view);
-        mLayoutManager = new LinearLayoutManager(getContext(),  LinearLayoutManager.VERTICAL, false);
+        mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
 
         // touch guard manager  (this class is required to suppress scrolling while swipe-dismiss animation is running)
         mRecyclerViewTouchActionGuardManager = new RecyclerViewTouchActionGuardManager();
@@ -89,9 +109,9 @@ public class MessageFragment extends Fragment {
 
         // swipe manager
         mRecyclerViewSwipeManager = new RecyclerViewSwipeManager();
-
+        mProvider = getDataProvider();
         //adapter
-         myItemAdapter = new MessageSwipeableItemAdapter2(getDataProvider(), mCanSwipeLeft,getContext());
+        myItemAdapter = new MessageSwipeableItemAdapter2(mProvider, mCanSwipeLeft, getContext());
         mAdapter = myItemAdapter;
 
         myItemAdapter.setEventListener(new MessageSwipeableItemAdapter2.EventListener() {
@@ -107,7 +127,7 @@ public class MessageFragment extends Fragment {
 
             @Override
             public void onItemViewClicked(View v, boolean pinned) {
-               // onItemViewClick(v, pinned);
+                // onItemViewClick(v, pinned);
             }
         });
 
@@ -130,7 +150,7 @@ public class MessageFragment extends Fragment {
         } else {
             //mRecyclerView.addItemDecoration(new ItemShadowDecorator((NinePatchDrawable) ContextCompat.getDrawable(getContext(), R.drawable.material_shadow_z1)));
         }
-       // mRecyclerView.addItemDecoration(new SimpleListDividerDecorator(ContextCompat.getDrawable(getContext(), R.drawable.list_divider_h), true));
+        // mRecyclerView.addItemDecoration(new SimpleListDividerDecorator(ContextCompat.getDrawable(getContext(), R.drawable.list_divider_h), true));
 
         // NOTE:
         // The initialization order is very important! This order determines the priority of touch event handling.
@@ -145,12 +165,13 @@ public class MessageFragment extends Fragment {
 //        animator.setRemoveDuration(2000);
 //        mRecyclerViewSwipeManager.setMoveToOutsideWindowAnimationDuration(2000);
 //        mRecyclerViewSwipeManager.setReturnToDefaultPositionAnimationDuration(2000);
+    getData();
+
     }
 
     @Override
     public void onDestroyView() {
-        if (mRecyclerViewSwipeManager != null)
-        {
+        if (mRecyclerViewSwipeManager != null) {
             mRecyclerViewSwipeManager.release();
             mRecyclerViewSwipeManager = null;
         }
@@ -193,4 +214,72 @@ public class MessageFragment extends Fragment {
         mAdapter.notifyItemInserted(position);
         mRecyclerView.scrollToPosition(position);
     }
+
+
+    public  void getData(){
+
+
+        RequestQueue queue = Volley.newRequestQueue(getActivity());
+        StringRequest sr = new StringRequest(Request.Method.POST,"http://52.76.68.122/lnd/androidiosphpfiles/inboxope.php", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                //Log.e("response", response.toString());
+                try {
+
+                    JSONObject jobj = new JSONObject(response.toString());
+                    JSONArray jarray=jobj.getJSONArray("data");
+                    for(int i=0;i<jarray.length();i++)
+                    {
+                        JSONObject jo=jarray.getJSONObject(i);
+                        MessageData cd=new MessageData();
+                        cd.setProfilepic(jo.getString("imgurl"));
+                        cd.setMsgindicator(jo.getInt("msg_status"));
+                        cd.setUname(jo.getString("uname"));
+                        cd.setMessage(jo.getString("msg"));
+                        cd.setMsgid(jo.getInt("msg_id"));
+                        cd.setSender_id(jo.getString("sender_id"));
+                        cd.setDatetime(jo.getString("time"));
+
+
+
+
+                        mProvider.addItem(cd);
+                        mAdapter.notifyDataSetChanged();
+
+                    }
+
+
+                }
+                catch(Exception ex)
+                {
+                    Log.e("json parsing error", ex.getMessage());
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                //  Log.e("response",error.getMessage()+"");
+            }
+        }){
+            @Override
+            protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("rqid","4");
+                params.put("user_id", ImageLoaderImage.pref.getString("user_id",""));
+
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("Content-Type","application/x-www-form-urlencoded");
+                return params;
+            }
+        };
+        queue.add(sr);
+    }
 }
+

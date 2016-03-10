@@ -32,8 +32,6 @@ public class ImageLoaderImage extends Application {
     public static Typeface unamefont,hfont,normalfont,robotomedium,robotoregular,robotobold,mainfont,subheading,appfont;
     public static DatabaseHandler db;
     static  int  line=0;
-    public static String condition[]={"1 of 10","2 of 10","3 of 10","4 of 10","5 of 10","6 of 10","7 of 10","8 of 10","9 of 10","10 of 10","LND","New"};
-    public static String metaltype[] = {"Gold", "White Gold", "Strawberry Gold", "Rose Gold", "Silver", "Stainless steel", "Sterling Silver", "Platinum"};
 
     @Override
     public void onCreate()

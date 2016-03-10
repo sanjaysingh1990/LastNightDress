@@ -17,14 +17,15 @@
 package com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage;
 
 
+import com.eowise.recyclerview.stickyheaders.samples.data.ConcreteData2;
 import com.h6ah4i.android.widget.advrecyclerview.swipeable.RecyclerViewSwipeManager;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class ExampleDataProvider extends AbstractDataProvider {
-    private List<ConcreteData> mData;
-    private ConcreteData mLastRemovedData;
+    private List<ConcreteData2> mData;
+    private ConcreteData2 mLastRemovedData;
     private int mLastRemovedPosition = -1;
 
     public ExampleDataProvider() {
@@ -39,23 +40,23 @@ public class ExampleDataProvider extends AbstractDataProvider {
                 final String text = Character.toString(atoz.charAt(j));
                 final int swipeReaction = RecyclerViewSwipeManager.REACTION_CAN_SWIPE_UP | RecyclerViewSwipeManager.REACTION_CAN_SWIPE_DOWN;
                 if(j==0)
-                mData.add(new ConcreteData(id, viewType, text, swipeReaction, NotificationType.FOLLOWING));
+                mData.add(new ConcreteData2(id, viewType, text, swipeReaction, NotificationType.FOLLOWING));
 
                   else if(j==1)
-                    mData.add(new ConcreteData(id, viewType, text, swipeReaction,NotificationType.SWAPREQUEST));
+                    mData.add(new ConcreteData2(id, viewType, text, swipeReaction,NotificationType.SWAPREQUEST));
                 else if(j==2)
-                    mData.add(new ConcreteData(id, viewType, text, swipeReaction,NotificationType.CHECKOUT));
+                    mData.add(new ConcreteData2(id, viewType, text, swipeReaction,NotificationType.CHECKOUT));
 
                 else if(j==3)
-                    mData.add(new ConcreteData(id, viewType, text, swipeReaction,NotificationType.DECNIED));
+                    mData.add(new ConcreteData2(id, viewType, text, swipeReaction,NotificationType.DECNIED));
                    else if(j==4)
-                    mData.add(new ConcreteData(id, viewType, text, swipeReaction,NotificationType.USERMENTION));
+                    mData.add(new ConcreteData2(id, viewType, text, swipeReaction,NotificationType.USERMENTION));
                      else if(j==5)
-                    mData.add(new ConcreteData(id, viewType, text, swipeReaction,NotificationType.PURCHASEDITEM));
+                    mData.add(new ConcreteData2(id, viewType, text, swipeReaction,NotificationType.PURCHASEDITEM));
                      else if(j==6)
-                    mData.add(new ConcreteData(id, viewType, text, swipeReaction,NotificationType.POSTSHARED));
+                    mData.add(new ConcreteData2(id, viewType, text, swipeReaction,NotificationType.POSTSHARED));
                 else if(j==7)
-                    mData.add(new ConcreteData(id, viewType, text, swipeReaction,NotificationType.BLANK));
+                    mData.add(new ConcreteData2(id, viewType, text, swipeReaction,NotificationType.BLANK));
 
 
             }
@@ -105,7 +106,7 @@ public class ExampleDataProvider extends AbstractDataProvider {
             return;
         }
 
-        final ConcreteData item = mData.remove(fromPosition);
+        final ConcreteData2 item = mData.remove(fromPosition);
 
         mData.add(toPosition, item);
         mLastRemovedPosition = -1;
@@ -114,82 +115,11 @@ public class ExampleDataProvider extends AbstractDataProvider {
     @Override
     public void removeItem(int position) {
         //noinspection UnnecessaryLocalVariable
-        final ConcreteData removedItem = mData.remove(position);
+        final ConcreteData2 removedItem = mData.remove(position);
 
         mLastRemovedData = removedItem;
         mLastRemovedPosition = position;
     }
 
-    public static final class ConcreteData extends Data {
 
-        private final long mId;
-        private final String mText;
-        private final int mViewType;
-        private boolean mPinned;
-        private NotificationType notitype;
-
-        ConcreteData(long id, int viewType, String text, int swipeReaction,NotificationType notitype)
-        {
-            mId = id;
-            mViewType = viewType;
-            mText = makeText(id, text, swipeReaction);
-            this.notitype=notitype;
-        }
-
-        private static String makeText(long id, String text, int swipeReaction)
-        {
-            final StringBuilder sb = new StringBuilder();
-
-            sb.append(id);
-            sb.append(" - ");
-            sb.append(text);
-
-            return sb.toString();
-        }
-
-        @Override
-        public boolean isSectionHeader() {
-            return false;
-        }
-
-        @Override
-        public int getViewType() {
-            return mViewType;
-        }
-
-        @Override
-        public long getId() {
-            return mId;
-        }
-
-
-
-        @Override
-        public String toString() {
-            return mText;
-        }
-
-        @Override
-        public String getText() {
-            return mText;
-        }
-
-        @Override
-        public boolean isPinned() {
-            return mPinned;
-        }
-
-
-
-        @Override
-        public NotificationType getnotiType() {
-            return notitype;
-        }
-
-
-        @Override
-        public void setPinned(boolean pinned) {
-            mPinned = pinned;
-        }
-    }
 }

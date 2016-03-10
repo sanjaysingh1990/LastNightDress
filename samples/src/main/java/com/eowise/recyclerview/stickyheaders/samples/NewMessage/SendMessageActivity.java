@@ -83,6 +83,8 @@ public class SendMessageActivity extends AppCompatActivity {
             sendername = extra.getString("uname");
             senderid = extra.getString("user_id");
             chatbanner= (Chat_Banner_Data) extra.get("bannerdata");
+           if(extra.getInt("msgstatus")==0)
+            changeStatus(extra.getInt("msgid"));
         }
 
         heading.setText(capitalize(sendername));
@@ -400,4 +402,47 @@ public class SendMessageActivity extends AppCompatActivity {
             }
         }
     }
+
+    public void changeStatus(final int id) {
+
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/inboxope.php", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                try {
+                    JSONObject jobj = new JSONObject(response.toString());
+                //    Toast.makeText(SendMessageActivity.this,response,Toast.LENGTH_LONG).show();
+                } catch (Exception ex) {
+                    Log.e("json parsing error", ex.getMessage());
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                Log.e("response", error.getMessage() + "");
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("rqid", "10");
+                params.put("msgid", id+"");
+
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                return params;
+            }
+        };
+        queue.add(sr);
+    }
+
    }

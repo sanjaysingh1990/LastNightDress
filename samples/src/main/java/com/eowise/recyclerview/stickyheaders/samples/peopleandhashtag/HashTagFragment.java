@@ -66,11 +66,7 @@ public class HashTagFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                //showinfo.setVisibility(View.GONE);
 
-                // final List<PeopleData> filteredModelList = filter(itemList2, s.toString());
-                //PeopleFragment.recyclerAdapter.animateTo(filteredModelList);
-                // PeopleFragment.recyclerView.scrollToPosition(0);
 
             }
 
@@ -97,23 +93,18 @@ public class HashTagFragment extends Fragment {
 
 
     public  void getData(final String keyword){
-        final ProgressDialog pDialog = new ProgressDialog(getActivity());
-        pDialog.setMessage("Loading...");
-       // pDialog.show();
+        itemList.clear();
+        PeopleData pd=new PeopleData();
+        pd.setType(0);
+        itemList.add(pd);
+        recyclerAdapter.notifyDataSetChanged();
 
 
         RequestQueue queue = Volley.newRequestQueue(getActivity());
         StringRequest sr = new StringRequest(Request.Method.POST,"http://52.76.68.122/lnd/androidiosphpfiles/readname.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                try {
-                    pDialog.dismiss();
 
-                }
-                catch(Exception ex)
-                {
-
-                }
              //   Log.e("response hashtag", response.toString());
                try {
                     itemList.clear();
@@ -125,8 +116,17 @@ public class HashTagFragment extends Fragment {
                         PeopleData ht=new PeopleData();
                         ht.setHasttag(jo.getString("hash_tag"));
                         ht.setTotal(jo.getString("total"));
+                        ht.setType(4);
                         itemList.add(ht);
                     }
+                   if(jarray.length()==0)
+                   {
+                       PeopleData pd=new PeopleData();
+
+                       pd.setType(2);
+                       itemList.add(pd);
+
+                   }
                     recyclerAdapter.notifyDataSetChanged();
 
 
@@ -139,14 +139,14 @@ public class HashTagFragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                pDialog.dismiss();
+
                 Log.e("response",error.getMessage()+"");
             }
         }){
             @Override
             protected Map<String,String> getParams(){
                 Map<String,String> params = new HashMap<String, String>();
-                params.put("rqid","2");
+                params.put("rqid","4");
                 params.put("skipdata", "0");
                 params.put("keyword", keyword);
                 return params;
