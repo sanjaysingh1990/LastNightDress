@@ -18,22 +18,17 @@ package com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Message;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
-import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.NewMessage.SendMessageActivity;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
@@ -154,7 +149,7 @@ class MessageSwipeableItemAdapter2
                 ((MyViewHolder) holder).mContainer.setCanSwipeRight(!mCanSwipeLeft);
                 ((MyViewHolder) holder).uname.setText(Capitalize.capitalizeFirstLetter(item.username()));
                 ((MyViewHolder) holder).message.setText(item.message());
-                ImageLoaderImage.imageLoader.displayImage(item.profilePic(), ((MyViewHolder) holder).profilepic, ImageLoaderImage.options);
+                SingleTon.imageLoader.displayImage(item.profilePic(), ((MyViewHolder) holder).profilepic, SingleTon.options3);
                 if(item.msgstatus()==0)
                     ((MyViewHolder) holder).messindicator.setImageResource(R.drawable.color_icon);
                 else

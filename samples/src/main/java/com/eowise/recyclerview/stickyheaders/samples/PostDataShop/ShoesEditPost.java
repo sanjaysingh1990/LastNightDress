@@ -20,10 +20,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.MultiAutoCompleteTextView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -41,8 +43,13 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost.CameraReviewFragment;
 import com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost.CompressImage;
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.Home_List_Data;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.ConstantValues;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.HashTagandMention;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.LndTextWatcher;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.LndTokenizer;
 import com.eowise.recyclerview.stickyheaders.samples.data.CameraData;
 
 import org.json.JSONArray;
@@ -60,29 +67,23 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import github.ankushsachdeva.emojicon.EmojiconEditText;
 import github.ankushsachdeva.emojicon.EmojiconGridView;
 import github.ankushsachdeva.emojicon.EmojiconsPopup;
 import github.ankushsachdeva.emojicon.emoji.Emojicon;
 
-public class ShoesPost extends AppCompatActivity implements View.OnClickListener {
+public class ShoesEditPost extends AppCompatActivity implements View.OnClickListener {
     @Bind({R.id.size1, R.id.size2, R.id.size3, R.id.size4, R.id.size5, R.id.size6, R.id.size7, R.id.size8, R.id.size9, R.id.size10, R.id.size11, R.id.size12, R.id.size13, R.id.size14, R.id.size15})
-    List<TextView> shoesize;
+    List<CheckBox> shoesize;
     @Bind({R.id.color1, R.id.color2, R.id.color3, R.id.color4, R.id.color5, R.id.color6, R.id.color7, R.id.color8, R.id.color9, R.id.color10, R.id.color11, R.id.color12, R.id.color13, R.id.color14, R.id.color15})
-    List<TextView> color;
+    List<CheckBox> color;
     @Bind({R.id.flats, R.id.pumps, R.id.platforms, R.id.boots, R.id.wedges, R.id.bridal, R.id.sandals})
-    List<TextView> shoestype;
+    List<CheckBox> shoestype;
 
     //condition type
     @Bind(R.id.conditionnew)
-    TextView conditionnew;
+    CheckBox conditionnew;
     @Bind(R.id.conditionspinner)
     Spinner conditionspinner;
-
-
-    int col[] = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-    int shoe[] = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
-    int size[] = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 
     private TextView heading;
@@ -101,8 +102,8 @@ public class ShoesPost extends AppCompatActivity implements View.OnClickListener
     EditText pricewas;
     @Bind(R.id.pricenow)
     EditText pricenow;
-    @Bind(R.id.desc)
-    EmojiconEditText desc;
+    @Bind(R.id.autocomplete)
+    MultiAutoCompleteTextView desc;
     @Bind(R.id.brand)
     EditText brand;
     @Bind(R.id.earnings)
@@ -112,15 +113,12 @@ public class ShoesPost extends AppCompatActivity implements View.OnClickListener
 
     @Bind(R.id.emoji_btn)
     ImageButton emojiButton;
-    @Bind(R.id.rootview) View rootView;
+    @Bind(R.id.rootview)
+    View rootView;
 
-    String[] sizelist = new String[]{"", "", "", "", "", "", "", "", "", "", "", "", "", "", ""};
-    String[] shoetypelist = new String[]{"", "", "", "", "", "", ""};
-
-    int condition =0;
-
-    String[] colorlist = new String[]{"", "", "", "", "", "", "", "", "", "", "", "", "", "", ""};
-
+    int condition = 0;
+    int shoetype = 0;
+    private Bundle extra;
     String[] links = {"", "", "", ""};
     ArrayList<String> filename = new ArrayList<>();
     PopupWindow popupWindow;
@@ -143,7 +141,7 @@ public class ShoesPost extends AppCompatActivity implements View.OnClickListener
         images.get(3).setLayoutParams(layoutParams);
 
         heading = (TextView) findViewById(R.id.heading);
-        heading.setTypeface(ImageLoaderImage.hfont);
+        heading.setTypeface(SingleTon.hfont);
 
 
         //shoetype listener
@@ -151,19 +149,6 @@ public class ShoesPost extends AppCompatActivity implements View.OnClickListener
             shoestype.get(i).setOnClickListener(this);
         }
 
-        //shoe size listener
-        for (int i = 0; i < shoesize.size(); i++) {
-            shoesize.get(i).setOnClickListener(this);
-        }
-
-        //business type events
-        businessshop.setOnClickListener(this);
-        businessprivate.setOnClickListener(this);
-        businessall.setOnClickListener(this);
-        //color listener
-        for (int i = 0; i < color.size(); i++) {
-            color.get(i).setOnClickListener(this);
-        }
 
         //condtion  events
         conditionnew.setOnClickListener(this);
@@ -173,15 +158,21 @@ public class ShoesPost extends AppCompatActivity implements View.OnClickListener
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long l) {
                 if (pos > 0) {
 
-                    condition = pos;
-                    ((TextView) parent.getChildAt(0)).setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow, 0);
 
-                    ((TextView) parent.getChildAt(0)).setTextColor(Color.parseColor("#be4d66"));
-                    conditionnew.setBackgroundColor(Color.parseColor("#1d1f21"));
-                } else {
-                    ((TextView) parent.getChildAt(0)).setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow, 0);
+                    ((TextView) parent.getChildAt(0)).setTextColor(Color.parseColor("#ffffff"));
+                    ((TextView) parent.getChildAt(0)).setBackgroundColor(Color.parseColor("#be4d66"));
+                    conditionspinner.setBackgroundColor(Color.parseColor("#be4d66"));
                     condition = pos;
+                    condition();
+                } else {
+                    ((TextView) parent.getChildAt(0)).setTextColor(Color.parseColor("#ffffff"));
+                    ((TextView) parent.getChildAt(0)).setBackgroundColor(Color.parseColor("#1d1f21"));
+                    conditionspinner.setBackgroundColor(Color.parseColor("#1d1f21"));
+                    if (condition != 11)
+                        condition = pos;
                 }
+                ((TextView) parent.getChildAt(0)).setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow, 0);
+
 
             }
 
@@ -190,6 +181,7 @@ public class ShoesPost extends AppCompatActivity implements View.OnClickListener
 
             }
         });
+
         //  adding defualt values
         for (int i = 0; i < 4; i++)
             filename.add("");
@@ -209,7 +201,7 @@ public class ShoesPost extends AppCompatActivity implements View.OnClickListener
             public void afterTextChanged(Editable editable) {
                 try {
                     int value = Integer.parseInt(editable.toString());
-                    earnings.setText("Your earnings: C$" + (value-(value * 20) / 100));
+                    earnings.setText("Your earnings: C$" + (value - (value * 20) / 100));
                     inforview.setVisibility(View.VISIBLE);
 
                 } catch (Exception ex) {
@@ -218,12 +210,38 @@ public class ShoesPost extends AppCompatActivity implements View.OnClickListener
                 }
             }
         });
+
+
+        //username selected from list
+        desc.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int index, long position) {
+                desc.setText(new HashTagandMention().addClickablePart(desc.getText().toString(), "#be4d66"));
+                desc.setSelection(desc.getText().length());
+            }
+        });
+
+
+        desc.setThreshold(1); //Set number of characters before the dropdown should be shown
+
+        desc.addTextChangedListener(new LndTextWatcher(desc, this));
+
+        //Create a new Tokenizer which will get text after '@' and terminate on ' '
+        desc.setTokenizer(new LndTokenizer());
+
+
         setupEmoji();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
+        //read data
+         extra = getIntent().getExtras();
+        if (extra != null) {
+            Home_List_Data hld = (Home_List_Data) extra.getSerializable("data");
+            setValues(hld);
+        }
 
         for (Map.Entry<String, CameraData> entry : CameraReviewFragment.urls.entrySet()) {
             //    System.out.println(entry.getKey());
@@ -237,24 +255,98 @@ public class ShoesPost extends AppCompatActivity implements View.OnClickListener
 
     }
 
+    private void setValues(Home_List_Data hld) {
+        //set images
+        for (int i = 0; i < images.size(); i++) {
+            if (hld.getImageurls().get(i).length() > 0)
+                SingleTon.imageLoader.displayImage(hld.getImageurls().get(i), images.get(i), SingleTon.options);
+        }
+        //set brand
+        brand.setText(hld.getBrandname());
+        //set description
+        desc.setText(new HashTagandMention().addClickablePart(hld.getDescription(), "#be4d66"));
+
+        //pricewas
+        pricewas.setText(hld.getPricewas());
+        //pricenow
+        pricenow.setText(hld.getPricenow());
+
+        // condition
+        try {
+            int val = Integer.parseInt(hld.getConditon());
+            condition = val;
+            if (val >= 1 && val <= 10)
+                conditionspinner.setSelection(val);
+
+            else
+                conditionnew.setChecked(true);
+
+        } catch (Exception ex) {
+
+        }
+
+        //shoe type
+        try {
+
+            int val = Integer.parseInt(hld.getProdtype());
+            shoestype.get(val - 1).setChecked(true);
+
+        } catch (Exception ex) {
+
+        }
+        try {
+            //color
+
+            String[] color = hld.getColors().split(",");
+            for (int i = 0; i < color.length; i++) {
+                Arrays.sort(ConstantValues.color);
+                int index = Arrays.binarySearch(ConstantValues.color, color[i]);
+                this.color.get(index).setChecked(true);
+
+            }
+        } catch (Exception ex)
+
+        {
+
+        }
+        //shoe size
+        try {
+
+            String[] size1 = hld.getSize().split(",");
+            for (int i = 0; i < size1.length; i++) {
+                Arrays.sort(ConstantValues.shoesize);
+                int index = Arrays.binarySearch(ConstantValues.shoesize, size1[i]);
+
+                shoesize.get(index).setChecked(true);
+
+            }
+
+        } catch (Exception ex) {
+
+        }
+
+
+    }
+
+
     public void back(View v) {
         onBackPressed();
     }
 
     @Override
     public void onBackPressed() {
-        if(popupWindow!=null && popupWindow.isShowing())
-        {
+        if (popupWindow != null && popupWindow.isShowing()) {
             popupWindow.dismiss();
-        }
-       else
+        } else
             finish();
     }
 
     @Override
     public void onClick(View v) {
 
-        int pw = 0, pn = 0;
+        if (v.getId() == R.id.flats || v.getId() == R.id.pumps || v.getId() == R.id.platforms || v.getId() == R.id.boots || v.getId() == R.id.wedges || v.getId() == R.id.bridal || v.getId() == R.id.sandals)
+            selectShoetype((CheckBox) v);
+       /* int pw = 0, pn = 0;
         try {
             pn = Integer.parseInt(pricenow.getText().toString());
 
@@ -289,513 +381,26 @@ public class ShoesPost extends AppCompatActivity implements View.OnClickListener
             pricewas.requestFocus();
             return;
         }
-
+*/
         switch (v.getId()) {
-
-            //events for size
-            case R.id.size1:
-                if (size[0] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    size[0] = 1;
-                    sizelist[0] = "5";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    size[0] = 0;
-                    sizelist[0] = "";
-                }
-                break;
-            case R.id.size2:
-                if (size[1] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    size[1] = 1;
-                    sizelist[1] = "5.5";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    size[1] = 0;
-                    sizelist[1] = "";
-                }
-                break;
-            case R.id.size3:
-                if (size[2] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    size[2] = 1;
-                    sizelist[2] = "6";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    size[2] = 0;
-                    sizelist[2] = "";
-                }
-                break;
-            case R.id.size4:
-                if (size[3] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    size[3] = 1;
-                    sizelist[3] = "6.5";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    size[3] = 0;
-                    sizelist[3] = "";
-
-                }
-                break;
-            case R.id.size5:
-                if (size[4] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    size[4] = 1;
-                    sizelist[4] = "7";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    size[4] = 0;
-                    sizelist[4] = "";
-
-                }
-                break;
-            case R.id.size6:
-                if (size[5] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    size[5] = 1;
-                    sizelist[5] = "7.5";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    size[5] = 0;
-                    sizelist[5] = "";
-                }
-                break;
-            case R.id.size7:
-                if (size[6] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    size[6] = 1;
-                    sizelist[6] = "8";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    size[6] = 0;
-                    sizelist[6] = "";
-
-                }
-                break;
-            case R.id.size8:
-                if (size[7] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    size[7] = 1;
-                    sizelist[7] = "8.5";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    size[7] = 0;
-                    sizelist[7] = "";
-
-                }
-                break;
-            case R.id.size9:
-
-
-                if (size[8] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    size[8] = 1;
-                    sizelist[8] = "9";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    size[8] = 0;
-                    sizelist[8] = "";
-
-                }
-                break;
-            case R.id.size10:
-
-
-                if (size[9] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    size[9] = 1;
-                    sizelist[9] = "9.5";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    size[9] = 0;
-                    sizelist[9] = "";
-
-                }
-                break;
-            case R.id.size11:
-
-
-                if (size[10] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    size[10] = 1;
-                    sizelist[10] = "10";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    size[10] = 0;
-                    sizelist[10] = "";
-
-                }
-                break;
-            case R.id.size12:
-
-
-                if (size[11] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    size[11] = 1;
-                    sizelist[11] = "10.5";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    size[11] = 0;
-                    sizelist[11] = "";
-
-                }
-                break;
-            case R.id.size13:
-
-
-                if (size[12] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    size[12] = 1;
-                    sizelist[12] = "11";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    size[12] = 0;
-                    sizelist[12] = "";
-
-                }
-                break;
-            case R.id.size14:
-
-
-                if (size[13] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    size[13] = 1;
-                    sizelist[13] = "11.5";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    size[13] = 0;
-                    sizelist[13] = "";
-
-                }
-                break;
-            case R.id.size15:
-
-
-                if (size[14] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    size[14] = 1;
-                    sizelist[14] = "12";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    size[14] = 0;
-                    sizelist[14] = "";
-
-                }
-                break;
-
-
-            //for shoetype events
-            case R.id.flats:
-                if (shoe[0] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    shoe[0] = 1;
-                    shoetypelist[0] = "1";
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    shoe[0] = 0;
-                    shoetypelist[0] = "";
-                }
-                break;
-            case R.id.pumps:
-                if (shoe[1] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    shoe[1] = 1;
-                    shoetypelist[1] = "2";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    shoe[1] = 0;
-                    shoetypelist[1] = "";
-
-                }
-                break;
-            case R.id.platforms:
-                if (shoe[2] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    shoe[2] = 1;
-                    shoetypelist[2] = "3";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-
-                    shoe[2] = 0;
-                    shoetypelist[2] = "";
-
-                }
-                break;
-            case R.id.boots:
-                if (shoe[3] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    shoe[3] = 1;
-                    shoetypelist[3] = "4";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-
-                    shoe[3] = 0;
-                    shoetypelist[3] = "";
-
-                }
-                break;
-            case R.id.wedges:
-                if (shoe[4] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    shoe[4] = 1;
-                    shoetypelist[4] = "5";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-
-                    shoe[4] = 0;
-                    shoetypelist[4] = "";
-
-                }
-                break;
-            case R.id.bridal:
-                if (shoe[5] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    shoe[5] = 1;
-                    shoetypelist[5] = "6";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-
-                    shoe[5] = 0;
-                    shoetypelist[5] = "";
-
-                }
-                break;
-            case R.id.sandals:
-                if (shoe[6] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    shoe[6] = 1;
-                    shoetypelist[6] = "7";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-
-                    shoe[6] = 0;
-                    shoetypelist[6] = "";
-
-                }
-                break;
-
-            //color events
-            case R.id.color1:
-                if (col[0] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    col[0] = 1;
-                    colorlist[0] = "black";
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    col[0] = 0;
-                    colorlist[0] = "";
-                }
-                break;
-            case R.id.color2:
-                if (col[1] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    col[1] = 1;
-                    colorlist[1] = "silver";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    col[1] = 0;
-                    colorlist[1] = "";
-                }
-                break;
-            case R.id.color3:
-                if (col[2] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    col[2] = 1;
-                    colorlist[2] = "orange";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    col[2] = 0;
-                    colorlist[2] = "";
-                }
-                break;
-            case R.id.color4:
-                if (col[3] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    col[3] = 1;
-                    colorlist[3] = "white";
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    col[3] = 0;
-                    colorlist[3] = "";
-                }
-                break;
-            case R.id.color5:
-                if (col[4] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    col[4] = 1;
-                    colorlist[4] = "gold";
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    col[4] = 0;
-                    colorlist[4] = "";
-
-                }
-                break;
-            case R.id.color6:
-                if (col[5] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    col[5] = 1;
-                    colorlist[5] = "brown";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    col[5] = 0;
-                    colorlist[5] = "";
-
-                }
-                break;
-            case R.id.color7:
-                if (col[6] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    col[6] = 1;
-                    colorlist[6] = "red";
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    col[6] = 0;
-                    colorlist[6] = "";
-
-                }
-                break;
-            case R.id.color8:
-                if (col[7] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    col[7] = 1;
-                    colorlist[7] = "purple";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    col[7] = 0;
-                    colorlist[7] = "";
-
-                }
-                break;
-            case R.id.color9:
-                if (col[8] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    col[8] = 1;
-                    colorlist[8] = "nude";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    col[8] = 0;
-                    colorlist[8] = "";
-
-
-                }
-                break;
-            case R.id.color10:
-                if (col[9] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    col[9] = 1;
-                    colorlist[9] = "blue";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    col[9] = 0;
-                    colorlist[9] = "";
-
-                }
-                break;
-            case R.id.color11:
-                if (col[10] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    col[10] = 1;
-                    colorlist[10] = "yellow";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    col[10] = 0;
-                    colorlist[10] = "";
-
-                }
-                break;
-            case R.id.color12:
-                if (col[11] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    col[11] = 1;
-                    colorlist[11] = "gray";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    col[11] = 0;
-                    colorlist[11] = "";
-
-                }
-                break;
-            case R.id.color13:
-                if (col[12] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    col[12] = 1;
-                    colorlist[12] = "green";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    col[12] = 0;
-                    colorlist[12] = "";
-
-                }
-                break;
-            case R.id.color14:
-                if (col[13] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    col[13] = 1;
-                    colorlist[13] = "pink";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    col[13] = 0;
-                    colorlist[13] = "";
-
-                }
-                break;
-            case R.id.color15:
-                if (col[14] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    col[14] = 1;
-                    colorlist[14] = "pattern";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    col[14] = 0;
-                    colorlist[14] = "";
-
-                }
-                break;
 
 
             //condition cases
             case R.id.conditionnew:
-                ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
+                conditionnew.setChecked(true);
                 conditionspinner.setSelection(0);
                 condition = 11;
                 break;
 
 
         }
+    }
+
+    private void selectShoetype(CheckBox cb) {
+        for (int i = 0; i < shoestype.size(); i++)
+            shoestype.get(i).setChecked(false);
+        cb.setChecked(true);
+
     }
 
     private class AsyncTaskLoadImage extends AsyncTask<String, Bitmap, Bitmap> {
@@ -854,26 +459,26 @@ public class ShoesPost extends AppCompatActivity implements View.OnClickListener
         } catch (Exception ex) {
         }
         //to check atleast one size selected
-        for (int i = 0; i < shoetypelist.length; i++) {
-            if (shoetypelist[i].length() > 0) {
+        for (int i = 0; i < shoestype.size(); i++) {
+            if (shoestype.get(i).isChecked()) {
                 type = false;
-                shoetype.add(shoetypelist[i]);
+                shoetype.add(shoestype.get(i).getTag().toString());
             }
         }
 
         //to check atleast one length selected
-        for (int i = 0; i < sizelist.length; i++) {
-            if (sizelist[i].length() > 0) {
+        for (int i = 0; i < this.shoesize.size(); i++) {
+            if (this.shoesize.get(i).isChecked()) {
                 size = false;
-                shoesize.add(sizelist[i]);
+                shoesize.add(this.shoesize.get(i).getTag().toString());
             }
         }
 
 //to check atleast one color selected
-        for (int i = 0; i < colorlist.length; i++) {
-            if (colorlist[i].length() > 0) {
+        for (int i = 0; i < this.color.size(); i++) {
+            if (this.color.get(i).isChecked()) {
                 color = false;
-                shoecolor.add(colorlist[i]);
+                shoecolor.add(this.color.get(i).getTag().toString());
 
 
             }
@@ -957,14 +562,14 @@ public class ShoesPost extends AppCompatActivity implements View.OnClickListener
             imagesarray.put(image4);
 
 
-            String userid = ImageLoaderImage.pref.getString("user_id", "");
+            String userid = SingleTon.pref.getString("user_id", "");
 
 
             JSONObject mainObj = new JSONObject();
-            mainObj.put("user_id",userid);
+            mainObj.put("user_id", userid);
             mainObj.put("condition", condition);
             mainObj.put("brand", brand.getText().toString());
-            mainObj.put("categorytype",3);
+            mainObj.put("categorytype", 3);
 
 
             mainObj.put("shoesize", sizeArray);
@@ -975,9 +580,10 @@ public class ShoesPost extends AppCompatActivity implements View.OnClickListener
             mainObj.put("description", desc.getText().toString());
             mainObj.put("pricenow", pricenow.getText().toString());
             mainObj.put("pricewas", pricewas.getText().toString());
-            postShoe(mainObj.toString());
+            if(extra==null)
+             postShoe(mainObj.toString());
 
-          //  Log.e("json", mainObj.toString());
+            //Log.e("json", mainObj.toString());
         } catch (Exception ex) {
             Log.e("json error", ex.getMessage() + "");
         }
@@ -996,14 +602,14 @@ public class ShoesPost extends AppCompatActivity implements View.OnClickListener
             @Override
             public void onResponse(String response) {
                 pDialog.dismiss();
-               // Log.e("responsedata", response.toString());
+                // Log.e("responsedata", response.toString());
                 try {
                     JSONObject jobj = new JSONObject(response);
                     if (jobj.getBoolean("status")) {
-                        Toast.makeText(ShoesPost.this, jobj.getString("message") + "", Toast.LENGTH_LONG).show();
+                        Toast.makeText(ShoesEditPost.this, jobj.getString("message") + "", Toast.LENGTH_LONG).show();
                         finish();
                     } else {
-                        Toast.makeText(ShoesPost.this, jobj.getString("message") + "", Toast.LENGTH_LONG).show();
+                        Toast.makeText(ShoesEditPost.this, jobj.getString("message") + "", Toast.LENGTH_LONG).show();
 
 
                     }
@@ -1017,7 +623,7 @@ public class ShoesPost extends AppCompatActivity implements View.OnClickListener
                 pDialog.dismiss();
                 //   Log.e("response error", error.getMessage() + "");
 
-                Toast.makeText(ShoesPost.this, "Shoe not posted please try again", Toast.LENGTH_LONG).show();
+                Toast.makeText(ShoesEditPost.this, "Shoe not posted please try again", Toast.LENGTH_LONG).show();
             }
         }) {
             @Override
@@ -1081,8 +687,8 @@ public class ShoesPost extends AppCompatActivity implements View.OnClickListener
         popupWindow = new Lnd_Post_Instruction(this).instruction();
         popupWindow.showAtLocation(v, Gravity.TOP, 0, 0);
     }
-    private void setupEmoji()
-    {
+
+    private void setupEmoji() {
 // Give the topmost view of your activity layout hierarchy. This will be used to measure soft keyboard height
         final EmojiconsPopup popup = new EmojiconsPopup(rootView, this);
 
@@ -1179,7 +785,15 @@ public class ShoesPost extends AppCompatActivity implements View.OnClickListener
 
 
     }
-    private void changeEmojiKeyboardIcon(ImageView iconToBeChanged, int drawableResourceId){
+
+    private void changeEmojiKeyboardIcon(ImageView iconToBeChanged, int drawableResourceId) {
         iconToBeChanged.setImageResource(drawableResourceId);
     }
+
+    private void condition() {
+        conditionnew.setChecked(false);
+
+
+    }
+
 }

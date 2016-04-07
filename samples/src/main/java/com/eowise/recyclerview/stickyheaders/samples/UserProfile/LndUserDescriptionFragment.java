@@ -25,9 +25,8 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.Main_TabHost;
-import com.eowise.recyclerview.stickyheaders.samples.MoreInfo.FillUserInfo;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 
 import org.json.JSONException;
@@ -59,7 +58,7 @@ public class LndUserDescriptionFragment extends Fragment implements View.OnClick
         LndLoginSignup.currentpage = 6;
         ButterKnife.bind(this, rootView);
         //custom font
-        finish.setTypeface(ImageLoaderImage.subheading);
+        finish.setTypeface(SingleTon.subheading);
         //setting up click listener
         finish.setOnClickListener(this);
         descText.addTextChangedListener(new TextWatcher() {
@@ -119,7 +118,7 @@ public class LndUserDescriptionFragment extends Fragment implements View.OnClick
                     JSONObject jobj=new JSONObject(response.toString());
                     if(jobj.getBoolean("status"))
                     {
-                        SharedPreferences.Editor edit= ImageLoaderImage.pref.edit();
+                        SharedPreferences.Editor edit= SingleTon.pref.edit();
                         edit.putString("uname", jobj.getString("uname"));
                         edit.putString("user_id",jobj.getString("user_id"));
                         edit.putString("utype",jobj.getString("type"));

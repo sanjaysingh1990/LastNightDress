@@ -8,13 +8,46 @@ import java.io.Serializable;
 public class NotificationData implements Serializable
 
 {
-private String uname;
+    private String uname;
     private String postid;
     private String profilepicimg;
     private String imgurl;
-    private String time;
+
+
+
+    private long time;
     private String notification_id;
-    private String receiverid;
+    private String senderid;
+    private String message;
+    private String notitype;
+    private String swapstatus;
+
+
+    public long getTime() {
+        return time;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
+    }
+    public String getSenderid() {
+        return senderid;
+    }
+
+    public void setSenderid(String senderid) {
+        this.senderid = senderid;
+    }
+
+
+    public String getSwappostids() {
+        return swappostids;
+    }
+
+    public void setSwappostids(String swappostids) {
+        this.swappostids = swappostids;
+    }
+
+    private String swappostids;
 
     public String getSwapstatus() {
         return swapstatus;
@@ -24,14 +57,6 @@ private String uname;
         this.swapstatus = swapstatus;
     }
 
-    private String swapstatus;
-    public String getReceiverid() {
-        return receiverid;
-    }
-
-    public void setReceiverid(String receiverid) {
-        this.receiverid = receiverid;
-    }
 
     public String getNotification_id() {
         return notification_id;
@@ -42,13 +67,12 @@ private String uname;
     }
 
 
-
-    public String getComment() {
-        return comment;
+    public String getMessage() {
+        return message;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public String getNotitype() {
@@ -59,13 +83,7 @@ private String uname;
         this.notitype = notitype;
     }
 
-    public String getTime() {
-        return time;
-    }
 
-    public void setTime(String time) {
-        this.time = time;
-    }
 
     public String getImgurl() {
         return imgurl;
@@ -99,7 +117,5 @@ private String uname;
         this.uname = uname;
     }
 
-    private String comment;
-    private String notitype;
 
 }

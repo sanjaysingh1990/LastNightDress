@@ -15,12 +15,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.Loading.AVLoadingIndicatorView;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.adapters.ReviewsAdapter;
 import com.eowise.recyclerview.stickyheaders.samples.data.ReviewsData;
-import com.eowise.recyclerview.stickyheaders.samples.data.ShopData;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -47,10 +46,17 @@ public class ReviewsActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         recyclerView = (RecyclerView) findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        heading.setTypeface(ImageLoaderImage.robotobold);
+        heading.setTypeface(SingleTon.robotobold);
         recyclerAdapter = new ReviewsAdapter(this, itemList);
         recyclerView.setAdapter(recyclerAdapter);
-        getData();
+
+
+        Bundle extra=getIntent().getExtras();
+        if(extra!=null)
+        {
+            String userid=extra.getString("user_id","");
+            getData(userid);
+        }
 
     }
 
@@ -64,7 +70,7 @@ public class ReviewsActivity extends AppCompatActivity {
         onBackPressed();
     }
 
-    public  void getData(){
+    public  void getData(final String userid){
 
 
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -121,7 +127,7 @@ public class ReviewsActivity extends AppCompatActivity {
                 Map<String,String> params = new HashMap<String, String>();
                 params.put("rqid","15");
                 params.put("skipdata",0+"");
-                params.put("user_id",ImageLoaderImage.pref.getString("user_id", ""));
+                params.put("user_id",userid);
 
                 return params;
             }

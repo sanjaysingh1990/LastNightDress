@@ -16,8 +16,47 @@ public class Home_List_Data implements Serializable {
     private String brandname;
     private String pricewas;
     private String pricenow;
-    private String likestotal;
+    private int likestotal;
     private String conditon;
+
+    public long getTime() {
+        return time;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
+    }
+
+    private long time;
+    public int getHeadertype() {
+        return headertype;
+    }
+
+    public void setHeadertype(int headertype) {
+        this.headertype = headertype;
+    }
+
+    private int headertype;
+    public boolean isfavorate() {
+        return isfavorate;
+    }
+
+    public void setIsfavorate(boolean isfavorate) {
+        this.isfavorate = isfavorate;
+    }
+
+    private boolean isfavorate;
+    public int getCategory() {
+        return category;
+    }
+
+    public void setCategory(int category) {
+        this.category = category;
+    }
+
+    private int category;
+
+
 
     public boolean isvisible() {
         return isvisible;
@@ -46,15 +85,8 @@ public class Home_List_Data implements Serializable {
     }
 
     private String userid;
-    public String getCategory() {
-        return category;
-    }
 
-    public void setCategory(String category) {
-        this.category = category;
-    }
 
-    private String category;
     private String size;
 
     public String getColors() {
@@ -176,11 +208,11 @@ public class Home_List_Data implements Serializable {
         this.pricenow = pricenow;
     }
 
-    public String getLikestotal() {
+    public int getLikestotal() {
         return likestotal;
     }
 
-    public void setLikestotal(String likestotal) {
+    public void setLikestotal(int likestotal) {
         this.likestotal = likestotal;
     }
 

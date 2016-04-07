@@ -11,7 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.adapters.ContactsAdapter;
 import com.eowise.recyclerview.stickyheaders.samples.data.PeopleData;
@@ -36,7 +36,7 @@ public class ContactsActivity extends AppCompatActivity
 
         ButterKnife.bind(this);
         //setting custom font
-        heading.setTypeface(ImageLoaderImage.hfont);
+        heading.setTypeface(SingleTon.hfont);
 
 
         recyclerView= (RecyclerView) findViewById(R.id.recyclerView);

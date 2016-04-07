@@ -1,24 +1,26 @@
 package com.eowise.recyclerview.stickyheaders.samples.adapters;
 
 import android.content.Context;
-import android.util.Log;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.NewMessage.SendMessageActivity;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+import com.eowise.recyclerview.stickyheaders.samples.UserProfile.OtherUserProfileActivity;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
 import com.eowise.recyclerview.stickyheaders.samples.data.MessageData;
 import com.eowise.recyclerview.stickyheaders.samples.data.UserType;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
+
+import github.ankushsachdeva.emojicon.EmojiconTextView;
 
 
 /**
@@ -66,7 +68,7 @@ public class SendMsgListAdapter extends BaseAdapter {
                 holder1 = new ViewHolder1();
 
                 holder1.profpic = (ImageView) v.findViewById(R.id.chatpicsender);
-                holder1.messageTextView = (TextView) v.findViewById(R.id.message_text);
+                holder1.messageTextView = (EmojiconTextView) v.findViewById(R.id.message_text);
                 holder1.timeTextView = (TextView) v.findViewById(R.id.time_text);
 
                 v.setTag(holder1);
@@ -75,9 +77,9 @@ public class SendMsgListAdapter extends BaseAdapter {
                 holder1 = (ViewHolder1) v.getTag();
 
             }
-
-           holder1.messageTextView.setText(message.getMessage());
-            ImageLoaderImage.imageLoader.displayImage(message.getProfilepic(), holder1.profpic, ImageLoaderImage.options3);
+            holder1.timeTextView.setText(message.getTime());
+            holder1.messageTextView.setText(message.getMessage());
+            SingleTon.imageLoader.displayImage(message.getProfilepic(), holder1.profpic, SingleTon.options3);
 
             //holder1.timeTextView.setText(message.getTime());
 
@@ -89,7 +91,7 @@ public class SendMsgListAdapter extends BaseAdapter {
                 holder2 = new ViewHolder2();
 
 
-                holder2.messageTextView = (TextView) v.findViewById(R.id.message_text);
+                holder2.messageTextView = (EmojiconTextView) v.findViewById(R.id.message_text);
                 holder2.timeTextView = (TextView) v.findViewById(R.id.time_text);
                 holder2.profpic = (ImageView) v.findViewById(R.id.chatpic);
                 v.setTag(holder2);
@@ -99,16 +101,13 @@ public class SendMsgListAdapter extends BaseAdapter {
                 holder2 = (ViewHolder2) v.getTag();
 
             }
+            holder2.timeTextView.setText(message.getTime());
 
             holder2.messageTextView.setText(message.getMessage());
-            ImageLoaderImage.imageLoader.displayImage(message.getProfilepic(),holder2.profpic,ImageLoaderImage.options3);
-            //holder2.messageTextView.setText(message.getMessageText());
-            //holder2.timeTextView.setText(message.getTime());
+            SingleTon.imageLoader.displayImage(message.getProfilepic(), holder2.profpic, SingleTon.options3);
 
 
-
-            }
-        else if (message.getUserType() == UserType.BANNER) {
+        } else if (message.getUserType() == UserType.BANNER) {
             if (convertView == null) {
                 v = LayoutInflater.from(context).inflate(R.layout.banner_layout, null, false);
                 holder3 = new ViewHolder3();
@@ -116,9 +115,11 @@ public class SendMsgListAdapter extends BaseAdapter {
 
                 holder3.brandname = (TextView) v.findViewById(R.id.brandname);
                 holder3.sellername = (TextView) v.findViewById(R.id.sellername);
+                holder3.sellername.setTypeface(SingleTon.robotomedium);
                 holder3.size = (TextView) v.findViewById(R.id.size);
                 holder3.price = (TextView) v.findViewById(R.id.listprice);
                 holder3.bannerimage = (ImageView) v.findViewById(R.id.bannerimg);
+
                 v.setTag(holder3);
             } else {
                 v = convertView;
@@ -126,17 +127,24 @@ public class SendMsgListAdapter extends BaseAdapter {
 
             }
 
-             holder3.brandname.setText(SendMessageActivity.chatbanner.getBrand());
-            holder3.sellername.setText(SendMessageActivity.chatbanner.getSellername());
-            holder3.size.setText(SendMessageActivity.chatbanner.getSize().split(",").length+"");
-            holder3.price.setText(SendMessageActivity.chatbanner.getPricenow());
-            ImageLoaderImage.imageLoader2.displayImage(SendMessageActivity.chatbanner.getImage_url(),holder3.bannerimage,ImageLoaderImage.options);
+            holder3.brandname.setText(Capitalize.capitalizeFirstLetter(SendMessageActivity.chatbanner.getBrand()));
+            holder3.sellername.setText(Capitalize.capitalizeFirstLetter(SendMessageActivity.chatbanner.getSellername()));
+            holder3.size.setText(SendMessageActivity.chatbanner.getSize().split(",").length + "");
+            holder3.price.setText("$"+SendMessageActivity.chatbanner.getPricenow());
+            SingleTon.imageLoader2.displayImage(SendMessageActivity.chatbanner.getImage_url(), holder3.bannerimage, SingleTon.options);
 
+            //banner username
+            holder3.sellername.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent userprofile = new Intent(context, OtherUserProfileActivity.class);
+                    userprofile.putExtra("uname", SendMessageActivity.chatbanner.getSellername());
+                    userprofile.putExtra("user_id", SendMessageActivity.chatbanner.getSellerid());
+                    context.startActivity(userprofile);
+                }
+            });
 
         }
-
-
-
 
 
         return v;
@@ -155,7 +163,7 @@ public class SendMsgListAdapter extends BaseAdapter {
 
     private class ViewHolder1 {
         public ImageView profpic;
-        public TextView messageTextView;
+        public EmojiconTextView messageTextView;
         public TextView timeTextView;
 
 
@@ -163,10 +171,11 @@ public class SendMsgListAdapter extends BaseAdapter {
 
     private class ViewHolder2 {
         public ImageView profpic;
-        public TextView messageTextView;
+        public EmojiconTextView messageTextView;
         public TextView timeTextView;
 
     }
+
     private class ViewHolder3 {
         public ImageView bannerimage;
         public TextView brandname;

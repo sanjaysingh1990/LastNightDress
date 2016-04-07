@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
@@ -14,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.data.CommentData;
 import com.eowise.recyclerview.stickyheaders.samples.data.PersonDataProvider;
@@ -65,7 +64,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
 
         CommentData cd=items.get(position);
-        ImageLoaderImage.imageLoader.displayImage(items.get(position).getProfilepic(), viewHolder.profilepic, ImageLoaderImage.options2);
+        SingleTon.imageLoader.displayImage(items.get(position).getProfilepic(), viewHolder.profilepic, SingleTon.options2);
         String s= capitalize(cd.getUname())+" "+cd.getCommenttxxt();
         SpannableString ss1=  new SpannableString(s);
         ss1.setSpan(new RelativeSizeSpan(1.1f), 0,cd.getUname().length(), 0); // set size

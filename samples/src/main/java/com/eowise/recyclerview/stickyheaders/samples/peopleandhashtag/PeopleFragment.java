@@ -20,7 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.adapters.PeopleBrandHashTapAdapter;
 import com.eowise.recyclerview.stickyheaders.samples.data.PeopleData;
@@ -91,8 +91,13 @@ public class PeopleFragment extends Fragment {
             }
         });
 
+        //checking on swipe
+        String people=PeopleHashTagActivity.Search.getText()+"";
+        if(people.length()>0)
+            getData(people);
         //load from database
         intialize();
+
         return view;
     }
 
@@ -141,7 +146,7 @@ public class PeopleFragment extends Fragment {
         itemList.clear();
         recyclerAdapter.notifyDataSetChanged();
 
-        List<PeopleData> users = ImageLoaderImage.db.getAllUsers();
+        List<PeopleData> users = SingleTon.db.getAllUsers();
 
         for (PeopleData user : users)
         {

@@ -11,7 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 
 import com.eowise.recyclerview.stickyheaders.samples.adapters.ShippingLabelAdapter;
@@ -48,7 +48,7 @@ public class ShippingLabelActivity extends AppCompatActivity {
         recyclerView.setAdapter(recyclerAdapter);
         processmyorder.setClickable(false);
         //applying custom font
-        heading.setTypeface(ImageLoaderImage.robotobold);
+        heading.setTypeface(SingleTon.robotobold);
 initialize();
     }
     private void initialize()

@@ -10,11 +10,10 @@ import android.view.View;
 import android.widget.TextView;
 
 
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.SQLDB.FavoriteData;
 import com.eowise.recyclerview.stickyheaders.samples.adapters.FavoratesAdapter;
-import com.eowise.recyclerview.stickyheaders.samples.adapters.MarginDecoration;
 
 
 import java.util.ArrayList;
@@ -42,19 +41,18 @@ public class Favorates extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         recyclerv = (RecyclerView)findViewById(R.id.recycler_view);
-        recyclerv.addItemDecoration(new MarginDecoration(this));
-        recyclerv.setHasFixedSize(true);
+
         recyclerv.setLayoutManager(new GridLayoutManager(this, 3));
         intialize();
         adapter=new FavoratesAdapter(favitems,this);
         recyclerv.setAdapter(adapter);
        //custom fonts
-        heading.setTypeface(ImageLoaderImage.hfont);
+        heading.setTypeface(SingleTon.hfont);
 
     }
 private void intialize()
 {
-    List<FavoriteData> contacts = ImageLoaderImage.db.getAllContacts();
+    List<FavoriteData> contacts = SingleTon.db.getAllContacts();
 
    // Toast.makeText(this,"size"+contacts.size(),Toast.LENGTH_LONG).show();
     for (FavoriteData cn : contacts) {

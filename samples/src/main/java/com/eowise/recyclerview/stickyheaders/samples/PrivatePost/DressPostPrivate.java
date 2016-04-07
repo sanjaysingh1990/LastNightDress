@@ -24,6 +24,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.MultiAutoCompleteTextView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -41,12 +42,16 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost.CameraReviewFragment;
 import com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost.CompressImage;
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.PostDataShop.Lnd_Post_Instruction;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.HashTagandMention;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.LndTextWatcher;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.LndTokenizer;
 import com.eowise.recyclerview.stickyheaders.samples.data.CameraData;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
@@ -54,10 +59,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import github.ankushsachdeva.emojicon.EmojiconEditText;
 import github.ankushsachdeva.emojicon.EmojiconGridView;
 import github.ankushsachdeva.emojicon.EmojiconsPopup;
 import github.ankushsachdeva.emojicon.emoji.Emojicon;
@@ -102,8 +108,8 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
 
     @Bind({R.id.image1, R.id.image2, R.id.image3, R.id.image4})
     List<ImageView> images;
-    @Bind(R.id.desc)
-    EmojiconEditText desc;
+    @Bind(R.id.autocomplete)
+    MultiAutoCompleteTextView desc;
     @Bind(R.id.infoview)
     LinearLayout inforview;
     @Bind(R.id.emoji_btn)
@@ -139,7 +145,7 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
         images.get(3).setLayoutParams(layoutParams);
 
         heading = (TextView) findViewById(R.id.heading);
-        heading.setTypeface(ImageLoaderImage.hfont);
+        heading.setTypeface(SingleTon.hfont);
 
 
         //size listener
@@ -219,6 +225,24 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
         for (int i = 0; i < 4; i++)
             filename.add("");
 
+
+        //username selected from list
+        desc.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int index, long position) {
+                desc.setText(new HashTagandMention().addClickablePart(desc.getText().toString(), "#be4d66"));
+                desc.setSelection(desc.getText().length());
+            }
+        });
+
+
+        desc.setThreshold(1); //Set number of characters before the dropdown should be shown
+
+        desc.addTextChangedListener(new LndTextWatcher(desc, this));
+
+        //Create a new Tokenizer which will get text after '@' and terminate on ' '
+        desc.setTokenizer(new LndTokenizer());
+
+
         setupEmoji();
 
 
@@ -250,11 +274,11 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View v) {
         //check to select either size in text or in  number
-        if (v.getId() == R.id.size1 || v.getId() == R.id.size2 || v.getId() == R.id.size3 || v.getId() == R.id.size4 || v.getId() == R.id.size5 || v.getId() == R.id.size6 || v.getId() == R.id.size7 )
+        if (v.getId() == R.id.size1 || v.getId() == R.id.size2 || v.getId() == R.id.size3 || v.getId() == R.id.size4 || v.getId() == R.id.size5 || v.getId() == R.id.size6 || v.getId() == R.id.size7)
             clearSizetype2();
-        else if (v.getId() == R.id.numsize1 || v.getId() == R.id.numsize2 || v.getId() == R.id.numsize3 || v.getId() == R.id.numsize4 || v.getId() == R.id.numsize5 || v.getId() == R.id.numsize6|| v.getId() == R.id.numsize7|| v.getId() == R.id.numsize8|| v.getId() == R.id.numsize9|| v.getId() == R.id.numsize10|| v.getId() == R.id.numsize11|| v.getId() == R.id.numsize12)
+        else if (v.getId() == R.id.numsize1 || v.getId() == R.id.numsize2 || v.getId() == R.id.numsize3 || v.getId() == R.id.numsize4 || v.getId() == R.id.numsize5 || v.getId() == R.id.numsize6 || v.getId() == R.id.numsize7 || v.getId() == R.id.numsize8 || v.getId() == R.id.numsize9 || v.getId() == R.id.numsize10 || v.getId() == R.id.numsize11 || v.getId() == R.id.numsize12)
 
-             clearSizetype1();
+            clearSizetype1();
 
         switch (v.getId()) {
 
@@ -454,6 +478,11 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
 
     public void done(View v) {
 
+        ArrayList<String> dresssize = new ArrayList<>();
+        ArrayList<String> dresscolor = new ArrayList<>();
+        ArrayList<String> hashtags = new ArrayList<>();
+        ArrayList<Integer> usermentions = new ArrayList<>();
+
         int pw = 0, pn = 0;
         try {
             pw = Integer.parseInt(pricewas.getText().toString());
@@ -497,8 +526,10 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
             Toast.makeText(this, "select color", Toast.LENGTH_SHORT).show();
             return;
         }
-
-
+        dresssize.add(sizetype);
+        dresscolor.add(colortype);
+        JSONArray dressArray = new JSONArray(dresssize);
+        JSONArray colorArray = new JSONArray(dresscolor);
         try {
             //image1 json
             JSONObject image1 = new JSONObject();
@@ -529,7 +560,7 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
             imagesarray.put(image4);
 
 
-            String userid = ImageLoaderImage.pref.getString("user_id", "");
+            String userid = SingleTon.pref.getString("user_id", "");
             JSONObject mainObj = new JSONObject();
 
             mainObj.put("user_id", userid);
@@ -540,16 +571,41 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
             mainObj.put("condition", condition);
 
 
-            mainObj.put("size", sizetype);
+            mainObj.put("size1", dressArray);
+
             mainObj.put("dresstype", dresstype);
 
-
-            mainObj.put("color", colortype);
+            mainObj.put("color", colorArray);
             mainObj.put("images", imagesarray);
             mainObj.put("description", desc.getText().toString());
             mainObj.put("pricenow", pricenow.getText().toString());
             mainObj.put("pricewas", pricewas.getText().toString());
-            // uploadImage(mainObj.toString());
+            mainObj.put("datetime", SingleTon.getCurrentTimeStamp());
+            //get hashtag and user mentions
+            String text = desc.getText().toString();
+            String regexPattern1 = "(#\\w+)";
+            String regexPattern2 = "(@\\w+)";
+            //get all hashtags
+            Pattern p1 = Pattern.compile(regexPattern1);
+            Matcher m1 = p1.matcher(text);
+            while (m1.find()) {
+                String hashtag = m1.group(1).substring(1);
+                hashtags.add(hashtag);
+            }
+            JSONArray hashtagArray = new JSONArray(hashtags);
+            //get all username mentions
+            p1 = Pattern.compile(regexPattern2);
+            mainObj.put("hashtags", hashtagArray);
+            m1 = p1.matcher(text);
+            while (m1.find()) {
+                String usermention = m1.group(1).substring(1);
+                if (LndTextWatcher.users.containsKey(usermention))
+                    usermentions.add(LndTextWatcher.users.get(usermention));
+            }
+
+            JSONArray usermentionArray = new JSONArray(usermentions);
+            mainObj.put("usermentions", usermentionArray);
+            uploadImage(mainObj.toString());
 
             Log.e("json", mainObj.toString());
         } catch (Exception ex) {
@@ -559,19 +615,33 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
 
     public void uploadImage(final String data) {
 
-        Log.e("test", "check");
         final ProgressDialog pDialog = new ProgressDialog(this);
         pDialog.setMessage("wait posting dress...");
         pDialog.show();
 
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/postdata.php", new Response.Listener<String>() {
+        StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/lndpost.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                pDialog.dismiss();
-//                Log.e("responsedata", response.toString());
+                try {
+                    pDialog.dismiss();
 
+                    JSONObject jobj = new JSONObject(response);
+                    if (jobj.getBoolean("status")) {
+                        Toast.makeText(DressPostPrivate.this, jobj.getString("message") + "", Toast.LENGTH_LONG).show();
+                        //Intent intent = new Intent(DressPost.this, PayPalAccountCreation.class);
+                        //startActivity(intent);
+                        finish();//finishing activity
+
+                    } else {
+                        Toast.makeText(DressPostPrivate.this, jobj.getString("message") + "", Toast.LENGTH_LONG).show();
+
+
+                    }
+                } catch (JSONException ex) {
+
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -586,7 +656,7 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("data", data);
-                params.put("rqid", "11");
+                params.put("rqid", "1");
 
 
                 return params;

@@ -17,6 +17,9 @@
 package com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage;
 
 
+import com.eowise.recyclerview.stickyheaders.samples.data.MessageData;
+import com.eowise.recyclerview.stickyheaders.samples.data.NotificationData;
+
 public abstract class AbstractDataProvider {
 
     public static abstract class Data {
@@ -26,7 +29,12 @@ public abstract class AbstractDataProvider {
 
         public abstract int getViewType();
 
-        public abstract String getText();
+        public abstract String getUname();
+        public abstract String getProfilepic();
+        public abstract String getImageurl();
+        public abstract NotificationData getNotificationdata();
+
+
 
         public abstract void setPinned(boolean pinned);
 
@@ -42,6 +50,7 @@ public abstract class AbstractDataProvider {
     public abstract void removeItem(int position);
 
     public abstract void moveItem(int fromPosition, int toPosition);
+    public abstract void addItem(NotificationData nd);
 
     public abstract int undoLastRemoval();
 }

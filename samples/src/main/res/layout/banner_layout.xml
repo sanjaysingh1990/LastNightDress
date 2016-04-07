@@ -13,18 +13,18 @@
         android:background="#f2f2f2"
 
         android:orientation="horizontal"
-        android:padding="15dp">
+        android:paddingRight="8dp"
+        android:paddingLeft="8dp"
+        android:paddingTop="8dp"
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="horizontal">
+        >
+
+
 
             <ImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/bannerimg"
-                android:layout_width="78dp"
-                android:layout_height="78dp"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
                 android:layout_marginTop="2dp"
                 android:adjustViewBounds="true"
                 android:background="#000"
@@ -38,7 +38,7 @@
                 android:layout_weight="1"
                 android:orientation="vertical"
 
-                android:paddingLeft="15dp"
+                android:paddingLeft="20dp"
 
                 >
 
@@ -86,7 +86,10 @@
                         android:singleLine="true"
                         android:text="Olivia Newton Wilde"
                         android:textColor="#be4d66"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:clickable="true"
+
+                        />
                 </LinearLayout>
 
                 <LinearLayout
@@ -172,4 +175,3 @@
 
         </LinearLayout>
     </LinearLayout>
-</LinearLayout>

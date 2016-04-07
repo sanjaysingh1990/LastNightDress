@@ -102,6 +102,8 @@
             android:background="@drawable/paypal_button_background"
             android:clickable="true"
             android:text="Continue with PayPal"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            android:textSize="18sp"
+            />
     </LinearLayout>
 </LinearLayout>

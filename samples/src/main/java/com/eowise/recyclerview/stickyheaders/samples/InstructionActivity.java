@@ -71,7 +71,7 @@ public class InstructionActivity extends AppCompatActivity {
 public void capture(View v)
 {
     if(checkbox.isChecked()) {
-        SharedPreferences.Editor edit = ImageLoaderImage.pref.edit();
+        SharedPreferences.Editor edit = SingleTon.pref.edit();
         edit.putBoolean("next",true);
         edit.commit();
     }

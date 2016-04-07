@@ -17,7 +17,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.adapters.FollowersAdapter;
 import com.eowise.recyclerview.stickyheaders.samples.data.FollowersFollowingData;
@@ -46,7 +46,7 @@ public class LikersActivity extends AppCompatActivity {
         setContentView(R.layout.activity_followers);
         ButterKnife.bind(this);
         //setting custom font
-        heading.setTypeface(ImageLoaderImage.hfont);
+        heading.setTypeface(SingleTon.hfont);
         heading.setText("Likers");
         //toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -59,16 +59,16 @@ public class LikersActivity extends AppCompatActivity {
         recyclerAdapter = new FollowersAdapter(this, data);
         recyclerView.setAdapter(recyclerAdapter);
         //reading bundle
-        String userid = "",postid="";
+        String postid="";
         Bundle extra = getIntent().getExtras();
         if (extra != null) {
-            userid = extra.getString("user_id", "");
+
             postid=extra.getString("postid","");
         }
-        getLikers(userid,postid);
+        getLikers(postid);
     }
 
-    public void getLikers(final String userid,final String postid) {
+    public void getLikers(final String postid) {
         final ProgressDialog pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");
         pDialog.show();
@@ -78,19 +78,22 @@ public class LikersActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 pDialog.dismiss();
-             //  Log.e("fuck", response.toString());
-             //    Toast.makeText(LikersActivity.this,postid+","+uname,Toast.LENGTH_LONG).show();
-                try {
+                // Log.e("response", response);
+               String userid= SingleTon.pref.getString("user_id","");
+                 try {
                     JSONObject jobj = new JSONObject(response.toString());
                     JSONArray jsonArray = jobj.getJSONArray("data");
-                   // Toast.makeText(LikersActivity.this,uname+","+postid,Toast.LENGTH_LONG).show();
 
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         FollowersFollowingData fd = new FollowersFollowingData();
                         fd.setUname(jsonObject.getString("uname"));
                         fd.setUserpic(jsonObject.getString("user_pic"));
-                        fd.setStatus(0+"");
+                        fd.setUserid(jsonObject.getString("userid"));
+                        if(userid.compareTo(fd.getUserid())==0)
+                        fd.setStatus(-1+"");
+                        else
+                        fd.setStatus(jsonObject.getString("check_val"));
                         data.add(fd);
                     }
                 } catch (Exception ex) {
@@ -109,7 +112,7 @@ public class LikersActivity extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("rqid", "1");
-                params.put("user_id",userid);
+                params.put("user_id", SingleTon.pref.getString("user_id",""));
                 params.put("post_id", postid);
 
 

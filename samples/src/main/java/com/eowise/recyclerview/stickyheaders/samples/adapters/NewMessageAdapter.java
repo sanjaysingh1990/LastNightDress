@@ -2,18 +2,15 @@ package com.eowise.recyclerview.stickyheaders.samples.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.NewMessage.SendMessageActivity;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.data.MessageToFriendsData;
@@ -65,7 +62,7 @@ public class NewMessageAdapter extends RecyclerView.Adapter<NewMessageAdapter.Vi
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
           MessageToFriendsData msgfrnd=items.get(position);
-           ImageLoaderImage.imageLoader.displayImage(msgfrnd.getProfilepic(), viewHolder.img, ImageLoaderImage.options3);
+           SingleTon.imageLoader.displayImage(msgfrnd.getProfilepic(), viewHolder.img, SingleTon.options3);
 
            viewHolder.uname.setText(capitalize(msgfrnd.getUname()));
 
@@ -94,7 +91,7 @@ public class NewMessageAdapter extends RecyclerView.Adapter<NewMessageAdapter.Vi
         super(itemView);
         uname= (TextView) itemView.findViewById(R.id.uname);
         img= (ImageView) itemView.findViewById(R.id.profilepic);
-        uname.setTypeface(ImageLoaderImage.unamefont);
+        uname.setTypeface(SingleTon.unamefont);
             itemView.setOnClickListener(this);
         }
 

@@ -48,7 +48,7 @@
                 />
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                style="@style/headerline"
                 android:background="#dadada"
                 android:layout_alignParentBottom="true" />
         </RelativeLayout>
@@ -59,7 +59,7 @@
         android:layout_weight="1"
         android:id="@+id/recycler"
         android:layout_gravity="left|top"
-         android:paddingBottom="50dp"
+
         />
 
 
@@ -73,6 +73,7 @@
         app:indicator_color="#be4d66"
         android:layout_gravity="center_vertical|center_horizontal"
         android:id="@+id/loader"
+        android:visibility="gone"
         />
 
     </FrameLayout>

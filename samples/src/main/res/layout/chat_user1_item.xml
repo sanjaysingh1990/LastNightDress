@@ -29,25 +29,23 @@
         android:layout_width="wrap_content"
         android:background="@drawable/left_bubble"
         android:layout_height="wrap_content"
-
         android:layout_marginTop="6dp"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_marginRight="10dp"
         >
 
 
-            <TextView
+            <github.ankushsachdeva.emojicon.EmojiconTextView
                 android:id="@+id/message_text"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:textColor="#000"
-               android:layout_weight="1"
                 android:textSize="13sp"
                 android:autoLink="web"
-                android:maxWidth="280dp"
-                android:text="Rahul Agrawal Rahul AgrawalRahul AgrawalRahul AgrawalRahul AgrawalRahul AgrawalRahul AgrawalRahul AgrawalRahul AgrawalRahul AgrawalRahul Agrawal "
-                android:layout_gravity="center_vertical"
+                android:text="ul awalRahul awal Rahul awal "
+                android:layout_gravity="center_vertical|left"
+
                 />
 
 
@@ -57,14 +55,15 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
 
-            android:layout_marginLeft="5dp"
+
             style="@style/chat_timings"
             android:paddingRight="0dp"
             android:textColor="#757575"
             android:paddingBottom="2dp"
-            android:text="1w"
+            android:text="12:25"
             android:layout_weight="0"
             android:layout_gravity="bottom"
+
             />
 
     </LinearLayout>

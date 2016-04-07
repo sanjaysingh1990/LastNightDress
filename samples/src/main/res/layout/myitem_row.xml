@@ -17,7 +17,7 @@
        android:layout_height="match_parent"
        android:src="@drawable/ic_launcher"
        android:id="@+id/image"
-       android:scaleType="fitXY"
+       android:scaleType="centerCrop"
        android:clickable="true"
        />
 

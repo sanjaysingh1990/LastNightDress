@@ -12,7 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 
 public class OrderDetailsSales extends AppCompatActivity {
@@ -80,7 +80,7 @@ public class OrderDetailsSales extends AppCompatActivity {
     }
        heading= (TextView) findViewById(R.id.heading);
        //applying fonts
-        heading.setTypeface(ImageLoaderImage.robotobold);
+        heading.setTypeface(SingleTon.robotobold);
 
     }
 
@@ -116,20 +116,20 @@ public void shipping(View v)
         shippinglabel=(TextView)findViewById(R.id.shippingstatus);
 
         //applying custom fonts
-        brandtext.setTypeface(ImageLoaderImage.robotobold);
-        buyertext.setTypeface(ImageLoaderImage.robotoregular);
-        listpricetext.setTypeface(ImageLoaderImage.robotoregular);
-        yourearningtext.setTypeface(ImageLoaderImage.robotoregular);
-        orderdatetext.setTypeface(ImageLoaderImage.robotoregular);
-        ordernumbertext.setTypeface(ImageLoaderImage.robotoregular);
-        buyername.setTypeface(ImageLoaderImage.robotomedium);
-        listprice.setTypeface(ImageLoaderImage.robotomedium);
-        yourearning.setTypeface(ImageLoaderImage.robotomedium);
-        orderdate.setTypeface(ImageLoaderImage.robotomedium);
-        ordernumber.setTypeface(ImageLoaderImage.robotomedium);
+        brandtext.setTypeface(SingleTon.robotobold);
+        buyertext.setTypeface(SingleTon.robotoregular);
+        listpricetext.setTypeface(SingleTon.robotoregular);
+        yourearningtext.setTypeface(SingleTon.robotoregular);
+        orderdatetext.setTypeface(SingleTon.robotoregular);
+        ordernumbertext.setTypeface(SingleTon.robotoregular);
+        buyername.setTypeface(SingleTon.robotomedium);
+        listprice.setTypeface(SingleTon.robotomedium);
+        yourearning.setTypeface(SingleTon.robotomedium);
+        orderdate.setTypeface(SingleTon.robotomedium);
+        ordernumber.setTypeface(SingleTon.robotomedium);
 
-        inprocesstext.setTypeface(ImageLoaderImage.robotomedium);
-        statustext.setTypeface(ImageLoaderImage.robotoregular);
+        inprocesstext.setTypeface(SingleTon.robotomedium);
+        statustext.setTypeface(SingleTon.robotoregular);
 
     }
 

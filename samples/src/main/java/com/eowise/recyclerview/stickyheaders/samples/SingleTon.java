@@ -9,6 +9,7 @@ import android.graphics.Typeface;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.DisplayMetrics;
 import android.widget.TextView;
 
 import com.eowise.recyclerview.stickyheaders.samples.SQLDB.DatabaseHandler;
@@ -17,36 +18,43 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 
-public class ImageLoaderImage extends Application {
+public class SingleTon extends Application {
 
     public static SharedPreferences pref;
     public static DisplayImageOptions options,options2,options3,options4;
     public static ImageLoader imageLoader,imageLoader2;
-    public static Typeface unamefont,hfont,normalfont,robotomedium,robotoregular,robotobold,mainfont,subheading,appfont;
+    public static Typeface unamefont,hfont,normalfont,robotomedium,robotoregular,robotobold,mainfont,subheading,appfont,settingfont;
     public static DatabaseHandler db;
     static  int  line=0;
-
+    public static HashMap<String,String> lnduserid=new HashMap<>();
+    public static DisplayMetrics displayMetrics;
     @Override
     public void onCreate()
     {
         super.onCreate();
 
-        // UNIVERSAL IMAGE LOADER SETUP
-        options4 = new DisplayImageOptions.Builder()
-                .resetViewBeforeLoading(true)
-                .cacheOnDisk(true)
-                .cacheInMemory(true)
-                .imageScaleType(ImageScaleType.EXACTLY)
-                .displayer(new FadeInBitmapDisplayer(200))
-                .build();
 
+         displayMetrics = getResources().getDisplayMetrics();
+
+        // UNIVERSAL IMAGE LOADER SETUP
+
+        options4 = new DisplayImageOptions.Builder()
+
+                .showImageOnLoading(R.drawable.loader_white)
+                .showImageForEmptyUri(R.drawable.loading_icon)
+                .showImageOnFail(R.drawable.loading_icon)
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .considerExifParams(true)
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                .build();
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
                 .defaultDisplayImageOptions(options4)
                 .memoryCache(new WeakMemoryCache())
@@ -67,7 +75,10 @@ public class ImageLoaderImage extends Application {
         mainfont=Typeface.createFromAsset(getAssets(),"arialms.ttf");
         subheading=Typeface.createFromAsset(getAssets(),"arialbold.ttf");
         appfont=Typeface.createFromAsset(getAssets(),"Mural_Script.ttf");
-         pref=getSharedPreferences("login", Context.MODE_PRIVATE);
+
+        settingfont = Typeface.createFromAsset(getAssets(), "AvenirNextLTPro-Regular.otf");
+
+        pref=getSharedPreferences("lndlogin", Context.MODE_PRIVATE);
          options = new DisplayImageOptions.Builder()
                 .showImageOnLoading(R.drawable.loading_icon)
                 .showImageForEmptyUri(R.drawable.loading_icon)
@@ -75,7 +86,7 @@ public class ImageLoaderImage extends Application {
                 .cacheInMemory(true)
                 .cacheOnDisk(true) .imageScaleType(ImageScaleType.EXACTLY)
                 .considerExifParams(true)
-                .displayer(new FadeInBitmapDisplayer(200))
+
                 .build();
          options2 = new DisplayImageOptions.Builder()
                 .showImageOnLoading(R.drawable.empty_user2)
@@ -85,7 +96,7 @@ public class ImageLoaderImage extends Application {
                 .cacheOnDisk(true)
                 .considerExifParams(true)
                 .bitmapConfig(Bitmap.Config.RGB_565)
-                .displayer(new FadeInBitmapDisplayer(500))
+
                 .build();
         options3 = new DisplayImageOptions.Builder()
                 .showImageOnLoading(R.drawable.empty_user3)
@@ -95,7 +106,7 @@ public class ImageLoaderImage extends Application {
                 .cacheOnDisk(true)
                 .considerExifParams(true)
 
-                .displayer(new FadeInBitmapDisplayer(200))
+
                 .build();
 
         imageLoader=ImageLoader.getInstance();
@@ -264,14 +275,14 @@ public static void showValue(String country, TextView pricewas,TextView pricenow
     }
     else if(country.compareTo("italy")==0)
     {
-        pricewas.setText(ImageLoaderImage.showPriceInEuro(price_was, getExchangeRate("EURO")));
+        pricewas.setText(SingleTon.showPriceInEuro(price_was, getExchangeRate("EURO")));
 
-        pricenow.setText(ImageLoaderImage.showPriceInEuro(price_now, getExchangeRate("EURO")));
+        pricenow.setText(SingleTon.showPriceInEuro(price_now, getExchangeRate("EURO")));
 
     }
     else {
-       pricewas.setText(ImageLoaderImage.showPriceInUSD(price_was, getExchangeRate("USD")));
-        pricenow.setText(ImageLoaderImage.showPriceInUSD(price_now, getExchangeRate("USD")));
+       pricewas.setText(SingleTon.showPriceInUSD(price_was, getExchangeRate("USD")));
+        pricenow.setText(SingleTon.showPriceInUSD(price_now, getExchangeRate("USD")));
     }
 }
 
@@ -279,32 +290,32 @@ public static void showValue(String country, TextView pricewas,TextView pricenow
     {
         if(country.compareTo("united states")==0)
         {
-            pricenow.setText(ImageLoaderImage.showPriceInUSD(price_now, getExchangeRate("USD")));
+            pricenow.setText(SingleTon.showPriceInUSD(price_now, getExchangeRate("USD")));
         }
         else if(country.compareTo("canada")==0)
         {
-             pricenow.setText("C" + ImageLoaderImage.showPriceInCanada(price_now, getExchangeRate("CANADA")));
+             pricenow.setText("C" + SingleTon.showPriceInCanada(price_now, getExchangeRate("CANADA")));
 
         }
         else if(country.compareTo("england")==0)
         {
-           pricenow.setText(ImageLoaderImage.showPriceInPound(price_now, getExchangeRate("POUND")));
+           pricenow.setText(SingleTon.showPriceInPound(price_now, getExchangeRate("POUND")));
 
         }
         else if(country.compareTo("india")==0)
         {
-            pricenow.setText("Rs." + ImageLoaderImage.showPriceInRupee(price_now, getExchangeRate("RUPEE")));
+            pricenow.setText("Rs." + SingleTon.showPriceInRupee(price_now, getExchangeRate("RUPEE")));
 
         }
         else if(country.compareTo("italy")==0)
         {
-            pricenow.setText(ImageLoaderImage.showPriceInEuro(price_now, getExchangeRate("EURO")));
+            pricenow.setText(SingleTon.showPriceInEuro(price_now, getExchangeRate("EURO")));
 
         }
 
 
         else {
-          pricenow.setText(ImageLoaderImage.showPriceInUSD(price_now, getExchangeRate("USD")));
+          pricenow.setText(SingleTon.showPriceInUSD(price_now, getExchangeRate("USD")));
         }
     }
     public static String getCurrentTimeStamp() {

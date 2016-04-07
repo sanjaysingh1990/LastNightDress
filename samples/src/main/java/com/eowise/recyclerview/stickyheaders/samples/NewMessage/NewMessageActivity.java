@@ -17,7 +17,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.adapters.NewMessageAdapter;
 import com.eowise.recyclerview.stickyheaders.samples.data.MessageToFriendsData;
@@ -49,7 +49,7 @@ public class NewMessageActivity extends AppCompatActivity {
         //reference here
         heading= (TextView) findViewById(R.id.heading);
         //applying custom font
-        heading.setTypeface(ImageLoaderImage.hfont);
+        heading.setTypeface(SingleTon.hfont);
         getData();
 
     }
@@ -105,7 +105,7 @@ public class NewMessageActivity extends AppCompatActivity {
             protected Map<String,String> getParams(){
                 Map<String,String> params = new HashMap<String, String>();
                 params.put("rqid","4");
-                params.put("user_id", ImageLoaderImage.pref.getString("user_id",""));
+                params.put("user_id", SingleTon.pref.getString("user_id",""));
 
                 return params;
             }

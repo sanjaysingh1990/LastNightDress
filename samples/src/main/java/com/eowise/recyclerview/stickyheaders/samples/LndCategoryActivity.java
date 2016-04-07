@@ -42,11 +42,11 @@ public class LndCategoryActivity extends AppCompatActivity  {
 
 
         //appyling custom fonts
-        dresstext.setTypeface(ImageLoaderImage.robotoregular);
-        handbagstext.setTypeface(ImageLoaderImage.robotoregular);
-        shoestext.setTypeface(ImageLoaderImage.robotoregular);
-        jewellerytext.setTypeface(ImageLoaderImage.robotoregular);
-        mainpage.setTypeface(ImageLoaderImage.robotoregular);
+        dresstext.setTypeface(SingleTon.robotoregular);
+        handbagstext.setTypeface(SingleTon.robotoregular);
+        shoestext.setTypeface(SingleTon.robotoregular);
+        jewellerytext.setTypeface(SingleTon.robotoregular);
+        mainpage.setTypeface(SingleTon.robotoregular);
 //reference more
         ll= (LinearLayout) findViewById(R.id.ll);
 

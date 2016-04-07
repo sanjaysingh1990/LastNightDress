@@ -16,7 +16,7 @@
         android:layout_height="match_parent"
         android:src="@drawable/image1"
         android:id="@+id/image"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
         android:clickable="true"
         />
 

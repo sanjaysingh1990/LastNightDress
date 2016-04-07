@@ -95,7 +95,8 @@
             app:tabSelectedTextColor="@color/accent"
             app:tabIndicatorColor="@color/accent"
             app:tabIndicatorHeight="2dp"
-
+            app:tabMode="fixed"
+            app:tabGravity="fill"
             />
     </android.support.design.widget.AppBarLayout>
     <android.support.v4.view.ViewPager

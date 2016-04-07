@@ -34,7 +34,7 @@
             />
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        style="@style/headerline"
         android:background="#dadada"
         android:layout_gravity="bottom"
         />
@@ -165,7 +165,6 @@
                 android:textColor="#000000"
                 android:textSize="16sp"
 
-
                 />
             <View
                 android:layout_width="match_parent"
@@ -182,7 +181,10 @@
                 android:background="@null"
                 android:paddingLeft="10dp"
                 android:textColorHint="#dadada"
-                android:textColor="#000000"/>
+                android:textColor="#000000"
+                android:clickable="false"
+                android:editable="false"
+                />
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"

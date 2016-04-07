@@ -6,29 +6,27 @@ import com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage.Noti
 public  class ConcreteData2 extends AbstractDataProvider.Data {
 
     private final long mId;
-    private final String mText;
+    private final String uname;
+    private  String imageurl;
+    private  String profilepic;
+
     private final int mViewType;
     private boolean mPinned;
     private NotificationType notitype;
+    private NotificationData nd;
 
- public  ConcreteData2(long id, int viewType, String text, int swipeReaction,NotificationType notitype)
+ public  ConcreteData2(long id, int viewType, NotificationData nd, int swipeReaction,NotificationType notitype)
     {
         mId = id;
         mViewType = viewType;
-        mText = makeText(id, text, swipeReaction);
+        this.uname=nd.getUname();
+        this.imageurl=nd.getImgurl();
+        this.profilepic=nd.getProfilepicimg();
         this.notitype=notitype;
+        this.nd=nd;
     }
 
-    private static String makeText(long id, String text, int swipeReaction)
-    {
-        final StringBuilder sb = new StringBuilder();
 
-        sb.append(id);
-        sb.append(" - ");
-        sb.append(text);
-
-        return sb.toString();
-    }
 
     @Override
     public boolean isSectionHeader() {
@@ -49,12 +47,27 @@ public  class ConcreteData2 extends AbstractDataProvider.Data {
 
     @Override
     public String toString() {
-        return mText;
+        return uname;
     }
 
     @Override
-    public String getText() {
-        return mText;
+    public String getUname() {
+        return uname;
+    }
+
+    @Override
+    public String getProfilepic() {
+        return profilepic;
+    }
+
+    @Override
+    public String getImageurl() {
+        return imageurl;
+    }
+
+    @Override
+    public NotificationData getNotificationdata() {
+        return nd;
     }
 
     @Override

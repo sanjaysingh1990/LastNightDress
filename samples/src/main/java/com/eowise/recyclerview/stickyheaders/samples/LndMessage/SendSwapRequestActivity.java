@@ -24,7 +24,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.Home_List_Data;
 import com.eowise.recyclerview.stickyheaders.samples.adapters.MarginDecoration;
@@ -64,9 +64,9 @@ public class SendSwapRequestActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         ButterKnife.bind(this);
         //custom font
-        heading.setTypeface(ImageLoaderImage.hfont);
-        sendswapreq.setTypeface(ImageLoaderImage.unamefont);
-         if(ImageLoaderImage.pref.getBoolean("notshow",true))
+        heading.setTypeface(SingleTon.hfont);
+        sendswapreq.setTypeface(SingleTon.unamefont);
+         if(SingleTon.pref.getBoolean("notshow",true))
           showAlert();
         //events
         sendswapreq.setOnClickListener(new View.OnClickListener() {
@@ -99,7 +99,7 @@ public class SendSwapRequestActivity extends AppCompatActivity {
                     public void run() {
                         loadmore = true;
                         if (dataleft)
-                            getData(skipdata,swapreceiverid);
+                            getData(skipdata);
                         else {
 
                             shopdata.remove(shopdata.size() - 1);
@@ -119,46 +119,41 @@ public class SendSwapRequestActivity extends AppCompatActivity {
         if(extra!=null)
         {
             lndhome= (Home_List_Data) extra.get("data");
-            swapreceiverid=lndhome.getUname();
+            swapreceiverid=lndhome.getUserid();
 
         }
-        String uname=ImageLoaderImage.pref.getString("uname","uname");
+
         handler = new Handler();
-        getData(skipdata,uname);
+        getData(skipdata);
     }
     private String createJsonString( Map<String, ShopData> map)
     {
         ArrayList<String> postid=new ArrayList<>();
-        ArrayList<String> imageurl=new ArrayList<>();
+
        //read all the images
         for(Map.Entry<String, ShopData> entry: map.entrySet()) {
             //Log.e("values", entry.getKey() + " : " + entry.getValue());
 
             postid.add(entry.getValue().getPostid());
-            imageurl.add(entry.getValue().getImageurl());
+
 
         }
      try
      {
-         String swapsenderid=ImageLoaderImage.pref.getString("uname","user");
-         String profilepic=ImageLoaderImage.pref.getString("imageurl","http:\\");
+         String swapsenderid= SingleTon.pref.getString("user_id","");
 
          JSONArray jsArray = new JSONArray(postid);
-         JSONArray imgarray = new JSONArray(imageurl);
+
          JSONObject mainObj = new JSONObject();
 
          //swaping with item
-         mainObj.put("postimageurl",lndhome.getImageurls().get(0));
-         mainObj.put("postid",lndhome.getPost_id());
+          mainObj.put("postid",lndhome.getPost_id());
+          mainObj.put("swappostids", jsArray);
 
+         mainObj.put("swapsenderid",swapsenderid);
+         mainObj.put("swapreceiverid",swapreceiverid);
+         mainObj.put("date_time", SingleTon.getCurrentTimeStamp());
 
-         mainObj.put("swappostids", jsArray);
-         mainObj.put("swapimagesarray",imgarray);
-
-         mainObj.put("swapsendername",swapsenderid);
-         mainObj.put("swapreceivername",swapreceiverid);
-
-         mainObj.put("senderprofilepic",profilepic);
 
          return mainObj.toString();
      }
@@ -178,9 +173,9 @@ private void showAlert()
 
     TextView message= (TextView) view.findViewById(R.id.alertmessage);
     final CheckBox alertcbox= (CheckBox) view.findViewById(R.id.alertcheckBox);
-   title.setTypeface(ImageLoaderImage.unamefont);
-   message.setTypeface(ImageLoaderImage.normalfont);
-    alertcbox.setTypeface(ImageLoaderImage.normalfont);
+   title.setTypeface(SingleTon.unamefont);
+   message.setTypeface(SingleTon.normalfont);
+    alertcbox.setTypeface(SingleTon.normalfont);
 
     title.setText("My items");
     message.setText("To increase your chance for your\nrequest,select all the items you\nare willing to swap with for the\nselected product.");
@@ -194,7 +189,7 @@ private void showAlert()
             alert.dismiss();
             if(alertcbox.isChecked())
             {
-              SharedPreferences.Editor edit= ImageLoaderImage.pref.edit();
+              SharedPreferences.Editor edit= SingleTon.pref.edit();
                 edit.putBoolean("notshow",false);
                 edit.commit();
             }
@@ -213,7 +208,7 @@ private void showAlert()
         super.onBackPressed();
     }
 
-    public  void getData(final int dataskip,final String uname){
+    public  void getData(final int dataskip){
         final ProgressDialog pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");
         if(!loadmore)
@@ -234,7 +229,7 @@ private void showAlert()
                     adapter.setLoaded();
 
                 }
-                Log.e("response", response.toString());
+               // Log.e("response", response.toString());
 
                 try {
                     JSONObject jobj = new JSONObject(response.toString());
@@ -287,7 +282,7 @@ private void showAlert()
             protected Map<String,String> getParams(){
                 Map<String,String> params = new HashMap<String, String>();
                 params.put("rqid","13");
-                params.put("user_id",ImageLoaderImage.pref.getString("user_id",""));
+                params.put("user_id", SingleTon.pref.getString("user_id",""));
 
                 params.put("skipdata",dataskip+"");
 

@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 
 import android.widget.ImageView;
@@ -14,11 +13,12 @@ import android.widget.LinearLayout;
 
 import android.widget.TextView;
 
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
-import com.eowise.recyclerview.stickyheaders.samples.PostDataShop.DressPost;
-import com.eowise.recyclerview.stickyheaders.samples.PostDataShop.HandBagsPost;
-import com.eowise.recyclerview.stickyheaders.samples.PostDataShop.JewelleryPost;
-import com.eowise.recyclerview.stickyheaders.samples.PostDataShop.ShoesPost;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
+import com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost.CustomCamera;
+import com.eowise.recyclerview.stickyheaders.samples.PostDataShop.DressEditPost;
+import com.eowise.recyclerview.stickyheaders.samples.PostDataShop.HandBagsEditPost;
+import com.eowise.recyclerview.stickyheaders.samples.PostDataShop.JewelleryEditPost;
+import com.eowise.recyclerview.stickyheaders.samples.PostDataShop.ShoesEditPost;
 import com.eowise.recyclerview.stickyheaders.samples.PrivatePost.DressPostPrivate;
 import com.eowise.recyclerview.stickyheaders.samples.PrivatePost.HandBagsPostPrivate;
 import com.eowise.recyclerview.stickyheaders.samples.PrivatePost.JewelleryPostPrivate;
@@ -71,11 +71,11 @@ public class SelectCategoryActivity extends AppCompatActivity {
         //cancel image events
 
         //appyling custom fonts
-        dresstext.setTypeface(ImageLoaderImage.robotoregular);
-        handbagstext.setTypeface(ImageLoaderImage.robotoregular);
-        shoestext.setTypeface(ImageLoaderImage.robotoregular);
-        jewellerytext.setTypeface(ImageLoaderImage.robotoregular);
-        choosecateory.setTypeface(ImageLoaderImage.robotoregular);
+        dresstext.setTypeface(SingleTon.robotoregular);
+        handbagstext.setTypeface(SingleTon.robotoregular);
+        shoestext.setTypeface(SingleTon.robotoregular);
+        jewellerytext.setTypeface(SingleTon.robotoregular);
+        choosecateory.setTypeface(SingleTon.robotoregular);
 
 
         //device with and height
@@ -124,12 +124,11 @@ public class SelectCategoryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String utype = ImageLoaderImage.pref.getString("utype", "");
-                Log.e("utype", utype + "");
+                String utype = SingleTon.pref.getString("utype", "");
+                // Log.e("utype", utype + "");
                 if (posttext.getText().toString().compareToIgnoreCase("post dress") == 0) {
                     if (utype.compareToIgnoreCase("shop") == 0) {
-                        Intent intent = new Intent(SelectCategoryActivity.this, DressPost.class);
-
+                        Intent intent = new Intent(SelectCategoryActivity.this, DressEditPost.class);
                         startActivity(intent);
                     } else {
                         Intent intent = new Intent(SelectCategoryActivity.this, DressPostPrivate.class);
@@ -141,7 +140,7 @@ public class SelectCategoryActivity extends AppCompatActivity {
                 } else if (posttext.getText().toString().compareToIgnoreCase("post handbags") == 0) {
                     if (utype.compareToIgnoreCase("shop") == 0) {
 
-                        Intent intent = new Intent(SelectCategoryActivity.this, HandBagsPost.class);
+                        Intent intent = new Intent(SelectCategoryActivity.this, HandBagsEditPost.class);
 
                         startActivity(intent);
                     } else {
@@ -149,11 +148,11 @@ public class SelectCategoryActivity extends AppCompatActivity {
 
                         startActivity(intent);
 
-                   }
+                    }
                 } else if (posttext.getText().toString().compareToIgnoreCase("post shoes") == 0) {
                     if (utype.compareToIgnoreCase("shop") == 0) {
 
-                        Intent intent = new Intent(SelectCategoryActivity.this, ShoesPost.class);
+                        Intent intent = new Intent(SelectCategoryActivity.this, ShoesEditPost.class);
 
                         startActivity(intent);
                     } else {
@@ -165,16 +164,16 @@ public class SelectCategoryActivity extends AppCompatActivity {
                 } else if (posttext.getText().toString().compareToIgnoreCase("post jewellery") == 0) {
                     if (utype.compareToIgnoreCase("shop") == 0) {
 
-                        Intent intent = new Intent(SelectCategoryActivity.this, JewelleryPost.class);
+                        Intent intent = new Intent(SelectCategoryActivity.this, JewelleryEditPost.class);
 
                         startActivity(intent);
                     } else {
                         Intent intent = new Intent(SelectCategoryActivity.this, JewelleryPostPrivate.class);
                         startActivity(intent);
 
-                   }
+                    }
                 }
-
+                CustomCamera.act.finish();
                 finish();
             }
         });

@@ -35,7 +35,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost.CompressImage;
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.facebook.CallbackManager;
 import com.facebook.login.LoginManager;
@@ -89,17 +89,17 @@ public class ShopFragment extends Fragment {
         ButterKnife.bind(this, view);
      profileimage= (ImageView) view.findViewById(R.id.profileimg);
         //custom font
-        imgoptions.setTypeface(ImageLoaderImage.subheading);
-        companyname.setTypeface(ImageLoaderImage.mainfont);
-        address.setTypeface(ImageLoaderImage.mainfont);
-        city.setTypeface(ImageLoaderImage.mainfont);
-        posttalzip.setTypeface(ImageLoaderImage.mainfont);
+        imgoptions.setTypeface(SingleTon.subheading);
+        companyname.setTypeface(SingleTon.mainfont);
+        address.setTypeface(SingleTon.mainfont);
+        city.setTypeface(SingleTon.mainfont);
+        posttalzip.setTypeface(SingleTon.mainfont);
 
-        next.setTypeface(ImageLoaderImage.mainfont);
-        fullname.setTypeface(ImageLoaderImage.mainfont);
-        username.setTypeface(ImageLoaderImage.mainfont);
-        email.setTypeface(ImageLoaderImage.mainfont);
-        password.setTypeface(ImageLoaderImage.mainfont);
+        next.setTypeface(SingleTon.mainfont);
+        fullname.setTypeface(SingleTon.mainfont);
+        username.setTypeface(SingleTon.mainfont);
+        email.setTypeface(SingleTon.mainfont);
+        password.setTypeface(SingleTon.mainfont);
         //focus change listener
         username.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -434,7 +434,7 @@ public class ShopFragment extends Fragment {
             LndUserDescriptionFragment.jsonshop.put("address", address);
             LndUserDescriptionFragment.jsonshop.put("city",city);
             LndUserDescriptionFragment.jsonshop.put("zipcode", zipcode);
-            LndUserDescriptionFragment.jsonshop.put("country", country);
+            LndUserDescriptionFragment.jsonshop.put("country",this.country.getSelectedItemPosition());
 
 
             if(picfrom==2||picfrom==3||picfrom==1)
@@ -477,7 +477,7 @@ public class ShopFragment extends Fragment {
             String imgurl = "http://graph.facebook.com/" + object.getString("id") + "/picture?type=large";
             // Log.d("url", imgurl);
             //  Toast.makeText(getActivity(), imgurl, Toast.LENGTH_SHORT).show();
-            ImageLoaderImage.imageLoader.displayImage(imgurl, profileimage, ImageLoaderImage.options2, new ImageLoadingListener() {
+            SingleTon.imageLoader.displayImage(imgurl, profileimage, SingleTon.options2, new ImageLoadingListener() {
                 @Override
                 public void onLoadingStarted(String imageUri, View view) {
 

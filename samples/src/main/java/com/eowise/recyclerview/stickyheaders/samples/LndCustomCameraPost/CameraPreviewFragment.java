@@ -92,7 +92,7 @@ public class CameraPreviewFragment extends Fragment
     private ImageButton done;
     FrameLayout frame1, frame2, frame3, frame4;
     public static int flashMode;
-  public static  File pictureFile=null;
+    public static File pictureFile = null;
     public static byte[] imgdata;
     /**
      * Others section
@@ -134,7 +134,7 @@ public class CameraPreviewFragment extends Fragment
         @Override
         public void onPictureTaken(byte[] data, Camera camera) {
             // Pass True value to indicate choose Photo mode
-            imgdata=data;
+            imgdata = data;
             soundPool.play(shutterSound, 1f, 1f, 0, 0, 1);
             if (pictureFile == null) {
                 Log.i("", "Error creating media file, check storage permissions: ");
@@ -143,20 +143,20 @@ public class CameraPreviewFragment extends Fragment
 
 //            try {
 
-                // After take picture successfully,
-                //      - Need refresh Gallery to see new image
-                //      - Go to preview page to see taken picture
+            // After take picture successfully,
+            //      - Need refresh Gallery to see new image
+            //      - Go to preview page to see taken picture
 
-                // Refresh Gallery
-             //   CamUtils.addPictureToGallery(getActivity(), pictureFile.getAbsolutePath());
+            // Refresh Gallery
+            //   CamUtils.addPictureToGallery(getActivity(), pictureFile.getAbsolutePath());
 
-                // Go to Review page
-                ((FragmentActivity) getActivity())
-                        .getSupportFragmentManager().beginTransaction()
-                        .addToBackStack(null)
-                        .replace(R.id.fl_custom_camera,
-                                CameraReviewFragment.newInstance(pictureFile.getAbsolutePath()))
-                        .commitAllowingStateLoss();
+            // Go to Review page
+            ((FragmentActivity) getActivity())
+                    .getSupportFragmentManager().beginTransaction()
+                    .addToBackStack(null)
+                    .replace(R.id.fl_custom_camera,
+                            CameraReviewFragment.newInstance(pictureFile.getAbsolutePath()))
+                    .commitAllowingStateLoss();
 /*            } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -406,37 +406,35 @@ public class CameraPreviewFragment extends Fragment
     }
 
     public static void stopAndRelaseRecordingVideo() {
-       try {
-           if (CustomCamera.mMediaRecorder != null) {
-               // stop recording and release camera
-               // stop the recording
-               CustomCamera.mMediaRecorder.stop();
+        try {
+            if (CustomCamera.mMediaRecorder != null) {
+                // stop recording and release camera
+                // stop the recording
+                CustomCamera.mMediaRecorder.stop();
 
-               // release the MediaRecorder object
-               CustomCamera.releaseMediaRecorder();
-           }
+                // release the MediaRecorder object
+                CustomCamera.releaseMediaRecorder();
+            }
 
-           if (CustomCamera.mCamera != null) {
-               // take camera access back from MediaRecorder
-               CustomCamera.mCamera.lock();
+            if (CustomCamera.mCamera != null) {
+                // take camera access back from MediaRecorder
+                CustomCamera.mCamera.lock();
 
-               // inform the user that recording has stopped
-               IS_RECORDING_VIDEO = false;
+                // inform the user that recording has stopped
+                IS_RECORDING_VIDEO = false;
 
-               // Stop the preview before transfer to Review page
-               CustomCamera.mCamera.stopPreview();
+                // Stop the preview before transfer to Review page
+                CustomCamera.mCamera.stopPreview();
 
-               // After stop recording video, need reset time value
-               mCdt.cancel();
-               minute = 0;
-               second = 0;
-           }
-       }
-       catch(Exception ex)
-       {
-           
-       }
-       }
+                // After stop recording video, need reset time value
+                mCdt.cancel();
+                minute = 0;
+                second = 0;
+            }
+        } catch (Exception ex) {
+
+        }
+    }
 
     /**
      * Basic methods
@@ -555,7 +553,7 @@ public class CameraPreviewFragment extends Fragment
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-         pictureFile =
+        pictureFile =
                 getOutputMediaFile(getActivity(), true);
 
         // Define first time go to this page, reset after destroy thi page
@@ -694,11 +692,11 @@ public class CameraPreviewFragment extends Fragment
         gallery = (ImageView) v.findViewById(R.id.showimg);
 
         //calculate gallery imageview height and width
-        int galleryimghw=((heightwidth*50)/100);
+        int galleryimghw = ((heightwidth * 50) / 100);
         //setting galery image width and height
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(galleryimghw,galleryimghw);
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(galleryimghw, galleryimghw);
         layoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
-        layoutParams.setMargins(galleryimghw/2,0,0,0);
+        layoutParams.setMargins(galleryimghw / 2, 0, 0, 0);
         gallery.setLayoutParams(layoutParams);
 
         //gallery imagepic
@@ -740,15 +738,13 @@ public class CameraPreviewFragment extends Fragment
                         str = Camera.Parameters.FLASH_MODE_OFF;
                         break;
                 }
-try {
-    param.setFlashMode(str);
-    CustomCamera.mCamera.setParameters(param);
-    updateFlashButton(flashMode);
-}
-catch(Exception ex)
-{
+                try {
+                    param.setFlashMode(str);
+                    CustomCamera.mCamera.setParameters(param);
+                    updateFlashButton(flashMode);
+                } catch (Exception ex) {
 
-}
+                }
             }
         });
 //cancel1 events
@@ -802,7 +798,7 @@ catch(Exception ex)
 
         });
 //done button
-        done= (ImageButton) v.findViewById(R.id.done);
+        done = (ImageButton) v.findViewById(R.id.done);
         done.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -814,8 +810,8 @@ catch(Exception ex)
             }
         });
         //play sound
-         soundPool = new SoundPool(1, AudioManager.STREAM_NOTIFICATION, 0);
-         shutterSound = soundPool.load(getActivity(), R.raw.camera_shutter, 0);
+        soundPool = new SoundPool(1, AudioManager.STREAM_NOTIFICATION, 0);
+        shutterSound = soundPool.load(getActivity(), R.raw.camera_shutter, 0);
         new Myloader().execute();
     }
 
@@ -945,70 +941,66 @@ catch(Exception ex)
         updateImages();
 
     }
-    class DecondeFile extends AsyncTask<String, Void, Bitmap>
-    {
+
+    class DecondeFile extends AsyncTask<String, Void, Bitmap> {
         int pos;
 
-        public DecondeFile(int pos)
-        {
-            this.pos=pos;
+        public DecondeFile(int pos) {
+            this.pos = pos;
         }
 
 
         @Override
-        protected Bitmap doInBackground(String...urls) {
+        protected Bitmap doInBackground(String... urls) {
             return BitmapFactory.decodeFile(urls[0]);
 
         }
 
         @Override
         protected void onPostExecute(Bitmap bitmap) {
-       if(bitmap!=null)
-           setImage(bitmap, pos);
+            if (bitmap != null)
+                setImage(bitmap, pos);
 
         }
     }
 
-    class CompressGalleryPic extends AsyncTask<String, Void, Bitmap>
-    {
+    class CompressGalleryPic extends AsyncTask<String, Void, Bitmap> {
         int pos;
 
-        public CompressGalleryPic(int pos)
-        {
-            this.pos=pos;
+        public CompressGalleryPic(int pos) {
+            this.pos = pos;
         }
 
 
         @Override
-        protected Bitmap doInBackground(String...urls) {
-           try {
-               final File capturedImageFile = new File(getTempDirectoryPath(), System.currentTimeMillis() + ".jpg");
-               Bitmap bm = CompressImage.compressImage(urls[0]);
-               bm.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(capturedImageFile));
-              final String  url = capturedImageFile.getAbsolutePath().toString();
-               if (CameraReviewFragment.urls.get(pos+"") == null) {
-                   CameraData cd=new CameraData();
-                   cd.setFilename("lnd" + System.currentTimeMillis() + ".jpg");
-                   cd.setImageurl(url);
-                   CameraReviewFragment.urls.put(pos+"",cd);
-               }
-             return bm;
-           }
-           catch(Exception ex)
-           {
+        protected Bitmap doInBackground(String... urls) {
+            try {
+                final File capturedImageFile = new File(getTempDirectoryPath(), System.currentTimeMillis() + ".jpg");
+                Bitmap bm = CompressImage.compressImage(urls[0]);
+                bm.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(capturedImageFile));
+                final String url = capturedImageFile.getAbsolutePath().toString();
+                if (CameraReviewFragment.urls.get(pos + "") == null) {
+                    CameraData cd = new CameraData();
+                    cd.setFilename("lnd" + System.currentTimeMillis() + ".jpg");
+                    cd.setImageurl(url);
+                    CameraReviewFragment.urls.put(pos + "", cd);
+                }
+                return bm;
+            } catch (Exception ex) {
 
-           }
+            }
             return null;
 
         }
 
         @Override
         protected void onPostExecute(Bitmap bitmap) {
-            if(bitmap!=null)
+            if (bitmap != null)
                 setImage(bitmap, pos);
 
         }
     }
+
     private String getTempDirectoryPath() {
         File cache = null;
 
@@ -1026,25 +1018,26 @@ catch(Exception ex)
         cache.mkdirs();
         return cache.getAbsolutePath();
     }
-private void updateImages()
-{
-    updateFlashButton(flashMode);
-    if (CameraReviewFragment.urls.get("1") != null) {
-      new DecondeFile(1).execute(CameraReviewFragment.urls.get("1").getImageurl());
+
+    private void updateImages() {
+        updateFlashButton(flashMode);
+        if (CameraReviewFragment.urls.get("1") != null) {
+            new DecondeFile(1).execute(CameraReviewFragment.urls.get("1").getImageurl());
+
+        }
+        if (CameraReviewFragment.urls.get("2") != null) {
+            new DecondeFile(2).execute(CameraReviewFragment.urls.get("2").getImageurl());
+
+        }
+        if (CameraReviewFragment.urls.get("3") != null) {
+            new DecondeFile(3).execute(CameraReviewFragment.urls.get("3").getImageurl());
+        }
+        if (CameraReviewFragment.urls.get("4") != null) {
+            new DecondeFile(4).execute(CameraReviewFragment.urls.get("4").getImageurl());
+        }
 
     }
-    if (CameraReviewFragment.urls.get("2") != null) {
-        new DecondeFile(2).execute(CameraReviewFragment.urls.get("2").getImageurl());
 
-    }
-    if (CameraReviewFragment.urls.get("3") != null) {
-        new DecondeFile(3).execute(CameraReviewFragment.urls.get("3").getImageurl());
-    }
-    if (CameraReviewFragment.urls.get("4") != null) {
-        new DecondeFile(4).execute(CameraReviewFragment.urls.get("4").getImageurl());
-    }
-
-}
     private void setImage(Bitmap capturedImage, int pos) {
         if (pos == 1) {
             // filename.add(0, "lnd" + System.currentTimeMillis() + ".jpg");
@@ -1086,18 +1079,22 @@ private void updateImages()
 
         @Override
         protected Bitmap doInBackground(Void... voids) {
-            int count;
-            String path;
-            final String[] columns = {MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID};
-            final String orderBy = MediaStore.Images.Media._ID;
-            Cursor imagecursor = getActivity().managedQuery(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, columns, null, null, orderBy);
-            int image_column_index = imagecursor.getColumnIndex(MediaStore.Images.Media._ID);
-            count = imagecursor.getCount();
-            if (count > 0) {
-                imagecursor.moveToPosition(0);
-                int dataColumnIndex = imagecursor.getColumnIndex(MediaStore.Images.Media.DATA);
-                path = imagecursor.getString(dataColumnIndex);
-                return ImageConvertor.getRoundedCornerBitmap(CompressImage.compressImage(path), 25);
+            try {
+                int count;
+                String path;
+                final String[] columns = {MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID};
+                final String orderBy = MediaStore.Images.Media._ID;
+                Cursor imagecursor = getActivity().managedQuery(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, columns, null, null, orderBy);
+                int image_column_index = imagecursor.getColumnIndex(MediaStore.Images.Media._ID);
+                count = imagecursor.getCount();
+                if (count > 0) {
+                    imagecursor.moveToPosition(0);
+                    int dataColumnIndex = imagecursor.getColumnIndex(MediaStore.Images.Media.DATA);
+                    path = imagecursor.getString(dataColumnIndex);
+                    return ImageConvertor.getRoundedCornerBitmap(CompressImage.compressImage(path), 25);
+
+                }
+            } catch (Exception ex) {
 
             }
             return null;
@@ -1130,6 +1127,12 @@ private void updateImages()
                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                 String imgDecodableString = cursor.getString(columnIndex);
                 cursor.close();
+
+                // Set image bitmap
+                final File capturedImageFile = new File(getTempDirectoryPath(), System.currentTimeMillis() + ".jpg");
+                Bitmap bm = CompressImage.compressImage(imgDecodableString);
+                bm.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(capturedImageFile));
+                imgDecodableString = capturedImageFile.getAbsolutePath().toString();
                 //  gallery.setImageBitmap(bm);
                 if (CameraReviewFragment.urls.get("1") == null) {
                     new CompressGalleryPic(1).execute(imgDecodableString);

@@ -8,15 +8,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
-import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
-import android.text.style.ForegroundColorSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -27,7 +23,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -44,19 +39,26 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+
+import com.eowise.recyclerview.stickyheaders.samples.HashTagsFullView.LndBrandHashTagGridViewActivity;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.Likers.LikersActivity;
 import com.eowise.recyclerview.stickyheaders.samples.LndMessage.SendSwapRequestActivity;
 import com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage.TagSelectingTextview;
+import com.eowise.recyclerview.stickyheaders.samples.LndUserProfile.LndProfile;
 import com.eowise.recyclerview.stickyheaders.samples.Main_TabHost;
 import com.eowise.recyclerview.stickyheaders.samples.NewMessage.SendMessageActivity;
-import com.eowise.recyclerview.stickyheaders.samples.Purchase.PurchaseActivity;
+import com.eowise.recyclerview.stickyheaders.samples.PostDataShop.DressEditPost;
+import com.eowise.recyclerview.stickyheaders.samples.PostDataShop.HandBagsEditPost;
+import com.eowise.recyclerview.stickyheaders.samples.PostDataShop.JewelleryEditPost;
+import com.eowise.recyclerview.stickyheaders.samples.PostDataShop.ShoesEditPost;
 import com.eowise.recyclerview.stickyheaders.samples.Purchase.ShippingAddressActivity;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.SQLDB.FavoriteData;
 import com.eowise.recyclerview.stickyheaders.samples.UserProfile.OtherUserProfileActivity;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ConstantValues;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.RelativeTimeTextView;
 import com.eowise.recyclerview.stickyheaders.samples.adapters.SentToAdapter;
 import com.eowise.recyclerview.stickyheaders.samples.data.Chat_Banner_Data;
 import com.eowise.recyclerview.stickyheaders.samples.data.FollowersFollowingData;
@@ -81,13 +83,14 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private static final int VIEW_TYPE_HEADER = 0x01;
 
-    private static final int VIEW_TYPE_CONTENT_PRIVATE = 0x00;
-    private static final int VIEW_TYPE_CONTENT_SHOP = 0x02;
-    private static final int VIEW_TYPE_BLANK_SPACE = 0x03;
+    private static final int VIEW_TYPE_CONTENT_PRIVATE_OTHER = 0x00;
+    private static final int VIEW_TYPE_CONTENT_SHOP_OTHER = 0x02;
+    private static final int VIEW_TYPE_CONTENT_PRIVATE_USER = 0x03;
+    private static final int VIEW_TYPE_CONTENT_SHOP_USER = 0x04;
 
     private static final int LINEAR = 0;
 
-    private final ArrayList<Home_List_Data> mItems;
+    public final ArrayList<Home_List_Data> mItems;
 
     private int mHeaderDisplay;
 
@@ -100,9 +103,8 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private SentToAdapter mAdapter;
     private ProgressBar prog;
     private TextView showtext;
-    private ImageButton likebutton;
-    private Home_List_Data headerclass;
-    MyLike mylike;
+
+
     TagSelectingTextview mTagSelectingTextview;
     public static int hashTagHyperLinkEnabled = 1;
     public static int hashTagHyperLinkDisabled = 0;
@@ -131,86 +133,116 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public void clickedTag(CharSequence tag) {
-        Toast.makeText(mContext, "Clicked on " + tag, 1).show();
+        if (tag.toString().startsWith("#")) {
+            Intent hashtag = new Intent(mContext, LndBrandHashTagGridViewActivity.class);
+            hashtag.putExtra("hashtag", tag.toString().substring(1));
+            hashtag.putExtra("type", 1);
+
+            mContext.startActivity(hashtag);
+        } else if (tag.toString().startsWith("@")) {
+            Intent profile;
+            if (SingleTon.pref.getString("uname", "").compareToIgnoreCase(tag.toString().substring(1)) == 0) {
+                //  profile = new Intent(activity, LndProfile.class);
+                profile = new Intent(mContext, LndProfile.class);
+            } else {
+                profile = new Intent(mContext, OtherUserProfileActivity.class);
+                profile.putExtra("uname", tag.toString().substring(1));
+                profile.putExtra("user_id", SingleTon.lnduserid.get(tag.toString().substring(1)));
+
+            }
+            mContext.startActivity(profile);
+
+        } else {
+
+            Intent profile;
+            if (SingleTon.pref.getString("uname", "").compareToIgnoreCase(tag.toString()) == 0) {
+                profile = new Intent(mContext, LndProfile.class);
+            } else {
+                profile = new Intent(mContext, OtherUserProfileActivity.class);
+                profile.putExtra("uname", tag.toString());
+                profile.putExtra("user_id", SingleTon.lnduserid.get(tag.toString().toLowerCase()));
+
+            }
+            mContext.startActivity(profile);
+
+        }
     }
 
-    class MyLike implements OnClickListener {
-        TextView likescount;
-        String postid;
-        ImageButton likebutton;
 
-        public MyLike() {
+    private void postLiked(final int pos) {
 
-        }
+        Home_List_Data hld = mItems.get(pos);
+        final String postid = hld.getPost_id();
+        if (hld != null)
+            if (hld.getLikedvalue().compareTo("1") == 0)
+                hld.setLikedvalue(0 + "");
+            else
+                hld.setLikedvalue(1 + "");
+        notifyDataSetChanged();
+        RequestQueue queue = Volley.newRequestQueue(mContext);
+        StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/lndlikeunlike.php", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                //  Log.e("response", response.toString());
+                try {
 
-        public MyLike(ImageButton likebtn, String postid) {
-            this.postid = postid;
-            this.likebutton = likebtn;
-        }
-
-        public void setupView(TextView txt) {
-            likescount = txt;
-        }
-
-        @Override
-        public void onClick(View v) {
-            RequestQueue queue = Volley.newRequestQueue(mContext);
-            StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/lndlikeunlike.php", new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    //  Log.e("response", response.toString());
-                    try {
-
-                        JSONObject jobj = new JSONObject(response.toString());
-                        if (jobj.getBoolean("status")) {
-                            int val = jobj.getInt("value");
-                            if (val == 1) {
-                                String str = likescount.getText().toString();
-                                String numberOnly = str.replaceAll("[^0-9]", "");
-                                int value = Integer.parseInt(numberOnly);
-                                likescount.setText(value - 1 + " likes");
-                                likebutton.setImageResource(R.drawable.like_icon);
-                            } else {
-                                String str = likescount.getText().toString();
-                                String numberOnly = str.replaceAll("[^0-9]", "");
-
-                                int value = Integer.parseInt(numberOnly);
-                                likescount.setText(value + 1 + " likes");
-                                likebutton.setImageResource(R.drawable.liked_icon);
+                    JSONObject jobj = new JSONObject(response.toString());
+                    if (jobj.getBoolean("status")) {
+                        int val = jobj.getInt("value");
+                        if (val == 1) {
+                            Home_List_Data hld1 = mItems.get(pos);
+                            Home_List_Data hld2 = mItems.get(pos + 1);
+                            if (hld1.getLikestotal() != 0 && hld2.getLikestotal() != 0) {
+                                hld1.setLikestotal(hld1.getLikestotal() - 1);
+                                hld2.setLikestotal(hld2.getLikestotal() - 1);
 
                             }
+                            notifyDataSetChanged();
+                            //notifyItemChanged(pos);
+                            //notifyItemChanged(pos + 1);
+
+                        } else {
+                            Home_List_Data hld1 = mItems.get(pos);
+                            Home_List_Data hld2 = mItems.get(pos + 1);
+
+                            hld1.setLikestotal(hld1.getLikestotal() + 1);
+                            hld2.setLikestotal(hld2.getLikestotal() + 1);
+                            notifyDataSetChanged();
+                            //notifyItemChanged(pos);
+                            // notifyItemChanged(pos + 1);
                         }
-
-                    } catch (Exception ex) {
-                        Log.e("json parsing error", ex.getMessage());
                     }
+
+                } catch (Exception ex) {
+                    Log.e("json parsing error", ex.getMessage() + "");
                 }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    //showing snakebar here
-                }
-            }) {
-                @Override
-                protected Map<String, String> getParams() {
-                    Map<String, String> params = new HashMap<String, String>();
-                    params.put("user_id", ImageLoaderImage.pref.getString("user_id", ""));
-                    params.put("post_id", postid);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //showing snakebar here
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("user_id", SingleTon.pref.getString("user_id", ""));
+                params.put("post_id", postid);
+                params.put("date_time", SingleTon.getCurrentTimeStamp());
+                params.put("noti_type", 1 + "");
 
 
-                    return params;
-                }
+                return params;
+            }
 
-                @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    Map<String, String> params = new HashMap<String, String>();
-                    params.put("Content-Type", "application/x-www-form-urlencoded");
-                    return params;
-                }
-            };
-            queue.add(sr);
-        }
-
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                return params;
+            }
+        };
+        queue.add(sr);
     }
 
     @Override
@@ -221,16 +253,25 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     .inflate(R.layout.header_item, parent, false);
 
             return new HeaderHolder(view);
-        } else if (viewType == VIEW_TYPE_CONTENT_PRIVATE) {
+        } else if (viewType == VIEW_TYPE_CONTENT_PRIVATE_OTHER) {
 
             view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.product_private_item, parent, false);
             return new LndProductPrivateHolder(view, mContext);
-        } else {
+        } else if (viewType == VIEW_TYPE_CONTENT_SHOP_OTHER) {
             view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.product_shop_item, parent, false);
             return new LndProductShopHolder(view, mContext);
 
+        } else if (viewType == VIEW_TYPE_CONTENT_PRIVATE_USER) {
+
+            view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.list_item_user_private_post, parent, false);
+            return new LndProductPrivateUserHolder(view, mContext);
+        } else {
+            view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.list_item_user_shop_post, parent, false);
+            return new LndProductShopUserHolder(view, mContext);
         }
 
     }
@@ -243,25 +284,40 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         final View itemView = holder.itemView;
         switch (holder.getItemViewType()) {
             case VIEW_TYPE_HEADER:
-                headerclass = item;
+
                 HeaderHolder vh1 = (HeaderHolder) holder;
-                likebutton = vh1.likebtn;
-                mylike = new MyLike(vh1.likebtn, item.getPost_id());
+
+
                 vh1.uname.setText(Capitalize.capitalize(item.getUname()));
-                vh1.likebtn.setOnClickListener(mylike);
+                vh1.brandname.setText(Capitalize.capitalize(item.getBrandname()));
                 if (item.getLikedvalue().compareTo("1") == 0)
                     vh1.likebtn.setImageResource(R.drawable.liked_icon);
                 else
                     vh1.likebtn.setImageResource(R.drawable.like_icon);
 
+                if (item.getHeadertype() == 0)
+                    vh1.headertop.setVisibility(View.GONE);
+                else if (item.getHeadertype() == 1) {
+                    vh1.headertop.setVisibility(View.VISIBLE);
+                    vh1.activitydoneby.setText("Omid Fatahi");
+                    vh1.activitytype.setText("liked this.");
+                } else if (item.getHeadertype() == 2) {
+                    vh1.headertop.setVisibility(View.VISIBLE);
+                    vh1.activitydoneby.setText("Omid Fatahi");
+                    vh1.activitytype.setText("commented on this.");
+                } else if (item.getHeadertype() == 3) {
+                    vh1.headertop.setVisibility(View.VISIBLE);
+                    vh1.activitydoneby.setText("Omid Fatahi");
+                    vh1.activitytype.setText("was mentioned in this post.");
+                }
                 //setting profile pic
-                ImageLoaderImage.imageLoader.displayImage(item.getProfilepicurl(), vh1.profilepic, ImageLoaderImage.options3);
+                SingleTon.imageLoader.displayImage(item.getProfilepicurl(), vh1.profilepic, SingleTon.options3);
                 break;
-            case VIEW_TYPE_CONTENT_PRIVATE:
+            case VIEW_TYPE_CONTENT_PRIVATE_OTHER:
                 LndProductPrivateHolder vh2 = (LndProductPrivateHolder) holder;
 
 
-                String uname = item.getUname();
+                String uname = Capitalize.capitalizeFirstLetter(item.getUname());
                 //end here
                 vh2.description.setMovementMethod(LinkMovementMethod.getInstance());
                 vh2.description.setText(mTagSelectingTextview.addClickablePart(uname + " " + item.getDescription(),
@@ -269,7 +325,17 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         TextView.BufferType.SPANNABLE);
                 vh2.price_was.setText("$" + item.getPricewas());
                 vh2.price_now.setText("$" + item.getPricenow());
-                vh2.len.setText(Capitalize.capitalizeFirstLetter(item.getSize()));
+                vh2.time.setReferenceTime(item.getTime());
+                //bag size
+                try {
+                    int pos = Integer.parseInt(item.getSize());
+                    vh2.len.setText(ConstantValues.bagsize[pos]);
+
+                } catch (Exception ex) {
+
+                    vh2.len.setText((item.getSize().toUpperCase()));
+
+                }
                 vh2.likescount.setText(item.getLikestotal() + " likes");
                 //start
 
@@ -280,12 +346,21 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                 }
 
+                //for private dress color and private metal type
+                if (item.getCategory() == 1)
+                    vh2.color.setText(Capitalize.capitalizeFirstLetter(item.getColors()));
+                else if (item.getCategory() == 2)
+                    vh2.color.setText(Capitalize.capitalizeFirstLetter(item.getColors()));
+                else if (item.getCategory() == 3)
+                    vh2.color.setText(Capitalize.capitalizeFirstLetter(item.getColors()));
 
-                //end
-                vh2.color.setText(Capitalize.capitalizeFirstLetter(item.getColors()));
-                mylike.setupView(vh2.likescount);
+                else if (item.getCategory() == 4) {
+                    int pos = Integer.parseInt(item.getColors());
+                    vh2.color.setText(Capitalize.capitalizeFirstLetter(ConstantValues.metaltype[pos]));
+                }
+
                 try {
-                    vh2.hfl.setFeatureItems(headerclass, item, vh2.forward, vh2.backward, vh2.likescount, likebutton);
+                    vh2.hfl.setFeatureItems(vh2.forward, vh2.backward, position, this);
                     if (position == mItems.size() - 1) {
                         vh2.spaceview.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 100));
                         notifyDataSetChanged();
@@ -300,19 +375,24 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     @Override
                     public void onClick(View view) {
                         Intent likers = new Intent(mContext, LikersActivity.class);
-                        likers.putExtra("user_id", ImageLoaderImage.pref.getString("user_id", ""));
                         likers.putExtra("postid", item.getPost_id());
                         mContext.startActivity(likers);
                     }
                 });
-                //Log.e("like",item.getLikestotal()+"");
+                //check favorate
+                if (item.isfavorate())
+                    vh2.favorates.setImageResource(R.drawable.filled_favorate_icon);
+                else
+                    vh2.favorates.setImageResource(R.drawable.favorite_icon);
+
+
                 break;
-            case VIEW_TYPE_CONTENT_SHOP:
+            case VIEW_TYPE_CONTENT_SHOP_OTHER:
                 // Log.e("colors",item.getColors());
                 final LndProductShopHolder vh3 = (LndProductShopHolder) holder;
 
 
-                uname = item.getUname();
+                uname = Capitalize.capitalizeFirstLetter(item.getUname());
                 //end here
                 vh3.description.setMovementMethod(LinkMovementMethod.getInstance());
                 vh3.description.setText(mTagSelectingTextview.addClickablePart(uname + " " + item.getDescription(),
@@ -321,11 +401,11 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 vh3.price_was.setText("$" + item.getPricewas());
                 vh3.price_now.setText("$" + item.getPricenow());
                 vh3.likescount.setText(item.getLikestotal() + " likes");
+                vh3.time.setReferenceTime(item.getTime());
 
-                mylike.setupView(vh3.likescount);
 
                 try {
-                    vh3.hfl.setFeatureItems(headerclass, item, vh3.forward, vh3.backward, vh3.likescount, likebutton);
+                    vh3.hfl.setFeatureItems(vh3.forward, vh3.backward, position, this);
                     if (position == mItems.size() - 1) {
                         vh3.spaceview.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 100));
                     }
@@ -335,33 +415,239 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 } catch (Exception ex) {
 
                 }
-                vh3.size.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
+                //checking for single or multiple sizes
+                try {
+                    if (item.getSize().split(",").length == 1) {
+                        vh3.size.setText(Capitalize.capitalize(item.getSize()));
+                        vh3.size.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                        vh3.size.setClickable(false);
+                    } else {
+                        vh3.size.setClickable(true);
+                        vh3.size.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow, 0);
+                        vh3.size.setText("Size");
+                        vh3.size.setOnClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                popupWindow(item.getSize(), (TextView) view).showAsDropDown(view, -5, 0);
 
 
-                        popupWindow(item.getSize(), (TextView) view).showAsDropDown(view, -5, 0);
+                            }
+                        });
+
                     }
-                });
+                } catch (Exception ex) {
+
+                }
                 //likers view
                 vh3.likescount.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Intent likers = new Intent(mContext, LikersActivity.class);
-                        likers.putExtra("username", ImageLoaderImage.pref.getString("uname", ""));
+                        likers.putExtra("username", SingleTon.pref.getString("uname", ""));
                         likers.putExtra("postid", item.getPost_id());
                         mContext.startActivity(likers);
                     }
                 });
-                vh3.color.setOnClickListener(new OnClickListener() {
+
+                //for single or multiple colors
+                try {
+                    if (item.getColors().split(",").length == 1) {
+                        vh3.color.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                        //for private dress color and private metal type
+                        if (item.getCategory() == 1)
+                            vh3.color.setText(Capitalize.capitalizeFirstLetter(item.getColors()));
+                        else if (item.getCategory() == 2)
+                            vh3.color.setText(Capitalize.capitalizeFirstLetter(item.getColors()));
+                        else if (item.getCategory() == 3)
+                            vh3.color.setText(Capitalize.capitalizeFirstLetter(item.getColors()));
+
+                        else if (item.getCategory() == 4) {
+                            int pos = Integer.parseInt(item.getColors());
+                            vh3.color.setText(Capitalize.capitalizeFirstLetter(ConstantValues.metaltype[pos]));
+                        }
+                        vh3.color.setClickable(false);
+                    } else {
+                        vh3.color.setClickable(true);
+                        vh3.color.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow, 0);
+                        vh3.color.setText("Color  ");
+                        vh3.color.setOnClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                popupWindow2(item.getColors(), (TextView) view, item.getCategory()).showAsDropDown(view, -5, 0);
+
+
+                            }
+                        });
+                    }
+                } catch (Exception ex) {
+
+                }
+
+                //check favorate
+                if (item.isfavorate())
+                    vh3.favorates.setImageResource(R.drawable.filled_favorate_icon);
+                else
+                    vh3.favorates.setImageResource(R.drawable.favorite_icon);
+
+
+                break;
+
+            case VIEW_TYPE_CONTENT_PRIVATE_USER:
+                LndProductPrivateUserHolder vh4 = (LndProductPrivateUserHolder) holder;
+                uname = Capitalize.capitalizeFirstLetter(item.getUname());
+
+                //checking description for hashtag and usermention
+                vh4.description.setMovementMethod(LinkMovementMethod.getInstance());
+                vh4.description.setText(mTagSelectingTextview.addClickablePart(uname + " " + item.getDescription(),
+                                this, hashTagHyperLinkDisabled, hastTagColorBlue, uname.length()),
+                        TextView.BufferType.SPANNABLE);
+                //price was and price now
+                vh4.price_was.setText("$" + item.getPricewas());
+                vh4.price_now.setText("$" + item.getPricenow());
+
+                vh4.len.setText(item.getSize().toUpperCase());
+                vh4.likescount.setText(item.getLikestotal() + " likes");
+                vh4.condition.setText(item.getConditon());
+                vh4.color.setText(item.getColors());
+                vh4.time.setReferenceTime(item.getTime());
+
+                //for private dress color and private metal type
+                if (item.getCategory() == 1)
+                    vh4.color.setText(Capitalize.capitalizeFirstLetter(item.getColors()));
+                else if (item.getCategory() == 2)
+                    vh4.color.setText(Capitalize.capitalizeFirstLetter(item.getColors()));
+                else if (item.getCategory() == 3)
+                    vh4.color.setText(Capitalize.capitalizeFirstLetter(item.getColors()));
+
+                else if (item.getCategory() == 4) {
+                    int pos = Integer.parseInt(item.getColors());
+                    vh4.color.setText(Capitalize.capitalizeFirstLetter(ConstantValues.metaltype[pos]));
+                }
+
+                try {
+                    vh4.hfl.setFeatureItems(vh4.forward, vh4.backward, position, this);
+                    if (position == mItems.size() - 1) {
+                        vh4.spaceview.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 100));
+                        notifyDataSetChanged();
+                    }
+                    int pos = Integer.parseInt(item.getConditon());
+                    vh4.condition.setText(ConstantValues.condition[pos]);
+                } catch (Exception ex) {
+
+                }
+
+                //likers view
+                vh4.likescount.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        popupWindow2(item.getColors(), (TextView) view, item.getCategory()).showAsDropDown(view, -5, 0);
-
+                        Intent likers = new Intent(mContext, LikersActivity.class);
+                        likers.putExtra("user_id", SingleTon.pref.getString("user_id", ""));
+                        likers.putExtra("postid", item.getPost_id());
+                        mContext.startActivity(likers);
                     }
                 });
-                //Log.e("like", item.getLikestotal() + "");
+
+
                 break;
+            case VIEW_TYPE_CONTENT_SHOP_USER:
+                final LndProductShopUserHolder vh5 = (LndProductShopUserHolder) holder;
+                uname = Capitalize.capitalizeFirstLetter(item.getUname());
+                //checking description for hashtag and usermention
+                vh5.description.setMovementMethod(LinkMovementMethod.getInstance());
+                vh5.description.setText(mTagSelectingTextview.addClickablePart(uname + " " + item.getDescription(),
+                                this, hashTagHyperLinkDisabled, hastTagColorBlue, uname.length()),
+                        TextView.BufferType.SPANNABLE);
+
+                //price was and price now
+                vh5.price_was.setText("$" + item.getPricewas());
+                vh5.price_now.setText("$" + item.getPricenow());
+                vh5.likescount.setText(item.getLikestotal() + " likes");
+                vh5.time.setReferenceTime(item.getTime());
+
+                try {
+                    vh5.hfl.setFeatureItems(vh5.forward, vh5.backward, position, this);
+                    if (position == mItems.size() - 1) {
+
+                        vh5.spaceview.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 80));
+                    }
+                    int pos = Integer.parseInt(item.getConditon());
+                    vh5.condition.setText(ConstantValues.condition[pos]);
+
+                } catch (Exception ex) {
+
+                }
+                ///checking for single or multiple sizes
+                try {
+                    if (item.getSize().split(",").length == 1) {
+                        vh5.size.setText((item.getSize()).toUpperCase());
+                        vh5.size.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                        vh5.size.setClickable(false);
+                    } else {
+                        vh5.size.setClickable(true);
+                        vh5.size.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow, 0);
+                        vh5.size.setText("Size");
+                        vh5.size.setOnClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                popupWindow(item.getSize(), (TextView) view).showAsDropDown(view, -5, 0);
+
+
+                            }
+                        });
+
+                    }
+                } catch (Exception ex) {
+                    Log.e("error", ex.getMessage() + "");
+                }
+                //likers view
+                vh5.likescount.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent likers = new Intent(mContext, LikersActivity.class);
+                        likers.putExtra("username", SingleTon.pref.getString("uname", ""));
+                        likers.putExtra("postid", item.getPost_id());
+                        mContext.startActivity(likers);
+                    }
+                });
+
+
+                //for single or multiple colors
+                try {
+                    if (item.getColors().split(",").length == 1) {
+                        vh5.color.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                        //for private dress color and private metal type
+                        if (item.getCategory() == 1)
+                            vh5.color.setText(Capitalize.capitalizeFirstLetter(item.getColors()));
+                        else if (item.getCategory() == 2)
+                            vh5.color.setText(Capitalize.capitalizeFirstLetter(item.getColors()));
+                        else if (item.getCategory() == 3)
+                            vh5.color.setText(Capitalize.capitalizeFirstLetter(item.getColors()));
+
+                        else if (item.getCategory() == 4) {
+                            int pos = Integer.parseInt(item.getColors());
+                            vh5.color.setText(Capitalize.capitalizeFirstLetter(ConstantValues.metaltype[pos]));
+                        }
+                        vh5.color.setClickable(false);
+                    } else {
+                        vh5.color.setClickable(true);
+                        vh5.color.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow, 0);
+                        vh5.color.setText("Color  ");
+                        vh5.color.setOnClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                popupWindow2(item.getColors(), (TextView) view, item.getCategory()).showAsDropDown(view, -5, 0);
+
+
+                            }
+                        });
+                    }
+                } catch (Exception ex) {
+
+                }
+
+
+                break;
+
 
             default:
                 break;
@@ -415,7 +701,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return popupWindow;
     }
 
-    public PopupWindow popupWindow2(String sizes, TextView size, String category) {
+    public PopupWindow popupWindow2(String sizes, TextView size, int category) {
 
         // initialize a pop up window type
         PopupWindow popupWindow = new PopupWindow(mContext);
@@ -433,7 +719,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         popupWindow.setFocusable(true);
         // some other visual settings
         popupWindow.setFocusable(true);
-        if (category.compareTo("4") == 0)
+        if (category == 4)
             popupWindow.setWidth(250);
         else
             popupWindow.setWidth(170);
@@ -468,6 +754,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             fadeInAnimation.setDuration(10);
             v.startAnimation(fadeInAnimation);
             popupwindow.dismiss();
+
             try {
                 sizecolor.setText(Capitalize.capitalizeFirstLetter(ConstantValues.metaltype[Integer.parseInt(sizecolorvalues[pos])]));
 
@@ -475,8 +762,8 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 sizecolor.setText(Capitalize.capitalizeFirstLetter(sizecolorvalues[pos]));
 
             }
-            notifyDataSetChanged();
 
+            //notifyDataSetChanged();
 
         }
 
@@ -524,12 +811,19 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         if (lineItem.sectiontype.compareTo("header") == 0)
             return VIEW_TYPE_HEADER;
-        else {
-            if (lineItem.isprivate)
-                return VIEW_TYPE_CONTENT_PRIVATE;
-            else
-                return VIEW_TYPE_CONTENT_SHOP;
+        else if (lineItem.sectiontype.compareTo("contentotheruser") == 0) {
 
+            if (lineItem.isprivate)
+                return VIEW_TYPE_CONTENT_PRIVATE_OTHER;
+            else
+                return VIEW_TYPE_CONTENT_SHOP_OTHER;
+
+        } else {
+
+            if (lineItem.isprivate)
+                return VIEW_TYPE_CONTENT_PRIVATE_USER;
+            else
+                return VIEW_TYPE_CONTENT_SHOP_USER;
         }
 
     }
@@ -558,38 +852,6 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    public class MySize implements PopupMenu.OnMenuItemClickListener {
-        TextView size;
-
-        public MySize(TextView txt) {
-            size = txt;
-
-        }
-
-        @Override
-        public boolean onMenuItemClick(MenuItem menuItem) {
-            size.setText(menuItem.getTitle());
-            notifyDataSetChanged();
-            return false;
-        }
-    }
-
-    public class MyColor implements PopupMenu.OnMenuItemClickListener {
-        TextView color;
-
-        public MyColor(TextView txt) {
-
-            color = txt;
-
-        }
-
-        @Override
-        public boolean onMenuItemClick(MenuItem menuItem) {
-            color.setText(menuItem.getTitle());
-            notifyDataSetChanged();
-            return false;
-        }
-    }
 
     class HeaderHolder extends RecyclerView.ViewHolder implements OnClickListener {
 
@@ -597,7 +859,9 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public TextView brandname;
         public ImageView profilepic;
         public ImageButton likebtn;
-
+        public LinearLayout headertop;
+        public TextView activitydoneby;
+        public TextView activitytype;
 
         HeaderHolder(View view) {
             super(view);
@@ -606,18 +870,47 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             profilepic = (ImageView) view.findViewById(R.id.profilepic);
             likebtn = (ImageButton) view.findViewById(R.id.likesclick);
             //setting fonts
-            uname.setTypeface(ImageLoaderImage.robotomedium);
-            brandname.setTypeface(ImageLoaderImage.robotoregular);
+            uname.setTypeface(SingleTon.robotomedium);
+            brandname.setTypeface(SingleTon.robotoregular);
+            headertop = (LinearLayout) view.findViewById(R.id.headertop);
+            activitydoneby = (TextView) view.findViewById(R.id.activitydoneby);
+            activitytype = (TextView) view.findViewById(R.id.activitytype);
+
             uname.setOnClickListener(this);
+            likebtn.setOnClickListener(this);
+            activitydoneby.setOnClickListener(this);
         }
 
 
         @Override
 
         public void onClick(View view) {
-            Intent userprofile = new Intent(mContext, OtherUserProfileActivity.class);
-            userprofile.putExtra("uname", mItems.get(getAdapterPosition()).getUname() + "");
-            mContext.startActivity(userprofile);
+
+            switch (view.getId()) {
+                case R.id.uname:
+                    Intent profile;
+                    if (SingleTon.pref.getString("user_id", "").compareToIgnoreCase(mItems.get(getAdapterPosition()).getUserid()) == 0) {
+                        profile = new Intent(mContext, LndProfile.class);
+                    } else {
+                        profile = new Intent(mContext, OtherUserProfileActivity.class);
+                        profile.putExtra("uname", mItems.get(getAdapterPosition()).getUname());
+                        profile.putExtra("user_id", mItems.get(getAdapterPosition()).getUserid());
+                    }
+                    mContext.startActivity(profile);
+                    break;
+
+                case R.id.likesclick:
+                    postLiked(getAdapterPosition());
+                    break;
+                case R.id.activitydoneby:
+                    profile = new Intent(mContext, OtherUserProfileActivity.class);
+                    profile.putExtra("uname", ((TextView) view).getText().toString().trim());
+                    profile.putExtra("user_id", "-1");
+
+                    mContext.startActivity(profile);
+                    break;
+            }
+
         }
     }
 
@@ -636,7 +929,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public View spaceview;
         public TextView condition;
         public TextView comment;
-
+        public RelativeTimeTextView time;
         LndProductPrivateHolder(View view, Context context) {
             super(view);
             con = context;
@@ -645,7 +938,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             int height = displayMetrics.heightPixels;
             int width = displayMetrics.widthPixels;
-            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
 //setting margins around imageimageview
             params.height = (height * 70) / 100; //left, top, right, bottom
@@ -668,6 +961,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             backward = (ImageButton) view.findViewById(R.id.backward);
             spaceview = view.findViewById(R.id.space);
             comment = (TextView) itemView.findViewById(R.id.comment);
+            time = (RelativeTimeTextView) view.findViewById(R.id.time);
 
             //bind with listeners
             this.buy.setOnClickListener(this);
@@ -697,6 +991,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public TextView likescount;
         public TextView condition;
         public TextView comment;
+        public RelativeTimeTextView time;
         Context con;
         ImageButton forward, backward;
         public TextView size, color;
@@ -710,7 +1005,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             int height = displayMetrics.heightPixels;
             int width = displayMetrics.widthPixels;
-            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
 //setting margins around imageimageview
             params.height = (height * 70) / 100; //left, top, right, bottom
@@ -723,6 +1018,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             sendto = (ImageButton) view.findViewById(R.id.sendto);
             buy = (TextView) itemView.findViewById(R.id.buy);
             comment = (TextView) itemView.findViewById(R.id.comment);
+            time = (RelativeTimeTextView) view.findViewById(R.id.time);
 
             likescount = (TextView) view.findViewById(R.id.likescount);
             condition = (TextView) view.findViewById(R.id.condition);
@@ -755,19 +1051,171 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
+    class LndProductPrivateUserHolder extends RecyclerView.ViewHolder implements OnClickListener {
+
+        private TextView color;
+        public HomeImageSliderLayout hfl;
+        public EmojiconTextView description;
+        public TextView len;
+        public TextView price_was, price_now;
+        public ImageButton msgtouser, favorates, sendto;
+        private TextView edit, delete;
+        Context con;
+        ImageButton forward, backward;
+        public TextView likescount;
+        public View spaceview;
+        public TextView condition;
+        public LinearLayout ll;
+        public RelativeTimeTextView time;
+
+        LndProductPrivateUserHolder(View view, Context context) {
+            super(view);
+            con = context;
+            //setting height
+            DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+
+            int height = displayMetrics.heightPixels;
+            int width = displayMetrics.widthPixels;
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+
+//setting margins around imageimageview
+            params.height = (height * 70) / 100; //left, top, right, bottom
+            params.width = width;
+            description = (EmojiconTextView) view.findViewById(R.id.desc);
+            price_was = (TextView) view.findViewById(R.id.pricewas);
+            price_now = (TextView) view.findViewById(R.id.pricenow);
+            len = (TextView) view.findViewById(R.id.len);
+            msgtouser = (ImageButton) view.findViewById(R.id.messagetouser);
+            favorates = (ImageButton) view.findViewById(R.id.favorate);
+            sendto = (ImageButton) view.findViewById(R.id.sendto);
+            edit = (TextView) itemView.findViewById(R.id.edit);
+            delete = (TextView) itemView.findViewById(R.id.delete);
+            likescount = (TextView) view.findViewById(R.id.likescount);
+            condition = (TextView) view.findViewById(R.id.condition);
+            color = (TextView) view.findViewById(R.id.color);
+            time = (RelativeTimeTextView) view.findViewById(R.id.time);
+
+            hfl = (HomeImageSliderLayout) view.findViewById(R.id.switcher);
+            hfl.setLayoutParams(params);
+            forward = (ImageButton) view.findViewById(R.id.forward);
+            backward = (ImageButton) view.findViewById(R.id.backward);
+            spaceview = view.findViewById(R.id.space);
+
+            //hiding views for user
+            msgtouser.setVisibility(View.GONE);
+            favorates.setVisibility(View.GONE);
+
+            //bind with listeners
+            this.edit.setOnClickListener(this);
+            this.delete.setOnClickListener(this);
+            this.sendto.setOnClickListener(this);
+            this.msgtouser.setOnClickListener(this);
+            this.favorates.setOnClickListener(this);
+
+
+        }
+
+
+        @Override
+        public void onClick(View v) {
+            show(v, getAdapterPosition());
+        }
+
+    }
+
+    class LndProductShopUserHolder extends RecyclerView.ViewHolder implements OnClickListener {
+
+        private TextView sizetext, colortext;
+        public HomeImageSliderLayout hfl;
+        public EmojiconTextView description;
+        public TextView price_was, price_now;
+        public ImageButton msgtouser, favorates, sendto;
+        public TextView edit, delete;
+        public TextView likescount;
+        public RelativeTimeTextView time;
+
+        Context con;
+        ImageButton forward, backward;
+        public TextView size, color;
+        public View spaceview;
+        public TextView condition;
+
+        LndProductShopUserHolder(View view, Context context) {
+            super(view);
+            con = context;
+            //setting height
+            DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+
+            int height = displayMetrics.heightPixels;
+            int width = displayMetrics.widthPixels;
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+
+//setting margins around imageimageview
+            params.height = (height * 70) / 100; //left, top, right, bottom
+            params.width = width;
+            description = (EmojiconTextView) view.findViewById(R.id.desc);
+            price_was = (TextView) view.findViewById(R.id.pricewas);
+            price_now = (TextView) view.findViewById(R.id.pricenow);
+            msgtouser = (ImageButton) view.findViewById(R.id.messagetouser);
+            favorates = (ImageButton) view.findViewById(R.id.favorate);
+            sendto = (ImageButton) view.findViewById(R.id.sendto);
+            edit = (TextView) itemView.findViewById(R.id.edit);
+            delete = (TextView) itemView.findViewById(R.id.delete);
+            //size text and color text
+            time = (RelativeTimeTextView) view.findViewById(R.id.time);
+            likescount = (TextView) view.findViewById(R.id.likescount);
+            // pattern = (TextView) view.findViewById(R.id.pattern);
+            hfl = (HomeImageSliderLayout) view.findViewById(R.id.switcher);
+            hfl.setLayoutParams(params);
+            forward = (ImageButton) view.findViewById(R.id.forward);
+            backward = (ImageButton) view.findViewById(R.id.backward);
+            spaceview = view.findViewById(R.id.space);
+            size = (TextView) view.findViewById(R.id.size);
+            color = (TextView) view.findViewById(R.id.color);
+            condition = (TextView) view.findViewById(R.id.condition);
+
+            //hiding views for user
+            msgtouser.setVisibility(View.GONE);
+            favorates.setVisibility(View.GONE);
+
+            //bind with listeners
+            this.edit.setOnClickListener(this);
+            this.delete.setOnClickListener(this);
+            this.sendto.setOnClickListener(this);
+            this.msgtouser.setOnClickListener(this);
+            this.favorates.setOnClickListener(this);
+
+
+        }
+
+
+        @Override
+        public void onClick(View view) {
+            show(view, getAdapterPosition());
+        }
+    }
+
+    AlertDialog alert = null;
+
     private void show(View v, final int pos) {
+        View view = null;
+        Home_List_Data hld = null;
+        AlertDialog.Builder dialog = null;
+
         switch (v.getId()) {
+
+
             case R.id.buy:
                 Intent buy = new Intent(mContext, ShippingAddressActivity.class);
 
                 mContext.startActivity(buy);
                 break;
             case R.id.swap:
-                AlertDialog.Builder dialog1 = new AlertDialog.Builder(mContext);
-                View view = LayoutInflater.from(mContext).inflate(R.layout.swap_dialog_layout, null);
+                dialog = new AlertDialog.Builder(mContext);
+                view = LayoutInflater.from(mContext).inflate(R.layout.swap_dialog_layout, null);
 
-                dialog1.setView(view);
-                final AlertDialog alert = dialog1.create();
+                dialog.setView(view);
+                alert = dialog.create();
                 alert.show();
                 view.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -787,16 +1235,16 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 });
                 break;
             case R.id.comment:
-                AlertDialog.Builder dialog2 = new AlertDialog.Builder(mContext);
-                View view2 = LayoutInflater.from(mContext).inflate(R.layout.agent_comment_popup, null);
+                dialog = new AlertDialog.Builder(mContext);
+                view = LayoutInflater.from(mContext).inflate(R.layout.agent_comment_popup, null);
 
-                dialog2.setView(view2);
-                final AlertDialog alert2 = dialog2.create();
-                alert2.show();
-                view2.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
+                dialog.setView(view);
+                alert = dialog.create();
+                alert.show();
+                view.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        alert2.dismiss();
+                        alert.dismiss();
                     }
                 });
                     /*view2.findViewById(R.id.swapcontinue).setOnClickListener(new View.OnClickListener() {
@@ -815,19 +1263,19 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                 users.clear();
 
-                final Dialog dialog = new Dialog(mContext, R.style.DialogSlideAnim3);
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setTitle("Comments");
+                final Dialog sendtodialog = new Dialog(mContext, R.style.DialogSlideAnim3);
+                sendtodialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                sendtodialog.setTitle("Comments");
 
                 // dialog.getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#2c6290")));
-                dialog.setContentView(R.layout.sendtouser_dialog_layout);
-                prog = (ProgressBar) dialog.findViewById(R.id.progressBar);
-                usermessage = (EditText) dialog.findViewById(R.id.messagetext);
-                sendcancel = (TextView) dialog.findViewById(R.id.cancel);
-                showtext = (TextView) dialog.findViewById(R.id.showtext);
+                sendtodialog.setContentView(R.layout.sendtouser_dialog_layout);
+                prog = (ProgressBar) sendtodialog.findViewById(R.id.progressBar);
+                usermessage = (EditText) sendtodialog.findViewById(R.id.messagetext);
+                sendcancel = (TextView) sendtodialog.findViewById(R.id.cancel);
+                showtext = (TextView) sendtodialog.findViewById(R.id.showtext);
                 showtext.setVisibility(View.GONE);
 
-                RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.recyclerView);
+                RecyclerView recyclerView = (RecyclerView) sendtodialog.findViewById(R.id.recyclerView);
                 LinearLayoutManager layoutManager
                         = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
 
@@ -835,29 +1283,32 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 recyclerView.setLayoutManager(layoutManager);
                 mAdapter = new SentToAdapter(mContext, users);
                 recyclerView.setAdapter(mAdapter);
-                String userid = ImageLoaderImage.pref.getString("user_id", "");
+                String userid = SingleTon.pref.getString("user_id", "");
                 //to get all followers
                 getFollowers(userid);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                sendtodialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
                 // dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#ffffff")));
-                dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
-                dialog.show();
+                sendtodialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+                sendtodialog.show();
                 //cancel event
-                dialog.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
+                sendtodialog.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
                         if (sendcancel.getText().toString().compareToIgnoreCase("send") == 0 && usermessage.getText().length() == 0)
                             return;
-
+                        if (SentToAdapter.usersselected.size() == 0) {
+                            sendtodialog.dismiss();
+                            return;
+                        }
                         try {
                             JSONObject jobj = new JSONObject();
                             JSONArray dressArray = new JSONArray(SentToAdapter.usersselected.keySet());
                             jobj.put("userids", dressArray);
                             jobj.put("message", usermessage.getText() + "");
                             jobj.put("postid", mItems.get(pos).getPost_id());
-                            jobj.put("senderid",ImageLoaderImage.pref.getString("user_id",""));
-                            jobj.put("datetime", ImageLoaderImage.getCurrentTimeStamp());
+                            jobj.put("senderid", SingleTon.pref.getString("user_id", ""));
+                            jobj.put("datetime", SingleTon.getCurrentTimeStamp());
 
                             //Log.e("userid", jobj.toString());
 
@@ -865,14 +1316,14 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         } catch (Exception ex) {
 
                         }
+                        sendtodialog.dismiss();
 
-                        dialog.dismiss();
                     }
                 });
 
                 break;
             case R.id.messagetouser:
-                Home_List_Data hld = mItems.get(pos);
+                hld = mItems.get(pos);
                 Intent msgtofrnd = new Intent(mContext, SendMessageActivity.class);
                 msgtofrnd.putExtra("fromhome", true);
                 msgtofrnd.putExtra("uname", hld.getUname());
@@ -892,26 +1343,97 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                 break;
             case R.id.favorate:
-                FavoriteData fav = ImageLoaderImage.db.getContact(mItems.get(pos).getPost_id());
+                FavoriteData fav = SingleTon.db.getContact(mItems.get(pos).getPost_id());
                 if (fav == null) {
                     FavoriteData favdata = new FavoriteData();
                     Home_List_Data lndhome = mItems.get(pos);
                     favdata.setPostid(lndhome.getPost_id());
                     favdata.setCost(lndhome.getPricenow());
                     favdata.setImageurl(lndhome.getImageurls().get(0));
-                    ImageLoaderImage.db.addContact(favdata);
+                    SingleTon.db.addContact(favdata);
                     ((ImageButton) v).setImageResource(R.drawable.filled_favorate_icon);
                 } else {
                     Log.e("postid", fav.getPostid() + "");
-                    ImageLoaderImage.db.deleteContact(fav.getPostid());
+                    SingleTon.db.deleteContact(fav.getPostid());
                     ((ImageButton) v).setImageResource(R.drawable.favorite_icon);
 
                 }
                 break;
 
+
+            case R.id.edit:
+                hld = mItems.get(pos);
+                if (hld.getCategory() == 1) {
+                    Intent i = new Intent(mContext, DressEditPost.class);
+                    i.putExtra("data", mItems.get(pos));
+                    mContext.startActivity(i);
+                } else if (hld.getCategory() == 2) {
+                    Intent i = new Intent(mContext, HandBagsEditPost.class);
+                    i.putExtra("data", mItems.get(pos));
+                    mContext.startActivity(i);
+
+                } else if (hld.getCategory() == 3) {
+                    Intent i = new Intent(mContext, ShoesEditPost.class);
+                    i.putExtra("data", mItems.get(pos));
+                    mContext.startActivity(i);
+
+                } else if (hld.getCategory() == 4) {
+                    Intent i = new Intent(mContext, JewelleryEditPost.class);
+                    i.putExtra("data", mItems.get(pos));
+                    mContext.startActivity(i);
+
+                }
+                break;
+
+            case R.id.delete:
+                dialog = new AlertDialog.Builder(mContext);
+                view = LayoutInflater.from(mContext).inflate(R.layout.deletepost_dialog_layout, null);
+
+                dialog.setView(view);
+                final AlertDialog alert = dialog.create();
+                alert.show();
+                view.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alert.dismiss();
+                    }
+                });
+                view.findViewById(R.id.postdelete).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alert.dismiss();
+                        //   Log.e("uname", items.get(getAdapterPosition()).getUname());
+                        Home_List_Data lhd = mItems.get(pos);
+                        List<String> imageurls = lhd.getImageurls();
+                        JSONObject delobj = new JSONObject();
+                        try {
+                            delobj.put("image1", fileName(imageurls.get(0)));
+                            delobj.put("image2", fileName(imageurls.get(1)));
+                            delobj.put("image3", fileName(imageurls.get(2)));
+                            delobj.put("image4", fileName(imageurls.get(3)));
+                            delobj.put("postid", lhd.getPost_id());
+
+                            //deletePost(delobj.toString(), pos);
+
+                        } catch (Exception ex) {
+                            Log.e("delete error", ex.getMessage() + "");
+                        }
+
+                    }
+                });
+                break;
+
         }
     }
 
+    //to get file name from url of image
+    private String fileName(String filename) {
+        int index = filename.lastIndexOf("/");
+        if (index > 0)
+            return filename.substring(index + 1);
+        else
+            return "";
+    }
 
     public void getFollowers(final String userid) {
         prog.setVisibility(View.VISIBLE);
@@ -957,6 +1479,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("rqid", "1");
                 params.put("user_id", userid);
+                params.put("skipdata", 0 + "");
 
 
                 return params;
@@ -981,10 +1504,11 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             public void onResponse(String response) {
                 prog.setVisibility(View.GONE);
 
-                Log.e("follower", response.toString());
+                //  Log.e("follower", response.toString());
                 try {
                     JSONObject jobj = new JSONObject(response.toString());
                     if (jobj.getBoolean("status")) {
+                        SentToAdapter.usersselected.clear();
                         Toast.makeText(mContext, jobj.getString("message"), Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(mContext, jobj.getString("message"), Toast.LENGTH_SHORT).show();
@@ -1023,6 +1547,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         };
         queue.add(sr);
     }
+
 }
 
 

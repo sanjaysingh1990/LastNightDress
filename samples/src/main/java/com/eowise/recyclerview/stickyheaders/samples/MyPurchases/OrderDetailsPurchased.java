@@ -15,7 +15,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 
 public class OrderDetailsPurchased extends AppCompatActivity {
@@ -38,7 +38,7 @@ public class OrderDetailsPurchased extends AppCompatActivity {
         }
         else if(status.compareToIgnoreCase("delivered")==0)
         {
-            if(ImageLoaderImage.pref.getBoolean("rated",false))
+            if(SingleTon.pref.getBoolean("rated",false))
             setContentView(R.layout.purchases_editrating_layout);
             else
             setContentView(R.layout.purchases_delivered_layout);
@@ -90,7 +90,7 @@ public class OrderDetailsPurchased extends AppCompatActivity {
     }
        heading= (TextView) findViewById(R.id.heading);
        //applying fonts
-        heading.setTypeface(ImageLoaderImage.robotobold);
+        heading.setTypeface(SingleTon.robotobold);
 
     }
 

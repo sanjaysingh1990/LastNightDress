@@ -12,6 +12,15 @@ public class Chat_Banner_Data implements Serializable {
     private String size;
     private String pricenow;
 
+    public String getSellerid() {
+        return sellerid;
+    }
+
+    public void setSellerid(String sellerid) {
+        this.sellerid = sellerid;
+    }
+
+    private String sellerid;
     public String getBrand() {
         return brand;
     }

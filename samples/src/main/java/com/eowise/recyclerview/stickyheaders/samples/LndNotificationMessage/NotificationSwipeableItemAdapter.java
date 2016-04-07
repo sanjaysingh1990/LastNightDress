@@ -17,6 +17,7 @@
 package com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.view.ViewCompat;
@@ -32,12 +33,28 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.eowise.recyclerview.stickyheaders.samples.HashTagsFullView.LndBrandHashTagGridViewActivity;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
+import com.eowise.recyclerview.stickyheaders.samples.LndMessage.SwapRequestActivity;
+import com.eowise.recyclerview.stickyheaders.samples.LndUserProfile.LndProfile;
+import com.eowise.recyclerview.stickyheaders.samples.Main_TabHost;
+import com.eowise.recyclerview.stickyheaders.samples.NotificationFullPost;
 import com.eowise.recyclerview.stickyheaders.samples.Purchase.ShippingAddressActivity;
-import com.eowise.recyclerview.stickyheaders.samples.Purchase.SwapCheckOutActivity;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+import com.eowise.recyclerview.stickyheaders.samples.UserProfile.OtherUserProfileActivity;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.TimeAgo;
 import com.eowise.recyclerview.stickyheaders.samples.data.RecyclerHeaderViewHolder;
 import com.eowise.recyclerview.stickyheaders.samples.interfaces.TagClick;
 import com.h6ah4i.android.widget.advrecyclerview.swipeable.SwipeableItemAdapter;
@@ -47,6 +64,11 @@ import com.h6ah4i.android.widget.advrecyclerview.swipeable.action.SwipeResultAct
 import com.h6ah4i.android.widget.advrecyclerview.swipeable.action.SwipeResultActionRemoveItem;
 import com.h6ah4i.android.widget.advrecyclerview.utils.AbstractSwipeableItemViewHolder;
 
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
 
 class NotificationSwipeableItemAdapter
         extends RecyclerView.Adapter<RecyclerView.ViewHolder>
@@ -55,7 +77,7 @@ class NotificationSwipeableItemAdapter
     private static EventListener mEventListener;
     static Activity activity;
     // NOTE: Make accessible with short name
-    public static final int FOLLOWER = 1, SWAPREQUEST = 3, CHECKOUT = 4, DECLINED = 6, USERMETION = 7, PURCHASEDITEM = 8, POSTSHARED = 9, BLANK = 10;
+    public static final int FOLLOWER = 1, SWAPREQUEST = 2, CHECKOUT = 3, DECLINED = 4, USERMETION = 5, PURCHASEDITEM = 6, POSTSHARED = 7, BLANK = 8,USERACCEPTEDCHECKOUT=9;
     TagSelectingTextview mTagSelectingTextview;
     public static int hashTagHyperLinkEnabled = 1;
     public static int hashTagHyperLinkDisabled = 0;
@@ -63,7 +85,39 @@ class NotificationSwipeableItemAdapter
 
     @Override
     public void clickedTag(CharSequence tag) {
-        Toast.makeText(activity, "Clicked on " + tag, 1).show();
+        if (tag.toString().startsWith("#")) {
+            Intent hashtag = new Intent(activity, LndBrandHashTagGridViewActivity.class);
+            hashtag.putExtra("hashtag", tag.toString().substring(1));
+            hashtag.putExtra("type", 1);
+
+            activity.startActivity(hashtag);
+        } else if (tag.toString().startsWith("@")) {
+            Intent profile;
+            if (SingleTon.pref.getString("uname", "").compareToIgnoreCase(tag.toString().substring(1)) == 0) {
+                //  profile = new Intent(activity, LndProfile.class);
+                Main_TabHost.tabHost.setCurrentTab(4);
+            } else {
+                profile = new Intent(activity, OtherUserProfileActivity.class);
+                profile.putExtra("uname", tag.toString().substring(1));
+                profile.putExtra("user_id", "-1");
+                activity.startActivity(profile);
+            }
+
+
+        } else {
+
+            Intent profile;
+            if (SingleTon.pref.getString("uname", "").compareToIgnoreCase(tag.toString()) == 0) {
+                profile = new Intent(activity, LndProfile.class);
+            } else {
+                profile = new Intent(activity, OtherUserProfileActivity.class);
+                profile.putExtra("uname", tag.toString());
+                profile.putExtra("user_id", "-1");
+            }
+            activity.startActivity(profile);
+
+
+        }
     }
 
 
@@ -76,97 +130,21 @@ class NotificationSwipeableItemAdapter
 
     }
 
-    private AbstractDataProvider mProvider;
+    public AbstractDataProvider mProvider;
     private boolean mCanSwipeLeft;
 
-    public static class MyViewHolder extends AbstractSwipeableItemViewHolder {
+    public class MyViewHolder extends AbstractSwipeableItemViewHolder implements View.OnClickListener {
         public PagerSwipeItemFrameLayout mContainer;
         public TextView notiTextView;
+        public ImageView notiprofile, notiimage;
 
         public MyViewHolder(View v) {
             super(v);
             mContainer = (PagerSwipeItemFrameLayout) v.findViewById(R.id.container);
             notiTextView = (TextView) v.findViewById(R.id.notiinfotext);
-        }
-
-        @Override
-        public View getSwipeableContainerView() {
-            return mContainer;
-        }
-
-        @Override
-        public void onSlideAmountUpdated(float horizontalAmount, float verticalAmount, boolean isSwiping) {
-            float alpha = 1.0f - Math.min(Math.max(Math.abs(horizontalAmount), 0.0f), 1.0f);
-            ViewCompat.setAlpha(mContainer, alpha);
-        }
-    }
-
-    public static class Follower extends AbstractSwipeableItemViewHolder {
-        public PagerSwipeItemFrameLayout mContainer;
-        public TextView notiTextView;
-
-        public Follower(View v) {
-            super(v);
-            mContainer = (PagerSwipeItemFrameLayout) v.findViewById(R.id.container);
-            notiTextView = (TextView) v.findViewById(R.id.notiinfotext);
-        }
-
-        @Override
-        public View getSwipeableContainerView() {
-            return mContainer;
-        }
-
-        @Override
-        public void onSlideAmountUpdated(float horizontalAmount, float verticalAmount, boolean isSwiping) {
-            float alpha = 1.0f - Math.min(Math.max(Math.abs(horizontalAmount), 0.0f), 1.0f);
-            ViewCompat.setAlpha(mContainer, alpha);
-        }
-    }
-
-    public static class SwapRequest extends AbstractSwipeableItemViewHolder {
-        public PagerSwipeItemFrameLayout mContainer;
-        public TextView notiTextView;
-
-        public SwapRequest(View v) {
-            super(v);
-            mContainer = (PagerSwipeItemFrameLayout) v.findViewById(R.id.container);
-            notiTextView = (TextView) v.findViewById(R.id.notiinfotext);
-        }
-
-        @Override
-        public View getSwipeableContainerView() {
-            return mContainer;
-        }
-
-        @Override
-        public void onSlideAmountUpdated(float horizontalAmount, float verticalAmount, boolean isSwiping) {
-            float alpha = 1.0f - Math.min(Math.max(Math.abs(horizontalAmount), 0.0f), 1.0f);
-            ViewCompat.setAlpha(mContainer, alpha);
-        }
-    }
-
-    public static class Blank extends RecyclerHeaderViewHolder {
-
-
-        public Blank(View v) {
-            super(v);
-        }
-
-
-    }
-
-
-    public static class CheckOut extends AbstractSwipeableItemViewHolder implements View.OnClickListener {
-        public PagerSwipeItemFrameLayout mContainer;
-        public TextView notiTextView;
-        public TextView swapcheckout;
-
-        public CheckOut(View v) {
-            super(v);
-            mContainer = (PagerSwipeItemFrameLayout) v.findViewById(R.id.container);
-            notiTextView = (TextView) v.findViewById(R.id.notiinfotext);
-            swapcheckout = (TextView) v.findViewById(R.id.swapcheckout);
-            swapcheckout.setOnClickListener(this);
+            notiprofile = (ImageView) v.findViewById(R.id.notipropic);
+            notiimage = (ImageView) v.findViewById(R.id.notiimage);
+            notiimage.setOnClickListener(this);
         }
 
         @Override
@@ -182,10 +160,205 @@ class NotificationSwipeableItemAdapter
 
         @Override
         public void onClick(View view) {
-            Intent checkout = new Intent(activity, ShippingAddressActivity.class);
-            checkout.putExtra("data","buy");
-            activity.startActivity(checkout);
+            switch(view.getId())
+            {
+                case R.id.notiimage:
+                    Intent fullpost = new Intent(activity, NotificationFullPost.class);
+                    fullpost.putExtra("post_id", mProvider.getItem(getAdapterPosition()).getNotificationdata().getPostid());
+                    activity.startActivity(fullpost);
+                    break;
+
+            }
         }
+    }
+
+    public static class Follower extends AbstractSwipeableItemViewHolder {
+        public PagerSwipeItemFrameLayout mContainer;
+        public TextView notiTextView;
+        public ImageView notiprofile;
+
+        public Follower(View v) {
+            super(v);
+            mContainer = (PagerSwipeItemFrameLayout) v.findViewById(R.id.container);
+            notiTextView = (TextView) v.findViewById(R.id.notiinfotext);
+            notiprofile = (ImageView) v.findViewById(R.id.notipropic);
+
+        }
+
+        @Override
+        public View getSwipeableContainerView() {
+            return mContainer;
+        }
+
+        @Override
+        public void onSlideAmountUpdated(float horizontalAmount, float verticalAmount, boolean isSwiping) {
+            float alpha = 1.0f - Math.min(Math.max(Math.abs(horizontalAmount), 0.0f), 1.0f);
+            ViewCompat.setAlpha(mContainer, alpha);
+        }
+    }
+
+    public class SwapRequest extends AbstractSwipeableItemViewHolder implements View.OnClickListener {
+        public PagerSwipeItemFrameLayout mContainer;
+        public TextView notiTextView, swapcontinue, swapcancel;
+
+        public ImageView notiprofile, notiimage;
+
+        public SwapRequest(View v) {
+            super(v);
+            mContainer = (PagerSwipeItemFrameLayout) v.findViewById(R.id.container);
+            notiTextView = (TextView) v.findViewById(R.id.notiinfotext);
+            notiprofile = (ImageView) v.findViewById(R.id.notipropic);
+            notiimage = (ImageView) v.findViewById(R.id.notiimage);
+            swapcontinue = (TextView) v.findViewById(R.id.swapcontinue);
+            swapcancel = (TextView) v.findViewById(R.id.swapcancel);
+            swapcontinue.setOnClickListener(this);
+            swapcancel.setOnClickListener(this);
+            notiimage.setOnClickListener(this);
+        }
+
+        @Override
+        public View getSwipeableContainerView() {
+            return mContainer;
+        }
+
+        @Override
+        public void onSlideAmountUpdated(float horizontalAmount, float verticalAmount, boolean isSwiping) {
+            float alpha = 1.0f - Math.min(Math.max(Math.abs(horizontalAmount), 0.0f), 1.0f);
+            ViewCompat.setAlpha(mContainer, alpha);
+        }
+
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.swapcontinue:
+                    Intent swaprequestaccept = new Intent(activity, SwapRequestActivity.class);
+                    swaprequestaccept.putExtra("data", mProvider.getItem(getAdapterPosition()).getNotificationdata());
+                    swaprequestaccept.putExtra("pos", getAdapterPosition());
+                    Main_TabHost.activity.startActivityForResult(swaprequestaccept, 8);
+                    break;
+
+                case R.id.swapcancel:
+                    discardSwap(mProvider.getItem(getAdapterPosition()).getNotificationdata().getNotification_id(), getAdapterPosition());
+                    break;
+                case R.id.notiimage:
+                    Intent fullpost = new Intent(activity, NotificationFullPost.class);
+                    fullpost.putExtra("post_id", mProvider.getItem(getAdapterPosition()).getNotificationdata().getPostid());
+                    activity.startActivity(fullpost);
+                    break;
+            }
+
+        }
+    }
+
+    public static class Blank extends RecyclerHeaderViewHolder {
+
+
+        public Blank(View v) {
+            super(v);
+        }
+
+
+    }
+
+    public void discardSwap(final String notiid, final int pos) {
+        final ProgressDialog pDialog = new ProgressDialog(activity);
+        pDialog.setMessage("Loading...");
+        pDialog.show();
+
+
+        RequestQueue queue = Volley.newRequestQueue(activity);
+        StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/inboxope.php", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    pDialog.dismiss();
+                } catch (Exception ex) {
+
+                }
+
+                try {
+                    JSONObject jobj = new JSONObject(response.toString());
+                    if (jobj.getBoolean("status")) {
+                        NotificationFragment.notification.cancelSwap(pos);
+
+                        Toast.makeText(activity, jobj.getString("message"), Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(activity, jobj.getString("message"), Toast.LENGTH_LONG).show();
+                    }
+                } catch (Exception ex) {
+                    Log.e("json parsing error", ex.getMessage());
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                pDialog.dismiss();
+                Log.e("response", error.getMessage() + "");
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("rqid", "11");
+                params.put("noti_id", notiid);
+
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                return params;
+            }
+        };
+        queue.add(sr);
+    }
+
+    public  class CheckOut extends AbstractSwipeableItemViewHolder implements View.OnClickListener {
+        public PagerSwipeItemFrameLayout mContainer;
+        public TextView notiTextView;
+        public TextView swapcheckout;
+        public ImageView notiprofile, notiimage;
+
+        public CheckOut(View v) {
+            super(v);
+            mContainer = (PagerSwipeItemFrameLayout) v.findViewById(R.id.container);
+            notiTextView = (TextView) v.findViewById(R.id.notiinfotext);
+            swapcheckout = (TextView) v.findViewById(R.id.swapcheckout);
+            notiprofile = (ImageView) v.findViewById(R.id.notipropic);
+            notiimage = (ImageView) v.findViewById(R.id.notiimage);
+            swapcheckout.setOnClickListener(this);
+            notiimage.setOnClickListener(this);
+        }
+
+        @Override
+        public View getSwipeableContainerView() {
+            return mContainer;
+        }
+
+        @Override
+        public void onSlideAmountUpdated(float horizontalAmount, float verticalAmount, boolean isSwiping) {
+            float alpha = 1.0f - Math.min(Math.max(Math.abs(horizontalAmount), 0.0f), 1.0f);
+            ViewCompat.setAlpha(mContainer, alpha);
+        }
+
+        @Override
+        public void onClick(View view) {
+           switch(view.getId()) {
+               case R.id.swapcheckout:
+               Intent checkout = new Intent(activity, ShippingAddressActivity.class);
+               checkout.putExtra("data", "buy");
+               activity.startActivity(checkout);
+               break;
+               case R.id.notiimage:
+                   Intent fullpost = new Intent(activity, NotificationFullPost.class);
+                   fullpost.putExtra("post_id", mProvider.getItem(getAdapterPosition()).getNotificationdata().getPostid());
+                   activity.startActivity(fullpost);
+                   break;
+
+           }
+           }
     }
 
 
@@ -213,7 +386,7 @@ class NotificationSwipeableItemAdapter
         } else if (mProvider.getItem(position).getnotiType() == NotificationType.CHECKOUT) {
             return CHECKOUT;
 
-        }  else if (mProvider.getItem(position).getnotiType() == NotificationType.DECNIED) {
+        } else if (mProvider.getItem(position).getnotiType() == NotificationType.DECNIED) {
             return DECLINED;
         } else if (mProvider.getItem(position).getnotiType() == NotificationType.USERMENTION) {
             return USERMETION;
@@ -223,6 +396,9 @@ class NotificationSwipeableItemAdapter
             return POSTSHARED;
         } else if (mProvider.getItem(position).getnotiType() == NotificationType.BLANK) {
             return BLANK;
+        }
+        else if (mProvider.getItem(position).getnotiType() == NotificationType.USERACCEPTEDCHECKOUT) {
+            return USERACCEPTEDCHECKOUT;
         }
         return -1;
 
@@ -266,7 +442,11 @@ class NotificationSwipeableItemAdapter
             case BLANK:
                 final View blank = inflater.inflate(R.layout.blank_view_bottom, parent, false);
                 viewHolder = new Blank(blank);
-
+                break;
+            case USERACCEPTEDCHECKOUT:
+                final View checkout2 = inflater.inflate(R.layout.list_item_swapcheckout, parent, false);
+                viewHolder = new CheckOut(checkout2);
+                break;
 
         }
         return viewHolder;
@@ -280,7 +460,7 @@ class NotificationSwipeableItemAdapter
 
 
             case DECLINED:
-                setSpannableText("Cindy Lowe ", "declined your swap request. ", " 2m", ((MyViewHolder) holder).notiTextView);
+                setSpannableText("Cindy Lowe ", "declined your swap request. ", " "+new TimeAgo(activity).timeAgo(item.getNotificationdata().getTime()), ((MyViewHolder) holder).notiTextView);
 
                 ((MyViewHolder) holder).mContainer.setCanSwipeLeft(mCanSwipeLeft);
                 ((MyViewHolder) holder).mContainer.setCanSwipeRight(!mCanSwipeLeft);
@@ -288,38 +468,49 @@ class NotificationSwipeableItemAdapter
 
             case USERMETION:
                 //setSpannableText("Cindy Lowe ", "mentioned you in a post. @Jakie @Oliva i know you always wanted this #beautiful and #nice #dress.  ", " 2m", ((MyViewHolder) holder).notiTextView);
-                String uname = "Cindy Lowe ";
-
+                String uname = Capitalize.capitalizeFirstLetter(item.getUname());
+                String time=new TimeAgo(activity).timeAgo(item.getNotificationdata().getTime());
 
                 ((MyViewHolder) holder).notiTextView.setMovementMethod(LinkMovementMethod.getInstance());
                 ((MyViewHolder) holder).notiTextView.setTextColor(Color.parseColor("#000000"));
-                ((MyViewHolder) holder).notiTextView.setText(mTagSelectingTextview.addClickablePart(uname + " mentioned you in a post. @Jakie @Oliva i know you always wanted this #beautiful and #nice #dress",
-                                this, hashTagHyperLinkDisabled, hastTagColorBlue, uname.length()),
+
+                ((MyViewHolder) holder).notiTextView.setText(mTagSelectingTextview.addClickablePart(uname + " mentioned you in a post. "+item.getNotificationdata().getMessage()+" "+time,
+                                this, hashTagHyperLinkDisabled, hastTagColorBlue, uname.length(),time.length()),
                         TextView.BufferType.SPANNABLE);
+                SingleTon.imageLoader.displayImage(item.getImageurl(), ((MyViewHolder) holder).notiimage, SingleTon.options);
+                SingleTon.imageLoader.displayImage(item.getProfilepic(), ((MyViewHolder) holder).notiprofile, SingleTon.options2);
+
 
                 ((MyViewHolder) holder).mContainer.setCanSwipeLeft(mCanSwipeLeft);
                 ((MyViewHolder) holder).mContainer.setCanSwipeRight(!mCanSwipeLeft);
                 break;
             case PURCHASEDITEM:
-                setSpannableText("Cindy Lowe ", "shared this post with you: Hey, check this out i think this is perfect for you.  ", " 1w", ((MyViewHolder) holder).notiTextView);
+                ((MyViewHolder) holder).notiTextView.setMaxLines(42);
+                setSpannableText("Cindy Lowe ", "purchased your item, mail it now."," "+new TimeAgo(activity).timeAgo(item.getNotificationdata().getTime()), ((MyViewHolder) holder).notiTextView);
+
 
                 ((MyViewHolder) holder).mContainer.setCanSwipeLeft(mCanSwipeLeft);
                 ((MyViewHolder) holder).mContainer.setCanSwipeRight(!mCanSwipeLeft);
                 break;
 
             case POSTSHARED:
-                setSpannableText("Cindy Lowe ", "purchased your item, mail it now.  ", " 1w", ((MyViewHolder) holder).notiTextView);
+                setSpannableText(Capitalize.capitalizeFirstLetter(item.getUname()), " shared this post with you: "+item.getNotificationdata().getMessage()," "+new TimeAgo(activity).timeAgo(item.getNotificationdata().getTime()), ((MyViewHolder) holder).notiTextView);
+                SingleTon.imageLoader.displayImage(item.getImageurl(), ((MyViewHolder) holder).notiimage, SingleTon.options);
+                SingleTon.imageLoader.displayImage(item.getProfilepic(), ((MyViewHolder) holder).notiprofile, SingleTon.options2);
 
                 ((MyViewHolder) holder).mContainer.setCanSwipeLeft(mCanSwipeLeft);
                 ((MyViewHolder) holder).mContainer.setCanSwipeRight(!mCanSwipeLeft);
                 break;
             case FOLLOWER:
-                setSpannableText("Cindy Lowe ", "started following you. ", " 2m", ((Follower) holder).notiTextView);
+                setSpannableText(item.getUname(), " started following you. "," "+new TimeAgo(activity).timeAgo(item.getNotificationdata().getTime()), ((Follower) holder).notiTextView);
+                SingleTon.imageLoader.displayImage(item.getProfilepic(), ((Follower) holder).notiprofile, SingleTon.options2);
                 ((Follower) holder).mContainer.setCanSwipeLeft(mCanSwipeLeft);
                 ((Follower) holder).mContainer.setCanSwipeRight(!mCanSwipeLeft);
                 break;
             case SWAPREQUEST:
-                setSpannableText2("Cindy Lowe ", "requested a   ", " 2m", ((SwapRequest) holder).notiTextView);
+                setSpannableText2(Capitalize.capitalizeFirstLetter(item.getUname()), " requested a "," "+new TimeAgo(activity).timeAgo(item.getNotificationdata().getTime()), ((SwapRequest) holder).notiTextView);
+                SingleTon.imageLoader.displayImage(item.getImageurl(), ((SwapRequest) holder).notiimage, SingleTon.options);
+                SingleTon.imageLoader.displayImage(item.getProfilepic(), ((SwapRequest) holder).notiprofile, SingleTon.options2);
 
                 ((SwapRequest) holder).mContainer.setCanSwipeLeft(mCanSwipeLeft);
                 ((SwapRequest) holder).mContainer.setCanSwipeRight(!mCanSwipeLeft);
@@ -327,10 +518,24 @@ class NotificationSwipeableItemAdapter
 
             case CHECKOUT:
 
-                setSpannableText("Cindy Lowe ", "accepted swap request.  ", " 2m", ((CheckOut) holder).notiTextView);
+                setSpannableText(Capitalize.capitalizeFirstLetter(item.getUname()), " accepted swap request.  ", " "+new TimeAgo(activity).timeAgo(item.getNotificationdata().getTime()), ((CheckOut) holder).notiTextView);
+
+                SingleTon.imageLoader.displayImage(item.getImageurl(), ((CheckOut) holder).notiimage, SingleTon.options);
+                SingleTon.imageLoader.displayImage(item.getProfilepic(), ((CheckOut) holder).notiprofile, SingleTon.options2);
+
                 ((CheckOut) holder).mContainer.setCanSwipeLeft(mCanSwipeLeft);
                 ((CheckOut) holder).mContainer.setCanSwipeRight(!mCanSwipeLeft);
+                break;
+            case USERACCEPTEDCHECKOUT:
 
+                setSpannableText2(Capitalize.capitalizeFirstLetter(item.getUname()), " requested a "," "+new TimeAgo(activity).timeAgo(item.getNotificationdata().getTime()), ((CheckOut) holder).notiTextView);
+
+                SingleTon.imageLoader.displayImage(item.getImageurl(), ((CheckOut) holder).notiimage, SingleTon.options);
+                SingleTon.imageLoader.displayImage(item.getProfilepic(), ((CheckOut) holder).notiprofile, SingleTon.options2);
+
+                ((CheckOut) holder).mContainer.setCanSwipeLeft(mCanSwipeLeft);
+                ((CheckOut) holder).mContainer.setCanSwipeRight(!mCanSwipeLeft);
+                break;
         }
         //  holder.mTextView.setText(item.getText());
     }
@@ -344,7 +549,15 @@ class NotificationSwipeableItemAdapter
 
         @Override
         public void onClick(View widget) {
-            Toast.makeText(activity, "clicked" + uname, Toast.LENGTH_SHORT).show();
+            Intent profile;
+            if (SingleTon.pref.getString("uname", "").compareToIgnoreCase(uname) == 0) {
+                profile = new Intent(activity, LndProfile.class);
+            } else {
+                profile = new Intent(activity, OtherUserProfileActivity.class);
+                profile.putExtra("uname", uname);
+                profile.putExtra("user_id", "-1");
+            }
+            activity.startActivity(profile);
         }
 
         @Override
@@ -420,7 +633,7 @@ class NotificationSwipeableItemAdapter
         else if (holder instanceof CheckOut)
             ViewCompat.setAlpha(((CheckOut) holder).mContainer, 1.0f);
         //else
-          //  ViewCompat.setAlpha(((Bl) holder).mContainer, 1.0f);
+        //  ViewCompat.setAlpha(((Bl) holder).mContainer, 1.0f);
 
 
     }

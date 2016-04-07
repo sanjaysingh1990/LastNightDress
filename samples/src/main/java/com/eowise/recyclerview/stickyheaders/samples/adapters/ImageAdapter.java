@@ -2,13 +2,10 @@ package com.eowise.recyclerview.stickyheaders.samples.adapters;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,11 +15,8 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +53,7 @@ public class ImageAdapter extends PagerAdapter {
                 false);
         ImageView imgDisplay = (ImageView) viewLayout.findViewById(R.id.touchimage);
 
-        ImageLoaderImage.imageLoader.displayImage(GalImages.get(position), imgDisplay, ImageLoaderImage.options);
+        SingleTon.imageLoader.displayImage(GalImages.get(position), imgDisplay, SingleTon.options);
                 ((ViewPager) container).addView(viewLayout, 0);
        imgDisplay.setOnClickListener(new MyEvent(position));
         return viewLayout;

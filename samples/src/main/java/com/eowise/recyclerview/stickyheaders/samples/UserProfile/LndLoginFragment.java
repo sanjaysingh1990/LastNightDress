@@ -1,23 +1,16 @@
 package com.eowise.recyclerview.stickyheaders.samples.UserProfile;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -27,15 +20,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.Loading.AVLoadingIndicatorView;
 import com.eowise.recyclerview.stickyheaders.samples.Main_TabHost;
 import com.eowise.recyclerview.stickyheaders.samples.R;
-import com.eowise.recyclerview.stickyheaders.samples.SoftKeyboard;
 import com.facebook.login.LoginManager;
 
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -74,11 +65,11 @@ public class LndLoginFragment extends Fragment implements View.OnClickListener {
         fbsignup.setOnClickListener(this);
         resetpass.setOnClickListener(this);
         //applying fonts
-        heading.setTypeface(ImageLoaderImage.appfont);
-        loginbutton.setTypeface(ImageLoaderImage.subheading);
-        resetpass.setTypeface(ImageLoaderImage.subheading);
-        fbsignup.setTypeface(ImageLoaderImage.subheading);
-        signup.setTypeface(ImageLoaderImage.mainfont);
+        heading.setTypeface(SingleTon.appfont);
+        loginbutton.setTypeface(SingleTon.subheading);
+        resetpass.setTypeface(SingleTon.subheading);
+        fbsignup.setTypeface(SingleTon.subheading);
+        signup.setTypeface(SingleTon.mainfont);
         return view;
     }
 
@@ -137,7 +128,7 @@ public class LndLoginFragment extends Fragment implements View.OnClickListener {
 
                     JSONObject jobj = new JSONObject(response.toString());
                     if (jobj.getBoolean("status")) {
-                        SharedPreferences.Editor edit = ImageLoaderImage.pref.edit();
+                        SharedPreferences.Editor edit = SingleTon.pref.edit();
                         edit.putString("uname", jobj.getString("uname"));
                         edit.putString("user_id", jobj.getString("user_id"));
                         edit.putString("utype", jobj.getString("utype"));
@@ -164,6 +155,7 @@ public class LndLoginFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onErrorResponse(VolleyError error) {
                 loader.setVisibility(View.GONE);
+                loginbutton.setText("Log in");
                 //   Log.e("response",error.getMessage()+"");
             }
         }) {

@@ -1,9 +1,7 @@
 package com.eowise.recyclerview.stickyheaders.samples.MoreInfo;
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -20,17 +17,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.Loading.AVLoadingIndicatorView;
 import com.eowise.recyclerview.stickyheaders.samples.R;
-import com.eowise.recyclerview.stickyheaders.samples.UserProfile.LndRegistrationActivity;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -61,49 +54,11 @@ public class UserNameFragment extends Fragment implements View.OnClickListener {
         }
 
         //setting facebook profile  image
-        ImageLoaderImage.imageLoader.displayImage(imageurl, profilepic, ImageLoaderImage.options2, new ImageLoadingListener() {
-            @Override
-            public void onLoadingStarted(String imageUri, View view) {
-
-            }
-
-            @Override
-            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-
-            }
-
-            @Override
-            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                try {
-
-                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                // Must compress the Image to reduce image size to make upload easy
-                loadedImage.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                byte[] byte_arr = stream.toByteArray();
-                // Encode Image to String
-                imageurl = Base64.encodeToString(byte_arr, 0);
-                   FillUserInfo.jobj.put("imageurl", imageurl);
-               }
-               catch(Exception ex)
-               {
-                   Log.e("error",ex.getMessage()+"");
-               }
-            }
-
-            @Override
-            public void onLoadingCancelled(String imageUri, View view) {
-
-            }
-        });
-
-
-
+        SingleTon.imageLoader.displayImage(imageurl, profilepic, SingleTon.options2);
 
 
         return rootView;
-
-
-    }
+   }
 
     @Override
     public void onClick(View view) {

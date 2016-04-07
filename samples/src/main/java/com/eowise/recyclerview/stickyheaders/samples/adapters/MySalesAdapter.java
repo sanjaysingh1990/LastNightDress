@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.MySales.OrderDetailsSales;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.data.MySalesData;
@@ -142,10 +142,10 @@ private String UpperName(String uname)
          //   orderdetails.setOnClickListener(this);
 //appyling font
 
-            buyeruname.setTypeface(ImageLoaderImage.robotobold);
-            brandname.setTypeface(ImageLoaderImage.robotomedium);
-            status.setTypeface(ImageLoaderImage.robotomedium);
-            statustext.setTypeface(ImageLoaderImage.robotoregular);
+            buyeruname.setTypeface(SingleTon.robotobold);
+            brandname.setTypeface(SingleTon.robotomedium);
+            status.setTypeface(SingleTon.robotomedium);
+            statustext.setTypeface(SingleTon.robotoregular);
 
         }
 

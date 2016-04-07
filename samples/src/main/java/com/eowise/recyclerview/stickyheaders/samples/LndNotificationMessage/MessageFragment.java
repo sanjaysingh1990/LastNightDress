@@ -35,9 +35,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
-import com.eowise.recyclerview.stickyheaders.samples.data.ConcreteData1;
 import com.eowise.recyclerview.stickyheaders.samples.data.MessageData;
 import com.h6ah4i.android.widget.advrecyclerview.animator.GeneralItemAnimator;
 import com.h6ah4i.android.widget.advrecyclerview.animator.SwipeDismissItemAnimator;
@@ -49,7 +48,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
 
 public class MessageFragment extends Fragment {
@@ -253,7 +251,7 @@ public class MessageFragment extends Fragment {
                 }
                 catch(Exception ex)
                 {
-                    Log.e("json parsing error", ex.getMessage());
+                    Log.e("json parsing error", ex.getMessage()+"");
                 }
             }
         }, new Response.ErrorListener() {
@@ -267,7 +265,7 @@ public class MessageFragment extends Fragment {
             protected Map<String,String> getParams(){
                 Map<String,String> params = new HashMap<String, String>();
                 params.put("rqid","4");
-                params.put("user_id", ImageLoaderImage.pref.getString("user_id",""));
+                params.put("user_id", SingleTon.pref.getString("user_id",""));
 
                 return params;
             }

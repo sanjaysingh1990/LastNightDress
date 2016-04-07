@@ -1,6 +1,5 @@
 package com.eowise.recyclerview.stickyheaders.samples.TabDemo;
 
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,11 +11,9 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 
 import java.util.List;
@@ -29,13 +26,13 @@ import butterknife.Bind;
  *
  * @author Dani Lao (@dani_lao)
  */
-public class CategoryFragment extends Fragment implements OnClickListener{
+public class CategoryFragment extends Fragment implements OnClickListener {
     ImageView dress, handbags, shoes, jewellery;
     TextView dresstext, handbagstext, shoestext, jewellerytext, mainpage;
     boolean dressstatus = true, handbagsstatus = true, shoesstatus = true, jewellerystatus = true;
     private LinearLayout ll;
 
-    @Bind({R.id.dresstext, R.id.handbagstext, R.id.size3, R.id.size4, R.id.size5, R.id.size6, R.id.size7, R.id.sizeall, R.id.numsize1, R.id.numsize2, R.id.numsize3, R.id.numsize4, R.id.numsize5, R.id.numsize6, R.id.numsize7, R.id.numsize8, R.id.numsize9,R.id.numsize10,R.id.numsize11, R.id.numsize12})
+    @Bind({R.id.dresstext, R.id.handbagstext, R.id.size3, R.id.size4, R.id.size5, R.id.size6, R.id.size7, R.id.sizeall, R.id.numsize1, R.id.numsize2, R.id.numsize3, R.id.numsize4, R.id.numsize5, R.id.numsize6, R.id.numsize7, R.id.numsize8, R.id.numsize9, R.id.numsize10, R.id.numsize11, R.id.numsize12})
     List<TextView> dresssize;
 
     @Override
@@ -66,18 +63,18 @@ public class CategoryFragment extends Fragment implements OnClickListener{
         shoestext.setText("Shoes");
 
         //appyling custom fonts
-        dresstext.setTypeface(ImageLoaderImage.robotoregular);
-        handbagstext.setTypeface(ImageLoaderImage.robotoregular);
-        shoestext.setTypeface(ImageLoaderImage.robotoregular);
-        jewellerytext.setTypeface(ImageLoaderImage.robotoregular);
-        mainpage.setTypeface(ImageLoaderImage.robotoregular);
+        dresstext.setTypeface(SingleTon.robotoregular);
+        handbagstext.setTypeface(SingleTon.robotoregular);
+        shoestext.setTypeface(SingleTon.robotoregular);
+        jewellerytext.setTypeface(SingleTon.robotoregular);
+        mainpage.setTypeface(SingleTon.robotoregular);
         mainpage.setText("MAIN PAGE");
 //reference more
         ll = (LinearLayout) v.findViewById(R.id.ll);
 
 //checking user selected
         String value = LndShopActivity.currentcategory;
-      // Toast.makeText(getActivity(),value+"",Toast.LENGTH_SHORT).show();
+        //  Toast.makeText(getActivity(),value+"",Toast.LENGTH_SHORT).show();
         if (value.compareToIgnoreCase("dress") == 0) {
             dress.setBackgroundResource(R.drawable.category_rounded_corner_selected);
             dress.setImageResource(R.drawable.category_dress_selected);
@@ -116,7 +113,9 @@ public class CategoryFragment extends Fragment implements OnClickListener{
             @Override
             public void onClick(View v) {
 
-
+                LndShopActivity.selectedcategory = 1;
+                LndShopActivity.isselected = true;
+                LndShopActivity.currentcategory = "dress";
                 if (dressstatus) {
                     clearAll2();
                     dress.setBackgroundResource(R.drawable.category_rounded_corner_selected);
@@ -137,16 +136,8 @@ public class CategoryFragment extends Fragment implements OnClickListener{
                                     }
                                 });
                                 Thread.sleep(700);
-                                getActivity().runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        deSelect("dress");
-
-                                    }
-                                });
-
-
-                            } catch (InterruptedException e) {
+                                 deSelect(1);
+                            } catch (Exception e) {
                                 e.printStackTrace();
                             }
 
@@ -166,6 +157,9 @@ public class CategoryFragment extends Fragment implements OnClickListener{
         handbags.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                LndShopActivity.selectedcategory = 2;
+                LndShopActivity.isselected = true;
+                LndShopActivity.currentcategory = "handbags";
                 if (handbagsstatus) {
                     clearAll2();
                     handbags.setBackgroundResource(R.drawable.category_rounded_corner_selected);
@@ -185,16 +179,9 @@ public class CategoryFragment extends Fragment implements OnClickListener{
                                     }
                                 });
                                 Thread.sleep(700);
-                                getActivity().runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        deSelect("handbags");
+                                deSelect(2);
 
-                                    }
-                                });
-
-
-                            } catch (InterruptedException e) {
+                            } catch (Exception e) {
                                 e.printStackTrace();
                             }
 
@@ -214,6 +201,10 @@ public class CategoryFragment extends Fragment implements OnClickListener{
         shoes.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                LndShopActivity.selectedcategory = 3;
+                LndShopActivity.isselected = true;
+                LndShopActivity.currentcategory = "shoes";
                 if (shoesstatus) {
 
                     clearAll2();
@@ -234,16 +225,9 @@ public class CategoryFragment extends Fragment implements OnClickListener{
                                     }
                                 });
                                 Thread.sleep(700);
-                                getActivity().runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        deSelect("shoes");
+                                deSelect(3);
 
-                                    }
-                                });
-
-
-                            } catch (InterruptedException e) {
+                            } catch (Exception e) {
                                 e.printStackTrace();
                             }
 
@@ -263,6 +247,9 @@ public class CategoryFragment extends Fragment implements OnClickListener{
         jewellery.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                LndShopActivity.selectedcategory = 4;
+                LndShopActivity.isselected = true;
+                LndShopActivity.currentcategory = "jewellery";
                 if (jewellerystatus) {
                     clearAll2();
                     jewellery.setBackgroundResource(R.drawable.category_rounded_corner_selected);
@@ -282,16 +269,10 @@ public class CategoryFragment extends Fragment implements OnClickListener{
                                     }
                                 });
                                 Thread.sleep(700);
-                                getActivity().runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        deSelect("jewellery");
-
-                                    }
-                                });
+                                deSelect(4);
 
 
-                            } catch (InterruptedException e) {
+                            } catch (Exception e) {
                                 e.printStackTrace();
                             }
 
@@ -315,7 +296,7 @@ public class CategoryFragment extends Fragment implements OnClickListener{
                 clearAll();
                 mainpage.setBackgroundResource(R.drawable.category_buttonselected_corner);
                 mainpage.setTextColor(Color.parseColor("#be4d66"));
-
+                LndShopActivity.selectedcategory = 0;
                 LndShopActivity.mPager.setCurrentItem(0);
             }
         });
@@ -355,45 +336,6 @@ public class CategoryFragment extends Fragment implements OnClickListener{
         ll.setLayoutParams(params);
     }
 
-
-    private void deSelect(String cate) {
-
-        FragmentTransaction trans = getFragmentManager()
-                .beginTransaction();
-
-
-        //saving
-        if (cate.compareTo("dress") == 0) {
-
-            LndShopActivity.currentcategory = "dress";
-            trans.replace(R.id.root_frame, new RootFragment());
-            trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            //trans.addToBackStack(null);
-            trans.commit();
-        } else if (cate.compareTo("handbags") == 0) {
-            LndShopActivity.currentcategory = "handbags";
-            trans.replace(R.id.root_frame, new HangbagsFilterFragment());
-            trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            //trans.addToBackStack(null);
-            trans.commit();
-        } else if (cate.compareTo("shoes") == 0) {
-            LndShopActivity.currentcategory = "shoes";
-            trans.replace(R.id.root_frame, new ShoesFilterFragment());
-            trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            //trans.addToBackStack(null);
-            trans.commit();
-        } else {
-            LndShopActivity.currentcategory = "jewellery";
-            trans.replace(R.id.root_frame, new JwelleryFilterFragment());
-            trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            //trans.addToBackStack(null);
-            trans.commit();
-        }
-
-
-
-
-    }
 
     private void categorySelected() {
         mainpage.setBackgroundResource(R.drawable.category_buttonnotselected_corner);
@@ -457,6 +399,41 @@ public class CategoryFragment extends Fragment implements OnClickListener{
 
     @Override
     public void onClick(View view) {
+
+    }
+
+    private void deSelect(int cate) {
+        FragmentTransaction trans = getFragmentManager()
+                .beginTransaction();
+
+
+        //saving
+        if (cate== 1) {
+
+
+            trans.replace(R.id.root_frame, new RootFragment());
+            trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            //trans.addToBackStack(null);
+            trans.commit();
+        } else if (cate == 2) {
+
+            trans.replace(R.id.root_frame, new HandbagsFilterFragment());
+            trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            //trans.addToBackStack(null);
+            trans.commit();
+        } else if (cate== 3) {
+
+            trans.replace(R.id.root_frame, new ShoesFilterFragment());
+            trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            //trans.addToBackStack(null);
+            trans.commit();
+        } else {
+
+            trans.replace(R.id.root_frame, new JewelleryFilterFragment());
+            trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            //trans.addToBackStack(null);
+            trans.commit();
+        }
 
     }
 }

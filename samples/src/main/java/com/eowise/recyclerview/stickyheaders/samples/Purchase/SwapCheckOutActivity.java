@@ -12,7 +12,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalPayment;
@@ -48,7 +48,7 @@ public class SwapCheckOutActivity extends AppCompatActivity {
         setContentView(R.layout.activity_swap_checkout);
         ButterKnife.bind(this);
         //setup font
-        heading.setTypeface(ImageLoaderImage.robotobold);
+        heading.setTypeface(SingleTon.robotobold);
         Intent intent = new Intent(this, PayPalService.class);
         intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
 

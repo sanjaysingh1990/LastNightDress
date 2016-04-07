@@ -4,8 +4,6 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,13 +13,9 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.adapters.MyPurchasesAdapter;
-import com.eowise.recyclerview.stickyheaders.samples.data.MySalesData;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -43,8 +37,8 @@ public class RateUserActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         ButterKnife.bind(this);
         //appyling font
-        heading.setTypeface(ImageLoaderImage.robotobold);
-        actionbutton.setTypeface(ImageLoaderImage.robotomedium);
+        heading.setTypeface(SingleTon.robotobold);
+        actionbutton.setTypeface(SingleTon.robotomedium);
         actionbutton.setClickable(false);
         //comment text
         yourcomment.addTextChangedListener(new TextWatcher() {
@@ -100,7 +94,7 @@ public void submitRating(View v)
         yourcomment.setError("comment field empty");
         return;
     }
-    SharedPreferences.Editor edit=ImageLoaderImage.pref.edit();
+    SharedPreferences.Editor edit= SingleTon.pref.edit();
     edit.putBoolean("rated",true);
     edit.putInt("ratedvalue", value);
     edit.putString("comment",yourcomment.getText().toString());

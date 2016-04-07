@@ -15,7 +15,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 
 import java.util.ArrayList;
@@ -53,7 +53,7 @@ public class PostImageAdapter extends PagerAdapter {
                 false);
         ImageView imgDisplay = (ImageView) viewLayout.findViewById(R.id.touchimage);
 
-       ImageLoaderImage.imageLoader.displayImage(GalImages.get(position), imgDisplay, ImageLoaderImage.options);
+       SingleTon.imageLoader.displayImage(GalImages.get(position), imgDisplay, SingleTon.options);
                 ((ViewPager) container).addView(viewLayout, 0);
        imgDisplay.setOnClickListener(new MyEvent(position));
         return viewLayout;

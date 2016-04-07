@@ -35,7 +35,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost.CompressImage;
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
@@ -91,12 +91,12 @@ public class PrivateFragment extends Fragment {
         //initialize butter knife
         ButterKnife.bind(this, view);
         //custom font
-        imgoptions.setTypeface(ImageLoaderImage.subheading);
-        next.setTypeface(ImageLoaderImage.mainfont);
-        fullname.setTypeface(ImageLoaderImage.mainfont);
-        username.setTypeface(ImageLoaderImage.mainfont);
-        email.setTypeface(ImageLoaderImage.mainfont);
-        password.setTypeface(ImageLoaderImage.mainfont);
+        imgoptions.setTypeface(SingleTon.subheading);
+        next.setTypeface(SingleTon.mainfont);
+        fullname.setTypeface(SingleTon.mainfont);
+        username.setTypeface(SingleTon.mainfont);
+        email.setTypeface(SingleTon.mainfont);
+        password.setTypeface(SingleTon.mainfont);
 
         //profile image view reference
         profileimage = (ImageView) view.findViewById(R.id.profileimg);
@@ -346,7 +346,7 @@ public class PrivateFragment extends Fragment {
             String imgurl = "http://graph.facebook.com/" + object.getString("id") + "/picture?type=large";
            // Log.d("url", imgurl);
             //  Toast.makeText(getActivity(), imgurl, Toast.LENGTH_SHORT).show();
-            ImageLoaderImage.imageLoader.displayImage(imgurl, profileimage, ImageLoaderImage.options2, new ImageLoadingListener() {
+            SingleTon.imageLoader.displayImage(imgurl, profileimage, SingleTon.options2, new ImageLoadingListener() {
                 @Override
                 public void onLoadingStarted(String imageUri, View view) {
 
@@ -436,7 +436,7 @@ public class PrivateFragment extends Fragment {
             LndUserDescriptionFragment.jsonprivate.put("username", username);
             LndUserDescriptionFragment.jsonprivate.put("email",email);
             LndUserDescriptionFragment.jsonprivate.put("password",password);
-            LndUserDescriptionFragment.jsonprivate.put("country", country);
+            LndUserDescriptionFragment.jsonprivate.put("country",this.country.getSelectedItemPosition());
 
 
             if(picfrom==2||picfrom==3||picfrom==1)

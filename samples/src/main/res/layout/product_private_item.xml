@@ -13,14 +13,28 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <com.eowise.recyclerview.stickyheaders.samples.StickyHeader.HomeImageSliderLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="350dp"
-            android:id="@+id/switcher"
-            android:scrollbars="none"
-            >
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        </com.eowise.recyclerview.stickyheaders.samples.StickyHeader.HomeImageSliderLayout>
+
+
+            <com.eowise.recyclerview.stickyheaders.samples.StickyHeader.HomeImageSliderLayout
+                android:id="@+id/switcher"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:scrollbars="none">
+
+            </com.eowise.recyclerview.stickyheaders.samples.StickyHeader.HomeImageSliderLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#dadada"
+
+                />
+        </LinearLayout>
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -55,6 +69,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_weight="1"
+            android:layout_gravity="center_vertical"
             >
             <TextView
                 android:layout_width="wrap_content"
@@ -83,6 +98,7 @@
             android:paddingBottom="6dp"
             android:paddingLeft="30dp"
             android:paddingRight="30dp"
+            android:layout_gravity="center_vertical"
 
             />
 
@@ -96,6 +112,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 >
                 <ImageButton
                     android:layout_width="wrap_content"
@@ -166,15 +183,14 @@
             android:layout_marginBottom="5dp"
             />
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_weight="0"
+            android:layout_weight="1"
             android:paddingTop="12dp"
             android:paddingBottom="12dp"
 
-            android:paddingLeft="25dp"
-            android:paddingRight="25dp"
+
 
             >
             <TextView
@@ -311,7 +327,7 @@
             android:clickable="true"
             />
 
-        <TextView
+        <com.eowise.recyclerview.stickyheaders.samples.Utils.RelativeTimeTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:textAppearanceMedium"
@@ -335,19 +351,32 @@
         android:clickable="true"
 
         />
-    <TextView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="comment"
-        android:textColor="#b4b4b4"
-        android:drawableRight="@drawable/comment_lock_icon"
+        android:orientation="horizontal"
         android:layout_marginLeft="15dp"
-        android:drawablePadding="5dp"
         android:layout_marginTop="5dp"
-        android:gravity="center_vertical"
-        android:id="@+id/comment"
-        android:clickable="true"
-        />
+        >
+        <TextView
+            android:id="@+id/comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:clickable="true"
+
+            android:gravity="center_vertical"
+            android:text="comment"
+            android:textColor="#b4b4b4" />
+        <ImageView
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:src="@drawable/comment_lock_icon"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="1dp"
+            />
+    </LinearLayout>
 <View
     android:layout_width="match_parent"
     android:layout_height="30dp"

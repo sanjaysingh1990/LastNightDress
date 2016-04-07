@@ -18,6 +18,7 @@ package com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage;
 
 
 import com.eowise.recyclerview.stickyheaders.samples.data.ConcreteData2;
+import com.eowise.recyclerview.stickyheaders.samples.data.NotificationData;
 import com.h6ah4i.android.widget.advrecyclerview.swipeable.RecyclerViewSwipeManager;
 
 import java.util.LinkedList;
@@ -29,37 +30,36 @@ public class ExampleDataProvider extends AbstractDataProvider {
     private int mLastRemovedPosition = -1;
 
     public ExampleDataProvider() {
-        final String atoz = "ABCDEFGH";
 
         mData = new LinkedList<>();
+/*
 
-
-            for (int j = 0; j < atoz.length(); j++) {
-                final long id = mData.size();
-                final int viewType = 0;
-                final String text = Character.toString(atoz.charAt(j));
-                final int swipeReaction = RecyclerViewSwipeManager.REACTION_CAN_SWIPE_UP | RecyclerViewSwipeManager.REACTION_CAN_SWIPE_DOWN;
-                if(j==0)
+        for (int j = 0; j < atoz.length(); j++) {
+            final long id = mData.size();
+            final int viewType = 0;
+            final String text = Character.toString(atoz.charAt(j));
+            final int swipeReaction = RecyclerViewSwipeManager.REACTION_CAN_SWIPE_UP | RecyclerViewSwipeManager.REACTION_CAN_SWIPE_DOWN;
+            if (j == 0)
                 mData.add(new ConcreteData2(id, viewType, text, swipeReaction, NotificationType.FOLLOWING));
 
-                  else if(j==1)
-                    mData.add(new ConcreteData2(id, viewType, text, swipeReaction,NotificationType.SWAPREQUEST));
-                else if(j==2)
-                    mData.add(new ConcreteData2(id, viewType, text, swipeReaction,NotificationType.CHECKOUT));
+            else if (j == 1)
+                mData.add(new ConcreteData2(id, viewType, text, swipeReaction, NotificationType.SWAPREQUEST));
+            else if (j == 2)
+                mData.add(new ConcreteData2(id, viewType, text, swipeReaction, NotificationType.CHECKOUT));
 
-                else if(j==3)
-                    mData.add(new ConcreteData2(id, viewType, text, swipeReaction,NotificationType.DECNIED));
-                   else if(j==4)
-                    mData.add(new ConcreteData2(id, viewType, text, swipeReaction,NotificationType.USERMENTION));
-                     else if(j==5)
-                    mData.add(new ConcreteData2(id, viewType, text, swipeReaction,NotificationType.PURCHASEDITEM));
-                     else if(j==6)
-                    mData.add(new ConcreteData2(id, viewType, text, swipeReaction,NotificationType.POSTSHARED));
-                else if(j==7)
-                    mData.add(new ConcreteData2(id, viewType, text, swipeReaction,NotificationType.BLANK));
+            else if (j == 3)
+                mData.add(new ConcreteData2(id, viewType, text, swipeReaction, NotificationType.DECNIED));
+            else if (j == 4)
+                mData.add(new ConcreteData2(id, viewType, text, swipeReaction, NotificationType.USERMENTION));
+            else if (j == 5)
+                mData.add(new ConcreteData2(id, viewType, text, swipeReaction, NotificationType.PURCHASEDITEM));
+            else if (j == 6)
+                mData.add(new ConcreteData2(id, viewType, text, swipeReaction, NotificationType.POSTSHARED));
+            else if (j == 7)
+                mData.add(new ConcreteData2(id, viewType, text, swipeReaction, NotificationType.BLANK));
 
 
-            }
+        }*/
 
     }
 
@@ -67,7 +67,6 @@ public class ExampleDataProvider extends AbstractDataProvider {
     public int getCount() {
         return mData.size();
     }
-
 
 
     @Override
@@ -110,6 +109,45 @@ public class ExampleDataProvider extends AbstractDataProvider {
 
         mData.add(toPosition, item);
         mLastRemovedPosition = -1;
+    }
+
+    @Override
+    public void addItem(NotificationData nd) {
+        final long id = mData.size();
+        final int viewType = 0;
+        final int swipeReaction = RecyclerViewSwipeManager.REACTION_CAN_SWIPE_UP | RecyclerViewSwipeManager.REACTION_CAN_SWIPE_DOWN;
+        switch (nd.getNotitype()) {
+            case "1":
+                mData.add(new ConcreteData2(id, viewType, nd, swipeReaction, NotificationType.FOLLOWING));
+
+                break;
+            case "2":
+                mData.add(new ConcreteData2(id, viewType, nd, swipeReaction, NotificationType.SWAPREQUEST));
+                break;
+            case "3":
+                mData.add(new ConcreteData2(id, viewType,nd, swipeReaction, NotificationType.CHECKOUT));
+
+                break;
+            case "5":
+                mData.add(new ConcreteData2(id, viewType, nd, swipeReaction, NotificationType.USERMENTION));
+
+                break;
+            case "8":
+                mData.add(new ConcreteData2(id, viewType, nd, swipeReaction, NotificationType.BLANK));
+
+                break;
+            case "9":
+                mData.add(new ConcreteData2(id, viewType, nd, swipeReaction, NotificationType.USERACCEPTEDCHECKOUT));
+
+                break;
+
+            case "10":
+                mData.add(new ConcreteData2(id, viewType, nd, swipeReaction, NotificationType.POSTSHARED));
+
+                break;
+        }
+
+
     }
 
     @Override

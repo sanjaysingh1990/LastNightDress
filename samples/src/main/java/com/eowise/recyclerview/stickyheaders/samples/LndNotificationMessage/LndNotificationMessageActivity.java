@@ -16,6 +16,7 @@
 
 package com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -27,8 +28,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.eowise.recyclerview.stickyheaders.samples.Loading.AVLoadingIndicatorView;
+import com.eowise.recyclerview.stickyheaders.samples.NewMessage.NewMessageActivity;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 
 
@@ -40,6 +45,8 @@ public class LndNotificationMessageActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     public static Display display;
     private TextView heading;
+    private ImageButton newmessage;
+    public static AVLoadingIndicatorView loader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +56,9 @@ public class LndNotificationMessageActivity extends AppCompatActivity {
         mTabLayout = (TabLayout) findViewById(R.id.tabs);
         mViewPager = (ViewPager) findViewById(R.id.pager);
         heading = (TextView) findViewById(R.id.heading);
+        newmessage= (ImageButton) findViewById(R.id.newmessage);
+        loader= (AVLoadingIndicatorView)findViewById(R.id.loader);
+
 //        Typeface tf=Typeface.createFromAsset(getAssets(),"Mural_Script.ttf");
         // heading.setTypeface(tf);
         mViewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
@@ -62,6 +72,26 @@ public class LndNotificationMessageActivity extends AppCompatActivity {
                     .commit();
         }
         mTabLayout.setSelectedTabIndicatorColor(Color.parseColor("#be4d66"));
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position == 1)
+                    newmessage.setVisibility(View.VISIBLE);
+                else
+                    newmessage.setVisibility(View.GONE);
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     public AbstractDataProvider getDataProvider(String dataProviderName) {
@@ -93,6 +123,8 @@ public class LndNotificationMessageActivity extends AppCompatActivity {
         if (position >= 0) {
             ((MessageFragment) fragment).notifyItemInserted(position);
         }
+
+
 
     }
 
@@ -152,4 +184,11 @@ public class LndNotificationMessageActivity extends AppCompatActivity {
         }
 
     }
+    public void newmessage(View v)
+    {
+        Intent nm=new Intent(this, NewMessageActivity.class);
+        startActivity(nm);
+    }
+
+
 }

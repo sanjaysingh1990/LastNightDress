@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.LndHomeAdapter;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
@@ -68,7 +68,7 @@ public class SentToAdapter extends RecyclerView.Adapter<SentToAdapter.ViewHolder
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
         FollowersFollowingData fd = items.get(position);
-        ImageLoaderImage.imageLoader.displayImage(fd.getUserpic(), viewHolder.profilepic, ImageLoaderImage.options3);
+        SingleTon.imageLoader.displayImage(fd.getUserpic(), viewHolder.profilepic, SingleTon.options3);
         viewHolder.uname.setText(Capitalize.capitalize(fd.getUname()));
         viewHolder.profilepic.setOnClickListener(new MyEvent(viewHolder.userselected, fd));
         if (fd.isSelected()) {
@@ -110,15 +110,30 @@ public class SentToAdapter extends RecyclerView.Adapter<SentToAdapter.ViewHolder
     }
 
     private void check(String uname) {
-        if (usersselected.size() > 0) {
-            LndHomeAdapter.usermessage.setVisibility(View.VISIBLE);
-            LndHomeAdapter.sendcancel.setText("SEND");
-            LndHomeAdapter.sendcancel.setTextColor(Color.parseColor("#be4d66"));
-        } else {
-            LndHomeAdapter.usermessage.setVisibility(View.GONE);
-            LndHomeAdapter.sendcancel.setText("CANCEL");
-            LndHomeAdapter.sendcancel.setTextColor(Color.parseColor("#be4d66"));
+        try {
+            if (usersselected.size() > 0) {
+                LndHomeAdapter.usermessage.setVisibility(View.VISIBLE);
+                LndHomeAdapter.sendcancel.setText("SEND");
+                LndHomeAdapter.sendcancel.setTextColor(Color.parseColor("#be4d66"));
+            } else {
+                LndHomeAdapter.usermessage.setVisibility(View.GONE);
+                LndHomeAdapter.sendcancel.setText("CANCEL");
+                LndHomeAdapter.sendcancel.setTextColor(Color.parseColor("#be4d66"));
 
+            }
+        }
+        catch(Exception ex)
+        {
+           /* if (usersselected.size() > 0) {
+                LndFullActivityAdapter.usermessage.setVisibility(View.VISIBLE);
+                LndFullActivityAdapter.sendcancel.setText("SEND");
+                LndFullActivityAdapter.sendcancel.setTextColor(Color.parseColor("#be4d66"));
+            } else {
+                LndFullActivityAdapter.usermessage.setVisibility(View.GONE);
+                LndFullActivityAdapter.sendcancel.setText("CANCEL");
+                LndFullActivityAdapter.sendcancel.setTextColor(Color.parseColor("#be4d66"));
+
+            }*/
         }
     }
 

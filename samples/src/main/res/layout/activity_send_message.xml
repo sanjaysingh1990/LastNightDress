@@ -76,12 +76,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="-6dp"
-        android:layout_weight="0"
-        android:background="#00000000"
+         android:background="#00000000"
         android:orientation="horizontal"
         android:paddingLeft="5dp"
-        android:paddingRight="3dp">
+        android:paddingRight="3dp"
+        android:layout_weight="0"
+        >
 
         <LinearLayout
             android:id="@+id/layout"
@@ -93,7 +93,9 @@
             android:layout_toStartOf="@+id/sendMessage"
             android:layout_weight="1"
             android:background="@drawable/chat_message"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:gravity="bottom"
+            >
 
             <ImageButton
                 android:id="@+id/smiley"
@@ -114,15 +116,18 @@
                 android:layout_weight="1"
                 android:background="@null"
                 android:fadeScrollbars="false"
-                android:gravity="center_vertical"
+                android:gravity="bottom"
                 android:hint="Enter message here"
                 android:inputType="textMultiLine"
                 android:maxLines="5"
                 android:minLines="1"
-                android:padding="2dp"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
                 android:textColor="#000"
                 android:textSize="15sp"
-                emojicon:emojiconSize="18sp" />
+                emojicon:emojiconSize="18sp"
+                android:paddingBottom="8dp"
+                />
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

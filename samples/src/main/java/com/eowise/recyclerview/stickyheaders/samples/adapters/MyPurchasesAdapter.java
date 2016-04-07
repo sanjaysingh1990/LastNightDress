@@ -7,13 +7,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.MyPurchases.OrderDetailsPurchased;
-import com.eowise.recyclerview.stickyheaders.samples.MySales.OrderDetailsSales;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.data.MySalesData;
 import com.eowise.recyclerview.stickyheaders.samples.data.NotificationData;
@@ -153,13 +151,13 @@ private String UpperName(String uname)
             orderdetails= (LinearLayout) itemView.findViewById(R.id.orderdetails);
             orderdetails.setClickable(true);
 //applying custom fonts
-            brandname.setTypeface(ImageLoaderImage.robotobold);
-            selleruname.setTypeface(ImageLoaderImage.robotomedium);
-            price.setTypeface(ImageLoaderImage.robotomedium);
-            status.setTypeface(ImageLoaderImage.robotomedium);
-            sellertext.setTypeface(ImageLoaderImage.robotoregular);
-            grandtotal.setTypeface(ImageLoaderImage.robotoregular);
-            statustext.setTypeface(ImageLoaderImage.robotoregular);
+            brandname.setTypeface(SingleTon.robotobold);
+            selleruname.setTypeface(SingleTon.robotomedium);
+            price.setTypeface(SingleTon.robotomedium);
+            status.setTypeface(SingleTon.robotomedium);
+            sellertext.setTypeface(SingleTon.robotoregular);
+            grandtotal.setTypeface(SingleTon.robotoregular);
+            statustext.setTypeface(SingleTon.robotoregular);
 
         }
 

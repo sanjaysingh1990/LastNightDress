@@ -1,6 +1,7 @@
 package com.eowise.recyclerview.stickyheaders.samples.Followers;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,7 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.adapters.FollowingAdapter;
 import com.eowise.recyclerview.stickyheaders.samples.data.FollowersFollowingData;
@@ -39,6 +40,7 @@ public class FollowingActivity extends AppCompatActivity {
     private FollowingAdapter recyclerAdapter;
     @Bind(R.id.heading)
     TextView heading;
+    private boolean isfollowedunfollowed=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +48,7 @@ public class FollowingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_followers);
         ButterKnife.bind(this);
         //setting custom font
-        heading.setTypeface(ImageLoaderImage.hfont);
+        heading.setTypeface(SingleTon.hfont);
         heading.setText("Following");
         //toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -63,10 +65,14 @@ public class FollowingActivity extends AppCompatActivity {
         Bundle extra = getIntent().getExtras();
         if (extra != null)
             userid = extra.getString("user_id", "");
-        getFollowers(userid);
+        int userprofile = extra.getInt("userp");
+        if (userprofile == 1)
+            getFollowing(userid, 5);
+        else
+            getFollowing(userid, 8);
     }
 
-    public void getFollowers(final String userid) {
+    public void getFollowing(final String userid,final int rqid) {
         final ProgressDialog pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");
         pDialog.show();
@@ -76,8 +82,9 @@ public class FollowingActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 pDialog.dismiss();
+                String userid= SingleTon.pref.getString("user_id","");
 
-                Log.e("response", response.toString());
+                //Log.e("response", response.toString());
                 try {
                     JSONObject jobj = new JSONObject(response.toString());
                     JSONArray jsonArray = jobj.getJSONArray("data");
@@ -87,7 +94,10 @@ public class FollowingActivity extends AppCompatActivity {
                         fd.setUname(jsonObject.getString("followingname"));
                         fd.setUserpic(jsonObject.getString("user_pic"));
                         fd.setUserid(jsonObject.getString("user_id"));
-                        fd.setStatus("0");
+                        if(userid.compareTo(fd.getUserid())==0)
+                            fd.setStatus(-1+"");
+                        else
+                            fd.setStatus(jsonObject.getString("check"));
                         data.add(fd);
                     }
                 } catch (Exception ex) {
@@ -105,8 +115,10 @@ public class FollowingActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("rqid", "5");
+                params.put("rqid",rqid+"");
                 params.put("user_id",userid);
+                params.put("skipdata",0+"");
+                params.put("other_userid", SingleTon.pref.getString("user_id",""));
 
 
                 return params;
@@ -124,10 +136,18 @@ public class FollowingActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        Intent intent=new Intent();
+        intent.putExtra("check", isfollowedunfollowed);
+        setResult(7, intent);
+        finish();//finishing activity
     }
 
     public void back(View v) {
         onBackPressed();
+    }
+
+    public void changeValue()
+    {
+        isfollowedunfollowed=true;
     }
 }

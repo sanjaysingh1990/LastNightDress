@@ -6,6 +6,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -42,12 +43,12 @@ public class PeopleHashTagActivity extends AppCompatActivity {
 
     private void initViewPagerAndTabs() {
          viewPager = (ViewPager) findViewById(R.id.viewPager);
-        PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
+        final PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
         pagerAdapter.addFragment(PeopleFragment.createInstance(20), "People");
         pagerAdapter.addFragment(BrandNameFragment.createInstance(21), "Brands");
         pagerAdapter.addFragment(HashTagFragment.createInstance(4), "Hashtags");
         viewPager.setAdapter(pagerAdapter);
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        final TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -57,13 +58,40 @@ public class PeopleHashTagActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                if(position==0)
+
+                if (position == 0) {
                     Search.setHint("Search people");
-                else if(position==1)
+
+                } else if (position == 1) {
                     Search.setHint("Search brands");
-                else
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                Thread.sleep(500);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            pagerAdapter.notifyDataSetChanged();
+                                        }
+                                        catch(Exception ex)
+                                        {
+
+                                        }
+                                    }
+                                });
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }).start();
+
+
+                } else {
                     Search.setHint("Search hashtags");
 
+                }
 
             }
 
@@ -90,7 +118,10 @@ public class PeopleHashTagActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return fragmentList.get(position);
+
+
+             return fragmentList.get(position);
+
         }
 
         @Override
@@ -100,6 +131,11 @@ public class PeopleHashTagActivity extends AppCompatActivity {
         @Override
         public CharSequence getPageTitle(int position) {
             return fragmentTitleList.get(position);
+        }
+
+        @Override
+        public int getItemPosition(Object object) {
+            return POSITION_NONE;
         }
     }
 public void newmessage(View v)

@@ -189,6 +189,25 @@
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="#dadada"/>
+        <com.balysv.materialripple.MaterialRippleLayout
+            android:id="@+id/currency"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/currencytext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:paddingLeft="15dp"
+                android:text="Currency"
+                android:textColor="#3c4653"
+                android:drawableRight="@drawable/settings_forward"
+                />
+        </com.balysv.materialripple.MaterialRippleLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#dadada"/>
 
 
 
@@ -231,7 +250,9 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="#dadada"/>
+            android:background="#dadada"
+            android:id="@+id/line"
+            />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -240,6 +261,7 @@
             android:padding="10dp"
             android:paddingBottom="10dp"
             android:paddingRight="8dp"
+            android:id="@+id/postswaps"
             >
             <TextView
                 android:id="@+id/allowswaps"
@@ -302,10 +324,29 @@
             android:layout_height="wrap_content"
             android:padding="15dp"
             android:paddingLeft="15dp"
-            android:text="Sale World Wide"
+            android:text="Sell World Wide"
             android:textColor="#3c4653"
             android:drawableRight="@drawable/settings_forward"
             />
+        </com.balysv.materialripple.MaterialRippleLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#dadada"/>
+        <com.balysv.materialripple.MaterialRippleLayout
+            android:id="@+id/clearhistory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/clear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:paddingLeft="15dp"
+                android:text="Clear History"
+                android:textColor="#3c4653"
+                android:drawableRight="@drawable/settings_forward"
+                />
         </com.balysv.materialripple.MaterialRippleLayout>
         <View
             android:layout_width="match_parent"

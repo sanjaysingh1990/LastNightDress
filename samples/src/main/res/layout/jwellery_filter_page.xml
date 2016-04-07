@@ -146,7 +146,7 @@
                 custom:tickColor="#222427"
                 custom:tickEnd="1000"
                 custom:tickHeight="0dp"
-                custom:tickInterval="200"
+                custom:tickInterval="100"
                 custom:tickStart="0"
 
                 />

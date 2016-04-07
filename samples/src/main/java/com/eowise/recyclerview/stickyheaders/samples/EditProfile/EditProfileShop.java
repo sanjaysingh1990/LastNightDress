@@ -17,7 +17,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -38,7 +37,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.eowise.recyclerview.stickyheaders.samples.ChangePassword.ChangePassword;
 import com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost.CompressImage;
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 
 import com.facebook.CallbackManager;
@@ -51,8 +50,6 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
-import com.nostra13.universalimageloader.utils.DiskCacheUtils;
-import com.nostra13.universalimageloader.utils.MemoryCacheUtils;
 
 import org.json.JSONObject;
 
@@ -114,7 +111,7 @@ public class EditProfileShop extends AppCompatActivity {
 
                 uname.setText(jobj.getString("uname") + "");
 
-                uname.setTag(jobj.getString("user_id"));
+
                 fullname.setText(jobj.getString("fullname"));
 
                 email.setText(jobj.getString("email") + "");
@@ -122,25 +119,21 @@ public class EditProfileShop extends AppCompatActivity {
                 address.setText(jobj.getString("address") + "");
                 city.setText(jobj.getString("city") + "");
 
-                country.setSelection(1);
 
                 zipcode.setText(jobj.getString("zipcode") + "");
 
-                ImageLoaderImage.imageLoader.displayImage(jobj.getString("imageurl"), profilepic, ImageLoaderImage.options2);
+                SingleTon.imageLoader.displayImage(jobj.getString("imageurl"), profilepic, SingleTon.options2);
                 String des=jobj.getString("desc");
                 if(des.length()==0)
                     desc.setHint("your last night dress status here...");
                 else
                     desc.setText(des);
-              String url=jobj.getString("imageurl");
-              if(url.length()>0)
-                  filename=url.substring(url.lastIndexOf("/")+1);
-               else
+
                 filename="lnd"+System.currentTimeMillis()+".jpg";
 
-                        Log.e("imageurl",filename);
-
-              updateinfo.setClickable(true);
+                updateinfo.setClickable(true);
+                int pos=Integer.parseInt(jobj.getString("country"));
+                country.setSelection(pos);
             }
             catch(Exception ex)
             {
@@ -169,7 +162,7 @@ public class EditProfileShop extends AppCompatActivity {
                                             picfrom=1;
                                             String imgurl="http://graph.facebook.com/"+object.getString("id")+"/picture?type=large";
                                           //  Log.d("url",imgurl);
-                                           ImageLoaderImage.imageLoader.displayImage(imgurl, profilepic, ImageLoaderImage.options2, new ImageLoadingListener() {
+                                           SingleTon.imageLoader.displayImage(imgurl, profilepic, SingleTon.options2, new ImageLoadingListener() {
                                                @Override
                                                public void onLoadingStarted(String imageUri, View view) {
 
@@ -230,16 +223,18 @@ public class EditProfileShop extends AppCompatActivity {
         country.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long l) {
-                 if(pos==0)
                 try {
+                    if (pos == 0) {
 
 
-                    ((TextView) parent.getChildAt(0)).setTextColor(Color.parseColor("#dadada"));
+                        ((TextView) parent.getChildAt(0)).setTextColor(Color.parseColor("#dadada"));
 
-                    ((TextView) parent.getChildAt(0)).setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow, 0);
-                }
-                catch(NullPointerException ex)
-                {
+                        ((TextView) parent.getChildAt(0)).setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow, 0);
+
+                    } else
+                        ((TextView) parent.getChildAt(0)).setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow, 0);
+
+                } catch (NullPointerException ex) {
 
                 }
             }
@@ -436,11 +431,7 @@ public void changepass(View v)
                     }
                     else
                     Toast.makeText(EditProfileShop.this,jobj.getString("message"),Toast.LENGTH_LONG).show();
-                  if(jobj.getBoolean("cache"))
-                  {
-                      MemoryCacheUtils.removeFromCache(jobj.getString("url"), ImageLoaderImage.imageLoader.getMemoryCache());
-                      DiskCacheUtils.removeFromCache(jobj.getString("url"), ImageLoaderImage.imageLoader.getDiskCache());
-                  }
+
                 }
                 catch(Exception ex)
                 {
@@ -478,30 +469,46 @@ public void changepass(View v)
     }
     public void update(View v)
     {
-        String desc,fullname,email,company,address,city,zipcode,country;
+        String desc,fullname,uname,company,address,city,zipcode,country;
         desc=this.desc.getText().toString();
         fullname=this.fullname.getText().toString();
 
-        email=this.email.getText().toString();
+        uname=this.uname.getText().toString();
         company=this.companyname.getText().toString();
         address=this.address.getText().toString();
         city=this.city.getText().toString();
         zipcode=this.zipcode.getText().toString();
         country=this.country.getSelectedItem().toString().toLowerCase();
 
-       try {
+        //validating the fields
+
+
+        if (fullname.length() == 0) {
+            this.fullname.requestFocus();
+            this.fullname.setError("field is empty");
+            return;
+        } else if (uname.length() == 0) {
+            this.uname.requestFocus();
+            this.uname.setError("field is empty");
+            return;
+        }
+
+
+
+
+        try {
 
                JSONObject proinfo = new JSONObject();
                proinfo.put("fullname",fullname);
 
-              proinfo.put("user_id", this.uname.getTag());
-              proinfo.put("description",desc);
-               proinfo.put("email",email);
+               proinfo.put("user_id", SingleTon.pref.getString("user_id",""));
+               proinfo.put("description",desc);
+               proinfo.put("uname",uname);
                proinfo.put("companyname",company);
                proinfo.put("address", address);
                proinfo.put("city",city);
                proinfo.put("zipcode",zipcode);
-               proinfo.put("country",country);
+               proinfo.put("country",this.country.getSelectedItemPosition());
               if(picfrom==2||picfrom==3||picfrom==1)
               {
                   proinfo.put("imageurl",imageurl);

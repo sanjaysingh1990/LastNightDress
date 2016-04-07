@@ -107,6 +107,7 @@
                     android:background="#e8e9eb"
                     android:id="@+id/swapcontinue"
                     android:textSize="14sp"
+                    android:clickable="true"
                     />
                 <TextView
                     android:layout_width="match_parent"
@@ -120,6 +121,7 @@
                     android:layout_marginLeft="1dp"
                     android:textSize="14sp"
                     android:id="@+id/swapcancel"
+                    android:clickable="true"
                     />
             </LinearLayout>
 

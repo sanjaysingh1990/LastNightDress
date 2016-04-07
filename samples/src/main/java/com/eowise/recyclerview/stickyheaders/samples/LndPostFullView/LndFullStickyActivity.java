@@ -1,6 +1,7 @@
 package com.eowise.recyclerview.stickyheaders.samples.LndPostFullView;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,17 +15,22 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.Loading.AVLoadingIndicatorView;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+import com.eowise.recyclerview.stickyheaders.samples.SQLDB.FavoriteData;
 import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.Home_List_Data;
-import com.example.sanju.pullrefresh.CustomSwipeRefreshLayout;
+import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.LndHomeAdapter;
+import com.eowise.recyclerview.stickyheaders.samples.TabDemo.LndShopActivity;
 import com.init.superslim.LayoutManager;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,7 +40,7 @@ public class LndFullStickyActivity extends AppCompatActivity {
     private static final String TAG_COUNTRIES_FRAGMENT = "tag_countries_fragment";
 
 
-    private LndFullActivityAdapter mAdapter;
+    private LndHomeAdapter mAdapter;
 
     private int mHeaderDisplay;
 
@@ -47,8 +53,9 @@ public class LndFullStickyActivity extends AppCompatActivity {
 
     private TextView heading;
     private AVLoadingIndicatorView dialog;
-    private int post_loc=0;
-    CustomSwipeRefreshLayout mSwipeRefreshLayout;
+    private int post_loc = 0;
+
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,29 +82,62 @@ public class LndFullStickyActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(new LayoutManager(this));
 
 
-        mAdapter = new LndFullActivityAdapter(this, mHeaderDisplay, setData());
+        mAdapter = new LndHomeAdapter(this, mHeaderDisplay, setData());
         //   mAdapter.setMarginsFixed(mAreMarginsFixed);
         mAdapter.setHeaderDisplay(mHeaderDisplay);
         mRecyclerView.setAdapter(mAdapter);
 
 
         //header reference and custom font
-        heading= (TextView) findViewById(R.id.heading);
+        heading = (TextView) findViewById(R.id.heading);
         heading.setText("POST");
         heading.setTextSize(18);
-        heading.setTypeface(ImageLoaderImage.robotobold);
+        heading.setTypeface(SingleTon.robotobold);
 //loading spiiner
-        dialog= (AVLoadingIndicatorView) findViewById(R.id.loader);
+        dialog = (AVLoadingIndicatorView) findViewById(R.id.loader);
 
 
         //get intent
-                 Bundle extra= getIntent().getExtras();
-                 if(extra!=null)
-                 post_loc=   extra.getInt("post_location",0);
+        Bundle extra = getIntent().getExtras();
+        if (extra != null)
+            post_loc = extra.getInt("post_location", 0);
 
 
+        getData();
 
-                 getData();
+        //pull
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                /*skipdata = 0;
+                shopdata.clear();
+                try {
+                    // Toast.makeText(getActivity(), LndShopActivity.selectedcategory + "", Toast.LENGTH_SHORT).show();
+                    pullrefresh = true;
+                    getData(skipdata, LndShopActivity.selectedcategory);
+                } catch (Exception ex) {
+
+                }*/
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                swipeRefreshLayout.setRefreshing(false);
+                            }
+                        });
+                    }
+                }).start();
+            }
+        });
+
     }
 
     private ArrayList<Home_List_Data> setData() {
@@ -135,8 +175,10 @@ public class LndFullStickyActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 dialog.setVisibility(View.GONE);
+                //clear userid list
+                SingleTon.lnduserid.clear();
 
-               Log.e("response", response.toString());
+                //  Log.e("response", response.toString());
                 try {
 
                     boolean isprivate = false;
@@ -152,10 +194,20 @@ public class LndFullStickyActivity extends AppCompatActivity {
 
                         JSONObject jo = jarray.getJSONObject(i);
                         ArrayList<String> imgurls = new ArrayList<String>();
-                        imgurls.add(jo.getString("imageurl1"));
-                        imgurls.add(jo.getString("imageurl2"));
-                        imgurls.add(jo.getString("imageurl3"));
-                        imgurls.add(jo.getString("imageurl4"));
+                        String imgurl = jo.getString("imageurl1");
+
+                        imgurls.add(imgurl);
+
+                        imgurl = jo.getString("imageurl2");
+                        if (imgurl.length() > 0)
+                            imgurls.add(imgurl);
+
+                        imgurl = jo.getString("imageurl3");
+                        if (imgurl.length() > 0)
+                            imgurls.add(imgurl);
+                        imgurl = jo.getString("imageurl4");
+                        if (imgurl.length() > 0)
+                            imgurls.add(imgurl);
                         //adding for headers
                         String header = jo.getString("uname") + "";
                         sectionManager = (sectionManager + 1) % 1;
@@ -166,67 +218,71 @@ public class LndFullStickyActivity extends AppCompatActivity {
                         mItems.add(hld2);
 
 
-                        if (jo.getString("utype").compareTo("private")==0)
+                        if (jo.getString("utype").compareTo("private") == 0)
                             isprivate = true;
                         else
                             isprivate = false;
 
+                        //storing userid with uname
+
+                        SingleTon.lnduserid.put(jo.getString("uname"), jo.getString("user_id"));
+
                         //content
-                        Home_List_Data hld = new Home_List_Data(jo.getString("uname") + "", isprivate, "content", sectionManager, sectionFirstPosition);
+                        Home_List_Data hld = null;
+                        if (SingleTon.pref.getString("user_id", "").compareToIgnoreCase(jo.getString("user_id")) == 0)
+                            hld = new Home_List_Data(jo.getString("uname") + "", isprivate, "contentuser", sectionManager, sectionFirstPosition);
+                        else
+                            hld = new Home_List_Data(jo.getString("uname") + "", isprivate, "contentotheruser", sectionManager, sectionFirstPosition);
                         hld.setProfilepicurl(jo.getString("profile_pic"));
                         hld.setPricenow(jo.getString("price_now"));
                         hld.setPricewas(jo.getString("price_was"));
                         hld.setSize(jo.getString("size"));
-                        hld.setLikestotal(jo.getString("likes"));
+                        hld.setLikestotal(jo.getInt("likes"));
                         hld.setImageurls(imgurls);
                         hld.setPost_id(jo.getString("post_id"));
                         hld.setDescription(jo.getString("description"));
                         hld.setUname(jo.getString("uname"));
-                        hld.setLikedvalue(jo.getString("isliked"));
+                        hld.setLikedvalue(jo.getString("like"));
                         hld.setColors(jo.getString("color"));
                         hld.setConditon(jo.getString("condition"));
-                        hld.setCategory(jo.getString("category_type"));
+                        hld.setCategory(jo.getInt("category_type"));
+                        hld.setUserid(jo.getString("user_id"));
+                        hld.setBrandname(jo.getString("brand_name"));
+                        hld.setTime(getMilliseconds(jo.getString("date_time")));
+
                         //for header
                         hld2.setProfilepicurl(jo.getString("profile_pic"));
                         hld2.setPricenow(jo.getString("price_now"));
                         hld2.setPricewas(jo.getString("price_was"));
                         hld2.setSize(jo.getString("size"));
-                        hld2.setLikestotal(jo.getString("likes"));
+                        hld2.setLikestotal(jo.getInt("likes"));
                         hld2.setImageurls(imgurls);
                         hld2.setPost_id(jo.getString("post_id"));
                         hld2.setDescription(jo.getString("description"));
                         hld2.setUname(jo.getString("uname"));
-                        hld2.setLikedvalue(jo.getString("isliked"));
+                        hld2.setLikedvalue(jo.getString("like"));
                         hld2.setColors(jo.getString("color"));
                         hld2.setConditon(jo.getString("condition"));
-                        hld2.setCategory(jo.getString("category_type"));
+                        hld2.setCategory(jo.getInt("category_type"));
+                        hld2.setUserid(jo.getString("user_id"));
+                        hld2.setBrandname(jo.getString("brand_name"));
+                        checkFavorate(hld);
                         mItems.add(hld);
-                     }
+                    }
 
-                    mRecyclerView.setVisibility(View.GONE);
-                    //notifying adapter
-                    mRecyclerView.smoothScrollToPosition((post_loc + 1) * 2 - 1);
-
-                    mAdapter.notifyDataSetChanged();
-                    new Thread(new Runnable() {
+                    mRecyclerView.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            try {
-                                Thread.sleep(1000);
+                            mRecyclerView.scrollToPosition((post_loc + 1) * 2 - 1);
 
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    mRecyclerView.setVisibility(View.VISIBLE);
-
-                                }
-                            });
                         }
-                    }).start();
-                   // mRecyclerView.getLayoutManager().smoothScrollToPosition(mRecyclerView, null, (post_loc + 1) * 2 - 1);
+                    }, 0);
+                    // mRecyclerView.smoothScrollToPosition((post_loc + 1) * 2 - 1);
+
+                    //notifying adapter
+                    mAdapter.notifyDataSetChanged();
+
+
                 } catch (Exception ex) {
                     Log.e("json parsing error", ex.getMessage());
                 }
@@ -235,11 +291,9 @@ public class LndFullStickyActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 dialog.setVisibility(View.GONE);
-    try {
+                try {
                     new com.eowise.recyclerview.stickyheaders.samples.AlertDialog().showAlertDialog(LndFullStickyActivity.this);
-                }
-                catch(Exception ex)
-                {
+                } catch (Exception ex) {
 
                 }
             }
@@ -247,9 +301,11 @@ public class LndFullStickyActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("rqid","10");
-                params.put("user_id",ImageLoaderImage.pref.getString("user_id",""));
+                params.put("rqid", "10");
+                params.put("user_id", SingleTon.pref.getString("user_id", ""));
                 params.put("skip", "0");
+                params.put("category", LndShopActivity.selectedcategory + "");
+
                 return params;
             }
 
@@ -263,5 +319,26 @@ public class LndFullStickyActivity extends AppCompatActivity {
         queue.add(sr);
     }
 
+    private void checkFavorate(Home_List_Data hld) {
+        FavoriteData fd = SingleTon.db.getContact(hld.getPost_id());
+        if (fd != null) {
+            hld.setIsfavorate(true);
+        }
+    }
 
+    static long getMilliseconds(String datetime) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        try {
+
+            Date date = formatter.parse(datetime);
+            // Log.e("date",date.toString());
+            // Log.e("date2",formatter.format(date));
+
+            return date.getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }

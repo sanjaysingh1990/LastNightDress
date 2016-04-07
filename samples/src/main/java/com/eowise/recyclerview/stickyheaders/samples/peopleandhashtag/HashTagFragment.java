@@ -105,7 +105,7 @@ public class HashTagFragment extends Fragment {
             @Override
             public void onResponse(String response) {
 
-             //   Log.e("response hashtag", response.toString());
+                //Log.e("response", response.toString()+"");
                try {
                     itemList.clear();
                     JSONObject jobj = new JSONObject(response.toString());
@@ -139,7 +139,10 @@ public class HashTagFragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                //on server error showing no result
+                PeopleData pd=new PeopleData();
+                pd.setType(2);
+                itemList.add(pd);
                 Log.e("response",error.getMessage()+"");
             }
         }){

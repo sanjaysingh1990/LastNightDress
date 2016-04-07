@@ -130,4 +130,8 @@
         <item name="android:minHeight">30dip</item>
         <item name="android:maxHeight">30dip</item>
     </style>
+
+    <style name="headerline">
+        <item name="android:layout_height">0.1dp</item>
+    </style>
 </resources>

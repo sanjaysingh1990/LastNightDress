@@ -142,7 +142,7 @@
                 custom:tickStart="0"
                 custom:tickEnd="1000"
                 custom:tickHeight="0dp"
-                custom:tickInterval="200"
+                custom:tickInterval="100"
                 custom:rangeBarColor="#222427"
                 custom:temporaryPins="false"
                 custom:pinColor="#222427"

@@ -56,8 +56,7 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:src="@drawable/image1"
-                    app:civ_border_width="1dp"
-                    app:civ_border_color="#dadada"/>
+                    />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -81,6 +80,7 @@
                 android:id="@+id/notiimage"
                 android:background="#000"
                 android:layout_weight="0"
+                android:scaleType="centerCrop"
                 />
         </LinearLayout>
 

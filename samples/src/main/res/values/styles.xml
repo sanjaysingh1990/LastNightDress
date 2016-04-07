@@ -129,6 +129,7 @@
         <item name="android:minHeight">30dip</item>
         <item name="android:maxHeight">30dip</item>
     </style>
+
     <style name="myRecyclerViewStyle">
         <!-- NOTE: clipChildren should be true on API level 10 -->
         <item name="android:clipChildren">true</item>
@@ -139,5 +140,14 @@
         <item name="android:paddingTop">@dimen/activity_vertical_margin</item>
         <item name="android:scrollbarStyle">outsideOverlay</item>
         <item name="android:scrollbars">vertical</item>
+    </style>
+
+    <style name="headerline">
+        <item name="android:layout_height">0.1dp</item>
+    </style>
+
+    <style name="coloredRatingBarStyleSmallIndicator">
+        <item name="indicator2">true</item>
+        <item name="type">small</item>
     </style>
 </resources>

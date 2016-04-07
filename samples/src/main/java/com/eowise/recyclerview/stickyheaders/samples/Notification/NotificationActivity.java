@@ -1,17 +1,13 @@
 package com.eowise.recyclerview.stickyheaders.samples.Notification;
 
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 
 import java.util.List;
@@ -36,13 +32,13 @@ public class NotificationActivity extends AppCompatActivity implements CompoundB
         setContentView(R.layout.activity_notification);
         //initialize
         ButterKnife.bind(this);
-        heading.setTypeface(ImageLoaderImage.robotobold);
+        heading.setTypeface(SingleTon.robotobold);
        //custom font
 
       for(int i=0;i<notification.size();i++)
       {
-          notification.get(i).setTypeface(ImageLoaderImage.robotomedium);
-          subtext.get(i).setTypeface(ImageLoaderImage.robotoregular);
+          notification.get(i).setTypeface(SingleTon.robotomedium);
+          subtext.get(i).setTypeface(SingleTon.robotoregular);
           switches.get(i).setOnCheckedChangeListener(this);
       }
 

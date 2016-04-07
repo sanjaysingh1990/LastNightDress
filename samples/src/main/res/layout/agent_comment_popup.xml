@@ -17,7 +17,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="If your not able to post a comment\n that means you are not an LND agent"
+        android:text="If your not able to post a comment\n that means you are not a LND agent"
         android:textSize="15sp"
         android:textColor="#000"
         android:gravity="center"

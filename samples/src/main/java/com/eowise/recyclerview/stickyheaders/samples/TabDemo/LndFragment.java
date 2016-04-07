@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -25,19 +24,16 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import com.eowise.recyclerview.stickyheaders.samples.Favorates.Favorates;
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.SQLDB.FavoriteData;
 import com.eowise.recyclerview.stickyheaders.samples.adapters.MarginDecoration;
 import com.eowise.recyclerview.stickyheaders.samples.adapters.NumberedAdapter;
 import com.eowise.recyclerview.stickyheaders.samples.data.ShopData;
-import com.eowise.recyclerview.stickyheaders.samples.listeners.OnLoadMoreListener;
 import com.eowise.recyclerview.stickyheaders.samples.peopleandhashtag.PeopleHashTagActivity;
-import com.example.sanju.pullrefresh.CustomSwipeRefreshLayout;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,7 +49,7 @@ public class LndFragment extends Fragment {
     public final static String ITEMS_COUNT_KEY = "PartThreeFragment$ItemsCount";
     RecyclerView recyclerv;
     public static ArrayList<ShopData> shopdata = new ArrayList<>();
-    private NumberedAdapter adapter;
+    public static NumberedAdapter adapter;
     protected Handler handler;
     public int skipdata = 0;
     private boolean loadmore = false;
@@ -62,7 +58,11 @@ public class LndFragment extends Fragment {
     @Bind(R.id.search)
     TextView search;
     static ImageButton favorate;
-
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private int previousTotal=0;
+    private boolean pullrefresh=false;
+    boolean loading = true;
+    int pastVisiblesItems, visibleItemCount, totalItemCount;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,15 +70,18 @@ public class LndFragment extends Fragment {
                 R.layout.fragment_lnd_shop, container, false);
         ButterKnife.bind(this, shopview);
         search.setHint("Search People, Brands & Hashtags");
-        search.setTypeface(ImageLoaderImage.robotoregular);
+        search.setTypeface(SingleTon.robotoregular);
         setupRecyclerView(shopview);
         handler = new Handler();
         try {
             shopdata.clear();
-            getData(skipdata);
+
+            getData(skipdata,LndShopActivity.selectedcategory);
 
 
-        } catch (Exception ex) {
+           }
+        catch (Exception ex)
+        {
 
         }
 
@@ -101,6 +104,22 @@ public class LndFragment extends Fragment {
 
         //checking favorate
         checkFavorate();
+//pull
+        swipeRefreshLayout = (SwipeRefreshLayout)shopview.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                skipdata = 0;
+                shopdata.clear();
+                try {
+                    // Toast.makeText(getActivity(), LndShopActivity.selectedcategory + "", Toast.LENGTH_SHORT).show();
+                    pullrefresh = true;
+                    getData(skipdata, LndShopActivity.selectedcategory);
+                } catch (Exception ex) {
+
+                }
+            }
+        });
 
         return shopview;
     }
@@ -109,17 +128,15 @@ public class LndFragment extends Fragment {
         recyclerv = (RecyclerView) recyclerView.findViewById(R.id.recycler_view);
         recyclerv.addItemDecoration(new MarginDecoration(getActivity()));
         recyclerv.setHasFixedSize(true);
-        recyclerv.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+        final GridLayoutManager gridlayoutm=new GridLayoutManager(getActivity(), 3);
+        recyclerv.setLayoutManager(gridlayoutm);
         adapter = new NumberedAdapter(shopdata, getActivity(), 200, recyclerv);
         recyclerv.setAdapter(adapter);
-        adapter.setOnLoadMoreListener(new OnLoadMoreListener() {
+        /*adapter.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
                 //add null , so the adapter will check view_type and show progress bar at bottom
-                if (ft == 0) {
-                    ft = 1;
-                    return;
-                }
+
                 shopdata.add(null);
                 adapter.notifyItemInserted(shopdata.size() - 1);
                 handler.postDelayed(new Runnable() {
@@ -128,45 +145,105 @@ public class LndFragment extends Fragment {
                         loadmore = true;
                         if (dataleft)
                             try {
-                                getData(skipdata);
+                                getData(skipdata, LndShopActivity.selectedcategory);
                             } catch (Exception ex) {
 
                             }
                         else {
 
-                            shopdata.remove(shopdata.size() - 1);
+                            try {
+                                shopdata.remove(shopdata.size() - 1);
 
-                            adapter.notifyItemRemoved(shopdata.size() - 1);
+                                adapter.notifyItemRemoved(shopdata.size() - 1);
 
-                            adapter.setLoaded();
+                                adapter.setLoaded();
+                            }
+                            catch (Exception ex)
+                            {
 
+                            }
                         }
                     }
                 }, 1000);
 
             }
+        });*/
+
+//load more
+        recyclerv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0) //check for scroll down
+                {
+                    visibleItemCount = gridlayoutm.getChildCount();
+                    totalItemCount = gridlayoutm.getItemCount();
+                    pastVisiblesItems = gridlayoutm.findFirstVisibleItemPosition();
+
+                    if (loading) {
+                        if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                            loading = false;
+
+                            shopdata.add(null);
+                            adapter.notifyItemInserted(shopdata.size() - 1);
+
+                            if (dataleft)
+                                try {
+                                    loadmore=true;
+                                    getData(skipdata, LndShopActivity.selectedcategory);
+                                } catch (Exception ex) {
+
+                                }
+                            else {
+
+                                try {
+                                    shopdata.remove(shopdata.size() - 1);
+
+                                    adapter.notifyItemRemoved(shopdata.size() - 1);
+
+
+                                }
+                                catch (Exception ex)
+                                {
+
+                                }
+                            }
+
+
+                        }
+                    }
+                }
+            }
         });
+
 
     }
 
-    public void getData(final int dataskip) throws Exception {
-        if (!loadmore) {
-            LndShopActivity.prog.setVisibility(View.VISIBLE);
-        }
+    public void getData(final int dataskip,final int category) throws Exception {
 
+        if(pullrefresh)
+            LndShopActivity.prog.setVisibility(View.GONE);
+        else
+            LndShopActivity.prog.setVisibility(View.VISIBLE);
 
         RequestQueue queue = Volley.newRequestQueue(getActivity());
         StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/postdata.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                 pullrefresh=false;
 
-                LndShopActivity.prog.setVisibility(View.GONE);
-                if (loadmore) {
-                    shopdata.remove(shopdata.size() - 1);
+                try {
+                    LndShopActivity.prog.setVisibility(View.GONE);
+                    swipeRefreshLayout.setRefreshing(false);
+                    if (loadmore) {
+                        shopdata.remove(shopdata.size() - 1);
 
-                    adapter.notifyItemRemoved(shopdata.size());
+                        adapter.notifyItemRemoved(shopdata.size()-1);
+                       loadmore=false;
 
-                    adapter.setLoaded();
+                    }
+                }
+                catch(Exception ex)
+                {
 
                 }
                 //Log.e("response", response.toString());
@@ -200,17 +277,19 @@ public class LndFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 LndShopActivity.prog.setVisibility(View.GONE);
-                /*try {
+                swipeRefreshLayout.setRefreshing(false);
+                pullrefresh=false;
+                try {
 					shopdata.remove(shopdata.size() - 1);
 
-					adapter.notifyItemRemoved(shopdata.size());
+					adapter.notifyItemRemoved(shopdata.size()-1);
 
-					adapter.setLoaded();
+
 				}
 				catch(Exception ex)
 				{
 
-				}*/
+				}
                 //Log.e("response",error.getMessage()+"");
                 try {
                     new com.eowise.recyclerview.stickyheaders.samples.AlertDialog().showAlertDialog(getActivity());
@@ -223,7 +302,7 @@ public class LndFragment extends Fragment {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("rqid", "5");
-                params.put("uname", "");
+                params.put("category", category+"");
 
                 params.put("skipdata", dataskip + "");
 
@@ -243,7 +322,7 @@ public class LndFragment extends Fragment {
 
     public static void checkFavorate() {
         try {
-            List<FavoriteData> fav = ImageLoaderImage.db.getAllContacts();
+            List<FavoriteData> fav = SingleTon.db.getAllContacts();
 
             if (fav.size() > 0) {
                 favorate.setImageResource(R.drawable.filled_favorate_icon2);

@@ -24,8 +24,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.Main_TabHost;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
 import com.eowise.recyclerview.stickyheaders.samples.adapters.SendMsgListAdapter;
 import com.eowise.recyclerview.stickyheaders.samples.data.Chat_Banner_Data;
 import com.eowise.recyclerview.stickyheaders.samples.data.MessageData;
@@ -74,20 +76,22 @@ public class SendMessageActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         listAdapter = new SendMsgListAdapter(data, this);
         chatListView.setAdapter(listAdapter);
-        heading.setTypeface(ImageLoaderImage.hfont);
+        heading.setTypeface(SingleTon.hfont);
 
         //data from previous page
         extra = getIntent().getExtras();
-
         if (extra != null) {
             sendername = extra.getString("uname");
             senderid = extra.getString("user_id");
             chatbanner= (Chat_Banner_Data) extra.get("bannerdata");
+            if(chatbanner!=null)
+            chatbanner.setSellerid(senderid);
            if(extra.getInt("msgstatus")==0)
             changeStatus(extra.getInt("msgid"));
         }
+       // Toast.makeText(this,"called"+extra.getString("user_id"),Toast.LENGTH_SHORT).show();
 
-        heading.setText(capitalize(sendername));
+        heading.setText(Capitalize.capitalize(sendername));
         final View rootView = findViewById(R.id.rootview);
 
         // Give the topmost view of your activity layout hierarchy. This will be used to measure soft keyboard height
@@ -187,7 +191,7 @@ public class SendMessageActivity extends AppCompatActivity {
         });
 
 
-        getData(senderid);
+       getData(senderid);
 
     }
 
@@ -195,15 +199,7 @@ public class SendMessageActivity extends AppCompatActivity {
         iconToBeChanged.setImageResource(drawableResourceId);
     }
 
-    private String capitalize(final String line) {
-        String[] split = line.split(" ");
-        String output = "";
-        for (String str : split) {
 
-            output += Character.toUpperCase(str.charAt(0)) + str.substring(1) + " ";
-        }
-        return output;
-    }
 
     public void getData(final String senderid) {
         final ProgressDialog pDialog = new ProgressDialog(this);
@@ -221,7 +217,7 @@ public class SendMessageActivity extends AppCompatActivity {
                 } catch (Exception ex) {
 
                 }
-                String uname=ImageLoaderImage.pref.getString("uname","");
+                String uname= SingleTon.pref.getString("uname","");
                // Log.e("msg", response.toString());
                 try {
                     JSONObject jobj = new JSONObject(response.toString());
@@ -238,6 +234,20 @@ public class SendMessageActivity extends AppCompatActivity {
                         } else {
                             md.setUserType(UserType.OTHER);
                         }
+                        //formatting date and time
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        Date testDate = null;
+                        try {
+                            testDate = sdf.parse(md.getTime());
+                        }catch(Exception ex){
+                            Log.e("error",ex.getMessage());
+                        }
+             //           SimpleDateFormat formatter = new SimpleDateFormat("MMM dd,yyyy hh:mm a");
+                        SimpleDateFormat formatter = new SimpleDateFormat("hh:mm a");
+
+                        String newFormat = formatter.format(testDate);
+                        md.setTime(newFormat.toUpperCase());
+
                         data.add(md);
                     }
                     if (data.size() == 0)
@@ -279,7 +289,7 @@ public class SendMessageActivity extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("rqid", "3");
-                params.put("receiver_id", ImageLoaderImage.pref.getString("user_id", ""));
+                params.put("receiver_id", SingleTon.pref.getString("user_id", ""));
                 params.put("sender_id", senderid);
 
                 return params;
@@ -311,7 +321,7 @@ public class SendMessageActivity extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa");
         String time1 = sdf.format(dt);
 
-        String uname = ImageLoaderImage.pref.getString("uname", "uname");
+        String uname = SingleTon.pref.getString("uname", "uname");
         //Log.e("check",cmntxt+","+uname);
         if (message.length() == 0)
             return;
@@ -319,19 +329,18 @@ public class SendMessageActivity extends AppCompatActivity {
         md.setMessage(message);
         md.setUname(uname);
         md.setTime(time1);
+        md.setProfilepic(SingleTon.pref.getString("imageurl",""));
         md.setUserType(UserType.SELF);
         data.add(md);
         listAdapter.notifyDataSetChanged();
         cmntbox.setText("");
-        //send message
-      SimpleDateFormat   DATE_FORMAT = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
-      String  datetime = DATE_FORMAT.format(new Date());
+
       try
       {
           JSONObject msg=new JSONObject();
           msg.put("message",message);
-          msg.put("date_time",datetime);
-          msg.put("sender_id",ImageLoaderImage.pref.getString("user_id", ""));
+          msg.put("date_time", SingleTon.getCurrentTimeStamp());
+          msg.put("sender_id", SingleTon.pref.getString("user_id", ""));
           msg.put("receiver_id",senderid);
 
 
@@ -413,6 +422,19 @@ public class SendMessageActivity extends AppCompatActivity {
 
                 try {
                     JSONObject jobj = new JSONObject(response.toString());
+                    if(jobj.getBoolean("status"))
+                    {
+                        if(Main_TabHost.message.getText().toString().compareToIgnoreCase("0")==0)
+                            Main_TabHost.popupWindow.dismiss();
+                         else
+                        {
+                            int val=Integer.parseInt(Main_TabHost.message.getText().toString());
+                            Main_TabHost.message.setText((val-1)+"");
+                            if(Main_TabHost.message.getText().toString().compareToIgnoreCase("0")==0)
+                                Main_TabHost.popupWindow.dismiss();
+
+                        }
+                    }
                 //    Toast.makeText(SendMessageActivity.this,response,Toast.LENGTH_LONG).show();
                 } catch (Exception ex) {
                     Log.e("json parsing error", ex.getMessage());

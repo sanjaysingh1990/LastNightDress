@@ -21,44 +21,18 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:clickable="true"
         android:id="@+id/rating"
         >
-        <ImageView
+        <com.eowise.recyclerview.stickyheaders.samples.Utils.ColoredRatingBar
+            xmlns:rb="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/ratingBar"
+            style="@style/coloredRatingBarStyleSmallIndicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/rating_star_empty"
-            android:id="@+id/star1"
-            />
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/rating_star_empty"
-            android:id="@+id/star2"
-            android:layout_marginLeft="5dp"
-            />
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/rating_star_empty"
-            android:id="@+id/star3"
-            android:layout_marginLeft="5dp"
-            />
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/rating_star_empty"
-            android:id="@+id/star4"
-            android:layout_marginLeft="5dp"
-            />
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/rating_star_empty"
-            android:id="@+id/star5"
-            android:layout_marginLeft="5dp"
-            />
+
+             />
     </LinearLayout>
 
     <github.ankushsachdeva.emojicon.EmojiconTextView
@@ -71,7 +45,7 @@
         android:textColorHint="#dadada"
         android:id="@+id/desc"
         android:layout_gravity="center"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_below="@+id/ratingBar"
         android:layout_centerHorizontal="true"
         android:textColor="#404040"

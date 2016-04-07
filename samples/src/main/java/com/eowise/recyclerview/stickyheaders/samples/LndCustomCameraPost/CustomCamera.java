@@ -1,5 +1,6 @@
 package com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost;
 
+import android.app.Activity;
 import android.hardware.Camera;
 import android.media.MediaRecorder;
 import android.os.Bundle;
@@ -17,7 +18,7 @@ import com.eowise.recyclerview.stickyheaders.samples.define.Receiver;
  */
 public class CustomCamera extends FragmentActivity
         implements View.OnClickListener {
-
+public static Activity act;
     /**
      * Single ton section
      */
@@ -89,7 +90,7 @@ public class CustomCamera extends FragmentActivity
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_lnd_custom_camera);
-
+act=this;
         /**
          * Get action string from intent to check it is :
          * - Single file action

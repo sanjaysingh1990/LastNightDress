@@ -9,7 +9,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 
 import butterknife.Bind;
@@ -39,7 +39,7 @@ public class ResetPasswordFragment extends Fragment
         //initializing butter knife
         ButterKnife.bind(this, view);
         // set custom font
-        heading.setTypeface(ImageLoaderImage.robotobold);
+        heading.setTypeface(SingleTon.robotobold);
        //listener for email sent
         next.setOnClickListener(new View.OnClickListener() {
             @Override

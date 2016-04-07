@@ -62,16 +62,10 @@
                     />
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                    style="@style/headerline"
                     android:background="#dadada"
                     android:layout_gravity="bottom" />
             </FrameLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#dadada"
-                android:layout_alignParentBottom="true"
-                />
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
     <FrameLayout
@@ -84,7 +78,7 @@
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/item_margin"
+
         android:clipToPadding="false"
         android:layout_weight="1"
         android:background="@color/white"

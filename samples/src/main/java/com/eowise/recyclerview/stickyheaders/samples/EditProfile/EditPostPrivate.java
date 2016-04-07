@@ -34,7 +34,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost.CompressImage;
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.nostra13.universalimageloader.utils.DiskCacheUtils;
@@ -105,7 +105,7 @@ public class EditPostPrivate extends AppCompatActivity implements View.OnClickLi
         setSupportActionBar(toolbar);
 
         heading= (TextView) findViewById(R.id.heading);
-        heading.setTypeface(ImageLoaderImage.hfont);
+        heading.setTypeface(SingleTon.hfont);
 
 //size
         size[0]= (TextView) findViewById(R.id.size1);
@@ -179,10 +179,10 @@ public class EditPostPrivate extends AppCompatActivity implements View.OnClickLi
                 //reading images
                 JSONObject jimagesobj=jobj2.getJSONObject("images");
 
-                ImageLoaderImage.imageLoader.displayImage(jimagesobj.getString("url1"),image1,ImageLoaderImage.options);
-                ImageLoaderImage.imageLoader.displayImage(jimagesobj.getString("url2"),image2,ImageLoaderImage.options);
-                ImageLoaderImage.imageLoader.displayImage(jimagesobj.getString("url3"),image3,ImageLoaderImage.options);
-                ImageLoaderImage.imageLoader.displayImage(jimagesobj.getString("url4"),image4,ImageLoaderImage.options);
+                SingleTon.imageLoader.displayImage(jimagesobj.getString("url1"),image1, SingleTon.options);
+                SingleTon.imageLoader.displayImage(jimagesobj.getString("url2"),image2, SingleTon.options);
+                SingleTon.imageLoader.displayImage(jimagesobj.getString("url3"),image3, SingleTon.options);
+                SingleTon.imageLoader.displayImage(jimagesobj.getString("url4"),image4, SingleTon.options);
                 links[0]=jimagesobj.getString("url1");
                 links[1]=jimagesobj.getString("url2");
                 links[2]=jimagesobj.getString("url3");
@@ -932,8 +932,8 @@ public class EditPostPrivate extends AppCompatActivity implements View.OnClickLi
             imagesarray.put(image4);
 
 
-            String uname=ImageLoaderImage.pref.getString("uname","user");
-            String profilepic=ImageLoaderImage.pref.getString("imageurl","http://");
+            String uname= SingleTon.pref.getString("uname","user");
+            String profilepic= SingleTon.pref.getString("imageurl","http://");
 
             JSONObject mainObj = new JSONObject();
             mainObj.put("post_id",post_id);
@@ -987,8 +987,8 @@ public class EditPostPrivate extends AppCompatActivity implements View.OnClickLi
                     if(jobj.getBoolean("status")) {
                         Toast.makeText(EditPostPrivate.this, jobj.getString("message"), Toast.LENGTH_LONG).show();
                         for(int i=0;i<4;i++) {
-                            MemoryCacheUtils.removeFromCache("http://52.76.68.122/lnd/photos/" + filename[i], ImageLoaderImage.imageLoader.getMemoryCache());
-                            DiskCacheUtils.removeFromCache("http://52.76.68.122/lnd/photos/"+filename[i], ImageLoaderImage.imageLoader.getDiskCache());
+                            MemoryCacheUtils.removeFromCache("http://52.76.68.122/lnd/photos/" + filename[i], SingleTon.imageLoader.getMemoryCache());
+                            DiskCacheUtils.removeFromCache("http://52.76.68.122/lnd/photos/"+filename[i], SingleTon.imageLoader.getDiskCache());
                         }
                     }
                     else

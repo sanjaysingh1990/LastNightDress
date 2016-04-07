@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.appyvet.rangebar.RangeBar;
@@ -26,7 +27,7 @@ import butterknife.ButterKnife;
  * @author Dani Lao (@dani_lao)
  * 
  */
-public class HangbagsFilterFragment extends Fragment implements View.OnClickListener {
+public class HandbagsFilterFragment extends Fragment implements View.OnClickListener {
 
 	@Bind({R.id.size1, R.id.size2, R.id.size3, R.id.size4})
 	List<TextView> handbagsize;
@@ -42,19 +43,28 @@ public class HangbagsFilterFragment extends Fragment implements View.OnClickList
 	@Bind(R.id.rangebar1)RangeBar rangebar;
 	@Bind(R.id.price)TextView price;
 
+	@Bind(R.id.reset)
+	ImageButton reset;
 
-	String[] conditionlist=new String[]{"",""};
-	String[] sizelist = new String[]{"", "", "", ""};
-	String[] handbagtypelist=new String[]{"",""};
-	String[] colorlist = new String[] {"", "","","","","","","","", "","","","","",""};
+	static String[] conditionlist=new String[]{"",""};
+	static String[] sizelist = new String[]{"", "", ""};
+	static String[] handbagtypelist=new String[]{"",""};
+	static String[] colorlist = new String[] {"", "","","","","","","","", "","","","","",""};
 
 	int col[] = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 	int condi[]=new int[] {0,0,0};
 	int dresstype[]=new int[] {0,0,0};
 	int bagsize[] = new int[]{0,0,0,0};
+
+	static int price1=0;
+	static int price2=1000;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+
+		// Inflate the layout for this fragment
+		LndShopActivity.filterselected = 2;
 		// Inflate the layout for this fragment
 		View view = inflater
 				.inflate(R.layout.handbags_filter_page, container, false);
@@ -123,10 +133,56 @@ public class HangbagsFilterFragment extends Fragment implements View.OnClickList
 					price.setText("$" + value2 + " - " + "$" + value1);
 				else
 					price.setText("$" + value2 + " - " + "$" + value1 + "+");
+
+				price1=value2;
+				price2=value1;
+			}
+		});
+
+		//reset button
+		reset.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				reset();
 			}
 		});
 
 		return view;
+	}
+
+
+	private void reset() {
+		price.setText("$0 - " + "$1000+");
+		//handbag size
+		for (int i = 0; i <handbagsize.size() - 1;i++) {
+			handbagsize.get(i).setBackgroundColor(Color.parseColor("#1d1f21"));
+			sizelist[i] = "";
+			bagsize[i] = 0;
+		}
+//handbag type
+		for (int i = 0; i < handbagtype.size() - 1; i++) {
+			handbagtype.get(i).setBackgroundColor(Color.parseColor("#1d1f21"));
+			handbagtypelist[i] = "";
+			dresstype[i] = 0;
+		}
+
+		//handbag condition
+		for (int i = 0; i <handbagcondition.size() - 1; i++) {
+			handbagcondition.get(i).setBackgroundColor(Color.parseColor("#1d1f21"));
+			conditionlist[i] = "";
+			condi[i] = 0;
+		}
+
+		//color reset
+		for (int i = 0; i < color.size() - 1; i++) {
+			color.get(i).setBackgroundColor(Color.parseColor("#1d1f21"));
+			colorlist[i] = "";
+			col[i] = 0;
+		}
+
+		//range bar
+		rangebar.setRangePinsByValue(0, 1000);
+
 	}
 
 	@Override
@@ -229,10 +285,9 @@ public class HangbagsFilterFragment extends Fragment implements View.OnClickList
 					for(int i=0;i<handbagsize.size()-1;i++)
 						handbagsize.get(i).setBackgroundColor(Color.parseColor("#be4d66"));
 					bagsize[3]=1;
-					sizelist[0]="5";
-					sizelist[1]="5.5";
-					sizelist[2]="6";
-					sizelist[3]="6.5";
+					sizelist[0]="1";
+					sizelist[1]="2";
+					sizelist[2]="3";
 
 				}
 				else {

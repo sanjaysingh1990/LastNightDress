@@ -21,7 +21,7 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.Main_TabHost;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 
@@ -36,9 +36,12 @@ import butterknife.ButterKnife;
 
 
 public class UserTypeFragment extends Fragment implements View.OnClickListener {
-    @Bind(R.id.close)TextView close;
-    @Bind(R.id.shopuser)RadioButton shopuser;
-    @Bind(R.id.privateuser)RadioButton privateuser;
+    @Bind(R.id.close)
+    TextView close;
+    @Bind(R.id.shopuser)
+    RadioButton shopuser;
+    @Bind(R.id.privateuser)
+    RadioButton privateuser;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,46 +58,41 @@ public class UserTypeFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
 
         try {
-            if(shopuser.isChecked())
-            FillUserInfo.jobj.put("utype","shop");
+            if (shopuser.isChecked())
+                FillUserInfo.jobj.put("utype", "shop");
             else
-                FillUserInfo.jobj.put("utype","private");
-            FillUserInfo.jobj.put("filename", "lnd" + System.currentTimeMillis() + ".jpg");
+                FillUserInfo.jobj.put("utype", "private");
 
 
             Log.e("data", FillUserInfo.jobj.toString());
-        registeruser(FillUserInfo.jobj.toString());
-        }
-        catch(JSONException ex)
-        {
+            registeruser(FillUserInfo.jobj.toString());
+        } catch (JSONException ex) {
             Log.e("error", ex.getMessage() + "");
         }
 
     }
 
-    public  void registeruser(final String data){
+    public void registeruser(final String data) {
         final ProgressDialog pDialog = new ProgressDialog(getActivity());
         pDialog.setMessage("wait creating profile...");
         pDialog.show();
 
         RequestQueue queue = Volley.newRequestQueue(getActivity());
-        StringRequest sr = new StringRequest(Request.Method.POST,"http://52.76.68.122/lnd/androidiosphpfiles/lndusers.php", new Response.Listener<String>() {
+        StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/lndusers.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 pDialog.dismiss();
                 Log.e("afterlogin", response.toString());
-                try
-                {
-                    JSONObject jobj=new JSONObject(response.toString());
-                    if(jobj.getBoolean("status"))
-                    {
-                        SharedPreferences.Editor edit= ImageLoaderImage.pref.edit();
+                try {
+                    JSONObject jobj = new JSONObject(response.toString());
+                    if (jobj.getBoolean("status")) {
+                        SharedPreferences.Editor edit = SingleTon.pref.edit();
                         edit.putString("uname", jobj.getString("uname"));
-                        edit.putString("upass",jobj.getString("logintype"));
-                        edit.putString("utype",jobj.getString("type"));
-                        edit.putString("user_id",jobj.getString("user_id"));
+                        edit.putString("upass", jobj.getString("logintype"));
+                        edit.putString("utype", jobj.getString("type"));
+                        edit.putString("user_id", jobj.getString("user_id"));
 
-                        edit.putString("country",jobj.getString("country"));
+                        edit.putString("country", jobj.getString("country"));
 
                         edit.putString("imageurl", jobj.getString("imageurl"));
                         edit.commit();
@@ -102,14 +100,10 @@ public class UserTypeFragment extends Fragment implements View.OnClickListener {
                         Intent i = new Intent(getActivity(), Main_TabHost.class);
                         startActivity(i);
                         getActivity().finish();
+                    } else {
+                        Log.e("error", "error");
                     }
-                    else
-                    {
-                       Log.e("error","error");
-                    }
-                }
-                catch(Exception ex)
-                {
+                } catch (Exception ex) {
                     Log.e("json parsing error", ex.getMessage());
                 }
             }
@@ -117,14 +111,14 @@ public class UserTypeFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onErrorResponse(VolleyError error) {
                 pDialog.dismiss();
-                Log.e("response",error.getMessage()+"");
+                Log.e("response", error.getMessage() + "");
             }
-        }){
+        }) {
             @Override
-            protected Map<String,String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("rqid","2");
-                params.put("data",data);
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("rqid", "2");
+                params.put("data", data);
 
 
                 return params;
@@ -132,8 +126,8 @@ public class UserTypeFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("Content-Type","application/x-www-form-urlencoded");
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/x-www-form-urlencoded");
                 return params;
             }
         };

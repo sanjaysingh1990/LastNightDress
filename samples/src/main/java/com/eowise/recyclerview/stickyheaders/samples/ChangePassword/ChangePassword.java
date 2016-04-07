@@ -3,11 +3,8 @@ package com.eowise.recyclerview.stickyheaders.samples.ChangePassword;
 import android.app.ProgressDialog;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -22,7 +19,7 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 
 import org.json.JSONObject;
@@ -92,7 +89,7 @@ if(newpassval.compareTo(newpassagainval)!=0)
     JSONObject jobj=new JSONObject();
     try
     {
-        jobj.put("uname", ImageLoaderImage.pref.getString("uname",""));
+        jobj.put("uname", SingleTon.pref.getString("uname",""));
         jobj.put("oldpass",oldpassval);
         jobj.put("newpass",newpassval);
     }

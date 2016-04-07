@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -37,7 +38,7 @@ public class BrandNameFragment extends Fragment {
     public final static String ITEMS_COUNT_KEY = "PartThreeFragment$ItemsCount";
     private List<PeopleData> itemList = new ArrayList<PeopleData>();
     private PeopleBrandHashTapAdapter recyclerAdapter;
-
+    static String previouskeyword="";
     public static BrandNameFragment createInstance(int itemsCount) {
         BrandNameFragment partThreeFragment = new BrandNameFragment();
         Bundle bundle = new Bundle();
@@ -52,7 +53,12 @@ public class BrandNameFragment extends Fragment {
         RecyclerView recyclerView = (RecyclerView) inflater.inflate(
                 R.layout.message_fragment, container, false);
         setupRecyclerView(recyclerView);
+        String hashtag=PeopleHashTagActivity.Search.getText()+"";
+        if(hashtag.length()>0&&hashtag.compareTo(previouskeyword)!=0) {
+            previouskeyword=hashtag;
+            getData(hashtag);
 
+        }
         //on text change
         PeopleHashTagActivity.Search.addTextChangedListener(new TextWatcher() {
             @Override

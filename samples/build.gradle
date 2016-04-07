@@ -5,6 +5,8 @@ repositories {
         url  "http://dl.bintray.com/ahmedrizwan/maven"
     }
 }
+
+
 dependencies {
     compile project(':library')
     compile project(':lib')
@@ -49,5 +51,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    productFlavors {
+        lndtest {
+            applicationId "com.lnd.lndtest"
+            versionName "1.0-demo"
+        }
 
+    }
 }

@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 
 /**
@@ -37,11 +36,11 @@ public class RootFragment extends Fragment {
 		if (value.compareToIgnoreCase("dress") == 0)
 			transaction.replace(R.id.root_frame, new DressFilterFragment());
 		else if (value.compareToIgnoreCase("handbags") == 0)
-			transaction.replace(R.id.root_frame, new HangbagsFilterFragment());
+			transaction.replace(R.id.root_frame, new HandbagsFilterFragment());
 		else if (value.compareToIgnoreCase("shoes") == 0)
 			transaction.replace(R.id.root_frame, new ShoesFilterFragment());
 		else if (value.compareToIgnoreCase("jewellery") == 0)
-			transaction.replace(R.id.root_frame, new JwelleryFilterFragment());
+			transaction.replace(R.id.root_frame, new JewelleryFilterFragment());
 		else
 		transaction.replace(R.id.root_frame, new CategoryFragment());
 

@@ -30,7 +30,7 @@
         android:required="false" />
 
     <application
-        android:name=".ImageLoaderImage"
+        android:name=".SingleTon"
         android:hardwareAccelerated="true"
         android:icon="@drawable/logo"
         android:label="@string/app_name"
@@ -152,9 +152,8 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
         <activity
-            android:name=".PostDataShop.DressPost"
+            android:name=".PostDataShop.DressEditPost"
             android:label="@string/title_activity_post_data"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
@@ -226,17 +225,17 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".PostDataShop.HandBagsPost"
+            android:name=".PostDataShop.HandBagsEditPost"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateVisible|adjustPan" />
         <activity
-            android:name=".PostDataShop.ShoesPost"
+            android:name=".PostDataShop.ShoesEditPost"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateVisible|adjustPan" />
         <activity
-            android:name=".PostDataShop.JewelleryPost"
+            android:name=".PostDataShop.JewelleryEditPost"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateVisible|adjustPan" />
@@ -256,7 +255,10 @@
             android:name=".Purchase.ShippingAddressActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-
+        <activity
+            android:name=".EditShopPost.EditPostHandBagsShop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
         <!--
         - all paypal activities
         <service
@@ -315,20 +317,32 @@
         <activity
             android:name=".Notification.NotificationActivity"
             android:label="@string/title_activity_notification"
-            android:theme="@style/AppTheme"></activity>
-
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".Paypal.PayPalAccountCreation"
             android:label="@string/title_activity_notification"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".LndNotificationMessage.LndNotificationMessageActivity"
             android:label="@string/title_activity_notification"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".Purchase.SwapCheckOutActivity"
             android:label="@string/title_activity_notification"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Currency.LndCurrency"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".HashTagsFullView.HashTagStickyActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".EditShopPost.EditPostShoesShop"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".EditShopPost.EditPostJewelleryShop"
+            android:theme="@style/AppTheme" />
+
         <service
             android:name="com.paypal.android.sdk.payments.PayPalService"
             android:exported="false" />
@@ -344,10 +358,16 @@
             android:name="io.card.payment.CardIOActivity"
             android:configChanges="keyboardHidden|orientation" />
         <activity android:name="io.card.payment.DataEntryActivity" />
-
-
-        Read more: http://www.androidhub4you.com/2014/07/android-paypal-gateway-example-paypal.html#ixzz41wXfrlUF
-
+        Read more:
+        http://www.androidhub4you.com/2014/07/android-paypal-gateway-example-paypal.html#ixzz41wXfrlUF
+        <activity
+            android:name=".HashTagsFullView.LndBrandHashTagGridViewActivity"
+            android:label="@string/title_activity_lnd_brand_hash_tag_grid_view"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".NotificationFullPost"
+            android:label="@string/title_activity_notification_full_post"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

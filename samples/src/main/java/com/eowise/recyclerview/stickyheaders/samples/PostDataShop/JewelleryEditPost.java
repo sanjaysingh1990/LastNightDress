@@ -22,10 +22,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.MultiAutoCompleteTextView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -43,8 +45,13 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost.CameraReviewFragment;
 import com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost.CompressImage;
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.Home_List_Data;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.ConstantValues;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.HashTagandMention;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.LndTextWatcher;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.LndTokenizer;
 import com.eowise.recyclerview.stickyheaders.samples.data.CameraData;
 
 import org.json.JSONArray;
@@ -52,50 +59,47 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import github.ankushsachdeva.emojicon.EmojiconEditText;
 import github.ankushsachdeva.emojicon.EmojiconGridView;
 import github.ankushsachdeva.emojicon.EmojiconsPopup;
 import github.ankushsachdeva.emojicon.emoji.Emojicon;
 
-public class JewelleryPost extends AppCompatActivity implements View.OnClickListener {
+public class JewelleryEditPost extends AppCompatActivity implements View.OnClickListener {
     @Bind({R.id.image1,R.id.image2,R.id.image3,R.id.image4})
     List<ImageView> images;
 
     //condition reference
     @Bind(R.id.conditionnew)
-    TextView conditionnew;
+    CheckBox conditionnew;
     @Bind(R.id.conditionspinner)
     Spinner conditionspinner;
 
     @Bind({R.id.size1, R.id.size2, R.id.size3, R.id.size4, R.id.size5, R.id.size6, R.id.size7, R.id.size8, R.id.size9, R.id.size10, R.id.size11, R.id.size12, R.id.size13, R.id.size14, R.id.size15, R.id.size16, R.id.size17, R.id.size18, R.id.size19, R.id.size20, R.id.size21})
 
-    List<TextView> ringsize;
+    List<CheckBox> ringsize;
     @Bind(R.id.ringsizelayout)
     LinearLayout ringsizelayout;
 
 
     @Bind({R.id.type1, R.id.type2, R.id.type3, R.id.type4, R.id.type5,})
-    List<TextView> jewellerytype;
+    List<CheckBox> jewellerytype;
 
     @Bind({R.id.metal1, R.id.metal2, R.id.metal3, R.id.metal4, R.id.metal5, R.id.metal6, R.id.metal7, R.id.metal8})
-    List<TextView> metaltype;
+    List<CheckBox> metaltype;
 
     @Bind(R.id.pricewas)
     EditText pricewas;
     @Bind(R.id.pricenow)
     EditText pricenow;
-    @Bind(R.id.desc)
-    EmojiconEditText desc;
+    @Bind(R.id.autocomplete)
+    MultiAutoCompleteTextView desc;
     @Bind(R.id.brand)
     EditText brand;
     @Bind(R.id.earnings)
@@ -107,22 +111,17 @@ public class JewelleryPost extends AppCompatActivity implements View.OnClickList
     ImageButton emojiButton;
     @Bind(R.id.rootview) View rootView;
 
-    int metal[] = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
-    int size[] = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-
-
-    String[] sizelist = new String[]{"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""};
-
 
     int jewelleryselected = 0;
     int condition = 0;
-    String[] metaltypelist = new String[]{"", "", "", "", "", "", "", "", ""};
 
     PopupWindow popupWindow;
     ValueAnimator mAnimator;
     private boolean sizeopen = true;
     String[] links = new String[4];
     ArrayList<String> filename = new ArrayList<>();
+
+    private Bundle extra;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -150,14 +149,7 @@ public class JewelleryPost extends AppCompatActivity implements View.OnClickList
         conditionnew.setOnClickListener(this);
 
 
-        //metaltype listener
-        for (int i = 0; i < metaltype.size(); i++) {
-            metaltype.get(i).setOnClickListener(this);
-        }
-//ring size listener
-        for (int i = 0; i < ringsize.size(); i++) {
-            ringsize.get(i).setOnClickListener(this);
-        }
+
         //condition spinner selection events
         conditionspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -165,16 +157,22 @@ public class JewelleryPost extends AppCompatActivity implements View.OnClickList
                 if (pos > 0) {
 
 
-                    ((TextView) parent.getChildAt(0)).setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow, 0);
 
-                    ((TextView) parent.getChildAt(0)).setTextColor(Color.parseColor("#be4d66"));
+                    ((TextView) parent.getChildAt(0)).setTextColor(Color.parseColor("#ffffff"));
+                    ((TextView) parent.getChildAt(0)).setBackgroundColor(Color.parseColor("#be4d66"));
+                    conditionspinner.setBackgroundColor(Color.parseColor("#be4d66"));
                     condition = pos;
-
                     condition();
                 } else {
-                    ((TextView) parent.getChildAt(0)).setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow, 0);
+                    ((TextView) parent.getChildAt(0)).setTextColor(Color.parseColor("#ffffff"));
+                    ((TextView) parent.getChildAt(0)).setBackgroundColor(Color.parseColor("#1d1f21"));
+                    conditionspinner.setBackgroundColor(Color.parseColor("#1d1f21"));
+                    if(condition!=11)
                     condition = pos;
                 }
+                ((TextView) parent.getChildAt(0)).setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow, 0);
+
+
             }
 
             @Override
@@ -182,6 +180,7 @@ public class JewelleryPost extends AppCompatActivity implements View.OnClickList
 
             }
         });
+
 
         for (int i = 0; i < 4; i++)
             filename.add("");
@@ -210,21 +209,125 @@ public class JewelleryPost extends AppCompatActivity implements View.OnClickList
                 }
             }
         });
-setupEmoji();
+
+        //username selected from list
+        desc.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int index, long position) {
+                desc.setText(new HashTagandMention().addClickablePart(desc.getText().toString(), "#be4d66"));
+                desc.setSelection(desc.getText().length());
+            }
+        });
+
+
+        desc.setThreshold(1); //Set number of characters before the dropdown should be shown
+
+        desc.addTextChangedListener(new LndTextWatcher(desc, this));
+
+        //Create a new Tokenizer which will get text after '@' and terminate on ' '
+        desc.setTokenizer(new LndTokenizer());
+
+
+        setupEmoji();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
+        //read data
+         extra = getIntent().getExtras();
+        if (extra != null) {
+            Home_List_Data hld = (Home_List_Data) extra.getSerializable("data");
+            setValues(hld);
+        }
+
+
         for(Map.Entry<String, CameraData> entry: CameraReviewFragment.urls.entrySet()) {
             //    System.out.println(entry.getKey());
             CameraData cd=entry.getValue();
             int value=Integer.parseInt(entry.getKey())-1;
             filename.add(value, cd.getFilename());
+
             new AsyncTaskLoadImage(images.get(value), value).execute(cd.getImageurl());
 
 
         }
+
+    }
+    private void setValues(Home_List_Data hld) {
+        //set images
+        for (int i = 0; i < images.size(); i++) {
+            if (hld.getImageurls().get(i).length() > 0)
+                SingleTon.imageLoader.displayImage(hld.getImageurls().get(i), images.get(i), SingleTon.options);
+        }
+        //set brand
+        brand.setText(hld.getBrandname());
+        //set description
+        desc.setText(new HashTagandMention().addClickablePart(hld.getDescription(), "#be4d66"));
+
+        //pricewas
+        pricewas.setText(hld.getPricewas());
+        //pricenow
+        pricenow.setText(hld.getPricenow());
+
+        // condition
+        try {
+            int val = Integer.parseInt(hld.getConditon());
+            if (val >= 1 && val <= 10)
+                conditionspinner.setSelection(val);
+
+            else
+                conditionnew.setChecked(true);
+
+        } catch (Exception ex) {
+
+        }
+
+        //jewellery type
+        try {
+
+
+            int val = Integer.parseInt(hld.getProdtype());
+            jewellerytype.get(val - 1).setChecked(true);
+            jewelleryselected=val;
+        } catch (Exception ex) {
+
+        }
+        try {
+            //metal
+
+            String[] jewellerymetal = hld.getColors().split(",");
+            for (int i = 0; i < jewellerymetal.length; i++) {
+                int index=Integer.parseInt(jewellerymetal[i]);
+                index--;
+                this.metaltype.get(index).setChecked(true);
+
+
+            }
+        } catch (Exception ex)
+
+        {
+
+        }
+        //size1
+        try {
+            int val = Integer.parseInt(hld.getProdtype());
+            if(val==2) {
+                String[] size1 = hld.getSize().split(",");
+
+                for (int i = 0; i < size1.length; i++) {
+                    Arrays.sort(ConstantValues.ringsize);
+                    int index = Arrays.binarySearch(ConstantValues.ringsize, size1[i]);
+                    this.ringsize.get(index).setChecked(true);
+
+
+                }
+            }
+        } catch (Exception ex) {
+
+        }
+
+
 
     }
 
@@ -242,17 +345,17 @@ setupEmoji();
         onBackPressed();
     }
 
-    private void selectJewelleryType(TextView txt) {
+    private void selectJewelleryType(CheckBox cb) {
         for (int i = 0; i < jewellerytype.size(); i++)
-            jewellerytype.get(i).setBackgroundColor(Color.parseColor("#1d1f21"));
-        txt.setBackgroundColor(Color.parseColor("#be4d66"));
+            jewellerytype.get(i).setChecked(false);
+             cb.setChecked(true);
     }
 
     @Override
     public void onClick(View v) {
 
 
-        int pw = 0, pn = 0;
+     /*   int pw = 0, pn = 0;
         try {
             pn = Integer.parseInt(pricenow.getText().toString());
 
@@ -287,439 +390,44 @@ setupEmoji();
             pricewas.requestFocus();
             return;
         }
-
+*/
         switch (v.getId()) {
             //for jewellery type events
             case R.id.type1:
-                selectJewelleryType((TextView) v);
-
-                jewelleryselected = 1;
-                sizeopen = true;
-                collapse();
+                selectJewelleryType((CheckBox) v);
+                sizeopen=true;
+               collapse();
                 break;
             case R.id.type2:
-                selectJewelleryType((TextView) v);
-                jewelleryselected = 2;
+                selectJewelleryType((CheckBox) v);
                 if (sizeopen) {
                     expand();
                     sizeopen = false;
                 }
                 break;
             case R.id.type3:
-                selectJewelleryType((TextView) v);
-                jewelleryselected = 3;
-                sizeopen = true;
+                selectJewelleryType((CheckBox) v);
+                sizeopen=true;
                 collapse();
                 break;
             case R.id.type4:
-                selectJewelleryType((TextView) v);
-                jewelleryselected = 4;
-                sizeopen = true;
+                selectJewelleryType((CheckBox) v);
+                sizeopen=true;
                 collapse();
                 break;
             case R.id.type5:
-                selectJewelleryType((TextView) v);
-                jewelleryselected = 5;
-                sizeopen = true;
+                selectJewelleryType((CheckBox) v);
+                sizeopen=true;
                 collapse();
                 break;
 
             // condition events
             case R.id.conditionnew:
-                conditionnew.setBackgroundColor(Color.parseColor("#be4d66"));
+                conditionnew.setChecked(true);
                 condition =11;
                 conditionspinner.setSelection(0);
 
                 break;
-
-
-            //for metal type events
-            case R.id.metal1:
-                if (metal[0] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    metal[0] = 1;
-                    metaltypelist[0] = "1";
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    metal[0] = 0;
-                    metaltypelist[0] = "";
-                }
-                break;
-            case R.id.metal2:
-                if (metal[1] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    metal[1] = 1;
-                    metaltypelist[1] = "2";
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    metal[1] = 0;
-                    metaltypelist[1] = "";
-                }
-                break;
-            case R.id.metal3:
-                if (metal[2] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    metal[2] = 1;
-                    metaltypelist[2] = "3";
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    metal[2] = 0;
-                    metaltypelist[2] = "";
-                }
-                break;
-            case R.id.metal4:
-                if (metal[3] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    metal[3] = 1;
-                    metaltypelist[3] = "4";
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    metal[3] = 0;
-                    metaltypelist[3] = "";
-                }
-                break;
-            case R.id.metal5:
-                if (metal[4] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    metal[4] = 1;
-                    metaltypelist[4] ="5";
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    metal[4] = 0;
-                    metaltypelist[4] = "";
-                }
-                break;
-            case R.id.metal6:
-                if (metal[5] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    metal[5] = 1;
-                    metaltypelist[5] = "6";
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    metal[5] = 0;
-                    metaltypelist[5] = "";
-                }
-                break;
-            case R.id.metal7:
-                if (metal[6] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    metal[6] = 1;
-                    metaltypelist[6] = "7";
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    metal[6] = 0;
-                    metaltypelist[6] = "";
-                }
-                break;
-            case R.id.metal8:
-                if (metal[7] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    metal[7] = 1;
-                    metaltypelist[7] = "8";
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    metal[7] = 0;
-                    metaltypelist[7] = "";
-                }
-                break;
-
-            //events for size
-            case R.id.size1:
-                if (size[0] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    size[0] = 1;
-                    sizelist[0] = "os";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    size[0] = 0;
-                    sizelist[0] = "";
-                }
-                break;
-            case R.id.size2:
-                if (size[1] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    size[1] = 1;
-                    sizelist[1] = "1";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    size[1] = 0;
-                    sizelist[1] = "";
-                }
-                break;
-            case R.id.size3:
-                if (size[2] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    size[2] = 1;
-                    sizelist[2] = "1.5";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    size[2] = 0;
-                    sizelist[2] = "";
-                }
-                break;
-            case R.id.size4:
-                if (size[3] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    size[3] = 1;
-                    sizelist[3] = "2";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    size[3] = 0;
-                    sizelist[3] = "";
-
-                }
-                break;
-            case R.id.size5:
-                if (size[4] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    size[4] = 1;
-                    sizelist[4] = "2.5";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    size[4] = 0;
-                    sizelist[4] = "";
-
-                }
-                break;
-            case R.id.size6:
-                if (size[5] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    size[5] = 1;
-                    sizelist[5] = "3";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    size[5] = 0;
-                    sizelist[5] = "";
-                }
-                break;
-            case R.id.size7:
-                if (size[6] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    size[6] = 1;
-                    sizelist[6] = "3.5";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    size[6] = 0;
-                    sizelist[6] = "";
-
-                }
-                break;
-            case R.id.size8:
-                if (size[7] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    size[7] = 1;
-                    sizelist[7] = "4";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    size[7] = 0;
-                    sizelist[7] = "";
-
-                }
-                break;
-            case R.id.size9:
-
-
-                if (size[8] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    size[8] = 1;
-                    sizelist[8] = "4.5";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    size[8] = 0;
-                    sizelist[8] = "";
-
-                }
-                break;
-            case R.id.size10:
-
-
-                if (size[9] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    size[9] = 1;
-                    sizelist[9] = "6";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    size[9] = 0;
-                    sizelist[9] = "";
-
-                }
-                break;
-            case R.id.size11:
-
-
-                if (size[10] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    size[10] = 1;
-                    sizelist[10] = "6.5";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    size[10] = 0;
-                    sizelist[10] = "";
-
-                }
-                break;
-            case R.id.size12:
-
-
-                if (size[11] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    size[11] = 1;
-                    sizelist[11] = "7";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    size[11] = 0;
-                    sizelist[11] = "";
-
-                }
-                break;
-            case R.id.size13:
-
-
-                if (size[12] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    size[12] = 1;
-                    sizelist[12] = "7.5";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    size[12] = 0;
-                    sizelist[12] = "";
-
-                }
-                break;
-            case R.id.size14:
-
-
-                if (size[13] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    size[13] = 1;
-                    sizelist[13] = "8";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    size[13] = 0;
-                    sizelist[13] = "";
-
-                }
-                break;
-            case R.id.size15:
-
-
-                if (size[14] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    size[14] = 1;
-                    sizelist[14] = "8.5";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    size[14] = 0;
-                    sizelist[14] = "";
-
-                }
-                break;
-            case R.id.size16:
-
-
-                if (size[15] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    size[15] = 1;
-                    sizelist[15] = "9";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    size[15] = 0;
-                    sizelist[15] = "";
-
-                }
-                break;
-            case R.id.size17:
-
-
-                if (size[16] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    size[16] = 1;
-                    sizelist[16] = "9.5";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    size[16] = 0;
-                    sizelist[16] = "";
-
-                }
-                break;
-            case R.id.size18:
-
-
-                if (size[17] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    size[17] = 1;
-                    sizelist[17] = "10";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    size[17] = 0;
-                    sizelist[17] = "";
-
-                }
-                break;
-            case R.id.size19:
-
-
-                if (size[18] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    size[18] = 1;
-                    sizelist[18] = "10.5";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    size[18] = 0;
-                    sizelist[18] = "";
-
-                }
-                break;
-            case R.id.size20:
-
-
-                if (size[19] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    size[19] = 1;
-                    sizelist[19] = "11";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    size[19] = 0;
-                    sizelist[19] = "";
-
-                }
-                break;
-            case R.id.size21:
-
-
-                if (size[20] == 0) {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
-                    size[20] = 1;
-                    sizelist[20] = "11.5+";
-
-                } else {
-                    ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    size[20] = 0;
-                    sizelist[20] = "";
-
-                }
-                break;
-
 
 
 
@@ -833,7 +541,7 @@ setupEmoji();
     }
 
     private void condition() {
-        conditionnew.setBackgroundColor(Color.parseColor("#1d1f21"));
+        conditionnew.setChecked(false);
 
 
     }
@@ -857,20 +565,27 @@ setupEmoji();
 
         //to check atleast one size selected
         if(jewelleryselected==2) {
-            for (int i = 0; i < sizelist.length; i++) {
-                if (sizelist[i].length() > 0) {
+            for (int i = 0; i <this.ringsize.size(); i++) {
+                if (this.ringsize.get(i).isChecked()) {
                     rsize = false;
-                    ringsize.add(sizelist[i]);
+                    ringsize.add(this.ringsize.get(i).getTag().toString());
                 }
             }
         }
         else
         ringsize.add("os");
         //to check atleast one metaltype selected
-        for (int i = 0; i < metaltypelist.length; i++) {
-            if (metaltypelist[i].length()> 0) {
+        for (int i = 0; i < this.metaltype.size(); i++) {
+            if (this.metaltype.get(i).isChecked()) {
                 mtype = false;
-                metaltype.add(metaltypelist[i]);
+                metaltype.add(this.metaltype.get(i).getTag().toString());
+            }
+        }
+
+        //to check jewellery type
+        for (int i = 0; i < jewellerytype.size(); i++) {
+            if (this.jewellerytype.get(i).isChecked()) {
+             jewelleryselected=i+1;
             }
         }
 
@@ -909,10 +624,17 @@ setupEmoji();
         else if (rsize&&(jewelleryselected==2)) {
             Toast.makeText(this, "select ring  size", Toast.LENGTH_SHORT).show();
             return;
-        } else if (mtype) {
+        }
+        else if (jewelleryselected==0) {
             Toast.makeText(this, "select  type", Toast.LENGTH_SHORT).show();
             return;
-        } else if (condition==0) {
+        }
+        else if (mtype) {
+            Toast.makeText(this, "select metal type", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        else if (condition==0) {
             Toast.makeText(this, "select condition", Toast.LENGTH_SHORT).show();
             return;
 
@@ -935,17 +657,13 @@ setupEmoji();
             //image3 json
             JSONObject image3 = new JSONObject();
             image3.put("imagename", filename.get(2));
-            image3.put("imageurl", links[2]);
+           image3.put("imageurl", links[2]);
 
             //image4 json
             JSONObject image4 = new JSONObject();
             image4.put("imagename", filename.get(3));
             image4.put("imageurl", links[3]);
 
-            //taking date time
-            Calendar cal = Calendar.getInstance();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
-            String strDate = sdf.format(cal.getTime());
 
             //images array
             JSONArray imagesarray = new JSONArray();
@@ -954,7 +672,7 @@ setupEmoji();
             imagesarray.put(image3);
             imagesarray.put(image4);
 
-            String userid = ImageLoaderImage.pref.getString("user_id", "");
+            String userid = SingleTon.pref.getString("user_id", "");
 
             JSONObject mainObj = new JSONObject();
 
@@ -969,14 +687,14 @@ setupEmoji();
 
 
             mainObj.put("jewellerysize", sizeArray);
-            mainObj.put("datetime", strDate);
+            mainObj.put("datetime", SingleTon.getCurrentTimeStamp());
             mainObj.put("description", desc.getText().toString());
             mainObj.put("pricenow", pricenow.getText().toString());
             mainObj.put("pricewas", pricewas.getText().toString());
             mainObj.put("metaltype", metalArray);
             mainObj.put("images", imagesarray);
-
-           jewelleryPost(mainObj.toString());
+            if(extra==null)
+            jewelleryPost(mainObj.toString());
 
             //Log.e("json", mainObj.toString());
         } catch (Exception ex) {
@@ -1027,10 +745,10 @@ setupEmoji();
                 try {
                     JSONObject jobj = new JSONObject(response);
                     if (jobj.getBoolean("status")) {
-                        Toast.makeText(JewelleryPost.this, jobj.getString("message")+"", Toast.LENGTH_LONG).show();
+                        Toast.makeText(JewelleryEditPost.this, jobj.getString("message")+"", Toast.LENGTH_LONG).show();
                         finish();
                     } else {
-                        Toast.makeText(JewelleryPost.this, jobj.getString("message")+"", Toast.LENGTH_LONG).show();
+                        Toast.makeText(JewelleryEditPost.this, jobj.getString("message")+"", Toast.LENGTH_LONG).show();
 
 
                     }
@@ -1044,7 +762,7 @@ setupEmoji();
                 pDialog.dismiss();
                 //   Log.e("response error", error.getMessage() + "");
 
-                Toast.makeText(JewelleryPost.this, "Jewellery not posted please try again", Toast.LENGTH_LONG).show();
+                Toast.makeText(JewelleryEditPost.this, "Jewellery not posted please try again", Toast.LENGTH_LONG).show();
             }
         }) {
             @Override

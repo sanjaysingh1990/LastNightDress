@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 
 import butterknife.Bind;
@@ -30,9 +30,9 @@ public class LndUserTypeFragment extends Fragment implements View.OnClickListene
         ButterKnife.bind(this, view);
 
        //font setup
-        shopuser.setTypeface(ImageLoaderImage.subheading);
-        privateuser.setTypeface(ImageLoaderImage.subheading);
-        ortext.setTypeface(ImageLoaderImage.mainfont);
+        shopuser.setTypeface(SingleTon.subheading);
+        privateuser.setTypeface(SingleTon.subheading);
+        ortext.setTypeface(SingleTon.mainfont);
 
         //bind with listener
         shopuser.setOnClickListener(this);

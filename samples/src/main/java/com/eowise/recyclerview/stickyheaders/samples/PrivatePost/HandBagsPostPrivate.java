@@ -22,6 +22,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.MultiAutoCompleteTextView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -37,11 +38,14 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost.CameraReviewFragment;
 import com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost.CompressImage;
 import com.eowise.recyclerview.stickyheaders.samples.PostDataShop.Lnd_Post_Instruction;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.HashTagandMention;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.LndTextWatcher;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.LndTokenizer;
 import com.eowise.recyclerview.stickyheaders.samples.data.CameraData;
 
 import org.json.JSONArray;
@@ -58,7 +62,6 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import github.ankushsachdeva.emojicon.EmojiconEditText;
 import github.ankushsachdeva.emojicon.EmojiconGridView;
 import github.ankushsachdeva.emojicon.EmojiconsPopup;
 import github.ankushsachdeva.emojicon.emoji.Emojicon;
@@ -85,8 +88,8 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
     List<TextView> handbagtype;
     @Bind(R.id.conditionspinner)
     Spinner conditionspinner;
-    @Bind(R.id.desc)
-    EmojiconEditText desc;
+    @Bind(R.id.autocomplete)
+    MultiAutoCompleteTextView desc;
     @Bind(R.id.brand)
     EditText brand;
     @Bind(R.id.pricewas)
@@ -195,6 +198,24 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
                 }
             }
         });
+
+
+        //username selected from list
+        desc.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int index, long position) {
+                desc.setText(new HashTagandMention().addClickablePart(desc.getText().toString(), "#be4d66"));
+                desc.setSelection(desc.getText().length());
+            }
+        });
+
+
+        desc.setThreshold(1); //Set number of characters before the dropdown should be shown
+
+        desc.addTextChangedListener(new LndTextWatcher(desc, this));
+
+        //Create a new Tokenizer which will get text after '@' and terminate on ' '
+        desc.setTokenizer(new LndTokenizer());
+
         setupEmoji();
 
     }
@@ -600,7 +621,7 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
             imagesarray.put(image4);
 
 
-            String userid = ImageLoaderImage.pref.getString("user_id", "");
+            String userid = SingleTon.pref.getString("user_id", "");
             JSONObject mainObj = new JSONObject();
 
             mainObj.put("user_id", userid);

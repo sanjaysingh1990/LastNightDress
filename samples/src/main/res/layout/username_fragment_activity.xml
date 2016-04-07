@@ -26,6 +26,7 @@
         android:orientation="vertical"
         android:layout_centerInParent="true"
         android:id="@+id/layout"
+        android:padding="5dp"
         >
 <LinearLayout
     android:layout_width="match_parent"

@@ -1,16 +1,14 @@
 package com.eowise.recyclerview.stickyheaders.samples.PostDataShop;
 
 import android.content.Context;
-import android.support.v7.widget.PopupMenu;
 import android.text.Html;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 
 /**
@@ -41,14 +39,14 @@ public class Lnd_Post_Instruction
         TextView text5= (TextView) popupView.findViewById(R.id.text5);
         TextView close= (TextView) popupView.findViewById(R.id.close);
         //apply custom font
-        heading1.setTypeface(ImageLoaderImage.robotobold);
-        heading2.setTypeface(ImageLoaderImage.robotomedium);
-        heading3.setTypeface(ImageLoaderImage.robotomedium);
-        text1.setTypeface(ImageLoaderImage.robotoregular);
-        text2.setTypeface(ImageLoaderImage.robotoregular);
-        text3.setTypeface(ImageLoaderImage.robotoregular);
-        text4.setTypeface(ImageLoaderImage.robotoregular);
-        text5.setTypeface(ImageLoaderImage.robotoregular);
+        heading1.setTypeface(SingleTon.robotobold);
+        heading2.setTypeface(SingleTon.robotomedium);
+        heading3.setTypeface(SingleTon.robotomedium);
+        text1.setTypeface(SingleTon.robotoregular);
+        text2.setTypeface(SingleTon.robotoregular);
+        text3.setTypeface(SingleTon.robotoregular);
+        text4.setTypeface(SingleTon.robotoregular);
+        text5.setTypeface(SingleTon.robotoregular);
 
         String textval4 = "<font color=#000000><b>rate. </b></font> <font>According to research, posts with hashtags receive twice as much engagement as those that don’t. Put it in another way, you can double your engagement and increase click through rates by including hashtags.</font>";
         String textval3 = "<font color=#000000><b>audience. </b></font> <font>Many people search for specific hashtags. By using the hashtags that are of interest to your ideal customer, you can increase the chances of being found.</font>";

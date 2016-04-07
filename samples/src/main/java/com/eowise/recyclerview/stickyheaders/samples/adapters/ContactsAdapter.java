@@ -19,7 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.data.PeopleData;
 import java.io.InputStream;
@@ -52,7 +52,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
         PeopleData peopledata=items.get(position);
-        ImageLoaderImage.imageLoader.displayImage(peopledata.getImageurl(), viewHolder.img, ImageLoaderImage.options3);
+        SingleTon.imageLoader.displayImage(peopledata.getImageurl(), viewHolder.img, SingleTon.options3);
 
         viewHolder.uname.setText(capitalize(peopledata.getUname()));
         viewHolder.number.setText(peopledata.getNumber());
@@ -83,7 +83,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
             uname= (TextView) itemView.findViewById(R.id.uname);
             number= (TextView) itemView.findViewById(R.id.number);
             img= (ImageView) itemView.findViewById(R.id.profilepic);
-            uname.setTypeface(ImageLoaderImage.unamefont);
+            uname.setTypeface(SingleTon.unamefont);
 
             itemView.setOnClickListener(this);
         }

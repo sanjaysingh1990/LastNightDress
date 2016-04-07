@@ -1,16 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <declare-styleable name="AVLoadingIndicatorView">
+      <declare-styleable name="AVLoadingIndicatorView">
         <attr name="indicator">
 
             <flag name="LineSpinFadeLoader" value="0"/>
                    </attr>
         <attr name="indicator_color" format="color"/>
     </declare-styleable>
+
     <declare-styleable name="RangeSeekBar">
         <attr name="absoluteMinValue" format="integer|float"/>
         <attr name="absoluteMaxValue" format="integer|float"/>
         <attr name="singleThumb" format="boolean"/>
+    </declare-styleable>
+
+
+    <declare-styleable name="ColoredRatingBar">
+        <attr name="indicator2" format="boolean" />
+        <attr name="rating" format="float" />
+        <attr name="type" format="enum">
+            <enum name="normal" value="0" />
+            <enum name="small" value="1" />
+        </attr>
+        <attr name="coloredRatingBarStyle" format="reference" />
+        <!-- Indicator RatingBar style. -->
+        <attr name="coloredRatingBarStyleIndicator" format="reference" />
+        <!-- Small RatingBar style. -->
+        <attr name="coloredRatingBarStyleSmall" format="reference" />
+        <!-- Small indicator RatingBar style. -->
+        <attr name="coloredRatingBarStyleSmallIndicator" format="reference" />
+    </declare-styleable>
+    <declare-styleable name="RelativeTimeTextView">
+        <attr name="relative_time_prefix" format="string" />
+        <attr name="relative_time_suffix" format="string" />
+        <attr name="reference_time" format="string" />
     </declare-styleable>
 </resources>

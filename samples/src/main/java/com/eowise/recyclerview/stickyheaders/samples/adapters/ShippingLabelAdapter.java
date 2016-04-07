@@ -1,30 +1,21 @@
 package com.eowise.recyclerview.stickyheaders.samples.adapters;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
-import android.test.ActivityTestCase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
-import com.eowise.recyclerview.stickyheaders.samples.LndMessage.SwapRequestActivity;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.MyPurchases.PurchaseShipplingLabelActivity;
 import com.eowise.recyclerview.stickyheaders.samples.MySales.ShippingLabelActivity;
-import com.eowise.recyclerview.stickyheaders.samples.NewMessage.SendMessageActivity;
 import com.eowise.recyclerview.stickyheaders.samples.R;
-import com.eowise.recyclerview.stickyheaders.samples.data.MessageToFriendsData;
 import com.eowise.recyclerview.stickyheaders.samples.data.PersonDataProvider;
 import com.eowise.recyclerview.stickyheaders.samples.data.ShippingLabelData;
-import com.eowise.recyclerview.stickyheaders.samples.data.ShopData;
 
 import java.util.HashMap;
 import java.util.List;
@@ -99,8 +90,8 @@ public class ShippingLabelAdapter extends RecyclerView.Adapter<ShippingLabelAdap
         super(itemView);
         packageweight= (TextView) itemView.findViewById(R.id.packagewight);
         packageprice= (TextView) itemView.findViewById(R.id.packagerate);
-        packageweight.setTypeface(ImageLoaderImage.robotomedium);
-        packageprice.setTypeface(ImageLoaderImage.robotomedium);
+        packageweight.setTypeface(SingleTon.robotomedium);
+        packageprice.setTypeface(SingleTon.robotomedium);
         labelselected= (RelativeLayout) itemView.findViewById(R.id.labelselected);
         ll= (LinearLayout) itemView.findViewById(R.id.mainlable);
 

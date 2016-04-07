@@ -62,7 +62,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_POSTID,fav.getPostid()); // Contact Name
 
         values.put(KEY_IMAGEURL,fav.getImageurl()); // Contact Name
-        values.put(KEY_COST, fav.getPostid()); // Contact Phone
+        values.put(KEY_COST, fav.getCost()); // Contact Phone
 
               // Inserting Row
          long rows=     db.insertWithOnConflict(TABLE_FAVORITE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
@@ -192,4 +192,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Log.e("values", rows+"");
         return 0;
     }
+public void clearAll()
+{
+    SQLiteDatabase db = this.getWritableDatabase();
+
+
+    db.execSQL("delete from "+ TABLE_USER);
+}
 }

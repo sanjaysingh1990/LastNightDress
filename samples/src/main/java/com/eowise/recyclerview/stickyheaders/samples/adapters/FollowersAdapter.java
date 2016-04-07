@@ -21,7 +21,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.Followers.FollowersActivity;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.UserProfile.OtherUserProfileActivity;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
@@ -78,16 +79,23 @@ public class FollowersAdapter extends RecyclerView.Adapter<FollowersAdapter.View
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
         FollowersFollowingData fd=items.get(position)   ;
-        ImageLoaderImage.imageLoader.displayImage(fd.getUserpic(), viewHolder.profilepic, ImageLoaderImage.options2);
+        SingleTon.imageLoader.displayImage(fd.getUserpic(), viewHolder.profilepic, SingleTon.options2);
            viewHolder.folleruname.setText(Capitalize.capitalize(fd.getUname()));
            if(fd.getStatus().compareTo("0")==0)
            {
-
-
-
                viewHolder.follerstatus.setBackgroundResource(R.drawable.rounded_corners3);
                viewHolder.follerstatus.setTextColor(Color.parseColor("#be4d66"));
                viewHolder.follerstatus.setText("+ Follow");
+           }
+        else if(fd.getStatus().compareTo("1")==0)
+        {
+            viewHolder.follerstatus.setBackgroundResource(R.drawable.rounded_corners);
+            viewHolder.follerstatus.setTextColor(Color.parseColor("#dadada"));
+            viewHolder.follerstatus.setText("Following");
+        }
+        else
+           {
+               viewHolder.follerstatus.setVisibility(View.INVISIBLE);
            }
     }
 
@@ -115,7 +123,7 @@ public class FollowersAdapter extends RecyclerView.Adapter<FollowersAdapter.View
         @Override
         public void onClick(View v) {
             if(v.getId()==R.id.followstatus) {
-                String user_id = ImageLoaderImage.pref.getString("user_id", "");
+                String user_id = SingleTon.pref.getString("user_id", "");
                 followunfollow(user_id, items.get(getAdapterPosition()).getUserid(), (TextView) v);
             }
             else
@@ -128,33 +136,35 @@ public class FollowersAdapter extends RecyclerView.Adapter<FollowersAdapter.View
     }
 
     public  static void followunfollow(final String followerid,final String followingid,final TextView v){
-        final ProgressDialog pDialog = new ProgressDialog(mContext);
-        pDialog.setMessage("Loading...");
-        pDialog.show();
+
 
         RequestQueue queue = Volley.newRequestQueue(mContext);
         StringRequest sr = new StringRequest(Request.Method.POST,"http://52.76.68.122/lnd/androidiosphpfiles/followfollowing.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                pDialog.dismiss();
 
-              //  Log.e("follunfoll", response.toString());
-
+             //   Log.e("check", response.toString());
                 try {
                     JSONObject jobj=new JSONObject(response.toString());
                     if(jobj.getBoolean("status"))
                     {
-                        if(jobj.getString("value").compareTo("2")==0)
+                        if(jobj.getString("value").compareTo("1")==0)
                         {
+
                             v.setBackgroundResource(R.drawable.rounded_corners);
                             v.setTextColor(Color.parseColor("#dadada"));
                             v.setText("Following");
+
+                            FollowersActivity fa= (FollowersActivity) mContext;
+                            fa.changeValue();
                         }
                         else
                         {
                             v.setBackgroundResource(R.drawable.rounded_corners3);
                             v.setTextColor(Color.parseColor("#be4d66"));
                             v.setText("+ Follow");
+                            FollowersActivity fa= (FollowersActivity) mContext;
+                            fa.changeValue();
                         }
                     }
                   else
@@ -171,7 +181,7 @@ public class FollowersAdapter extends RecyclerView.Adapter<FollowersAdapter.View
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                pDialog.dismiss();
+
                 //  Log.e("response",error.getMessage()+"");
             }
         }){
@@ -181,6 +191,7 @@ public class FollowersAdapter extends RecyclerView.Adapter<FollowersAdapter.View
                 params.put("rqid","2");
                 params.put("followerid",followerid);
                 params.put("followingid",followingid);
+                params.put("date_time", SingleTon.getCurrentTimeStamp());
 
                 return params;
             }

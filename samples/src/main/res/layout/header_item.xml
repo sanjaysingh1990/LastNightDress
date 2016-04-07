@@ -1,126 +1,168 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
 
-    android:background="#828282"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:clickable="false"
+    android:orientation="vertical"
     app:slm_headerDisplay="inline|sticky"
     app:slm_isHeader="true"
-    app:slm_section_headerMarginStart="56dip"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:orientation="vertical"
-android:clickable="false"
-    android:id="@+id/container"
-    >
-
-<LinearLayout
-
-    style="@style/header"
-    android:orientation="horizontal"
-    android:background="#fff"
-    android:layout_gravity="center_vertical"
-    android:clickable="true"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-
-    >
-    <de.hdodenhof.circleimageview.CircleImageView
-
-        android:id="@+id/profilepic"
-        android:layout_width="33dp"
-        android:layout_height="33dp"
-        android:src="@drawable/image1"
-
-        android:layout_gravity="center_vertical"
-        android:clickable="true"
-        />
-
+    app:slm_section_headerMarginStart="56dip">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_weight="1"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="10dp"
-
+        android:id="@+id/headertop"
+        android:visibility="gone"
         >
 
-        <TextView
-            android:id="@+id/uname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:singleLine="true"
-            android:text="sanjay"
-            android:textColor="#be4d66"
-            android:background="#fff"
-            android:clickable="true"
-            />
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="-4dp"
-            >
+            android:paddingBottom="10dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="10dp">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:textAppearanceMedium"
-                android:text="Marciano"
-                android:textSize="12sp"
-                android:textColor="#000"
-                android:id="@+id/brandname"
-                android:clickable="true"
+                android:text="Omid Fatai"
+                android:textColor="#be4d66"
+                android:id="@+id/activitydoneby"
+                android:textStyle="bold"
+
                 />
-
-
-
-        </LinearLayout>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_weight="0"
-        android:layout_gravity="center_vertical"
-        >
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="center_vertical"
-            >
-            <ImageButton
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/like_icon"
-
-                android:id="@+id/likesclick"
-                android:background="?attr/selectableItemBackground"
-
+                android:text="liked this."
+                android:textColor="#000"
+                android:layout_marginLeft="3dp"
+                android:id="@+id/activitytype"
                 />
 
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:background="#dadada"
+
+            />
+    </LinearLayout>
+
+    <LinearLayout
+
+        style="@style/header"
+        android:layout_gravity="center_vertical"
+        android:background="#fff"
+        android:clickable="true"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+
+        >
+
+        <de.hdodenhof.circleimageview.CircleImageView
+
+            android:id="@+id/profilepic"
+            android:layout_width="33dp"
+            android:layout_height="33dp"
+            android:layout_gravity="center_vertical"
+
+            android:clickable="true"
+           />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+
+            >
+
+            <TextView
+                android:id="@+id/uname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#fff"
+                android:clickable="true"
+                android:singleLine="true"
+
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="#be4d66" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-4dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/brandname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textColor="#000"
+                    android:textSize="12sp" />
+
+
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/likesclick"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:background="?attr/selectableItemBackground"
+                    android:src="@drawable/like_icon"
+
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
 
         </LinearLayout>
-
-
     </LinearLayout>
-</LinearLayout>
-<View
-    android:layout_width="match_parent"
-    android:layout_height="1dp"
-    android:background="#dadada"
 
-    />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#dadada"
+
+        />
 
 </LinearLayout>

@@ -146,6 +146,164 @@ public class TagSelectingTextview {
 
         //for username
 
+        spanText = nTagString.subSequence(0, len);
+
+        final CharSequence mLastTextSpan = spanText;
+
+        string.setSpan(new ClickableSpan() {
+
+            @Override
+            public void onClick(View widget) {
+
+                // Click on each tag will get here
+
+                //  Log.d("TAg--HAsh", String.format("Clicked", mLastTextSpan));
+                mTagClick.clickedTag(mLastTextSpan);
+            }
+
+            @Override
+            public void updateDrawState(TextPaint ds) {
+
+                // color for the hash tag
+                ds.setColor(Color.parseColor(mhastTagColor));
+                ds.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+                if (mHypeLinkEnabled == 0) {
+                    ds.setUnderlineText(false);// Disable the
+                    // underline for
+                    // hash Tags.
+                } else {
+                    ds.setUnderlineText(true);// Enables the
+                    // underline for
+                    // hash Tags.
+
+                }
+            }
+        }, 0,len, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+
+
+        return string;
+	}
+
+
+    public SpannableStringBuilder addClickablePart(String nTagString,
+                                                   TagClick TagClick, int hypeLinkEnabled, String hastTagColor,int len,int len2) {
+
+        this.mhastTagColor = hastTagColor;
+
+        this.mHypeLinkEnabled = hypeLinkEnabled;
+
+        this.mTagClick = TagClick;
+
+        // Pattern for getting the hash tags from a string
+
+
+        Pattern hashTagsPattern = Pattern.compile("(#[a-zA-Z0-9_-]+)");
+        Pattern hashTagsPattern2 = Pattern.compile("(@[a-zA-Z0-9_-]+)");
+
+        SpannableStringBuilder string = new SpannableStringBuilder(nTagString);
+
+        CharSequence spanText;
+        int start;
+        int end;
+
+        // Matching the pattern with the existing string
+
+        Matcher m = hashTagsPattern.matcher(nTagString);
+
+        while (m.find()) {
+
+            start = m.start();
+            end = m.end();
+
+            spanText = nTagString.subSequence(start, end);
+
+
+            final CharSequence mLastTextSpan = spanText;
+
+            string.setSpan(new ClickableSpan() {
+
+                @Override
+                public void onClick(View widget) {
+
+                    // Click on each tag will get here
+
+                    //  Log.d("TAg--HAsh", String.format("Clicked", mLastTextSpan));
+                    mTagClick.clickedTag(mLastTextSpan);
+                }
+
+                @Override
+                public void updateDrawState(TextPaint ds) {
+
+                    // color for the hash tag
+                    ds.setColor(Color.parseColor(mhastTagColor));
+
+                    if (mHypeLinkEnabled == 0) {
+                        ds.setUnderlineText(false);// Disable the
+                        // underline for
+                        // hash Tags.
+                    } else {
+                        ds.setUnderlineText(true);// Enables the
+                        // underline for
+                        // hash Tags.
+
+                    }
+                }
+            }, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+
+        }
+
+
+        // Matching the pattern with the existing string
+
+        Matcher m2 = hashTagsPattern2.matcher(nTagString);
+
+        while (m2.find()) {
+
+            start = m2.start();
+            end = m2.end();
+
+            spanText = nTagString.subSequence(start, end);
+
+
+            final CharSequence mLastTextSpan = spanText;
+
+            string.setSpan(new ClickableSpan() {
+
+                @Override
+                public void onClick(View widget) {
+
+                    // Click on each tag will get here
+
+                    Log.d("TAg--HAsh", String.format("Clicked", mLastTextSpan));
+                    mTagClick.clickedTag(mLastTextSpan);
+                }
+
+                @Override
+                public void updateDrawState(TextPaint ds) {
+
+                    // color for the hash tag
+                    ds.setColor(Color.parseColor(mhastTagColor));
+
+                    if (mHypeLinkEnabled == 0) {
+                        ds.setUnderlineText(false);// Disable the
+                        // underline for
+                        // hash Tags.
+                    } else {
+                        ds.setUnderlineText(true);// Enables the
+                        // underline for
+                        // hash Tags.
+
+                    }
+                }
+            }, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+
+        }
+
+        //for username
+
         spanText = nTagString.subSequence(0,len);
 
         final CharSequence mLastTextSpan = spanText;
@@ -180,7 +338,46 @@ public class TagSelectingTextview {
             }
         }, 0,len, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-		return string;
-	}
+        //for time
+
+
+         String str= nTagString.substring(nTagString.length()-len2,nTagString.length());
+         Log.e("time",str);
+
+        string.setSpan(new ClickableSpan() {
+
+            @Override
+            public void onClick(View widget) {
+
+                // Click on each tag will get here
+
+                //  Log.d("TAg--HAsh", String.format("Clicked", mLastTextSpan));
+                // mTagClick.clickedTag(mLastTextSpan2);
+            }
+
+            @Override
+            public void updateDrawState(TextPaint ds) {
+
+                // color for the hash tag
+                ds.setColor(Color.parseColor("#dadada"));
+                ds.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
+                ds.setTextSize(22.0f);
+                if (mHypeLinkEnabled == 0) {
+                    ds.setUnderlineText(false);// Disable the
+                    // underline for
+                    // hash Tags.
+                } else {
+                    ds.setUnderlineText(true);// Enables the
+                    // underline for
+                    // hash Tags.
+
+                }
+            }
+        }, nTagString.length()-len2,nTagString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+
+        return string;
+    }
+
 
 }

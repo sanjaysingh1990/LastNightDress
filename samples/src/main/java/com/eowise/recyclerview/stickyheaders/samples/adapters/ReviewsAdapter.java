@@ -23,7 +23,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
 import com.eowise.recyclerview.stickyheaders.samples.data.ReviewsData;
@@ -66,7 +66,7 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHold
         if (rd.isreplied()) {
             viewHolder.reply.setText("Replied");
             viewHolder.reply.setVisibility(View.VISIBLE);
-            viewHolder.replyby.setText(Capitalize.capitalizeFirstLetter(ImageLoaderImage.pref.getString("uname", "")));
+            viewHolder.replyby.setText(Capitalize.capitalizeFirstLetter(SingleTon.pref.getString("uname", "")));
             viewHolder.replymessage.setText(rd.getReviewreplied());
             viewHolder.reply.setOnClickListener(new MyEvent(viewHolder.repliedview));
 
@@ -115,7 +115,7 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHold
         reviewbyuser.setText(rd.getReviewbyuname());
         reviewmessage.setText(rd.getReviewmessage());
         TextView submit = (TextView) dialog.findViewById(R.id.submit);
-        submit.setTypeface(ImageLoaderImage.robotomedium);
+        submit.setTypeface(SingleTon.robotomedium);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -1,23 +1,13 @@
 package com.eowise.recyclerview.stickyheaders.samples;
 
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import android.support.v7.app.AppCompatActivity;
 
-import android.util.Base64;
-import android.util.Log;
-
 
 import com.eowise.recyclerview.stickyheaders.samples.UserProfile.LndLoginSignup;
-import com.eowise.recyclerview.stickyheaders.samples.UserProfile.LoginSignup;
 import com.facebook.FacebookSdk;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import android.content.pm.Signature;
 
 public class Splash extends AppCompatActivity {
 
@@ -50,7 +40,7 @@ public class Splash extends AppCompatActivity {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                String uname=ImageLoaderImage.pref.getString("uname",null);
+                String uname= SingleTon.pref.getString("uname",null);
                if(uname!=null)
                {
                    Intent lndshop = new Intent(Splash.this, Main_TabHost.class);

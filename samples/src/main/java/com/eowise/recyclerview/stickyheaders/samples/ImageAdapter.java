@@ -35,7 +35,7 @@ public class ImageAdapter extends PagerAdapter {
         imageView.setPadding(padding, padding, padding, padding);
         imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
 
-      ImageLoaderImage.imageLoader.displayImage(GalImages.get(position), imageView, ImageLoaderImage.options);
+      SingleTon.imageLoader.displayImage(GalImages.get(position), imageView, SingleTon.options);
               ((ViewPager) container).addView(imageView, 0);
         return imageView;
     }

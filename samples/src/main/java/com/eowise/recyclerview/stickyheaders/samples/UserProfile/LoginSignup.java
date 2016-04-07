@@ -1,27 +1,21 @@
 package com.eowise.recyclerview.stickyheaders.samples.UserProfile;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
 import android.content.pm.PackageManager;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,7 +27,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 
 import com.eowise.recyclerview.stickyheaders.samples.Main_TabHost;
 import com.eowise.recyclerview.stickyheaders.samples.MoreInfo.FillUserInfo;
@@ -87,11 +81,11 @@ public class LoginSignup extends Fragment implements View.OnClickListener {
         ButterKnife.bind(this, view);
 
         //custom fonts
-         heading.setTypeface(ImageLoaderImage.appfont);
-         subheading.setTypeface(ImageLoaderImage.mainfont);
-        fbtext.setTypeface(ImageLoaderImage.robotomedium);
-        signup.setTypeface(ImageLoaderImage.subheading);
-        login.setTypeface(ImageLoaderImage.mainfont);
+         heading.setTypeface(SingleTon.appfont);
+         subheading.setTypeface(SingleTon.mainfont);
+        fbtext.setTypeface(SingleTon.robotomedium);
+        signup.setTypeface(SingleTon.subheading);
+        login.setTypeface(SingleTon.mainfont);
 
         //login lnd user
         login.setOnClickListener(this);
@@ -142,8 +136,7 @@ public class LoginSignup extends Fragment implements View.OnClickListener {
                                             jobj.put("fbid", id);
                                             jobj.put("fullname", fname+" "+lname);
                                             jobj.put("lname", lname);
-                                            jobj.put("country",country);
-
+                                            jobj.put("country",4);
                                             jobj.put("email", email);
                                             jobj.put("gender", gender);
                                             Log.e("data", jobj.toString());
@@ -495,7 +488,7 @@ private void showAlert()
                     pDialog.dismiss();
                     JSONObject jobj = new JSONObject(response.toString());
                     if (jobj.getBoolean("status")) {
-                        SharedPreferences.Editor edit = ImageLoaderImage.pref.edit();
+                        SharedPreferences.Editor edit = SingleTon.pref.edit();
                         edit.putString("uname", jobj.getString("uname"));
                         edit.putString("utype", jobj.getString("type"));
                         edit.putString("country", jobj.getString("country"));

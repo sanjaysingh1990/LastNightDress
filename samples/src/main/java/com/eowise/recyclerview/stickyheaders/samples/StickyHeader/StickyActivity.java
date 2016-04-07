@@ -1,6 +1,5 @@
 package com.eowise.recyclerview.stickyheaders.samples.StickyHeader;
 
-import android.app.ProgressDialog;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -17,16 +16,19 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.eowise.recyclerview.stickyheaders.samples.ImageLoaderImage;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.Loading.AVLoadingIndicatorView;
 import com.eowise.recyclerview.stickyheaders.samples.R;
-import com.example.sanju.pullrefresh.CustomSwipeRefreshLayout;
+import com.eowise.recyclerview.stickyheaders.samples.SQLDB.FavoriteData;
 import com.init.superslim.LayoutManager;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,6 +54,16 @@ public class StickyActivity extends AppCompatActivity {
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
+    boolean loading = true;
+    int pastVisiblesItems, visibleItemCount, totalItemCount;
+    int skipdata=0;
+
+    boolean isprivate = false;
+    String lastHeader = "";
+    int sectionManager = -1;
+    int headerCount = 0;
+    int sectionFirstPosition = 0;
+    int i=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,8 +85,8 @@ public class StickyActivity extends AppCompatActivity {
         mHeaderDisplay = LayoutManager.LayoutParams.HEADER_INLINE | (mHeaderDisplay & LayoutManager.LayoutParams.HEADER_OVERLAY) | (
                 mHeaderDisplay & LayoutManager.LayoutParams.HEADER_STICKY);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-
-        mRecyclerView.setLayoutManager(new LayoutManager(this));
+        final LayoutManager manager = new LayoutManager(this);
+        mRecyclerView.setLayoutManager(manager);
 
 
         mAdapter = new LndHomeAdapter(this, mHeaderDisplay, setData());
@@ -112,6 +124,28 @@ public class StickyActivity extends AppCompatActivity {
                 }).start();
             }
         });
+
+
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0) //check for scroll down
+                {
+                    visibleItemCount = manager.getChildCount();
+                    totalItemCount = manager.getItemCount();
+                    pastVisiblesItems = manager.findFirstVisibleItemPosition();
+
+                    if (loading) {
+                        if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                            loading = false;
+
+                        getData();
+                        }
+                    }
+                }
+            }
+        });
+
         getData();
     }
 
@@ -150,27 +184,34 @@ public class StickyActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 dialog.setVisibility(View.GONE);
+                SingleTon.lnduserid.clear();
+                  try {
 
-                Log.e("dataresponse", response.toString());
-                try {
 
-                    boolean isprivate = false;
-                    String lastHeader = "";
-                    int sectionManager = -1;
-                    int headerCount = 0;
-                    int sectionFirstPosition = 0;
 
                     JSONObject jobj = new JSONObject(response.toString());
                     JSONArray jarray = jobj.getJSONArray("data");
-                    for (int i = 0; i < jarray.length(); i++) {
+
+                      for (int j = 0; j < jarray.length(); j++) {
 
 
-                        JSONObject jo = jarray.getJSONObject(i);
+                        JSONObject jo = jarray.getJSONObject(j);
                         ArrayList<String> imgurls = new ArrayList<String>();
-                        imgurls.add(jo.getString("imageurl1"));
-                        imgurls.add(jo.getString("imageurl2"));
-                        imgurls.add(jo.getString("imageurl3"));
-                        imgurls.add(jo.getString("imageurl4"));
+                        String imgurl=jo.getString("imageurl1");
+
+                          imgurls.add(imgurl);
+
+                          imgurl=jo.getString("imageurl2");
+                          if(imgurl.length()>0)
+                              imgurls.add(imgurl);
+
+                          imgurl=jo.getString("imageurl3");
+                          if(imgurl.length()>0)
+                              imgurls.add(imgurl);
+                          imgurl=jo.getString("imageurl4");
+                          if(imgurl.length()>0)
+                              imgurls.add(imgurl);
+
                         //adding for headers
                         String header = jo.getString("uname") + "";
                         sectionManager = (sectionManager + 1) % 1;
@@ -185,13 +226,21 @@ public class StickyActivity extends AppCompatActivity {
                         else
                             isprivate = false;
 
+                        //storing userid with uname
+
+                        SingleTon.lnduserid.put(jo.getString("uname"), jo.getString("user_id"));
+
                         //content
-                        Home_List_Data hld = new Home_List_Data(jo.getString("uname") + "", isprivate, "content", sectionManager, sectionFirstPosition);
+                          Home_List_Data hld=null;
+                          if (SingleTon.pref.getString("user_id", "").compareToIgnoreCase(jo.getString("user_id")) == 0)
+                               hld = new Home_List_Data(jo.getString("uname") + "", isprivate, "contentuser", sectionManager, sectionFirstPosition);
+                             else
+                               hld = new Home_List_Data(jo.getString("uname") + "", isprivate, "contentotheruser", sectionManager, sectionFirstPosition);
                         hld.setProfilepicurl(jo.getString("profile_pic"));
                         hld.setPricenow(jo.getString("price_now"));
                         hld.setPricewas(jo.getString("price_was"));
                         hld.setSize(jo.getString("size"));
-                        hld.setLikestotal(jo.getString("likes"));
+                        hld.setLikestotal(jo.getInt("likes"));
                         hld.setImageurls(imgurls);
                         hld.setPost_id(jo.getString("post_id"));
                         hld.setDescription(jo.getString("description"));
@@ -199,16 +248,26 @@ public class StickyActivity extends AppCompatActivity {
                         hld.setLikedvalue(jo.getString("like"));
                         hld.setColors(jo.getString("color"));
                         hld.setConditon(jo.getString("condition"));
-                        hld.setCategory(jo.getString("category_type"));
+                        hld.setCategory(jo.getInt("category_type"));
                         hld.setUserid(jo.getString("user_id"));
                         hld.setBrandname(jo.getString("brand_name"));
-
+                        hld.setProdtype(jo.getString("prod_type"));
+                        hld.setTime(getMilliseconds(jo.getString("date_time")));
                         //for header
+                        if(i==0)
+                        hld2.setHeadertype(1);
+                        else if(i==1)
+                            hld2.setHeadertype(2);
+                        else if(i==2)
+                            hld2.setHeadertype(3);
+                         else
+                        hld2.setHeadertype(0);
+
                         hld2.setProfilepicurl(jo.getString("profile_pic"));
                         hld2.setPricenow(jo.getString("price_now"));
                         hld2.setPricewas(jo.getString("price_was"));
                         hld2.setSize(jo.getString("size"));
-                        hld2.setLikestotal(jo.getString("likes"));
+                        hld2.setLikestotal(jo.getInt("likes"));
                         hld2.setImageurls(imgurls);
                         hld2.setPost_id(jo.getString("post_id"));
                         hld2.setDescription(jo.getString("description"));
@@ -216,13 +275,20 @@ public class StickyActivity extends AppCompatActivity {
                         hld2.setLikedvalue(jo.getString("like"));
                         hld2.setColors(jo.getString("color"));
                         hld2.setConditon(jo.getString("condition"));
-                        hld2.setCategory(jo.getString("category_type"));
+                        hld2.setCategory(jo.getInt("category_type"));
                         hld2.setUserid(jo.getString("user_id"));
                         hld2.setBrandname(jo.getString("brand_name"));
+
+                        checkFavorate(hld);
                         mItems.add(hld);
+                          i++;
                     }
 
-
+                     skipdata=skipdata+jarray.length();
+                     if(jarray.length()==0)
+                         loading=false;
+                      else
+                     loading=true;
                     //notifying adapter
                     mAdapter.notifyDataSetChanged();
 
@@ -234,8 +300,9 @@ public class StickyActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                dialog.setVisibility(View.GONE);
+                loading=true;
                 try {
+                    dialog.setVisibility(View.GONE);
                     new com.eowise.recyclerview.stickyheaders.samples.AlertDialog().showAlertDialog(StickyActivity.this);
                 } catch (Exception ex) {
                 }
@@ -245,7 +312,8 @@ public class StickyActivity extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("rqid", "4");
-                params.put("user_id", ImageLoaderImage.pref.getString("user_id", ""));
+                params.put("skipdata", skipdata + "");
+                params.put("user_id", SingleTon.pref.getString("user_id", ""));
 
                 return params;
             }
@@ -260,5 +328,27 @@ public class StickyActivity extends AppCompatActivity {
         queue.add(sr);
     }
 
+    private void checkFavorate(Home_List_Data hld) {
+        FavoriteData fd = SingleTon.db.getContact(hld.getPost_id());
+        if (fd != null) {
+            hld.setIsfavorate(true);
+        }
+    }
+    static long getMilliseconds(String datetime)
+    {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        try {
+
+            Date date = formatter.parse(datetime);
+           // Log.e("date",date.toString());
+           // Log.e("date2",formatter.format(date));
+
+            return date.getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 
 }

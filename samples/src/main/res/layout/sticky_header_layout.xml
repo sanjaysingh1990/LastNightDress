@@ -58,7 +58,7 @@
                     />
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                    style="@style/headerline"
                     android:background="#dadada"
                     android:layout_alignParentBottom="true"
                     />
@@ -69,7 +69,7 @@
         //add this invisible view under the toolbar
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="0.1dp"
             android:background="#fff"
 
             />
