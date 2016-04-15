@@ -28,6 +28,7 @@ import com.eowise.recyclerview.stickyheaders.samples.ChangePassword.ChangePasswo
 import com.eowise.recyclerview.stickyheaders.samples.Currency.LndCurrency;
 import com.eowise.recyclerview.stickyheaders.samples.EditProfile.EditProfilePrivate;
 import com.eowise.recyclerview.stickyheaders.samples.EditProfile.EditProfileShop;
+import com.eowise.recyclerview.stickyheaders.samples.LndAgent.Agent_Signup;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.MyPurchases.MyPurchasesActivity;
 import com.eowise.recyclerview.stickyheaders.samples.MySales.SalesActivity;
@@ -56,7 +57,7 @@ import butterknife.ButterKnife;
 public class SettingsActivity extends AppCompatActivity {
     @Bind(R.id.heading)
     TextView heading;
-    @Bind({R.id.fbfrnds, R.id.contactsfrnds, R.id.editprofiletext, R.id.changepasstext, R.id.allowswaps, R.id.privacypolicytext, R.id.banktext, R.id.mysales, R.id.mypurchases, R.id.logout, R.id.notificationtext, R.id.currencytext, R.id.clear})
+    @Bind({R.id.fbfrnds, R.id.contactsfrnds, R.id.editprofiletext, R.id.changepasstext, R.id.allowswaps, R.id.privacypolicytext, R.id.banktext, R.id.mysales, R.id.mypurchases, R.id.logout, R.id.notificationtext, R.id.currencytext, R.id.clear,R.id.agenttext})
     List<TextView> settingstext;
     CallbackManager sCallbackManager;
     @Bind(R.id.swapstatus)
@@ -142,6 +143,15 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+        //agent
+        findViewById(R.id.agent).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // handle me
+                Intent agent_signup = new Intent(SettingsActivity.this, Agent_Signup.class);
+                startActivity(agent_signup);
+            }
+        });
         //notification
         findViewById(R.id.notification).setOnClickListener(new View.OnClickListener() {
             @Override

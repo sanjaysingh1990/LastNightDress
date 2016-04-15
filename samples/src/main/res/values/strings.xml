@@ -173,4 +173,5 @@
     </plurals>
 
     <string name="just_now">Just Now</string>
+    <string name="title_activity_lnd__agent__profile">Lnd_Agent_Profile</string>
 </resources>

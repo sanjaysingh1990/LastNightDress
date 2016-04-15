@@ -243,7 +243,7 @@ public class HandBagsEditPost extends AppCompatActivity implements View.OnClickL
 
     private void setValues(Home_List_Data hld) {
         //set images
-        for (int i = 0; i < images.size(); i++) {
+        for (int i = 0; i < hld.getImageurls().size(); i++) {
             if (hld.getImageurls().get(i).length() > 0)
                 SingleTon.imageLoader.displayImage(hld.getImageurls().get(i), images.get(i), SingleTon.options);
         }
