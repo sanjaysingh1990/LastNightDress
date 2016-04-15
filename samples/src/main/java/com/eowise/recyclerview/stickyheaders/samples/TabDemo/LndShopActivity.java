@@ -52,7 +52,7 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
     static boolean isselected = false;
     static int filterselected = 0;
     static String prequery = "";
-    private String previousurl = "select * from post  order by post_id desc";
+    private String previousurl = " order by post_id desc";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,7 +113,7 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
                         getData(query);
                     }
                 } else if (LndShopActivity.selectedcategory == 0 && position == 0) {
-                    query = "select * from post  order by post_id desc";
+                    query = " order by post_id desc";
 
                     // Log.e("query",query);
                     if (prequery.compareToIgnoreCase(query) != 0) {
@@ -217,7 +217,7 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
         boolean size1 = true, size2 = true, dresstype = true, condition = true, color = true;
         int len = 0;
 
-        String query = "select * from post where ";
+        String query = " where ";
         String query2 = "", query3 = "", query4 = "", query5 = "", query6 = "", query7 = "";
         if (DressFilterFragment.price1 > 0 || DressFilterFragment.price2 < 1000)
             query2 = " ( price_now between " + DressFilterFragment.price1 + " and " + DressFilterFragment.price2 + ") ";
@@ -345,7 +345,7 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
     private String handbagsfilterquery() {
         boolean size = true, type = true, condition = true, color = true;
 
-        String query = "select * from post where ";
+        String query = " where ";
         String query1 = "", query2 = "", query3 = "", query4 = "", query5 = "";
         if (HandbagsFilterFragment.price1 > 0 || HandbagsFilterFragment.price2 < 1000)
             query1 = " ( price_now between " + DressFilterFragment.price1 + " and " + DressFilterFragment.price2 + ") ";
@@ -452,7 +452,7 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
     private String jewelleryfilterquery() {
         boolean size = true, type = true, condition = true, color = true;
 
-        String query = "select * from post where ";
+        String query = " where ";
         String query1 = "", query2 = "", query3 = "", query4 = "", query5 = "";
         if (JewelleryFilterFragment.price1 > 0 || JewelleryFilterFragment.price2 < 1000)
             query1 = " ( price_now between " + JewelleryFilterFragment.price1 + " and " + JewelleryFilterFragment.price2 + ") ";
@@ -562,7 +562,7 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
     private String shoefilterquery() {
         boolean size = true, type = true, condition = true, color = true;
 
-        String query = "select * from post where ";
+        String query = " where ";
         String query1 = "", query2 = "", query3 = "", query4 = "", query5 = "";
         if (ShoesFilterFragment.price1 > 0 || ShoesFilterFragment.price2 < 1000)
             query1 = " ( price_now between " + ShoesFilterFragment.price1 + " and " + ShoesFilterFragment.price2 + ") ";

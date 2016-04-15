@@ -12,6 +12,6 @@ public class ConstantValues {
     public static String shoesize[]={"","5","5.5","6","6.5","7","7.5","8","8.5","9","9.5","10","10.5","11","11.5","12"};
     public static String ringsize[]={"","os","1","1.5","2","2.5","3","3.5","4","4.5","6","6.5","7","7.5","8","8.5","9","9.5","10","10.5","11","11.5+"};
 
-    public static String bagsize[]={"","s","m","l"};
+    public static String bagsize[]={"","S","M","L"};
 
 }

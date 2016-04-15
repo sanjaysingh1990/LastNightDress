@@ -41,6 +41,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.eowise.recyclerview.stickyheaders.samples.HashTagsFullView.LndBrandHashTagGridViewActivity;
+import com.eowise.recyclerview.stickyheaders.samples.Likers.LikersActivity;
 import com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage.TagSelectingTextview;
 import com.eowise.recyclerview.stickyheaders.samples.LndUserProfile.LndProfile;
 import com.eowise.recyclerview.stickyheaders.samples.NewMessage.SendMessageActivity;
@@ -51,6 +52,7 @@ import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.Home_List_Data
 import com.eowise.recyclerview.stickyheaders.samples.UserProfile.OtherUserProfileActivity;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ConstantValues;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.RelativeTimeTextView;
 import com.eowise.recyclerview.stickyheaders.samples.adapters.SentToAdapter;
 import com.eowise.recyclerview.stickyheaders.samples.data.Chat_Banner_Data;
 import com.eowise.recyclerview.stickyheaders.samples.data.FollowersFollowingData;
@@ -59,7 +61,10 @@ import com.eowise.recyclerview.stickyheaders.samples.interfaces.TagClick;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -108,7 +113,8 @@ public class NotificationFullPost extends AppCompatActivity implements View.OnCl
     ImageButton likebutton;
     @Bind(R.id.profilepic)
     ImageView profilepic;
-
+    @Bind(R.id.time)
+    RelativeTimeTextView time;
     @Bind(R.id.shoppoastcontrols)
     RelativeLayout shoppostcontrols;
 
@@ -137,7 +143,6 @@ public class NotificationFullPost extends AppCompatActivity implements View.OnCl
         Bundle extra = getIntent().getExtras();
         if (extra != null) {
             String post_id = extra.getString("post_id", "");
-            Toast.makeText(this, post_id + "", Toast.LENGTH_SHORT).show();
             getData(post_id);
         }
 
@@ -287,10 +292,21 @@ public class NotificationFullPost extends AppCompatActivity implements View.OnCl
                     //for images
                     ArrayList<String> imgurls = new ArrayList<String>();
 
-                    imgurls.add(data.getString("imageurl1"));
-                    imgurls.add(data.getString("imageurl2"));
-                    imgurls.add(data.getString("imageurl3"));
-                    imgurls.add(data.getString("imageurl4"));
+                    String imgurl=data.getString("imageurl1");
+
+                    imgurls.add(imgurl);
+
+                    imgurl=data.getString("imageurl2");
+                    if(imgurl.length()>0)
+                        imgurls.add(imgurl);
+
+                    imgurl=data.getString("imageurl3");
+                    if(imgurl.length()>0)
+                        imgurls.add(imgurl);
+                    imgurl=data.getString("imageurl4");
+                    if(imgurl.length()>0)
+                        imgurls.add(imgurl);
+
                     hfl.setFeatureItems(forward, backward, imgurls,NotificationFullPost.this);
                //setting profile pic
 
@@ -343,6 +359,18 @@ public class NotificationFullPost extends AppCompatActivity implements View.OnCl
                            }
                    }
 
+                    //for time
+                    time.setReferenceTime(getMilliseconds(data.getString("date_time")));
+
+                    //total likers
+                    likescount.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent likers = new Intent(NotificationFullPost.this, LikersActivity.class);
+                            likers.putExtra("postid",post_id);
+                            startActivity(likers);
+                        }
+                    });
 
                 } catch (Exception ex) {
                     Log.e("json parsing error", ex.getMessage());
@@ -585,7 +613,7 @@ public class NotificationFullPost extends AppCompatActivity implements View.OnCl
 
     public void likedUnliked()
     {
-        if (isliked.compareTo("1") == 0) {
+        if (isliked.compareTo("2") == 0) {
             likebutton.setImageResource(R.drawable.liked_icon);
          int lt=Integer.parseInt(likestotal);
 
@@ -610,8 +638,8 @@ public class NotificationFullPost extends AppCompatActivity implements View.OnCl
         StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/lndlikeunlike.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.e("json", response.toString());
-                try {
+              //  Log.e("json", response.toString());
+               try {
 
                     JSONObject jobj = new JSONObject(response.toString());
                     if (jobj.getBoolean("status")) {
@@ -883,6 +911,22 @@ public class NotificationFullPost extends AppCompatActivity implements View.OnCl
                 break;
 
         }
+    }
+    static long getMilliseconds(String datetime)
+    {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        try {
+
+            Date date = formatter.parse(datetime);
+            // Log.e("date",date.toString());
+            // Log.e("date2",formatter.format(date));
+
+            return date.getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }
 

@@ -2,6 +2,7 @@ package com.eowise.recyclerview.stickyheaders.samples.StickyHeader;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v4.view.ViewPager;
@@ -18,6 +19,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -31,6 +33,10 @@ import com.eowise.recyclerview.stickyheaders.samples.LndUserProfile.LndUserFullP
 import com.eowise.recyclerview.stickyheaders.samples.NotificationFullPost;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.adapters.FullViewImageSliderAdapter;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import org.json.JSONObject;
 
@@ -71,8 +77,9 @@ public class HomeImageSliderLayout extends HorizontalScrollView {
         super(context);
         con = context;
     }
-
     public void setFeatureItems(ImageButton forward, ImageButton backward, int pos, Object lha) {
+    }
+    public void setFeatureItems(ImageButton forward, ImageButton backward, int pos, Object lha,final ProgressBar prog) {
 
         if (lha instanceof LndHomeAdapter)
             this.hld = ((LndHomeAdapter) lha).mItems.get(pos);
@@ -100,10 +107,36 @@ public class HomeImageSliderLayout extends HorizontalScrollView {
         for (int i = 0; i < mItems.size(); i++) {
             View featureLayout = View.inflate(this.getContext(), R.layout.image_layout, null);
             ImageView img = (ImageView) featureLayout.findViewById(R.id.img);
-            if (mItems.get(i).length() > 0) {
-                // Log.e("url",mItems.get(i)+"");
-                SingleTon.imageLoader.displayImage(mItems.get(i), img, SingleTon.options);
-            }
+            //image loader start
+            if (mItems.get(i).length() == 0)
+                img.setImageResource(R.drawable.loader_white);
+            else
+                ImageLoader.getInstance()
+                        .displayImage(mItems.get(i), img, SingleTon.options4, new SimpleImageLoadingListener() {
+                            @Override
+                            public void onLoadingStarted(String imageUri, View view) {
+
+                                prog.setVisibility(View.VISIBLE);
+                            }
+
+                            @Override
+                            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                                prog.setVisibility(View.GONE);
+                            }
+
+                            @Override
+                            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                                prog.setVisibility(View.GONE);
+                            }
+                        }, new ImageLoadingProgressListener() {
+                            @Override
+                            public void onProgressUpdate(String imageUri, View view, int current, int total) {
+
+                            }
+                        });
+
+
+            //end here
             //runtime width and height
             myimg[i] = img;
             DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
@@ -348,7 +381,7 @@ public class HomeImageSliderLayout extends HorizontalScrollView {
             //Toast.makeText(getContext(),"double tap"+pos,Toast.LENGTH_LONG).show();
             if (lha != null)
 
-                postLiked(hld.getPost_id());
+                postLiked(hld.getPost_id(),hld.getUserid());
             else
                 notifullpost.postnotiLiked();
             return true;
@@ -390,7 +423,7 @@ public class HomeImageSliderLayout extends HorizontalScrollView {
         }
     }
 
-    private void postLiked(final String postid) {
+    private void postLiked(final String postid,final String userid) {
         Home_List_Data hld = null;
         if (lha instanceof LndHomeAdapter)
             hld = ((LndHomeAdapter) lha).mItems.get(pos - 1);
@@ -411,7 +444,7 @@ public class HomeImageSliderLayout extends HorizontalScrollView {
         StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/lndlikeunlike.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                //  Log.e("response", response.toString());
+                 Log.e("json", response.toString());
                 try {
 
                     JSONObject jobj = new JSONObject(response.toString());
@@ -472,7 +505,8 @@ public class HomeImageSliderLayout extends HorizontalScrollView {
                 params.put("user_id", SingleTon.pref.getString("user_id", ""));
                 params.put("post_id", postid);
                 params.put("date_time", SingleTon.getCurrentTimeStamp());
-                params.put("noti_type", 1 + "");
+                params.put("whos_post",userid);
+
 
 
                 return params;

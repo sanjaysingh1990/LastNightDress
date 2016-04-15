@@ -19,6 +19,26 @@ public class Home_List_Data implements Serializable {
     private int likestotal;
     private String conditon;
 
+    public String getNotilikedby() {
+        return notilikedby;
+    }
+
+    public void setNotilikedby(String notilikedby) {
+        this.notilikedby = notilikedby;
+    }
+
+    private String notilikedby;
+
+    public int getNotitotallikers() {
+        return notitotallikers;
+    }
+
+    public void setNotitotallikers(int notitotallikers) {
+        this.notitotallikers = notitotallikers;
+    }
+
+    private int notitotallikers;
+
     public long getTime() {
         return time;
     }

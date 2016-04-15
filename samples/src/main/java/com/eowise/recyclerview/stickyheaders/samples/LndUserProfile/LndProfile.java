@@ -2,7 +2,6 @@ package com.eowise.recyclerview.stickyheaders.samples.LndUserProfile;
 
 
 import android.app.AlertDialog;
-
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -16,16 +15,12 @@ import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
-
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.ImageView;
-
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -34,26 +29,29 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-
 import com.eowise.recyclerview.stickyheaders.samples.EditProfile.EditProfilePrivate;
 import com.eowise.recyclerview.stickyheaders.samples.EditProfile.EditProfileShop;
 import com.eowise.recyclerview.stickyheaders.samples.Followers.FollowersActivity;
-
 import com.eowise.recyclerview.stickyheaders.samples.Followers.FollowingActivity;
-import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
-
 import com.eowise.recyclerview.stickyheaders.samples.Loading.AVLoadingIndicatorView;
 import com.eowise.recyclerview.stickyheaders.samples.Main_TabHost;
 import com.eowise.recyclerview.stickyheaders.samples.R;
-import com.eowise.recyclerview.stickyheaders.samples.Settings.PrivacyPolicy;
+import com.eowise.recyclerview.stickyheaders.samples.SQLDB.FavoriteData;
+import com.eowise.recyclerview.stickyheaders.samples.Settings.ReadMore;
 import com.eowise.recyclerview.stickyheaders.samples.Settings.SettingsActivity;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
+import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.Home_List_Data;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ColoredRatingBar;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.ConstantValues;
 import com.eowise.recyclerview.stickyheaders.samples.data.ShopData;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -87,15 +85,22 @@ public class LndProfile extends AppCompatActivity {
     @Bind(R.id.ratingBar)
     ColoredRatingBar rating;
     TextView heading;
-    //private ImageView[] rating = new ImageView[5];
 
      ArrayList<ShopData> items = new ArrayList<>();
     private int skipdata = 0;
     private AVLoadingIndicatorView prog;
     private Dialog dialog;
     public static int check = 0;
-    private boolean dataleft = true;
+    private boolean dataleft =true;
     public static Context con;
+    public static ArrayList<Home_List_Data> mItems = new ArrayList<>();
+    private int count=0;
+    //data for sticky header
+    boolean isprivate = false;
+
+    int sectionManager = -1;
+    int headerCount = 0;
+    int sectionFirstPosition = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +125,8 @@ public class LndProfile extends AppCompatActivity {
         heading = (TextView) findViewById(R.id.heading);
         heading.setTypeface(SingleTon.robotobold);
 
+   //clear list
+        mItems.clear();
             getData();
 
 //get profile information
@@ -353,46 +360,11 @@ public class LndProfile extends AppCompatActivity {
 
             }
         };
-      /*  adapter.setOnClickEvent(new ParallaxRecyclerAdapter.OnClickEvent() {
-            @Override
-            public void onClick(View v, int position) {
-                Toast.makeText(MainActivity.this, "You clicked '" + position + "'", Toast.LENGTH_SHORT).show();
-            }
-        });*/
+
 
         final LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(mLayoutManager);
-        // recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 1));
 
-
-        /*mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                if (dy > 0) //check for scroll down
-                {
-                    visibleItemCount = mLayoutManager.getChildCount();
-                    totalItemCount = mLayoutManager.getItemCount();
-                    pastVisiblesItems = mLayoutManager.findFirstVisibleItemPosition();
-
-                    if (loading) {
-                        if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
-                            loading = false;
-                            //Do pagination.. i.e. fetch new data
-                            //Toast.makeText(LndProfile.this, "loading more", Toast.LENGTH_SHORT).show();
-                            getData();
-                        }
-                    } else {
-                        if (check < 10) {
-                            check++;
-                            items.add(null);
-                            adapter.notifyItemChanged(items.size() - 1);
-
-                        }
-
-                    }
-                }
-            }
-        });*/
 
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -567,7 +539,7 @@ public class LndProfile extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 alert.dismiss();
-                Intent pp = new Intent(LndProfile.this, PrivacyPolicy.class);
+                Intent pp = new Intent(LndProfile.this, ReadMore.class);
                 startActivity(pp);
             }
         });
@@ -617,7 +589,7 @@ public class LndProfile extends AppCompatActivity {
         queue.add(sr);
     }
 
-
+/*
     public void getData() {
 
         prog.setVisibility(View.VISIBLE);
@@ -644,7 +616,7 @@ public class LndProfile extends AppCompatActivity {
 
 
                     skipdata = items.size();
-                    adapter.notifyDataSetChanged();
+
                     if (jarray.length() == 0) {
 
                         dataleft = false;
@@ -681,7 +653,7 @@ public class LndProfile extends AppCompatActivity {
         };
         queue.add(sr);
     }
-
+*/
     @Override
     public void onBackPressed() {
         try
@@ -733,5 +705,222 @@ public class LndProfile extends AppCompatActivity {
         }
 
 
+    }
+
+    public void getData() {
+
+        prog.setVisibility(View.VISIBLE);
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/postdata.php", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                prog.setVisibility(View.GONE);
+                loading=true;
+
+               // Log.e("json", response.toString());
+
+                try {
+
+
+
+                    JSONObject jobj = new JSONObject(response.toString());
+                    JSONArray jarray = jobj.getJSONArray("data");
+
+                    for (int i = 0; i < jarray.length(); i++) {
+
+
+                        JSONObject jo = jarray.getJSONObject(i);
+
+                        //for grid items
+                        ShopData pdb = new ShopData();
+                        pdb.setPrice(jo.getString("price_now"));
+                        pdb.setPostid(jo.getString("post_id"));
+
+                        pdb.setImageurl(jo.getString("imageurl1"));
+                        items.add(pdb);
+
+
+                        ArrayList<String> imgurls = new ArrayList<String>();
+
+                        String imgurl=jo.getString("imageurl1");
+
+                        imgurls.add(imgurl);
+
+                        imgurl=jo.getString("imageurl2");
+                        if(imgurl.length()>0)
+                            imgurls.add(imgurl);
+
+                        imgurl=jo.getString("imageurl3");
+                        if(imgurl.length()>0)
+                            imgurls.add(imgurl);
+                        imgurl=jo.getString("imageurl4");
+                        if(imgurl.length()>0)
+                            imgurls.add(imgurl);
+
+                         Log.e("size",imgurls.size()+"");
+                        //adding for headers
+                        String header = jo.getString("uname") + "";
+
+                        sectionManager = (sectionManager + 1) % 1;
+                        sectionFirstPosition = count + headerCount;
+
+                        headerCount += 1;
+                        Home_List_Data hld2 = new Home_List_Data(header, "header", sectionManager, sectionFirstPosition);
+                        mItems.add(hld2);
+
+                        if (jo.getString("utype").compareTo("private") == 0)
+                            isprivate = true;
+                        else
+                            isprivate = false;
+
+                        //content
+                        Home_List_Data hld = new Home_List_Data(jo.getString("uname") + "", isprivate, "content", sectionManager, sectionFirstPosition);
+                        hld.setProfilepicurl(jo.getString("profile_pic"));
+                        hld.setPricenow(jo.getString("price_now"));
+                        hld.setPricewas(jo.getString("price_was"));
+                        hld.setSize(jo.getString("size"));
+                        hld.setLikestotal(jo.getInt("likes"));
+                        hld.setImageurls(imgurls);
+                        hld.setPost_id(jo.getString("post_id"));
+                        hld.setDescription(jo.getString("description"));
+                        hld.setUname(jo.getString("uname"));
+                        hld.setLikedvalue(jo.getString("isliked"));
+                        hld.setColors(jo.getString("color"));
+                        hld.setConditon(jo.getString("condition"));
+                        hld.setCategory(jo.getInt("category_type"));
+                        hld.setBrandname(jo.getString("brand_name"));
+                        hld.setUserid(jo.getString("user_id"));
+                        hld.setProdtype(jo.getString("prod_type"));
+                        hld.setTime(getMilliseconds(jo.getString("date_time")));
+
+                        if(hld.getCategory()==2)
+                        {
+                            String size="";
+
+                            try
+                            {
+                                String[] lndbagsize=hld.getSize().split(",");
+                                if(lndbagsize.length>1) {
+                                    for ( int j = 0; j < lndbagsize.length; j++) {
+                                        size = size + ConstantValues.bagsize[Integer.parseInt(lndbagsize[j])] + ",";
+                                    }
+                                    hld.setSize(size);
+                                }
+                                else
+                                    hld.setSize(ConstantValues.bagsize[Integer.parseInt(hld.getSize())]);
+
+
+                            }
+                            catch (Exception ex)
+                            {
+                                Log.e("error",ex.getMessage());
+                            }
+                        }
+                        else if(hld.getCategory()==4)
+                        {
+                            String color="";
+
+                            try
+                            {
+                                String[] lndcolormetaltype=hld.getColors().split(",");
+                                if(lndcolormetaltype.length>1) {
+                                    for (int j = 0; j <lndcolormetaltype.length; j++) {
+                                        color = color + ConstantValues.metaltype[Integer.parseInt(lndcolormetaltype[j])] + ",";
+                                    }
+                                    hld.setColors(color);
+                                }
+                                else
+                                    hld.setColors(ConstantValues.metaltype[Integer.parseInt(hld.getColors())]);
+
+
+                            }
+                            catch (Exception ex)
+                            {
+                                Log.e("error",ex.getMessage());
+                            }
+                        }
+
+                        //for header
+                        hld2.setProfilepicurl(jo.getString("profile_pic"));
+                        hld2.setPricenow(jo.getString("price_now"));
+                        hld2.setPricewas(jo.getString("price_was"));
+                        hld2.setSize(jo.getString("size"));
+                        hld2.setLikestotal(jo.getInt("likes"));
+                        hld2.setImageurls(imgurls);
+                        hld2.setPost_id(jo.getString("post_id"));
+                        hld2.setDescription(jo.getString("description"));
+                        hld2.setUname(jo.getString("uname"));
+                        hld2.setLikedvalue(jo.getString("isliked"));
+                        hld2.setColors(jo.getString("color"));
+                        hld2.setConditon(jo.getString("condition"));
+                        hld2.setCategory(jo.getInt("category_type"));
+                        hld2.setBrandname(jo.getString("brand_name"));
+                        hld2.setProdtype(jo.getString("prod_type"));
+                        hld2.setUserid(jo.getString("user_id"));
+                        checkFavorate(hld);
+                        mItems.add(hld);
+                        count++;
+                    }
+
+
+                    adapter.notifyDataSetChanged();
+                    skipdata = items.size();
+
+                    if (jarray.length() == 0) {
+
+                        dataleft = false;
+                    }
+
+                } catch (Exception ex) {
+                    Log.e("json parsing error", ex.getMessage());
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+              //  dialog.setVisibility(View.GONE);
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("rqid", "11");
+                params.put("user_id", SingleTon.pref.getString("user_id", ""));
+                params.put("skip", skipdata+"");
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                return params;
+            }
+        };
+        queue.add(sr);
+    }
+    static long getMilliseconds(String datetime)
+    {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        try {
+
+            Date date = formatter.parse(datetime);
+            // Log.e("date",date.toString());
+            // Log.e("date2",formatter.format(date));
+
+            return date.getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+    private void checkFavorate(Home_List_Data hld) {
+        FavoriteData fd = SingleTon.db.getContact(hld.getPost_id());
+        if (fd != null) {
+            hld.setIsfavorate(true);
+        }
     }
 }

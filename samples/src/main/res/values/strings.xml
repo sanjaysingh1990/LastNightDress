@@ -148,7 +148,7 @@
     <string name="time_ago_seconds">less than a m</string>
     <string name="time_ago_minute">about a minute</string>
     <string name="time_ago_hour">about an hour</string>
-    <string name="time_ago_day">a day</string>
+    <string name="time_ago_day">1d</string>
     <string name="time_ago_month">about a month</string>
     <string name="time_ago_week">w</string>
 
