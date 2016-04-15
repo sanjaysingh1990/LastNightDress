@@ -367,7 +367,8 @@
         <activity
             android:name=".NotificationFullPost"
             android:label="@string/title_activity_notification_full_post"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity android:name=".LndAgent.Agent_Signup"></activity>
     </application>
 
 </manifest>
