@@ -52,6 +52,13 @@
             android:layout_gravity="center_vertical|left"
             android:background="?attr/selectableItemBackground"
             />
+        <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/fullpostloading"
+            android:layout_gravity="center_vertical|center_horizontal"
+            />
     </FrameLayout>
 
 

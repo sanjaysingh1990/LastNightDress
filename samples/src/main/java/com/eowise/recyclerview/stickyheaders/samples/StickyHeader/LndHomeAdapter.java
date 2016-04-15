@@ -3,6 +3,7 @@ package com.eowise.recyclerview.stickyheaders.samples.StickyHeader;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -41,6 +42,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import com.eowise.recyclerview.stickyheaders.samples.HashTagsFullView.LndBrandHashTagGridViewActivity;
+import com.eowise.recyclerview.stickyheaders.samples.LndUserProfile.LndUserFullStickyActivity;
+import com.eowise.recyclerview.stickyheaders.samples.Settings.ReadMore;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.Likers.LikersActivity;
 import com.eowise.recyclerview.stickyheaders.samples.LndMessage.SendSwapRequestActivity;
@@ -109,6 +112,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public static int hashTagHyperLinkEnabled = 1;
     public static int hashTagHyperLinkDisabled = 0;
     String hastTagColorBlue = "#be4d66";
+    public static ArrayList<String> deleteditemssposition = new ArrayList<>();
 
     public LndHomeAdapter(Activity context, int headerMode, ArrayList<Home_List_Data> homeitems) {
         mContext = context;
@@ -147,7 +151,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             } else {
                 profile = new Intent(mContext, OtherUserProfileActivity.class);
                 profile.putExtra("uname", tag.toString().substring(1));
-                profile.putExtra("user_id", SingleTon.lnduserid.get(tag.toString().substring(1)));
+                profile.putExtra("user_id", "-1");
 
             }
             mContext.startActivity(profile);
@@ -159,10 +163,11 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 profile = new Intent(mContext, LndProfile.class);
             } else {
                 profile = new Intent(mContext, OtherUserProfileActivity.class);
-                profile.putExtra("uname", tag.toString());
-                profile.putExtra("user_id", SingleTon.lnduserid.get(tag.toString().toLowerCase()));
+                profile.putExtra("uname", tag.toString().trim());
+                profile.putExtra("user_id", "-1");
 
             }
+
             mContext.startActivity(profile);
 
         }
@@ -173,6 +178,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         Home_List_Data hld = mItems.get(pos);
         final String postid = hld.getPost_id();
+        final String whospost = hld.getUserid();
         if (hld != null)
             if (hld.getLikedvalue().compareTo("1") == 0)
                 hld.setLikedvalue(0 + "");
@@ -183,7 +189,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/lndlikeunlike.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                //  Log.e("response", response.toString());
+                Log.e("json", response.toString());
                 try {
 
                     JSONObject jobj = new JSONObject(response.toString());
@@ -229,7 +235,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 params.put("user_id", SingleTon.pref.getString("user_id", ""));
                 params.put("post_id", postid);
                 params.put("date_time", SingleTon.getCurrentTimeStamp());
-                params.put("noti_type", 1 + "");
+                params.put("whos_post", whospost);
 
 
                 return params;
@@ -290,26 +296,48 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                 vh1.uname.setText(Capitalize.capitalize(item.getUname()));
                 vh1.brandname.setText(Capitalize.capitalize(item.getBrandname()));
+
                 if (item.getLikedvalue().compareTo("1") == 0)
                     vh1.likebtn.setImageResource(R.drawable.liked_icon);
                 else
                     vh1.likebtn.setImageResource(R.drawable.like_icon);
-
-                if (item.getHeadertype() == 0)
-                    vh1.headertop.setVisibility(View.GONE);
-                else if (item.getHeadertype() == 1) {
+                if (item.getHeadertype() == 1) {
                     vh1.headertop.setVisibility(View.VISIBLE);
-                    vh1.activitydoneby.setText("Omid Fatahi");
-                    vh1.activitytype.setText("liked this.");
+                    vh1.activitydoneby.setMovementMethod(LinkMovementMethod.getInstance());
+
+                    if (item.getNotitotallikers() > 2)
+
+                    {
+                        String[] users = item.getNotilikedby().split(",");
+                        vh1.activitydoneby.setText(mTagSelectingTextview.addClickablePart(users[0]+" and "+(item.getNotitotallikers() - 1) + " more liked this",
+                                this, hashTagHyperLinkDisabled, hastTagColorBlue,users[0].length()),
+                                TextView.BufferType.SPANNABLE);
+
+                    } else if (item.getNotitotallikers() == 1) {
+                        String[] users = item.getNotilikedby().split(",");
+
+                        vh1.activitydoneby.setText(mTagSelectingTextview.addClickablePart(Capitalize.capitalizeFirstLetter(users[0]+" liked this."),
+                                this, hashTagHyperLinkDisabled, hastTagColorBlue,users[0].length()),
+                                TextView.BufferType.SPANNABLE);
+
+                    } else {
+                        String[] users = item.getNotilikedby().split(",");
+                        vh1.activitydoneby.setText(mTagSelectingTextview.addClickablePart(Capitalize.capitalizeFirstLetter(users[0]) + " and " + users[1]+" liked this.",
+                                this, hashTagHyperLinkDisabled, hastTagColorBlue, users[0].length(),users[1].length(), ""),
+                                TextView.BufferType.SPANNABLE);
+
+                    }
                 } else if (item.getHeadertype() == 2) {
                     vh1.headertop.setVisibility(View.VISIBLE);
-                    vh1.activitydoneby.setText("Omid Fatahi");
-                    vh1.activitytype.setText("commented on this.");
+
+                  //  vh1.activitytype.setText("commented on this.");
                 } else if (item.getHeadertype() == 3) {
                     vh1.headertop.setVisibility(View.VISIBLE);
                     vh1.activitydoneby.setText("Omid Fatahi");
-                    vh1.activitytype.setText("was mentioned in this post.");
-                }
+                   // vh1.activitytype.setText("was mentioned in this post.");
+                } else
+
+                    vh1.headertop.setVisibility(View.GONE);
                 //setting profile pic
                 SingleTon.imageLoader.displayImage(item.getProfilepicurl(), vh1.profilepic, SingleTon.options3);
                 break;
@@ -321,7 +349,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 //end here
                 vh2.description.setMovementMethod(LinkMovementMethod.getInstance());
                 vh2.description.setText(mTagSelectingTextview.addClickablePart(uname + " " + item.getDescription(),
-                                this, hashTagHyperLinkDisabled, hastTagColorBlue, uname.length()),
+                        this, hashTagHyperLinkDisabled, hastTagColorBlue, uname.length()),
                         TextView.BufferType.SPANNABLE);
                 vh2.price_was.setText("$" + item.getPricewas());
                 vh2.price_now.setText("$" + item.getPricenow());
@@ -347,20 +375,12 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
 
                 //for private dress color and private metal type
-                if (item.getCategory() == 1)
-                    vh2.color.setText(Capitalize.capitalizeFirstLetter(item.getColors()));
-                else if (item.getCategory() == 2)
-                    vh2.color.setText(Capitalize.capitalizeFirstLetter(item.getColors()));
-                else if (item.getCategory() == 3)
-                    vh2.color.setText(Capitalize.capitalizeFirstLetter(item.getColors()));
 
-                else if (item.getCategory() == 4) {
-                    int pos = Integer.parseInt(item.getColors());
-                    vh2.color.setText(Capitalize.capitalizeFirstLetter(ConstantValues.metaltype[pos]));
-                }
+                vh2.color.setText(Capitalize.capitalizeFirstLetter(item.getColors()));
+
 
                 try {
-                    vh2.hfl.setFeatureItems(vh2.forward, vh2.backward, position, this);
+                    vh2.hfl.setFeatureItems(vh2.forward, vh2.backward, position, this, vh2.progress);
                     if (position == mItems.size() - 1) {
                         vh2.spaceview.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 100));
                         notifyDataSetChanged();
@@ -396,7 +416,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 //end here
                 vh3.description.setMovementMethod(LinkMovementMethod.getInstance());
                 vh3.description.setText(mTagSelectingTextview.addClickablePart(uname + " " + item.getDescription(),
-                                this, hashTagHyperLinkDisabled, hastTagColorBlue, uname.length()),
+                        this, hashTagHyperLinkDisabled, hastTagColorBlue, uname.length()),
                         TextView.BufferType.SPANNABLE);
                 vh3.price_was.setText("$" + item.getPricewas());
                 vh3.price_now.setText("$" + item.getPricenow());
@@ -405,7 +425,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
 
                 try {
-                    vh3.hfl.setFeatureItems(vh3.forward, vh3.backward, position, this);
+                    vh3.hfl.setFeatureItems(vh3.forward, vh3.backward, position, this, vh3.progress);
                     if (position == mItems.size() - 1) {
                         vh3.spaceview.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 100));
                     }
@@ -428,7 +448,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         vh3.size.setOnClickListener(new OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                popupWindow(item.getSize(), (TextView) view).showAsDropDown(view, -5, 0);
+                                popupWindow(item.getSize(), (TextView) view, item.getCategory()).showAsDropDown(view, -5, 0);
 
 
                             }
@@ -454,17 +474,9 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     if (item.getColors().split(",").length == 1) {
                         vh3.color.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                         //for private dress color and private metal type
-                        if (item.getCategory() == 1)
-                            vh3.color.setText(Capitalize.capitalizeFirstLetter(item.getColors()));
-                        else if (item.getCategory() == 2)
-                            vh3.color.setText(Capitalize.capitalizeFirstLetter(item.getColors()));
-                        else if (item.getCategory() == 3)
-                            vh3.color.setText(Capitalize.capitalizeFirstLetter(item.getColors()));
 
-                        else if (item.getCategory() == 4) {
-                            int pos = Integer.parseInt(item.getColors());
-                            vh3.color.setText(Capitalize.capitalizeFirstLetter(ConstantValues.metaltype[pos]));
-                        }
+                        vh3.color.setText(Capitalize.capitalizeFirstLetter(item.getColors()));
+
                         vh3.color.setClickable(false);
                     } else {
                         vh3.color.setClickable(true);
@@ -499,7 +511,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 //checking description for hashtag and usermention
                 vh4.description.setMovementMethod(LinkMovementMethod.getInstance());
                 vh4.description.setText(mTagSelectingTextview.addClickablePart(uname + " " + item.getDescription(),
-                                this, hashTagHyperLinkDisabled, hastTagColorBlue, uname.length()),
+                        this, hashTagHyperLinkDisabled, hastTagColorBlue, uname.length()),
                         TextView.BufferType.SPANNABLE);
                 //price was and price now
                 vh4.price_was.setText("$" + item.getPricewas());
@@ -512,20 +524,13 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 vh4.time.setReferenceTime(item.getTime());
 
                 //for private dress color and private metal type
-                if (item.getCategory() == 1)
-                    vh4.color.setText(Capitalize.capitalizeFirstLetter(item.getColors()));
-                else if (item.getCategory() == 2)
-                    vh4.color.setText(Capitalize.capitalizeFirstLetter(item.getColors()));
-                else if (item.getCategory() == 3)
-                    vh4.color.setText(Capitalize.capitalizeFirstLetter(item.getColors()));
 
-                else if (item.getCategory() == 4) {
-                    int pos = Integer.parseInt(item.getColors());
-                    vh4.color.setText(Capitalize.capitalizeFirstLetter(ConstantValues.metaltype[pos]));
-                }
+
+                vh4.color.setText(Capitalize.capitalizeFirstLetter(item.getColors()));
+
 
                 try {
-                    vh4.hfl.setFeatureItems(vh4.forward, vh4.backward, position, this);
+                    vh4.hfl.setFeatureItems(vh4.forward, vh4.backward, position, this, vh4.progress);
                     if (position == mItems.size() - 1) {
                         vh4.spaceview.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 100));
                         notifyDataSetChanged();
@@ -555,7 +560,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 //checking description for hashtag and usermention
                 vh5.description.setMovementMethod(LinkMovementMethod.getInstance());
                 vh5.description.setText(mTagSelectingTextview.addClickablePart(uname + " " + item.getDescription(),
-                                this, hashTagHyperLinkDisabled, hastTagColorBlue, uname.length()),
+                        this, hashTagHyperLinkDisabled, hastTagColorBlue, uname.length()),
                         TextView.BufferType.SPANNABLE);
 
                 //price was and price now
@@ -565,7 +570,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 vh5.time.setReferenceTime(item.getTime());
 
                 try {
-                    vh5.hfl.setFeatureItems(vh5.forward, vh5.backward, position, this);
+                    vh5.hfl.setFeatureItems(vh5.forward, vh5.backward, position, this, vh5.progress);
                     if (position == mItems.size() - 1) {
 
                         vh5.spaceview.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 80));
@@ -585,11 +590,12 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     } else {
                         vh5.size.setClickable(true);
                         vh5.size.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow, 0);
+
                         vh5.size.setText("Size");
                         vh5.size.setOnClickListener(new OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                popupWindow(item.getSize(), (TextView) view).showAsDropDown(view, -5, 0);
+                                popupWindow(item.getSize(), (TextView) view, item.getCategory()).showAsDropDown(view, -5, 0);
 
 
                             }
@@ -616,22 +622,22 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     if (item.getColors().split(",").length == 1) {
                         vh5.color.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                         //for private dress color and private metal type
-                        if (item.getCategory() == 1)
-                            vh5.color.setText(Capitalize.capitalizeFirstLetter(item.getColors()));
-                        else if (item.getCategory() == 2)
-                            vh5.color.setText(Capitalize.capitalizeFirstLetter(item.getColors()));
-                        else if (item.getCategory() == 3)
-                            vh5.color.setText(Capitalize.capitalizeFirstLetter(item.getColors()));
 
-                        else if (item.getCategory() == 4) {
+
+                        if (item.getCategory() == 4) {
                             int pos = Integer.parseInt(item.getColors());
                             vh5.color.setText(Capitalize.capitalizeFirstLetter(ConstantValues.metaltype[pos]));
-                        }
+                        } else
+                            vh5.color.setText(Capitalize.capitalizeFirstLetter(item.getColors()));
+
                         vh5.color.setClickable(false);
                     } else {
                         vh5.color.setClickable(true);
                         vh5.color.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow, 0);
-                        vh5.color.setText("Color  ");
+                        if (item.getCategory() == 4)
+                            vh5.color.setText("Metal Type");
+                        else
+                            vh5.color.setText("Color  ");
                         vh5.color.setOnClickListener(new OnClickListener() {
                             @Override
                             public void onClick(View view) {
@@ -676,7 +682,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
 
-    public PopupWindow popupWindow(String sizes, TextView size) {
+    public PopupWindow popupWindow(String sizes, TextView size, int category) {
 
         // initialize a pop up window type
         PopupWindow popupWindow = new PopupWindow(mContext);
@@ -686,9 +692,8 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         // set our adapter and pass our pop up window contents
         listViewDogs.setAdapter(popupAdapter(sizes.split(",")));
-
         // set the item click listener
-        listViewDogs.setOnItemClickListener(new DropdownOnItemClickListener(popupWindow, size, sizes));
+        listViewDogs.setOnItemClickListener(new DropdownOnItemClickListenerSize(popupWindow, size, sizes));
 
         // some other visual settings
         popupWindow.setFocusable(true);
@@ -713,7 +718,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         listViewDogs.setAdapter(popupAdapter(sizes.split(",")));
 
         // set the item click listener
-        listViewDogs.setOnItemClickListener(new DropdownOnItemClickListener(popupWindow, size, sizes));
+        listViewDogs.setOnItemClickListener(new DropdownOnItemClickListenerColorandMetaltype(popupWindow, size, sizes));
 
         // some other visual settings
         popupWindow.setFocusable(true);
@@ -731,13 +736,49 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return popupWindow;
     }
 
-    public class DropdownOnItemClickListener implements AdapterView.OnItemClickListener {
+    public class DropdownOnItemClickListenerSize implements AdapterView.OnItemClickListener {
+
+        PopupWindow popupwindow;
+        TextView size;
+        String sizevalues[];
+
+
+        public DropdownOnItemClickListenerSize(PopupWindow popupWindow, TextView sizecolor, String sizevalues) {
+            this.popupwindow = popupWindow;
+            this.size = sizecolor;
+            this.sizevalues = sizevalues.split(",");
+
+        }
+
+        @Override
+        public void onItemClick(AdapterView<?> arg0, View v, int pos, long arg3) {
+
+            // get the context and main activity to access variables
+            Context mContext = v.getContext();
+
+            // add some animation when a list item was clicked
+            Animation fadeInAnimation = AnimationUtils.loadAnimation(v.getContext(), android.R.anim.fade_in);
+            fadeInAnimation.setDuration(10);
+            v.startAnimation(fadeInAnimation);
+            popupwindow.dismiss();
+
+
+            size.setText(Capitalize.capitalizeFirstLetter(sizevalues[pos]));
+
+
+            //notifyDataSetChanged();
+
+        }
+
+    }
+
+    public class DropdownOnItemClickListenerColorandMetaltype implements AdapterView.OnItemClickListener {
 
         PopupWindow popupwindow;
         TextView sizecolor;
         String sizecolorvalues[];
 
-        public DropdownOnItemClickListener(PopupWindow popupWindow, TextView sizecolor, String sizescolors) {
+        public DropdownOnItemClickListenerColorandMetaltype(PopupWindow popupWindow, TextView sizecolor, String sizescolors) {
             this.popupwindow = popupWindow;
             this.sizecolor = sizecolor;
             this.sizecolorvalues = sizescolors.split(",");
@@ -755,13 +796,9 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             v.startAnimation(fadeInAnimation);
             popupwindow.dismiss();
 
-            try {
-                sizecolor.setText(Capitalize.capitalizeFirstLetter(ConstantValues.metaltype[Integer.parseInt(sizecolorvalues[pos])]));
 
-            } catch (Exception ex) {
-                sizecolor.setText(Capitalize.capitalizeFirstLetter(sizecolorvalues[pos]));
+            sizecolor.setText(Capitalize.capitalizeFirstLetter(sizecolorvalues[pos]));
 
-            }
 
             //notifyDataSetChanged();
 
@@ -781,9 +818,10 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 String text = "";
                 // setting the ID and text for every items in the list
                 try {
-                    text = ConstantValues.metaltype[Integer.parseInt(getItem(position))];
-                } catch (Exception ex) {
                     text = Capitalize.capitalizeFirstLetter(getItem(position));
+
+
+                } catch (Exception ex) {
 
                 }
 
@@ -804,6 +842,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         return adapter;
     }
+
 
     @Override
     public int getItemViewType(int position) {
@@ -861,7 +900,8 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public ImageButton likebtn;
         public LinearLayout headertop;
         public TextView activitydoneby;
-        public TextView activitytype;
+
+
 
         HeaderHolder(View view) {
             super(view);
@@ -874,11 +914,10 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             brandname.setTypeface(SingleTon.robotoregular);
             headertop = (LinearLayout) view.findViewById(R.id.headertop);
             activitydoneby = (TextView) view.findViewById(R.id.activitydoneby);
-            activitytype = (TextView) view.findViewById(R.id.activitytype);
 
             uname.setOnClickListener(this);
             likebtn.setOnClickListener(this);
-            activitydoneby.setOnClickListener(this);
+
         }
 
 
@@ -902,13 +941,12 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 case R.id.likesclick:
                     postLiked(getAdapterPosition());
                     break;
-                case R.id.activitydoneby:
+               /* case R.id.activitydoneby:
                     profile = new Intent(mContext, OtherUserProfileActivity.class);
                     profile.putExtra("uname", ((TextView) view).getText().toString().trim());
                     profile.putExtra("user_id", "-1");
-
                     mContext.startActivity(profile);
-                    break;
+                    break;*/
             }
 
         }
@@ -930,6 +968,8 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public TextView condition;
         public TextView comment;
         public RelativeTimeTextView time;
+        public ProgressBar progress;
+
         LndProductPrivateHolder(View view, Context context) {
             super(view);
             con = context;
@@ -962,6 +1002,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             spaceview = view.findViewById(R.id.space);
             comment = (TextView) itemView.findViewById(R.id.comment);
             time = (RelativeTimeTextView) view.findViewById(R.id.time);
+            progress = (ProgressBar) view.findViewById(R.id.fullpostloading);
 
             //bind with listeners
             this.buy.setOnClickListener(this);
@@ -996,6 +1037,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         ImageButton forward, backward;
         public TextView size, color;
         public View spaceview;
+        public ProgressBar progress;
 
         LndProductShopHolder(View view, Context context) {
             super(view);
@@ -1028,6 +1070,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             forward = (ImageButton) view.findViewById(R.id.forward);
             backward = (ImageButton) view.findViewById(R.id.backward);
             spaceview = view.findViewById(R.id.space);
+            progress = (ProgressBar) view.findViewById(R.id.fullpostloading);
 
             size = (TextView) view.findViewById(R.id.size);
             color = (TextView) view.findViewById(R.id.color);
@@ -1067,6 +1110,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public TextView condition;
         public LinearLayout ll;
         public RelativeTimeTextView time;
+        public ProgressBar progress;
 
         LndProductPrivateUserHolder(View view, Context context) {
             super(view);
@@ -1094,7 +1138,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             condition = (TextView) view.findViewById(R.id.condition);
             color = (TextView) view.findViewById(R.id.color);
             time = (RelativeTimeTextView) view.findViewById(R.id.time);
-
+            progress = (ProgressBar) view.findViewById(R.id.fullpostloading);
             hfl = (HomeImageSliderLayout) view.findViewById(R.id.switcher);
             hfl.setLayoutParams(params);
             forward = (ImageButton) view.findViewById(R.id.forward);
@@ -1133,6 +1177,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public TextView edit, delete;
         public TextView likescount;
         public RelativeTimeTextView time;
+        public ProgressBar progress;
 
         Context con;
         ImageButton forward, backward;
@@ -1173,6 +1218,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             size = (TextView) view.findViewById(R.id.size);
             color = (TextView) view.findViewById(R.id.color);
             condition = (TextView) view.findViewById(R.id.condition);
+            progress = (ProgressBar) view.findViewById(R.id.fullpostloading);
 
             //hiding views for user
             msgtouser.setVisibility(View.GONE);
@@ -1247,16 +1293,17 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         alert.dismiss();
                     }
                 });
-                    /*view2.findViewById(R.id.swapcontinue).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            alert2.dismiss();
-                            Intent sendswaprequest = new Intent(mContext, SendSwapRequestActivity.class);
-                            sendswaprequest.putExtra("data", mItems.get(getAdapterPosition()));
-                            Main_TabHost.activity.startActivityForResult(sendswaprequest, 4);
-                            // Log.e("uname", mItems.get(pos).getUname());
-                        }
-                    });*/
+
+                //read more
+                view.findViewById(R.id.swapcontinue).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alert.dismiss();
+                        Intent i = new Intent(mContext, ReadMore.class);
+                        i.putExtra("pos", 2);
+                        mContext.startActivity(i);
+                    }
+                });
                 break;
 
             case R.id.sendto:
@@ -1407,13 +1454,12 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         List<String> imageurls = lhd.getImageurls();
                         JSONObject delobj = new JSONObject();
                         try {
-                            delobj.put("image1", fileName(imageurls.get(0)));
-                            delobj.put("image2", fileName(imageurls.get(1)));
-                            delobj.put("image3", fileName(imageurls.get(2)));
-                            delobj.put("image4", fileName(imageurls.get(3)));
-                            delobj.put("postid", lhd.getPost_id());
+                            for (int i = 0; i < imageurls.size(); i++) {
+                                delobj.put("image" + (i + 1), fileName(imageurls.get(i)));
 
-                            //deletePost(delobj.toString(), pos);
+                            }
+                            delobj.put("postid", lhd.getPost_id());
+                            deletePost(delobj.toString(), pos);
 
                         } catch (Exception ex) {
                             Log.e("delete error", ex.getMessage() + "");
@@ -1546,6 +1592,93 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
         };
         queue.add(sr);
+    }
+
+    public void deletePost(final String data, final int pos) {
+
+        /*final ProgressDialog pDialog = new ProgressDialog(mContext);
+        pDialog.setMessage("wait deleting post");
+        pDialog.show();
+
+        RequestQueue queue = Volley.newRequestQueue(mContext);
+        StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/postdata.php", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                pDialog.dismiss();
+                Log.e("response", response.toString());
+                try {
+                    JSONObject jobj = new JSONObject(response.toString());
+                    if (jobj.getBoolean("status")) {
+
+                        Toast.makeText(mContext, jobj.getString("message"), Toast.LENGTH_LONG).show();
+                        LndUserFullStickyActivity lnd = (LndUserFullStickyActivity) mContext;
+                        lnd.delete(pos);
+                        // notifyDataSetChanged();
+                    } else {
+                        Toast.makeText(mContext, jobj.getString("message"), Toast.LENGTH_LONG).show();
+                    }
+
+                } catch (Exception ex) {
+                    Log.e("json parsing error", ex.getMessage());
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                pDialog.dismiss();
+                //  Log.e("response",error.getMessage()+"");
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("data", data);
+                params.put("rqid", "6");
+
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                return params;
+            }
+        };
+        queue.add(sr);
+
+*/
+        Log.e("delobject", data);
+        int sectionManager = -1;
+        int headerCount = 0;
+        int sectionFirstPosition = 0;
+        int count = 0;
+
+        deleteditemssposition.add((pos / 2) + "");
+
+        mItems.remove(pos);
+        mItems.remove(pos - 1);
+
+        for (int i = 0; i < mItems.size(); i++) {
+            if (i % 2 == 0) {
+                sectionManager = (sectionManager + 1) % 1;
+                sectionFirstPosition = count + headerCount;
+                headerCount += 1;
+                count++;
+            }
+            Home_List_Data hld = mItems.get(i);
+
+            hld.sectionManager = sectionManager;
+            hld.sectionFirstPosition = sectionFirstPosition;
+
+
+        }
+        notifyHeaderChanges();
+
+        notifyDataSetChanged();
+
     }
 
 }

@@ -832,7 +832,7 @@ public class LndUserFullPostAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
                         Toast.makeText(mContext, jobj.getString("message"), Toast.LENGTH_LONG).show();
                         LndUserFullStickyActivity lnd = (LndUserFullStickyActivity) mContext;
-                        lnd.delete(pos);
+
                         // notifyDataSetChanged();
                     } else {
                         Toast.makeText(mContext, jobj.getString("message"), Toast.LENGTH_LONG).show();

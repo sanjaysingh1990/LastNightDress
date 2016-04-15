@@ -5,53 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
    android:orientation="vertical"
-    tools:context="com.eowise.recyclerview.stickyheaders.samples.Settings.PrivacyPolicy"
+    tools:context=".Settings.ReadMore"
     android:background="@color/white"
     >
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        style="@style/header"
-
-        app:popupTheme="@style/AppTheme.PopupOverlay"
-        app:contentInsetLeft="0dp"
-        app:contentInsetStart="0dp"
-        android:background="@color/white"
-        >
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-
-                <TextView
-                   android:id="@+id/heading"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Privacy Policy"
-                    android:textColor="#000"
-                    android:textSize="18sp"
-
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_horizontal"
-                    />
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/back_arrow"
-                android:layout_weight="0"
-                android:layout_gravity="center_vertical"
-                android:background="?attr/selectableItemBackground"
-                android:layout_marginLeft="10dp"
-                android:onClick="back"
-                />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#dadada"
-                android:layout_gravity="bottom"
-                />
-        </FrameLayout>
-    </android.support.v7.widget.Toolbar>
+<include
+    layout="@layout/common_header"
+    />
 <ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent">

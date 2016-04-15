@@ -18,37 +18,21 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:id="@+id/headertop"
-        android:visibility="gone"
+
         >
 
-        <LinearLayout
+
+
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingBottom="10dp"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:paddingTop="10dp">
+            android:text="Omid Fatai"
+            android:id="@+id/activitydoneby"
+            android:padding="10dp"
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Omid Fatai"
-                android:textColor="#be4d66"
-                android:id="@+id/activitydoneby"
-                android:textStyle="bold"
+            />
 
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="liked this."
-                android:textColor="#000"
-                android:layout_marginLeft="3dp"
-                android:id="@+id/activitytype"
-                />
 
-        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
@@ -76,7 +60,6 @@
             android:layout_width="33dp"
             android:layout_height="33dp"
             android:layout_gravity="center_vertical"
-
             android:clickable="true"
            />
 

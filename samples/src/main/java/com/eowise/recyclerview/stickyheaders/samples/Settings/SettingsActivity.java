@@ -12,7 +12,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -35,7 +34,6 @@ import com.eowise.recyclerview.stickyheaders.samples.MySales.SalesActivity;
 import com.eowise.recyclerview.stickyheaders.samples.Notification.NotificationActivity;
 import com.eowise.recyclerview.stickyheaders.samples.LndUserProfile.LndProfile;
 import com.eowise.recyclerview.stickyheaders.samples.R;
-import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.Home_List_Data;
 import com.eowise.recyclerview.stickyheaders.samples.UserProfile.LndLoginSignup;
 import com.eowise.recyclerview.stickyheaders.samples.contacts.ContactsActivity;
 import com.facebook.CallbackManager;
@@ -99,7 +97,8 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // handle me
-                Intent i = new Intent(SettingsActivity.this, PrivacyPolicy.class);
+                Intent i = new Intent(SettingsActivity.this, ReadMore.class);
+                i.putExtra("pos",1);
                 startActivity(i);
             }
         });

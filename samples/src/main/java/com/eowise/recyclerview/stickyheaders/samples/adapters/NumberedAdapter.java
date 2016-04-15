@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.eowise.recyclerview.stickyheaders.samples.HashTagsFullView.HashTagStickyActivity;
 import com.eowise.recyclerview.stickyheaders.samples.HashTagsFullView.LndBrandHashTagGridViewActivity;
+import com.eowise.recyclerview.stickyheaders.samples.Main_TabHost;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.LndPostFullView.LndFullStickyActivity;
 import com.eowise.recyclerview.stickyheaders.samples.Loading.AVLoadingIndicatorView;
@@ -114,7 +115,7 @@ public class NumberedAdapter extends RecyclerView.Adapter {
             }
             //settting price
             SingleTon.showValue(country, ((ItemViewHolder) holder).price, price_now);
-             Log.e("url", sd.getImageurl() + "'");
+           //  Log.e("url", sd.getImageurl() + "'");
             if (sd.getImageurl().length() == 0)
                 ((ItemViewHolder) holder).img.setImageResource(R.drawable.loading_icon);
             else
@@ -175,7 +176,7 @@ public class NumberedAdapter extends RecyclerView.Adapter {
                 Intent i = new Intent(con, LndFullStickyActivity.class);
                 i.putExtra("post_location", pos);
 
-                con.startActivity(i);
+                Main_TabHost.activity.startActivityForResult(i,9);
             } else if (forwhich == 300) {
                 Intent i = new Intent(con, HashTagStickyActivity.class);
                 i.putExtra("post_location", pos);

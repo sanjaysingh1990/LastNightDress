@@ -56,9 +56,10 @@ public class Main_TabHost extends AppCompatActivity {
     int[] icons2 = {R.drawable.home, R.drawable.shopping, R.drawable.camera, R.drawable.message, R.drawable.profile};
     public static Stack<Integer> currenttab = new Stack<Integer>();
     Button showpopup;
-    private String data="";
-    public static TextView message,notification,followers;
-    public static   PopupWindow popupWindow;
+    private String data = "";
+    public static TextView message, notification, followers;
+    public static PopupWindow popupWindow;
+
     /**
      * Called when the activity is first created.
      */
@@ -218,56 +219,71 @@ public class Main_TabHost extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Toast.makeText(this, resultCode + "", Toast.LENGTH_SHORT).show();
+        int pos =0;
+        switch (requestCode) {
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2:
+                if (data == null)
+                    return;
 
-        if (requestCode == 2) {
-            if (data == null)
-                return;
+                Boolean status = data.getBooleanExtra("status", false);
+                if (status) {
+                    tabHost.setCurrentTab(3);
+                    tabHost.setCurrentTab(4);
+                }
+                break;
+            case 3:
+                break;
+            case 4:
+                if (data == null)
+                    return;
+                String swapdata = data.getStringExtra("postids");
+                sendSwap(swapdata);
+                break;
+            case 5:
+                if (data == null)
+                    return;
+                LndProfile profile = (LndProfile) LndProfile.con;
+                profile.updateList(data.getStringArrayListExtra("posarray"));
+                break;
+            case 6:
+                if (data == null)
+                    return;
+                pos = data.getIntExtra("pos", 0);
+                NotificationData nd = (NotificationData) data.getExtras().get("data");
+                NotificationFragment.notification.setCheckout(pos, nd);
+                break;
+            case 7:
+                if (data == null)
+                    return;
+                boolean check = data.getBooleanExtra("check", false);
+                if (check)
+                    ((LndProfile) LndProfile.con).getPorfile(SingleTon.pref.getString("user_id", ""));
+                break;
+            case 8:
+                if (data == null)
+                    return;
+                pos = data.getIntExtra("pos", -1);
 
-            Boolean status = data.getBooleanExtra("status", false);
-            if (status) {
-                tabHost.setCurrentTab(3);
-                tabHost.setCurrentTab(4);
-            }
-            //
-            // NotificationFragment.recyclerAdapter.notifyDataSetChanged();
+                NotificationFragment.notification.cancelSwap(pos);
+                break;
+            case 9:
+                if (data == null)
+                    return;
+                LndFragment.lndshopactivity.updateList(data.getStringArrayListExtra("posarray"));
+                break;
+            case 10:
+                break;
 
-        } else if (requestCode == 4) {
-            if (data == null)
-                return;
-            String swapdata = data.getStringExtra("postids");
-
-            sendSwap(swapdata);
-
-        } else if (requestCode == 5) {
-            if (data == null)
-                return;
-            LndProfile profile= (LndProfile) LndProfile.con;
-            profile.updateList(data.getStringArrayListExtra("posarray"));
         }
-        else if (requestCode == 6) {
-            if (data == null)
-                return;
-            int pos=data.getIntExtra("pos",0);
-            NotificationData nd= (NotificationData) data.getExtras().get("data");
-            NotificationFragment.notification.setCheckout(pos,nd);
-        }
-        else if (requestCode == 7) {
-            if (data == null)
-                return;
-            boolean check=data.getBooleanExtra("check",false);
-            if(check)
-                ((LndProfile) LndProfile.con).getPorfile(SingleTon.pref.getString("user_id",""));
 
-        }
-        else if (requestCode == 8) {
-            if (data == null)
-                return;
-            int pos=data.getIntExtra("pos",-1);
-
-            NotificationFragment.notification.cancelSwap(pos);
-        }
 
     }
+
 
     @Override
     public void onBackPressed() {
@@ -308,54 +324,51 @@ public class Main_TabHost extends AppCompatActivity {
 
     private void showNotification(View v) {
 
-        int msg=0,noti=0,foll=0;
+        int msg = 0, noti = 0, foll = 0;
         LayoutInflater layoutInflater =
                 (LayoutInflater) getBaseContext()
                         .getSystemService(LAYOUT_INFLATER_SERVICE);
         View popupView = layoutInflater.inflate(R.layout.lnd_notification_popup, null);
-         message= (TextView) popupView.findViewById(R.id.message);
-         notification= (TextView) popupView.findViewById(R.id.notification);
-         followers= (TextView) popupView.findViewById(R.id.followers);
+        message = (TextView) popupView.findViewById(R.id.message);
+        notification = (TextView) popupView.findViewById(R.id.notification);
+        followers = (TextView) popupView.findViewById(R.id.followers);
 
 
-        try
-        {
+        try {
             JSONObject jobj = new JSONObject(data);
-            msg=jobj.getInt("messages");
-            if(msg>9)
-                message.setText(msg+"+");
+            msg = jobj.getInt("messages");
+            if (msg > 9)
+                message.setText(msg + "+");
             else
-                message.setText(msg+"");
+                message.setText(msg + "");
 
-            noti=jobj.getInt("notifications");
-            if(noti>9)
-                notification.setText(noti+"+");
+            noti = jobj.getInt("notifications");
+            if (noti > 9)
+                notification.setText(noti + "+");
             else
-                notification.setText(noti+"");
+                notification.setText(noti + "");
 
-            foll=jobj.getInt("followers");
-            if(foll>9)
-                followers.setText(foll+"+");
+            foll = jobj.getInt("followers");
+            if (foll > 9)
+                followers.setText(foll + "+");
             else
-                followers.setText(foll+"");
+                followers.setText(foll + "");
 
+        } catch (JSONException ex) {
+            Log.e("error", ex.getMessage());
         }
-        catch(JSONException ex)
-        {
-Log.e("error",ex.getMessage());
-        }
-         popupWindow = new PopupWindow(
+        popupWindow = new PopupWindow(
                 popupView, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 
 
-       //to position popup window on the screen
+        //to position popup window on the screen
 
 
         int width = SingleTon.displayMetrics.widthPixels;
-        int margin=((width/5)*30)/100;
+        int margin = ((width / 5) * 30) / 100;
 
-        if(msg>0||noti>0||foll>0)
-        popupWindow.showAsDropDown(v, -margin, 0);
+        if (msg > 0 || noti > 0 || foll > 0)
+            popupWindow.showAsDropDown(v, -margin, 0);
         popupView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -418,9 +431,9 @@ Log.e("error",ex.getMessage());
         StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/inboxope.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                 data=response;
+                data = response;
                 try {
-                     JSONObject jobj = new JSONObject(response.toString());
+                    JSONObject jobj = new JSONObject(response.toString());
                     if (jobj.getBoolean("status"))
                         showpopup.performClick();
                     else

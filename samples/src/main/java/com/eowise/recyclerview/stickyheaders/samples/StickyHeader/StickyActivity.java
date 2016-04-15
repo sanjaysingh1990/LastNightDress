@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -20,6 +21,8 @@ import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.Loading.AVLoadingIndicatorView;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.SQLDB.FavoriteData;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.ConstantValues;
+import com.eowise.recyclerview.stickyheaders.samples.contacts.ContactsActivity;
 import com.init.superslim.LayoutManager;
 
 import org.json.JSONArray;
@@ -31,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 
 public class StickyActivity extends AppCompatActivity {
@@ -101,6 +105,7 @@ public class StickyActivity extends AppCompatActivity {
         heading.setTypeface(tf);
 //loading spiiner
         dialog = (AVLoadingIndicatorView) findViewById(R.id.loader);
+        dialog.setVisibility(View.VISIBLE);
 //pull
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -187,7 +192,7 @@ public class StickyActivity extends AppCompatActivity {
                 SingleTon.lnduserid.clear();
                   try {
 
-
+                      Log.e("json",response);
 
                     JSONObject jobj = new JSONObject(response.toString());
                     JSONArray jarray = jobj.getJSONArray("data");
@@ -253,12 +258,65 @@ public class StickyActivity extends AppCompatActivity {
                         hld.setBrandname(jo.getString("brand_name"));
                         hld.setProdtype(jo.getString("prod_type"));
                         hld.setTime(getMilliseconds(jo.getString("date_time")));
-                        //for header
-                        if(i==0)
-                        hld2.setHeadertype(1);
-                        else if(i==1)
+
+                        if(hld.getCategory()==2)
+                        {
+                            String size="";
+
+                            try
+                            {
+                                String[] lndbagsize=hld.getSize().split(",");
+                                if(lndbagsize.length>1) {
+                                    for (int i = 0; i < lndbagsize.length; i++) {
+                                        size = size + ConstantValues.bagsize[Integer.parseInt(lndbagsize[i])] + ",";
+                                    }
+                                 hld.setSize(size);
+                                }
+                                else
+                                hld.setSize(ConstantValues.bagsize[Integer.parseInt(hld.getSize())]);
+
+
+                            }
+                            catch (Exception ex)
+                            {
+                                  Log.e("error",ex.getMessage());
+                            }
+                        }
+                     else if(hld.getCategory()==4)
+                        {
+                            String color="";
+
+                            try
+                            {
+                                String[] lndcolormetaltype=hld.getColors().split(",");
+                                if(lndcolormetaltype.length>1) {
+                                    for (int i = 0; i <lndcolormetaltype.length; i++) {
+                                        color = color + ConstantValues.metaltype[Integer.parseInt(lndcolormetaltype[i])] + ",";
+                                    }
+                                    hld.setColors(color);
+                                }
+                                else
+                                    hld.setColors(ConstantValues.metaltype[Integer.parseInt(hld.getColors())]);
+
+
+                            }
+                            catch (Exception ex)
+                            {
+                                Log.e("error",ex.getMessage());
+                            }
+                        }
+
+
+                          //for header
+                        if(jo.getInt("noti_type_home")==1) {
+                            hld2.setHeadertype(1);
+                            hld2.setNotitotallikers(jo.getInt("noti_total_likers"));
+                            hld2.setNotilikedby(jo.getString("noti_likedby"));
+
+                        }
+                        else if(jo.getInt("noti_type_home")==2)
                             hld2.setHeadertype(2);
-                        else if(i==2)
+                        else if(jo.getInt("noti_type_home")==3)
                             hld2.setHeadertype(3);
                          else
                         hld2.setHeadertype(0);
@@ -278,6 +336,8 @@ public class StickyActivity extends AppCompatActivity {
                         hld2.setCategory(jo.getInt("category_type"));
                         hld2.setUserid(jo.getString("user_id"));
                         hld2.setBrandname(jo.getString("brand_name"));
+
+
 
                         checkFavorate(hld);
                         mItems.add(hld);

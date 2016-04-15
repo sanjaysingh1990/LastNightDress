@@ -70,7 +70,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".Settings.PrivacyPolicy"
+            android:name=".Settings.ReadMore"
             android:label="@string/title_activity_privacy_policy"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />

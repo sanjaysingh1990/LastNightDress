@@ -77,7 +77,7 @@ class NotificationSwipeableItemAdapter
     private static EventListener mEventListener;
     static Activity activity;
     // NOTE: Make accessible with short name
-    public static final int FOLLOWER = 1, SWAPREQUEST = 2, CHECKOUT = 3, DECLINED = 4, USERMETION = 5, PURCHASEDITEM = 6, POSTSHARED = 7, BLANK = 8,USERACCEPTEDCHECKOUT=9;
+    public static final int FOLLOWER = 1, SWAPREQUEST = 2, CHECKOUT = 3, DECLINED = 4, USERMETION = 5, PURCHASEDITEM = 6, POSTSHARED = 7, BLANK = 8,USERACCEPTEDCHECKOUT=9,POSTLIKED=10;
     TagSelectingTextview mTagSelectingTextview;
     public static int hashTagHyperLinkEnabled = 1;
     public static int hashTagHyperLinkDisabled = 0;
@@ -400,7 +400,10 @@ class NotificationSwipeableItemAdapter
         else if (mProvider.getItem(position).getnotiType() == NotificationType.USERACCEPTEDCHECKOUT) {
             return USERACCEPTEDCHECKOUT;
         }
-        return -1;
+        else if (mProvider.getItem(position).getnotiType() == NotificationType.POSTLIKED) {
+            return POSTLIKED;
+        }
+            return -1;
 
     }
 
@@ -447,7 +450,10 @@ class NotificationSwipeableItemAdapter
                 final View checkout2 = inflater.inflate(R.layout.list_item_swapcheckout, parent, false);
                 viewHolder = new CheckOut(checkout2);
                 break;
-
+            case POSTLIKED:
+                final View postliked = inflater.inflate(R.layout.list_item_common_view, parent, false);
+                viewHolder = new MyViewHolder(postliked);
+                break;
         }
         return viewHolder;
 
@@ -486,7 +492,7 @@ class NotificationSwipeableItemAdapter
                 break;
             case PURCHASEDITEM:
                 ((MyViewHolder) holder).notiTextView.setMaxLines(42);
-                setSpannableText("Cindy Lowe ", "purchased your item, mail it now."," "+new TimeAgo(activity).timeAgo(item.getNotificationdata().getTime()), ((MyViewHolder) holder).notiTextView);
+                setSpannableText("Cindy Lowe ", "purchased your item, mail it now.", " " + new TimeAgo(activity).timeAgo(item.getNotificationdata().getTime()), ((MyViewHolder) holder).notiTextView);
 
 
                 ((MyViewHolder) holder).mContainer.setCanSwipeLeft(mCanSwipeLeft);
@@ -502,7 +508,7 @@ class NotificationSwipeableItemAdapter
                 ((MyViewHolder) holder).mContainer.setCanSwipeRight(!mCanSwipeLeft);
                 break;
             case FOLLOWER:
-                setSpannableText(item.getUname(), " started following you. "," "+new TimeAgo(activity).timeAgo(item.getNotificationdata().getTime()), ((Follower) holder).notiTextView);
+                setSpannableText(item.getUname(), " started following you. ", " " + new TimeAgo(activity).timeAgo(item.getNotificationdata().getTime()), ((Follower) holder).notiTextView);
                 SingleTon.imageLoader.displayImage(item.getProfilepic(), ((Follower) holder).notiprofile, SingleTon.options2);
                 ((Follower) holder).mContainer.setCanSwipeLeft(mCanSwipeLeft);
                 ((Follower) holder).mContainer.setCanSwipeRight(!mCanSwipeLeft);
@@ -518,7 +524,7 @@ class NotificationSwipeableItemAdapter
 
             case CHECKOUT:
 
-                setSpannableText(Capitalize.capitalizeFirstLetter(item.getUname()), " accepted swap request.  ", " "+new TimeAgo(activity).timeAgo(item.getNotificationdata().getTime()), ((CheckOut) holder).notiTextView);
+                setSpannableText(Capitalize.capitalizeFirstLetter(item.getUname()), " accepted swap request.  ", " " + new TimeAgo(activity).timeAgo(item.getNotificationdata().getTime()), ((CheckOut) holder).notiTextView);
 
                 SingleTon.imageLoader.displayImage(item.getImageurl(), ((CheckOut) holder).notiimage, SingleTon.options);
                 SingleTon.imageLoader.displayImage(item.getProfilepic(), ((CheckOut) holder).notiprofile, SingleTon.options2);
@@ -528,13 +534,21 @@ class NotificationSwipeableItemAdapter
                 break;
             case USERACCEPTEDCHECKOUT:
 
-                setSpannableText2(Capitalize.capitalizeFirstLetter(item.getUname()), " requested a "," "+new TimeAgo(activity).timeAgo(item.getNotificationdata().getTime()), ((CheckOut) holder).notiTextView);
+                setSpannableText2(Capitalize.capitalizeFirstLetter(item.getUname()), " requested a ", " " + new TimeAgo(activity).timeAgo(item.getNotificationdata().getTime()), ((CheckOut) holder).notiTextView);
 
                 SingleTon.imageLoader.displayImage(item.getImageurl(), ((CheckOut) holder).notiimage, SingleTon.options);
                 SingleTon.imageLoader.displayImage(item.getProfilepic(), ((CheckOut) holder).notiprofile, SingleTon.options2);
 
                 ((CheckOut) holder).mContainer.setCanSwipeLeft(mCanSwipeLeft);
                 ((CheckOut) holder).mContainer.setCanSwipeRight(!mCanSwipeLeft);
+                break;
+            case POSTLIKED:
+                setSpannableText(Capitalize.capitalizeFirstLetter(item.getUname()), " liked your post:", " " + new TimeAgo(activity).timeAgo(item.getNotificationdata().getTime()), ((MyViewHolder) holder).notiTextView);
+                SingleTon.imageLoader.displayImage(item.getImageurl(), ((MyViewHolder) holder).notiimage, SingleTon.options);
+                SingleTon.imageLoader.displayImage(item.getProfilepic(), ((MyViewHolder) holder).notiprofile, SingleTon.options2);
+
+                ((MyViewHolder) holder).mContainer.setCanSwipeLeft(mCanSwipeLeft);
+                ((MyViewHolder) holder).mContainer.setCanSwipeRight(!mCanSwipeLeft);
                 break;
         }
         //  holder.mTextView.setText(item.getText());

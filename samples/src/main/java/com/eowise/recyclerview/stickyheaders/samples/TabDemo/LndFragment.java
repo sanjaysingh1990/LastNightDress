@@ -27,6 +27,8 @@ import com.eowise.recyclerview.stickyheaders.samples.Favorates.Favorates;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.SQLDB.FavoriteData;
+import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.Home_List_Data;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.ConstantValues;
 import com.eowise.recyclerview.stickyheaders.samples.adapters.MarginDecoration;
 import com.eowise.recyclerview.stickyheaders.samples.adapters.NumberedAdapter;
 import com.eowise.recyclerview.stickyheaders.samples.data.ShopData;
@@ -35,7 +37,10 @@ import com.eowise.recyclerview.stickyheaders.samples.peopleandhashtag.PeopleHash
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,15 +64,27 @@ public class LndFragment extends Fragment {
     TextView search;
     static ImageButton favorate;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private int previousTotal=0;
-    private boolean pullrefresh=false;
+    private int previousTotal = 0;
+    private boolean pullrefresh = false;
     boolean loading = true;
     int pastVisiblesItems, visibleItemCount, totalItemCount;
+    public static ArrayList<Home_List_Data> mItems = new ArrayList<>();
+    public static LndFragment lndshopactivity;
+    //for sticky header
+    boolean isprivate = false;
+    String lastHeader = "";
+    int sectionManager = -1;
+    int headerCount = 0;
+    int sectionFirstPosition = 0;
+    private int count = 0;
+    private boolean isfirttime = true;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View shopview = inflater.inflate(
                 R.layout.fragment_lnd_shop, container, false);
+        lndshopactivity = this;
         ButterKnife.bind(this, shopview);
         search.setHint("Search People, Brands & Hashtags");
         search.setTypeface(SingleTon.robotoregular);
@@ -76,12 +93,10 @@ public class LndFragment extends Fragment {
         try {
             shopdata.clear();
 
-            getData(skipdata,LndShopActivity.selectedcategory);
+            getData(skipdata, LndShopActivity.selectedcategory);
 
 
-           }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
 
         }
 
@@ -105,11 +120,13 @@ public class LndFragment extends Fragment {
         //checking favorate
         checkFavorate();
 //pull
-        swipeRefreshLayout = (SwipeRefreshLayout)shopview.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout = (SwipeRefreshLayout) shopview.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 skipdata = 0;
+                dataleft = true;
+                loading = true;
                 shopdata.clear();
                 try {
                     // Toast.makeText(getActivity(), LndShopActivity.selectedcategory + "", Toast.LENGTH_SHORT).show();
@@ -121,6 +138,8 @@ public class LndFragment extends Fragment {
             }
         });
 
+        //clear list
+        mItems.clear();
         return shopview;
     }
 
@@ -128,46 +147,10 @@ public class LndFragment extends Fragment {
         recyclerv = (RecyclerView) recyclerView.findViewById(R.id.recycler_view);
         recyclerv.addItemDecoration(new MarginDecoration(getActivity()));
         recyclerv.setHasFixedSize(true);
-        final GridLayoutManager gridlayoutm=new GridLayoutManager(getActivity(), 3);
+        final GridLayoutManager gridlayoutm = new GridLayoutManager(getActivity(), 3);
         recyclerv.setLayoutManager(gridlayoutm);
         adapter = new NumberedAdapter(shopdata, getActivity(), 200, recyclerv);
         recyclerv.setAdapter(adapter);
-        /*adapter.setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-                //add null , so the adapter will check view_type and show progress bar at bottom
-
-                shopdata.add(null);
-                adapter.notifyItemInserted(shopdata.size() - 1);
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        loadmore = true;
-                        if (dataleft)
-                            try {
-                                getData(skipdata, LndShopActivity.selectedcategory);
-                            } catch (Exception ex) {
-
-                            }
-                        else {
-
-                            try {
-                                shopdata.remove(shopdata.size() - 1);
-
-                                adapter.notifyItemRemoved(shopdata.size() - 1);
-
-                                adapter.setLoaded();
-                            }
-                            catch (Exception ex)
-                            {
-
-                            }
-                        }
-                    }
-                }, 1000);
-
-            }
-        });*/
 
 //load more
         recyclerv.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -188,7 +171,7 @@ public class LndFragment extends Fragment {
 
                             if (dataleft)
                                 try {
-                                    loadmore=true;
+                                    loadmore = true;
                                     getData(skipdata, LndShopActivity.selectedcategory);
                                 } catch (Exception ex) {
 
@@ -201,9 +184,7 @@ public class LndFragment extends Fragment {
                                     adapter.notifyItemRemoved(shopdata.size() - 1);
 
 
-                                }
-                                catch (Exception ex)
-                                {
+                                } catch (Exception ex) {
 
                                 }
                             }
@@ -218,18 +199,20 @@ public class LndFragment extends Fragment {
 
     }
 
-    public void getData(final int dataskip,final int category) throws Exception {
+    public void getData(final int dataskip, final int category) throws Exception {
 
-        if(pullrefresh)
+        if (pullrefresh)
             LndShopActivity.prog.setVisibility(View.GONE);
-        else
+        if (isfirttime) {
             LndShopActivity.prog.setVisibility(View.VISIBLE);
-
+            isfirttime = false;
+        }
         RequestQueue queue = Volley.newRequestQueue(getActivity());
         StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/postdata.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                 pullrefresh=false;
+                pullrefresh = false;
+                loading = true;
 
                 try {
                     LndShopActivity.prog.setVisibility(View.GONE);
@@ -237,13 +220,11 @@ public class LndFragment extends Fragment {
                     if (loadmore) {
                         shopdata.remove(shopdata.size() - 1);
 
-                        adapter.notifyItemRemoved(shopdata.size()-1);
-                       loadmore=false;
+                        adapter.notifyItemRemoved(shopdata.size() - 1);
+                        loadmore = false;
 
                     }
-                }
-                catch(Exception ex)
-                {
+                } catch (Exception ex) {
 
                 }
                 //Log.e("response", response.toString());
@@ -251,23 +232,135 @@ public class LndFragment extends Fragment {
 
                     JSONObject jobj = new JSONObject(response.toString());
                     JSONArray jarray = jobj.getJSONArray("data");
-                    if (jarray.length() == 0) {
-                        dataleft = false;
-                        return;
-                    }
+
                     for (int i = 0; i < jarray.length(); i++) {
                         JSONObject jo = jarray.getJSONObject(i);
                         ShopData pdb = new ShopData();
                         pdb.setPrice(jo.getString("price_now"));
-
-
-                        pdb.setImageurl(jo.getString("image_url"));
+                        pdb.setImageurl(jo.getString("imageurl1"));
                         shopdata.add(pdb);
+
+//for full view
+                        ArrayList<String> imgurls = new ArrayList<String>();
+                        String imgurl = jo.getString("imageurl1");
+
+                        imgurls.add(imgurl);
+
+                        imgurl = jo.getString("imageurl2");
+                        if (imgurl.length() > 0)
+                            imgurls.add(imgurl);
+
+                        imgurl = jo.getString("imageurl3");
+                        if (imgurl.length() > 0)
+                            imgurls.add(imgurl);
+                        imgurl = jo.getString("imageurl4");
+                        if (imgurl.length() > 0)
+                            imgurls.add(imgurl);
+                        //adding for headers
+                        String header = jo.getString("uname") + "";
+                        sectionManager = (sectionManager + 1) % 1;
+                        sectionFirstPosition = count + headerCount;
+                        lastHeader = header;
+                        headerCount += 1;
+                        Home_List_Data hld2 = new Home_List_Data(header, "header", sectionManager, sectionFirstPosition);
+                        mItems.add(hld2);
+
+
+                        if (jo.getString("utype").compareTo("private") == 0)
+                            isprivate = true;
+                        else
+                            isprivate = false;
+
+                        //storing userid with uname
+
+                        SingleTon.lnduserid.put(jo.getString("uname"), jo.getString("user_id"));
+
+                        //content
+                        Home_List_Data hld = null;
+                        if (SingleTon.pref.getString("user_id", "").compareToIgnoreCase(jo.getString("user_id")) == 0)
+                            hld = new Home_List_Data(jo.getString("uname") + "", isprivate, "contentuser", sectionManager, sectionFirstPosition);
+                        else
+                            hld = new Home_List_Data(jo.getString("uname") + "", isprivate, "contentotheruser", sectionManager, sectionFirstPosition);
+                        hld.setProfilepicurl(jo.getString("profile_pic"));
+                        hld.setPricenow(jo.getString("price_now"));
+                        hld.setPricewas(jo.getString("price_was"));
+                        hld.setSize(jo.getString("size"));
+                        hld.setLikestotal(jo.getInt("likes"));
+                        hld.setImageurls(imgurls);
+                        hld.setPost_id(jo.getString("post_id"));
+                        hld.setDescription(jo.getString("description"));
+                        hld.setUname(jo.getString("uname"));
+                        hld.setLikedvalue(jo.getString("like"));
+                        hld.setColors(jo.getString("color"));
+                        hld.setConditon(jo.getString("condition"));
+                        hld.setCategory(jo.getInt("category_type"));
+                        hld.setUserid(jo.getString("user_id"));
+                        hld.setBrandname(jo.getString("brand_name"));
+                        hld.setTime(getMilliseconds(jo.getString("date_time")));
+
+                        if (hld.getCategory() == 2) {
+                            String size = "";
+
+                            try {
+                                String[] lndbagsize = hld.getSize().split(",");
+                                if (lndbagsize.length > 1) {
+                                    for (int j = 0; j < lndbagsize.length; j++) {
+                                        size = size + ConstantValues.bagsize[Integer.parseInt(lndbagsize[j])] + ",";
+                                    }
+                                    hld.setSize(size);
+                                } else
+                                    hld.setSize(ConstantValues.bagsize[Integer.parseInt(hld.getSize())]);
+
+
+                            } catch (Exception ex) {
+                                Log.e("error", ex.getMessage());
+                            }
+                        } else if (hld.getCategory() == 4) {
+                            String color = "";
+
+                            try {
+                                String[] lndcolormetaltype = hld.getColors().split(",");
+                                if (lndcolormetaltype.length > 1) {
+                                    for (int j = 0; j < lndcolormetaltype.length; j++) {
+                                        color = color + ConstantValues.metaltype[Integer.parseInt(lndcolormetaltype[j])] + ",";
+                                    }
+                                    hld.setColors(color);
+                                } else
+                                    hld.setColors(ConstantValues.metaltype[Integer.parseInt(hld.getColors())]);
+
+
+                            } catch (Exception ex) {
+                                Log.e("error", ex.getMessage());
+                            }
+                        }
+                        //for header
+                        hld2.setProfilepicurl(jo.getString("profile_pic"));
+                        hld2.setPricenow(jo.getString("price_now"));
+                        hld2.setPricewas(jo.getString("price_was"));
+                        hld2.setSize(jo.getString("size"));
+                        hld2.setLikestotal(jo.getInt("likes"));
+                        hld2.setImageurls(imgurls);
+                        hld2.setPost_id(jo.getString("post_id"));
+                        hld2.setDescription(jo.getString("description"));
+                        hld2.setUname(jo.getString("uname"));
+                        hld2.setLikedvalue(jo.getString("like"));
+                        hld2.setColors(jo.getString("color"));
+                        hld2.setConditon(jo.getString("condition"));
+                        hld2.setCategory(jo.getInt("category_type"));
+                        hld2.setUserid(jo.getString("user_id"));
+                        hld2.setBrandname(jo.getString("brand_name"));
+                        checkFavorate2(hld);
+                        mItems.add(hld);
+                        count++;
                     }
 
 
                     // rv.setAdapter(adapter);
                     skipdata = shopdata.size();
+                    if (jarray.length() < 25) {
+                        dataleft = false;
+
+                    }
                     adapter.notifyDataSetChanged();
                 } catch (Exception ex) {
                     Log.e("json parsing error", ex.getMessage());
@@ -278,18 +371,16 @@ public class LndFragment extends Fragment {
             public void onErrorResponse(VolleyError error) {
                 LndShopActivity.prog.setVisibility(View.GONE);
                 swipeRefreshLayout.setRefreshing(false);
-                pullrefresh=false;
+                pullrefresh = false;
                 try {
-					shopdata.remove(shopdata.size() - 1);
+                    shopdata.remove(shopdata.size() - 1);
 
-					adapter.notifyItemRemoved(shopdata.size()-1);
+                    adapter.notifyItemRemoved(shopdata.size() - 1);
 
 
-				}
-				catch(Exception ex)
-				{
+                } catch (Exception ex) {
 
-				}
+                }
                 //Log.e("response",error.getMessage()+"");
                 try {
                     new com.eowise.recyclerview.stickyheaders.samples.AlertDialog().showAlertDialog(getActivity());
@@ -302,7 +393,8 @@ public class LndFragment extends Fragment {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("rqid", "5");
-                params.put("category", category+"");
+                params.put("category", category + "");
+                params.put("user_id", SingleTon.pref.getString("user_id", ""));
 
                 params.put("skipdata", dataskip + "");
 
@@ -335,4 +427,39 @@ public class LndFragment extends Fragment {
 
         }
     }
+
+    static long getMilliseconds(String datetime) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        try {
+
+            Date date = formatter.parse(datetime);
+            // Log.e("date",date.toString());
+            // Log.e("date2",formatter.format(date));
+
+            return date.getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    private void checkFavorate2(Home_List_Data hld) {
+        FavoriteData fd = SingleTon.db.getContact(hld.getPost_id());
+        if (fd != null) {
+            hld.setIsfavorate(true);
+        }
+    }
+
+    public void updateList(ArrayList<String> pos) {
+
+        for (String position : pos) {
+            int repos = Integer.parseInt(position);
+            shopdata.remove(repos);
+            adapter.notifyDataSetChanged();
+
+
+        }
+    }
+
 }
