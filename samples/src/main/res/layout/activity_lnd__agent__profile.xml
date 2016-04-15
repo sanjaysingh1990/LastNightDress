@@ -13,12 +13,13 @@
         app:contentInsetLeft="0dp"
         app:contentInsetStart="0dp"
         app:popupTheme="@style/AppTheme.PopupOverlay"
-
+        android:layout_weight="0"
         >
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+             >
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -65,6 +66,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="#f2f2f2"
+        android:layout_weight="0"
         >
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -260,4 +262,13 @@
 
             android:background="#dadada" />
     </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:id="@+id/recycler"
+
+
+        />
 </LinearLayout>
