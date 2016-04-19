@@ -2,20 +2,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#9dc3e7"
-        android:orientation="horizontal">
+        android:background="#404040"
+        android:orientation="horizontal"
+
+        >
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="0"
             android:orientation="vertical"
-            android:padding="10dp">
+
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/mainprofilepic"
@@ -37,65 +45,26 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:orientation="vertical"
             android:padding="10dp">
 
             <TextView
-                style="@style/LndAgentListTextView"
-                android:text="31" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="User surpassed you"
+                android:textColor="@color/white"
+                android:textSize="19sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="3dp"
-                android:text="Total Posts"
+                android:text="Swipe to remove ->"
                 android:textColor="@color/white"
-                android:textSize="11sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:padding="10dp">
-
-            <TextView
-                style="@style/LndAgentListTextView"
-                android:text="19" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="3dp"
-                android:text="Items Sold"
-                android:textColor="@color/white"
-                android:textSize="11sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:padding="10dp">
-
-            <TextView
-                style="@style/LndAgentListTextView"
-                android:text="0/10" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="3dp"
-                android:text="Agency"
-                android:textColor="@color/white"
-                android:textSize="11sp" />
+                android:textSize="14sp"
+                android:paddingLeft="25dp"
+                />
         </LinearLayout>
 
     </LinearLayout>

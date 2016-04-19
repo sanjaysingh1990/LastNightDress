@@ -44,7 +44,9 @@ public class Lnd_Agent_Profile extends AppCompatActivity {
         LndAgentBean db3=new LndAgentBean();
         db3.setType(3);
         data.add(db3);
-
+        LndAgentBean db8=new LndAgentBean();
+        db8.setType(4);
+        data.add(db8);
         LndAgentBean db4=new LndAgentBean();
         db4.setType(1);
         data.add(db4);

@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="#00000000"
-    android:orientation="vertical"
 
-    >
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#00000000"
+        android:orientation="vertical"
 
-    <ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+        >
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
         android:layout_height="300dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:background="#ffffff"
-
-        >
+        android:background="#f2f2f2">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -41,112 +39,129 @@
 
 
             <TextView
+                android:id="@+id/text1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
 
+                android:layout_marginTop="20dp"
                 android:gravity="left"
                 android:lineSpacingMultiplier="1.1"
-                android:id="@+id/text1"
-                android:text="To prevent any returns please be as descriptive and detailed as possible when creating your post. Detail such as, damages, alterations, and/or missing pieces must be explained.
-" />
+                android:text="To prevent any returns please be as descriptive and detailed as possible when creating your post. Detail such as, damages, alterations, and/or missing pieces must be explained." />
 
 
             <TextView
                 android:id="@+id/subheading1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:gravity="left"
-                android:text="How to gain exposure for your item"
+                android:text="How to gain exposure for your item."
                 android:textColor="#000"
-                android:textSize="18sp" />
+                android:textSize="18sp"
 
+                />
 
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
+                android:text="Hashtags"
+                android:textColor="#000"
+                android:textSize="14sp"
+                android:textStyle="bold"
+
+                />
+
+            <TextView
+                android:id="@+id/text2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
                 android:gravity="left"
                 android:lineSpacingMultiplier="1.1"
-                android:id="@+id/text2"
-                android:text="Hashtags. When it comes to social media, the hashtag is used to draw attention, to organize, and to promote.
-" />
+                android:text="When it comes to social media, the hashtag is used to draw attention, to organize, and to promote. (see below)" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Mentions"
+                android:textColor="#000"
+                android:textSize="14sp"
+                android:textStyle="bold"
+
+                />
+
+            <TextView
+                android:id="@+id/text3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:gravity="left"
+                android:lineSpacingMultiplier="1.1"
+                android:text="By doing an @mention you will not only draw attention to your post by that particular person, you will also gain exposure to the people that are following them, which could be huge!" />
 
             <TextView
                 android:id="@+id/subheading2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:gravity="left"
                 android:text="Why use hashtags?"
                 android:textColor="#000"
-                android:textSize="18sp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="Hashtags help you get found by your target"
-                android:textColor="#000"
-                android:textSize="14sp"
-                android:textStyle="bold"
+                android:textSize="18sp"
 
                 />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="3dp"
-                android:gravity="left"
-                android:lineSpacingMultiplier="1.1"
-                android:id="@+id/text3"
-                android:text="audience. Many people search for specific hashtags. By using the hashtags that are of interest to your ideal customer, you can increase the chances of being found." />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="Hashtags improve your click through"
-                android:textColor="#000"
+                android:text="Hashtags help you get found by your target audience."
                 android:textSize="14sp"
-                android:textStyle="bold"
-
-                />
+                android:textStyle="bold" />
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="3dp"
-                android:gravity="left"
-                android:lineSpacingMultiplier="1.1"
                 android:id="@+id/text4"
-                android:text="rates. According to research, posts with hashtags receive twice as much engagement as those that don’t. Put it in another way, you can double your engagement and increase click through rates by including hashtags.
-" />
-
-            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="Hashtags become links to search queries. So, while"
-                android:textColor="#000"
-                android:textSize="14sp"
-                android:textStyle="bold"
-
-                />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
                 android:layout_marginTop="3dp"
                 android:gravity="left"
                 android:lineSpacingMultiplier="1.1"
+                android:text=" Many people search for specific hashtags. By using the hashtags that are of interest to your ideal customer, you can increase the chances of your item being found." />
+
+                      <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Hashtags improve your click through rates."
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                />
+            <TextView
                 android:id="@+id/text5"
-                android:text="someone might click your hashtag and take them to a search query, at the same time, that search is garnering a lot more views, and will lead more people to see your post." />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:gravity="left"
+                android:lineSpacingMultiplier="1.1"
+                android:text="According to our research, posts with hashtags receive twice as much engagement as those that don’t. Put it in another way, you can double your engagement and increase click through rates by including hashtags." />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Hashtags become links to search queries."
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                />
+            <TextView
+                android:id="@+id/text6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:gravity="left"
+                android:lineSpacingMultiplier="1.1"
+                android:text="So, while someone might click your hashtag and take them to a search query, at the same time, that search is garnering a lot more views, and will lead more people to see your post." />
 
             <TextView
                 android:id="@+id/heading2"
@@ -154,50 +169,59 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:gravity="left"
-                android:text="Follow these simple rules when\n creating hashtags:"
+                android:text="Follow these simple rules when\ncreating hashtags:"
                 android:textColor="#000"
                 android:textSize="18sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
+                android:orientation="horizontal">
+
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/instruction_arrow"
+                    android:background="@color/white"
+                    android:padding="3dp"
+                    android:layout_gravity="center_vertical"
                     />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:drawablePadding="10dp"
+                    android:gravity="center_vertical"
                     android:text="No spaces"
-                    android:drawablePadding="10dp"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center_vertical"
                     android:textColor="#000"
-
+                    android:layout_marginTop="3dp"
+                    android:layout_marginLeft="5dp"
                     />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
+                android:orientation="horizontal">
+
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/instruction_arrow"
+                    android:background="@color/white"
+                    android:padding="3dp"
                     />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:drawablePadding="10dp"
+                    android:gravity="center_vertical"
                     android:text="No punctuation"
-                    android:drawablePadding="10dp"
-                    android:gravity="center_vertical"
                     android:textColor="#000"
-                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
+
 
                     />
             </LinearLayout>
@@ -205,22 +229,25 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
+                android:orientation="horizontal">
+
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/instruction_arrow"
+                    android:background="@color/white"
+                    android:padding="3dp"
                     />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="No special characters"
+                    android:layout_gravity="center_vertical"
                     android:drawablePadding="10dp"
                     android:gravity="center_vertical"
+                    android:text="No special characters"
                     android:textColor="#000"
-                    android:layout_gravity="center_vertical"
-
+                    android:layout_marginLeft="5dp"
                     />
             </LinearLayout>
 
@@ -235,106 +262,122 @@
                 android:textSize="18sp" />
 
 
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
+                android:orientation="horizontal">
+
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/instruction_arrow"
+                    android:background="@color/white"
+                    android:padding="3dp"
                     />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="#pumps"
-                    android:drawablePadding="10dp"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center_vertical"
-                    android:textColor="#000"
 
-                    />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/instruction_arrow"
-                    />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="#blackdress"
+                    android:layout_marginTop="3dp"
                     android:drawablePadding="10dp"
                     android:gravity="center_vertical"
+                    android:text="#lacedess"
                     android:textColor="#000"
-                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
 
                     />
             </LinearLayout>
 
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
+                android:orientation="horizontal">
+
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/instruction_arrow"
+                    android:background="@color/white"
+                    android:padding="3dp"
                     />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="#mermaiddress"
+                    android:layout_gravity="center_vertical"
                     android:drawablePadding="10dp"
                     android:gravity="center_vertical"
+                    android:text="#littleblackdress"
                     android:textColor="#000"
-                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
 
                     />
             </LinearLayout>
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
+                android:orientation="horizontal">
+
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/instruction_arrow"
+                    android:background="@color/white"
+                    android:padding="3dp"
                     />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="#weddinggring"
+                    android:layout_gravity="center_vertical"
                     android:drawablePadding="10dp"
                     android:gravity="center_vertical"
+                    android:text="#luxuyhandbags"
                     android:textColor="#000"
+                    android:layout_marginLeft="5dp"
+
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/instruction_arrow"
+                    android:background="@color/white"
+                    android:padding="3dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:drawablePadding="10dp"
+                    android:gravity="center_vertical"
+                    android:text="#weddingring"
+                    android:textColor="#000"
+                    android:layout_marginLeft="5dp"
 
                     />
             </LinearLayout>
         </LinearLayout>
-    </ScrollView>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/cost_popup_menu"
-        android:padding="15dp"
-        android:gravity="center_horizontal|center_vertical"
-        android:text="Close"
-        android:textColor="#be4d66"
-        android:clickable="true"
-        android:id="@+id/close"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        />
-</LinearLayout>
+</ScrollView>
+        <TextView
+            android:id="@+id/close"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/cost_popup_menu"
+            android:clickable="true"
+            android:gravity="center_horizontal|center_vertical"
+            android:padding="15dp"
+            android:text="Close"
+            android:textColor="#be4d66" />
+    </LinearLayout>

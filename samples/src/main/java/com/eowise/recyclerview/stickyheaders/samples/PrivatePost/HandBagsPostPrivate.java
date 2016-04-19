@@ -43,7 +43,9 @@ import com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost.CameraR
 import com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost.CompressImage;
 import com.eowise.recyclerview.stickyheaders.samples.PostDataShop.Lnd_Post_Instruction;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.ConstantValues;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.HashTagandMention;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.InstructionDialogs;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.LndTextWatcher;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.LndTokenizer;
 import com.eowise.recyclerview.stickyheaders.samples.data.CameraData;
@@ -96,7 +98,8 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
     EditText pricewas;
     @Bind(R.id.pricenow)
     EditText pricenow;
-
+    @Bind(R.id.lndconditontext)
+    TextView lnditemcondition;
     //condition reference
     @Bind(R.id.conditionnew)
     TextView conditionnew;
@@ -108,11 +111,16 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
     String[] links = {"", "", "", ""};
     PopupWindow popupWindow;
     ArrayList<String> filename = new ArrayList<>();
+    InstructionDialogs lndcommistiondialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.handbags_post_page);
+        //intialiaing dialog
+        lndcommistiondialog= new InstructionDialogs(this);
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -154,6 +162,7 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
 
 
                     ((TextView) parent.getChildAt(0)).setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow, 0);
+                    lnditemcondition.setText(ConstantValues.conditiondesciptions[pos]);
 
                     ((TextView) parent.getChildAt(0)).setTextColor(Color.parseColor("#be4d66"));
                     condition = pos;
@@ -161,6 +170,8 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
                 } else {
                     ((TextView) parent.getChildAt(0)).setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow, 0);
                     condition = pos;
+                    lnditemcondition.setText(ConstantValues.conditiondesciptions[pos]);
+
                 }
 
 
@@ -353,6 +364,8 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
                 conditionnew.setBackgroundColor(Color.parseColor("#be4d66"));
                 condition = 11;
                 conditionspinner.setSelection(0);
+                lnditemcondition.setText(ConstantValues.conditiondesciptions[11]);
+
                 break;
 
         }
@@ -424,7 +437,10 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
          */
 
     }
-
+    public void priceins(View v) {
+        if(!lndcommistiondialog.popupWindow.isShowing())
+            lndcommistiondialog.show(v);
+    }
     public void instruction(View v) {
         //popup window reference
         popupWindow = new Lnd_Post_Instruction(this).instruction();
@@ -708,4 +724,5 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
 
         queue.add(sr);
     }
+
 }

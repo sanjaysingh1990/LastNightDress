@@ -45,7 +45,9 @@ import com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost.Compres
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.PostDataShop.Lnd_Post_Instruction;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.ConstantValues;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.HashTagandMention;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.InstructionDialogs;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.LndTextWatcher;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.LndTokenizer;
 import com.eowise.recyclerview.stickyheaders.samples.data.CameraData;
@@ -105,7 +107,8 @@ public class ShoesPostPrivate extends AppCompatActivity implements View.OnClickL
     ImageButton emojiButton;
     @Bind(R.id.rootview)
     View rootView;
-
+    @Bind(R.id.lndconditontext)
+    TextView lnditemcondition;
     @Bind(R.id.conditionspinner)
     Spinner conditionspinner;
 
@@ -120,11 +123,16 @@ public class ShoesPostPrivate extends AppCompatActivity implements View.OnClickL
     ArrayList<String> filename = new ArrayList<>();
 
     PopupWindow popupWindow;
+    InstructionDialogs lndcommistiondialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.shoes_post_page);
+
+        //intialiaing dialog
+        lndcommistiondialog = new InstructionDialogs(this);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -163,6 +171,7 @@ public class ShoesPostPrivate extends AppCompatActivity implements View.OnClickL
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long l) {
                 if (pos > 0) {
+                    lnditemcondition.setText(ConstantValues.conditiondesciptions[pos]);
 
                     condition = pos;
                     ((TextView) parent.getChildAt(0)).setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow, 0);
@@ -172,6 +181,8 @@ public class ShoesPostPrivate extends AppCompatActivity implements View.OnClickL
                 } else {
                     ((TextView) parent.getChildAt(0)).setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow, 0);
                     condition = pos;
+                    lnditemcondition.setText(ConstantValues.conditiondesciptions[pos]);
+
                 }
 
             }
@@ -428,6 +439,7 @@ public class ShoesPostPrivate extends AppCompatActivity implements View.OnClickL
             case R.id.conditionnew:
                 conditionnew.setBackgroundColor(Color.parseColor("#be4d66"));
 
+                lnditemcondition.setText(ConstantValues.conditiondesciptions[11]);
 
                 condition = 11;
 
@@ -489,7 +501,6 @@ public class ShoesPostPrivate extends AppCompatActivity implements View.OnClickL
         }
 
 
-
         try {
             //image1 json
             JSONObject image1 = new JSONObject();
@@ -533,21 +544,21 @@ public class ShoesPostPrivate extends AppCompatActivity implements View.OnClickL
             mainObj.put("brand", brand.getText().toString());
             mainObj.put("categorytype", 3);
 
-            mainObj.put("shoesize",sizelist);
-            mainObj.put("shoetype",shoetype);
+            mainObj.put("shoesize", sizelist);
+            mainObj.put("shoetype", shoetype);
 
 
-            mainObj.put("color",colortype);
+            mainObj.put("color", colortype);
             mainObj.put("images", imagesarray);
             mainObj.put("description", desc.getText().toString());
             mainObj.put("pricenow", pricenow.getText().toString());
             mainObj.put("pricewas", pricewas.getText().toString());
             mainObj.put("datetime", strDate);
-           // uploadImage(mainObj.toString());
+            // uploadImage(mainObj.toString());
 
             Log.e("json", mainObj.toString());
         } catch (Exception ex) {
-            Log.e("jsonex", ex.getMessage()+"");
+            Log.e("jsonex", ex.getMessage() + "");
         }
     }
 
@@ -684,31 +695,9 @@ public class ShoesPostPrivate extends AppCompatActivity implements View.OnClickL
     }
 
     public void priceins(View v) {
-        final LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        View popupView = layoutInflater.inflate(R.layout.custom_popup_menu, null);
-        final PopupWindow popupWindow = new PopupWindow(
-                popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
-
-        //     popupWindow.showAsDropDown(mTextView, 50, -30);
-        // popupWindow.showAtLocation(mTextView,1,0,0);
-        TextView btnDismiss = (TextView) popupView.findViewById(R.id.close);
-        TextView above = (TextView) popupView.findViewById(R.id.above);
-        above.setText("$400 & above - 10%");
-
-        btnDismiss.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                popupWindow.dismiss();
-            }
-        });
-
-        popupWindow.setAnimationStyle(R.style.PopupWindowAnimation);
-
-        popupWindow.showAtLocation(v, Gravity.TOP, 0, 0);
-
+        if (!lndcommistiondialog.popupWindow.isShowing())
+            lndcommistiondialog.show(v);
+        lndcommistiondialog.show(v);
     }
 
     public void instruction(View v) {
@@ -818,4 +807,5 @@ public class ShoesPostPrivate extends AppCompatActivity implements View.OnClickL
     private void changeEmojiKeyboardIcon(ImageView iconToBeChanged, int drawableResourceId) {
         iconToBeChanged.setImageResource(drawableResourceId);
     }
+
 }

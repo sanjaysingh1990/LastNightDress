@@ -335,11 +335,11 @@
             android:layout_height="1dp"
             android:background="#dadada"/>
         <com.balysv.materialripple.MaterialRippleLayout
-            android:id="@+id/unlockingbank"
+            android:id="@+id/sellworldwie"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
         <TextView
-            android:id="@+id/banktext"
+            android:id="@+id/sellworldwietext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="15dp"

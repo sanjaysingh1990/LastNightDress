@@ -1,13 +1,21 @@
 package com.eowise.recyclerview.stickyheaders.samples;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
 
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
+import android.util.Log;
 
 
 import com.eowise.recyclerview.stickyheaders.samples.UserProfile.LndLoginSignup;
 import com.facebook.FacebookSdk;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class Splash extends AppCompatActivity {
 
@@ -18,18 +26,21 @@ public class Splash extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         //to generate fab
        /* try {
+          String  PACKAGE_NAME = getApplicationContext().getPackageName();
             PackageInfo info = getPackageManager().getPackageInfo(
-                    "com.eowise.recyclerview.stickyheaders.samples",
+                    PACKAGE_NAME,
                     PackageManager.GET_SIGNATURES);
             for (Signature signature : info.signatures) {
                 MessageDigest md = MessageDigest.getInstance("SHA");
                 md.update(signature.toByteArray());
                 Log.e("hashkey", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+                Log.e("package",PACKAGE_NAME);
             }
         } catch (PackageManager.NameNotFoundException e) {
+            Log.e("error1",e.getMessage());
 
         } catch (NoSuchAlgorithmException e) {
-
+            Log.e("error",e.getMessage());
         }*/
 
        new Thread(new Runnable() {

@@ -100,7 +100,7 @@ public class LoginSignup extends Fragment implements View.OnClickListener {
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
-                        Log.d("Success", "Login");
+                      //  Log.d("Success", "Login");
                         GraphRequest request = GraphRequest.newMeRequest(
                                 loginResult.getAccessToken(),
                                 new GraphRequest.GraphJSONObjectCallback() {
@@ -164,7 +164,7 @@ public class LoginSignup extends Fragment implements View.OnClickListener {
 
                     @Override
                     public void onError(FacebookException exception) {
-                        Toast.makeText(getActivity(), exception.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), "Error in Login with facebook", Toast.LENGTH_LONG).show();
                     }
                 });
 

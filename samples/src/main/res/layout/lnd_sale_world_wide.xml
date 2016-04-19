@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f2f2f2">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#404040"
+            android:orientation="vertical"
+            android:paddingBottom="50dp"
+            android:paddingTop="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Sell World Wide"
+                android:textColor="@color/white"
+                android:textSize="25sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="3dp"
+                android:text="Extend your reach"
+                android:textColor="@color/white"
+                android:textSize="11sp"
+
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            android:padding="15dp"
+
+            >
+
+            <TextView
+                style="@style/LndSellWorldWideTextView"
+                android:text="We protect buyers" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:lineSpacingMultiplier="1.1"
+                android:text="It is important to learn that selling on LND is a privilege and we do not tolerate any sales of illegal products such as replicas, arranging sales outside the app, giving inaccurate ratings, or harassments, if any of these take place we will immediately suspend your account and take  the appropriate action."
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <TextView
+                style="@style/LndSellWorldWideTextView"
+                android:layout_marginTop="15dp"
+                android:text="Be successful and earn lots of money!" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:lineSpacingMultiplier="1.1"
+                android:text="LND allows you to sell your items internationally, that's a lot of potential buyers. All we ask of you is provide your potential buyers with a best customers service by replying to messages on time and shipping out your item as soon as it is sold. Doing so, allows your rating to increase giving buyers more confidence in you and less hesitant in purchasing your items."
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <TextView
+                style="@style/LndSellWorldWideTextView"
+                android:layout_marginTop="15dp"
+                android:text="What happens if my rating drops?" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:lineSpacingMultiplier="1.1"
+                android:text="Now, if your ratings drops due to lack of engagement, shipping products out late or just not providing the best service then LND will suspend you account until  further notice."
+                android:textColor="@color/black" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

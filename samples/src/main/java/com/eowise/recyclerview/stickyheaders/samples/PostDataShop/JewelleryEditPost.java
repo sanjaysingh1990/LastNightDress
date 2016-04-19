@@ -50,6 +50,7 @@ import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.Home_List_Data;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ConstantValues;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.HashTagandMention;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.InstructionDialogs;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.LndTextWatcher;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.LndTokenizer;
 import com.eowise.recyclerview.stickyheaders.samples.data.CameraData;
@@ -72,7 +73,7 @@ import github.ankushsachdeva.emojicon.EmojiconsPopup;
 import github.ankushsachdeva.emojicon.emoji.Emojicon;
 
 public class JewelleryEditPost extends AppCompatActivity implements View.OnClickListener {
-    @Bind({R.id.image1,R.id.image2,R.id.image3,R.id.image4})
+    @Bind({R.id.image1, R.id.image2, R.id.image3, R.id.image4})
     List<ImageView> images;
 
     //condition reference
@@ -109,7 +110,8 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
 
     @Bind(R.id.emoji_btn)
     ImageButton emojiButton;
-    @Bind(R.id.rootview) View rootView;
+    @Bind(R.id.rootview)
+    View rootView;
 
 
     int jewelleryselected = 0;
@@ -120,12 +122,17 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
     private boolean sizeopen = true;
     String[] links = new String[4];
     ArrayList<String> filename = new ArrayList<>();
-
     private Bundle extra;
+    InstructionDialogs lndcommistiondialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.jewellery_post_page);
+        //intialiaing dialog
+        lndcommistiondialog = new InstructionDialogs(this);
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -149,13 +156,11 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
         conditionnew.setOnClickListener(this);
 
 
-
         //condition spinner selection events
         conditionspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long l) {
                 if (pos > 0) {
-
 
 
                     ((TextView) parent.getChildAt(0)).setTextColor(Color.parseColor("#ffffff"));
@@ -167,8 +172,8 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
                     ((TextView) parent.getChildAt(0)).setTextColor(Color.parseColor("#ffffff"));
                     ((TextView) parent.getChildAt(0)).setBackgroundColor(Color.parseColor("#1d1f21"));
                     conditionspinner.setBackgroundColor(Color.parseColor("#1d1f21"));
-                    if(condition!=11)
-                    condition = pos;
+                    if (condition != 11)
+                        condition = pos;
                 }
                 ((TextView) parent.getChildAt(0)).setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow, 0);
 
@@ -200,7 +205,7 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
             public void afterTextChanged(Editable editable) {
                 try {
                     int value = Integer.parseInt(editable.toString());
-                    earnings.setText("Your earnings: C$" + (value-(value * 20) / 100));
+                    earnings.setText("Your earnings: C$" + (value - (value * 20) / 100));
                     inforview.setVisibility(View.VISIBLE);
 
                 } catch (Exception ex) {
@@ -235,17 +240,17 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
         super.onResume();
 
         //read data
-         extra = getIntent().getExtras();
+        extra = getIntent().getExtras();
         if (extra != null) {
             Home_List_Data hld = (Home_List_Data) extra.getSerializable("data");
             setValues(hld);
         }
 
 
-        for(Map.Entry<String, CameraData> entry: CameraReviewFragment.urls.entrySet()) {
+        for (Map.Entry<String, CameraData> entry : CameraReviewFragment.urls.entrySet()) {
             //    System.out.println(entry.getKey());
-            CameraData cd=entry.getValue();
-            int value=Integer.parseInt(entry.getKey())-1;
+            CameraData cd = entry.getValue();
+            int value = Integer.parseInt(entry.getKey()) - 1;
             filename.add(value, cd.getFilename());
 
             new AsyncTaskLoadImage(images.get(value), value).execute(cd.getImageurl());
@@ -254,9 +259,10 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
         }
 
     }
+
     private void setValues(Home_List_Data hld) {
         //set images
-        for (int i = 0; i <hld.getImageurls().size(); i++) {
+        for (int i = 0; i < hld.getImageurls().size(); i++) {
             if (hld.getImageurls().get(i).length() > 0)
                 SingleTon.imageLoader.displayImage(hld.getImageurls().get(i), images.get(i), SingleTon.options);
         }
@@ -289,7 +295,7 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
 
             int val = Integer.parseInt(hld.getProdtype());
             jewellerytype.get(val - 1).setChecked(true);
-            jewelleryselected=val;
+            jewelleryselected = val;
         } catch (Exception ex) {
 
         }
@@ -298,7 +304,7 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
 
             String[] jewellerymetal = hld.getColors().split(",");
             for (int i = 0; i < jewellerymetal.length; i++) {
-                int index=Integer.parseInt(jewellerymetal[i]);
+                int index = Integer.parseInt(jewellerymetal[i]);
                 index--;
                 this.metaltype.get(index).setChecked(true);
 
@@ -312,7 +318,7 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
         //size1
         try {
             int val = Integer.parseInt(hld.getProdtype());
-            if(val==2) {
+            if (val == 2) {
                 String[] size1 = hld.getSize().split(",");
 
                 for (int i = 0; i < size1.length; i++) {
@@ -328,16 +334,13 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
         }
 
 
-
     }
 
     @Override
     public void onBackPressed() {
-        if(popupWindow!=null && popupWindow.isShowing())
-        {
+        if (popupWindow != null && popupWindow.isShowing()) {
             popupWindow.dismiss();
-        }
-        else
+        } else
             finish();
     }
 
@@ -348,7 +351,7 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
     private void selectJewelleryType(CheckBox cb) {
         for (int i = 0; i < jewellerytype.size(); i++)
             jewellerytype.get(i).setChecked(false);
-             cb.setChecked(true);
+        cb.setChecked(true);
     }
 
     @Override
@@ -395,8 +398,8 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
             //for jewellery type events
             case R.id.type1:
                 selectJewelleryType((CheckBox) v);
-                sizeopen=true;
-               collapse();
+                sizeopen = true;
+                collapse();
                 break;
             case R.id.type2:
                 selectJewelleryType((CheckBox) v);
@@ -407,28 +410,27 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
                 break;
             case R.id.type3:
                 selectJewelleryType((CheckBox) v);
-                sizeopen=true;
+                sizeopen = true;
                 collapse();
                 break;
             case R.id.type4:
                 selectJewelleryType((CheckBox) v);
-                sizeopen=true;
+                sizeopen = true;
                 collapse();
                 break;
             case R.id.type5:
                 selectJewelleryType((CheckBox) v);
-                sizeopen=true;
+                sizeopen = true;
                 collapse();
                 break;
 
             // condition events
             case R.id.conditionnew:
                 conditionnew.setChecked(true);
-                condition =11;
+                condition = 11;
                 conditionspinner.setSelection(0);
 
                 break;
-
 
 
         }
@@ -547,33 +549,29 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
     }
 
     public void done(View v) {
-        boolean rsize=true, mtype = true;
-        int pw=0,pn=0;
-        ArrayList<String> ringsize=new ArrayList<>();
-        ArrayList<String> metaltype=new ArrayList<>();
+        boolean rsize = true, mtype = true;
+        int pw = 0, pn = 0;
+        ArrayList<String> ringsize = new ArrayList<>();
+        ArrayList<String> metaltype = new ArrayList<>();
 
-        try
-        {
-            pw=Integer.parseInt(pricewas.getText().toString());
-            pn=Integer.parseInt(pricenow.getText().toString());
+        try {
+            pw = Integer.parseInt(pricewas.getText().toString());
+            pn = Integer.parseInt(pricenow.getText().toString());
 
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
 
         }
 
         //to check atleast one size selected
-        if(jewelleryselected==2) {
-            for (int i = 0; i <this.ringsize.size(); i++) {
+        if (jewelleryselected == 2) {
+            for (int i = 0; i < this.ringsize.size(); i++) {
                 if (this.ringsize.get(i).isChecked()) {
                     rsize = false;
                     ringsize.add(this.ringsize.get(i).getTag().toString());
                 }
             }
-        }
-        else
-        ringsize.add("os");
+        } else
+            ringsize.add("os");
         //to check atleast one metaltype selected
         for (int i = 0; i < this.metaltype.size(); i++) {
             if (this.metaltype.get(i).isChecked()) {
@@ -585,7 +583,7 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
         //to check jewellery type
         for (int i = 0; i < jewellerytype.size(); i++) {
             if (this.jewellerytype.get(i).isChecked()) {
-             jewelleryselected=i+1;
+                jewelleryselected = i + 1;
             }
         }
 
@@ -607,34 +605,24 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
             pricewas.setError("field is empty");
             pricewas.requestFocus();
             return;
-        }
-        else if(pn<50)
-        {
+        } else if (pn < 50) {
             pricenow.setError("minimum price should be 50");
             pricenow.requestFocus();
             return;
-        }
-        else if(pw<pn)
-        {
+        } else if (pw < pn) {
             pricewas.setError("pricewas must be greater than pricenow");
             pricewas.requestFocus();
             return;
-        }
-
-        else if (rsize&&(jewelleryselected==2)) {
+        } else if (rsize && (jewelleryselected == 2)) {
             Toast.makeText(this, "select ring  size", Toast.LENGTH_SHORT).show();
             return;
-        }
-        else if (jewelleryselected==0) {
+        } else if (jewelleryselected == 0) {
             Toast.makeText(this, "select  type", Toast.LENGTH_SHORT).show();
             return;
-        }
-        else if (mtype) {
+        } else if (mtype) {
             Toast.makeText(this, "select metal type", Toast.LENGTH_SHORT).show();
             return;
-        }
-
-        else if (condition==0) {
+        } else if (condition == 0) {
             Toast.makeText(this, "select condition", Toast.LENGTH_SHORT).show();
             return;
 
@@ -657,7 +645,7 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
             //image3 json
             JSONObject image3 = new JSONObject();
             image3.put("imagename", filename.get(2));
-           image3.put("imageurl", links[2]);
+            image3.put("imageurl", links[2]);
 
             //image4 json
             JSONObject image4 = new JSONObject();
@@ -677,10 +665,9 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
             JSONObject mainObj = new JSONObject();
 
 
-
-            mainObj.put("user_id",userid);
+            mainObj.put("user_id", userid);
             mainObj.put("brand", brand.getText().toString());
-            mainObj.put("categorytype",4);
+            mainObj.put("categorytype", 4);
             mainObj.put("jewellerytype", jewelleryselected);
 
             mainObj.put("condition", condition);
@@ -693,41 +680,21 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
             mainObj.put("pricewas", pricewas.getText().toString());
             mainObj.put("metaltype", metalArray);
             mainObj.put("images", imagesarray);
-            if(extra==null)
-            jewelleryPost(mainObj.toString());
+            if (extra == null)
+                jewelleryPost(mainObj.toString());
 
             //Log.e("json", mainObj.toString());
         } catch (Exception ex) {
             Log.e("json error", ex.getMessage() + "");
         }
     }
-    public void priceins(View v)
-    {
-        final LayoutInflater layoutInflater =(LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        View popupView = layoutInflater.inflate(R.layout.custom_popup_menu, null);
-        final PopupWindow popupWindow = new PopupWindow(
-                popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
-
-        //     popupWindow.showAsDropDown(mTextView, 50, -30);
-        // popupWindow.showAtLocation(mTextView,1,0,0);
-        TextView btnDismiss = (TextView)popupView.findViewById(R.id.close);
-        TextView above = (TextView)popupView.findViewById(R.id.above);
-        above.setText("$400 & above - 10%");
-
-        btnDismiss.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                popupWindow.dismiss();
-            }});
-
-        popupWindow.setAnimationStyle(R.style.PopupWindowAnimation);
-
-        popupWindow.showAtLocation(v, Gravity.TOP, 0, 0);
+    public void priceins(View v) {
+        if(!lndcommistiondialog.popupWindow.isShowing())
+            lndcommistiondialog.show(v);
 
     }
+
     public void jewelleryPost(final String data) {
 
         Log.e("test", "check");
@@ -745,10 +712,10 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
                 try {
                     JSONObject jobj = new JSONObject(response);
                     if (jobj.getBoolean("status")) {
-                        Toast.makeText(JewelleryEditPost.this, jobj.getString("message")+"", Toast.LENGTH_LONG).show();
+                        Toast.makeText(JewelleryEditPost.this, jobj.getString("message") + "", Toast.LENGTH_LONG).show();
                         finish();
                     } else {
-                        Toast.makeText(JewelleryEditPost.this, jobj.getString("message")+"", Toast.LENGTH_LONG).show();
+                        Toast.makeText(JewelleryEditPost.this, jobj.getString("message") + "", Toast.LENGTH_LONG).show();
 
 
                     }
@@ -792,14 +759,14 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
 
         queue.add(sr);
     }
-    public void instruction(View v)
-    {
+
+    public void instruction(View v) {
         //popup window reference
-        popupWindow=  new Lnd_Post_Instruction(this).instruction();
+        popupWindow = new Lnd_Post_Instruction(this).instruction();
         popupWindow.showAtLocation(v, Gravity.TOP, 0, 0);
     }
-    private void setupEmoji()
-    {
+
+    private void setupEmoji() {
 // Give the topmost view of your activity layout hierarchy. This will be used to measure soft keyboard height
         final EmojiconsPopup popup = new EmojiconsPopup(rootView, this);
 
@@ -896,7 +863,8 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
 
 
     }
-    private void changeEmojiKeyboardIcon(ImageView iconToBeChanged, int drawableResourceId){
+
+    private void changeEmojiKeyboardIcon(ImageView iconToBeChanged, int drawableResourceId) {
         iconToBeChanged.setImageResource(drawableResourceId);
     }
 }

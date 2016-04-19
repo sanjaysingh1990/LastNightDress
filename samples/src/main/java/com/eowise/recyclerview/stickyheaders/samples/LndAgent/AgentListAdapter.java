@@ -53,7 +53,7 @@ import java.util.ArrayList;
 
 
 class AgentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    public static final int HEADER = 1, NORMALUSER = 2, SHOPUSER = 3;
+    public static final int HEADER = 1, NORMALUSER = 2, SHOPUSER = 3,SURPASSEDYOU=4;
     ArrayList<LndAgentBean> items;
 public AgentListAdapter(Context con, ArrayList<LndAgentBean> data)
 {
@@ -110,7 +110,21 @@ public AgentListAdapter(Context con, ArrayList<LndAgentBean> data)
 
     }
 
+    public class SurpassedUser extends RecyclerView.ViewHolder {
+        public PagerSwipeItemFrameLayout mContainer;
+        public TextView notiTextView;
+        public ImageView notiprofile, notiimage;
 
+        public SurpassedUser(View v) {
+            super(v);
+            mContainer = (PagerSwipeItemFrameLayout) v.findViewById(R.id.container);
+            notiTextView = (TextView) v.findViewById(R.id.notiinfotext);
+            notiprofile = (ImageView) v.findViewById(R.id.notipropic);
+            notiimage = (ImageView) v.findViewById(R.id.notiimage);
+
+        }
+
+    }
     @Override
     public int getItemViewType(int position) {
         if (items.get(position).getType() == HEADER) {
@@ -119,6 +133,10 @@ public AgentListAdapter(Context con, ArrayList<LndAgentBean> data)
             return NORMALUSER;
         } else if (items.get(position).getType() == SHOPUSER) {
             return SHOPUSER;
+
+        }
+        else if (items.get(position).getType() == SURPASSEDYOU) {
+            return SURPASSEDYOU;
 
         }
         return -1;
@@ -143,7 +161,10 @@ public AgentListAdapter(Context con, ArrayList<LndAgentBean> data)
                 final View shopuser = inflater.inflate(R.layout.agent_shop_user_row_layout, parent, false);
                 viewHolder = new ShopUser(shopuser);
                 break;
-
+            case SURPASSEDYOU:
+                final View surpasseduser = inflater.inflate(R.layout.agent_user_surpassed_row_layout, parent, false);
+                viewHolder = new SurpassedUser(surpasseduser);
+                break;
         }
         return viewHolder;
 
@@ -176,12 +197,12 @@ public AgentListAdapter(Context con, ArrayList<LndAgentBean> data)
     @Override
     public void onViewRecycled(RecyclerView.ViewHolder holder) {
         super.onViewRecycled(holder);
-        if (holder instanceof Header)
+       /* if (holder instanceof Header)
             ViewCompat.setAlpha(((Header) holder).mContainer, 1.0f);
         else if (holder instanceof NormalUser)
             ViewCompat.setAlpha(((NormalUser) holder).mContainer, 1.0f);
         else if (holder instanceof ShopUser)
-            ViewCompat.setAlpha(((ShopUser) holder).mContainer, 1.0f);
+            ViewCompat.setAlpha(((ShopUser) holder).mContainer, 1.0f);*/
 
 
     }

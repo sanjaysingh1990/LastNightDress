@@ -45,7 +45,9 @@ import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost.CompressImage;
 import com.eowise.recyclerview.stickyheaders.samples.PostDataShop.Lnd_Post_Instruction;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.ConstantValues;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.HashTagandMention;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.InstructionDialogs;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.LndTextWatcher;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.LndTokenizer;
 
@@ -104,7 +106,8 @@ public class JewelleryPostPrivate extends AppCompatActivity implements View.OnCl
     EditText pricewas;
     @Bind(R.id.pricenow)
     EditText pricenow;
-
+    @Bind(R.id.lndconditontext)
+    TextView lnditemcondition;
     int jewellerytype_selected = 0;
     int condition_selected = 0;
     int metaltype_selected = 0;
@@ -116,11 +119,16 @@ public class JewelleryPostPrivate extends AppCompatActivity implements View.OnCl
     PopupWindow popupWindow;
     String links[] = {"", "", "", ""};
     ArrayList<String> filename = new ArrayList<>();
+    InstructionDialogs lndcommistiondialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.jewellery_post_page);
+        //intialiaing dialog
+        lndcommistiondialog = new InstructionDialogs(this);
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -160,6 +168,7 @@ public class JewelleryPostPrivate extends AppCompatActivity implements View.OnCl
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long l) {
                 if (pos > 0) {
 
+                    lnditemcondition.setText(ConstantValues.conditiondesciptions[pos]);
 
                     ((TextView) parent.getChildAt(0)).setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow, 0);
 
@@ -170,6 +179,8 @@ public class JewelleryPostPrivate extends AppCompatActivity implements View.OnCl
                 } else {
                     ((TextView) parent.getChildAt(0)).setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow, 0);
                     condition_selected = pos;
+                    lnditemcondition.setText(ConstantValues.conditiondesciptions[pos]);
+
                 }
             }
 
@@ -284,6 +295,8 @@ public class JewelleryPostPrivate extends AppCompatActivity implements View.OnCl
             case R.id.conditionnew:
                 changeCondition((TextView) v);
                 condition_selected = 11;
+                lnditemcondition.setText(ConstantValues.conditiondesciptions[11]);
+
                 break;
 
 
@@ -697,19 +710,17 @@ public class JewelleryPostPrivate extends AppCompatActivity implements View.OnCl
     private void changeEmojiKeyboardIcon(ImageView iconToBeChanged, int drawableResourceId) {
         iconToBeChanged.setImageResource(drawableResourceId);
     }
+
     public void done(View v) {
 
-        int pw=0,pn=0;
+        int pw = 0, pn = 0;
 
 
-        try
-        {
-            pw=Integer.parseInt(pricewas.getText().toString());
-            pn=Integer.parseInt(pricenow.getText().toString());
+        try {
+            pw = Integer.parseInt(pricewas.getText().toString());
+            pn = Integer.parseInt(pricenow.getText().toString());
 
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
 
         }
 
@@ -732,27 +743,21 @@ public class JewelleryPostPrivate extends AppCompatActivity implements View.OnCl
             pricewas.setError("field is empty");
             pricewas.requestFocus();
             return;
-        }
-        else if(pn<50)
-        {
+        } else if (pn < 50) {
             pricenow.setError("minimum price should be 50");
             pricenow.requestFocus();
             return;
-        }
-        else if(pw<pn)
-        {
+        } else if (pw < pn) {
             pricewas.setError("pricewas must be greater than pricenow");
             pricewas.requestFocus();
             return;
-        }
-
-        else if (jewellerytype_selected==2&&ringsizeselected.length()==0) {
+        } else if (jewellerytype_selected == 2 && ringsizeselected.length() == 0) {
             Toast.makeText(this, "select ring  size", Toast.LENGTH_SHORT).show();
             return;
-        } else if (metaltype_selected==0) {
+        } else if (metaltype_selected == 0) {
             Toast.makeText(this, "select  jewellery type", Toast.LENGTH_SHORT).show();
             return;
-        } else if (condition_selected==0) {
+        } else if (condition_selected == 0) {
             Toast.makeText(this, "select jewellery condition", Toast.LENGTH_SHORT).show();
             return;
 
@@ -799,30 +804,30 @@ public class JewelleryPostPrivate extends AppCompatActivity implements View.OnCl
             JSONObject mainObj = new JSONObject();
 
 
-
-            mainObj.put("user_id",userid);
+            mainObj.put("user_id", userid);
             mainObj.put("brand", brand.getText().toString());
-            mainObj.put("categorytype",4);
+            mainObj.put("categorytype", 4);
             mainObj.put("jewellerytype", jewellerytype_selected);
 
             mainObj.put("condition", condition_selected);
 
 
-            mainObj.put("jewellerysize",ringsizeselected);
+            mainObj.put("jewellerysize", ringsizeselected);
             mainObj.put("datetime", strDate);
             mainObj.put("description", desc.getText().toString());
             mainObj.put("pricenow", pricenow.getText().toString());
             mainObj.put("pricewas", pricewas.getText().toString());
-            mainObj.put("metaltype",metaltype_selected);
+            mainObj.put("metaltype", metaltype_selected);
             mainObj.put("images", imagesarray);
 
-         //   jewelleryPost(mainObj.toString());
+            //   jewelleryPost(mainObj.toString());
 
             Log.e("json", mainObj.toString());
         } catch (Exception ex) {
             Log.e("json error", ex.getMessage() + "");
         }
     }
+
     public void jewelleryPost(final String data) {
 
         Log.e("test", "check");
@@ -840,10 +845,10 @@ public class JewelleryPostPrivate extends AppCompatActivity implements View.OnCl
                 try {
                     JSONObject jobj = new JSONObject(response);
                     if (jobj.getBoolean("status")) {
-                        Toast.makeText(JewelleryPostPrivate.this, jobj.getString("message")+"", Toast.LENGTH_LONG).show();
+                        Toast.makeText(JewelleryPostPrivate.this, jobj.getString("message") + "", Toast.LENGTH_LONG).show();
                         finish();
                     } else {
-                        Toast.makeText(JewelleryPostPrivate.this, jobj.getString("message")+"", Toast.LENGTH_LONG).show();
+                        Toast.makeText(JewelleryPostPrivate.this, jobj.getString("message") + "", Toast.LENGTH_LONG).show();
 
 
                     }
@@ -886,5 +891,10 @@ public class JewelleryPostPrivate extends AppCompatActivity implements View.OnCl
         sr.setRetryPolicy(policy);
 
         queue.add(sr);
+    }
+
+    public void priceins(View v) {
+        if (!lndcommistiondialog.popupWindow.isShowing())
+            lndcommistiondialog.show(v);
     }
 }

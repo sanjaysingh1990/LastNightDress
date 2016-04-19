@@ -49,6 +49,7 @@ import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.Home_List_Data;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ConstantValues;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.HashTagandMention;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.InstructionDialogs;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.LndTextWatcher;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.LndTokenizer;
 import com.eowise.recyclerview.stickyheaders.samples.data.CameraData;
@@ -99,7 +100,8 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
 
 
     private TextView heading;
-
+    @Bind(R.id.lndconditontext)
+    TextView lnditemcondition;
     @Bind(R.id.pricewas)
     EditText pricewas;
     @Bind(R.id.pricenow)
@@ -123,10 +125,14 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
     int dresstype = 0;
     int condition = 0;
    private Bundle extra;
+  InstructionDialogs lndcommistiondialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dress_post_page);
+       //intialiaing dialog
+        lndcommistiondialog= new InstructionDialogs(this);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -178,8 +184,10 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
                     ((TextView) parent.getChildAt(0)).setBackgroundColor(Color.parseColor("#be4d66"));
                     conditionspinner.setBackgroundColor(Color.parseColor("#be4d66"));
                     condition = pos;
+                    lnditemcondition.setText(ConstantValues.conditiondesciptions[pos]);
                     condition();
                 } else {
+                    lnditemcondition.setText(ConstantValues.conditiondesciptions[pos]);
                     ((TextView) parent.getChildAt(0)).setTextColor(Color.parseColor("#ffffff"));
                     ((TextView) parent.getChildAt(0)).setBackgroundColor(Color.parseColor("#1d1f21"));
                     conditionspinner.setBackgroundColor(Color.parseColor("#1d1f21"));
@@ -423,11 +431,14 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
             case R.id.lastnightdress:
                 condition = 12;
                 condition((CheckBox) v);
+                lnditemcondition.setText(ConstantValues.conditiondesciptions[12]);
 
                 break;
             case R.id.conditionnew:
                 condition = 11;
                 condition((CheckBox) v);
+                lnditemcondition.setText(ConstantValues.conditiondesciptions[11]);
+
                 break;
 
 
@@ -756,32 +767,11 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
     }
 
     public void priceins(View v) {
-        final LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        View popupView = layoutInflater.inflate(R.layout.custom_popup_menu, null);
-        final PopupWindow popupWindow = new PopupWindow(
-                popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+           if(!lndcommistiondialog.popupWindow.isShowing())
+                      lndcommistiondialog.show(v);
+       }
 
-
-        //     popupWindow.showAsDropDown(mTextView, 50, -30);
-        // popupWindow.showAtLocation(mTextView,1,0,0);
-        TextView btnDismiss = (TextView) popupView.findViewById(R.id.close);
-        TextView above = (TextView) popupView.findViewById(R.id.above);
-        above.setText("$400 & above - 10%");
-
-        btnDismiss.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                popupWindow.dismiss();
-            }
-        });
-
-        popupWindow.setAnimationStyle(R.style.PopupWindowAnimation);
-
-        popupWindow.showAtLocation(v, Gravity.TOP, 0, 0);
-
-    }
 
     public void instruction(View v) {
         //popup window reference

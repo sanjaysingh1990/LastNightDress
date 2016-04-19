@@ -45,7 +45,9 @@ import com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost.Compres
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.PostDataShop.Lnd_Post_Instruction;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.ConstantValues;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.HashTagandMention;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.InstructionDialogs;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.LndTextWatcher;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.LndTokenizer;
 import com.eowise.recyclerview.stickyheaders.samples.data.CameraData;
@@ -104,7 +106,8 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
     EditText pricewas;
     @Bind(R.id.pricenow)
     EditText pricenow;
-
+    @Bind(R.id.lndconditontext)
+    TextView lnditemcondition;
 
     @Bind({R.id.image1, R.id.image2, R.id.image3, R.id.image4})
     List<ImageView> images;
@@ -125,12 +128,17 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
     String[] links = {"", "", "", ""};
     ArrayList<String> filename = new ArrayList<>();
     PopupWindow popupWindow;
+    InstructionDialogs lndcommistiondialog;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dress_post_page);
+        //intialiaing dialog
+        lndcommistiondialog = new InstructionDialogs(this);
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -203,6 +211,7 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long l) {
                 if (pos > 0) {
 
+                    lnditemcondition.setText(ConstantValues.conditiondesciptions[pos]);
 
                     ((TextView) parent.getChildAt(0)).setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow, 0);
 
@@ -212,6 +221,8 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
                 } else {
                     ((TextView) parent.getChildAt(0)).setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow, 0);
                     condition = pos;
+                    lnditemcondition.setText(ConstantValues.conditiondesciptions[pos]);
+
                 }
 
             }
@@ -460,6 +471,8 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
                 conditionspinner.setSelection(0);
                 changeCondition();
                 ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
+                lnditemcondition.setText(ConstantValues.conditiondesciptions[11]);
+
                 break;
 
             case R.id.lastnightdress:
@@ -467,6 +480,8 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
                 conditionspinner.setSelection(0);
                 changeCondition();
                 ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
+                lnditemcondition.setText(ConstantValues.conditiondesciptions[12]);
+
                 break;
 
 
@@ -782,31 +797,8 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
     }
 
     public void priceins(View v) {
-        final LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        View popupView = layoutInflater.inflate(R.layout.custom_popup_menu, null);
-        final PopupWindow popupWindow = new PopupWindow(
-                popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
-
-        //     popupWindow.showAsDropDown(mTextView, 50, -30);
-        // popupWindow.showAtLocation(mTextView,1,0,0);
-        TextView btnDismiss = (TextView) popupView.findViewById(R.id.close);
-        TextView above = (TextView) popupView.findViewById(R.id.above);
-        above.setText("$400 & above - 10%");
-
-        btnDismiss.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                popupWindow.dismiss();
-            }
-        });
-
-        popupWindow.setAnimationStyle(R.style.PopupWindowAnimation);
-
-        popupWindow.showAtLocation(v, Gravity.TOP, 0, 0);
-
+        if (!lndcommistiondialog.popupWindow.isShowing())
+            lndcommistiondialog.show(v);
     }
 
     public void instruction(View v) {

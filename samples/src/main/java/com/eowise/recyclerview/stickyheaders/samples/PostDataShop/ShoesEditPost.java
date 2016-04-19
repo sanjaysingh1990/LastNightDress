@@ -48,6 +48,7 @@ import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.Home_List_Data;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ConstantValues;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.HashTagandMention;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.InstructionDialogs;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.LndTextWatcher;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.LndTokenizer;
 import com.eowise.recyclerview.stickyheaders.samples.data.CameraData;
@@ -122,11 +123,16 @@ public class ShoesEditPost extends AppCompatActivity implements View.OnClickList
     String[] links = {"", "", "", ""};
     ArrayList<String> filename = new ArrayList<>();
     PopupWindow popupWindow;
+    InstructionDialogs lndcommistiondialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.shoes_post_page);
+
+        //intialiaing dialog
+        lndcommistiondialog= new InstructionDialogs(this);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -655,31 +661,8 @@ public class ShoesEditPost extends AppCompatActivity implements View.OnClickList
     }
 
     public void priceins(View v) {
-        final LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        View popupView = layoutInflater.inflate(R.layout.custom_popup_menu, null);
-        final PopupWindow popupWindow = new PopupWindow(
-                popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
-
-        //     popupWindow.showAsDropDown(mTextView, 50, -30);
-        // popupWindow.showAtLocation(mTextView,1,0,0);
-        TextView btnDismiss = (TextView) popupView.findViewById(R.id.close);
-        TextView above = (TextView) popupView.findViewById(R.id.above);
-        above.setText("$400 & above - 10%");
-
-        btnDismiss.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                popupWindow.dismiss();
-            }
-        });
-
-        popupWindow.setAnimationStyle(R.style.PopupWindowAnimation);
-
-        popupWindow.showAtLocation(v, Gravity.TOP, 0, 0);
-
+        if(!lndcommistiondialog.popupWindow.isShowing())
+            lndcommistiondialog.show(v);
     }
 
     public void instruction(View v) {
