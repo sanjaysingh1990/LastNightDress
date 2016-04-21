@@ -219,7 +219,7 @@ public class Main_TabHost extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Toast.makeText(this, resultCode + "", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, resultCode + "", Toast.LENGTH_SHORT).show();
         int pos =0;
         switch (requestCode) {
             case 0:

@@ -3,7 +3,6 @@ package com.eowise.recyclerview.stickyheaders.samples.StickyHeader;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -40,12 +39,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-
 import com.eowise.recyclerview.stickyheaders.samples.HashTagsFullView.LndBrandHashTagGridViewActivity;
-import com.eowise.recyclerview.stickyheaders.samples.LndUserProfile.LndUserFullStickyActivity;
-import com.eowise.recyclerview.stickyheaders.samples.Settings.ReadMore;
-import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.Likers.LikersActivity;
+import com.eowise.recyclerview.stickyheaders.samples.LndAgent.Agent_Signup;
 import com.eowise.recyclerview.stickyheaders.samples.LndMessage.SendSwapRequestActivity;
 import com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage.TagSelectingTextview;
 import com.eowise.recyclerview.stickyheaders.samples.LndUserProfile.LndProfile;
@@ -58,6 +54,7 @@ import com.eowise.recyclerview.stickyheaders.samples.PostDataShop.ShoesEditPost;
 import com.eowise.recyclerview.stickyheaders.samples.Purchase.ShippingAddressActivity;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.SQLDB.FavoriteData;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.UserProfile.OtherUserProfileActivity;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ConstantValues;
@@ -1283,23 +1280,23 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             case R.id.comment:
                 dialog = new AlertDialog.Builder(mContext);
                 view = LayoutInflater.from(mContext).inflate(R.layout.agent_comment_popup, null);
-
                 dialog.setView(view);
                 alert = dialog.create();
                 alert.show();
+                //cancel dialog
                 view.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        alert.dismiss();
+                    alert.dismiss();
                     }
                 });
+               //agent read more
 
-                //read more
-                view.findViewById(R.id.swapcontinue).setOnClickListener(new View.OnClickListener() {
+                view.findViewById(R.id.learnmore).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         alert.dismiss();
-                        Intent i = new Intent(mContext, ReadMore.class);
+                        Intent i = new Intent(mContext, Agent_Signup.class);
                         i.putExtra("pos", 2);
                         mContext.startActivity(i);
                     }

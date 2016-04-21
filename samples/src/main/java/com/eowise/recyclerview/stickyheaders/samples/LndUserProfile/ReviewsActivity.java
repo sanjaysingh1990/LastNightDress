@@ -93,10 +93,15 @@ public class ReviewsActivity extends AppCompatActivity {
                         rd1.setReviewmessage(jo.getString("review_message"));
                         rd1.setReviewreplied(jo.getString("review_replied"));
                         if(rd1.getReviewreplied().length()>0)
-                        rd1.setIsreplied(true);
-                        else
-                        rd1.setIsreplied(false);
-                        rd1.setReviewid(jo.getString("review_id"));
+                        rd1.setIsreplied(1);
+                        else {
+                            if(userid.compareTo(SingleTon.pref.getString("user_id", ""))==0)
+
+                            rd1.setIsreplied(2);
+                            else
+                                rd1.setIsreplied(3);
+                        }
+                            rd1.setReviewid(jo.getString("review_id"));
                         rd1.setProfilepic(jo.getString("image_url"));
                         itemList.add(rd1);
                     }

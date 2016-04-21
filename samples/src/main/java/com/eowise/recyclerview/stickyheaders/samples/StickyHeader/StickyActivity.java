@@ -60,14 +60,15 @@ public class StickyActivity extends AppCompatActivity {
 
     boolean loading = true;
     int pastVisiblesItems, visibleItemCount, totalItemCount;
-    int skipdata=0;
+    int skipdata = 0;
 
     boolean isprivate = false;
     String lastHeader = "";
     int sectionManager = -1;
     int headerCount = 0;
     int sectionFirstPosition = 0;
-    int i=0;
+    int i = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -144,7 +145,7 @@ public class StickyActivity extends AppCompatActivity {
                         if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
                             loading = false;
 
-                        getData();
+                            getData();
                         }
                     }
                 }
@@ -190,32 +191,32 @@ public class StickyActivity extends AppCompatActivity {
             public void onResponse(String response) {
                 dialog.setVisibility(View.GONE);
                 SingleTon.lnduserid.clear();
-                  try {
+                try {
 
-                      Log.e("json",response);
+                    Log.e("json", response);
 
                     JSONObject jobj = new JSONObject(response.toString());
                     JSONArray jarray = jobj.getJSONArray("data");
 
-                      for (int j = 0; j < jarray.length(); j++) {
+                    for (int j = 0; j < jarray.length(); j++) {
 
 
                         JSONObject jo = jarray.getJSONObject(j);
                         ArrayList<String> imgurls = new ArrayList<String>();
-                        String imgurl=jo.getString("imageurl1");
+                        String imgurl = jo.getString("imageurl1");
 
-                          imgurls.add(imgurl);
+                        imgurls.add(imgurl);
 
-                          imgurl=jo.getString("imageurl2");
-                          if(imgurl.length()>0)
-                              imgurls.add(imgurl);
+                        imgurl = jo.getString("imageurl2");
+                        if (imgurl.length() > 0)
+                            imgurls.add(imgurl);
 
-                          imgurl=jo.getString("imageurl3");
-                          if(imgurl.length()>0)
-                              imgurls.add(imgurl);
-                          imgurl=jo.getString("imageurl4");
-                          if(imgurl.length()>0)
-                              imgurls.add(imgurl);
+                        imgurl = jo.getString("imageurl3");
+                        if (imgurl.length() > 0)
+                            imgurls.add(imgurl);
+                        imgurl = jo.getString("imageurl4");
+                        if (imgurl.length() > 0)
+                            imgurls.add(imgurl);
 
                         //adding for headers
                         String header = jo.getString("uname") + "";
@@ -236,11 +237,11 @@ public class StickyActivity extends AppCompatActivity {
                         SingleTon.lnduserid.put(jo.getString("uname"), jo.getString("user_id"));
 
                         //content
-                          Home_List_Data hld=null;
-                          if (SingleTon.pref.getString("user_id", "").compareToIgnoreCase(jo.getString("user_id")) == 0)
-                               hld = new Home_List_Data(jo.getString("uname") + "", isprivate, "contentuser", sectionManager, sectionFirstPosition);
-                             else
-                               hld = new Home_List_Data(jo.getString("uname") + "", isprivate, "contentotheruser", sectionManager, sectionFirstPosition);
+                        Home_List_Data hld = null;
+                        if (SingleTon.pref.getString("user_id", "").compareToIgnoreCase(jo.getString("user_id")) == 0)
+                            hld = new Home_List_Data(jo.getString("uname") + "", isprivate, "contentuser", sectionManager, sectionFirstPosition);
+                        else
+                            hld = new Home_List_Data(jo.getString("uname") + "", isprivate, "contentotheruser", sectionManager, sectionFirstPosition);
                         hld.setProfilepicurl(jo.getString("profile_pic"));
                         hld.setPricenow(jo.getString("price_now"));
                         hld.setPricewas(jo.getString("price_was"));
@@ -259,96 +260,77 @@ public class StickyActivity extends AppCompatActivity {
                         hld.setProdtype(jo.getString("prod_type"));
                         hld.setTime(getMilliseconds(jo.getString("date_time")));
 
-                        if(hld.getCategory()==2)
-                        {
-                            String size="";
+                        if (hld.getCategory() == 2) {
+                            String size = "";
 
-                            try
-                            {
-                                String[] lndbagsize=hld.getSize().split(",");
-                                if(lndbagsize.length>1) {
+                            try {
+                                String[] lndbagsize = hld.getSize().split(",");
+                                if (lndbagsize.length > 1) {
                                     for (int i = 0; i < lndbagsize.length; i++) {
                                         size = size + ConstantValues.bagsize[Integer.parseInt(lndbagsize[i])] + ",";
                                     }
-                                 hld.setSize(size);
-                                }
-                                else
-                                hld.setSize(ConstantValues.bagsize[Integer.parseInt(hld.getSize())]);
+                                    hld.setSize(size);
+                                } else
+                                    hld.setSize(ConstantValues.bagsize[Integer.parseInt(hld.getSize())]);
 
 
+                            } catch (Exception ex) {
+                                Log.e("error", ex.getMessage());
                             }
-                            catch (Exception ex)
-                            {
-                                  Log.e("error",ex.getMessage());
-                            }
-                        }
-                     else if(hld.getCategory()==4)
-                        {
-                            String color="";
+                        } else if (hld.getCategory() == 4) {
+                            String color = "";
 
-                            try
-                            {
-                                String[] lndcolormetaltype=hld.getColors().split(",");
-                                if(lndcolormetaltype.length>1) {
-                                    for (int i = 0; i <lndcolormetaltype.length; i++) {
+                            try {
+                                String[] lndcolormetaltype = hld.getColors().split(",");
+                                if (lndcolormetaltype.length > 1) {
+                                    for (int i = 0; i < lndcolormetaltype.length; i++) {
                                         color = color + ConstantValues.metaltype[Integer.parseInt(lndcolormetaltype[i])] + ",";
                                     }
                                     hld.setColors(color);
-                                }
-                                else
+                                } else
                                     hld.setColors(ConstantValues.metaltype[Integer.parseInt(hld.getColors())]);
 
 
-                            }
-                            catch (Exception ex)
-                            {
-                                Log.e("error",ex.getMessage());
+                            } catch (Exception ex) {
+                                Log.e("error", ex.getMessage());
                             }
                         }
 
 
-                          //for header
-                        if(jo.getInt("noti_type_home")==1) {
+                        //for header
+                        if (jo.getInt("noti_type_home") == 1) {
                             hld2.setHeadertype(1);
                             hld2.setNotitotallikers(jo.getInt("noti_total_likers"));
                             hld2.setNotilikedby(jo.getString("noti_likedby"));
 
-                        }
-                        else if(jo.getInt("noti_type_home")==2)
+                        } else if (jo.getInt("noti_type_home") == 2)
                             hld2.setHeadertype(2);
-                        else if(jo.getInt("noti_type_home")==3)
+                        else if (jo.getInt("noti_type_home") == 3)
                             hld2.setHeadertype(3);
-                         else
-                        hld2.setHeadertype(0);
+                        else
+                            hld2.setHeadertype(0);
 
                         hld2.setProfilepicurl(jo.getString("profile_pic"));
-                        hld2.setPricenow(jo.getString("price_now"));
-                        hld2.setPricewas(jo.getString("price_was"));
-                        hld2.setSize(jo.getString("size"));
-                        hld2.setLikestotal(jo.getInt("likes"));
-                        hld2.setImageurls(imgurls);
+
                         hld2.setPost_id(jo.getString("post_id"));
-                        hld2.setDescription(jo.getString("description"));
+
                         hld2.setUname(jo.getString("uname"));
                         hld2.setLikedvalue(jo.getString("like"));
-                        hld2.setColors(jo.getString("color"));
-                        hld2.setConditon(jo.getString("condition"));
-                        hld2.setCategory(jo.getInt("category_type"));
+
                         hld2.setUserid(jo.getString("user_id"));
                         hld2.setBrandname(jo.getString("brand_name"));
 
 
-
                         checkFavorate(hld);
                         mItems.add(hld);
-                          i++;
+                        i++;
                     }
 
-                     skipdata=skipdata+jarray.length();
-                     if(jarray.length()==0)
-                         loading=false;
-                      else
-                     loading=true;
+                    skipdata = skipdata + jarray.length();
+                    if (jarray.length() == 0)
+                        loading = false;
+                    else
+                        loading = true;
                     //notifying adapter
                     mAdapter.notifyDataSetChanged();
 
@@ -360,7 +342,7 @@ public class StickyActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                loading=true;
+                loading = true;
                 try {
                     dialog.setVisibility(View.GONE);
                     new com.eowise.recyclerview.stickyheaders.samples.AlertDialog().showAlertDialog(StickyActivity.this);
@@ -394,15 +376,15 @@ public class StickyActivity extends AppCompatActivity {
             hld.setIsfavorate(true);
         }
     }
-    static long getMilliseconds(String datetime)
-    {
+
+    static long getMilliseconds(String datetime) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         try {
 
             Date date = formatter.parse(datetime);
-           // Log.e("date",date.toString());
-           // Log.e("date2",formatter.format(date));
+            // Log.e("date",date.toString());
+            // Log.e("date2",formatter.format(date));
 
             return date.getTime();
         } catch (ParseException e) {

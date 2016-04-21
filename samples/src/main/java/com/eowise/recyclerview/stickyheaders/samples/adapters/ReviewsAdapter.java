@@ -63,7 +63,7 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHold
         viewHolder.rating.setNumStars(rd.getRated_value());
         viewHolder.uname.setText(Capitalize.capitalizeFirstLetter(rd.getReviewbyuname()));
         viewHolder.message.setText(rd.getReviewmessage());
-        if (rd.isreplied()) {
+        if (rd.isreplied()==1) {
             viewHolder.reply.setText("Replied");
             viewHolder.reply.setVisibility(View.VISIBLE);
             viewHolder.replyby.setText(Capitalize.capitalizeFirstLetter(SingleTon.pref.getString("uname", "")));
@@ -72,7 +72,7 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHold
 
         }
         // viewHolder.reply.setVisibility(View.GONE);
-        else {
+        else if(rd.isreplied()==2) {
             viewHolder.reply.setText("Reply");
             viewHolder.reply.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -80,6 +80,11 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHold
                     reply(rd);
                 }
             });
+
+        }
+        else if(rd.isreplied()==3) {
+            viewHolder.reply.setText("");
+
 
         }
     }
@@ -132,7 +137,7 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHold
                             JSONObject jobj = new JSONObject(response.toString());
                             if(jobj.getBoolean("status")) {
                                 dialog.dismiss();
-                                rd.setIsreplied(true);
+                                rd.setIsreplied(1);
                                 rd.setReviewreplied(replybox.getText().toString());
                                 notifyDataSetChanged();
 

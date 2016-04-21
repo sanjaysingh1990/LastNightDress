@@ -60,14 +60,14 @@ public class ReviewsData {
     }
 
 
-    public boolean isreplied() {
+    public int isreplied() {
         return isreplied;
     }
 
-    public void setIsreplied(boolean isreplied) {
+    public void setIsreplied(int isreplied) {
         this.isreplied = isreplied;
     }
 
-    private boolean isreplied;
+    private int isreplied;
 
 }

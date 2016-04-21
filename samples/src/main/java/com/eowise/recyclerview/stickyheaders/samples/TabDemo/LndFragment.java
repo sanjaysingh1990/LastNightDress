@@ -335,18 +335,11 @@ public class LndFragment extends Fragment {
                         }
                         //for header
                         hld2.setProfilepicurl(jo.getString("profile_pic"));
-                        hld2.setPricenow(jo.getString("price_now"));
-                        hld2.setPricewas(jo.getString("price_was"));
-                        hld2.setSize(jo.getString("size"));
-                        hld2.setLikestotal(jo.getInt("likes"));
-                        hld2.setImageurls(imgurls);
+
+
                         hld2.setPost_id(jo.getString("post_id"));
-                        hld2.setDescription(jo.getString("description"));
                         hld2.setUname(jo.getString("uname"));
                         hld2.setLikedvalue(jo.getString("like"));
-                        hld2.setColors(jo.getString("color"));
-                        hld2.setConditon(jo.getString("condition"));
-                        hld2.setCategory(jo.getInt("category_type"));
                         hld2.setUserid(jo.getString("user_id"));
                         hld2.setBrandname(jo.getString("brand_name"));
                         checkFavorate2(hld);
@@ -395,7 +388,6 @@ public class LndFragment extends Fragment {
                 params.put("rqid", "5");
                 params.put("category", category + "");
                 params.put("user_id", SingleTon.pref.getString("user_id", ""));
-
                 params.put("skipdata", dataskip + "");
 
 

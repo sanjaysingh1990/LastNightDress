@@ -78,7 +78,7 @@
             android:background="#e8e9eb"
             android:layout_marginLeft="1dp"
             android:textSize="16sp"
-            android:id="@+id/swapcontinue"
+            android:id="@+id/learnmore"
             />
     </LinearLayout>
 </LinearLayout>

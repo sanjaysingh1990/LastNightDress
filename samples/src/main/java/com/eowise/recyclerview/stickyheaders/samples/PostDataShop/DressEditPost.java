@@ -2,6 +2,7 @@ package com.eowise.recyclerview.stickyheaders.samples.PostDataShop;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -624,7 +625,11 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
             JSONArray usermentionArray = new JSONArray(usermentions);
             mainObj.put("usermentions", usermentionArray);
             if(extra==null)
-            uploadDress(mainObj.toString());
+            {
+                Intent shpping=new Intent(this,Shipping_Activity.class);
+                startActivity(shpping);
+            }
+           // uploadDress(mainObj.toString());
 
            // Log.e("json", mainObj.toString());
         } catch (Exception ex) {

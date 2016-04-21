@@ -19,15 +19,15 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:text="Meet Agent Style"
-            android:textColor="@color/black"
+            android:textColor="#575757"
             android:textSize="30sp"
             android:textStyle="bold" />
 
         <ImageView
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="20dp"
             android:src="@drawable/lnd_agent_login_logo" />
     </LinearLayout>
 
@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="Agent Style saves by buying on Last Night’s Dress"
-                android:textColor="@color/black" />
+                android:textColor="#4c4c4c" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -56,7 +56,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
                 android:text="Agent Style earns cash by selling her wardrobe"
-                android:textColor="@color/black" />
+                android:textColor="#4c4c4c" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -64,7 +64,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
                 android:text="Agent Style refers her friends and earns a commission on every sale"
-                android:textColor="@color/black" />
+                android:textColor="#4c4c4c" />
 
         </LinearLayout>
     </RelativeLayout>
@@ -72,8 +72,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="10dp"
         android:layout_weight="0"
         android:orientation="vertical">
 
@@ -82,7 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="Be like Agent Style"
-            android:textColor="@color/black"
+            android:textColor="#666666"
             android:textStyle="bold" />
 
         <TextView
@@ -105,7 +105,7 @@
             android:layout_marginTop="5dp"
             android:text="Close"
             android:textColor="#dadada"
-
+            android:onClick="close"
             android:textStyle="bold" />
     </LinearLayout>
 </LinearLayout>

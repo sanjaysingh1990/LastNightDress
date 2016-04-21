@@ -86,7 +86,7 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
                 String query = "";
                 if (LndShopActivity.selectedcategory == 1 && position == 0) {
                     query = dressfilterquery();
-                   //  Log.e("query", query);
+                    Log.e("query", query);
                     if (prequery.compareToIgnoreCase(query) != 0) {
                         prequery = query;
                         getData(query);
@@ -685,7 +685,6 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
                         JSONObject jo = jarray.getJSONObject(i);
                         ShopData pdb = new ShopData();
                         pdb.setPrice(jo.getString("price_now"));
-
 
                         pdb.setImageurl(jo.getString("image_url"));
                         LndFragment.shopdata.add(pdb);

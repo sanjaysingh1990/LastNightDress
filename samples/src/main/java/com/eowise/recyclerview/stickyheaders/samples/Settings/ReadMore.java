@@ -27,10 +27,10 @@ public class ReadMore extends AppCompatActivity {
             } else if (pos == 2) {
                 setContentView(R.layout.agent_layout);
                 setHeader("Agent");
-            }
-            else if (pos == 3) {
+            } else if (pos == 3) {
                 setContentView(R.layout.lnd_sale_world_wide);
-                            }
+                setHeader("Learn More");
+            }
         }
     }
 

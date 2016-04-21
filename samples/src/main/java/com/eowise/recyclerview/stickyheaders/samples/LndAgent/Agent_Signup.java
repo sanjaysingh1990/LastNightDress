@@ -19,4 +19,8 @@ public class Agent_Signup extends AppCompatActivity {
         Intent agentproile=new Intent(this,Lnd_Agent_Profile.class);
         startActivity(agentproile);
     }
+    public void close(View v)
+    {
+        finish();
+    }
 }

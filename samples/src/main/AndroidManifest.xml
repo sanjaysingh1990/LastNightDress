@@ -372,7 +372,8 @@
         <activity
             android:name=".LndAgent.Lnd_Agent_Profile"
             android:label="@string/title_activity_lnd__agent__profile"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity android:name=".PostDataShop.Shipping_Activity"></activity>
     </application>
 
 </manifest>

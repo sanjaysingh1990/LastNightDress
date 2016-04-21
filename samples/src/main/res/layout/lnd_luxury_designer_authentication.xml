@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f2f2f2">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:orientation="vertical">
+
+        <include layout="@layout/common_header" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:background="#404040">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_centerInParent="true"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="Luxury and Designer"
+                    android:textColor="@color/white"
+                    android:textSize="25sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="3dp"
+                    android:text="AUTHENTICATION"
+                    android:textColor="@color/white"
+                    android:textSize="28sp"
+
+                    />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            android:padding="15dp"
+
+            >
+
+            <TextView
+                style="@style/LndSellWorldWideTextView"
+                android:text="Luxury and Designer Authentication" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:lineSpacingMultiplier="1.1"
+                android:text="LND offers an additional layer of protection when your purchasing luxury and designer items."
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <TextView
+                style="@style/LndSellWorldWideTextView"
+                android:layout_marginTop="15dp"
+                android:text="How does Luxury and Designer Authentication  work?" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:lineSpacingMultiplier="1.1"
+                android:text="Your purchase will be sent to LND where a team of experts will verify the brand, quality and authenticity of your item. Once approved, We will then  package it with care and ship it to you. This process can take anywhere from 2 to 10 business days after LND has received your purchase. You keep track of your package as it travels from seller to LND and then to you."
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <TextView
+                style="@style/LndSellWorldWideTextView"
+                android:layout_marginTop="15dp"
+                android:text="What do I have to do as a shopper?" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:lineSpacingMultiplier="1.1"
+                android:text="When your looking to purchase high end, luxury items select the “Luxury and Designer Authentication” under additional services and buy with confidence."
+                android:textColor="@color/black" />
+
+            <TextView
+                style="@style/LndSellWorldWideTextView"
+                android:layout_marginTop="15dp"
+                android:text="What do I have to do as a seller?" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:lineSpacingMultiplier="1.1"
+                android:text="You don't do anything differently. As usual, you'll purchase pre-addressed shipping label. However, with our Luxury and Designer Authentication service, the label will be addressed to LND first. Buyers can also track the item via the app and monitor the progress as it is processed, verified, and shipped to its final destination."
+                android:textColor="@color/black" />
+
+            <TextView
+                style="@style/LndSellWorldWideTextView"
+                android:layout_marginTop="15dp"
+                android:text="What are the key benefits of this service?" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:lineSpacingMultiplier="1.1"
+                android:text="This service upgrades the simple and safe shopping experience on LND for designer and luxury items by taking it to another level. The added verification for premium items makes it even more stress-free to buy and sell luxury items."
+                android:textColor="@color/black" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:lineSpacingMultiplier="1.1"
+                android:text="Note: The brands sold on LND are not affiliated with LND or the Luxury and Designer Authentication service. The experts that assist in providing additional verification through the Luxury and Designer Authentication service are not affiliated with or certified by any brand sold on LND. The trademarks and/or service marks of the brands sold on LND are the property of those brands, and not of LND."
+                android:textColor="@color/black" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
