@@ -50,7 +50,6 @@
 
                     />
 
-
             </FrameLayout>
 
             <View
@@ -63,7 +62,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
         android:scrollbars="none">
 
@@ -104,7 +103,6 @@
                         android:layout_gravity="top"
                         android:layout_weight="1"
                         android:orientation="vertical"
-
                         android:paddingLeft="18dp"
 
                         >
@@ -136,9 +134,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
 
-                                android:layout_toRightOf="@+id/image"
+
                                 android:layout_weight="0"
-                                android:lineSpacingMultiplier="1.1"
+
                                 android:singleLine="true"
                                 android:text="Buyer:"
                                 android:textColor="#757575"
@@ -167,10 +165,10 @@
                                 android:id="@+id/grandtotaltext"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_toRightOf="@+id/image"
                                 android:layout_weight="0"
-                                android:lineSpacingMultiplier="1.1"
+
                                 android:text="List Price:"
+                                android:textColor="#757575"
                                 android:textSize="14sp"
 
 
@@ -182,7 +180,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
                                 android:layout_weight="1"
-                                android:text="$104.99"
+                                android:text="$100"
                                 android:textColor="#000"
                                 android:textSize="14sp" />
                         </LinearLayout>
@@ -194,13 +192,12 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:id="@+id/yourearningtext"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_toRightOf="@+id/image"
                                 android:layout_weight="0"
-                                android:lineSpacingMultiplier="1.1"
+
                                 android:text="Your earnings:"
+                                android:textColor="#757575"
                                 android:textSize="14sp"
 
 
@@ -212,10 +209,12 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="3dp"
                                 android:layout_weight="1"
-                                android:text="$87.99"
+                                android:text="$4.99"
                                 android:textColor="#000"
                                 android:textSize="14sp" />
                         </LinearLayout>
+
+
                         <!-- order courier -->
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -227,10 +226,9 @@
                                 android:id="@+id/couriertext"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-
                                 android:layout_weight="0"
-
                                 android:text="Courier:"
+                                android:textColor="#757575"
                                 android:textSize="14sp"
 
 
@@ -257,10 +255,12 @@
                                 android:id="@+id/shippingmethodtext"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-
                                 android:layout_weight="0"
 
+
                                 android:text="Shipping method:"
+
+                                android:textColor="#757575"
                                 android:textSize="14sp"
 
 
@@ -286,26 +286,25 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_toRightOf="@+id/image"
-
                                 android:layout_weight="0"
-                                android:lineSpacingMultiplier="1.1"
                                 android:text="Order date:"
+
+                                android:textColor="#757575"
+
                                 android:textSize="14sp"
 
 
                                 />
 
                             <TextView
+                                android:id="@+id/orderdate"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
                                 android:layout_weight="1"
                                 android:text="14-Feb-2016"
                                 android:textColor="#000"
-                                android:textSize="14sp"
-                                android:id="@+id/orderdate"
-                                />
+                                android:textSize="14sp" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -317,11 +316,11 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_toRightOf="@+id/image"
-
                                 android:layout_weight="0"
-                                android:lineSpacingMultiplier="1.1"
+
+
                                 android:text="Order Number:"
+                                android:textColor="#757575"
                                 android:textSize="14sp"
 
 
@@ -352,11 +351,10 @@
                 android:padding="7dp">
 
                 <TextView
-
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
-                    android:text="Order Cancelled"
+                    android:text="Report Rating"
                     android:textColor="#000"
                     android:textSize="18sp" />
 
@@ -371,10 +369,35 @@
 
             </LinearLayout>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                 android:padding="25dp"
+                android:text="Please select one of the following options" />
+
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="10dp"
+                >
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Buyer gave false accusation" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Buyer used profanity" />
+            </RadioGroup>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="15dp"
+                android:layout_margin="25dp"
 
                 android:orientation="vertical">
 
@@ -383,20 +406,19 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:gravity="left"
-                    android:text="Please explain why you are cancelling"
+                    android:text="Please provide details"
                     android:textColor="#000"
                     android:textSize="13sp" />
 
                 <EditText
+                    android:id="@+id/cancelinfoeditext"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:layout_marginTop="5dp"
                     android:background="@drawable/rounded"
                     android:gravity="top"
                     android:maxLines="5"
-                    android:textColor="@color/black"
-                    android:id="@+id/cancelinfoeditext"
-                    />
+                    android:textColor="@color/black" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
@@ -404,41 +426,24 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-
         android:orientation="horizontal"
+
 
         >
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_gravity="bottom"
             android:layout_weight="1"
             android:background="#e8e9eb"
             android:gravity="center"
             android:padding="10dp"
             android:text="Submit"
-            android:textColor="#b4b4b4"
-            android:id="@+id/submit"
-            android:textSize="16sp"
-            android:clickable="false"
-
-            />
-
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="1dp"
-            android:layout_weight="1"
-            android:background="#e8e9eb"
-
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="Cancel"
             android:textColor="#be4d66"
+
             android:textSize="16sp"
-            android:id="@+id/cancel"
+
 
             />
 

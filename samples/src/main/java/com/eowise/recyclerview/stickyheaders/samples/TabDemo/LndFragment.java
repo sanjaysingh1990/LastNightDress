@@ -78,7 +78,7 @@ public class LndFragment extends Fragment {
     int sectionFirstPosition = 0;
     private int count = 0;
     private boolean isfirttime = true;
-
+    private String query="";
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -93,7 +93,7 @@ public class LndFragment extends Fragment {
         try {
             shopdata.clear();
 
-            getData(skipdata, LndShopActivity.selectedcategory);
+            getData(skipdata, query);
 
 
         } catch (Exception ex) {
@@ -131,7 +131,7 @@ public class LndFragment extends Fragment {
                 try {
                     // Toast.makeText(getActivity(), LndShopActivity.selectedcategory + "", Toast.LENGTH_SHORT).show();
                     pullrefresh = true;
-                    getData(skipdata, LndShopActivity.selectedcategory);
+                    getData(skipdata, "");
                 } catch (Exception ex) {
 
                 }
@@ -172,7 +172,7 @@ public class LndFragment extends Fragment {
                             if (dataleft)
                                 try {
                                     loadmore = true;
-                                    getData(skipdata, LndShopActivity.selectedcategory);
+                                    getData(skipdata,query);
                                 } catch (Exception ex) {
 
                                 }
@@ -199,7 +199,7 @@ public class LndFragment extends Fragment {
 
     }
 
-    public void getData(final int dataskip, final int category) throws Exception {
+    public void getData(final int dataskip, final String query) throws Exception {
 
         if (pullrefresh)
             LndShopActivity.prog.setVisibility(View.GONE);
@@ -350,7 +350,7 @@ public class LndFragment extends Fragment {
 
                     // rv.setAdapter(adapter);
                     skipdata = shopdata.size();
-                    if (jarray.length() < 25) {
+                    if (jarray.length() < 15) {
                         dataleft = false;
 
                     }
@@ -385,10 +385,10 @@ public class LndFragment extends Fragment {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("rqid", "5");
-                params.put("category", category + "");
+                params.put("rqid", "14");
                 params.put("user_id", SingleTon.pref.getString("user_id", ""));
                 params.put("skipdata", dataskip + "");
+                params.put("query", query);
 
 
                 return params;
@@ -454,4 +454,26 @@ public class LndFragment extends Fragment {
         }
     }
 
+    public void reset(String data) {
+        isprivate = false;
+        lastHeader = "";
+        sectionManager = -1;
+        headerCount = 0;
+        sectionFirstPosition = 0;
+
+        boolean isfirttime = true;
+        skipdata=0;
+        query=data;
+        try {
+            shopdata.clear();
+            mItems.clear();
+            dataleft=true;
+            count=0;
+            getData(skipdata, query);
+        }
+        catch(Exception ex)
+        {
+
+        }
+    }
 }

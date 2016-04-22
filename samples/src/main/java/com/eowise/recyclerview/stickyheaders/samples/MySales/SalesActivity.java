@@ -52,7 +52,7 @@ public class SalesActivity extends AppCompatActivity {
 
     private void initialize()
     {
-       String[] status={"In Process","Pending Acceptance","Delivered","Cancelled","Claim Processing","Claim Declined","Claim Approved","Cancelled"};
+       String[] status={"In Process","Shipped","Delivered","Order cancelled","Report rating","Order cancelled"};
         for(int i=0;i<status.length;i++)
         {
             MySalesData mysales=new MySalesData();

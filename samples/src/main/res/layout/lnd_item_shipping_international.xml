@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,10 +10,9 @@
     android:padding="10dp">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/LnditemshipTextView"
         android:text="How will you shp it?"
-        android:textSize="11sp" />
+         />
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -33,7 +36,7 @@
             android:paddingTop="12dp"
             android:text="charge actual cost"
             android:textColor="#000"
-            android:textSize="10sp"
+            android:textSize="13sp"
 
 
             />
@@ -52,17 +55,17 @@
             android:paddingTop="12dp"
             android:text="charge a fixed cost"
             android:textColor="@color/white"
-            android:textSize="10sp" />
+            android:textSize="13sp" />
 
     </LinearLayout>
 
     <!-- servce block -->
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+
         android:layout_marginTop="10dp"
         android:text="Service"
-        android:textSize="11sp" />
+        style="@style/LnditemshipTextView"
+        />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -90,11 +93,12 @@
     </FrameLayout>
     <!-- cost block -->
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+
         android:layout_marginTop="10dp"
         android:text="Cost"
-        android:textSize="11sp" />
+        style="@style/LnditemshipTextView"
+
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -127,7 +131,7 @@
             android:layout_marginTop="3dp"
             android:layout_weight="1"
             android:text="Offer free shipping"
-            android:textSize="10sp" />
+            android:textSize="12sp" />
     </LinearLayout>
 
     <View
@@ -137,11 +141,12 @@
         android:background="#757575" />
     <!-- internatonal -->
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+
         android:layout_marginTop="10dp"
         android:text="Internatonal(Optional)"
-        android:textSize="11sp" />
+        style="@style/LnditemshipTextView"
+
+        />
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -165,7 +170,7 @@
             android:paddingTop="12dp"
             android:text="charge actual cost"
             android:textColor="#000"
-            android:textSize="10sp"
+            android:textSize="13sp"
 
 
             />
@@ -184,17 +189,17 @@
             android:paddingTop="12dp"
             android:text="charge a fixed cost"
             android:textColor="@color/white"
-            android:textSize="10sp" />
+            android:textSize="13sp" />
 
     </LinearLayout>
     <!-- item weight package -->
     <!-- servce block -->
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+
         android:layout_marginTop="10dp"
         android:text="Weight of packaged item"
-        android:textSize="11sp" />
+        style="@style/LnditemshipTextView"
+        />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -221,113 +226,15 @@
             />
     </FrameLayout>
 
-    <!-- width,length,height-->
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Length"
-                android:textSize="11sp" />
-
-            <EditText
-                android:layout_width="45dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/purchse_rounded_corners"
-                android:paddingBottom="9dp"
-                android:paddingLeft="5dp"
-                android:paddingTop="9dp"
-                android:textSize="12sp" />
-
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="bottom"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:text="cm.x"
-            android:textSize="11sp" />
-        <!-- width-->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Width"
-                android:textSize="11sp" />
-
-            <EditText
-                android:layout_width="45dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/purchse_rounded_corners"
-                android:paddingBottom="9dp"
-                android:paddingLeft="5dp"
-                android:paddingTop="9dp"
-                android:textSize="12sp" />
-
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="bottom"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:text="cm.x"
-            android:textSize="11sp" />
-        <!-- height -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Height"
-                android:textSize="11sp" />
-
-            <EditText
-                android:layout_width="45dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/purchse_rounded_corners"
-                android:paddingBottom="9dp"
-                android:paddingLeft="5dp"
-                android:paddingTop="9dp"
-                android:textSize="12sp" />
-
-        </LinearLayout>
-    </LinearLayout>
     <!-- servce block -->
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+
         android:layout_marginTop="10dp"
         android:text="Service"
-        android:textSize="11sp" />
+        style="@style/LnditemshipTextView"
+
+        />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -367,7 +274,7 @@
             android:layout_marginTop="3dp"
             android:layout_weight="1"
             android:text="No international shipping"
-            android:textSize="10sp" />
+            android:textSize="12sp" />
         <CheckBox
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -375,6 +282,7 @@
             android:layout_marginTop="3dp"
             android:layout_weight="1"
             android:text="Free international shipping"
-            android:textSize="10sp" />
+            android:textSize="12sp" />
     </LinearLayout>
 </LinearLayout>
+</ScrollView>

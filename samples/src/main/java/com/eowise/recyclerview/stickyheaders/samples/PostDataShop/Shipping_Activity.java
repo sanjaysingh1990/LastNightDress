@@ -10,6 +10,6 @@ public class Shipping_Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.lnd_item_shipping);
+        setContentView(R.layout.lnd_item_shipping_national);
     }
 }

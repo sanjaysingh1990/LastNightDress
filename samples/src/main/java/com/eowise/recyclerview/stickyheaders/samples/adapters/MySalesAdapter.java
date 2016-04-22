@@ -68,9 +68,9 @@ class MyEvents implements View.OnClickListener
            ordetails.putExtra("type","in process");
 
         }
-       else if(status.compareToIgnoreCase("pending acceptance")==0)
+       else if(status.compareToIgnoreCase("Shipped")==0)
         {
-            ordetails.putExtra("type","pending acceptance");
+            ordetails.putExtra("type","Shipped");
 
         }
         else if(status.compareToIgnoreCase("delivered")==0)
@@ -78,12 +78,13 @@ class MyEvents implements View.OnClickListener
             ordetails.putExtra("type","delivered");
 
         }
-        else if(status.compareToIgnoreCase("cancelled")==0)
+        else if(status.compareToIgnoreCase("Order cancelled")==0)
         {
             if(utype.compareTo("buyer")==0)
                 ordetails.putExtra("type","cancelled");
             else
                 ordetails.putExtra("type","cancelled2");
+
 
         }
         else if(status.compareToIgnoreCase("claim processing")==0)
@@ -96,9 +97,15 @@ class MyEvents implements View.OnClickListener
             ordetails.putExtra("type","claim approved");
 
         }
+
         else if(status.compareToIgnoreCase("claim declined")==0)
         {
             ordetails.putExtra("type","claim declined");
+
+        }
+        else if(status.compareToIgnoreCase("Report rating")==0)
+        {
+            ordetails.putExtra("type","Report rating");
 
         }
         activity.startActivity(ordetails);

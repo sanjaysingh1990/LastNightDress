@@ -44,7 +44,7 @@ public class MyPurchasesActivity extends AppCompatActivity {
     }
     private void initialize()
     {
-        String[] status={"In Process","Delivered","Cancelled","Shipped","Claim Processing","Rating Reported","Claim Approved","Claim Declined","Cancelled"};
+        String[] status={"In Process","Shipped","Delivered","Item accepted","Order cancelled","Report rating"};
 
         for(int i=0;i<status.length;i++)
         {

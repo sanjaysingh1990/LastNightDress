@@ -24,6 +24,7 @@ import com.android.volley.toolbox.Volley;
 import com.eowise.recyclerview.stickyheaders.samples.Loading.AVLoadingIndicatorView;
 import com.eowise.recyclerview.stickyheaders.samples.Main_TabHost;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.data.ShopData;
 
 import org.json.JSONArray;
@@ -52,7 +53,7 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
     static boolean isselected = false;
     static int filterselected = 0;
     static String prequery = "";
-    private String previousurl = " order by post_id desc";
+    private String previousurl = " ";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,27 +94,27 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
                     }
                 } else if (LndShopActivity.selectedcategory == 2 && position == 0) {
                     query = handbagsfilterquery();
-                  //   Log.e("query",query);
+                    Log.e("query",query);
                     if (prequery.compareToIgnoreCase(query) != 0) {
                         prequery = query;
                         getData(query);
                     }
                 } else if (LndShopActivity.selectedcategory == 3 && position == 0) {
                     query = shoefilterquery();
-                   //  Log.e("query",query);
+                     Log.e("query",query);
                     if (prequery.compareToIgnoreCase(query) != 0) {
                         prequery = query;
                         getData(query);
                     }
                 } else if (LndShopActivity.selectedcategory == 4 && position == 0) {
                     query = jewelleryfilterquery();
-                  //   Log.e("query",query);
+                    Log.e("query",query);
                     if (prequery.compareToIgnoreCase(query) != 0) {
                         prequery = query;
                         getData(query);
                     }
                 } else if (LndShopActivity.selectedcategory == 0 && position == 0) {
-                    query = " order by post_id desc";
+                    query = " ";
 
                     // Log.e("query",query);
                     if (prequery.compareToIgnoreCase(query) != 0) {
@@ -336,7 +337,7 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
             query = query + query7.substring(0, query7.lastIndexOf("or")) + ") and ";
 
 
-        query = query + " category_type=1 order by post_id desc";
+        query = query + " category_type=1";
 
         return query;
     }
@@ -444,7 +445,7 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
         if (query5.lastIndexOf("or") > 0)
             query = query + query5.substring(0, query5.lastIndexOf("or")) + ") and ";
 
-        query = query + " category_type=2 order by post_id desc";
+        query = query + " category_type=2";
 
         return query;
     }
@@ -554,7 +555,7 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
             query = query + query5.substring(0, query5.lastIndexOf("or")) + " ) and ";
 
 
-        query = query + " category_type=4 order by post_id desc";
+        query = query + " category_type=4";
 
         return query;
     }
@@ -661,13 +662,12 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
         if (query5.lastIndexOf("or") > 0)
             query = query + query5.substring(0, query5.lastIndexOf("or")) + ") and ";
 
-        query = query + " category_type=3 order by post_id desc";
-
+        query = query + " category_type=3";
         return query;
     }
 
     public void getData(final String query) {
-        LndShopActivity.prog.setVisibility(View.VISIBLE);
+     /*   LndShopActivity.prog.setVisibility(View.VISIBLE);
         LndFragment.shopdata.clear();
         RequestQueue queue = Volley.newRequestQueue(LndShopActivity.this);
         StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/postdata.php", new Response.Listener<String>() {
@@ -685,8 +685,7 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
                         JSONObject jo = jarray.getJSONObject(i);
                         ShopData pdb = new ShopData();
                         pdb.setPrice(jo.getString("price_now"));
-
-                        pdb.setImageurl(jo.getString("image_url"));
+                        pdb.setImageurl(jo.getString("imageurl1"));
                         LndFragment.shopdata.add(pdb);
                     }
 
@@ -714,6 +713,9 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("rqid", "14");
                 params.put("query", query);
+                params.put("skipdata",0+"");
+                params.put("user_id", SingleTon.pref.getString("user_id", ""));
+
 
 
                 return params;
@@ -726,7 +728,8 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
                 return params;
             }
         };
-        queue.add(sr);
+        queue.add(sr);*/
+        LndFragment.lndshopactivity.reset(query);
     }
 
 }
