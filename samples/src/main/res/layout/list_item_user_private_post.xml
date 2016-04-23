@@ -53,12 +53,11 @@
             android:src="@drawable/image_backward" />
 
         <ProgressBar
+            android:id="@+id/fullpostloading"
             style="?android:attr/progressBarStyleLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/fullpostloading"
-            android:layout_gravity="center_vertical|center_horizontal"
-            />
+            android:layout_gravity="center_vertical|center_horizontal" />
     </FrameLayout>
 
 
@@ -326,6 +325,30 @@
             android:textColor="#be4d66"
             android:textSize="14sp"
             android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal"
+            android:paddingLeft="14dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Shipping :"
+                android:textColor="#be4d66"
+
+                />
+
+            <TextView
+                android:id="@+id/shipping"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:text="$15"
+                android:textColor="@color/black" />
+        </LinearLayout>
 
         <com.eowise.recyclerview.stickyheaders.samples.Utils.RelativeTimeTextView
             android:id="@+id/time"

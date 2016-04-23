@@ -47,6 +47,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <activity
             android:name=".MainActivity"
@@ -373,7 +374,9 @@
             android:name=".LndAgent.Lnd_Agent_Profile"
             android:label="@string/title_activity_lnd__agent__profile"
             android:theme="@style/AppTheme" />
-        <activity android:name=".PostDataShop.Shipping_Activity"></activity>
+        <activity android:name=".PostDataShop.Shipping_Activity">
+
+        </activity>
     </application>
 
 </manifest>

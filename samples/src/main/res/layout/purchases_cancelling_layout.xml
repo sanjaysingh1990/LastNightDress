@@ -125,30 +125,41 @@
                     android:orientation="horizontal"
 
                     >
+
                     <TextView
+                        android:id="@+id/sellertext"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+
+
+
+                        android:singleLine="true"
                         android:text="Seller:"
-
-                        android:layout_toRightOf="@+id/image"
-                        android:layout_weight="0"
-                        android:lineSpacingMultiplier="1.1"
-                        android:textSize="14sp"
                         android:textColor="#757575"
-                        android:singleLine="true"
 
-                        android:id="@+id/sellertext"
-                        />
+                        android:textSize="14sp" />
+
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Olivia Newton Wilde"
-                        android:textSize="14sp"
-                        android:textColor="#be4d66"
-                        android:layout_marginLeft="3dp"
-                        android:layout_weight="1"
-                        android:singleLine="true"
                         android:id="@+id/sellername"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="3dp"
+
+                        android:singleLine="true"
+                        android:text="Olivia Newton Wilde"
+                        android:textColor="#be4d66"
+                        android:textSize="14sp" />
+                    <com.eowise.recyclerview.stickyheaders.samples.Utils.RelativeTimeTextView
+                        android:id="@+id/time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:text="4m"
+                        android:textAppearance="?android:textAppearanceMedium"
+                        android:textColor="#b4b4b4"
+                        android:textSize="14sp"
+                        android:layout_marginLeft="3dp"
+
                         />
                 </LinearLayout>
                 <LinearLayout
@@ -160,7 +171,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Price:"
+                        android:text="List Price:"
                         android:id="@+id/grandtotaltext"
                         android:layout_toRightOf="@+id/image"
                         android:layout_weight="0"
@@ -178,7 +189,7 @@
                         android:textColor="#000"
                         android:layout_marginLeft="5dp"
                         android:layout_weight="1"
-                        android:id="@+id/price"
+                        android:id="@+id/listprice"
                         />
                 </LinearLayout>
 
@@ -208,6 +219,7 @@
                         android:textColor="#000"
                         android:layout_marginLeft="3dp"
                         android:layout_weight="1"
+                        android:id="@+id/shipping"
 
                         />
                 </LinearLayout>
@@ -238,8 +250,44 @@
                         android:textColor="#000"
                         android:layout_marginLeft="3dp"
                         android:layout_weight="1"
+                        android:id="@+id/grandtotalprice"
 
                         />
+
+
+                </LinearLayout>
+
+                <!-- shpping method -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/shippingmethodtext"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+
+
+                        android:text="Shipping method:"
+
+                        android:textColor="#757575"
+                        android:textSize="14sp"
+
+
+                        />
+
+                    <TextView
+                        android:id="@+id/shipppingmethod"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="1"
+                        android:text="Express"
+                        android:textColor="#000"
+                        android:textSize="14sp" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -268,6 +316,7 @@
                         android:textColor="#000"
                         android:layout_marginLeft="5dp"
                         android:layout_weight="1"
+
 
                         />
                 </LinearLayout>
@@ -299,7 +348,7 @@
                         android:textColor="#000"
                         android:layout_marginLeft="5dp"
                         android:layout_weight="1"
-                        android:id="@+id/price"
+                        android:id="@+id/ordernumber"
                         />
                 </LinearLayout>
             </LinearLayout>
@@ -318,7 +367,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Cancelled"
+        android:text="Order Cancelled"
         android:textColor="#000"
         android:textSize="18sp"
         android:gravity="center_horizontal"
@@ -330,6 +379,7 @@
         android:textColor="#575757"
         android:textSize="14sp"
         android:gravity="center_horizontal"
+        android:id="@+id/statustext"
 
         />
 

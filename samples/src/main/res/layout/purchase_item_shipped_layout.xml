@@ -57,12 +57,16 @@
                 />
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
-
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:scrollbars="none">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_weight="1"
+
             >
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -95,7 +99,6 @@
                         android:orientation="vertical"
                         android:layout_weight="1"
                         android:paddingLeft="18dp"
-
                         android:layout_gravity="top"
 
                         >
@@ -129,7 +132,6 @@
                                 android:layout_height="wrap_content"
 
 
-
                                 android:singleLine="true"
                                 android:text="Seller:"
                                 android:textColor="#757575"
@@ -146,19 +148,22 @@
                                 android:text="Olivia Newton Wilde"
                                 android:textColor="#be4d66"
                                 android:textSize="14sp" />
+
                             <com.eowise.recyclerview.stickyheaders.samples.Utils.RelativeTimeTextView
                                 android:id="@+id/time"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentRight="true"
+                                android:layout_marginLeft="3dp"
                                 android:text="4m"
                                 android:textAppearance="?android:textAppearanceMedium"
                                 android:textColor="#b4b4b4"
                                 android:textSize="14sp"
-                                android:layout_marginLeft="3dp"
 
                                 />
                         </LinearLayout>
+
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -169,7 +174,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="List Price:"
-                                android:id="@+id/grandtotaltext"
+                                android:textColor="#757575"
                                 android:layout_toRightOf="@+id/image"
                                 android:layout_weight="0"
                                 android:lineSpacingMultiplier="1.1"
@@ -193,29 +198,29 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
                             android:layout_marginTop="3dp"
-                            >
+                            android:orientation="horizontal">
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Shipping:"
-                                android:layout_toRightOf="@+id/image"
-                                android:layout_weight="0"
-                                android:lineSpacingMultiplier="1.1"
-                                android:textSize="14sp"
 
+                                android:layout_weight="0"
+                                android:text="Shipping:"
+                                android:textColor="#757575"
+                                android:textSize="14sp"
 
 
                                 />
+
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="$4.99"
-                                android:textSize="14sp"
-                                android:textColor="#000"
                                 android:layout_marginLeft="3dp"
                                 android:layout_weight="1"
+                                android:text="$4.99"
+                                android:textColor="#000"
+                                android:textSize="14sp"
                                 android:id="@+id/shipping"
 
                                 />
@@ -224,35 +229,33 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
                             android:layout_marginTop="3dp"
-                            >
+                            android:orientation="horizontal">
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Grand Total:"
-                                android:layout_toRightOf="@+id/image"
                                 android:layout_weight="0"
-                                android:lineSpacingMultiplier="1.1"
+                                android:text="Grand Total:"
+                                android:textColor="#757575"
                                 android:textSize="14sp"
-
 
 
                                 />
+
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="$104.99"
-                                android:textSize="14sp"
-                                android:textColor="#000"
                                 android:layout_marginLeft="3dp"
                                 android:layout_weight="1"
+                                android:text="$104.99"
+                                android:textColor="#000"
+                                android:textSize="14sp"
                                 android:id="@+id/grandtotalprice"
 
                                 />
                         </LinearLayout>
-
-                        <!-- shpping method -->
+                        <!-- order courier -->
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -295,10 +298,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Order date:"
-
+                                android:textColor="#757575"
                                 android:layout_toRightOf="@+id/image"
                                 android:layout_weight="0"
-                                android:lineSpacingMultiplier="1.1"
                                 android:textSize="14sp"
 
 
@@ -313,10 +315,8 @@
                                 android:layout_marginLeft="5dp"
                                 android:layout_weight="1"
                                 android:id="@+id/orderdate"
-
                                 />
                         </LinearLayout>
-
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -327,10 +327,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Order Number:"
-
+                                android:textColor="#757575"
                                 android:layout_toRightOf="@+id/image"
                                 android:layout_weight="0"
-                                android:lineSpacingMultiplier="1.1"
                                 android:textSize="14sp"
 
 
@@ -363,76 +362,34 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Order Cancelled"
+                    android:text="Shipped"
                     android:textColor="#000"
                     android:textSize="18sp"
                     android:gravity="center_horizontal"
                     />
                 <TextView
+                    android:id="@+id/statustext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Status"
                     android:textColor="#575757"
                     android:textSize="14sp"
                     android:gravity="center_horizontal"
-                    android:id="@+id/statustext"
                     />
 
             </LinearLayout>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#000"
-                android:text="Your have successfully cancelled your purchase"
-                android:gravity="center_vertical"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"
-                android:id="@+id/cancelled"
-                android:textSize="14sp"
-                />
-        </LinearLayout>
 
+
+        </LinearLayout>
+</ScrollView>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
 
-        android:layout_gravity="bottom"
+
 
         >
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Item Delivered"
-            android:textColor="#b4b4b4"
-            android:background="#e8e9eb"
-            android:gravity="center"
-            android:padding="10dp"
-
-            android:textSize="16sp"
-
-
-            />
-
-
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Cancel Order"
-            android:textColor="#b4b4b4"
-            android:background="#e8e9eb"
-            android:gravity="center"
-            android:padding="10dp"
-            android:layout_marginLeft="1dp"
-            android:textSize="16sp"
-
-
-            />
-
-
 
 
     </LinearLayout>

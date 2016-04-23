@@ -327,7 +327,29 @@
                 android:textColor="#b4b4b4"
                 android:textSize="14sp" />
         </RelativeLayout>
+      <LinearLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal"
+          android:paddingLeft="14dp"
+          android:layout_marginTop="5dp"
+          >
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Shipping :"
+              android:textColor="#be4d66"
 
+              />
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginLeft="3dp"
+              android:text="$15"
+              android:id="@+id/shipping"
+              android:textColor="@color/black"
+              />
+      </LinearLayout>
         <github.ankushsachdeva.emojicon.EmojiconTextView xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:emojicon="http://schemas.android.com/apk/res-auto"
             android:id="@+id/desc"

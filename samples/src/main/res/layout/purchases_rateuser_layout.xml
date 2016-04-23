@@ -56,97 +56,98 @@
                 />
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_weight="1"
-    android:scrollbars="none"
-    >
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:scrollbars="none"
         >
-        <de.hdodenhof.circleimageview.CircleImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/mainprofilepic"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:src="@drawable/empty_user"
-            android:layout_marginTop="30dp"
-
-            android:layout_gravity="center_horizontal"
-            />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Olivia Newton Wilde"
-            android:textSize="16sp"
-            android:textColor="#be4d66"
-            android:layout_marginLeft="3dp"
-            android:layout_weight="1"
-            android:singleLine="true"
-            android:id="@+id/sellername"
-            android:gravity="center_horizontal"
-
-            />
-
-        <RatingBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/ratingBar"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="30dp"
-           android:progressTint="@color/app_color"
-            android:secondaryProgressTint="@color/app_color"
-            android:stepSize="1"
-            />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="15dp"
             >
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/mainprofilepic"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:src="@drawable/empty_user2"
+                android:layout_marginTop="30dp"
+
+                android:layout_gravity="center_horizontal"
+                />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Add a comment"
-                android:textSize="15sp"
-                android:textColor="#000"
-                android:gravity="left"
-               android:layout_marginTop="10dp"
+                android:text="Olivia Newton Wilde"
+                android:textSize="16sp"
+                android:textColor="#be4d66"
+                android:layout_marginLeft="3dp"
+                android:layout_weight="1"
+                android:singleLine="true"
+                android:id="@+id/sellername"
+                android:gravity="center_horizontal"
+
                 />
-            <EditText
+
+            <RatingBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ratingBar"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="30dp"
+                android:progressTint="@color/app_color"
+                android:secondaryProgressTint="@color/app_color"
+                android:stepSize="1"
+                />
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:hint="write your comment here..."
-                android:background="@drawable/rounded"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="15dp"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Add a comment"
+                    android:textSize="15sp"
+                    android:textColor="#000"
+                    android:gravity="left"
+                    android:layout_marginTop="10dp"
+                    />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:hint="write your comment here..."
+                    android:background="@drawable/rounded"
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/yourcomment"
+                    android:textColorHint="#dadada"
+                    android:textSize="15sp"
+                    />
+            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="CAUTION: When leaving a comment, the use of  profanity or any false information about the user can result in your account being suspended. Once your rating has been submitted the user has the option to start a case.
+"
+                android:textSize="13sp"
+                android:textColor="#757575"
+                android:gravity="left"
+
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
                 android:layout_marginTop="5dp"
-                android:id="@+id/yourcomment"
-                android:textColorHint="#dadada"
+                android:layout_marginBottom="20dp"
                 />
         </LinearLayout>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="CAUTION: When leaving a comment, the use of  profanity or any false information about the user can result in your account being suspended. Once your rating has been submitted the user has the option to start a case.
-"
-            android:textSize="13sp"
-            android:textColor="#757575"
-            android:gravity="left"
-
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="20dp"
-            />
-    </LinearLayout>
-</ScrollView>
+    </ScrollView>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

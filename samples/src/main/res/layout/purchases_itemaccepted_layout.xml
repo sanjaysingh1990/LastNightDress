@@ -90,6 +90,7 @@
                 android:background="#000"
                 android:scaleType="centerCrop"
                 android:adjustViewBounds="true"
+                android:layout_marginTop="2dp"
                 />
             <LinearLayout
                 android:layout_width="match_parent"
@@ -122,32 +123,43 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginTop="5dp"
+
                     >
+
                     <TextView
+                        android:id="@+id/sellertext"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+
+
+
+                        android:singleLine="true"
                         android:text="Seller:"
-
-                        android:layout_toRightOf="@+id/image"
-                        android:layout_weight="0"
-                        android:lineSpacingMultiplier="1.1"
-                        android:textSize="14sp"
                         android:textColor="#757575"
-                        android:singleLine="true"
 
-                        android:id="@+id/sellertext"
-                        />
+                        android:textSize="14sp" />
+
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Olivia Newton Wilde"
-                        android:textSize="14sp"
-                        android:textColor="#be4d66"
-                        android:layout_marginLeft="3dp"
-                        android:layout_weight="1"
-                        android:singleLine="true"
                         android:id="@+id/sellername"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="3dp"
+
+                        android:singleLine="true"
+                        android:text="Olivia Newton Wilde"
+                        android:textColor="#be4d66"
+                        android:textSize="14sp" />
+                    <com.eowise.recyclerview.stickyheaders.samples.Utils.RelativeTimeTextView
+                        android:id="@+id/time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:text="4m"
+                        android:textAppearance="?android:textAppearanceMedium"
+                        android:textColor="#b4b4b4"
+                        android:textSize="14sp"
+                        android:layout_marginLeft="3dp"
+
                         />
                 </LinearLayout>
                 <LinearLayout
@@ -159,7 +171,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Price:"
+                        android:text="List Price:"
                         android:id="@+id/grandtotaltext"
                         android:layout_toRightOf="@+id/image"
                         android:layout_weight="0"
@@ -177,7 +189,7 @@
                         android:textColor="#000"
                         android:layout_marginLeft="5dp"
                         android:layout_weight="1"
-                        android:id="@+id/price"
+                        android:id="@+id/listprice"
                         />
                 </LinearLayout>
 
@@ -207,6 +219,7 @@
                         android:textColor="#000"
                         android:layout_marginLeft="3dp"
                         android:layout_weight="1"
+                        android:id="@+id/shipping"
 
                         />
                 </LinearLayout>
@@ -237,9 +250,43 @@
                         android:textColor="#000"
                         android:layout_marginLeft="3dp"
                         android:layout_weight="1"
+                        android:id="@+id/grandtotalprice"
 
                         />
                 </LinearLayout>
+                <!-- shpping method -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/shippingmethodtext"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+
+
+                        android:text="Shipping method:"
+
+                        android:textColor="#757575"
+                        android:textSize="14sp"
+
+
+                        />
+
+                    <TextView
+                        android:id="@+id/shipppingmethod"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="1"
+                        android:text="Express"
+                        android:textColor="#000"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -267,6 +314,8 @@
                         android:textColor="#000"
                         android:layout_marginLeft="5dp"
                         android:layout_weight="1"
+                        android:id="@+id/orderdate"
+
 
                         />
                 </LinearLayout>
@@ -298,7 +347,8 @@
                         android:textColor="#000"
                         android:layout_marginLeft="5dp"
                         android:layout_weight="1"
-                        android:id="@+id/price"
+                        android:id="@+id/ordernumber"
+
                         />
                 </LinearLayout>
             </LinearLayout>
@@ -317,7 +367,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Shipped"
+        android:text="Item Accepted"
         android:textColor="#000"
         android:textSize="18sp"
         android:gravity="center_horizontal"
@@ -329,21 +379,76 @@
         android:textColor="#575757"
         android:textSize="14sp"
         android:gravity="center_horizontal"
+        android:id="@+id/statustext"
 
         />
 
 </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:text="Transaction completed"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+           android:textSize="15sp"
+            android:drawableRight="@drawable/transaction_completed"
+            android:drawablePadding="10dp"
+
+            />
+
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Package progress\n(taking information will be on this page"
-            android:textSize="13sp"
             android:textColor="#000"
-            android:padding="10dp"
-            android:lineSpacingMultiplier="1.3"
+            android:text="Your Rating"
+            android:gravity="center_horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="30dp"
+            android:textSize="15sp"
+
             />
 
-    </LinearLayout>
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ratingBar"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:progressTint="@color/app_color"
+            android:secondaryProgressTint="@color/app_color"
+            android:stepSize="1"
+            android:rating="2"
+            android:isIndicator="true"
+            />
+
+        <TextView
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:text="Terrible service, I will never buy anything from this user again."
+            android:textColor="#8b8b8b"
+            android:textSize="15sp"
+            android:layout_marginTop="8dp"
+            android:lineSpacingMultiplier="1.1"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="20dp"
+            />
+
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="You have 24hrs to edit your rating"
+    android:textColor="#8b8b8b"
+    android:gravity="center_horizontal"
+    android:layout_marginTop="20dp"
+    />
+            </LinearLayout>
+
+
 </ScrollView>
     <LinearLayout
         android:layout_width="match_parent"
@@ -353,35 +458,22 @@
         android:layout_gravity="bottom"
 
         >
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Accept Item"
-            android:textColor="#b4b4b4"
-            android:background="#e8e9eb"
-            android:gravity="center"
-            android:padding="10dp"
-
-            android:textSize="16sp"
-
-
-            />
-
 
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Cancel Order"
+            android:text="Edit Rating"
             android:textColor="#b4b4b4"
             android:background="#e8e9eb"
             android:gravity="center"
             android:padding="10dp"
             android:layout_marginLeft="1dp"
             android:textSize="16sp"
-
+            android:clickable="true"
+            android:onClick="editRating"
+            android:id="@+id/editrating"
 
             />
 

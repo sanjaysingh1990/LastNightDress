@@ -86,7 +86,7 @@ public class MyPurchasesAdapter extends RecyclerView.Adapter<MyPurchasesAdapter.
                 ordetails.putExtra("type","delivered");
 
             }
-            else if(status.compareToIgnoreCase("cancelled")==0)
+            else if(status.compareToIgnoreCase("Order cancelled")==0)
             {
                 if(utype.compareTo("buyer")==0)
                 ordetails.putExtra("type","cancelled");
@@ -119,6 +119,41 @@ public class MyPurchasesAdapter extends RecyclerView.Adapter<MyPurchasesAdapter.
                 ordetails.putExtra("type","claim declined");
 
             }
+            else if(status.compareToIgnoreCase("Report rating")==0)
+            {
+                ordetails.putExtra("type","Report rating");
+
+            }
+            else if(status.compareToIgnoreCase("Report rating")==0)
+            {
+                ordetails.putExtra("type","Report rating");
+
+            } else if(status.compareToIgnoreCase("Report rating")==0)
+            {
+                ordetails.putExtra("type","Report rating");
+
+            } else if(status.compareToIgnoreCase("Report rating")==0)
+            {
+                ordetails.putExtra("type","Report rating");
+
+            } else if(status.compareToIgnoreCase("Report rating")==0)
+            {
+                ordetails.putExtra("type","Report rating");
+
+            } else if(status.compareToIgnoreCase("Report rating")==0)
+            {
+                ordetails.putExtra("type","Report rating");
+
+            } else if(status.compareToIgnoreCase("Report rating")==0)
+            {
+                ordetails.putExtra("type","Report rating");
+
+            } else if(status.compareToIgnoreCase("Item accepted")==0)
+            {
+                ordetails.putExtra("type","Item accepted");
+
+            }
+
             activity.startActivity(ordetails);
         }
     }
