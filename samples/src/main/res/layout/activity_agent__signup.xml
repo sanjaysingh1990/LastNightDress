@@ -96,7 +96,10 @@
             android:onClick="signup"
             android:text="Become an Agent"
             android:textColor="#ffffff"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            />
 
         <TextView
             android:layout_width="wrap_content"

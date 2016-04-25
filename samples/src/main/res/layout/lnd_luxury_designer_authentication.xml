@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#f2f2f2">
 
-    <LinearLayout
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
@@ -44,7 +41,10 @@
                     />
             </LinearLayout>
         </RelativeLayout>
-
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#f2f2f2">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -128,5 +128,5 @@
                 android:text="Note: The brands sold on LND are not affiliated with LND or the Luxury and Designer Authentication service. The experts that assist in providing additional verification through the Luxury and Designer Authentication service are not affiliated with or certified by any brand sold on LND. The trademarks and/or service marks of the brands sold on LND are the property of those brands, and not of LND."
                 android:textColor="@color/black" />
         </LinearLayout>
+    </ScrollView>
     </LinearLayout>
-</ScrollView>

@@ -47,7 +47,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".MainActivity"
@@ -123,7 +122,7 @@
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name=".Purchase.PurchaseActivity"
+            android:name=".PurchaseAndSwap.PurchaseActivity"
             android:label="@string/title_activity_purchase"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
@@ -253,7 +252,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".Purchase.ShippingAddressActivity"
+            android:name=".PurchaseAndSwap.ShippingAddressActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
@@ -328,7 +327,7 @@
             android:label="@string/title_activity_notification"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".Purchase.SwapCheckOutActivity"
+            android:name=".PurchaseAndSwap.SwapCheckOutActivity"
             android:label="@string/title_activity_notification"
             android:theme="@style/AppTheme" />
         <activity
@@ -374,9 +373,10 @@
             android:name=".LndAgent.Lnd_Agent_Profile"
             android:label="@string/title_activity_lnd__agent__profile"
             android:theme="@style/AppTheme" />
-        <activity android:name=".PostDataShop.Shipping_Activity">
-
-        </activity>
+        <activity android:name=".PostDataShop.Shipping_Activity" />
+        <activity android:name=".UserProfile.Lnd_Email_Verfication_activity" />
+        <activity android:name=".LndMore.LndLuxuryandDesignerAuthentication" />
+        <activity android:name=".PurchaseAndSwap.Swap_Checkout_Cancel_Activity"></activity>
     </application>
 
 </manifest>

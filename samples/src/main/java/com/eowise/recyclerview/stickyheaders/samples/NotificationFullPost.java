@@ -31,7 +31,6 @@ import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -45,7 +44,7 @@ import com.eowise.recyclerview.stickyheaders.samples.Likers.LikersActivity;
 import com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage.TagSelectingTextview;
 import com.eowise.recyclerview.stickyheaders.samples.LndUserProfile.LndProfile;
 import com.eowise.recyclerview.stickyheaders.samples.NewMessage.SendMessageActivity;
-import com.eowise.recyclerview.stickyheaders.samples.Purchase.ShippingAddressActivity;
+import com.eowise.recyclerview.stickyheaders.samples.PurchaseAndSwap.ShippingAddressActivity;
 import com.eowise.recyclerview.stickyheaders.samples.SQLDB.FavoriteData;
 import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.HomeImageSliderLayout;
 import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.Home_List_Data;

@@ -51,7 +51,7 @@ import com.eowise.recyclerview.stickyheaders.samples.PostDataShop.DressEditPost;
 import com.eowise.recyclerview.stickyheaders.samples.PostDataShop.HandBagsEditPost;
 import com.eowise.recyclerview.stickyheaders.samples.PostDataShop.JewelleryEditPost;
 import com.eowise.recyclerview.stickyheaders.samples.PostDataShop.ShoesEditPost;
-import com.eowise.recyclerview.stickyheaders.samples.Purchase.ShippingAddressActivity;
+import com.eowise.recyclerview.stickyheaders.samples.PurchaseAndSwap.ShippingAddressActivity;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.SQLDB.FavoriteData;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;

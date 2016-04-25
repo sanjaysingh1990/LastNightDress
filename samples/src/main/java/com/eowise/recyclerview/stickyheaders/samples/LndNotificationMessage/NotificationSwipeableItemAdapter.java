@@ -45,12 +45,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.eowise.recyclerview.stickyheaders.samples.HashTagsFullView.LndBrandHashTagGridViewActivity;
+import com.eowise.recyclerview.stickyheaders.samples.PurchaseAndSwap.SwapCheckOutActivity;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.LndMessage.SwapRequestActivity;
 import com.eowise.recyclerview.stickyheaders.samples.LndUserProfile.LndProfile;
 import com.eowise.recyclerview.stickyheaders.samples.Main_TabHost;
 import com.eowise.recyclerview.stickyheaders.samples.NotificationFullPost;
-import com.eowise.recyclerview.stickyheaders.samples.Purchase.ShippingAddressActivity;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.UserProfile.OtherUserProfileActivity;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
@@ -347,7 +347,7 @@ class NotificationSwipeableItemAdapter
         public void onClick(View view) {
            switch(view.getId()) {
                case R.id.swapcheckout:
-               Intent checkout = new Intent(activity, ShippingAddressActivity.class);
+               Intent checkout = new Intent(activity, SwapCheckOutActivity.class);
                checkout.putExtra("data", "buy");
                activity.startActivity(checkout);
                break;

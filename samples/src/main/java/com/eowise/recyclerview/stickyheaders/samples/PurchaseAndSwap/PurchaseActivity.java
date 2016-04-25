@@ -1,4 +1,4 @@
-package com.eowise.recyclerview.stickyheaders.samples.Purchase;
+package com.eowise.recyclerview.stickyheaders.samples.PurchaseAndSwap;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalPayment;
@@ -27,11 +26,13 @@ import java.math.BigDecimal;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class SwapCheckOutActivity extends AppCompatActivity {
-    @Bind(R.id.sameadd) TextView sameadd;
-    @Bind(R.id.newadd) TextView newadd;
-    @Bind(R.id.heading) TextView heading;
-
+public class PurchaseActivity extends AppCompatActivity {
+    @Bind(R.id.sameadd)
+    TextView sameadd;
+    @Bind(R.id.newadd)
+    TextView newadd;
+    @Bind(R.id.heading)
+    TextView heading;
     private static final String CONFIG_ENVIRONMENT = PayPalConfiguration.ENVIRONMENT_NO_NETWORK;
     // note that these credentials will differ between live & sandbox environments.
     private static final String CONFIG_CLIENT_ID = "AQROuxZHCry7zhjtDYgK2S0uq1P2XQThAEb6UEUB3ntPe7p0RW2gfiupZDlHLEAtZVHlDt9x9VHkc_fd";
@@ -41,36 +42,19 @@ public class SwapCheckOutActivity extends AppCompatActivity {
             .clientId(CONFIG_CLIENT_ID);
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_swap_checkout);
+        setContentView(R.layout.activity_checkout);
         ButterKnife.bind(this);
-        //setup font
-        heading.setTypeface(SingleTon.robotobold);
         Intent intent = new Intent(this, PayPalService.class);
         intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
 
 
     }
-    /*
-public void pickup(View v)
-{
-pickup.setBackgroundColor(Color.parseColor("#be4d66"));
-pickup.setTextColor(Color.parseColor("#ffffff"));
-delivery.setBackgroundResource(R.drawable.purchse_rounded_corners);
-delivery.setTextColor(Color.parseColor("#dbdbdb"));
-}
-  public void delivery(View v)
-  {
-      delivery.setBackgroundColor(Color.parseColor("#be4d66"));
-      delivery.setTextColor(Color.parseColor("#ffffff"));
-      pickup.setBackgroundResource(R.drawable.purchse_rounded_corners);
-      pickup.setTextColor(Color.parseColor("#dbdbdb"));
-  }*/
- public void sameadd(View v)
-    {
+
+
+    public void sameadd(View v) {
         this.sameadd.setBackgroundColor(Color.parseColor("#be4d66"));
         this.sameadd.setTextColor(Color.parseColor("#ffffff"));
         this.sameadd.setCompoundDrawablesWithIntrinsicBounds(R.drawable.payment_selection, 0, 0, 0);
@@ -80,8 +64,8 @@ delivery.setTextColor(Color.parseColor("#dbdbdb"));
         this.newadd.setTextColor(Color.parseColor("#be4d66"));
         this.newadd.setBackgroundColor(Color.parseColor("#dbdbdb"));
     }
-    public void newadd(View v)
-    {
+
+    public void newadd(View v) {
         this.newadd.setCompoundDrawablesWithIntrinsicBounds(R.drawable.payment_selection, 0, 0, 0);
         this.sameadd.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
 
@@ -91,22 +75,20 @@ delivery.setTextColor(Color.parseColor("#dbdbdb"));
         this.sameadd.setTextColor(Color.parseColor("#be4d66"));
         this.sameadd.setBackgroundColor(Color.parseColor("#dbdbdb"));
     }
-public void close(View v)
-{
-    finish();
-}
 
-    public void newPayment(View v)
-    {
-onBuyPressed();
+    public void close(View v) {
+        finish();
+    }
+
+    public void done(View v) {
+        onBuyPressed();
     }
 
     public void onBuyPressed() {
         PayPalPayment thingToBuy = getThingToBuy(PayPalPayment.PAYMENT_INTENT_ORDER);
-        Intent intent = new Intent(SwapCheckOutActivity.this, PaymentActivity.class);
+        Intent intent = new Intent(PurchaseActivity.this, PaymentActivity.class);
         intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
         intent.putExtra(PaymentActivity.EXTRA_PAYMENT, thingToBuy);
-
 
 
         startActivityForResult(intent, REQUEST_CODE_PAYMENT);
@@ -129,7 +111,7 @@ onBuyPressed();
                         Log.e("Show", confirm.getPayment().toJSONObject().toString(4));
                         showAlert(confirm.getPayment().toJSONObject().toString(4));
 
-                      //   *  TODO: send 'confirm' (and possibly confirm.getPayment() to your server for verification
+                        //   *  TODO: send 'confirm' (and possibly confirm.getPayment() to your server for verification
 
                         Toast.makeText(getApplicationContext(), "PaymentConfirmation info received" +
                                 " from PayPal", Toast.LENGTH_LONG).show();
@@ -146,29 +128,30 @@ onBuyPressed();
             }
         }
     }
+
     @Override
     public void onDestroy() {
         // Stop service when done
         stopService(new Intent(this, PayPalService.class));
         super.onDestroy();
     }
-public void showAlert(String paymentdetatils)
-{
-    AlertDialog.Builder dialog=new AlertDialog.Builder(SwapCheckOutActivity.this);
-    View view = LayoutInflater.from(SwapCheckOutActivity.this).inflate(R.layout.paypal_payment_dialog_layout, null);
-    TextView alertmsg= (TextView) view.findViewById(R.id.alertmessage);
-    alertmsg.setText(paymentdetatils);
-    dialog.setView(view);
-    final    AlertDialog alert=dialog.create();
-    alert.show();
 
-    view.findViewById(R.id.alertcontinue).setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            alert.dismiss();
-            finish();
+    public void showAlert(String paymentdetatils) {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(PurchaseActivity.this);
+        View view = LayoutInflater.from(PurchaseActivity.this).inflate(R.layout.paypal_payment_dialog_layout, null);
+        TextView alertmsg = (TextView) view.findViewById(R.id.alertmessage);
+        alertmsg.setText(paymentdetatils);
+        dialog.setView(view);
+        final AlertDialog alert = dialog.create();
+        alert.show();
 
-        }
-    });
-}
+        view.findViewById(R.id.alertcontinue).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alert.dismiss();
+                finish();
+
+            }
+        });
+    }
 }

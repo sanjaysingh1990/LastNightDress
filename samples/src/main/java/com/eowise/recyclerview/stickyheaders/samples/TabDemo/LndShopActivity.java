@@ -356,7 +356,7 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
             if (HandbagsFilterFragment.handbagtypelist[i].length() > 0) {
                 if (type) {
 
-                    query2 = " (";
+                    query2 = query2+" (";
                     type = false;
                 }
 
@@ -367,7 +367,7 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
 
 
         if (!type)
-            query1 = query1 + " )";
+            query2 = query2 + " )";
 
 //for size
 

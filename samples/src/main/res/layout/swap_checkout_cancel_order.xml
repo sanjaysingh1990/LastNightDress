@@ -346,192 +346,62 @@
 
             </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/shield_icon"
-                android:drawablePadding="5dp"
-                android:gravity="center_vertical"
-                android:paddingBottom="10dp"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:paddingTop="10dp"
-                android:text="Swap Protection"
-                android:textColor="#222427" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:id="@+id/text"
-                android:textColor="#828282"
-
-                />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:text="Additional Services"
-                    android:textColor="#222427" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:text="Learn More"
-                    android:textColor="#30beff"
-                    android:clickable="true"
-                    android:onClick="learnmore"
-                    />
-
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="3dp"
-                android:background="#dadada" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:orientation="horizontal">
+                android:layout_margin="15dp"
 
-                <RadioButton
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Luxury and designer authentication"
-                    android:textColor="#828282" />
+                android:orientation="vertical">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0"
-                    android:text="49.99"
-                    android:textColor="#222427" />
+                    android:layout_marginTop="10dp"
+                    android:gravity="left"
+                    android:text="Please explain why you are cancelling"
+                    android:textColor="#000"
+                    android:textSize="13sp" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/rounded"
+                    android:gravity="top"
+                    android:maxLines="5"
+                    android:textColor="@color/black"
+                    android:id="@+id/cancelinfoeditext"
+                    />
             </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
-                android:layout_marginTop="5dp"
-                android:text="Ship to:"
-                android:textColor="#222427" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
-                android:layout_marginRight="15dp"
-                android:background="@drawable/rounded_corners_shipping"
-                android:text="2019 shay Drive\nPickering,ON\nL1X 1Y1"
-
-                />
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-
-                android:layout_marginTop="10dp"
-                android:background="@drawable/purchse_rounded_corners"
-                android:orientation="horizontal"
-                android:layout_marginRight="15dp"
-                android:layout_marginLeft="25dp"
-                android:layout_marginBottom="10dp"
-                >
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Same Address"
-                    android:textSize="15sp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:layout_gravity="center_vertical"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    android:onClick="sameadd"
-                    android:clickable="true"
-                    android:id="@+id/sameadd"
-                    android:textColor="#ffffff"
-                    android:background="#be4d66"
-                    android:drawableLeft="@drawable/payment_selection"
-                    android:paddingLeft="5dp"
-                    />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="New Address"
-                    android:textSize="15sp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:layout_gravity="center_vertical"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    android:onClick="newadd"
-                    android:clickable="true"
-                    android:id="@+id/newadd"
-                    android:background="#dbdbdb"
-                    android:textColor="#be4d66"
-                    android:paddingLeft="5dp"
-                    />
-
-
-
-
-
-
-            </LinearLayout>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="20dp"
-                android:paddingRight="15dp"
-                android:text=""
-                />
         </LinearLayout>
     </ScrollView>
-        <LinearLayout
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+
+        android:orientation="horizontal">
+
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#be4d66"
+            android:clickable="true"
+            android:gravity="center"
+            android:onClick="submit"
+            android:padding="10dp"
+            android:text="Submit"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
 
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#be4d66"
-                android:clickable="true"
-                android:gravity="center"
-                android:onClick="newPayment"
-                android:padding="10dp"
-                android:text="Complete My Purchase"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp"
-
-                />
+            />
 
 
-        </LinearLayout>
-
+    </LinearLayout>
 
 
 </LinearLayout>

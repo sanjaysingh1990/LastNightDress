@@ -1,4 +1,4 @@
-package com.eowise.recyclerview.stickyheaders.samples.Purchase;
+package com.eowise.recyclerview.stickyheaders.samples.PurchaseAndSwap;
 
 import android.content.Intent;
 import android.os.Bundle;

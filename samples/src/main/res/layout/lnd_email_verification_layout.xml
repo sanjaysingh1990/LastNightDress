@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/gradient_back_email_verfication"
+    android:paddingTop="20dp"
+    android:paddingBottom="20dp"
+    android:paddingLeft="20dp"
+    android:layout_weight="0"
+    >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:textColor="@color/white"
+        android:text="Last Night’s Dress"
+        android:textSize="35sp"
+        android:id="@+id/heading"
+        />
+</LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hello, Oliva Newton Wilde"
+        android:textColor="#be4d66"
+        android:padding="20dp"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:layout_weight="0"
+        android:id="@+id/username"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:lineSpacingMultiplier="1.1"
+        android:layout_weight="0"
+        android:id="@+id/text"
+        android:clickable="true"
+        />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/agent_button_background"
+        android:clickable="true"
+        android:contextClickable="true"
+        android:onClick="verify"
+        android:text="Complete your registration"
+        android:textColor="#ffffff"
+        android:textSize="18sp"
+        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/verifybutton"
+        />
+
+    </RelativeLayout>
+</LinearLayout>

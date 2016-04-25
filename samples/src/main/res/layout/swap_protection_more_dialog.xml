@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+
+    >
+
+    <TextView
+        android:id="@+id/heading"
+        style="@style/header"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="Swap Protection"
+        android:textColor="@color/heading_color"
+        android:textSize="18sp"
+        android:layout_weight="0"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_gravity="bottom"
+        android:background="#dadada"
+        android:layout_weight="0"
+        />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/protection_shield"
+        android:layout_weight="0"
+        />
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/heading1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/heading1"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            />
+
+        <TextView
+            android:id="@+id/text1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/text1"
+            android:layout_marginTop="5dp"
+            />
+
+        <TextView
+            android:id="@+id/heading2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/heading2"
+            android:textColor="@color/black"
+            android:layout_marginTop="15dp"
+            android:textSize="16sp"
+            />
+
+        <TextView
+            android:id="@+id/text2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/text2"
+            android:layout_marginTop="5dp"
+            />
+
+
+    </LinearLayout>
+</ScrollView>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        android:layout_weight="0"
+        android:background="#e8e9eb"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="Close"
+        android:textColor="#be4d66"
+        android:textSize="16sp"
+        android:clickable="true"
+        android:id="@+id/close"
+        android:layout_marginTop="10dp"
+
+        />
+</LinearLayout>

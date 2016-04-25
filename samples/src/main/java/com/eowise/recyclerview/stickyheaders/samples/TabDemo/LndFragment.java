@@ -364,7 +364,8 @@ public class LndFragment extends Fragment {
             public void onErrorResponse(VolleyError error) {
                 LndShopActivity.prog.setVisibility(View.GONE);
                 swipeRefreshLayout.setRefreshing(false);
-                pullrefresh = false;
+                dataleft=true;
+                if(!pullrefresh)
                 try {
                     shopdata.remove(shopdata.size() - 1);
 
@@ -374,6 +375,8 @@ public class LndFragment extends Fragment {
                 } catch (Exception ex) {
 
                 }
+                pullrefresh = false;
+
                 //Log.e("response",error.getMessage()+"");
                 try {
                     new com.eowise.recyclerview.stickyheaders.samples.AlertDialog().showAlertDialog(getActivity());
@@ -461,9 +464,9 @@ public class LndFragment extends Fragment {
         headerCount = 0;
         sectionFirstPosition = 0;
 
-        boolean isfirttime = true;
-        skipdata=0;
+       skipdata=0;
         query=data;
+        isfirttime=true;
         try {
             shopdata.clear();
             mItems.clear();

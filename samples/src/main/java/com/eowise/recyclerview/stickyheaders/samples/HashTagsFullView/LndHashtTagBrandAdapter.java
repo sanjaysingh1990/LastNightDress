@@ -46,7 +46,7 @@ import com.eowise.recyclerview.stickyheaders.samples.LndMessage.SendSwapRequestA
 import com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage.TagSelectingTextview;
 import com.eowise.recyclerview.stickyheaders.samples.Main_TabHost;
 import com.eowise.recyclerview.stickyheaders.samples.NewMessage.SendMessageActivity;
-import com.eowise.recyclerview.stickyheaders.samples.Purchase.ShippingAddressActivity;
+import com.eowise.recyclerview.stickyheaders.samples.PurchaseAndSwap.ShippingAddressActivity;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.SQLDB.FavoriteData;
 import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.HomeImageSliderLayout;

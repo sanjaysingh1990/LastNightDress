@@ -346,29 +346,6 @@
 
             </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/shield_icon"
-                android:drawablePadding="5dp"
-                android:gravity="center_vertical"
-                android:paddingBottom="10dp"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:paddingTop="10dp"
-                android:text="Swap Protection"
-                android:textColor="#222427" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:id="@+id/text"
-                android:textColor="#828282"
-
-                />
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -380,18 +357,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:text="Additional Services"
+                    android:text="@string/first_step_heading"
                     android:textColor="#222427" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:text="Learn More"
-                    android:textColor="#30beff"
-                    android:clickable="true"
-                    android:onClick="learnmore"
-                    />
 
             </RelativeLayout>
 
@@ -410,128 +377,58 @@
                 android:layout_marginRight="15dp"
                 android:orientation="horizontal">
 
-                <RadioButton
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Luxury and designer authentication"
-                    android:textColor="#828282" />
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
-                    android:text="49.99"
-                    android:textColor="#222427" />
+                    android:text="@string/swap_checkout_stepone_text1"
+                    android:textColor="#222427"
+                    android:layout_marginTop="10dp"
+                    />
             </LinearLayout>
 
+           <ImageView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:src="@drawable/swap_checkout_first_step"
+               android:layout_gravity="center_horizontal"
+               android:layout_marginTop="25dp"
+               />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
-                android:layout_marginTop="5dp"
-                android:text="Ship to:"
-                android:textColor="#222427" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
-                android:layout_marginRight="15dp"
-                android:background="@drawable/rounded_corners_shipping"
-                android:text="2019 shay Drive\nPickering,ON\nL1X 1Y1"
-
-                />
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-
-                android:layout_marginTop="10dp"
-                android:background="@drawable/purchse_rounded_corners"
-                android:orientation="horizontal"
-                android:layout_marginRight="15dp"
-                android:layout_marginLeft="25dp"
-                android:layout_marginBottom="10dp"
-                >
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Same Address"
-                    android:textSize="15sp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:layout_gravity="center_vertical"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    android:onClick="sameadd"
-                    android:clickable="true"
-                    android:id="@+id/sameadd"
-                    android:textColor="#ffffff"
-                    android:background="#be4d66"
-                    android:drawableLeft="@drawable/payment_selection"
-                    android:paddingLeft="5dp"
-                    />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="New Address"
-                    android:textSize="15sp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:layout_gravity="center_vertical"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    android:onClick="newadd"
-                    android:clickable="true"
-                    android:id="@+id/newadd"
-                    android:background="#dbdbdb"
-                    android:textColor="#be4d66"
-                    android:paddingLeft="5dp"
-                    />
-
-
-
-
-
-
-            </LinearLayout>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="20dp"
-                android:paddingRight="15dp"
-                android:text=""
+                android:text="@string/swap_checkout_stepone_text2"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/black"
                 />
         </LinearLayout>
     </ScrollView>
-        <LinearLayout
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+
+        android:orientation="horizontal">
+
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#be4d66"
+            android:clickable="true"
+            android:gravity="center"
+            android:onClick="cancleOrder"
+            android:padding="10dp"
+            android:text="Cancel Order"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
 
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#be4d66"
-                android:clickable="true"
-                android:gravity="center"
-                android:onClick="newPayment"
-                android:padding="10dp"
-                android:text="Complete My Purchase"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp"
-
-                />
+            />
 
 
-        </LinearLayout>
-
+    </LinearLayout>
 
 
 </LinearLayout>
