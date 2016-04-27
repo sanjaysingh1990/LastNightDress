@@ -303,17 +303,16 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
             //metal
 
             String[] jewellerymetal = hld.getColors().split(",");
-            for (int i = 0; i < jewellerymetal.length; i++) {
-                int index = Integer.parseInt(jewellerymetal[i]);
-                index--;
-                this.metaltype.get(index).setChecked(true);
+             for (int i = 0; i < jewellerymetal.length; i++) {
+                int index = Arrays.asList(ConstantValues.metaltype).indexOf(jewellerymetal[i]);
+                this.metaltype.get(index - 1).setChecked(true);
 
 
             }
         } catch (Exception ex)
 
         {
-
+            Log.e("error", ex.getMessage() + "");
         }
         //size1
         try {
@@ -322,9 +321,9 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
                 String[] size1 = hld.getSize().split(",");
 
                 for (int i = 0; i < size1.length; i++) {
-                    Arrays.sort(ConstantValues.ringsize);
-                    int index = Arrays.binarySearch(ConstantValues.ringsize, size1[i]);
-                    this.ringsize.get(index).setChecked(true);
+                    int index = Arrays.asList(ConstantValues.ringsize).indexOf(size1[i].toLowerCase());
+
+                    this.ringsize.get(index - 1).setChecked(true);
 
 
                 }
@@ -690,7 +689,7 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
     }
 
     public void priceins(View v) {
-        if(!lndcommistiondialog.popupWindow.isShowing())
+        if (!lndcommistiondialog.popupWindow.isShowing())
             lndcommistiondialog.show(v);
 
     }

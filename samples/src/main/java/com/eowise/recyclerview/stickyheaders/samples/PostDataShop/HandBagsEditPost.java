@@ -120,7 +120,7 @@ public class HandBagsEditPost extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.handbags_post_page);
 
         //intialiaing dialog
-        lndcommistiondialog= new InstructionDialogs(this);
+        lndcommistiondialog = new InstructionDialogs(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -228,7 +228,7 @@ public class HandBagsEditPost extends AppCompatActivity implements View.OnClickL
     protected void onResume() {
         super.onResume();
         //read data
-         extra = getIntent().getExtras();
+        extra = getIntent().getExtras();
         if (extra != null) {
             Home_List_Data hld = (Home_List_Data) extra.getSerializable("data");
             setValues(hld);
@@ -266,7 +266,7 @@ public class HandBagsEditPost extends AppCompatActivity implements View.OnClickL
         // condition
         try {
             int val = Integer.parseInt(hld.getConditon());
-            condition=val;
+            condition = val;
             if (val >= 1 && val <= 10)
                 conditionspinner.setSelection(val);
 
@@ -278,47 +278,47 @@ public class HandBagsEditPost extends AppCompatActivity implements View.OnClickL
         }
 
         //dress type
-        try {
 
 
-            String[] color = hld.getColors().split(",");
-            //color
-            for (int i = 0; i < color.length; i++) {
-                Arrays.sort(ConstantValues.color);
-                int index = Arrays.binarySearch(ConstantValues.color, color[i]);
-                this.color.get(index).setChecked(true);
+        String[] color = hld.getColors().split(",");
+        //color
+        for (int i = 0; i < color.length; i++) {
+            try {
+                int index = Arrays.asList(ConstantValues.color).indexOf(color[i].toLowerCase());
+                this.color.get(index - 1).setChecked(true);
+            } catch (Exception ex)
 
+            {
 
             }
-        } catch (Exception ex)
-
-        {
 
         }
+
         //bag size
 
-        try {
 
-            String[] size1 = hld.getSize().split(",");
+        String[] size1 = hld.getSize().split(",");
+        for (int i = 0; i < size1.length; i++) {
 
-            for (int i = 0; i < size1.length; i++) {
-                Arrays.sort(ConstantValues.bagsize);
-                int index = Arrays.binarySearch(ConstantValues.bagsize, size1[i]);
-                this.handbagsize.get(index).setChecked(true);
+            try {
+                int index = Arrays.asList(ConstantValues.bagsize).indexOf(size1[i].toUpperCase());
 
-
+                if(index>=0)
+                this.handbagsize.get(index - 1).setChecked(true);
+            } catch (Exception ex) {
+             // Log.e("error",ex.getMessage()+"");
             }
 
-        } catch (Exception ex) {
 
         }
+
 
         //purse type
 
         try {
 
             String[] prodtype = hld.getProdtype().split(",");
-
+            Log.e("", hld.getProdtype() + "");
 
             if (prodtype[0].compareTo("1") == 0) {
                 this.handbagtype.get(0).setChecked(true);
@@ -330,7 +330,7 @@ public class HandBagsEditPost extends AppCompatActivity implements View.OnClickL
 
 
         } catch (Exception ex) {
-
+            Log.e("error",ex.getMessage()+"");
         }
 
 
@@ -589,10 +589,10 @@ public class HandBagsEditPost extends AppCompatActivity implements View.OnClickL
             mainObj.put("pricenow", pricenow.getText().toString());
             mainObj.put("pricewas", pricewas.getText().toString());
             mainObj.put("datetime", SingleTon.getCurrentTimeStamp());
-            if(extra==null)
-             postPurse(mainObj.toString());
+            if (extra == null)
+                postPurse(mainObj.toString());
 
-           // Log.e("json", mainObj.toString());
+            // Log.e("json", mainObj.toString());
         } catch (Exception ex) {
             Log.e("json error", ex.getMessage() + "");
         }
@@ -664,7 +664,7 @@ public class HandBagsEditPost extends AppCompatActivity implements View.OnClickL
     }
 
     public void priceins(View v) {
-        if(!lndcommistiondialog.popupWindow.isShowing())
+        if (!lndcommistiondialog.popupWindow.isShowing())
             lndcommistiondialog.show(v);
     }
 

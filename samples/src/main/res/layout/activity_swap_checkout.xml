@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/white"
+    >
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -360,11 +362,11 @@
                 android:textColor="#222427" />
 
             <TextView
+                android:id="@+id/text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
-                android:id="@+id/text"
                 android:textColor="#828282"
 
                 />
@@ -387,11 +389,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="Learn More"
-                    android:textColor="#30beff"
                     android:clickable="true"
                     android:onClick="learnmore"
-                    />
+                    android:text="Learn More"
+                    android:textColor="#30beff" />
 
             </RelativeLayout>
 
@@ -431,7 +432,9 @@
                 android:layout_marginLeft="25dp"
                 android:layout_marginTop="5dp"
                 android:text="Ship to:"
-                android:textColor="#222427" />
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                />
 
             <TextView
                 android:layout_width="match_parent"
@@ -440,98 +443,269 @@
                 android:layout_marginRight="15dp"
                 android:background="@drawable/rounded_corners_shipping"
                 android:text="2019 shay Drive\nPickering,ON\nL1X 1Y1"
+                android:id="@+id/sameaddressblock"
 
                 />
+            <!-- for new shipping address  -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="15dp"
+                android:orientation="vertical"
+                android:id="@+id/newaddressblock"
+                android:visibility="gone"
+                >
+
+                <EditText
+                    android:id="@+id/fullname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:background="@drawable/rounded"
+                    android:hint="Full name"
+                    android:textSize="15sp"
+                    android:textColor="#dadada"
+                    />
+
+                <EditText
+                    android:id="@+id/address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/rounded"
+                    android:hint="Street address"
+                    android:textSize="15sp"
+                    android:textColor="#dadada"
+
+                    />
+
+                <EditText
+                    android:id="@+id/asu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/rounded"
+                    android:hint="Apt/Suite/Unit (Optional)"
+                    android:textSize="15sp"
+                    android:textColor="#dadada"
+
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/country"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/rounded"
+                        android:textSize="15sp"
+                        android:hint="Country"
+                        android:textColor="#dadada"
+
+                        />
+
+                    <View
+                        android:layout_width="5dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/white" />
+
+                    <EditText
+                        android:id="@+id/province"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/rounded"
+                        android:textSize="15sp"
+                        android:hint="Province"
+                        android:textColor="#dadada"
+
+                        />
+
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/city"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/rounded"
+                    android:hint="City*"
+                    android:textSize="15sp"
+                    android:textColor="#dadada"
+
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="15dp"
+
+                    >
+
+                    <EditText
+                        android:id="@+id/zipcode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/rounded"
+                        android:textSize="15sp"
+                        android:hint="Zip/Postal Code*"
+                        android:textColor="#dadada"
+
+                        />
+
+                    <View
+                        android:layout_width="5dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/white" />
+
+                    <EditText
+                        android:id="@+id/phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/rounded"
+                        android:textSize="15sp"
+                        android:hint="Phone"
+                        android:textColor="#dadada"
+
+                        />
+
+                </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/agent_button_background"
+                    android:clickable="true"
+                    android:contextClickable="true"
+                     android:text="Save"
+                    android:textColor="#ffffff"
+                    android:textSize="18sp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    />
+            </LinearLayout>
+            <!--end here -->
+
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
 
-                android:layout_marginTop="10dp"
-                android:background="@drawable/purchse_rounded_corners"
-                android:orientation="horizontal"
-                android:layout_marginRight="15dp"
-                android:layout_marginLeft="25dp"
                 android:layout_marginBottom="10dp"
-                >
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/purchse_rounded_corners"
+                android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Same Address"
-                    android:textSize="15sp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:layout_gravity="center_vertical"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    android:onClick="sameadd"
-                    android:clickable="true"
                     android:id="@+id/sameadd"
-                    android:textColor="#ffffff"
-                    android:background="#be4d66"
-                    android:drawableLeft="@drawable/payment_selection"
-                    android:paddingLeft="5dp"
-                    />
-
-                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="New Address"
-                    android:textSize="15sp"
-                    android:layout_weight="1"
-                    android:gravity="center"
                     android:layout_gravity="center_vertical"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    android:onClick="newadd"
+                    android:layout_weight="1"
+                    android:background="#be4d66"
                     android:clickable="true"
-                    android:id="@+id/newadd"
-                    android:background="#dbdbdb"
-                    android:textColor="#be4d66"
+                    android:drawableLeft="@drawable/payment_selection"
+                    android:gravity="center"
+                    android:onClick="sameadd"
+                    android:paddingBottom="8dp"
                     android:paddingLeft="5dp"
-                    />
+                    android:paddingTop="8dp"
+                    android:text="Same Address"
+                    android:textColor="#ffffff"
+                    android:textSize="15sp" />
 
-
-
-
+                <TextView
+                    android:id="@+id/newadd"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:background="#dbdbdb"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:onClick="newadd"
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="5dp"
+                    android:paddingTop="8dp"
+                    android:text="New Address"
+                    android:textColor="#be4d66"
+                    android:textSize="15sp" />
 
 
             </LinearLayout>
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="5dp"
+                android:text="Payment Method:"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                />
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="20dp"
-                android:paddingRight="15dp"
-                android:text=""
-                />
+                android:orientation="horizontal"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="15dp"
+                >
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:entries="@array/card_type"
+                    ></Spinner>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:hint="**** **** **** 7894"
+                    android:textColorHint="#dadada"
+                    android:background="@drawable/rounded"
+                    />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
-        <LinearLayout
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+
+        android:orientation="horizontal">
+
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#be4d66"
+            android:clickable="true"
+            android:gravity="center"
+            android:onClick="newPayment"
+            android:padding="10dp"
+            android:text="Complete My Purchase"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
 
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#be4d66"
-                android:clickable="true"
-                android:gravity="center"
-                android:onClick="newPayment"
-                android:padding="10dp"
-                android:text="Complete My Purchase"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp"
-
-                />
+            />
 
 
-        </LinearLayout>
-
+    </LinearLayout>
 
 
 </LinearLayout>

@@ -15,6 +15,7 @@ import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +44,11 @@ public class SwapCheckOutActivity extends AppCompatActivity {
     TextView heading;
     @Bind(R.id.text)
     TextView text;
+    @Bind(R.id.newaddressblock)
+    LinearLayout newaddress;
+    @Bind(R.id.sameaddressblock)
+    TextView sameaddress;
+
 
     private static final String CONFIG_ENVIRONMENT = PayPalConfiguration.ENVIRONMENT_NO_NETWORK;
     // note that these credentials will differ between live & sandbox environments.
@@ -108,6 +114,9 @@ delivery.setTextColor(Color.parseColor("#dbdbdb"));
         this.newadd.setBackgroundResource(R.drawable.purchse_rounded_corners);
         this.newadd.setTextColor(Color.parseColor("#be4d66"));
         this.newadd.setBackgroundColor(Color.parseColor("#dbdbdb"));
+        newaddress.setVisibility(View.GONE);
+        sameaddress.setVisibility(View.VISIBLE);
+
     }
 
     public void newadd(View v) {
@@ -119,6 +128,9 @@ delivery.setTextColor(Color.parseColor("#dbdbdb"));
         this.sameadd.setBackgroundResource(R.drawable.purchse_rounded_corners);
         this.sameadd.setTextColor(Color.parseColor("#be4d66"));
         this.sameadd.setBackgroundColor(Color.parseColor("#dbdbdb"));
+        newaddress.setVisibility(View.VISIBLE);
+        sameaddress.setVisibility(View.GONE);
+
     }
 
     public void close(View v) {

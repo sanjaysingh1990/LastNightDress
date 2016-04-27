@@ -195,4 +195,10 @@
 </string>
     <string name="swap_checkout_stepone_text2">waiting on swap partner to complete their transaction...
 </string>
+    <string-array name="card_type">
+        <item>Credit Card</item>
+        <item>Debit Card</item>
+        <item>Visa</item>
+        <item>Master Card</item>
+    </string-array>
 </resources>

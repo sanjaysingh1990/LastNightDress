@@ -413,7 +413,8 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
         //for color
 
         for (int i = 0; i < HandbagsFilterFragment.colorlist.length; i++) {
-
+           if(HandbagsFilterFragment.colorlist.length==15)
+               break;
 
             if (HandbagsFilterFragment.colorlist[i].length() > 0) {
                 if (color) {

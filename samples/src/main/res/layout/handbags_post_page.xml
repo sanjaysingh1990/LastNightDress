@@ -367,7 +367,7 @@
                         android:button="@null"
                         android:gravity="center_horizontal"
                         android:padding="10dp"
-                        android:tag="s"
+                        android:tag="1"
                         android:text="Small"
                         android:textColor="#fff"
 
@@ -382,7 +382,7 @@
                         android:button="@null"
                         android:gravity="center_horizontal"
                         android:padding="10dp"
-                        android:tag="m"
+                        android:tag="2"
                         android:text="Medium"
                         android:textColor="#fff"
 
@@ -397,7 +397,7 @@
                         android:button="@null"
                         android:gravity="center_horizontal"
                         android:padding="10dp"
-                        android:tag="l"
+                        android:tag="3"
                         android:text="Large"
                         android:textColor="#fff"
 

@@ -297,6 +297,7 @@ public class LndFragment extends Fragment {
                         hld.setUserid(jo.getString("user_id"));
                         hld.setBrandname(jo.getString("brand_name"));
                         hld.setTime(getMilliseconds(jo.getString("date_time")));
+                        hld.setProdtype(jo.getString("prod_type"));
 
                         if (hld.getCategory() == 2) {
                             String size = "";

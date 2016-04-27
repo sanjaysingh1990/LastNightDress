@@ -125,14 +125,15 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
     PopupWindow popupWindow;
     int dresstype = 0;
     int condition = 0;
-   private Bundle extra;
-  InstructionDialogs lndcommistiondialog;
+    private Bundle extra;
+    InstructionDialogs lndcommistiondialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dress_post_page);
-       //intialiaing dialog
-        lndcommistiondialog= new InstructionDialogs(this);
+        //intialiaing dialog
+        lndcommistiondialog = new InstructionDialogs(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -279,7 +280,7 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
             condition = val;
             if (val >= 1 && val <= 10)
                 conditionspinner.setSelection(val);
-            else if (val == 11)
+            else if (val == 12)
                 lastnightdress.setChecked(true);
             else
                 conditionnew.setChecked(true);
@@ -302,10 +303,12 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
             //color
 
             String[] color = hld.getColors().split(",");
+
             for (int i = 0; i < color.length; i++) {
-                Arrays.sort(ConstantValues.color);
-                int index = Arrays.binarySearch(ConstantValues.color, color[i]);
-                this.color.get(index).setChecked(true);
+                // Arrays.sort(ConstantValues.color);
+                int index = Arrays.asList(ConstantValues.color).indexOf(color[i].toLowerCase());
+
+                this.color.get(index - 1).setChecked(true);
 
             }
         } catch (Exception ex)
@@ -314,37 +317,34 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
 
         }
         //size1
-        try {
 
-            String[] size1 = hld.getSize().split(",");
 
-            for (int i = 0; i < size1.length; i++) {
-                Arrays.sort(ConstantValues.size1);
-                int index = Arrays.binarySearch(ConstantValues.size1, size1[i]);
-                this.lnddresssize1.get(index).setChecked(true);
+        String[] size1 = hld.getSize().split(",");
 
+        for (int i = 0; i < size1.length; i++) {
+            try {
+                int index = Arrays.asList(ConstantValues.size1).indexOf(size1[i].toLowerCase());
+                this.lnddresssize1.get(index - 1).setChecked(true);
+            } catch (Exception ex) {
 
             }
 
-        } catch (Exception ex) {
-
         }
+
 
         //size2
-        try {
 
-            String[] size2 = hld.getSize().split(",");
+        String[] size2 = hld.getSize().split(",");
 
-            for (int i = 0; i < size2.length; i++) {
-                Arrays.sort(ConstantValues.size2);
-                int index = Arrays.binarySearch(ConstantValues.size2, size2[i]);
+        for (int i = 0; i < size2.length; i++) {
+            try {
+                int index = Arrays.asList(ConstantValues.size2).indexOf(size2[i].toLowerCase());
                 this.lnddresssize2.get(index).setChecked(true);
+            } catch (Exception ex) {
 
             }
-
-        } catch (Exception ex) {
-
         }
+
 
     }
 
@@ -624,14 +624,13 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
 
             JSONArray usermentionArray = new JSONArray(usermentions);
             mainObj.put("usermentions", usermentionArray);
-            if(extra==null)
-            {
-                Intent shpping=new Intent(this,Shipping_Activity.class);
+            if (extra == null) {
+                Intent shpping = new Intent(this, Shipping_Activity.class);
                 startActivity(shpping);
             }
-           // uploadDress(mainObj.toString());
+            // uploadDress(mainObj.toString());
 
-           // Log.e("json", mainObj.toString());
+            // Log.e("json", mainObj.toString());
         } catch (Exception ex) {
             Log.e("json error", ex.getMessage() + "");
         }
@@ -773,9 +772,9 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
 
     public void priceins(View v) {
 
-           if(!lndcommistiondialog.popupWindow.isShowing())
-                      lndcommistiondialog.show(v);
-       }
+        if (!lndcommistiondialog.popupWindow.isShowing())
+            lndcommistiondialog.show(v);
+    }
 
 
     public void instruction(View v) {
