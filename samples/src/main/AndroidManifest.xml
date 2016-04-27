@@ -376,7 +376,8 @@
         <activity android:name=".PostDataShop.Shipping_Activity" />
         <activity android:name=".UserProfile.Lnd_Email_Verfication_activity" />
         <activity android:name=".LndMore.LndLuxuryandDesignerAuthentication" />
-        <activity android:name=".PurchaseAndSwap.Swap_Checkout_Cancel_Activity"></activity>
+        <activity android:name=".PurchaseAndSwap.Swap_Checkout_Cancel_Activity" />
+        <activity android:name=".LndComments"></activity>
     </application>
 
 </manifest>

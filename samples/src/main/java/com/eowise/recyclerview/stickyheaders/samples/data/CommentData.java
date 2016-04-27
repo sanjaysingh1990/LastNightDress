@@ -35,4 +35,14 @@ private String uname;
 
     private String commenttxxt;
     private String profilepic;
+
+    public long getTime() {
+        return time;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
+    }
+
+    private long time;
 }

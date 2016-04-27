@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.eowise.recyclerview.stickyheaders.samples.LndAgent.Agent_Signup;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.Settings.ReadMore;
 
@@ -41,7 +42,7 @@ public class InstructionDialogs {
 
             @Override
             public void onClick(View v) {
-                Intent learnmore = new Intent(con, ReadMore.class);
+                Intent learnmore = new Intent(con, Agent_Signup.class);
                 learnmore.putExtra("pos",3);
                 con.startActivity(learnmore);
             }

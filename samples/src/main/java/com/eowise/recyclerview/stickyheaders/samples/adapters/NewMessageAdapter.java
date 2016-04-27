@@ -34,7 +34,7 @@ public class NewMessageAdapter extends RecyclerView.Adapter<NewMessageAdapter.Vi
         this.mContext = context;
         this.personDataProvider = personDataProvider;
         this.items = data;
-        setHasStableIds(true);
+
     }
 
     @Override
@@ -53,11 +53,7 @@ public class NewMessageAdapter extends RecyclerView.Adapter<NewMessageAdapter.Vi
 
     }
 
-    @Override
-    public long getItemId(int position) {
-//        return items.get(position).hashCode();
-        return 1;
-    }
+
 
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {

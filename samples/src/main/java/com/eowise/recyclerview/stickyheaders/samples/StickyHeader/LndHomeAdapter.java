@@ -42,6 +42,7 @@ import com.android.volley.toolbox.Volley;
 import com.eowise.recyclerview.stickyheaders.samples.HashTagsFullView.LndBrandHashTagGridViewActivity;
 import com.eowise.recyclerview.stickyheaders.samples.Likers.LikersActivity;
 import com.eowise.recyclerview.stickyheaders.samples.LndAgent.Agent_Signup;
+import com.eowise.recyclerview.stickyheaders.samples.LndComments;
 import com.eowise.recyclerview.stickyheaders.samples.LndMessage.SendSwapRequestActivity;
 import com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage.TagSelectingTextview;
 import com.eowise.recyclerview.stickyheaders.samples.LndUserProfile.LndProfile;
@@ -306,32 +307,32 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                     {
                         String[] users = item.getNotilikedby().split(",");
-                        vh1.activitydoneby.setText(mTagSelectingTextview.addClickablePart(users[0]+" and "+(item.getNotitotallikers() - 1) + " more liked this",
-                                this, hashTagHyperLinkDisabled, hastTagColorBlue,users[0].length()),
+                        vh1.activitydoneby.setText(mTagSelectingTextview.addClickablePart(users[0] + " and " + (item.getNotitotallikers() - 1) + " more liked this",
+                                this, hashTagHyperLinkDisabled, hastTagColorBlue, users[0].length()),
                                 TextView.BufferType.SPANNABLE);
 
                     } else if (item.getNotitotallikers() == 1) {
                         String[] users = item.getNotilikedby().split(",");
 
-                        vh1.activitydoneby.setText(mTagSelectingTextview.addClickablePart(Capitalize.capitalizeFirstLetter(users[0]+" liked this."),
-                                this, hashTagHyperLinkDisabled, hastTagColorBlue,users[0].length()),
+                        vh1.activitydoneby.setText(mTagSelectingTextview.addClickablePart(Capitalize.capitalizeFirstLetter(users[0] + " liked this."),
+                                this, hashTagHyperLinkDisabled, hastTagColorBlue, users[0].length()),
                                 TextView.BufferType.SPANNABLE);
 
                     } else {
                         String[] users = item.getNotilikedby().split(",");
-                        vh1.activitydoneby.setText(mTagSelectingTextview.addClickablePart(Capitalize.capitalizeFirstLetter(users[0]) + " and " + users[1]+" liked this.",
-                                this, hashTagHyperLinkDisabled, hastTagColorBlue, users[0].length(),users[1].length(), ""),
+                        vh1.activitydoneby.setText(mTagSelectingTextview.addClickablePart(Capitalize.capitalizeFirstLetter(users[0]) + " and " + users[1] + " liked this.",
+                                this, hashTagHyperLinkDisabled, hastTagColorBlue, users[0].length(), users[1].length(), ""),
                                 TextView.BufferType.SPANNABLE);
 
                     }
                 } else if (item.getHeadertype() == 2) {
                     vh1.headertop.setVisibility(View.VISIBLE);
 
-                  //  vh1.activitytype.setText("commented on this.");
+                    //  vh1.activitytype.setText("commented on this.");
                 } else if (item.getHeadertype() == 3) {
                     vh1.headertop.setVisibility(View.VISIBLE);
                     vh1.activitydoneby.setText("Omid Fatahi");
-                   // vh1.activitytype.setText("was mentioned in this post.");
+                    // vh1.activitytype.setText("was mentioned in this post.");
                 } else
 
                     vh1.headertop.setVisibility(View.GONE);
@@ -899,7 +900,6 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public TextView activitydoneby;
 
 
-
         HeaderHolder(View view) {
             super(view);
             uname = (TextView) view.findViewById(R.id.uname);
@@ -1108,6 +1108,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public LinearLayout ll;
         public RelativeTimeTextView time;
         public ProgressBar progress;
+        public TextView comment;
 
         LndProductPrivateUserHolder(View view, Context context) {
             super(view);
@@ -1141,6 +1142,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             forward = (ImageButton) view.findViewById(R.id.forward);
             backward = (ImageButton) view.findViewById(R.id.backward);
             spaceview = view.findViewById(R.id.space);
+            comment = (TextView) itemView.findViewById(R.id.comment);
 
             //hiding views for user
             msgtouser.setVisibility(View.GONE);
@@ -1152,6 +1154,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             this.sendto.setOnClickListener(this);
             this.msgtouser.setOnClickListener(this);
             this.favorates.setOnClickListener(this);
+            this.comment.setOnClickListener(this);
 
 
         }
@@ -1175,6 +1178,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public TextView likescount;
         public RelativeTimeTextView time;
         public ProgressBar progress;
+        public TextView comment;
 
         Context con;
         ImageButton forward, backward;
@@ -1216,6 +1220,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             color = (TextView) view.findViewById(R.id.color);
             condition = (TextView) view.findViewById(R.id.condition);
             progress = (ProgressBar) view.findViewById(R.id.fullpostloading);
+            comment = (TextView) itemView.findViewById(R.id.comment);
 
             //hiding views for user
             msgtouser.setVisibility(View.GONE);
@@ -1227,6 +1232,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             this.sendto.setOnClickListener(this);
             this.msgtouser.setOnClickListener(this);
             this.favorates.setOnClickListener(this);
+            this.comment.setOnClickListener(this);
 
 
         }
@@ -1287,16 +1293,16 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 view.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                    alert.dismiss();
+                        alert.dismiss();
                     }
                 });
-               //agent read more
+                //agent read more
 
                 view.findViewById(R.id.learnmore).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         alert.dismiss();
-                        Intent i = new Intent(mContext, Agent_Signup.class);
+                        Intent i = new Intent(mContext, LndComments.class);
                         i.putExtra("pos", 2);
                         mContext.startActivity(i);
                     }

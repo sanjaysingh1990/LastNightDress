@@ -195,6 +195,8 @@
 </string>
     <string name="swap_checkout_stepone_text2">waiting on swap partner to complete their transaction...
 </string>
+    <string name="swap_checkout_instruction">All sales are final on LND. However we take an active role in each and every purchase made on LND to ensure both the buyer and seller have a great experience. A buyer may open a case with PayPal if they don't receive their item or the item they receive is not as described within the listing. This means a buyer cannot return an item they purchased on LND if the item simply does not fit or they no longer want the item  as long as the seller accurately described the item in the listing.
+</string>
     <string-array name="card_type">
         <item>Credit Card</item>
         <item>Debit Card</item>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/coordinatorLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    >
+
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:background="@color/white"
+        android:paddingBottom="70dp"
+
+        />
+
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:elevation="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        >
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            style="@style/header"
+            android:background="@color/white"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp"
+            >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/heading"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+
+                    android:text="Comments"
+                    android:layout_centerInParent="true"
+                    android:paddingLeft="15dp"
+                    android:textColor="@color/heading_color"
+                    />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#dadada"
+                    android:layout_alignParentBottom="true"
+                    />
+            </RelativeLayout>
+
+        </android.support.v7.widget.Toolbar>
+
+        //add this invisible view under the toolbar
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#fff"
+
+            />
+
+    </android.support.design.widget.AppBarLayout>
+    <com.eowise.recyclerview.stickyheaders.samples.Loading.AVLoadingIndicatorView
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        app:indicator="LineSpinFadeLoader"
+        android:layout_centerInParent="true"
+        app:indicator_color="#be4d66"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:id="@+id/loader"
+        />
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#00000000"
+        android:orientation="horizontal"
+        android:paddingLeft="5dp"
+        android:paddingRight="3dp"
+        android:layout_weight="0"
+        android:layout_gravity="bottom"
+
+        >
+
+        <LinearLayout
+            android:id="@+id/layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_toLeftOf="@+id/sendMessage"
+            android:layout_toStartOf="@+id/sendMessage"
+            android:layout_weight="1"
+            android:background="@drawable/chat_message"
+            android:orientation="horizontal"
+            android:gravity="bottom"
+            >
+
+            <ImageButton
+                android:id="@+id/smiley"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_weight="0"
+                android:background="?android:attr/selectableItemBackground"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:src="@drawable/smiley" />
+
+            <github.ankushsachdeva.emojicon.EmojiconEditText xmlns:emojicon="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/commentbox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:fadeScrollbars="false"
+                android:gravity="bottom"
+                android:hint="Enter message here"
+                android:inputType="textMultiLine"
+                android:maxLines="5"
+                android:minLines="1"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:textColor="#000"
+                android:textSize="15sp"
+                emojicon:emojiconSize="18sp"
+                android:paddingBottom="8dp"
+                />
+        </LinearLayout>
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            xmlns:fab="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/pink_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_weight="0"
+            fab:fab_colorNormal="@color/lndcolor"
+            fab:fab_colorPressed="#dadada"
+            fab:fab_icon="@drawable/send_icon"
+            fab:fabSize="mini"
+            android:onClick="send"
+            android:layout_marginBottom="-2dp"
+
+            />
+    </LinearLayout>
+</android.support.design.widget.CoordinatorLayout>
