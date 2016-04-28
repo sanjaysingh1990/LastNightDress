@@ -39,7 +39,7 @@ public class ShippingAddressActivity extends AppCompatActivity {
             Intent payment = new Intent(this, SwapCheckOutActivity.class);
             startActivity(payment);
         } else {
-            Intent payment = new Intent(this, PurchaseActivity.class);
+            Intent payment = new Intent(this, RegularCheckoutActivity.class);
             startActivity(payment);
 
         }

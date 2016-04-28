@@ -367,7 +367,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
-                android:textColor="#828282"
+                android:textColor="#757575"
 
                 />
 
@@ -677,6 +677,10 @@
                     android:hint="**** **** **** 7894"
                     android:textColorHint="#dadada"
                     android:background="@drawable/rounded"
+                    android:enabled="false"
+                    android:textColor="#000"
+                    android:id="@+id/cardno"
+                    android:inputType="number"
                     />
             </LinearLayout>
 
@@ -736,6 +740,10 @@
                 android:text="@string/swap_checkout_instruction"
                 android:textColor="#757575"
                 android:layout_marginTop="10dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="15dp"
+                android:lineSpacingMultiplier="1.1"
+
                 />
         </LinearLayout>
     </ScrollView>

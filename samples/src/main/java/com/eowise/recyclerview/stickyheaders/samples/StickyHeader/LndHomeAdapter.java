@@ -52,6 +52,7 @@ import com.eowise.recyclerview.stickyheaders.samples.PostDataShop.DressEditPost;
 import com.eowise.recyclerview.stickyheaders.samples.PostDataShop.HandBagsEditPost;
 import com.eowise.recyclerview.stickyheaders.samples.PostDataShop.JewelleryEditPost;
 import com.eowise.recyclerview.stickyheaders.samples.PostDataShop.ShoesEditPost;
+import com.eowise.recyclerview.stickyheaders.samples.PurchaseAndSwap.RegularCheckoutActivity;
 import com.eowise.recyclerview.stickyheaders.samples.PurchaseAndSwap.ShippingAddressActivity;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.SQLDB.FavoriteData;
@@ -1255,7 +1256,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
 
             case R.id.buy:
-                Intent buy = new Intent(mContext, ShippingAddressActivity.class);
+                Intent buy = new Intent(mContext, RegularCheckoutActivity.class);
 
                 mContext.startActivity(buy);
                 break;

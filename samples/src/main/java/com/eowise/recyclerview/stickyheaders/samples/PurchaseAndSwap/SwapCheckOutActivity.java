@@ -15,6 +15,8 @@ import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,8 +50,12 @@ public class SwapCheckOutActivity extends AppCompatActivity {
     LinearLayout newaddress;
     @Bind(R.id.sameaddressblock)
     TextView sameaddress;
-
-
+    @Bind(R.id.samepayment)
+    TextView samepayment;
+    @Bind(R.id.newpayment)
+    TextView newpayment;
+    @Bind(R.id.cardno)
+    EditText cardno;
     private static final String CONFIG_ENVIRONMENT = PayPalConfiguration.ENVIRONMENT_NO_NETWORK;
     // note that these credentials will differ between live & sandbox environments.
     private static final String CONFIG_CLIENT_ID = "AQROuxZHCry7zhjtDYgK2S0uq1P2XQThAEb6UEUB3ntPe7p0RW2gfiupZDlHLEAtZVHlDt9x9VHkc_fd";
@@ -133,6 +139,33 @@ delivery.setTextColor(Color.parseColor("#dbdbdb"));
 
     }
 
+    public void newpayment(View v) {
+        this.newpayment.setCompoundDrawablesWithIntrinsicBounds(R.drawable.payment_selection, 0, 0, 0);
+        this.samepayment
+                .setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+
+        this.newpayment.setBackgroundColor(Color.parseColor("#be4d66"));
+        this.newpayment.setTextColor(Color.parseColor("#ffffff"));
+        this.samepayment.setBackgroundResource(R.drawable.purchse_rounded_corners);
+        this.samepayment.setTextColor(Color.parseColor("#be4d66"));
+        this.samepayment.setBackgroundColor(Color.parseColor("#dbdbdb"));
+        this.cardno.setEnabled(true);
+
+    }
+
+    public void samepayment(View v) {
+        this.samepayment.setBackgroundColor(Color.parseColor("#be4d66"));
+        this.samepayment.setTextColor(Color.parseColor("#ffffff"));
+        this.samepayment.setCompoundDrawablesWithIntrinsicBounds(R.drawable.payment_selection, 0, 0, 0);
+        this.newpayment.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+
+        this.newpayment.setBackgroundResource(R.drawable.purchse_rounded_corners);
+        this.newpayment.setTextColor(Color.parseColor("#be4d66"));
+        this.newpayment.setBackgroundColor(Color.parseColor("#dbdbdb"));
+        this.cardno.setEnabled(false);
+
+    }
+
     public void close(View v) {
         finish();
     }
@@ -140,7 +173,7 @@ delivery.setTextColor(Color.parseColor("#dbdbdb"));
     public void newPayment(View v) {
 
         //onBuyPressed();
-      Intent swapstepone=new Intent(this,Swap_Checkout_Cancel_Activity.class);
+        Intent swapstepone = new Intent(this, Swap_Checkout_Cancel_Activity.class);
         startActivity(swapstepone);
     }
 
@@ -239,19 +272,19 @@ delivery.setTextColor(Color.parseColor("#dbdbdb"));
         dialog.setView(view);
         final AlertDialog alert = dialog.create();
         alert.show();
-         //cancel dialog
+        //cancel dialog
         view.findViewById(R.id.close).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 alert.dismiss();
             }
         });
-       //taking reference and apply font
-        TextView heading= (TextView) view.findViewById(R.id.heading);
-        TextView heading1= (TextView) view.findViewById(R.id.heading1);
-        TextView heading2= (TextView) view.findViewById(R.id.heading2);
-        TextView text1= (TextView) view.findViewById(R.id.text1);
-        TextView text2= (TextView) view.findViewById(R.id.text2);
+        //taking reference and apply font
+        TextView heading = (TextView) view.findViewById(R.id.heading);
+        TextView heading1 = (TextView) view.findViewById(R.id.heading1);
+        TextView heading2 = (TextView) view.findViewById(R.id.heading2);
+        TextView text1 = (TextView) view.findViewById(R.id.text1);
+        TextView text2 = (TextView) view.findViewById(R.id.text2);
         heading.setTypeface(SingleTon.robotobold);
         heading1.setTypeface(SingleTon.robotoregular);
         heading2.setTypeface(SingleTon.robotoregular);
@@ -260,9 +293,9 @@ delivery.setTextColor(Color.parseColor("#dbdbdb"));
 
 
     }
-    public void learnmore(View v)
-    {
-       Intent luxurydesign=new Intent(this, LndLuxuryandDesignerAuthentication.class);
+
+    public void learnmore(View v) {
+        Intent luxurydesign = new Intent(this, LndLuxuryandDesignerAuthentication.class);
         startActivity(luxurydesign);
     }
 }

@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
@@ -30,7 +31,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:gravity="center_horizontal"
-                    android:text="CheckOut"
+                    android:text="My Purchases"
 
                     android:textColor="#000"
                     android:textSize="18sp" />
@@ -165,6 +166,20 @@
                                 android:textColor="#be4d66"
                                 android:textSize="14sp" />
                         </LinearLayout>
+
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0"
+                            android:lineSpacingMultiplier="1.1"
+                            android:singleLine="true"
+                            android:text="SWAP"
+                            android:textColor="#bababa"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+
+                            />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -343,14 +358,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:text="Additional Services"
+                    android:text="@string/regular_checkout_successful"
                     android:textColor="#222427" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:text="Learn More" />
 
             </RelativeLayout>
 
@@ -367,105 +376,95 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Luxury and designer authentication"
-                    android:textColor="#828282" />
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:layout_weight="0"
-                    android:text="49.99"
-                    android:textColor="#222427" />
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
-                android:layout_marginTop="5dp"
-                android:text="Ship to:"
-                android:textColor="#222427" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
-                android:layout_marginRight="15dp"
-                android:background="@drawable/rounded_corners_shipping"
-                android:text="2019 shay Drive\nPickering,ON\nL1X 1Y1"
-
-                />
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-
-                android:layout_marginTop="10dp"
-                android:background="@drawable/purchse_rounded_corners"
-                android:orientation="horizontal"
-                android:layout_marginRight="15dp"
-                android:layout_marginLeft="25dp"
-                android:layout_marginBottom="10dp"
-                >
+                    android:text="Delivery address:
+123 milestone road,
+Toronto, ON
+L1x 1y1
+"
+                    android:textColor="#757575" />
 
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Payment details:"
+                    android:textColor="@color/black" />
+                <!-- block info for to showing card information -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Same Address"
-                    android:textSize="15sp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:layout_gravity="center_vertical"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    android:onClick="sameadd"
-                    android:clickable="true"
-                    android:id="@+id/sameadd"
-                    android:textColor="#ffffff"
-                    android:background="#be4d66"
-                    android:drawableLeft="@drawable/payment_selection"
-                    android:paddingLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:text="Paid by:"
+                        android:textColor="@color/black"
+                        />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="Credit Card"
+                        android:textColor="#757575"
+                        />
+                </LinearLayout>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/swap_checkout_first_step"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="25dp"
                     />
-
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="New Address"
-                    android:textSize="15sp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:layout_gravity="center_vertical"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    android:onClick="newadd"
-                    android:clickable="true"
-                    android:id="@+id/newadd"
-                    android:background="#dbdbdb"
+                    android:text="Transaction Complete"
+                    android:layout_marginTop="20dp"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@color/black"
+                    android:id="@+id/transactioninfo"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="What\'s Next"
                     android:textColor="#be4d66"
-                    android:paddingLeft="5dp"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="3dp"
+                    android:background="#dadada" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="@string/regular_checkout_instruction"
+                    android:textColor="#757575"
+                   android:lineSpacingMultiplier="1.1"
+                    android:id="@+id/whatnext"
                     />
-
-
-
-
-
-
             </LinearLayout>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="20dp"
-                android:paddingRight="15dp"
-                android:text=""
-                />
+
+
         </LinearLayout>
     </ScrollView>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -480,9 +479,9 @@
             android:background="#be4d66"
             android:clickable="true"
             android:gravity="center"
-            android:onClick="done"
+            android:onClick="finish"
             android:padding="10dp"
-            android:text="Complete My Purchase"
+            android:text="Finish"
             android:textColor="#FFFFFF"
             android:textSize="16sp"
 
@@ -490,7 +489,6 @@
 
 
     </LinearLayout>
-
 
 
 </LinearLayout>

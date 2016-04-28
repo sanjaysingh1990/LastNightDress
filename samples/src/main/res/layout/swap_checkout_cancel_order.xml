@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/white"
+    >
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -61,7 +63,9 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:background="@color/white"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -360,7 +364,9 @@
                     android:gravity="left"
                     android:text="Please explain why you are cancelling"
                     android:textColor="#000"
-                    android:textSize="13sp" />
+                    android:textSize="13sp"
+                    android:id="@+id/info"
+                    />
 
                 <EditText
                     android:layout_width="match_parent"
@@ -392,7 +398,7 @@
             android:background="#be4d66"
             android:clickable="true"
             android:gravity="center"
-            android:onClick="submit"
+            android:id="@+id/submit"
             android:padding="10dp"
             android:text="Submit"
             android:textColor="#FFFFFF"

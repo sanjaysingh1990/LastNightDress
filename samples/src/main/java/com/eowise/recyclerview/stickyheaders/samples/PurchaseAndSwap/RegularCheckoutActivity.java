@@ -9,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,13 +28,24 @@ import java.math.BigDecimal;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class PurchaseActivity extends AppCompatActivity {
+public class RegularCheckoutActivity extends AppCompatActivity {
     @Bind(R.id.sameadd)
     TextView sameadd;
     @Bind(R.id.newadd)
     TextView newadd;
     @Bind(R.id.heading)
+
     TextView heading;
+    @Bind(R.id.newaddressblock)
+    LinearLayout newaddress;
+    @Bind(R.id.sameaddressblock)
+    TextView sameaddress;
+    @Bind(R.id.samepayment)
+    TextView samepayment;
+    @Bind(R.id.newpayment)
+    TextView newpayment; @Bind(R.id.cardno)
+    EditText cardno;
+
     private static final String CONFIG_ENVIRONMENT = PayPalConfiguration.ENVIRONMENT_NO_NETWORK;
     // note that these credentials will differ between live & sandbox environments.
     private static final String CONFIG_CLIENT_ID = "AQROuxZHCry7zhjtDYgK2S0uq1P2XQThAEb6UEUB3ntPe7p0RW2gfiupZDlHLEAtZVHlDt9x9VHkc_fd";
@@ -45,7 +58,7 @@ public class PurchaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_checkout);
+        setContentView(R.layout.activity_regular_checkout);
         ButterKnife.bind(this);
         Intent intent = new Intent(this, PayPalService.class);
         intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
@@ -63,6 +76,8 @@ public class PurchaseActivity extends AppCompatActivity {
         this.newadd.setBackgroundResource(R.drawable.purchse_rounded_corners);
         this.newadd.setTextColor(Color.parseColor("#be4d66"));
         this.newadd.setBackgroundColor(Color.parseColor("#dbdbdb"));
+        newaddress.setVisibility(View.GONE);
+        sameaddress.setVisibility(View.VISIBLE);
     }
 
     public void newadd(View v) {
@@ -74,6 +89,34 @@ public class PurchaseActivity extends AppCompatActivity {
         this.sameadd.setBackgroundResource(R.drawable.purchse_rounded_corners);
         this.sameadd.setTextColor(Color.parseColor("#be4d66"));
         this.sameadd.setBackgroundColor(Color.parseColor("#dbdbdb"));
+        newaddress.setVisibility(View.VISIBLE);
+        sameaddress.setVisibility(View.GONE);
+    }
+    public void newpayment(View v) {
+        this.newpayment.setCompoundDrawablesWithIntrinsicBounds(R.drawable.payment_selection, 0, 0, 0);
+        this.samepayment
+                .setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+
+        this.newpayment.setBackgroundColor(Color.parseColor("#be4d66"));
+        this.newpayment.setTextColor(Color.parseColor("#ffffff"));
+        this.samepayment.setBackgroundResource(R.drawable.purchse_rounded_corners);
+        this.samepayment.setTextColor(Color.parseColor("#be4d66"));
+        this.samepayment.setBackgroundColor(Color.parseColor("#dbdbdb"));
+        this.cardno.setEnabled(true);
+
+    }
+
+    public void samepayment(View v) {
+        this.samepayment.setBackgroundColor(Color.parseColor("#be4d66"));
+        this.samepayment.setTextColor(Color.parseColor("#ffffff"));
+        this.samepayment.setCompoundDrawablesWithIntrinsicBounds(R.drawable.payment_selection, 0, 0, 0);
+        this.newpayment.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+
+        this.newpayment.setBackgroundResource(R.drawable.purchse_rounded_corners);
+        this.newpayment.setTextColor(Color.parseColor("#be4d66"));
+        this.newpayment.setBackgroundColor(Color.parseColor("#dbdbdb"));
+        this.cardno.setEnabled(false);
+
     }
 
     public void close(View v) {
@@ -86,7 +129,7 @@ public class PurchaseActivity extends AppCompatActivity {
 
     public void onBuyPressed() {
         PayPalPayment thingToBuy = getThingToBuy(PayPalPayment.PAYMENT_INTENT_ORDER);
-        Intent intent = new Intent(PurchaseActivity.this, PaymentActivity.class);
+        Intent intent = new Intent(RegularCheckoutActivity.this, PaymentActivity.class);
         intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
         intent.putExtra(PaymentActivity.EXTRA_PAYMENT, thingToBuy);
 
@@ -137,8 +180,8 @@ public class PurchaseActivity extends AppCompatActivity {
     }
 
     public void showAlert(String paymentdetatils) {
-        AlertDialog.Builder dialog = new AlertDialog.Builder(PurchaseActivity.this);
-        View view = LayoutInflater.from(PurchaseActivity.this).inflate(R.layout.paypal_payment_dialog_layout, null);
+        AlertDialog.Builder dialog = new AlertDialog.Builder(RegularCheckoutActivity.this);
+        View view = LayoutInflater.from(RegularCheckoutActivity.this).inflate(R.layout.paypal_payment_dialog_layout, null);
         TextView alertmsg = (TextView) view.findViewById(R.id.alertmessage);
         alertmsg.setText(paymentdetatils);
         dialog.setView(view);
@@ -153,5 +196,11 @@ public class PurchaseActivity extends AppCompatActivity {
 
             }
         });
+    }
+    public void completePurchase(View v)
+    {
+       Intent checkoutfinishh=new Intent(this,RegularCheckoutFinishActivity.class);
+        startActivity(checkoutfinishh);
+        finish();
     }
 }

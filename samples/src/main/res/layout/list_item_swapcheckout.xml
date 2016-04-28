@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
        Copyright (C) 2015 Haruki Hasegawa
 
        Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,8 +12,7 @@
        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
        See the License for the specific language governing permissions and
        limitations under the License.
--->
-<!-- NOTE: should use FrameLayout or RelativeLayout for parent of the "@id/container" view (for Android 2.3 compatibility) -->
+--><!-- NOTE: should use FrameLayout or RelativeLayout for parent of the "@id/container" view (for Android 2.3 compatibility) -->
 <FrameLayout
 
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -30,94 +28,89 @@
         android:background="#ffffff"
         android:clickable="true"
         android:foreground="?attr/selectableItemBackground">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
                 android:layout_marginTop="10dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
                 android:layout_weight="1"
-                >
+                android:orientation="horizontal"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="horizontal"
-                    >
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:orientation="horizontal">
+
+                    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/notipropic"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:src="@drawable/image1"
-                        app:civ_border_width="1dp"
-                        app:civ_border_color="#dadada"/>
+                        android:src="@drawable/image1" />
+
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="gjkdfhgkjerdghfks"
                         android:id="@+id/notiinfotext"
-                        android:layout_toRightOf="@+id/image"
+                        android:layout_width="match_parent"
+
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
+                        android:layout_toRightOf="@+id/image"
+                        android:layout_weight="1"
+                        android:lineSpacingMultiplier="1.1"
                         android:paddingLeft="8dp"
                         android:paddingRight="8dp"
-                        android:lineSpacingMultiplier="1.1"
-                        android:textSize="14sp"
-                        android:layout_weight="1"
-                        />
+                        android:textSize="14sp" />
                 </LinearLayout>
+
                 <ImageView
+                    android:id="@+id/notiimage"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/image1"
                     android:layout_gravity="center_vertical"
-                    android:id="@+id/notiimage"
-                    android:background="#000"
                     android:layout_weight="0"
-                    />
+                    android:background="#000"
+                    android:src="@drawable/image1" />
             </LinearLayout>
 
 
-
-
             <LinearLayout
+                android:id="@+id/swapcheck"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_marginTop="25dp"
-                android:id="@+id/swapcheck"
-                android:visibility="visible"
-                >
+                android:orientation="horizontal"
+                android:visibility="visible">
+
                 <TextView
+                    android:id="@+id/swapcheckout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Proceed to Checkout"
                     android:layout_weight="1"
-                    android:textColor="#be4d66"
-                    android:padding="6dp"
-                    android:gravity="center_horizontal"
                     android:background="#e8e9eb"
-                    android:id="@+id/swapcheckout"
-                    android:textSize="14sp"
                     android:clickable="true"
-                    />
+                    android:gravity="center_horizontal"
+                    android:padding="6dp"
+                    android:text="Proceed to Checkout"
+                    android:textColor="#be4d66"
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
 
             <View
-                android:layout_height="0.5dp"
                 android:layout_width="fill_parent"
+                android:layout_height="0.5dp"
                 android:layout_marginLeft="60dp"
-                android:background="#dadada"
+                android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"/>
+                android:background="#dadada" />
         </LinearLayout>
-</com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage.PagerSwipeItemFrameLayout>
+    </com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage.PagerSwipeItemFrameLayout>
 </FrameLayout>

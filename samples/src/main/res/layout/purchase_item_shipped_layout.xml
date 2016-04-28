@@ -378,7 +378,102 @@
                     />
 
             </LinearLayout>
+            <!-- block to shop shipping information -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="15dp"
+                >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="3dp"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Shipped on: "
+                    android:textColor="#757575"
+                    android:layout_toRightOf="@+id/image"
+                    android:layout_weight="0"
+                    android:textSize="14sp"
 
+
+
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Saturday, November 21, 2015"
+                    android:textSize="14sp"
+                    android:textColor="#000"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:id="@+id/shippedon"
+                    />
+            </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="5dp"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tracking Number: "
+                        android:textColor="#757575"
+                        android:layout_toRightOf="@+id/image"
+                        android:layout_weight="0"
+                        android:textSize="14sp"
+
+
+
+                        />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="N/A"
+                        android:textSize="14sp"
+                        android:textColor="#000"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="1"
+                        android:id="@+id/trackingno"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="5dp"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Shipped Via: "
+                        android:textColor="#757575"
+                        android:layout_toRightOf="@+id/image"
+                        android:layout_weight="0"
+                        android:textSize="14sp"
+
+
+
+                        />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="N/A"
+                        android:textSize="14sp"
+                        android:textColor="#000"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="1"
+                        android:id="@+id/shippingvia"
+                        />
+                </LinearLayout>
+            </LinearLayout>
 
         </LinearLayout>
 </ScrollView>
