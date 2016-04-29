@@ -415,18 +415,20 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:padding="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="20dp"
                 android:text="Already purchased your shipping label?"
                 android:textColor="#8b8b8b"
                 android:textSize="14sp" />
 
             <EditText
-                android:id="@+id/courercompany"
+                android:id="@+id/couriercompany"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:layout_marginTop="3dp"
                 android:layout_weight="1"
                 android:background="@drawable/purchse_rounded_corners"
                 android:hint="Courier company"
@@ -437,7 +439,7 @@
                 android:textSize="12sp" />
 
             <EditText
-                android:id="@+id/trackingno"
+                android:id="@+id/edittexttrackingno"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -459,7 +461,11 @@
                 android:layout_marginTop="5dp"
                 android:text="Enter"
                 android:textColor="#be4d66"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:onClick="check"
+                android:clickable="true"
+                />
 
             <View
                 android:layout_width="match_parent"

@@ -11,5 +11,6 @@
     <color name="link_color">#3b5998</color>
     <color name="heading_color">#222427</color>
     <color name="lndcolor">#be4d66</color>
-
+     <color name="gray">#dadada</color>
+    <color name="light_black">#222427</color>
 </resources>

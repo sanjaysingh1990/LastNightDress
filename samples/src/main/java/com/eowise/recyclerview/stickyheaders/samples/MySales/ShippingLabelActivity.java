@@ -26,36 +26,38 @@ import butterknife.ButterKnife;
 
 public class ShippingLabelActivity extends AppCompatActivity {
 
-    @Bind(R.id.recyclerView) RecyclerView recyclerView;
-    private List<ShippingLabelData> data=new ArrayList<ShippingLabelData>();
+   // @Bind(R.id.recyclerView)
+    //zaRecyclerView recyclerView;
+    private List<ShippingLabelData> data = new ArrayList<ShippingLabelData>();
     private ShippingLabelAdapter recyclerAdapter;
-    @Bind(R.id.heading) TextView heading;
-    @Bind(R.id.samepayment) TextView samepayment;
-    @Bind(R.id.newpayment) TextView newpayment;
-
-    private String shipvalue="";
-    @Bind(R.id.processmyorder)TextView processmyorder;
+    @Bind(R.id.heading)
+    TextView heading;
+    @Bind(R.id.samepayment)
+    TextView samepayment;
+    @Bind(R.id.newpayment)
+    TextView newpayment;
+    private String shipvalue = "";
+    @Bind(R.id.processmyorder)
+    TextView processmyorder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_shipping_label);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setContentView(R.layout.lnd_purchase_newshipping_level);
         ButterKnife.bind(this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+       /* recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerAdapter = new ShippingLabelAdapter(this,data);
-        recyclerView.setAdapter(recyclerAdapter);
+        recyclerView.setAdapter(recyclerAdapter);*/
         processmyorder.setClickable(false);
         //applying custom font
         heading.setTypeface(SingleTon.robotobold);
-initialize();
+//initialize();
     }
-    private void initialize()
-    {
-        String[] weight={"Up to 5","6 pounds","7 pounds","8 pounds","9 pounds","10 pounds"};
-        String[] price={"pounds Free","$3.99","$7.98","$11.97","$15.96","$19.95"};
-        for(int i=0;i<weight.length;i++) {
+
+    private void initialize() {
+        String[] weight = {"Up to 5", "6 pounds", "7 pounds", "8 pounds", "9 pounds", "10 pounds"};
+        String[] price = {"pounds Free", "$3.99", "$7.98", "$11.97", "$15.96", "$19.95"};
+        for (int i = 0; i < weight.length; i++) {
             ShippingLabelData shipdata = new ShippingLabelData();
             shipdata.setPackageweight(weight[i]);
             shipdata.setPackageprice(price[i]);
@@ -64,8 +66,8 @@ initialize();
         }
         recyclerAdapter.notifyDataSetChanged();
     }
-    public void back(View v)
-    {
+
+    public void back(View v) {
         onBackPressed();
     }
 
@@ -74,38 +76,41 @@ initialize();
         super.onBackPressed();
     }
 
-    public void shippingChange(View v)
-    {
+    public void shippingChange(View v) {
 
-        Intent intent=new Intent();
+       /* Intent intent = new Intent();
         intent.putExtra("shipprice", shipvalue);
         setResult(2, intent);
-        finish();//finishing activity
+        finish();//finishing activity*/
     }
-    public void changeColor(String value)
-    {
-        shipvalue=value;
+
+    public void changeColor(String value) {
+        shipvalue = value;
         processmyorder.setClickable(true);
         processmyorder.setTextColor(Color.parseColor("#be4d66"));
 
     }
-    public void samepayment(View v)
-    {
+
+    public void samepayment(View v) {
         this.samepayment.setBackgroundColor(Color.parseColor("#be4d66"));
         this.samepayment.setTextColor(Color.parseColor("#ffffff"));
         this.samepayment.setCompoundDrawablesWithIntrinsicBounds(R.drawable.payment_selection, 0, 0, 0);
-        this.newpayment.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
+        this.newpayment.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
         this.newpayment.setBackgroundResource(R.drawable.purchse_rounded_corners);
         this.newpayment.setTextColor(Color.parseColor("#dbdbdb"));
     }
-    public void newpayment(View v)
-    {
+
+    public void newpayment(View v) {
         this.newpayment.setCompoundDrawablesWithIntrinsicBounds(R.drawable.payment_selection, 0, 0, 0);
-        this.samepayment.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
+        this.samepayment.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
 
         this.newpayment.setBackgroundColor(Color.parseColor("#be4d66"));
         this.newpayment.setTextColor(Color.parseColor("#ffffff"));
         this.samepayment.setBackgroundResource(R.drawable.purchse_rounded_corners);
         this.samepayment.setTextColor(Color.parseColor("#dbdbdb"));
+    }
+
+    public void doPayment(View v) {
+
     }
 }

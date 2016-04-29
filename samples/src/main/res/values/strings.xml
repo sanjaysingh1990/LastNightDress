@@ -207,6 +207,30 @@
 
 You are in safe hands when shopping on Last Night’s Dress. If there is any issue with your purchase you can easily start a claim by
 </string>
+
+    <!-- for shipping -->
+    <string name="seller_shipping">Enter your tracking information here?
+</string>
+
+    <!-- tracking number dialog text -->
+    <string name="heading">The importance of a tracking number</string>
+    <string name="track_heading1">PayPal protection</string>
+    <string name="track_desc1">If the buyer claims that the item they purchased did not reach their destination, PayPal can easily validate this claim by viewing the tracking information. If you did not provide the tracking information then the buyer will win the case in most situations, If not all.
+</string>
+    <string name="track_heading2">Customer service</string>
+    <string name="track_desc2">By providing a tracking number you are enhancing your customers experience.
+</string>
+    <string name="checkbox_text">dont\'t show this again</string>
+    <string name="shipping_label_purchase_info">Once you have purchased your shipping label it will be sent to your email. Please select the correct package weight or your package will not be delivered. We do not offer any shipping label over 5kg.
+</string>
+<array name="weight">
+    <item>Up to 5 pounds</item>
+    <item>6 pounds</item>
+    <item>7 pounds"</item>
+    <item>8 pounds</item>
+    <item>9 pounds</item>
+     <item>10 pounds</item>
+</array>
     <string-array name="card_type">
         <item>Credit Card</item>
         <item>Debit Card</item>

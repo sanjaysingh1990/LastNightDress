@@ -1,0 +1,488 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/header"
+        android:background="@color/white"
+        android:contentInsetEnd="0dp"
+        android:contentInsetRight="0dp"
+        app:contentInsetEnd="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetStart="0dp"
+        app:layout_scrollFlags="scroll|enterAlways"
+        android:layout_weight="0"
+        >
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            >
+
+
+            <TextView
+                android:id="@+id/heading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:gravity="center_horizontal"
+                android:text="New Shipping Label"
+                android:textColor="#000"
+                android:textSize="18sp" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center_vertical"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="0"
+                android:background="?attr/selectableItemBackground"
+                android:onClick="back"
+                android:src="@drawable/back_arrow" />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_gravity="bottom"
+                android:background="#dadada" />
+
+        </FrameLayout>
+    </android.support.v7.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+
+            <!-- charge acuatal cost views -->
+            <LinearLayout
+                android:id="@+id/chargeactualcost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+
+                    style="@style/LnditemshipTextView"
+                    android:layout_marginTop="10dp"
+                    android:text="Weight of packaged item"
+                    android:textColor="@color/light_black" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/purchse_rounded_corners"
+                        android:paddingBottom="8dp"
+                        android:paddingTop="8dp"
+                        android:entries="@array/weight"
+                        ></Spinner>
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right|center_vertical"
+                        android:layout_marginRight="10dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:src="@drawable/down_arrow"
+
+                        />
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+
+                            style="@style/LnditemshipTextView"
+                            android:text="Length"
+                            android:textColor="@color/light_black"
+
+                            />
+
+
+                        <EditText
+                            android:layout_width="45dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/purchse_rounded_corners"
+                            android:paddingBottom="9dp"
+                            android:paddingLeft="5dp"
+                            android:paddingTop="9dp"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="bottom"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:text="cm.x"
+                        android:textColor="@color/light_black"
+                        android:textSize="11sp"
+
+                        />
+                    <!-- width-->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/LnditemshipTextView"
+                            android:text="Width"
+                            android:textColor="@color/light_black"
+
+                            />
+
+                        <EditText
+                            android:layout_width="45dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/purchse_rounded_corners"
+                            android:paddingBottom="9dp"
+                            android:paddingLeft="5dp"
+                            android:paddingTop="9dp"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="bottom"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:text="cm.x"
+                        android:textColor="@color/light_black"
+                        android:textSize="11sp"
+
+                        />
+                    <!-- height -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+
+                            style="@style/LnditemshipTextView"
+                            android:text="Height"
+                            android:textColor="@color/light_black"
+
+                            />
+
+                        <EditText
+                            android:layout_width="45dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/purchse_rounded_corners"
+                            android:paddingBottom="9dp"
+                            android:paddingLeft="5dp"
+                            android:paddingTop="9dp"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <TextView
+
+                    style="@style/LnditemshipTextView"
+                    android:layout_marginTop="10dp"
+                    android:text="Service"
+                    android:textColor="@color/light_black"
+
+                    />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/purchse_rounded_corners"
+                        android:paddingBottom="18dp"
+                        android:paddingTop="18dp"></Spinner>
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right|center_vertical"
+                        android:layout_marginRight="10dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:src="@drawable/down_arrow"
+
+                        />
+                </FrameLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/shipping_label_purchase_info"
+                android:textColor="#757575"
+                android:textSize="12sp" />
+
+            <!-- block for showing shpping level cost -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Shiping lable cost"
+                android:textColor="@color/light_black"
+                android:textSize="15sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/light_black" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="Shipping lable"
+                    android:textColor="@color/light_black"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/shippinglable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="$10.99"
+                    android:textColor="@color/light_black"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="Processing"
+                    android:textColor="@color/light_black"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/labelprocessing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="$1.50"
+                    android:textColor="@color/light_black"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="Tracking"
+                    android:textColor="@color/light_black"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tracking"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="Free"
+                    android:textColor="@color/light_black"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/light_black" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="Total"
+                    android:textColor="@color/light_black"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="$12.50"
+                    android:textColor="@color/light_black"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_marginBottom="10dp"
+
+                android:layout_marginTop="20dp"
+                android:background="@drawable/purchse_rounded_corners"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/samepayment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:background="#be4d66"
+                    android:clickable="true"
+                    android:drawableLeft="@drawable/payment_selection"
+                    android:gravity="center"
+                    android:onClick="samepayment"
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="5dp"
+                    android:paddingTop="8dp"
+                    android:text="Same Payment"
+                    android:textColor="#ffffff"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/newpayment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:background="#dbdbdb"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:onClick="newpayment"
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="5dp"
+                    android:paddingTop="8dp"
+                    android:text="New Payment"
+                    android:textColor="#be4d66"
+                    android:textSize="15sp" />
+
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="5dp"
+                android:text="Payment Method:"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+
+                >
+
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:entries="@array/card_type"></Spinner>
+
+                <EditText
+                    android:id="@+id/cardno"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded"
+                    android:enabled="false"
+                    android:hint="**** **** **** 7894"
+                    android:inputType="number"
+                    android:textColor="#000"
+                    android:textColorHint="#dadada" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:background="#be4d66"
+        android:clickable="true"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="Process My Order"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:id="@+id/processmyorder"
+        />
+</LinearLayout>

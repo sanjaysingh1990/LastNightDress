@@ -1,5 +1,6 @@
 package com.eowise.recyclerview.stickyheaders.samples.MySales;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,10 +13,13 @@ import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
 import android.text.style.ImageSpan;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.eowise.recyclerview.stickyheaders.samples.LndMessage.SendSwapRequestActivity;
+import com.eowise.recyclerview.stickyheaders.samples.Main_TabHost;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 
@@ -87,7 +91,7 @@ public class OrderDetailsSales extends AppCompatActivity {
                 getReference();
 
                 //report rating
-                TextView reportrating= (TextView) findViewById(R.id.reportrating);
+                TextView reportrating = (TextView) findViewById(R.id.reportrating);
                 reportrating.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -221,4 +225,22 @@ public class OrderDetailsSales extends AppCompatActivity {
         ButterKnife.bind(this);
         getReference2();
     }
+
+    public void check(View v) {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        View view = LayoutInflater.from(this).inflate(R.layout.lnd_trackingnumber_error_dialog
+                , null);
+
+        dialog.setView(view);
+        final AlertDialog alert = dialog.create();
+        alert.show();
+        view.findViewById(R.id.close).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alert.dismiss();
+            }
+        });
+
+    }
+
 }
