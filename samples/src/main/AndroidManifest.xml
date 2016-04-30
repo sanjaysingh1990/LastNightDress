@@ -274,65 +274,54 @@
         <activity
             android:name=".contacts.ContactsActivity"
             android:label="@string/title_activity_contacts"
-            android:theme="@style/AppTheme"
             android:screenOrientation="portrait"
-            />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".UserProfile.SelectCategoryActivity"
-            android:theme="@style/AppTheme"
             android:screenOrientation="portrait"
-            />
+            android:theme="@style/AppTheme" />
         <!-- for private post -->
         <activity
             android:name=".PrivatePost.DressPostPrivate"
-            android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateVisible|adjustPan"
             android:screenOrientation="portrait"
-            />
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateVisible|adjustPan" />
         <activity
             android:name=".PrivatePost.HandBagsPostPrivate"
-            android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateVisible|adjustPan"
             android:screenOrientation="portrait"
-            />
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateVisible|adjustPan" />
         <activity
             android:name=".PrivatePost.JewelleryPostPrivate"
-            android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateVisible|adjustPan"
             android:screenOrientation="portrait"
-            />
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateVisible|adjustPan" />
         <activity
             android:name=".PrivatePost.ShoesPostPrivate"
-            android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateVisible|adjustPan"
             android:screenOrientation="portrait"
-            />
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateVisible|adjustPan" />
         <activity
             android:name=".UserProfile.LndLoginSignup"
-            android:theme="@style/AppTheme"
             android:screenOrientation="portrait"
-            />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".LndUserProfile.LndUserFullStickyActivity"
-            android:theme="@style/AppTheme"
             android:screenOrientation="portrait"
-            />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".LndUserProfile.ReviewsActivity"
             android:label="@string/title_activity_reviews"
-            android:theme="@style/AppTheme"
             android:screenOrientation="portrait"
-            />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".Followers.FollowingActivity"
-            android:theme="@style/AppTheme"
             android:screenOrientation="portrait"
-            />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".Likers.LikersActivity"
-            android:theme="@style/AppTheme"
             android:screenOrientation="portrait"
-            />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".Notification.NotificationActivity"
             android:label="@string/title_activity_notification"
@@ -340,31 +329,26 @@
         <activity
             android:name=".Paypal.PayPalAccountCreation"
             android:label="@string/title_activity_notification"
-            android:theme="@style/AppTheme"
             android:screenOrientation="portrait"
-            />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".LndNotificationMessage.LndNotificationMessageActivity"
             android:label="@string/title_activity_notification"
-            android:theme="@style/AppTheme"
             android:screenOrientation="portrait"
-            />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".PurchaseAndSwap.SwapCheckOutActivity"
             android:label="@string/title_activity_notification"
-            android:theme="@style/AppTheme"
             android:screenOrientation="portrait"
-            />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".Currency.LndCurrency"
-            android:theme="@style/AppTheme"
             android:screenOrientation="portrait"
-            />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".HashTagsFullView.HashTagStickyActivity"
-            android:theme="@style/AppTheme"
             android:screenOrientation="portrait"
-            />
+            android:theme="@style/AppTheme" />
 
         <service
             android:name="com.paypal.android.sdk.payments.PayPalService"
@@ -380,49 +364,45 @@
         <activity
             android:name="io.card.payment.CardIOActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name="io.card.payment.DataEntryActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="io.card.payment.DataEntryActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".HashTagsFullView.LndBrandHashTagGridViewActivity"
             android:label="@string/title_activity_lnd_brand_hash_tag_grid_view"
-            android:theme="@style/AppTheme"
             android:screenOrientation="portrait"
-            />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".NotificationFullPost"
             android:label="@string/title_activity_notification_full_post"
-            android:theme="@style/AppTheme"
             android:screenOrientation="portrait"
-            />
-        <activity android:name=".LndAgent.Agent_Signup"
-            android:screenOrientation="portrait"
-            />
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".LndAgent.Agent_Signup"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".LndAgent.Lnd_Agent_Profile"
             android:label="@string/title_activity_lnd__agent__profile"
-            android:theme="@style/AppTheme"
             android:screenOrientation="portrait"
-            />
-        <activity android:name=".PostDataShop.Shipping_Activity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".UserProfile.Lnd_Email_Verfication_activity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".LndMore.LndLuxuryandDesignerAuthentication"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".PurchaseAndSwap.Swap_Checkout_Cancel_Activity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".LndComments"></activity>
-        <activity android:name=".PurchaseAndSwap.RegularCheckoutFinishActivity"
-            android:screenOrientation="portrait"
-            ></activity>
-
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".PostDataShop.Shipping_Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UserProfile.Lnd_Email_Verfication_activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".LndMore.LndLuxuryandDesignerAuthentication"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".PurchaseAndSwap.Swap_Checkout_Cancel_Activity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".LndComments" />
+        <activity
+            android:name=".PurchaseAndSwap.RegularCheckoutFinishActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".Dummy"></activity>
     </application>
 
 </manifest>

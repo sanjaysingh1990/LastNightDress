@@ -189,6 +189,7 @@ public class FollowingAdapter extends RecyclerView.Adapter<FollowingAdapter.View
                 params.put("followerid",followerid);
                 params.put("followingid",followingid);
                 params.put("user_id", SingleTon.pref.getString("user_id",""));
+                params.put("date_time", SingleTon.getCurrentTimeStamp());
 
                 return params;
             }

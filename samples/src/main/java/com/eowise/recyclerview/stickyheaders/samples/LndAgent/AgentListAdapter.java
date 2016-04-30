@@ -53,7 +53,7 @@ import java.util.ArrayList;
 
 
 class AgentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    public static final int HEADER = 1, NORMALUSER = 2, SHOPUSER = 3,SURPASSEDYOU=4;
+    public static final int USERHEADER=0,HEADER = 1, NORMALUSER = 2, SHOPUSER = 3,SURPASSEDYOU=4;
     ArrayList<LndAgentBean> items;
 public AgentListAdapter(Context con, ArrayList<LndAgentBean> data)
 {
@@ -125,6 +125,22 @@ public AgentListAdapter(Context con, ArrayList<LndAgentBean> data)
         }
 
     }
+
+    public class UserHeader extends RecyclerView.ViewHolder {
+        public PagerSwipeItemFrameLayout mContainer;
+        public TextView notiTextView;
+        public ImageView notiprofile, notiimage;
+
+        public UserHeader(View v) {
+            super(v);
+            mContainer = (PagerSwipeItemFrameLayout) v.findViewById(R.id.container);
+            notiTextView = (TextView) v.findViewById(R.id.notiinfotext);
+            notiprofile = (ImageView) v.findViewById(R.id.notipropic);
+            notiimage = (ImageView) v.findViewById(R.id.notiimage);
+
+        }
+
+    }
     @Override
     public int getItemViewType(int position) {
         if (items.get(position).getType() == HEADER) {
@@ -137,6 +153,10 @@ public AgentListAdapter(Context con, ArrayList<LndAgentBean> data)
         }
         else if (items.get(position).getType() == SURPASSEDYOU) {
             return SURPASSEDYOU;
+
+        }
+        else if (items.get(position).getType() == USERHEADER) {
+            return USERHEADER;
 
         }
         return -1;
@@ -165,6 +185,10 @@ public AgentListAdapter(Context con, ArrayList<LndAgentBean> data)
                 final View surpasseduser = inflater.inflate(R.layout.agent_user_surpassed_row_layout, parent, false);
                 viewHolder = new SurpassedUser(surpasseduser);
                 break;
+            case USERHEADER:
+                final View userheader = inflater.inflate(R.layout.agent_user_header, parent, false);
+                viewHolder = new UserHeader(userheader);
+                break;
         }
         return viewHolder;
 
@@ -187,7 +211,9 @@ public AgentListAdapter(Context con, ArrayList<LndAgentBean> data)
             case SHOPUSER:
 
                 break;
+            case USERHEADER:
 
+                break;
 
         }
         //  holder.mTextView.setText(item.getText());

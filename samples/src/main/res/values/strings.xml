@@ -211,7 +211,9 @@ You are in safe hands when shopping on Last Night’s Dress. If there is any iss
     <!-- for shipping -->
     <string name="seller_shipping">Enter your tracking information here?
 </string>
-
+    <string name="transaction_completed">Thank you, your order is completed.</string>
+    <string name="transaction_completed_desc">You will find your shipping label in your email. If you can not find your shipping label in your email you can simply request for a new one by clicking the tab below.
+</string>
     <!-- tracking number dialog text -->
     <string name="heading">The importance of a tracking number</string>
     <string name="track_heading1">PayPal protection</string>
@@ -223,14 +225,18 @@ You are in safe hands when shopping on Last Night’s Dress. If there is any iss
     <string name="checkbox_text">dont\'t show this again</string>
     <string name="shipping_label_purchase_info">Once you have purchased your shipping label it will be sent to your email. Please select the correct package weight or your package will not be delivered. We do not offer any shipping label over 5kg.
 </string>
-<array name="weight">
-    <item>Up to 5 pounds</item>
-    <item>6 pounds</item>
-    <item>7 pounds"</item>
-    <item>8 pounds</item>
-    <item>9 pounds</item>
-     <item>10 pounds</item>
-</array>
+    <array name="weight">
+        <item>Up to 5 pounds</item>
+        <item>6 pounds</item>
+        <item>7 pounds"</item>
+        <item>8 pounds</item>
+        <item>9 pounds</item>
+        <item>10 pounds</item>
+    </array>
+    <!-- edittext hind text -->
+    <string name="card_no"></string>
+
+
     <string-array name="card_type">
         <item>Credit Card</item>
         <item>Debit Card</item>

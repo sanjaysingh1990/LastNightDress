@@ -35,6 +35,9 @@ public class Lnd_Agent_Profile extends AppCompatActivity {
     private void getdata()
     {
 
+        LndAgentBean header=new LndAgentBean();
+        header.setType(0);
+        data.add(header);
         LndAgentBean db=new LndAgentBean();
         db.setType(1);
         data.add(db);

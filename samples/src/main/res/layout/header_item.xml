@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:id="@+id/headertop"
-
+        android:visibility="gone"
         >
 
 
@@ -29,6 +29,7 @@
             android:text="Omid Fatai"
             android:id="@+id/activitydoneby"
             android:padding="10dp"
+
 
             />
 

@@ -8,9 +8,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.alihafizji.library.CreditCardEditText;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 
@@ -39,7 +45,8 @@ public class ShippingLabelActivity extends AppCompatActivity {
     private String shipvalue = "";
     @Bind(R.id.processmyorder)
     TextView processmyorder;
-
+    @Bind(R.id.cardno)
+    CreditCardEditText cardno;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +55,7 @@ public class ShippingLabelActivity extends AppCompatActivity {
        /* recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerAdapter = new ShippingLabelAdapter(this,data);
         recyclerView.setAdapter(recyclerAdapter);*/
-        processmyorder.setClickable(false);
+       // processmyorder.setClickable(false);
         //applying custom font
         heading.setTypeface(SingleTon.robotobold);
 //initialize();
@@ -98,6 +105,8 @@ public class ShippingLabelActivity extends AppCompatActivity {
         this.newpayment.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
         this.newpayment.setBackgroundResource(R.drawable.purchse_rounded_corners);
         this.newpayment.setTextColor(Color.parseColor("#dbdbdb"));
+        this.cardno.setEnabled(false);
+
     }
 
     public void newpayment(View v) {
@@ -108,9 +117,23 @@ public class ShippingLabelActivity extends AppCompatActivity {
         this.newpayment.setTextColor(Color.parseColor("#ffffff"));
         this.samepayment.setBackgroundResource(R.drawable.purchse_rounded_corners);
         this.samepayment.setTextColor(Color.parseColor("#dbdbdb"));
+        this.cardno.setEnabled(true);
+
     }
 
     public void doPayment(View v) {
 
+      setContentView(R.layout.lnd_shipping_label_purchase_complete);
+        TextView info = (TextView)findViewById(R.id.info);
+        Spannable word = new SpannableString("Thank you");
+
+        word.setSpan(new ForegroundColorSpan(Color.parseColor("#be4d66")), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        word.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD),  0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        info.setText(word);
+        Spannable wordTwo = new SpannableString(", your order is completed.");
+
+        wordTwo.setSpan(new ForegroundColorSpan(Color.parseColor("#222427")), 0, wordTwo.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        info.append(wordTwo);
     }
 }

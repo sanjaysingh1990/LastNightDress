@@ -61,7 +61,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Shop"
+        android:text="Private"
         android:id="@+id/usertype"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
@@ -149,7 +149,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0"
+                android:text="36"
                 android:textSize="16sp"
                 android:layout_gravity="center"
                 android:textColor="#be4d66"
@@ -187,7 +187,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0"
+                android:text="107"
                 android:textSize="16sp"
                 android:layout_gravity="center"
                 android:textColor="#be4d66"
@@ -227,7 +227,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0"
+                android:text="435"
                 android:textSize="16sp"
                 android:layout_gravity="center"
                 android:textColor="#be4d66"
@@ -268,7 +268,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0"
+                android:text="587"
                 android:textSize="16sp"
                 android:layout_gravity="center"
                 android:textColor="#be4d66"

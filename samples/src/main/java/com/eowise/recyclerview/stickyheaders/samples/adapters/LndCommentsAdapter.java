@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,14 +15,17 @@ import android.widget.TextView;
 import com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage.AbstractDataProvider2;
 import com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage.MessageFragment;
 import com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage.PagerSwipeItemFrameLayout;
+import com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage.TagSelectingTextview;
 import com.eowise.recyclerview.stickyheaders.samples.NewMessage.SendMessageActivity;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.RelativeTimeTextView;
 import com.eowise.recyclerview.stickyheaders.samples.data.CommentData;
 import com.eowise.recyclerview.stickyheaders.samples.data.MessageData;
 import com.eowise.recyclerview.stickyheaders.samples.data.MessageToFriendsData;
 import com.eowise.recyclerview.stickyheaders.samples.data.PersonDataProvider;
+import com.eowise.recyclerview.stickyheaders.samples.interfaces.TagClick;
 
 import java.util.HashMap;
 import java.util.List;
@@ -30,21 +34,26 @@ import java.util.Map;
 /**
  * Created by aurel on 22/09/14.
  */
-public class LndCommentsAdapter extends RecyclerView.Adapter<LndCommentsAdapter.ViewHolder> {
+public class LndCommentsAdapter extends RecyclerView.Adapter<LndCommentsAdapter.ViewHolder> implements TagClick {
     private static List<CommentData> items;
     private PersonDataProvider personDataProvider;
     static Context mContext;
     static int count = 0;
+    TagSelectingTextview mTagSelectingTextview;
+    public static int hashTagHyperLinkDisabled = 0;
+    String hastTagColorBlue = "#be4d66";
 
     public LndCommentsAdapter(Context context, List<CommentData> data) {
         this.mContext = context;
-       this.items = data;
+        this.items = data;
+        mTagSelectingTextview = new TagSelectingTextview();
+
         setHasStableIds(true);
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.message_item_row, viewGroup, false);
+        View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.comment_item_row, viewGroup, false);
 
         //Perhaps the first most crucial part. The ViewPager loses its width information when it is put
         //inside a RecyclerView. It needs to be explicitly resized, in this case to the width of the
@@ -60,7 +69,7 @@ public class LndCommentsAdapter extends RecyclerView.Adapter<LndCommentsAdapter.
 
     @Override
     public long getItemId(int position) {
-      return items.get(position).hashCode();
+        return items.get(position).hashCode();
 
     }
 
@@ -69,10 +78,12 @@ public class LndCommentsAdapter extends RecyclerView.Adapter<LndCommentsAdapter.
         CommentData cd = items.get(position);
         SingleTon.imageLoader.displayImage(cd.getProfilepic(), viewHolder.profilepic, SingleTon.options3);
 
-        viewHolder.uname.setText(capitalize(cd.getUname()));
-        viewHolder.message.setText(cd.getCommenttxxt());
         viewHolder.time.setReferenceTime(cd.getTime());
+        viewHolder.uname.setMovementMethod(LinkMovementMethod.getInstance());
 
+        viewHolder.uname.setText(mTagSelectingTextview.addClickablePart(cd.getUname() +" " + cd.getCommenttxxt(),
+                this, hashTagHyperLinkDisabled, hastTagColorBlue, cd.getUname().length()),
+                TextView.BufferType.SPANNABLE);
     }
 
     private String capitalize(final String line) {
@@ -90,22 +101,22 @@ public class LndCommentsAdapter extends RecyclerView.Adapter<LndCommentsAdapter.
         return items.size();
     }
 
+    @Override
+    public void clickedTag(CharSequence tag) {
+
+    }
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public PagerSwipeItemFrameLayout mContainer;
-        public TextView uname, message;
-        public ImageView profilepic, messindicator;
+        public TextView uname;
+        public ImageView profilepic;
         public RelativeTimeTextView time;
 
         public ViewHolder(View v) {
             super(v);
             uname = (TextView) v.findViewById(R.id.uname);
-            message = (TextView) v.findViewById(R.id.msg);
             profilepic = (ImageView) v.findViewById(R.id.profilepic);
-            messindicator = (ImageView) v.findViewById(R.id.messidicator);
             time = (RelativeTimeTextView) v.findViewById(R.id.time);
-
-            messindicator.setVisibility(View.GONE);
 
             //apply font
             uname.setTypeface(SingleTon.robotomedium);

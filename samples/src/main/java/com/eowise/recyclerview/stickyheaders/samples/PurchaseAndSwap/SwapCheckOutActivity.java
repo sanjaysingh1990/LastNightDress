@@ -298,4 +298,8 @@ delivery.setTextColor(Color.parseColor("#dbdbdb"));
         Intent luxurydesign = new Intent(this, LndLuxuryandDesignerAuthentication.class);
         startActivity(luxurydesign);
     }
+    public void doPayment(View v)
+    {
+        setContentView(R.layout.lnd_purchase_newshipping_level);
+    }
 }

@@ -508,7 +508,7 @@ class NotificationSwipeableItemAdapter
                 ((MyViewHolder) holder).mContainer.setCanSwipeRight(!mCanSwipeLeft);
                 break;
             case FOLLOWER:
-                setSpannableText(item.getUname(), " started following you. ", " " + new TimeAgo(activity).timeAgo(item.getNotificationdata().getTime()), ((Follower) holder).notiTextView);
+                setSpannableText(Capitalize.capitalize(item.getUname()), " started following you. ", " " + new TimeAgo(activity).timeAgo(item.getNotificationdata().getTime()), ((Follower) holder).notiTextView);
                 SingleTon.imageLoader.displayImage(item.getProfilepic(), ((Follower) holder).notiprofile, SingleTon.options2);
                 ((Follower) holder).mContainer.setCanSwipeLeft(mCanSwipeLeft);
                 ((Follower) holder).mContainer.setCanSwipeRight(!mCanSwipeLeft);

@@ -8,6 +8,7 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         style="@style/header"
+        android:layout_weight="0"
         android:background="@color/white"
         android:contentInsetEnd="0dp"
         android:contentInsetRight="0dp"
@@ -15,9 +16,7 @@
         app:contentInsetLeft="0dp"
         app:contentInsetRight="0dp"
         app:contentInsetStart="0dp"
-        app:layout_scrollFlags="scroll|enterAlways"
-        android:layout_weight="0"
-        >
+        app:layout_scrollFlags="scroll|enterAlways">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -60,8 +59,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        >
+        android:layout_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -95,10 +93,9 @@
                         android:layout_marginRight="5dp"
                         android:layout_marginTop="5dp"
                         android:background="@drawable/purchse_rounded_corners"
-                        android:paddingBottom="8dp"
-                        android:paddingTop="8dp"
                         android:entries="@array/weight"
-                        ></Spinner>
+                        android:paddingBottom="8dp"
+                        android:paddingTop="8dp"></Spinner>
 
                     <ImageButton
                         android:layout_width="wrap_content"
@@ -457,22 +454,27 @@
                     android:layout_weight="1"
                     android:entries="@array/card_type"></Spinner>
 
-                <EditText
+
+                <com.alihafizji.library.CreditCardEditText
                     android:id="@+id/cardno"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:hint="xxxx xxxx xxxx 1234"
+                    android:inputType="textNoSuggestions"
+                    android:textColorHint="#dadada"
                     android:background="@drawable/rounded"
-                    android:enabled="false"
-                    android:hint="**** **** **** 7894"
-                    android:inputType="number"
-                    android:textColor="#000"
-                    android:textColorHint="#dadada" />
+                    android:textColor="@color/black"
+                    android:layout_weight="1"
+
+                    />
+
             </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
+
     <TextView
+        android:id="@+id/processmyorder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0"
@@ -483,6 +485,6 @@
         android:text="Process My Order"
         android:textColor="#FFFFFF"
         android:textSize="16sp"
-        android:id="@+id/processmyorder"
+        android:onClick="doPayment"
         />
 </LinearLayout>
