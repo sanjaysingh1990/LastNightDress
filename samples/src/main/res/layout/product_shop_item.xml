@@ -377,7 +377,7 @@
         android:clickable="true"
 
         android:gravity="center_vertical"
-        android:text="comment"
+        android:text="Comment"
         android:textColor="#b4b4b4" />
     <ImageView
         android:layout_width="12dp"
