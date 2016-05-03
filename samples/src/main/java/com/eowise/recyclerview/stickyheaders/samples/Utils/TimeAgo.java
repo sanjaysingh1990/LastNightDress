@@ -5,6 +5,8 @@ import android.content.res.Resources;
 
 import com.eowise.recyclerview.stickyheaders.samples.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -102,5 +104,20 @@ public class TimeAgo {
 
 		//return sb.toString().trim();
 return words;
+	}
+	public static long getMilliseconds(String datetime) {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+		try {
+
+			Date date = formatter.parse(datetime);
+			// Log.e("date",date.toString());
+			// Log.e("date2",formatter.format(date));
+
+			return date.getTime();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 }

@@ -3,6 +3,7 @@ package com.eowise.recyclerview.stickyheaders.samples.StickyHeader;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -46,6 +47,7 @@ import com.eowise.recyclerview.stickyheaders.samples.LndComments;
 import com.eowise.recyclerview.stickyheaders.samples.LndMessage.SendSwapRequestActivity;
 import com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage.TagSelectingTextview;
 import com.eowise.recyclerview.stickyheaders.samples.LndUserProfile.LndProfile;
+import com.eowise.recyclerview.stickyheaders.samples.LndUserProfile.LndUserFullStickyActivity;
 import com.eowise.recyclerview.stickyheaders.samples.Main_TabHost;
 import com.eowise.recyclerview.stickyheaders.samples.NewMessage.SendMessageActivity;
 import com.eowise.recyclerview.stickyheaders.samples.PostDataShop.DressEditPost;
@@ -222,6 +224,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     Log.e("json parsing error", ex.getMessage() + "");
                 }
             }
+
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
@@ -1600,7 +1603,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public void deletePost(final String data, final int pos) {
 
-        /*final ProgressDialog pDialog = new ProgressDialog(mContext);
+        final ProgressDialog pDialog = new ProgressDialog(mContext);
         pDialog.setMessage("wait deleting post");
         pDialog.show();
 
@@ -1610,15 +1613,14 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             public void onResponse(String response) {
 
                 pDialog.dismiss();
-                Log.e("response", response.toString());
+               // Log.e("response", response.toString());
                 try {
                     JSONObject jobj = new JSONObject(response.toString());
                     if (jobj.getBoolean("status")) {
 
                         Toast.makeText(mContext, jobj.getString("message"), Toast.LENGTH_LONG).show();
                         LndUserFullStickyActivity lnd = (LndUserFullStickyActivity) mContext;
-                        lnd.delete(pos);
-                        // notifyDataSetChanged();
+                        delete(pos);
                     } else {
                         Toast.makeText(mContext, jobj.getString("message"), Toast.LENGTH_LONG).show();
                     }
@@ -1653,38 +1655,40 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         };
         queue.add(sr);
 
-*/
-        Log.e("delobject", data);
-        int sectionManager = -1;
-        int headerCount = 0;
-        int sectionFirstPosition = 0;
-        int count = 0;
 
-        deleteditemssposition.add((pos / 2) + "");
-
-        mItems.remove(pos);
-        mItems.remove(pos - 1);
-
-        for (int i = 0; i < mItems.size(); i++) {
-            if (i % 2 == 0) {
-                sectionManager = (sectionManager + 1) % 1;
-                sectionFirstPosition = count + headerCount;
-                headerCount += 1;
-                count++;
-            }
-            Home_List_Data hld = mItems.get(i);
-
-            hld.sectionManager = sectionManager;
-            hld.sectionFirstPosition = sectionFirstPosition;
-
-
-        }
-        notifyHeaderChanges();
-
-        notifyDataSetChanged();
 
     }
+private void delete(int pos)
+{
+    int sectionManager = -1;
+    int headerCount = 0;
+    int sectionFirstPosition = 0;
+    int count = 0;
 
+    deleteditemssposition.add((pos / 2) + "");
+
+    mItems.remove(pos);
+    mItems.remove(pos - 1);
+
+    for (int i = 0; i < mItems.size(); i++) {
+        if (i % 2 == 0) {
+            sectionManager = (sectionManager + 1) % 1;
+            sectionFirstPosition = count + headerCount;
+            headerCount += 1;
+            count++;
+        }
+        Home_List_Data hld = mItems.get(i);
+
+        hld.sectionManager = sectionManager;
+        hld.sectionFirstPosition = sectionFirstPosition;
+
+
+    }
+    notifyHeaderChanges();
+
+    notifyDataSetChanged();
+
+}
 }
 
 

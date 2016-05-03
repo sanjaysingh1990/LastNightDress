@@ -89,7 +89,7 @@ if(newpassval.compareTo(newpassagainval)!=0)
     JSONObject jobj=new JSONObject();
     try
     {
-        jobj.put("uname", SingleTon.pref.getString("uname",""));
+        jobj.put("user_id", SingleTon.pref.getString("user_id",""));
         jobj.put("oldpass",oldpassval);
         jobj.put("newpass",newpassval);
     }
@@ -109,7 +109,7 @@ if(newpassval.compareTo(newpassagainval)!=0)
 
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        StringRequest sr = new StringRequest(Request.Method.POST,"http://52.76.68.122/lnd/lndusers.php", new Response.Listener<String>() {
+        StringRequest sr = new StringRequest(Request.Method.POST,"http://52.76.68.122/lnd/androidiosphpfiles/lndusers.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 pDialog.dismiss();
@@ -126,6 +126,7 @@ if(newpassval.compareTo(newpassagainval)!=0)
                     }
                         else {
                         oldpass.setError("your old password is not correct");
+                        oldpass.requestFocus();
                         Toast.makeText(ChangePassword.this, jobj.getString("message") + "", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -172,10 +173,10 @@ if(newpassval.compareTo(newpassagainval)!=0)
             public byte[] getBody() throws AuthFailureError {
                 return super.getBody();
             }
-        };
-        int socketTimeout = 60000;//30 seconds - change to what you want
+        } ;
+        /*int socketTimeout = 60000;//30 seconds - change to what you want
         RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-        sr.setRetryPolicy(policy);
+        sr.setRetryPolicy(policy);*/
 
         queue.add(sr);
     }

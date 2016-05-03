@@ -88,7 +88,7 @@ public class LndUserFullStickyActivity extends AppCompatActivity {
 
         //header reference and custom font
         heading = (TextView) findViewById(R.id.heading);
-        heading.setText("MY POST");
+        heading.setText("My Post");
         heading.setTextSize(18);
         heading.setTypeface(SingleTon.robotobold);
         //get intent

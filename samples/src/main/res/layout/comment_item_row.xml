@@ -1,71 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:paddingBottom="0dp"
 
 
     >
-      <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:orientation="horizontal"
-          android:paddingLeft="10dp"
-          android:paddingRight="10dp"
-          android:paddingTop="5dp"
-          android:paddingBottom="5dp"
-          >
-
-          <de.hdodenhof.circleimageview.CircleImageView
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_weight="0"
-              android:id="@+id/profilepic"
-              android:layout_width="40dp"
-              android:layout_height="40dp"
-              android:src="@drawable/image1"
-              android:layout_gravity="top"
-             />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_gravity="center_vertical"
-        android:layout_weight="1"
-        android:layout_marginTop="3dp"
-        android:paddingLeft="5dp"
-        android:layout_marginLeft="5dp"
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sanjay Singh"
-            android:id="@+id/uname"
+        android:orientation="horizontal"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="5dp">
 
-            android:textColor="#be4d66"
-            android:textSize="16sp"
-            android:layout_gravity="center_vertical"
-            />
-        <com.eowise.recyclerview.stickyheaders.samples.Utils.RelativeTimeTextView
-            android:layout_width="wrap_content"
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/profilepic"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="top"
+            android:layout_weight="0"
+            android:src="@drawable/image1" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/time"
-            android:text="2m"
-            android:textColor="#dadada"
-            android:textSize="11sp"
-            android:layout_gravity="left"
-            />
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="3dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingLeft="5dp">
+
+            <TextView
+                android:id="@+id/uname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+
+                android:text="Sanjay Singh"
+                android:textSize="14sp" />
+
+            <com.eowise.recyclerview.stickyheaders.samples.Utils.RelativeTimeTextView
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:text="2m"
+                android:textColor="#dadada"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+
     </LinearLayout>
 
-
-
-</LinearLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="#dadada"
         android:layout_marginLeft="60dp"
-        />
+        android:background="#dadada" />
 
 </LinearLayout>

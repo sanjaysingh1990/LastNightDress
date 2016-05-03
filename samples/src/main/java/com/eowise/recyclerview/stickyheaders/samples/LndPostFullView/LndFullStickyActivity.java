@@ -93,7 +93,7 @@ public class LndFullStickyActivity extends AppCompatActivity {
 
         //header reference and custom font
         heading = (TextView) findViewById(R.id.heading);
-        heading.setText("POST");
+        heading.setText("Post");
         heading.setTextSize(18);
         heading.setTypeface(SingleTon.robotobold);
 //loading spiiner

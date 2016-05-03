@@ -3,6 +3,7 @@ package com.eowise.recyclerview.stickyheaders.samples.adapters;
 import android.app.Activity;
 import android.graphics.Point;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.SQLDB.FavoriteData;
+import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.Home_List_Data;
 
 
 import java.util.List;
@@ -54,10 +56,10 @@ public class FavoratesAdapter extends RecyclerView.Adapter<FavoratesAdapter.Text
         FavoriteData fd = labels.get(position);
         SingleTon.imageLoader.displayImage(fd.getImageurl(), holder.img, SingleTon.options);
         holder.price.setText("$" + fd.getCost());
-        if((position+1)%3==0)
-             holder.separator.setVisibility(View.GONE);
+        if ((position + 1) % 3 == 0)
+            holder.separator.setVisibility(View.GONE);
         else
-             holder.separator.setVisibility(View.VISIBLE);
+            holder.separator.setVisibility(View.VISIBLE);
 
     }
 
@@ -92,4 +94,6 @@ public class FavoratesAdapter extends RecyclerView.Adapter<FavoratesAdapter.Text
             notifyDataSetChanged();
         }
     }
+
+
 }

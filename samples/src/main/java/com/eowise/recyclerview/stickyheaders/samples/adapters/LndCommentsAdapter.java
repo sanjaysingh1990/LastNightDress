@@ -16,9 +16,11 @@ import com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage.Abst
 import com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage.MessageFragment;
 import com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage.PagerSwipeItemFrameLayout;
 import com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage.TagSelectingTextview;
+import com.eowise.recyclerview.stickyheaders.samples.LndUserProfile.LndProfile;
 import com.eowise.recyclerview.stickyheaders.samples.NewMessage.SendMessageActivity;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
+import com.eowise.recyclerview.stickyheaders.samples.UserProfile.OtherUserProfileActivity;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.RelativeTimeTextView;
 import com.eowise.recyclerview.stickyheaders.samples.data.CommentData;
@@ -81,7 +83,7 @@ public class LndCommentsAdapter extends RecyclerView.Adapter<LndCommentsAdapter.
         viewHolder.time.setReferenceTime(cd.getTime());
         viewHolder.uname.setMovementMethod(LinkMovementMethod.getInstance());
 
-        viewHolder.uname.setText(mTagSelectingTextview.addClickablePart(cd.getUname() +" " + cd.getCommenttxxt(),
+        viewHolder.uname.setText(mTagSelectingTextview.addClickablePart(Capitalize.capitalize(cd.getUname()) +" " + cd.getCommenttxxt(),
                 this, hashTagHyperLinkDisabled, hastTagColorBlue, cd.getUname().length()),
                 TextView.BufferType.SPANNABLE);
     }
@@ -103,7 +105,17 @@ public class LndCommentsAdapter extends RecyclerView.Adapter<LndCommentsAdapter.
 
     @Override
     public void clickedTag(CharSequence tag) {
+        Intent profile;
+        if (SingleTon.pref.getString("uname", "").compareToIgnoreCase(tag.toString()) == 0) {
+            profile = new Intent(mContext, LndProfile.class);
+        } else {
+            profile = new Intent(mContext, OtherUserProfileActivity.class);
+            profile.putExtra("uname", tag.toString().trim());
+            profile.putExtra("user_id", "-1");
 
+        }
+
+        mContext.startActivity(profile);
     }
 
 

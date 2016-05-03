@@ -246,7 +246,12 @@ public class SendMessageActivity extends AppCompatActivity {
                         SimpleDateFormat formatter = new SimpleDateFormat("hh:mm a");
 
                         String newFormat = formatter.format(testDate);
-                        md.setTime(newFormat.toUpperCase());
+                        if(newFormat.startsWith("0"))
+                        {
+                            md.setTime(newFormat.toUpperCase().substring(1));
+                        }
+                        else
+                            md.setTime(newFormat.toUpperCase());
 
                         data.add(md);
                     }
