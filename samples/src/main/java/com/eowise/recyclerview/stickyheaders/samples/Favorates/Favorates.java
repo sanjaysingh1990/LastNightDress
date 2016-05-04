@@ -60,7 +60,8 @@ public class Favorates extends AppCompatActivity {
     int headerCount = 0;
     int sectionFirstPosition = 0;
     private int count = 0;
-    private int skipdata=0;
+    private int skipdata = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -249,8 +250,8 @@ public class Favorates extends AppCompatActivity {
                         count++;
                     }
 
-                      if(favitems.size()==0)
-                          showinfo.setVisibility(View.VISIBLE);
+                    if (favitems.size() == 0)
+                        showinfo.setVisibility(View.VISIBLE);
                     // rv.setAdapter(adapter);
                     skipdata = favitems.size();
                    /* if (jarray.length() < 15) {
@@ -265,7 +266,7 @@ public class Favorates extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-               // LndShopActivity.prog.setVisibility(View.GONE);
+                // LndShopActivity.prog.setVisibility(View.GONE);
 
 
                 //Log.e("response",error.getMessage()+"");
@@ -296,20 +297,22 @@ public class Favorates extends AppCompatActivity {
         };
         queue.add(sr);
     }
+
     private void checkFavorate2(Home_List_Data hld) {
         FavoriteData fd = SingleTon.db.getContact(hld.getPost_id());
         if (fd != null) {
             hld.setIsfavorate(true);
         }
     }
+
     private void addFavorite(FavoriteData fav) {
 
 
-            FavoriteData favdata = new FavoriteData();
-            favdata.setPostid(fav.getPostid());
-            favdata.setCost(fav.getCost());
-            favdata.setImageurl(fav.getImageurl());
-            SingleTon.db.addContact(favdata);
+        FavoriteData favdata = new FavoriteData();
+        favdata.setPostid(fav.getPostid());
+        favdata.setCost(fav.getCost());
+        favdata.setImageurl(fav.getImageurl());
+        SingleTon.db.addContact(favdata);
 
     }
 

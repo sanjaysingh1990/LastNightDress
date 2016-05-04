@@ -10,6 +10,15 @@ public class LndAgentBean
     private String totalpost;
     private String totalsales;
 
+    public int getUserposition() {
+        return userposition;
+    }
+
+    public void setUserposition(int userposition) {
+        this.userposition = userposition;
+    }
+
+    private int userposition;
     public String getTotal() {
         return total;
     }

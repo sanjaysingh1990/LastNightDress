@@ -31,7 +31,9 @@
                 android:layout_marginTop="6dp"
                 android:text="Amanda"
                 android:textColor="@color/white"
-                android:textSize="11sp" />
+                android:textSize="11sp"
+                android:id="@+id/uname"
+                />
         </LinearLayout>
 
         <LinearLayout
@@ -43,7 +45,9 @@
 
             <TextView
                 style="@style/LndAgentListTextView"
-                android:text="31" />
+                android:text="31"
+                android:id="@+id/totalpost"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -64,7 +68,9 @@
 
             <TextView
                 style="@style/LndAgentListTextView"
-                android:text="19" />
+                android:text="19"
+                android:id="@+id/totalsales"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -86,7 +92,9 @@
 
             <TextView
                 style="@style/LndAgentListTextView"
-                android:text="0/10" />
+                android:text="0/10"
+                android:id="@+id/totalrefuser"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -95,7 +103,9 @@
                 android:layout_marginTop="3dp"
                 android:text="Agency"
                 android:textColor="@color/white"
-                android:textSize="11sp" />
+                android:textSize="11sp"
+                android:id="@+id/totalrefusertext"
+                />
         </LinearLayout>
 
     </LinearLayout>

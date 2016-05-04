@@ -35,7 +35,8 @@ import butterknife.ButterKnife;
 public class Lnd_Agent_Profile extends AppCompatActivity {
     @Bind(R.id.recycler)
     RecyclerView recyclerView;
-    @Bind(R.id.header)TextView header;
+    @Bind(R.id.header)
+    TextView header;
     ArrayList<LndAgentBean> data = new ArrayList<>();
     AgentListAdapter adapter;
 
@@ -52,7 +53,7 @@ public class Lnd_Agent_Profile extends AppCompatActivity {
         recyclerView.setLayoutManager(llm);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         header.setTypeface(SingleTon.robotobold);
-        header.setText(Capitalize.capitalize(SingleTon.pref.getString("uname","")));
+        header.setText(Capitalize.capitalize(SingleTon.pref.getString("uname", "")));
         setHeader();
         getData();
 
@@ -74,72 +75,96 @@ public class Lnd_Agent_Profile extends AppCompatActivity {
         StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/postdata.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                boolean normaluser = true,agentuser=true;
+                boolean normaluser = true, agentuser = true, agencyuser = true, areamanager = true, regionalmanager = true, salesdirector = true;
 
                 try {
                     JSONObject jobj = new JSONObject(response.toString());
-                    JSONArray jsonArray=jobj.getJSONArray("data");
-                    for(int i=0;i<jsonArray.length();i++) {
-                        JSONObject jsonObject=jsonArray.getJSONObject(i);
+                    JSONArray jsonArray = jobj.getJSONArray("data");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
                         LndAgentBean agent = new LndAgentBean();
                         switch (jsonObject.getInt("user_position")) {
 
                             case 1:
-                                    if(normaluser)
-                                    {
-                                        LndAgentBean basicuserheader = new LndAgentBean();
-                                        basicuserheader.setType(1);
-                                        basicuserheader.setHeaderType(1);
-                                        basicuserheader.setTotal(jsonObject.getString("total_basicuser"));
-                                        normaluser=false;
-                                        data.add(basicuserheader);
+                                if (normaluser) {
+                                    LndAgentBean basicuserheader = new LndAgentBean();
+                                    basicuserheader.setType(1);
+                                    basicuserheader.setHeaderType(1);
+                                    basicuserheader.setTotal(jsonObject.getString("total_basicuser"));
+                                    normaluser = false;
+                                    data.add(basicuserheader);
 
-                                    }
-                                    agent.setType(2);
-                                    agent.setUname(jsonObject.getString("uname"));
-                                    agent.setTotalpost(jsonObject.getString("total_posts"));
-                                    agent.setTotalsales(jsonObject.getString("total_sales"));
-                                    agent.setTotalrefuser(jsonObject.getString("total_ref_user"));
-                                    agent.setProfilepic(jsonObject.getString("profile_pic"));
+                                }
+
 
                                 break;
 
 
                             case 2:
-                                if(agentuser)
-                                {
+                                if (agentuser) {
                                     LndAgentBean agentheader = new LndAgentBean();
                                     agentheader.setType(1);
                                     agentheader.setHeaderType(2);
                                     agentheader.setTotal(jsonObject.getString("total_agent"));
-                                    agentuser=false;
+                                    agentuser = false;
                                     data.add(agentheader);
 
                                 }
-                                agent.setType(2);
-                                agent.setUname(jsonObject.getString("uname"));
-                                agent.setTotalpost(jsonObject.getString("total_posts"));
-                                agent.setTotalsales(jsonObject.getString("total_sales"));
-                                agent.setTotalrefuser(jsonObject.getString("total_ref_user"));
-                                agent.setProfilepic(jsonObject.getString("profile_pic"));
-                                break;
 
 
                             case 3:
+                                if (agencyuser) {
+                                    LndAgentBean agencyheader = new LndAgentBean();
+                                    agencyheader.setType(1);
+                                    agencyheader.setHeaderType(3);
+                                    agencyheader.setTotal(jsonObject.getString("total_agency"));
+                                    agencyuser = false;
+                                    data.add(agencyheader);
+
+                                }
 
                                 break;
 
 
                             case 4:
+                                if (areamanager) {
+                                    LndAgentBean areamanagerheader = new LndAgentBean();
+                                    areamanagerheader.setType(1);
+                                    areamanagerheader.setHeaderType(4);
+                                    areamanagerheader.setTotal(jsonObject.getString("total_areamanager"));
+                                    areamanager = false;
+                                    data.add(areamanagerheader);
 
+                                }
                                 break;
 
 
                             case 5:
+                                if (regionalmanager) {
+                                    LndAgentBean regionaldirectorheader = new LndAgentBean();
+                                    regionaldirectorheader.setType(1);
+                                    regionaldirectorheader.setHeaderType(5);
+                                    regionaldirectorheader.setTotal(jsonObject.getString("total_regionaldirector"));
+                                    regionalmanager = false;
+                                    data.add(regionaldirectorheader);
+
+                                }
 
                                 break;
+
                         }
-                    data.add(agent);
+                        if (jsonObject.getString("user_type").equals("private"))
+                            agent.setType(2);
+                        else
+                            agent.setType(3);
+
+                        agent.setUname(jsonObject.getString("uname"));
+                        agent.setTotalpost(jsonObject.getString("total_posts"));
+                        agent.setTotalsales(jsonObject.getString("total_sales"));
+                        agent.setTotalrefuser(jsonObject.getString("total_ref_user"));
+                        agent.setProfilepic(jsonObject.getString("profile_pic"));
+                        agent.setUserposition(jsonObject.getInt("user_position"));
+                        data.add(agent);
                     }
                     adapter.notifyDataSetChanged();
 
@@ -177,8 +202,8 @@ public class Lnd_Agent_Profile extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
     }
-    public void back(View v)
-    {
+
+    public void back(View v) {
         onBackPressed();
     }
 }

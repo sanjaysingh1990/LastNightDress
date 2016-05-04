@@ -34,6 +34,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage.AbstractDataProvider;
 import com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage.NotificationType;
@@ -55,9 +56,11 @@ import java.util.ArrayList;
 class AgentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static final int USERHEADER = 0, HEADER = 1, NORMALUSER = 2, SHOPUSER = 3, SURPASSEDYOU = 4;
     ArrayList<LndAgentBean> items;
-
+    Context con;
     public AgentListAdapter(Context con, ArrayList<LndAgentBean> data) {
+
         items = data;
+    this.con=con;
     }
 
     public class Header extends RecyclerView.ViewHolder {
@@ -76,7 +79,7 @@ class AgentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     public class NormalUser extends RecyclerView.ViewHolder {
-        public TextView uname, totalpost, totalsales, totalrefuser;
+        public TextView uname, totalpost, totalsales, totalrefuser, totalrefusertext;
         public ImageView profileimg;
 
         public NormalUser(View v) {
@@ -85,6 +88,8 @@ class AgentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             totalpost = (TextView) v.findViewById(R.id.totalpost);
             totalsales = (TextView) v.findViewById(R.id.totalsales);
             totalrefuser = (TextView) v.findViewById(R.id.totalrefuser);
+            totalrefusertext = (TextView) v.findViewById(R.id.totalrefusertext);
+
             profileimg = (ImageView) v.findViewById(R.id.mainprofilepic);
 
         }
@@ -93,16 +98,18 @@ class AgentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     public class ShopUser extends RecyclerView.ViewHolder {
-        public PagerSwipeItemFrameLayout mContainer;
-        public TextView notiTextView;
-        public ImageView notiprofile, notiimage;
+        public TextView uname, totalpost, totalsales, totalrefuser, totalrefusertext;
+        public ImageView profileimg;
 
         public ShopUser(View v) {
             super(v);
-            mContainer = (PagerSwipeItemFrameLayout) v.findViewById(R.id.container);
-            notiTextView = (TextView) v.findViewById(R.id.notiinfotext);
-            notiprofile = (ImageView) v.findViewById(R.id.notipropic);
-            notiimage = (ImageView) v.findViewById(R.id.notiimage);
+            uname = (TextView) v.findViewById(R.id.uname);
+            totalpost = (TextView) v.findViewById(R.id.totalpost);
+            totalsales = (TextView) v.findViewById(R.id.totalsales);
+            totalrefuser = (TextView) v.findViewById(R.id.totalrefuser);
+            totalrefusertext = (TextView) v.findViewById(R.id.totalrefusertext);
+
+            profileimg = (ImageView) v.findViewById(R.id.mainprofilepic);
 
         }
 
@@ -203,20 +210,63 @@ class AgentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 if (item.getHeaderType() == 1)
                     header.total.setText("Basic Users (" + item.getTotal() + "/5)");
                 else if (item.getHeaderType() == 2)
-                    header.total.setText("Agents (" + item.getTotal() + "/5)");
+                    header.total.setText("Agents (" + item.getTotal() + "/25)");
+                else if (item.getHeaderType() == 3)
+                    header.total.setText("Agency (" + item.getTotal() + "/5)");
+                else if (item.getHeaderType() == 4)
+                    header.total.setText("Area Manager (" + item.getTotal() + "/5)");
+                else if (item.getHeaderType() == 5)
+                    header.total.setText("Regional Director (" + item.getTotal() + "/5)");
+                else if (item.getHeaderType() == 6)
+                    header.total.setText("Sales Director (" + item.getTotal() + "/5)");
+
                 break;
 
             case NORMALUSER:
                 NormalUser normalUser = (NormalUser) holder;
+
+                if (item.getUserposition() == 1) {
+                    normalUser.totalrefuser.setText(item.getTotalrefuser() + "/5");
+                    normalUser.totalrefusertext.setText("Basic Users");
+                }
+                if (item.getUserposition() == 2) {
+                    normalUser.totalrefuser.setText(item.getTotalrefuser() + "/25");
+                    normalUser.totalrefusertext.setText("Agents");
+
+                }
+                if (item.getUserposition() == 3) {
+                    normalUser.totalrefuser.setText(item.getTotalrefuser() + "/25");
+                    normalUser.totalrefusertext.setText("Agency");
+
+                }
                 normalUser.uname.setText(Capitalize.capitalize(item.getUname()));
                 normalUser.totalpost.setText(item.getTotalpost());
                 normalUser.totalsales.setText(item.getTotalsales());
-                normalUser.totalrefuser.setText(item.getTotalrefuser() + "/5");
                 SingleTon.imageLoader.displayImage(item.getProfilepic(), normalUser.profileimg, SingleTon.options2);
                 break;
             case SHOPUSER:
+                 ShopUser shopUser = (ShopUser) holder;
 
-                break;
+                if (item.getUserposition() == 1) {
+                    shopUser.totalrefuser.setText(item.getTotalrefuser() + "/5");
+                    shopUser.totalrefusertext.setText("Basic Users");
+                }
+                if (item.getUserposition() == 2) {
+                    shopUser.totalrefuser.setText(item.getTotalrefuser() + "/25");
+                    shopUser.totalrefusertext.setText("Agents");
+
+                }
+                if (item.getUserposition() == 3) {
+                    shopUser.totalrefuser.setText(item.getTotalrefuser() + "/25");
+                    shopUser.totalrefusertext.setText("Agency");
+
+                }
+                shopUser.uname.setText(Capitalize.capitalize(item.getUname()));
+                shopUser.totalpost.setText(item.getTotalpost());
+                shopUser.totalsales.setText(item.getTotalsales());
+                SingleTon.imageLoader.displayImage(item.getProfilepic(), shopUser.profileimg, SingleTon.options2);
+
+            break;
             case USERHEADER:
 
                 break;
