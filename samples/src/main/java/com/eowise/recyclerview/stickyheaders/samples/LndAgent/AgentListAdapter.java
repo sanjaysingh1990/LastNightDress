@@ -53,23 +53,22 @@ import java.util.ArrayList;
 
 
 class AgentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    public static final int USERHEADER=0,HEADER = 1, NORMALUSER = 2, SHOPUSER = 3,SURPASSEDYOU=4;
+    public static final int USERHEADER = 0, HEADER = 1, NORMALUSER = 2, SHOPUSER = 3, SURPASSEDYOU = 4;
     ArrayList<LndAgentBean> items;
-public AgentListAdapter(Context con, ArrayList<LndAgentBean> data)
-{
-    items=data;
-}
+
+    public AgentListAdapter(Context con, ArrayList<LndAgentBean> data) {
+        items = data;
+    }
+
     public class Header extends RecyclerView.ViewHolder {
-        public PagerSwipeItemFrameLayout mContainer;
-        public TextView notiTextView;
-        public ImageView notiprofile, notiimage;
+
+        public TextView total;
 
         public Header(View v) {
             super(v);
-            mContainer = (PagerSwipeItemFrameLayout) v.findViewById(R.id.container);
-            notiTextView = (TextView) v.findViewById(R.id.notiinfotext);
-            notiprofile = (ImageView) v.findViewById(R.id.notipropic);
-            notiimage = (ImageView) v.findViewById(R.id.notiimage);
+
+            total = (TextView) v.findViewById(R.id.total);
+
 
         }
 
@@ -77,16 +76,16 @@ public AgentListAdapter(Context con, ArrayList<LndAgentBean> data)
     }
 
     public class NormalUser extends RecyclerView.ViewHolder {
-        public PagerSwipeItemFrameLayout mContainer;
-        public TextView notiTextView;
-        public ImageView notiprofile, notiimage;
+        public TextView uname, totalpost, totalsales, totalrefuser;
+        public ImageView profileimg;
 
         public NormalUser(View v) {
             super(v);
-            mContainer = (PagerSwipeItemFrameLayout) v.findViewById(R.id.container);
-            notiTextView = (TextView) v.findViewById(R.id.notiinfotext);
-            notiprofile = (ImageView) v.findViewById(R.id.notipropic);
-            notiimage = (ImageView) v.findViewById(R.id.notiimage);
+            uname = (TextView) v.findViewById(R.id.uname);
+            totalpost = (TextView) v.findViewById(R.id.totalpost);
+            totalsales = (TextView) v.findViewById(R.id.totalsales);
+            totalrefuser = (TextView) v.findViewById(R.id.totalrefuser);
+            profileimg = (ImageView) v.findViewById(R.id.mainprofilepic);
 
         }
 
@@ -127,20 +126,21 @@ public AgentListAdapter(Context con, ArrayList<LndAgentBean> data)
     }
 
     public class UserHeader extends RecyclerView.ViewHolder {
-        public PagerSwipeItemFrameLayout mContainer;
-        public TextView notiTextView;
-        public ImageView notiprofile, notiimage;
+        public TextView uname, totalpost, totalsales, totalrefuser;
+        public ImageView profileimg;
 
         public UserHeader(View v) {
             super(v);
-            mContainer = (PagerSwipeItemFrameLayout) v.findViewById(R.id.container);
-            notiTextView = (TextView) v.findViewById(R.id.notiinfotext);
-            notiprofile = (ImageView) v.findViewById(R.id.notipropic);
-            notiimage = (ImageView) v.findViewById(R.id.notiimage);
+            uname = (TextView) v.findViewById(R.id.uname);
+            totalpost = (TextView) v.findViewById(R.id.totalpost);
+            totalsales = (TextView) v.findViewById(R.id.totalsales);
+            totalrefuser = (TextView) v.findViewById(R.id.totalrefuser);
+            profileimg = (ImageView) v.findViewById(R.id.mainprofilepic);
 
         }
 
     }
+
     @Override
     public int getItemViewType(int position) {
         if (items.get(position).getType() == HEADER) {
@@ -150,12 +150,10 @@ public AgentListAdapter(Context con, ArrayList<LndAgentBean> data)
         } else if (items.get(position).getType() == SHOPUSER) {
             return SHOPUSER;
 
-        }
-        else if (items.get(position).getType() == SURPASSEDYOU) {
+        } else if (items.get(position).getType() == SURPASSEDYOU) {
             return SURPASSEDYOU;
 
-        }
-        else if (items.get(position).getType() == USERHEADER) {
+        } else if (items.get(position).getType() == USERHEADER) {
             return USERHEADER;
 
         }
@@ -201,12 +199,20 @@ public AgentListAdapter(Context con, ArrayList<LndAgentBean> data)
 
 
             case HEADER:
-
+                Header header = (Header) holder;
+                if (item.getHeaderType() == 1)
+                    header.total.setText("Basic Users (" + item.getTotal() + "/5)");
+                else if (item.getHeaderType() == 2)
+                    header.total.setText("Agents (" + item.getTotal() + "/5)");
                 break;
 
             case NORMALUSER:
-                //setSpannableText("Cindy Lowe ", "mentioned you in a post. @Jakie @Oliva i know you always wanted this #beautiful and #nice #dress.  ", " 2m", ((MyViewHolder) holder).notiTextView);
-
+                NormalUser normalUser = (NormalUser) holder;
+                normalUser.uname.setText(Capitalize.capitalize(item.getUname()));
+                normalUser.totalpost.setText(item.getTotalpost());
+                normalUser.totalsales.setText(item.getTotalsales());
+                normalUser.totalrefuser.setText(item.getTotalrefuser() + "/5");
+                SingleTon.imageLoader.displayImage(item.getProfilepic(), normalUser.profileimg, SingleTon.options2);
                 break;
             case SHOPUSER:
 

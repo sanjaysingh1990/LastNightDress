@@ -10,6 +10,42 @@ public class LndAgentBean
     private String totalpost;
     private String totalsales;
 
+    public String getTotal() {
+        return total;
+    }
+
+    public void setTotal(String total) {
+        this.total = total;
+    }
+
+    private String total;
+    public int getHeaderType() {
+        return HeaderType;
+    }
+
+    public void setHeaderType(int headerType) {
+        HeaderType = headerType;
+    }
+
+    private int HeaderType;
+    public String getProfilepic() {
+        return profilepic;
+    }
+
+    public void setProfilepic(String profilepic) {
+        this.profilepic = profilepic;
+    }
+
+    private String profilepic;
+    public String getTotalrefuser() {
+        return totalrefuser;
+    }
+
+    public void setTotalrefuser(String totalrefuser) {
+        this.totalrefuser = totalrefuser;
+    }
+
+    private String totalrefuser;
     public int getType() {
         return type;
     }

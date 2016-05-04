@@ -35,7 +35,9 @@
                 android:layout_marginTop="6dp"
                 android:text="Amanda"
                 android:textColor="@color/white"
-                android:textSize="11sp" />
+                android:textSize="11sp"
+                android:id="@+id/uname"
+                />
         </LinearLayout>
 
         <LinearLayout
@@ -48,6 +50,7 @@
             <TextView
                 style="@style/LndAgentListTextView"
                 android:text="31"
+                android:id="@+id/totalpost"
                />
 
             <TextView
@@ -72,6 +75,7 @@
             <TextView
                 style="@style/LndAgentListTextView"
                 android:text="19"
+                android:id="@+id/totalsales"
                 />
 
             <TextView
@@ -97,6 +101,7 @@
             <TextView
                 style="@style/LndAgentListTextView"
                 android:text="4/5"
+                android:id="@+id/totalrefuser"
                 />
 
             <TextView

@@ -6,6 +6,8 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -17,8 +19,10 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
 import com.eowise.recyclerview.stickyheaders.samples.data.LndAgentBean;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -29,55 +33,40 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class Lnd_Agent_Profile extends AppCompatActivity {
-    @Bind(R.id.recycler)RecyclerView recyclerView;
-    ArrayList<LndAgentBean> data=new ArrayList<>();
+    @Bind(R.id.recycler)
+    RecyclerView recyclerView;
+    @Bind(R.id.header)TextView header;
+    ArrayList<LndAgentBean> data = new ArrayList<>();
     AgentListAdapter adapter;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lnd__agent__profile);
         ButterKnife.bind(this);
-         adapter=new AgentListAdapter(this,data);
+        adapter = new AgentListAdapter(this, data);
         recyclerView.setAdapter(adapter);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(llm);
-        //recyclerView.setItemAnimator(new DefaultItemAnimator());
-      getdata();
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        header.setTypeface(SingleTon.robotobold);
+        header.setText(Capitalize.capitalize(SingleTon.pref.getString("uname","")));
+        setHeader();
+        getData();
 
     }
-    private void getdata()
-    {
 
-        LndAgentBean header=new LndAgentBean();
+    private void setHeader() {
+
+        LndAgentBean header = new LndAgentBean();
         header.setType(0);
         data.add(header);
-        LndAgentBean db=new LndAgentBean();
-        db.setType(1);
-        data.add(db);
-        LndAgentBean db2=new LndAgentBean();
-        db2.setType(2);
-        data.add(db2);
-        LndAgentBean db3=new LndAgentBean();
-        db3.setType(3);
-        data.add(db3);
-        LndAgentBean db8=new LndAgentBean();
-        db8.setType(4);
-        data.add(db8);
-        LndAgentBean db4=new LndAgentBean();
-        db4.setType(1);
-        data.add(db4);
-        LndAgentBean db5=new LndAgentBean();
-        db5.setType(2);
-        data.add(db5);
-        LndAgentBean db6=new LndAgentBean();
-        db6.setType(2);
-        data.add(db6);
-        LndAgentBean db7=new LndAgentBean();
-        db7.setType(2);
-        data.add(db7);
-       adapter.notifyDataSetChanged();
+
+        adapter.notifyDataSetChanged();
     }
+
     public void getData() {
 
 
@@ -85,40 +74,75 @@ public class Lnd_Agent_Profile extends AppCompatActivity {
         StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/postdata.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-             boolean normaluser=true;
+                boolean normaluser = true,agentuser=true;
+
                 try {
                     JSONObject jobj = new JSONObject(response.toString());
-                  
-                    switch(jobj.getInt("user_position"))
-                    {
+                    JSONArray jsonArray=jobj.getJSONArray("data");
+                    for(int i=0;i<jsonArray.length();i++) {
+                        JSONObject jsonObject=jsonArray.getJSONObject(i);
+                        LndAgentBean agent = new LndAgentBean();
+                        switch (jsonObject.getInt("user_position")) {
 
-                        case 1:
-                          if(normaluser)
-                          {
+                            case 1:
+                                    if(normaluser)
+                                    {
+                                        LndAgentBean basicuserheader = new LndAgentBean();
+                                        basicuserheader.setType(1);
+                                        basicuserheader.setHeaderType(1);
+                                        basicuserheader.setTotal(jsonObject.getString("total_basicuser"));
+                                        normaluser=false;
+                                        data.add(basicuserheader);
 
-                          }
-                            break;
+                                    }
+                                    agent.setType(2);
+                                    agent.setUname(jsonObject.getString("uname"));
+                                    agent.setTotalpost(jsonObject.getString("total_posts"));
+                                    agent.setTotalsales(jsonObject.getString("total_sales"));
+                                    agent.setTotalrefuser(jsonObject.getString("total_ref_user"));
+                                    agent.setProfilepic(jsonObject.getString("profile_pic"));
 
-
-                        case 2:
-
-                            break;
-
-
-                        case 3:
-
-                            break;
-
-
-                        case 4:
-
-                            break;
+                                break;
 
 
-                        case 5:
+                            case 2:
+                                if(agentuser)
+                                {
+                                    LndAgentBean agentheader = new LndAgentBean();
+                                    agentheader.setType(1);
+                                    agentheader.setHeaderType(2);
+                                    agentheader.setTotal(jsonObject.getString("total_agent"));
+                                    agentuser=false;
+                                    data.add(agentheader);
 
-                            break;
+                                }
+                                agent.setType(2);
+                                agent.setUname(jsonObject.getString("uname"));
+                                agent.setTotalpost(jsonObject.getString("total_posts"));
+                                agent.setTotalsales(jsonObject.getString("total_sales"));
+                                agent.setTotalrefuser(jsonObject.getString("total_ref_user"));
+                                agent.setProfilepic(jsonObject.getString("profile_pic"));
+                                break;
+
+
+                            case 3:
+
+                                break;
+
+
+                            case 4:
+
+                                break;
+
+
+                            case 5:
+
+                                break;
+                        }
+                    data.add(agent);
                     }
+                    adapter.notifyDataSetChanged();
+
                 } catch (Exception ex) {
                     Log.e("json parsing error", ex.getMessage() + "");
                 }
@@ -134,7 +158,7 @@ public class Lnd_Agent_Profile extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("rqid", "19");
-                params.put("ref_code", 233+"");
+                params.put("ref_code", 233 + "");
 
                 return params;
             }
@@ -147,5 +171,14 @@ public class Lnd_Agent_Profile extends AppCompatActivity {
             }
         };
         queue.add(sr);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+    public void back(View v)
+    {
+        onBackPressed();
     }
 }
