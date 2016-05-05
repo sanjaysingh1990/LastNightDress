@@ -61,7 +61,7 @@ public class NotificationFragment extends Fragment {
     private static final String ARG_CAN_SWIPE_LEFT = "can swipe left";
     public static AbstractDataProvider mProvider;
     public static NotificationFragment notification;
-    private ArrayList<String> notificationids=new ArrayList<String>();
+    private ArrayList<String> notificationids = new ArrayList<String>();
 
     public static NotificationFragment newInstance(String dataProvider, boolean canSwipeLeft) {
         NotificationFragment fragment = new NotificationFragment();
@@ -81,6 +81,7 @@ public class NotificationFragment extends Fragment {
     private RecyclerView.Adapter mWrappedAdapter;
     private RecyclerViewSwipeManager mRecyclerViewSwipeManager;
     private RecyclerViewTouchActionGuardManager mRecyclerViewTouchActionGuardManager;
+
     public NotificationFragment() {
         super();
     }
@@ -95,7 +96,7 @@ public class NotificationFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        notification=this;
+        notification = this;
         return inflater.inflate(R.layout.notification_fragment_recycler_list_view, container, false);
 
     }
@@ -216,7 +217,7 @@ public class NotificationFragment extends Fragment {
         StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/inboxope.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                 try {
+                try {
                     LndNotificationMessageActivity.loader.setVisibility(View.GONE);
                     JSONObject jobj = new JSONObject(response.toString());
                     JSONArray jarray = jobj.getJSONArray("data");
@@ -238,21 +239,21 @@ public class NotificationFragment extends Fragment {
                         mAdapter.notifyDataSetChanged();
 
                     }
-                     //adding blank at bottom of notification
-                     NotificationData nd = new NotificationData();
-                     nd.setNotitype("8");
-                     mProvider.addItem(nd);
-                     mAdapter.notifyDataSetChanged();
+                    //adding blank at bottom of notification
+                    NotificationData nd = new NotificationData();
+                    nd.setNotitype("8");
+                    mProvider.addItem(nd);
+                    mAdapter.notifyDataSetChanged();
 
-                     if(notificationids.size()>0) {
-                            JSONObject data=new JSONObject();
-                            JSONArray notiarray = new JSONArray(notificationids);
-                            data.put("notiids",notiarray);
-                            markNotificaitonRead(data.toString());
+                    if (notificationids.size() > 0) {
+                        JSONObject data = new JSONObject();
+                        JSONArray notiarray = new JSONArray(notificationids);
+                        data.put("notiids", notiarray);
+                        markNotificaitonRead(data.toString());
 
 
                     }
-                    } catch (Exception ex) {
+                } catch (Exception ex) {
                     Log.e("json parsing error", ex.getMessage() + "");
                 }
             }
@@ -269,6 +270,8 @@ public class NotificationFragment extends Fragment {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("rqid", "13");
                 params.put("user_id", SingleTon.pref.getString("user_id", ""));
+                params.put("skipdata", "0");
+
 
                 return params;
             }
@@ -283,26 +286,21 @@ public class NotificationFragment extends Fragment {
         queue.add(sr);
     }
 
-    private void markNotificaitonRead(final String data)
-    {
+    private void markNotificaitonRead(final String data) {
         RequestQueue queue = Volley.newRequestQueue(getActivity());
         StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/inboxope.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-               try {
-                     JSONObject jobj = new JSONObject(response.toString());
-                         if(jobj.getBoolean("status"))
-                         {
+                try {
+                    JSONObject jobj = new JSONObject(response.toString());
+                    if (jobj.getBoolean("status")) {
 
-                             Main_TabHost.notification.setText("0");
-                             Main_TabHost.followers.setText("0");
-                             if(Main_TabHost.message.getText().toString().compareToIgnoreCase("0")==0)
-                                 Main_TabHost.popupWindow.dismiss();
-                         }
+                        Main_TabHost.notification.setText("0");
+                        Main_TabHost.followers.setText("0");
+                        if (Main_TabHost.message.getText().toString().compareToIgnoreCase("0") == 0)
+                            Main_TabHost.popupWindow.dismiss();
                     }
-
-
-                 catch (Exception ex) {
+                } catch (Exception ex) {
                     Log.e("json parsing error", ex.getMessage() + "");
                 }
             }
@@ -319,7 +317,7 @@ public class NotificationFragment extends Fragment {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("rqid", "15");
                 params.put("user_id", SingleTon.pref.getString("user_id", ""));
-                params.put("data",data);
+                params.put("data", data);
 
                 return params;
             }
@@ -333,30 +331,30 @@ public class NotificationFragment extends Fragment {
         };
         queue.add(sr);
     }
-public void setCheckout(int pos,NotificationData nd)
-{
-    mProvider.removeItem(pos);
-    mAdapter.notifyDataSetChanged();
-    NotificationData nd2 = new NotificationData();
-    nd.setNotification_id(nd.getNotification_id());
-    nd.setProfilepicimg(nd.getProfilepicimg());
-    nd.setMessage(nd.getMessage());
-    nd.setTime(nd.getTime());
-    nd.setUname(nd.getUname());
-    nd.setNotitype("9");
-    nd.setPostid(nd.getPostid());
-    nd.setImgurl(nd.getImgurl());
-    mProvider.addItem(nd);
-    mAdapter.notifyDataSetChanged();
-}
-    public void cancelSwap(int pos)
-    {
+
+    public void setCheckout(int pos, NotificationData nd) {
+        mProvider.removeItem(pos);
+        mAdapter.notifyDataSetChanged();
+        NotificationData nd2 = new NotificationData();
+        nd.setNotification_id(nd.getNotification_id());
+        nd.setProfilepicimg(nd.getProfilepicimg());
+        nd.setMessage(nd.getMessage());
+        nd.setTime(nd.getTime());
+        nd.setUname(nd.getUname());
+        nd.setNotitype("9");
+        nd.setPostid(nd.getPostid());
+        nd.setImgurl(nd.getImgurl());
+        mProvider.addItem(nd);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    public void cancelSwap(int pos) {
         mProvider.removeItem(pos);
         mAdapter.notifyDataSetChanged();
 
     }
-    static long getMilliseconds(String datetime)
-    {
+
+    static long getMilliseconds(String datetime) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         try {

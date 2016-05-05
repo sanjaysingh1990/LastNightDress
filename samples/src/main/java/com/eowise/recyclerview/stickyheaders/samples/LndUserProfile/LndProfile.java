@@ -888,7 +888,7 @@ public class LndProfile extends AppCompatActivity {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("rqid", "11");
                 params.put("user_id", SingleTon.pref.getString("user_id", ""));
-                params.put("skip", skipdata+"");
+                params.put("skipdata", skipdata+"");
                 return params;
             }
 

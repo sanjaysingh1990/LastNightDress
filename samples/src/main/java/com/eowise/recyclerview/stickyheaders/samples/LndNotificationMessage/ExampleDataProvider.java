@@ -128,8 +128,17 @@ public class ExampleDataProvider extends AbstractDataProvider {
                 mData.add(new ConcreteData2(id, viewType,nd, swipeReaction, NotificationType.CHECKOUT));
 
                 break;
+            case "4":
+                mData.add(new ConcreteData2(id, viewType,nd, swipeReaction, NotificationType.DECNIED));
+
+                break;
+
             case "5":
                 mData.add(new ConcreteData2(id, viewType, nd, swipeReaction, NotificationType.USERMENTION));
+
+            case "6":
+                mData.add(new ConcreteData2(id, viewType, nd, swipeReaction, NotificationType.PURCHASEDITEM));
+
             case "7":
                 mData.add(new ConcreteData2(id, viewType, nd, swipeReaction, NotificationType.POSTLIKED));
 

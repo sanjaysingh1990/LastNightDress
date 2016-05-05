@@ -33,6 +33,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,10 +58,11 @@ class AgentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static final int USERHEADER = 0, HEADER = 1, NORMALUSER = 2, SHOPUSER = 3, SURPASSEDYOU = 4;
     ArrayList<LndAgentBean> items;
     Context con;
+
     public AgentListAdapter(Context con, ArrayList<LndAgentBean> data) {
 
         items = data;
-    this.con=con;
+        this.con = con;
     }
 
     public class Header extends RecyclerView.ViewHolder {
@@ -78,9 +80,10 @@ class AgentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     }
 
-    public class NormalUser extends RecyclerView.ViewHolder {
+    public class NormalUser extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView uname, totalpost, totalsales, totalrefuser, totalrefusertext;
         public ImageView profileimg;
+        LinearLayout profile;
 
         public NormalUser(View v) {
             super(v);
@@ -89,17 +92,25 @@ class AgentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             totalsales = (TextView) v.findViewById(R.id.totalsales);
             totalrefuser = (TextView) v.findViewById(R.id.totalrefuser);
             totalrefusertext = (TextView) v.findViewById(R.id.totalrefusertext);
-
             profileimg = (ImageView) v.findViewById(R.id.mainprofilepic);
-
+            profile = (LinearLayout) v.findViewById(R.id.userprofile);
+            profileimg.setOnClickListener(this);
         }
 
 
+        @Override
+        public void onClick(View v) {
+            Intent profile = new Intent(con, OtherUserProfileActivity.class);
+            profile.putExtra("uname", items.get(getAdapterPosition()).getUname());
+            profile.putExtra("user_id", "-1");
+            con.startActivity(profile);
+        }
     }
 
-    public class ShopUser extends RecyclerView.ViewHolder {
+    public class ShopUser extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView uname, totalpost, totalsales, totalrefuser, totalrefusertext;
         public ImageView profileimg;
+        LinearLayout profile;
 
         public ShopUser(View v) {
             super(v);
@@ -108,12 +119,19 @@ class AgentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             totalsales = (TextView) v.findViewById(R.id.totalsales);
             totalrefuser = (TextView) v.findViewById(R.id.totalrefuser);
             totalrefusertext = (TextView) v.findViewById(R.id.totalrefusertext);
-
             profileimg = (ImageView) v.findViewById(R.id.mainprofilepic);
-
+            profile = (LinearLayout) v.findViewById(R.id.userprofile);
+            profileimg.setOnClickListener(this);
         }
 
 
+        @Override
+        public void onClick(View v) {
+            Intent profile = new Intent(con, OtherUserProfileActivity.class);
+            profile.putExtra("uname", items.get(getAdapterPosition()).getUname());
+            profile.putExtra("user_id", "-1");
+            con.startActivity(profile);
+        }
     }
 
     public class SurpassedUser extends RecyclerView.ViewHolder {
@@ -133,15 +151,14 @@ class AgentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     public class UserHeader extends RecyclerView.ViewHolder {
-        public TextView uname, totalpost, totalsales, totalrefuser;
+        public TextView totalagents, totalshops, totalcommision;
         public ImageView profileimg;
 
         public UserHeader(View v) {
             super(v);
-            uname = (TextView) v.findViewById(R.id.uname);
-            totalpost = (TextView) v.findViewById(R.id.totalpost);
-            totalsales = (TextView) v.findViewById(R.id.totalsales);
-            totalrefuser = (TextView) v.findViewById(R.id.totalrefuser);
+            totalagents = (TextView) v.findViewById(R.id.totalagents);
+            totalshops = (TextView) v.findViewById(R.id.totalshops);
+            totalcommision = (TextView) v.findViewById(R.id.totalcommision);
             profileimg = (ImageView) v.findViewById(R.id.mainprofilepic);
 
         }
@@ -245,7 +262,7 @@ class AgentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 SingleTon.imageLoader.displayImage(item.getProfilepic(), normalUser.profileimg, SingleTon.options2);
                 break;
             case SHOPUSER:
-                 ShopUser shopUser = (ShopUser) holder;
+                ShopUser shopUser = (ShopUser) holder;
 
                 if (item.getUserposition() == 1) {
                     shopUser.totalrefuser.setText(item.getTotalrefuser() + "/5");
@@ -266,9 +283,11 @@ class AgentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 shopUser.totalsales.setText(item.getTotalsales());
                 SingleTon.imageLoader.displayImage(item.getProfilepic(), shopUser.profileimg, SingleTon.options2);
 
-            break;
+                break;
             case USERHEADER:
-
+                UserHeader userHeader = (UserHeader) holder;
+                String imgurl = SingleTon.pref.getString("imageurl", "");
+                SingleTon.imageLoader.displayImage(imgurl, userHeader.profileimg, SingleTon.options2);
                 break;
 
         }

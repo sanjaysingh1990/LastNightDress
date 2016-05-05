@@ -81,7 +81,7 @@
                 android:padding="4dp">
 
                 <TextView
-                    android:id="@+id/totalsales"
+                    android:id="@+id/totalagents"
                     style="@style/LndAgentTextView"
                     android:text="0"
                     android:textStyle="bold" />
@@ -118,7 +118,7 @@
                 android:padding="4dp">
 
                 <TextView
-                    android:id="@+id/totalswaps"
+                    android:id="@+id/totalshops"
                     style="@style/LndAgentTextView"
                     android:text="0"
                     android:textStyle="bold" />
@@ -155,7 +155,7 @@
                 android:padding="4dp">
 
                 <TextView
-                    android:id="@+id/totalfollowers"
+                    android:id="@+id/totalcommision"
                     style="@style/LndAgentTextView"
                     android:text="0"
                     android:textStyle="bold" />

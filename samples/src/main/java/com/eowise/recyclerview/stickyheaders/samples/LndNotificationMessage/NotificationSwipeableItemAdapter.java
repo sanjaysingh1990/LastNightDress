@@ -77,7 +77,7 @@ class NotificationSwipeableItemAdapter
     private static EventListener mEventListener;
     static Activity activity;
     // NOTE: Make accessible with short name
-    public static final int FOLLOWER = 1, SWAPREQUEST = 2, CHECKOUT = 3, DECLINED = 4, USERMETION = 5, PURCHASEDITEM = 6, POSTSHARED = 7, BLANK = 8,USERACCEPTEDCHECKOUT=9,POSTLIKED=10;
+    public static final int FOLLOWER = 1, SWAPREQUEST = 2, CHECKOUT = 3, DECLINED = 4, USERMETION = 5, PURCHASEDITEM = 6, POSTSHARED = 7, BLANK = 8, USERACCEPTEDCHECKOUT = 9, POSTLIKED = 10;
     TagSelectingTextview mTagSelectingTextview;
     public static int hashTagHyperLinkEnabled = 1;
     public static int hashTagHyperLinkDisabled = 0;
@@ -160,8 +160,7 @@ class NotificationSwipeableItemAdapter
 
         @Override
         public void onClick(View view) {
-            switch(view.getId())
-            {
+            switch (view.getId()) {
                 case R.id.notiimage:
                     Intent fullpost = new Intent(activity, NotificationFullPost.class);
                     fullpost.putExtra("post_id", mProvider.getItem(getAdapterPosition()).getNotificationdata().getPostid());
@@ -315,7 +314,7 @@ class NotificationSwipeableItemAdapter
         queue.add(sr);
     }
 
-    public  class CheckOut extends AbstractSwipeableItemViewHolder implements View.OnClickListener {
+    public class CheckOut extends AbstractSwipeableItemViewHolder implements View.OnClickListener {
         public PagerSwipeItemFrameLayout mContainer;
         public TextView notiTextView;
         public TextView swapcheckout;
@@ -345,20 +344,20 @@ class NotificationSwipeableItemAdapter
 
         @Override
         public void onClick(View view) {
-           switch(view.getId()) {
-               case R.id.swapcheckout:
-               Intent checkout = new Intent(activity, SwapCheckOutActivity.class);
-               checkout.putExtra("data", "buy");
-               activity.startActivity(checkout);
-               break;
-               case R.id.notiimage:
-                   Intent fullpost = new Intent(activity, NotificationFullPost.class);
-                   fullpost.putExtra("post_id", mProvider.getItem(getAdapterPosition()).getNotificationdata().getPostid());
-                   activity.startActivity(fullpost);
-                   break;
+            switch (view.getId()) {
+                case R.id.swapcheckout:
+                    Intent checkout = new Intent(activity, SwapCheckOutActivity.class);
+                    checkout.putExtra("data", "buy");
+                    activity.startActivity(checkout);
+                    break;
+                case R.id.notiimage:
+                    Intent fullpost = new Intent(activity, NotificationFullPost.class);
+                    fullpost.putExtra("post_id", mProvider.getItem(getAdapterPosition()).getNotificationdata().getPostid());
+                    activity.startActivity(fullpost);
+                    break;
 
-           }
-           }
+            }
+        }
     }
 
 
@@ -396,14 +395,16 @@ class NotificationSwipeableItemAdapter
             return POSTSHARED;
         } else if (mProvider.getItem(position).getnotiType() == NotificationType.BLANK) {
             return BLANK;
-        }
-        else if (mProvider.getItem(position).getnotiType() == NotificationType.USERACCEPTEDCHECKOUT) {
+        } else if (mProvider.getItem(position).getnotiType() == NotificationType.USERACCEPTEDCHECKOUT) {
             return USERACCEPTEDCHECKOUT;
-        }
-        else if (mProvider.getItem(position).getnotiType() == NotificationType.POSTLIKED) {
+        } else if (mProvider.getItem(position).getnotiType() == NotificationType.POSTLIKED) {
             return POSTLIKED;
+        } else if (mProvider.getItem(position).getnotiType() == NotificationType.DECNIED) {
+            return DECLINED;
+        } else if (mProvider.getItem(position).getnotiType() == NotificationType.PURCHASEDITEM) {
+            return PURCHASEDITEM;
         }
-            return -1;
+        return -1;
 
     }
 
@@ -454,6 +455,7 @@ class NotificationSwipeableItemAdapter
                 final View postliked = inflater.inflate(R.layout.list_item_common_view, parent, false);
                 viewHolder = new MyViewHolder(postliked);
                 break;
+
         }
         return viewHolder;
 
@@ -462,11 +464,23 @@ class NotificationSwipeableItemAdapter
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final AbstractDataProvider.Data item = mProvider.getItem(position);
+        String uname = "", time = "";
         switch (holder.getItemViewType()) {
 
 
             case DECLINED:
-                setSpannableText("Cindy Lowe ", "declined your swap request. ", " "+new TimeAgo(activity).timeAgo(item.getNotificationdata().getTime()), ((MyViewHolder) holder).notiTextView);
+                 uname = Capitalize.capitalizeFirstLetter(item.getUname());
+                time = new TimeAgo(activity).timeAgo(item.getNotificationdata().getTime());
+
+                ((MyViewHolder) holder).notiTextView.setMovementMethod(LinkMovementMethod.getInstance());
+                ((MyViewHolder) holder).notiTextView.setTextColor(Color.parseColor("#000000"));
+
+                ((MyViewHolder) holder).notiTextView.setText(mTagSelectingTextview.addClickablePart(uname + " declined your swap request. " + time,
+                        this, hashTagHyperLinkDisabled, hastTagColorBlue, uname.length(), time.length()),
+                        TextView.BufferType.SPANNABLE);
+                SingleTon.imageLoader.displayImage(item.getImageurl(), ((MyViewHolder) holder).notiimage, SingleTon.options);
+                SingleTon.imageLoader.displayImage(item.getProfilepic(), ((MyViewHolder) holder).notiprofile, SingleTon.options2);
+
 
                 ((MyViewHolder) holder).mContainer.setCanSwipeLeft(mCanSwipeLeft);
                 ((MyViewHolder) holder).mContainer.setCanSwipeRight(!mCanSwipeLeft);
@@ -474,14 +488,14 @@ class NotificationSwipeableItemAdapter
 
             case USERMETION:
                 //setSpannableText("Cindy Lowe ", "mentioned you in a post. @Jakie @Oliva i know you always wanted this #beautiful and #nice #dress.  ", " 2m", ((MyViewHolder) holder).notiTextView);
-                String uname = Capitalize.capitalizeFirstLetter(item.getUname());
-                String time=new TimeAgo(activity).timeAgo(item.getNotificationdata().getTime());
+                 uname = Capitalize.capitalizeFirstLetter(item.getUname());
+                 time = new TimeAgo(activity).timeAgo(item.getNotificationdata().getTime());
 
                 ((MyViewHolder) holder).notiTextView.setMovementMethod(LinkMovementMethod.getInstance());
                 ((MyViewHolder) holder).notiTextView.setTextColor(Color.parseColor("#000000"));
 
-                ((MyViewHolder) holder).notiTextView.setText(mTagSelectingTextview.addClickablePart(uname + " mentioned you in a post. "+item.getNotificationdata().getMessage()+"."+time,
-                                this, hashTagHyperLinkDisabled, hastTagColorBlue, uname.length(),time.length()),
+                ((MyViewHolder) holder).notiTextView.setText(mTagSelectingTextview.addClickablePart(uname + " mentioned you in a post. " + item.getNotificationdata().getMessage() + "." + time,
+                        this, hashTagHyperLinkDisabled, hastTagColorBlue, uname.length(), time.length()),
                         TextView.BufferType.SPANNABLE);
                 SingleTon.imageLoader.displayImage(item.getImageurl(), ((MyViewHolder) holder).notiimage, SingleTon.options);
                 SingleTon.imageLoader.displayImage(item.getProfilepic(), ((MyViewHolder) holder).notiprofile, SingleTon.options2);
@@ -492,7 +506,17 @@ class NotificationSwipeableItemAdapter
                 break;
             case PURCHASEDITEM:
                 ((MyViewHolder) holder).notiTextView.setMaxLines(42);
-                setSpannableText("Cindy Lowe ", "purchased your item, mail it now.", " " + new TimeAgo(activity).timeAgo(item.getNotificationdata().getTime()), ((MyViewHolder) holder).notiTextView);
+                String uname1 = Capitalize.capitalizeFirstLetter(item.getUname());
+                String time1 = new TimeAgo(activity).timeAgo(item.getNotificationdata().getTime());
+
+                ((MyViewHolder) holder).notiTextView.setMovementMethod(LinkMovementMethod.getInstance());
+                ((MyViewHolder) holder).notiTextView.setTextColor(Color.parseColor("#000000"));
+
+                ((MyViewHolder) holder).notiTextView.setText(mTagSelectingTextview.addClickablePart(uname1 + " purchased your item, mail it now. " + time1,
+                        this, hashTagHyperLinkDisabled, hastTagColorBlue, uname1.length(), time1.length()),
+                        TextView.BufferType.SPANNABLE);
+                SingleTon.imageLoader.displayImage(item.getImageurl(), ((MyViewHolder) holder).notiimage, SingleTon.options);
+                SingleTon.imageLoader.displayImage(item.getProfilepic(), ((MyViewHolder) holder).notiprofile, SingleTon.options2);
 
 
                 ((MyViewHolder) holder).mContainer.setCanSwipeLeft(mCanSwipeLeft);
@@ -500,7 +524,7 @@ class NotificationSwipeableItemAdapter
                 break;
 
             case POSTSHARED:
-                setSpannableText(Capitalize.capitalizeFirstLetter(item.getUname()), " shared this post with you: "+item.getNotificationdata().getMessage()," "+new TimeAgo(activity).timeAgo(item.getNotificationdata().getTime()), ((MyViewHolder) holder).notiTextView);
+                setSpannableText(Capitalize.capitalizeFirstLetter(item.getUname()), " shared this post with you: " + item.getNotificationdata().getMessage(), " " + new TimeAgo(activity).timeAgo(item.getNotificationdata().getTime()), ((MyViewHolder) holder).notiTextView);
                 SingleTon.imageLoader.displayImage(item.getImageurl(), ((MyViewHolder) holder).notiimage, SingleTon.options);
                 SingleTon.imageLoader.displayImage(item.getProfilepic(), ((MyViewHolder) holder).notiprofile, SingleTon.options2);
 
@@ -514,7 +538,7 @@ class NotificationSwipeableItemAdapter
                 ((Follower) holder).mContainer.setCanSwipeRight(!mCanSwipeLeft);
                 break;
             case SWAPREQUEST:
-                setSpannableText2(Capitalize.capitalizeFirstLetter(item.getUname()), " requested a ",new TimeAgo(activity).timeAgo(item.getNotificationdata().getTime()), ((SwapRequest) holder).notiTextView);
+                setSpannableText2(Capitalize.capitalizeFirstLetter(item.getUname()), " requested a ", new TimeAgo(activity).timeAgo(item.getNotificationdata().getTime()), ((SwapRequest) holder).notiTextView);
                 SingleTon.imageLoader.displayImage(item.getImageurl(), ((SwapRequest) holder).notiimage, SingleTon.options);
                 SingleTon.imageLoader.displayImage(item.getProfilepic(), ((SwapRequest) holder).notiprofile, SingleTon.options2);
 
@@ -534,7 +558,7 @@ class NotificationSwipeableItemAdapter
                 break;
             case USERACCEPTEDCHECKOUT:
 
-                setSpannableText2(Capitalize.capitalizeFirstLetter(item.getUname()), " requested a ",new TimeAgo(activity).timeAgo(item.getNotificationdata().getTime()), ((CheckOut) holder).notiTextView);
+                setSpannableText2(Capitalize.capitalizeFirstLetter(item.getUname()), " requested a ", new TimeAgo(activity).timeAgo(item.getNotificationdata().getTime()), ((CheckOut) holder).notiTextView);
 
                 SingleTon.imageLoader.displayImage(item.getImageurl(), ((CheckOut) holder).notiimage, SingleTon.options);
                 SingleTon.imageLoader.displayImage(item.getProfilepic(), ((CheckOut) holder).notiprofile, SingleTon.options2);
