@@ -42,7 +42,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.eowise.recyclerview.stickyheaders.samples.HashTagsFullView.LndBrandHashTagGridViewActivity;
 import com.eowise.recyclerview.stickyheaders.samples.Likers.LikersActivity;
-import com.eowise.recyclerview.stickyheaders.samples.LndAgent.Agent_Signup;
 import com.eowise.recyclerview.stickyheaders.samples.LndComments;
 import com.eowise.recyclerview.stickyheaders.samples.LndMessage.SendSwapRequestActivity;
 import com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage.TagSelectingTextview;
@@ -55,7 +54,6 @@ import com.eowise.recyclerview.stickyheaders.samples.PostDataShop.HandBagsEditPo
 import com.eowise.recyclerview.stickyheaders.samples.PostDataShop.JewelleryEditPost;
 import com.eowise.recyclerview.stickyheaders.samples.PostDataShop.ShoesEditPost;
 import com.eowise.recyclerview.stickyheaders.samples.PurchaseAndSwap.RegularCheckoutActivity;
-import com.eowise.recyclerview.stickyheaders.samples.PurchaseAndSwap.ShippingAddressActivity;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.SQLDB.FavoriteData;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;

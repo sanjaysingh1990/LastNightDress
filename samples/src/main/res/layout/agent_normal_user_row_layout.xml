@@ -40,6 +40,7 @@
                 android:textColor="@color/white"
                 android:textSize="11sp"
                 android:id="@+id/uname"
+                android:singleLine="true"
                 />
         </LinearLayout>
 
@@ -64,6 +65,7 @@
                 android:textColor="@color/white"
                 android:textSize="11sp"
                 android:layout_marginTop="3dp"
+                android:singleLine="true"
 
                 />
         </LinearLayout>
@@ -89,7 +91,7 @@
                 android:textColor="@color/white"
                 android:textSize="11sp"
                 android:layout_marginTop="3dp"
-
+                android:singleLine="true"
                 />
 
         </LinearLayout>
@@ -116,6 +118,7 @@
                 android:textSize="11sp"
                 android:layout_marginTop="3dp"
                 android:id="@+id/totalrefusertext"
+                android:singleLine="true"
                 />
         </LinearLayout>
 

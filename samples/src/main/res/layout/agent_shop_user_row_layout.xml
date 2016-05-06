@@ -36,6 +36,7 @@
                 android:textColor="@color/white"
                 android:textSize="11sp"
                 android:id="@+id/uname"
+                android:singleLine="true"
                 />
         </LinearLayout>
 
@@ -59,7 +60,9 @@
                 android:layout_marginTop="3dp"
                 android:text="Total Posts"
                 android:textColor="@color/white"
-                android:textSize="11sp" />
+                android:textSize="11sp"
+                android:singleLine="true"
+                />
         </LinearLayout>
 
         <LinearLayout
@@ -82,7 +85,9 @@
                 android:layout_marginTop="3dp"
                 android:text="Items Sold"
                 android:textColor="@color/white"
-                android:textSize="11sp" />
+                android:textSize="11sp"
+                android:singleLine="true"
+                />
 
         </LinearLayout>
 
@@ -108,6 +113,7 @@
                 android:textColor="@color/white"
                 android:textSize="11sp"
                 android:id="@+id/totalrefusertext"
+                android:singleLine="true"
                 />
         </LinearLayout>
 

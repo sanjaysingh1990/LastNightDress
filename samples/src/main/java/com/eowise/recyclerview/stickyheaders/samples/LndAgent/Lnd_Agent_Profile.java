@@ -91,11 +91,11 @@ public class Lnd_Agent_Profile extends AppCompatActivity {
                                     basicuserheader.setType(1);
                                     basicuserheader.setHeaderType(1);
                                     basicuserheader.setTotal(jsonObject.getString("total_basicuser"));
+
                                     normaluser = false;
                                     data.add(basicuserheader);
 
                                 }
-
 
                                 break;
 
@@ -110,7 +110,7 @@ public class Lnd_Agent_Profile extends AppCompatActivity {
                                     data.add(agentheader);
 
                                 }
-
+                               break;
 
                             case 3:
                                 if (agencyuser) {
@@ -122,6 +122,7 @@ public class Lnd_Agent_Profile extends AppCompatActivity {
                                     data.add(agencyheader);
 
                                 }
+
 
                                 break;
 
@@ -136,6 +137,8 @@ public class Lnd_Agent_Profile extends AppCompatActivity {
                                     data.add(areamanagerheader);
 
                                 }
+
+
                                 break;
 
 
@@ -150,7 +153,8 @@ public class Lnd_Agent_Profile extends AppCompatActivity {
 
                                 }
 
-                                break;
+
+                            break;
 
                         }
                         if (jsonObject.getString("user_type").equals("private"))

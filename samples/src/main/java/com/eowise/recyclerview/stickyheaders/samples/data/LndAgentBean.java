@@ -10,6 +10,7 @@ public class LndAgentBean
     private String totalpost;
     private String totalsales;
 
+
     public int getUserposition() {
         return userposition;
     }

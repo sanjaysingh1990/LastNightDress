@@ -245,15 +245,27 @@ class AgentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 if (item.getUserposition() == 1) {
                     normalUser.totalrefuser.setText(item.getTotalrefuser() + "/5");
                     normalUser.totalrefusertext.setText("Basic Users");
-                }
-                if (item.getUserposition() == 2) {
+                    normalUser.uname.setCompoundDrawablesWithIntrinsicBounds(0, 0,0, 0);
+
+                } else if (item.getUserposition() == 2) {
                     normalUser.totalrefuser.setText(item.getTotalrefuser() + "/25");
                     normalUser.totalrefusertext.setText("Agents");
+                    normalUser.uname.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.agent_icon, 0);
 
-                }
-                if (item.getUserposition() == 3) {
+                } else if (item.getUserposition() == 3) {
                     normalUser.totalrefuser.setText(item.getTotalrefuser() + "/25");
                     normalUser.totalrefusertext.setText("Agency");
+                    normalUser.uname.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.agency_icon, 0);
+
+                } else if (item.getUserposition() == 4) {
+                    normalUser.totalrefuser.setText(item.getTotalrefuser() + "/25");
+                    normalUser.totalrefusertext.setText("Area Manager");
+                    normalUser.uname.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.areamanager_icon, 0);
+
+                } else if (item.getUserposition() == 5) {
+                    normalUser.totalrefuser.setText(item.getTotalrefuser() + "/25");
+                    normalUser.totalrefusertext.setText("Regional Director");
+                    normalUser.uname.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.regionaldirector_icon, 0);
 
                 }
                 normalUser.uname.setText(Capitalize.capitalize(item.getUname()));
@@ -267,17 +279,30 @@ class AgentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 if (item.getUserposition() == 1) {
                     shopUser.totalrefuser.setText(item.getTotalrefuser() + "/5");
                     shopUser.totalrefusertext.setText("Basic Users");
-                }
-                if (item.getUserposition() == 2) {
+                    shopUser.uname.setCompoundDrawablesWithIntrinsicBounds(0, 0,0, 0);
+
+                } else if (item.getUserposition() == 2) {
                     shopUser.totalrefuser.setText(item.getTotalrefuser() + "/25");
                     shopUser.totalrefusertext.setText("Agents");
+                    shopUser.uname.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.agent_icon, 0);
 
-                }
-                if (item.getUserposition() == 3) {
+                } else if (item.getUserposition() == 3) {
                     shopUser.totalrefuser.setText(item.getTotalrefuser() + "/25");
                     shopUser.totalrefusertext.setText("Agency");
+                    shopUser.uname.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.agency_icon, 0);
+
+                } else if (item.getUserposition() == 4) {
+                    shopUser.totalrefuser.setText(item.getTotalrefuser() + "/25");
+                    shopUser.totalrefusertext.setText("Area Manager");
+                    shopUser.uname.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.areamanager_icon, 0);
+
+                } else if (item.getUserposition() == 5) {
+                    shopUser.totalrefuser.setText(item.getTotalrefuser() + "/25");
+                    shopUser.totalrefusertext.setText("Regional Director");
+                    shopUser.uname.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.regionaldirector_icon, 0);
 
                 }
+
                 shopUser.uname.setText(Capitalize.capitalize(item.getUname()));
                 shopUser.totalpost.setText(item.getTotalpost());
                 shopUser.totalsales.setText(item.getTotalsales());

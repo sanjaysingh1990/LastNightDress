@@ -167,20 +167,6 @@
                                 android:textSize="14sp" />
                         </LinearLayout>
 
-                        <TextView
-
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0"
-                            android:lineSpacingMultiplier="1.1"
-                            android:singleLine="true"
-                            android:text="SWAP"
-                            android:textColor="#bababa"
-                            android:textSize="14sp"
-                            android:textStyle="bold"
-
-                            />
-
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -383,16 +369,23 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_weight="0"
-                    android:text="Delivery address:
-123 milestone road,
-Toronto, ON
-L1x 1y1
-"
-                    android:textColor="#757575" />
+                    android:text="Delivery address:"
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="123 milestone road,\nToronto,\n ON L1x 1y1"
+                    android:textColor="#757575" />
+
+
+                />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
                     android:text="Payment details:"
                     android:textColor="@color/black" />
                 <!-- block info for to showing card information -->
@@ -408,8 +401,7 @@ L1x 1y1
                         android:layout_weight="1"
                         android:gravity="left"
                         android:text="Paid by:"
-                        android:textColor="@color/black"
-                        />
+                        android:textColor="@color/black" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -417,8 +409,7 @@ L1x 1y1
                         android:layout_weight="1"
                         android:gravity="right"
                         android:text="MasterCard"
-                        android:textColor="#757575"
-                        />
+                        android:textColor="#757575" />
                 </LinearLayout>
 
                 <TextView
@@ -435,15 +426,15 @@ L1x 1y1
                     android:layout_height="2dp"
                     android:layout_marginTop="3dp"
                     android:background="#dadada" />
+
                 <TextView
+                    android:id="@+id/whatnext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
+                    android:lineSpacingMultiplier="1.1"
                     android:text="@string/regular_checkout_instruction"
-                    android:textColor="#757575"
-                   android:lineSpacingMultiplier="1.1"
-                    android:id="@+id/whatnext"
-                    />
+                    android:textColor="#757575" />
             </LinearLayout>
 
 

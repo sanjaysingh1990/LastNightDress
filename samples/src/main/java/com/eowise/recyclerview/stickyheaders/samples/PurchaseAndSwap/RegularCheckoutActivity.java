@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.eowise.recyclerview.stickyheaders.samples.LndMore.LndLuxuryandDesignerAuthentication;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalPayment;
@@ -43,7 +44,8 @@ public class RegularCheckoutActivity extends AppCompatActivity {
     @Bind(R.id.samepayment)
     TextView samepayment;
     @Bind(R.id.newpayment)
-    TextView newpayment; @Bind(R.id.cardno)
+    TextView newpayment;
+    @Bind(R.id.cardno)
     EditText cardno;
 
     private static final String CONFIG_ENVIRONMENT = PayPalConfiguration.ENVIRONMENT_NO_NETWORK;
@@ -92,6 +94,7 @@ public class RegularCheckoutActivity extends AppCompatActivity {
         newaddress.setVisibility(View.VISIBLE);
         sameaddress.setVisibility(View.GONE);
     }
+
     public void newpayment(View v) {
         this.newpayment.setCompoundDrawablesWithIntrinsicBounds(R.drawable.payment_selection, 0, 0, 0);
         this.samepayment
@@ -197,10 +200,15 @@ public class RegularCheckoutActivity extends AppCompatActivity {
             }
         });
     }
-    public void completePurchase(View v)
-    {
-       Intent checkoutfinishh=new Intent(this,RegularCheckoutFinishActivity.class);
+
+    public void completePurchase(View v) {
+        Intent checkoutfinishh = new Intent(this, RegularCheckoutFinishActivity.class);
         startActivity(checkoutfinishh);
         finish();
+    }
+
+    public void learnmore(View v) {
+        Intent luxurydesign = new Intent(this, LndLuxuryandDesignerAuthentication.class);
+        startActivity(luxurydesign);
     }
 }
