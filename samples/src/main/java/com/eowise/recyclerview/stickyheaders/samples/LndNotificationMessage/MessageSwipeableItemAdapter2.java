@@ -32,6 +32,8 @@ import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.NewMessage.SendMessageActivity;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.RelativeTimeTextView;
+import com.eowise.recyclerview.stickyheaders.samples.data.MessageData;
 import com.eowise.recyclerview.stickyheaders.samples.data.RecyclerHeaderViewHolder;
 import com.h6ah4i.android.widget.advrecyclerview.swipeable.SwipeableItemAdapter;
 import com.h6ah4i.android.widget.advrecyclerview.swipeable.SwipeableItemConstants;
@@ -65,11 +67,13 @@ class MessageSwipeableItemAdapter2
 
     }
 
-    public static class MyViewHolder extends AbstractSwipeableItemViewHolder implements View.OnClickListener{
+    public static class MyViewHolder extends AbstractSwipeableItemViewHolder implements View.OnClickListener {
         public PagerSwipeItemFrameLayout mContainer;
-        public TextView uname,message;
+        public TextView uname, message;
         LinearLayout fullmsg;
-        public ImageView profilepic,messindicator;
+        public ImageView profilepic, messindicator;
+        public RelativeTimeTextView time;
+
         public MyViewHolder(View v) {
             super(v);
             mContainer = (PagerSwipeItemFrameLayout) v.findViewById(R.id.container);
@@ -77,24 +81,26 @@ class MessageSwipeableItemAdapter2
             message = (TextView) v.findViewById(R.id.msg);
             profilepic = (ImageView) v.findViewById(R.id.profilepic);
             messindicator = (ImageView) v.findViewById(R.id.messidicator);
+            time = (RelativeTimeTextView) v.findViewById(R.id.time);
             fullmsg = (LinearLayout) v.findViewById(R.id.fullmsg);
             fullmsg.setOnClickListener(this);
         }
 
-            @Override
-            public void onClick(View v) {
-                final AbstractDataProvider2.Data item = mProvider.getItem(getAdapterPosition());
-                Intent sendmsg=new Intent(con, SendMessageActivity.class);
-                sendmsg.putExtra("uname",item.username());
-                sendmsg.putExtra("user_id",item.senderid());
-                sendmsg.putExtra("msgstatus",item.msgstatus());
-                sendmsg.putExtra("msgid",item.msgid());
-                item.changestatus();
-                MessageFragment.myItemAdapter.notifyDataSetChanged();
+        @Override
+        public void onClick(View v) {
+            final AbstractDataProvider2.Data item = mProvider.getItem(getAdapterPosition());
+            MessageData md = item.getMessage();
+            Intent sendmsg = new Intent(con, SendMessageActivity.class);
+            sendmsg.putExtra("uname", md.getUname());
+            sendmsg.putExtra("user_id", md.getSender_id());
+            sendmsg.putExtra("msgstatus", md.getMsgindicator());
+            sendmsg.putExtra("msgid", md.getMsgid());
+            md.setMsgindicator(1);
+            MessageFragment.myItemAdapter.notifyDataSetChanged();
 
 
-                con.startActivity(sendmsg);
-            }
+            con.startActivity(sendmsg);
+        }
 
 
         @Override
@@ -144,13 +150,14 @@ class MessageSwipeableItemAdapter2
 
         switch (holder.getItemViewType()) {
             case MESSAGE:
-
+                MessageData md = item.getMessage();
                 ((MyViewHolder) holder).mContainer.setCanSwipeLeft(mCanSwipeLeft);
                 ((MyViewHolder) holder).mContainer.setCanSwipeRight(!mCanSwipeLeft);
-                ((MyViewHolder) holder).uname.setText(Capitalize.capitalizeFirstLetter(item.username()));
-                ((MyViewHolder) holder).message.setText(item.message());
-                SingleTon.imageLoader.displayImage(item.profilePic(), ((MyViewHolder) holder).profilepic, SingleTon.options3);
-                if(item.msgstatus()==0)
+                ((MyViewHolder) holder).uname.setText(Capitalize.capitalizeFirstLetter(md.getUname()));
+                ((MyViewHolder) holder).message.setText(md.getMessage());
+                ((MyViewHolder) holder).time.setReferenceTime(md.getTimeago());
+                SingleTon.imageLoader.displayImage(md.getProfilepic(), ((MyViewHolder) holder).profilepic, SingleTon.options3);
+                if (md.getMsgindicator() == 0)
                     ((MyViewHolder) holder).messindicator.setImageResource(R.drawable.color_icon);
                 else
                     ((MyViewHolder) holder).messindicator.setVisibility(View.INVISIBLE);
@@ -174,7 +181,7 @@ class MessageSwipeableItemAdapter2
     public void onViewRecycled(RecyclerView.ViewHolder holder) {
         super.onViewRecycled(holder);
         if (holder instanceof MyViewHolder)
-        ViewCompat.setAlpha(((MyViewHolder) holder).mContainer, 1.0f);
+            ViewCompat.setAlpha(((MyViewHolder) holder).mContainer, 1.0f);
     }
 
     @Override
@@ -218,7 +225,7 @@ class MessageSwipeableItemAdapter2
 
     @Override
     public SwipeResultAction onSwipeItem(RecyclerView.ViewHolder holder, final int position, int result) {
-      //  Log.d(TAG, "onSwipeItem(position = " + position + ", result = " + result + ")");
+        //  Log.d(TAG, "onSwipeItem(position = " + position + ", result = " + result + ")");
 
         if (position == RecyclerView.NO_POSITION) {
             return null;

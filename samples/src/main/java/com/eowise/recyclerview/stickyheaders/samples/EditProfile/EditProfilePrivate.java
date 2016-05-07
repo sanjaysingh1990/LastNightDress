@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -439,6 +440,11 @@ public class EditProfilePrivate extends AppCompatActivity {
                     JSONObject jobj = new JSONObject(response.toString());
                     if (jobj.getBoolean("status")) {
                         Toast.makeText(EditProfilePrivate.this, jobj.getString("message"), Toast.LENGTH_LONG).show();
+
+                        SharedPreferences.Editor edit = SingleTon.pref.edit();
+                        edit.putString("imageurl", jobj.getString("profile_pic"));
+                        edit.commit();
+
                         Intent intent = new Intent();
                         intent.putExtra("status", true);
                         setResult(2, intent);

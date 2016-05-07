@@ -28,22 +28,13 @@ public abstract class AbstractDataProvider2 {
 
         public abstract int getViewType();
 
-        public abstract String username();
-        public abstract String message();
-        public abstract String profilePic();
-        public abstract String dateTime();
-        public abstract int msgid();
-        public abstract void changestatus();
-
-        public abstract String senderid();
-        public abstract int msgstatus();
 
         public abstract void setPinned(boolean pinned);
 
         public abstract boolean isPinned();
 
-        public abstract int getMessageType();
-
+       public abstract int getMessageType();
+        public abstract MessageData getMessage();
     }
 
     public abstract int getCount();

@@ -8,6 +8,16 @@ public class MessageData
 private String uname;
     private String message;
     private int type;
+
+    public long getTimeago() {
+        return timeago;
+    }
+
+    public void setTimeago(long timeago) {
+        this.timeago = timeago;
+    }
+
+    private long timeago;
     public int getMsgid() {
         return msgid;
     }

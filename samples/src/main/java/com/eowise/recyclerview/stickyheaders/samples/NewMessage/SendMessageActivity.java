@@ -37,12 +37,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -68,6 +71,7 @@ public class SendMessageActivity extends AppCompatActivity {
     String senderid = "";
     private static final int CAMERA_PIC_REQUEST = 1337;
     public static Chat_Banner_Data chatbanner;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,13 +87,13 @@ public class SendMessageActivity extends AppCompatActivity {
         if (extra != null) {
             sendername = extra.getString("uname");
             senderid = extra.getString("user_id");
-            chatbanner= (Chat_Banner_Data) extra.get("bannerdata");
-            if(chatbanner!=null)
-            chatbanner.setSellerid(senderid);
-           if(extra.getInt("msgstatus")==0)
-            changeStatus(extra.getInt("msgid"));
+            chatbanner = (Chat_Banner_Data) extra.get("bannerdata");
+            if (chatbanner != null)
+                chatbanner.setSellerid(senderid);
+            if (extra.getInt("msgstatus") == 0)
+                changeStatus(extra.getInt("msgid"));
         }
-       // Toast.makeText(this,"called"+extra.getString("user_id"),Toast.LENGTH_SHORT).show();
+        // Toast.makeText(this,"called"+extra.getString("user_id"),Toast.LENGTH_SHORT).show();
 
         heading.setText(Capitalize.capitalize(sendername));
         final View rootView = findViewById(R.id.rootview);
@@ -191,7 +195,7 @@ public class SendMessageActivity extends AppCompatActivity {
         });
 
 
-       getData(senderid);
+        getData(senderid);
 
     }
 
@@ -199,7 +203,21 @@ public class SendMessageActivity extends AppCompatActivity {
         iconToBeChanged.setImageResource(drawableResourceId);
     }
 
+    private int yesterdayMsg(Date lasttimeran) {
 
+
+        Date now = new Date();
+        long duration = now.getTime() - lasttimeran.getTime();
+
+        long diffInHours = TimeUnit.MILLISECONDS.toHours(duration);
+        // int days= (int) (diffInHours/24);
+        if (diffInHours < 24)
+            return 1;
+        else if (diffInHours > 24 && diffInHours < 48)
+            return 2;
+        else
+            return 3;
+    }
 
     public void getData(final String senderid) {
         final ProgressDialog pDialog = new ProgressDialog(this);
@@ -217,8 +235,8 @@ public class SendMessageActivity extends AppCompatActivity {
                 } catch (Exception ex) {
 
                 }
-                String uname= SingleTon.pref.getString("uname","");
-               // Log.e("msg", response.toString());
+                String uname = SingleTon.pref.getString("uname", "");
+                // Log.e("msg", response.toString());
                 try {
                     JSONObject jobj = new JSONObject(response.toString());
                     JSONArray jarray = jobj.getJSONArray("data");
@@ -228,7 +246,7 @@ public class SendMessageActivity extends AppCompatActivity {
                         md.setMessage(jo.getString("msg"));
                         md.setUname(jo.getString("uname"));
                         md.setTime(jo.getString("date_time"));
-                        md.setProfilepic(jo.getString("imgurl"));
+                        md.setProfilepic(jo.getString("profile_pic"));
                         if (jo.getString("uname").compareTo(uname) == 0) {
                             md.setUserType(UserType.SELF);
                         } else {
@@ -239,20 +257,29 @@ public class SendMessageActivity extends AppCompatActivity {
                         Date testDate = null;
                         try {
                             testDate = sdf.parse(md.getTime());
-                        }catch(Exception ex){
-                            Log.e("error",ex.getMessage());
+                        } catch (Exception ex) {
+                            Log.e("error", ex.getMessage());
                         }
-             //           SimpleDateFormat formatter = new SimpleDateFormat("MMM dd,yyyy hh:mm a");
-                        SimpleDateFormat formatter = new SimpleDateFormat("hh:mm a");
+                        //           SimpleDateFormat formatter = new SimpleDateFormat("MMM dd,yyyy hh:mm a");
 
-                        String newFormat = formatter.format(testDate);
-                        if(newFormat.startsWith("0"))
-                        {
-                            md.setTime(newFormat.toUpperCase().substring(1));
+
+                        int val = yesterdayMsg(testDate);
+                        if (val == 1) {
+                            SimpleDateFormat formatter = new SimpleDateFormat("hh:mm a");
+
+                            String newFormat = formatter.format(testDate);
+                            if (newFormat.startsWith("0")) {
+                                md.setTime(newFormat.toUpperCase().substring(1));
+                            } else
+                                md.setTime(newFormat.toUpperCase());
+                        } else if (val == 2) {
+                            md.setTime("yesterday");
+                        } else {
+                            Format formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+                            String datestring = formatter.format(testDate.getTime());
+                            md.setTime(datestring);
                         }
-                        else
-                            md.setTime(newFormat.toUpperCase());
-
                         data.add(md);
                     }
                     if (data.size() == 0)
@@ -279,7 +306,7 @@ public class SendMessageActivity extends AppCompatActivity {
                     }, 0);
 
                 } catch (Exception ex) {
-                    Log.e("json parsing error", ex.getMessage());
+                    Log.e("json parsing error", "" + ex.getMessage() + "");
                 }
             }
         }, new Response.ErrorListener() {
@@ -320,8 +347,8 @@ public class SendMessageActivity extends AppCompatActivity {
     }
 
     public void send(View v) {
-        String message="";
-        message=cmntbox.getText().toString();
+        String message = "";
+        message = cmntbox.getText().toString();
         Date dt = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa");
         String time1 = sdf.format(dt);
@@ -334,27 +361,24 @@ public class SendMessageActivity extends AppCompatActivity {
         md.setMessage(message);
         md.setUname(uname);
         md.setTime(time1);
-        md.setProfilepic(SingleTon.pref.getString("imageurl",""));
+        md.setProfilepic(SingleTon.pref.getString("imageurl", ""));
         md.setUserType(UserType.SELF);
         data.add(md);
         listAdapter.notifyDataSetChanged();
         cmntbox.setText("");
 
-      try
-      {
-          JSONObject msg=new JSONObject();
-          msg.put("message",message);
-          msg.put("date_time", SingleTon.getCurrentTimeStamp());
-          msg.put("sender_id", SingleTon.pref.getString("user_id", ""));
-          msg.put("receiver_id",senderid);
+        try {
+            JSONObject msg = new JSONObject();
+            msg.put("message", message);
+            msg.put("date_time", SingleTon.getCurrentTimeStamp());
+            msg.put("sender_id", SingleTon.pref.getString("user_id", ""));
+            msg.put("receiver_id", senderid);
 
 
-          sendMessage(msg.toString());
-      }
-      catch (JSONException ex)
-      {
+            sendMessage(msg.toString());
+        } catch (JSONException ex) {
 
-      }
+        }
 
     }
 
@@ -368,7 +392,7 @@ public class SendMessageActivity extends AppCompatActivity {
 
                 try {
                     JSONObject jobj = new JSONObject(response.toString());
-                  //  Toast.makeText(SendMessageActivity.this,response,Toast.LENGTH_LONG).show();
+                    //  Toast.makeText(SendMessageActivity.this,response,Toast.LENGTH_LONG).show();
                 } catch (Exception ex) {
                     Log.e("json parsing error", ex.getMessage());
                 }
@@ -399,19 +423,20 @@ public class SendMessageActivity extends AppCompatActivity {
         };
         queue.add(sr);
     }
-    public void camera(View v)
-    {
+
+    public void camera(View v) {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(takePictureIntent, CAMERA_PIC_REQUEST);
     }
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_PIC_REQUEST) {
             if (resultCode == RESULT_OK) {
 
-            //    imageData = (Bitmap) data.getExtras().get("data");
-              //  ImageView image = (ImageView) findViewById(R.id.imageView1);
+                //    imageData = (Bitmap) data.getExtras().get("data");
+                //  ImageView image = (ImageView) findViewById(R.id.imageView1);
 
-            } else if (resultCode == RESULT_CANCELED){
+            } else if (resultCode == RESULT_CANCELED) {
 
             }
         }
@@ -427,20 +452,18 @@ public class SendMessageActivity extends AppCompatActivity {
 
                 try {
                     JSONObject jobj = new JSONObject(response.toString());
-                    if(jobj.getBoolean("status"))
-                    {
-                        if(Main_TabHost.message.getText().toString().compareToIgnoreCase("0")==0)
+                    if (jobj.getBoolean("status")) {
+                        if (Main_TabHost.message.getText().toString().compareToIgnoreCase("0") == 0)
                             Main_TabHost.popupWindow.dismiss();
-                         else
-                        {
-                            int val=Integer.parseInt(Main_TabHost.message.getText().toString());
-                            Main_TabHost.message.setText((val-1)+"");
-                            if(Main_TabHost.message.getText().toString().compareToIgnoreCase("0")==0)
+                        else {
+                            int val = Integer.parseInt(Main_TabHost.message.getText().toString());
+                            Main_TabHost.message.setText((val - 1) + "");
+                            if (Main_TabHost.message.getText().toString().compareToIgnoreCase("0") == 0)
                                 Main_TabHost.popupWindow.dismiss();
 
                         }
                     }
-                //    Toast.makeText(SendMessageActivity.this,response,Toast.LENGTH_LONG).show();
+                    //    Toast.makeText(SendMessageActivity.this,response,Toast.LENGTH_LONG).show();
                 } catch (Exception ex) {
                     Log.e("json parsing error", ex.getMessage());
                 }
@@ -457,7 +480,7 @@ public class SendMessageActivity extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("rqid", "10");
-                params.put("msgid", id+"");
+                params.put("msgid", id + "");
 
                 return params;
             }
@@ -472,4 +495,4 @@ public class SendMessageActivity extends AppCompatActivity {
         queue.add(sr);
     }
 
-   }
+}

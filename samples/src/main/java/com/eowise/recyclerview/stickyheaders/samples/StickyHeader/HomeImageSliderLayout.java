@@ -20,6 +20,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -451,17 +452,17 @@ public class HomeImageSliderLayout extends HorizontalScrollView {
                     if (jobj.getBoolean("status")) {
                         int val = jobj.getInt("value");
                         if (val == 1) {
-                            Home_List_Data hld1 = null, hld2 = null;
+                            Home_List_Data hld1 = null;// hld2 = null;
                             if (lha instanceof LndHomeAdapter) {
                                 hld1 = ((LndHomeAdapter) lha).mItems.get(pos);
-                                hld2 = ((LndHomeAdapter) lha).mItems.get(pos - 1);
+                              //  hld2 = ((LndHomeAdapter) lha).mItems.get(pos - 1);
                             } else if (lha instanceof LndUserFullPostAdapter) {
                                 hld1 = ((LndUserFullPostAdapter) lha).mItems.get(pos);
-                                hld2 = ((LndUserFullPostAdapter) lha).mItems.get(pos - 1);
+                               // hld2 = ((LndUserFullPostAdapter) lha).mItems.get(pos - 1);
                             }
-                            if (hld1.getLikestotal() != 0 && hld2.getLikestotal() != 0) {
+                            if (hld1.getLikestotal() != 0) {
                                 hld1.setLikestotal(hld1.getLikestotal() - 1);
-                                hld2.setLikestotal(hld2.getLikestotal() - 1);
+                                //hld2.setLikestotal(hld2.getLikestotal() - 1);
 
                             }
                             if (lha instanceof LndHomeAdapter)
@@ -470,17 +471,17 @@ public class HomeImageSliderLayout extends HorizontalScrollView {
                                 ((LndUserFullPostAdapter) lha).notifyDataSetChanged();
 
                         } else {
-                            Home_List_Data hld1 = null, hld2 = null;
+                            Home_List_Data hld1 = null;// hld2 = null;
                             if (lha instanceof LndHomeAdapter) {
                                 hld1 = ((LndHomeAdapter) lha).mItems.get(pos);
-                                hld2 = ((LndHomeAdapter) lha).mItems.get(pos - 1);
+                               // hld2 = ((LndHomeAdapter) lha).mItems.get(pos - 1);
                             } else if (lha instanceof LndUserFullPostAdapter) {
                                 hld1 = ((LndUserFullPostAdapter) lha).mItems.get(pos);
-                                hld2 = ((LndUserFullPostAdapter) lha).mItems.get(pos - 1);
+                               // hld2 = ((LndUserFullPostAdapter) lha).mItems.get(pos - 1);
                             }
 
                             hld1.setLikestotal(hld1.getLikestotal() + 1);
-                            hld2.setLikestotal(hld2.getLikestotal() + 1);
+                           // hld2.setLikestotal(hld2.getLikestotal() + 1);
                             if (lha instanceof LndHomeAdapter)
                                 ((LndHomeAdapter) lha).notifyDataSetChanged();
 

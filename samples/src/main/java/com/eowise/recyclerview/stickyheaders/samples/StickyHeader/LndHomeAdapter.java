@@ -195,11 +195,12 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     if (jobj.getBoolean("status")) {
                         int val = jobj.getInt("value");
                         if (val == 1) {
-                            Home_List_Data hld1 = mItems.get(pos);
+                          //  Home_List_Data hld1 = mItems.get(pos);
                             Home_List_Data hld2 = mItems.get(pos + 1);
-                            if (hld1.getLikestotal() != 0 && hld2.getLikestotal() != 0) {
-                                hld1.setLikestotal(hld1.getLikestotal() - 1);
+                            if (hld2.getLikestotal() != 0) {
+                              //  hld1.setLikestotal(hld1.getLikestotal() - 1);
                                 hld2.setLikestotal(hld2.getLikestotal() - 1);
+                                Toast.makeText(mContext,response+"",Toast.LENGTH_SHORT).show();
 
                             }
                             notifyDataSetChanged();
@@ -207,10 +208,10 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             //notifyItemChanged(pos + 1);
 
                         } else {
-                            Home_List_Data hld1 = mItems.get(pos);
+                           // Home_List_Data hld1 = mItems.get(pos);
                             Home_List_Data hld2 = mItems.get(pos + 1);
 
-                            hld1.setLikestotal(hld1.getLikestotal() + 1);
+                           // hld1.setLikestotal(hld1.getLikestotal() + 1);
                             hld2.setLikestotal(hld2.getLikestotal() + 1);
                             notifyDataSetChanged();
                             //notifyItemChanged(pos);

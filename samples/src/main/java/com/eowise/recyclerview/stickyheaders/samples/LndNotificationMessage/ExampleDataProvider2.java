@@ -90,7 +90,7 @@ public class ExampleDataProvider2 extends AbstractDataProvider2 {
 
         final int swipeReaction = RecyclerViewSwipeManager.REACTION_CAN_SWIPE_UP | RecyclerViewSwipeManager.REACTION_CAN_SWIPE_DOWN;
 
-        mData.add(new ConcreteData1(id, viewType,md.getUname(),md.getMessage(),md.getProfilepic(),md.getDatetime(),md.getSender_id(),md.getMsgid(),md.getMsgindicator()));
+        mData.add(new ConcreteData1(id, viewType,md));
 
 
 

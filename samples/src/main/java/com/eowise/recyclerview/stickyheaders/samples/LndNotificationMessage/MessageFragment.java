@@ -37,6 +37,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.TimeAgo;
 import com.eowise.recyclerview.stickyheaders.samples.data.MessageData;
 import com.h6ah4i.android.widget.advrecyclerview.animator.GeneralItemAnimator;
 import com.h6ah4i.android.widget.advrecyclerview.animator.SwipeDismissItemAnimator;
@@ -231,13 +232,14 @@ public class MessageFragment extends Fragment {
                     {
                         JSONObject jo=jarray.getJSONObject(i);
                         MessageData cd=new MessageData();
-                        cd.setProfilepic(jo.getString("imgurl"));
+                        cd.setProfilepic(jo.getString("profile_pic"));
                         cd.setMsgindicator(jo.getInt("msg_status"));
                         cd.setUname(jo.getString("uname"));
                         cd.setMessage(jo.getString("msg"));
                         cd.setMsgid(jo.getInt("msg_id"));
                         cd.setSender_id(jo.getString("sender_id"));
-                        cd.setDatetime(jo.getString("time"));
+
+                        cd.setTimeago(TimeAgo.getMilliseconds(jo.getString("time")));
 
 
 

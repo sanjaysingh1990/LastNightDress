@@ -30,7 +30,6 @@ public class SendMsgListAdapter extends BaseAdapter {
 
     private List<MessageData> chatMessages;
     private Context context;
-    public static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("HH:mm");
 
     public SendMsgListAdapter(List<MessageData> chatMessages, Context context) {
         this.chatMessages = chatMessages;

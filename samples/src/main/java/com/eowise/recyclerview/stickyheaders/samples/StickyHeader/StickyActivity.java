@@ -316,6 +316,7 @@ public class StickyActivity extends AppCompatActivity {
 
                         hld2.setUname(jo.getString("uname"));
                         hld2.setLikedvalue(jo.getString("like"));
+                      //  hld2.setLikestotal(jo.getInt("likes"));
 
                         hld2.setUserid(jo.getString("user_id"));
                         hld2.setBrandname(jo.getString("brand_name"));
