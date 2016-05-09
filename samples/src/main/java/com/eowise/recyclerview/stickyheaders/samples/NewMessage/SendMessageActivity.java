@@ -3,9 +3,11 @@ package com.eowise.recyclerview.stickyheaders.samples.NewMessage;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -37,6 +39,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.text.DateFormat;
 import java.text.Format;
 import java.text.SimpleDateFormat;
@@ -429,12 +432,50 @@ public class SendMessageActivity extends AppCompatActivity {
         startActivityForResult(takePictureIntent, CAMERA_PIC_REQUEST);
     }
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == CAMERA_PIC_REQUEST) {
             if (resultCode == RESULT_OK) {
 
-                //    imageData = (Bitmap) data.getExtras().get("data");
-                //  ImageView image = (ImageView) findViewById(R.id.imageView1);
+                   Bitmap  bitmap = (Bitmap) intent.getExtras().get("data");
+                   ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                   bitmap.compress(Bitmap.CompressFormat.PNG, 85, byteArrayOutputStream);
+                   byte[] byteArray = byteArrayOutputStream .toByteArray();
+                   String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
+
+                //end here
+
+
+                Date dt = new Date();
+                SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa");
+                String time1 = sdf.format(dt);
+
+                String uname = SingleTon.pref.getString("uname", "uname");
+                //Log.e("check",cmntxt+","+uname);
+
+                MessageData md = new MessageData();
+
+                md.setUname(uname);
+                md.setTime(time1);
+                md.setBase64_imgage_url(encoded);
+                md.setProfilepic(SingleTon.pref.getString("imageurl", ""));
+                md.setUserType(UserType.SELF_IMAGE);
+                data.add(md);
+                listAdapter.notifyDataSetChanged();
+
+
+               /* try {
+                    JSONObject msg = new JSONObject();
+                    msg.put("message", message);
+                    msg.put("date_time", SingleTon.getCurrentTimeStamp());
+                    msg.put("sender_id", SingleTon.pref.getString("user_id", ""));
+                    msg.put("receiver_id", senderid);
+
+
+                    sendMessage(msg.toString());
+                } catch (JSONException ex) {
+*
+                }*/
+
 
             } else if (resultCode == RESULT_CANCELED) {
 

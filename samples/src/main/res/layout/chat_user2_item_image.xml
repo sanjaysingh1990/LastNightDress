@@ -38,7 +38,15 @@
                     android:text="Rahul "
                     android:textColor="#fff"
                     android:textSize="13sp"
+                    android:visibility="invisible"
 
+                    />
+
+                <ImageView
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:src="@drawable/image1"
+                    android:id="@+id/shareimg"
                     />
 
                 <TextView

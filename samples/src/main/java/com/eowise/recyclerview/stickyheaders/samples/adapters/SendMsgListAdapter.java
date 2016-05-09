@@ -2,12 +2,17 @@ package com.eowise.recyclerview.stickyheaders.samples.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.NewMessage.SendMessageActivity;
@@ -61,6 +66,8 @@ public class SendMsgListAdapter extends BaseAdapter {
         ViewHolder1 holder1;
         ViewHolder2 holder2;
         ViewHolder3 holder3;
+        ViewHolder4 holder4;
+
         if (message.getUserType() == UserType.SELF) {
             if (convertView == null) {
                 v = LayoutInflater.from(context).inflate(R.layout.chat_user2_item, null, false);
@@ -129,7 +136,7 @@ public class SendMsgListAdapter extends BaseAdapter {
             holder3.brandname.setText(Capitalize.capitalizeFirstLetter(SendMessageActivity.chatbanner.getBrand()));
             holder3.sellername.setText(Capitalize.capitalizeFirstLetter(SendMessageActivity.chatbanner.getSellername()));
             holder3.size.setText(SendMessageActivity.chatbanner.getSize().split(",").length + "");
-            holder3.price.setText("$"+SendMessageActivity.chatbanner.getPricenow());
+            holder3.price.setText("$" + SendMessageActivity.chatbanner.getPricenow());
             SingleTon.imageLoader2.displayImage(SendMessageActivity.chatbanner.getImage_url(), holder3.bannerimage, SingleTon.options);
 
             //banner username
@@ -143,15 +150,41 @@ public class SendMsgListAdapter extends BaseAdapter {
                 }
             });
 
+        } else if (message.getUserType() == UserType.SELF_IMAGE) {
+            if (convertView == null) {
+                v = LayoutInflater.from(context).inflate(R.layout.chat_user2_item_image, null, false);
+
+                holder4 = new ViewHolder4();
+
+
+                holder4.timeTextView = (TextView) v.findViewById(R.id.time_text);
+                holder4.profpic = (ImageView) v.findViewById(R.id.chatpicsender);
+                holder4.shareimg = (ImageView) v.findViewById(R.id.shareimg);
+
+                v.setTag(holder4);
+
+
+            } else {
+                v = convertView;
+                holder4 = (ViewHolder4) v.getTag();
+
+            }
+            try {
+                byte[] decodedString = Base64.decode(message.getBase64_imgage_url(), Base64.DEFAULT);
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                holder4.shareimg.setImageBitmap(decodedByte);
+            } catch (Exception ex) {
+                Log.e("error", ex.getMessage() + message.getBase64_imgage_url());
+            }
+            holder4.timeTextView.setText(message.getTime());
+            SingleTon.imageLoader.displayImage(message.getProfilepic(), holder4.profpic, SingleTon.options3);
         }
-
-
         return v;
     }
 
     @Override
     public int getViewTypeCount() {
-        return 3;
+        return 4;
     }
 
     @Override
@@ -182,5 +215,11 @@ public class SendMsgListAdapter extends BaseAdapter {
         public TextView size;
         public TextView price;
 
+    }
+
+    private class ViewHolder4 {
+        public ImageView shareimg;
+        public TextView timeTextView;
+        public ImageView profpic;
     }
 }

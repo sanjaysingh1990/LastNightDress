@@ -9,6 +9,15 @@ private String uname;
     private String message;
     private int type;
 
+    public String getBase64_imgage_url() {
+        return base64_imgage_url;
+    }
+
+    public void setBase64_imgage_url(String base64_imgage_url) {
+        this.base64_imgage_url = base64_imgage_url;
+    }
+
+    private String base64_imgage_url;
     public long getTimeago() {
         return timeago;
     }
