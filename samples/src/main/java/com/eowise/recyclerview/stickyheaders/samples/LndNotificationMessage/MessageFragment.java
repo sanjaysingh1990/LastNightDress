@@ -16,6 +16,7 @@
 
 package com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -26,6 +27,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 
 import com.android.volley.AuthFailureError;
@@ -38,6 +40,7 @@ import com.android.volley.toolbox.Volley;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.TimeAgo;
+import com.eowise.recyclerview.stickyheaders.samples.data.ConcreteData1;
 import com.eowise.recyclerview.stickyheaders.samples.data.MessageData;
 import com.h6ah4i.android.widget.advrecyclerview.animator.GeneralItemAnimator;
 import com.h6ah4i.android.widget.advrecyclerview.animator.SwipeDismissItemAnimator;
@@ -55,6 +58,7 @@ public class MessageFragment extends Fragment {
     private static final String ARG_DATA_PROVIDER = "data provider";
     private static final String ARG_CAN_SWIPE_LEFT = "can swipe left";
     public static AbstractDataProvider2 mProvider;
+    public static MessageFragment messageFragment;
 
     public static MessageFragment newInstance(String dataProvider, boolean canSwipeLeft) {
         MessageFragment fragment = new MessageFragment();
@@ -74,7 +78,7 @@ public class MessageFragment extends Fragment {
     private RecyclerView.Adapter mWrappedAdapter;
     private RecyclerViewSwipeManager mRecyclerViewSwipeManager;
     private RecyclerViewTouchActionGuardManager mRecyclerViewTouchActionGuardManager;
-   static  MessageSwipeableItemAdapter2 myItemAdapter;
+    static  MessageSwipeableItemAdapter2 myItemAdapter;
 
     public MessageFragment() {
         super();
@@ -83,7 +87,7 @@ public class MessageFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+         messageFragment=this;
         mDataProvider = getArguments().getString(ARG_DATA_PROVIDER);
         mCanSwipeLeft = getArguments().getBoolean(ARG_CAN_SWIPE_LEFT);
     }
@@ -110,7 +114,7 @@ public class MessageFragment extends Fragment {
         mRecyclerViewSwipeManager = new RecyclerViewSwipeManager();
         mProvider = getDataProvider();
         //adapter
-        myItemAdapter = new MessageSwipeableItemAdapter2(mProvider, mCanSwipeLeft, getContext());
+        myItemAdapter = new MessageSwipeableItemAdapter2(mProvider, mCanSwipeLeft, getActivity());
         mAdapter = myItemAdapter;
 
         myItemAdapter.setEventListener(new MessageSwipeableItemAdapter2.EventListener() {
@@ -281,5 +285,14 @@ public class MessageFragment extends Fragment {
         };
         queue.add(sr);
     }
+
+public void updateList(Bundle extra)
+{
+    MessageData md=mProvider.getItem(extra.getInt("pos")).getMessage();
+    md.setMessage(extra.getString("message"));
+    md.setTimeago(TimeAgo.getMilliseconds(extra.getString("time")));
+
+    mAdapter.notifyDataSetChanged();
+}
 }
 

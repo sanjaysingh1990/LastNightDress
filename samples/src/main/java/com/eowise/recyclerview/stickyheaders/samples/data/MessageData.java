@@ -9,6 +9,15 @@ private String uname;
     private String message;
     private int type;
 
+    public String getCurrenttimestamp() {
+        return currenttimestamp;
+    }
+
+    public void setCurrenttimestamp(String currenttimestamp) {
+        this.currenttimestamp = currenttimestamp;
+    }
+
+    private String currenttimestamp;
     public String getBase64_imgage_url() {
         return base64_imgage_url;
     }

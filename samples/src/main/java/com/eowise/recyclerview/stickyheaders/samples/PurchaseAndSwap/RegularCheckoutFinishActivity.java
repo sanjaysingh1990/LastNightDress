@@ -12,10 +12,13 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -26,6 +29,8 @@ public class RegularCheckoutFinishActivity extends AppCompatActivity {
     TextView heading;
     @Bind(R.id.whatnext)
     TextView whatnext;
+    @Bind({R.id.brandname, R.id.sellername,R.id.sellertext, R.id.pricetext, R.id.shippingtext, R.id.grandtotaltext, R.id.orderdatetext, R.id.ordernumbertext})
+    List<TextView> regularcheckout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,11 +56,21 @@ public class RegularCheckoutFinishActivity extends AppCompatActivity {
         whatnext.append(wordTwo);
         whatnext.setMovementMethod(LinkMovementMethod.getInstance());
         whatnext.setHighlightColor(Color.TRANSPARENT);
+
+        //applying custom fonts
+        regularcheckout.get(0).setTypeface(SingleTon.robotobold);
+        regularcheckout.get(1).setTypeface(SingleTon.robotoregular);
+        for (int i = 2; i < regularcheckout.size(); i++) {
+            regularcheckout.get(i).setTypeface(SingleTon.robotomedium);
+
+        }
+
     }
 
     public void finish(View v) {
         finish();
     }
+
     class MyClickableSpan extends ClickableSpan {
 
         public MyClickableSpan(String string) {

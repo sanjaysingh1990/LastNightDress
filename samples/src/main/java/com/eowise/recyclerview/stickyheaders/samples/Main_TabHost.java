@@ -2,6 +2,7 @@ package com.eowise.recyclerview.stickyheaders.samples;
 
 import android.app.Activity;
 import android.app.LocalActivityManager;
+import android.app.TabActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -30,6 +31,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage.LndNotificationMessageActivity;
+import com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage.MessageFragment;
 import com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage.NotificationFragment;
 import com.eowise.recyclerview.stickyheaders.samples.LndUserProfile.LndProfile;
 import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.StickyActivity;
@@ -50,6 +52,7 @@ public class Main_TabHost extends AppCompatActivity {
     public static TabHost tabHost;
     public static Activity activity;
     static Toast toast;
+    public static Main_TabHost main;
 
     Intent intent;
     int[] icons = {R.drawable.home_gray, R.drawable.shopping_gray, R.drawable.camera, R.drawable.message_gray, R.drawable.profile_gray};
@@ -71,7 +74,7 @@ public class Main_TabHost extends AppCompatActivity {
         activity = this;
         tabHost = (TabHost) findViewById(R.id.tabhost);
         tabWidget = (TabWidget) findViewById(android.R.id.tabs);
-
+        main = this;
 
         //  tabHost.setup();
         LocalActivityManager mLocalActivityManager = new LocalActivityManager(this, false);
@@ -219,64 +222,71 @@ public class Main_TabHost extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        //Toast.makeText(this, resultCode + "", Toast.LENGTH_SHORT).show();
-        int pos =0;
+        int pos = 0;
         switch (requestCode) {
             case 0:
                 break;
             case 1:
                 break;
             case 2:
-                if (data == null)
-                    return;
+                if (data != null) {
 
-                Boolean status = data.getBooleanExtra("status", false);
-                if (status) {
-                    tabHost.setCurrentTab(3);
-                    tabHost.setCurrentTab(4);
+                    Boolean status = data.getBooleanExtra("status", false);
+                    if (status) {
+                        tabHost.setCurrentTab(3);
+                        tabHost.setCurrentTab(4);
+                    }
                 }
                 break;
             case 3:
                 break;
             case 4:
-                if (data == null)
-                    return;
-                String swapdata = data.getStringExtra("postids");
-                sendSwap(swapdata);
+                if (data != null) {
+                    String swapdata = data.getStringExtra("postids");
+                    sendSwap(swapdata);
+                }
                 break;
             case 5:
-                if (data == null)
-                    return;
-                LndProfile profile = (LndProfile) LndProfile.con;
-                profile.updateList(data.getStringArrayListExtra("posarray"));
+                if (data != null) {
+                    LndProfile profile = (LndProfile) LndProfile.con;
+                    profile.updateList(data.getStringArrayListExtra("posarray"));
+                }
                 break;
             case 6:
-                if (data == null)
-                    return;
-                pos = data.getIntExtra("pos", 0);
-                NotificationData nd = (NotificationData) data.getExtras().get("data");
-                NotificationFragment.notification.setCheckout(pos, nd);
+                if (data != null) {
+                    pos = data.getIntExtra("pos", 0);
+                    NotificationData nd = (NotificationData) data.getExtras().get("data");
+                    NotificationFragment.notification.setCheckout(pos, nd);
+                }
                 break;
             case 7:
-                if (data == null)
-                    return;
-                boolean check = data.getBooleanExtra("check", false);
-                if (check)
-                    ((LndProfile) LndProfile.con).getPorfile(SingleTon.pref.getString("user_id", ""));
+                if (data != null) {
+                    boolean check = data.getBooleanExtra("check", false);
+                    if (check)
+                        ((LndProfile) LndProfile.con).getPorfile(SingleTon.pref.getString("user_id", ""));
+                }
                 break;
             case 8:
-                if (data == null)
-                    return;
-                pos = data.getIntExtra("pos", -1);
+                if (data != null) {
+                    pos = data.getIntExtra("pos", -1);
 
-                NotificationFragment.notification.cancelSwap(pos);
+                    NotificationFragment.notification.cancelSwap(pos);
+                }
                 break;
             case 9:
-                if (data == null)
-                    return;
-                LndFragment.lndshopactivity.updateList(data.getStringArrayListExtra("posarray"));
-                break;
+                if (data != null) {
+                    LndFragment.lndshopactivity.updateList(data.getStringArrayListExtra("posarray"));
+                    break;
+                }
             case 10:
+                break;
+            case 200:
+                if (data != null) {
+
+
+                    MessageFragment.messageFragment.updateList(data.getExtras());
+                    break;
+                }
                 break;
 
         }
@@ -307,13 +317,14 @@ public class Main_TabHost extends AppCompatActivity {
         edit.commit();
     }
 
-    private void showPopup() {
+    public void showPopup(String msg) {
         //initializing popup
         //Creating the LayoutInflater instance
         LayoutInflater li = getLayoutInflater();
         //Getting the View object as defined in the customtoast.xml file
         View layout = li.inflate(R.layout.customtoast, (ViewGroup) findViewById(R.id.custom_toast_layout));
-
+        TextView txt= (TextView) layout.findViewById(R.id.info);
+        txt.setText(msg);
         //Creating the Toast object
         toast = new Toast(getApplicationContext());
         toast.setDuration(Toast.LENGTH_LONG);
@@ -391,7 +402,7 @@ public class Main_TabHost extends AppCompatActivity {
 
                     JSONObject jobj = new JSONObject(response.toString());
                     if (jobj.getBoolean("status"))
-                        showPopup();
+                        showPopup("Request Sent");
                     else
                         Toast.makeText(getApplicationContext(), jobj.getString("message"), Toast.LENGTH_SHORT).show();
                 } catch (Exception ex) {

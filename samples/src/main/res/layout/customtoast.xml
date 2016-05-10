@@ -13,6 +13,7 @@
     android:textSize="17sp"
     android:text="Request Sent"
     android:layout_gravity="center_vertical"
+    android:id="@+id/info"
     />
     <ImageView
         android:layout_width="wrap_content"

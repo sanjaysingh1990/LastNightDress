@@ -35,8 +35,7 @@ public class OrderDetailsSales extends AppCompatActivity {
 
     @Bind({R.id.brandname, R.id.buyername, R.id.listprice, R.id.yourearning, R.id.orderdate, R.id.ordernumber, R.id.statustext, R.id.courier, R.id.shipppingmethod})
     List<TextView> inprocess;
-    @Bind({R.id.brandname, R.id.buyername, R.id.listprice, R.id.yourearning, R.id.orderdate, R.id.ordernumber, R.id.statustext, R.id.courier, R.id.shipppingmethod})
-    List<TextView> canceltextview;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,8 +144,8 @@ public class OrderDetailsSales extends AppCompatActivity {
         //applying custom fonts
         inprocess.get(0).setTypeface(SingleTon.robotobold);
         inprocess.get(1).setTypeface(SingleTon.robotoregular);
-        for (int i = 2; i < canceltextview.size(); i++) {
-            canceltextview.get(i).setTypeface(SingleTon.robotomedium);
+        for (int i = 2; i < inprocess.size(); i++) {
+            inprocess.get(i).setTypeface(SingleTon.robotomedium);
 
         }
         final TextView submit = (TextView) findViewById(R.id.submit);

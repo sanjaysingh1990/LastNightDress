@@ -357,7 +357,7 @@
             android:layout_height="wrap_content"
             android:text="Shipping :"
             android:textColor="#be4d66"
-
+            android:textStyle="bold"
             />
         <TextView
             android:layout_width="wrap_content"

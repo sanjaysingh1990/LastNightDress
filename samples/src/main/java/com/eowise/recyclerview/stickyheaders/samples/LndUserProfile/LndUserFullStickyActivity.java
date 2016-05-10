@@ -21,6 +21,7 @@ import com.eowise.recyclerview.stickyheaders.samples.Loading.AVLoadingIndicatorV
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.Home_List_Data;
 import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.LndHomeAdapter;
+import com.eowise.recyclerview.stickyheaders.samples.UserProfile.OtherUserProfileActivity;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ConstantValues;
 import com.init.superslim.LayoutManager;
 
@@ -54,12 +55,18 @@ public class LndUserFullStickyActivity extends AppCompatActivity {
 
     private int post_loc = 0;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private String data="";
-   @Override
+    private int userprofiletype=0;
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.sticky_header_layout);
+//get intent
+        Bundle extra = getIntent().getExtras();
+        if (extra != null) {
+            post_loc = extra.getInt("post_location", 0);
+            userprofiletype=extra.getInt("profiletype",0);
+        }
 
 //for header
         if (savedInstanceState != null) {
@@ -79,8 +86,11 @@ public class LndUserFullStickyActivity extends AppCompatActivity {
 
         mRecyclerView.setLayoutManager(new LayoutManager(this));
 
+        if(userprofiletype==1)
+        mAdapter = new LndHomeAdapter(this, mHeaderDisplay, LndProfile.mItems);
+        else
+            mAdapter = new LndHomeAdapter(this, mHeaderDisplay, OtherUserProfileActivity.mItems);
 
-        mAdapter = new LndHomeAdapter(this, mHeaderDisplay,LndProfile.mItems);
         //   mAdapter.setMarginsFixed(mAreMarginsFixed);
         mAdapter.setHeaderDisplay(mHeaderDisplay);
         mRecyclerView.setAdapter(mAdapter);
@@ -91,13 +101,6 @@ public class LndUserFullStickyActivity extends AppCompatActivity {
         heading.setText("My Post");
         heading.setTextSize(18);
         heading.setTypeface(SingleTon.robotobold);
-        //get intent
-        Bundle extra = getIntent().getExtras();
-        if (extra != null) {
-            post_loc = extra.getInt("post_location", 0);
-
-        }
-
 
 
         //pull
@@ -145,17 +148,10 @@ public class LndUserFullStickyActivity extends AppCompatActivity {
     }
 
 
-
-
-
-
-
-
     @Override
     public void onBackPressed() {
 
-        if(LndHomeAdapter.deleteditemssposition.size()>0)
-        {
+        if (LndHomeAdapter.deleteditemssposition.size() > 0) {
             Intent output = new Intent();
             output.putExtra("posarray", LndHomeAdapter.deleteditemssposition);
             setResult(5, output);

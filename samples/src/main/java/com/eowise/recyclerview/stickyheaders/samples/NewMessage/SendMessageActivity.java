@@ -72,6 +72,7 @@ public class SendMessageActivity extends AppCompatActivity {
     private Bundle extra;
     String sendername = "";
     String senderid = "";
+    int pos = -1;
     private static final int CAMERA_PIC_REQUEST = 1337;
     public static Chat_Banner_Data chatbanner;
 
@@ -90,6 +91,7 @@ public class SendMessageActivity extends AppCompatActivity {
         if (extra != null) {
             sendername = extra.getString("uname");
             senderid = extra.getString("user_id");
+            pos = extra.getInt("pos");
             chatbanner = (Chat_Banner_Data) extra.get("bannerdata");
             if (chatbanner != null)
                 chatbanner.setSellerid(senderid);
@@ -278,7 +280,7 @@ public class SendMessageActivity extends AppCompatActivity {
                         } else if (val == 2) {
                             md.setTime("yesterday");
                         } else {
-                            Format formatter = new SimpleDateFormat("yyyy-MM-dd");
+                            Format formatter = new SimpleDateFormat("MM-dd-yyyy");
 
                             String datestring = formatter.format(testDate.getTime());
                             md.setTime(datestring);
@@ -342,7 +344,13 @@ public class SendMessageActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        Intent intent = new Intent();
+        MessageData md=data.get(data.size() - 1);
+        intent.putExtra("message", md.getMessage());
+        intent.putExtra("pos",pos);
+        intent.putExtra("time",md.getCurrenttimestamp());
+        setResult(200, intent);
+        finish();//finishing activity
     }
 
     public void back(View v) {
@@ -356,6 +364,7 @@ public class SendMessageActivity extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa");
         String time1 = sdf.format(dt);
 
+
         String uname = SingleTon.pref.getString("uname", "uname");
         //Log.e("check",cmntxt+","+uname);
         if (message.length() == 0)
@@ -363,9 +372,15 @@ public class SendMessageActivity extends AppCompatActivity {
         MessageData md = new MessageData();
         md.setMessage(message);
         md.setUname(uname);
-        md.setTime(time1);
         md.setProfilepic(SingleTon.pref.getString("imageurl", ""));
         md.setUserType(UserType.SELF);
+        //check for start with zero
+
+        if (time1.startsWith("0")) {
+            md.setTime(time1.toUpperCase().substring(1));
+        } else
+            md.setTime(time1.toUpperCase());
+        md.setCurrenttimestamp(SingleTon.getCurrentTimeStamp());
         data.add(md);
         listAdapter.notifyDataSetChanged();
         cmntbox.setText("");
@@ -433,14 +448,16 @@ public class SendMessageActivity extends AppCompatActivity {
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+
+
         if (requestCode == CAMERA_PIC_REQUEST) {
             if (resultCode == RESULT_OK) {
 
-                   Bitmap  bitmap = (Bitmap) intent.getExtras().get("data");
-                   ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                   bitmap.compress(Bitmap.CompressFormat.PNG, 85, byteArrayOutputStream);
-                   byte[] byteArray = byteArrayOutputStream .toByteArray();
-                   String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                Bitmap bitmap = (Bitmap) intent.getExtras().get("data");
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 85, byteArrayOutputStream);
+                byte[] byteArray = byteArrayOutputStream.toByteArray();
+                String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
 
                 //end here
 
@@ -455,10 +472,16 @@ public class SendMessageActivity extends AppCompatActivity {
                 MessageData md = new MessageData();
 
                 md.setUname(uname);
-                md.setTime(time1);
                 md.setBase64_imgage_url(encoded);
                 md.setProfilepic(SingleTon.pref.getString("imageurl", ""));
                 md.setUserType(UserType.SELF_IMAGE);
+                //check for start with zero
+                if (time1.startsWith("0")) {
+                    md.setTime(time1.toUpperCase().substring(1));
+                } else
+                    md.setTime(time1.toUpperCase());
+                md.setCurrenttimestamp(SingleTon.getCurrentTimeStamp());
+
                 data.add(md);
                 listAdapter.notifyDataSetChanged();
 

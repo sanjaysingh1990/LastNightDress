@@ -3,9 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/white"
-    >
+    android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -396,29 +395,27 @@
                 android:layout_marginTop="5dp"
                 android:text="Ship to:"
                 android:textColor="@color/black"
-                android:textSize="16sp"
-                />
+                android:textSize="16sp" />
 
             <TextView
+                android:id="@+id/sameaddressblock"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="15dp"
                 android:background="@drawable/rounded_corners_shipping"
                 android:text="2019 shay Drive\nPickering,ON\nL1X 1Y1"
-                android:id="@+id/sameaddressblock"
 
                 />
             <!-- for new shipping address  -->
             <LinearLayout
+                android:id="@+id/newaddressblock"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="15dp"
                 android:orientation="vertical"
-                android:id="@+id/newaddressblock"
-                android:visibility="gone"
-                >
+                android:visibility="gone">
 
                 <EditText
                     android:id="@+id/fullname"
@@ -427,9 +424,8 @@
 
                     android:background="@drawable/rounded"
                     android:hint="Full name"
-                    android:textSize="15sp"
                     android:textColor="#dadada"
-                    />
+                    android:textSize="15sp" />
 
                 <EditText
                     android:id="@+id/address"
@@ -438,8 +434,8 @@
                     android:layout_marginTop="15dp"
                     android:background="@drawable/rounded"
                     android:hint="Street address"
-                    android:textSize="15sp"
                     android:textColor="#dadada"
+                    android:textSize="15sp"
 
                     />
 
@@ -450,8 +446,8 @@
                     android:layout_marginTop="15dp"
                     android:background="@drawable/rounded"
                     android:hint="Apt/Suite/Unit (Optional)"
-                    android:textSize="15sp"
                     android:textColor="#dadada"
+                    android:textSize="15sp"
 
                     />
 
@@ -467,9 +463,9 @@
                         android:layout_marginTop="15dp"
                         android:layout_weight="1"
                         android:background="@drawable/rounded"
-                        android:textSize="15sp"
                         android:hint="Country"
                         android:textColor="#dadada"
+                        android:textSize="15sp"
 
                         />
 
@@ -485,9 +481,9 @@
                         android:layout_marginTop="15dp"
                         android:layout_weight="1"
                         android:background="@drawable/rounded"
-                        android:textSize="15sp"
                         android:hint="Province"
                         android:textColor="#dadada"
+                        android:textSize="15sp"
 
                         />
 
@@ -500,16 +496,16 @@
                     android:layout_marginTop="15dp"
                     android:background="@drawable/rounded"
                     android:hint="City*"
-                    android:textSize="15sp"
                     android:textColor="#dadada"
+                    android:textSize="15sp"
 
                     />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:layout_marginTop="15dp"
+                    android:orientation="horizontal"
 
                     >
 
@@ -519,9 +515,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@drawable/rounded"
-                        android:textSize="15sp"
                         android:hint="Zip/Postal Code*"
                         android:textColor="#dadada"
+                        android:textSize="15sp"
 
                         />
 
@@ -536,29 +532,14 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@drawable/rounded"
-                        android:textSize="15sp"
                         android:hint="Phone"
                         android:textColor="#dadada"
+                        android:textSize="15sp"
 
                         />
 
                 </LinearLayout>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/agent_button_background"
-                    android:clickable="true"
-                    android:contextClickable="true"
-                    android:text="Save"
-                    android:textColor="#ffffff"
-                    android:textSize="18sp"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    />
+
             </LinearLayout>
             <!--end here -->
 
@@ -574,41 +555,61 @@
                 android:background="@drawable/purchse_rounded_corners"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/sameadd"
+                <RelativeLayout
+                    android:id="@+id/sameaddrellayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:background="#be4d66"
                     android:clickable="true"
-                    android:drawableLeft="@drawable/payment_selection"
-                    android:gravity="center"
-                    android:onClick="sameadd"
-                    android:paddingBottom="8dp"
-                    android:paddingLeft="5dp"
-                    android:paddingTop="8dp"
-                    android:text="Same Address"
-                    android:textColor="#ffffff"
-                    android:textSize="15sp" />
+                    android:onClick="sameadd">
 
-                <TextView
-                    android:id="@+id/newadd"
+                    <TextView
+                        android:id="@+id/sameadd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:drawableLeft="@drawable/payment_selection"
+                        android:drawablePadding="5dp"
+                        android:gravity="center"
+                        android:paddingBottom="8dp"
+                        android:paddingLeft="5dp"
+                        android:paddingTop="8dp"
+                        android:text="Same Address"
+                        android:textColor="#ffffff"
+                        android:textSize="15sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/newaddrellayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:background="#dbdbdb"
                     android:clickable="true"
-                    android:gravity="center"
                     android:onClick="newadd"
-                    android:paddingBottom="8dp"
-                    android:paddingLeft="5dp"
-                    android:paddingTop="8dp"
-                    android:text="New Address"
-                    android:textColor="#be4d66"
-                    android:textSize="15sp" />
 
+                    >
+
+                    <TextView
+                        android:id="@+id/newadd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:drawablePadding="5dp"
+                        android:gravity="center"
+                        android:paddingBottom="8dp"
+                        android:paddingLeft="5dp"
+                        android:paddingTop="8dp"
+                        android:text="New Address"
+                        android:textColor="#be4d66"
+                        android:textSize="15sp"
+
+                        />
+                </RelativeLayout>
 
             </LinearLayout>
             <TextView
@@ -618,33 +619,32 @@
                 android:layout_marginTop="5dp"
                 android:text="Payment Method:"
                 android:textColor="@color/black"
-                android:textSize="16sp"
-                />
+                android:textSize="16sp" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="15dp"
-                >
+                android:orientation="horizontal">
+
                 <Spinner
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:entries="@array/card_type"
-                    ></Spinner>
+                    android:entries="@array/card_type"></Spinner>
+
                 <EditText
+                    android:id="@+id/cardno"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:hint="**** **** **** 7894"
-                    android:textColorHint="#dadada"
                     android:background="@drawable/rounded"
                     android:enabled="false"
-                    android:textColor="#000"
-                    android:id="@+id/cardno"
+                    android:hint="**** **** **** 7894"
                     android:inputType="number"
-                    />
+                    android:textColor="#000"
+                    android:textColorHint="#dadada" />
             </LinearLayout>
 
 
@@ -659,53 +659,72 @@
                 android:background="@drawable/purchse_rounded_corners"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/samepayment"
+                <RelativeLayout
+                    android:id="@+id/samepayrellayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:background="#be4d66"
                     android:clickable="true"
-                    android:drawableLeft="@drawable/payment_selection"
-                    android:gravity="center"
                     android:onClick="samepayment"
-                    android:paddingBottom="8dp"
-                    android:paddingLeft="5dp"
-                    android:paddingTop="8dp"
-                    android:text="Same Payment"
-                    android:textColor="#ffffff"
-                    android:textSize="15sp" />
 
-                <TextView
-                    android:id="@+id/newpayment"
+                    >
+
+                    <TextView
+                        android:id="@+id/samepayment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:drawableLeft="@drawable/payment_selection"
+                        android:drawablePadding="5dp"
+                        android:gravity="center"
+                        android:paddingBottom="8dp"
+                        android:paddingLeft="5dp"
+                        android:paddingTop="8dp"
+                        android:text="Same Payment"
+                        android:textColor="#ffffff"
+                        android:textSize="15sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/newpayrellayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:background="#dbdbdb"
                     android:clickable="true"
-                    android:gravity="center"
                     android:onClick="newpayment"
-                    android:paddingBottom="8dp"
-                    android:paddingLeft="5dp"
-                    android:paddingTop="8dp"
-                    android:text="New Payment"
-                    android:textColor="#be4d66"
-                    android:textSize="15sp" />
 
+                    >
 
+                    <TextView
+                        android:id="@+id/newpayment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:drawablePadding="5dp"
+
+                        android:gravity="center"
+                        android:paddingBottom="8dp"
+                        android:paddingLeft="5dp"
+                        android:paddingTop="8dp"
+                        android:text="New Payment"
+                        android:textColor="#be4d66"
+                        android:textSize="15sp" />
+
+                </RelativeLayout>
             </LinearLayout>
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/swap_checkout_instruction"
-                android:textColor="#757575"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="15dp"
+                android:layout_marginTop="10dp"
                 android:lineSpacingMultiplier="1.1"
+                android:text="@string/swap_checkout_instruction"
+                android:textColor="#757575"
 
                 />
         </LinearLayout>

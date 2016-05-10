@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -33,7 +34,10 @@ import com.eowise.recyclerview.stickyheaders.samples.Loading.AVLoadingIndicatorV
 import com.eowise.recyclerview.stickyheaders.samples.NewMessage.SendMessageActivity;
 import com.eowise.recyclerview.stickyheaders.samples.LndUserProfile.ParallaxRecyclerAdapter;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.Home_List_Data;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ColoredRatingBar;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.ConstantValues;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.TimeAgo;
 import com.eowise.recyclerview.stickyheaders.samples.data.ShopData;
 
 import org.json.JSONArray;
@@ -80,6 +84,7 @@ public class OtherUserProfileActivity extends Activity {
     private int skipdata = 0;
     private AVLoadingIndicatorView prog;
     String profileuname = "", userid = "";
+    public static ArrayList<Home_List_Data> mItems = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +106,7 @@ public class OtherUserProfileActivity extends Activity {
         Bundle data = getIntent().getExtras();
         if (data != null) {
             profileuname = data.getString("uname").trim();
-          //  Log.e("uname",profileuname.trim()+"");
+            //  Log.e("uname",profileuname.trim()+"");
             userid = data.getString("user_id");
         }
         //reference and appyling custom font
@@ -111,8 +116,9 @@ public class OtherUserProfileActivity extends Activity {
         heading = (TextView) findViewById(R.id.heading);
         heading.setText(capitalize(profileuname));
         heading.setTypeface(SingleTon.robotobold);
-        getData(userid,profileuname);
-        getPorfile(SingleTon.pref.getString("user_id", ""), userid,profileuname);
+        mItems.clear();
+        getData(userid, profileuname);
+        getPorfile(SingleTon.pref.getString("user_id", ""), userid, profileuname);
     }
 
     private String capitalize(final String line) {
@@ -338,7 +344,7 @@ public class OtherUserProfileActivity extends Activity {
                             loading = false;
                             //Do pagination.. i.e. fetch new data
                             //  Toast.makeText(LndProfile.this,"loading more",Toast.LENGTH_SHORT).show();
-                            getData(userid,profileuname);
+                            getData(userid, profileuname);
                         }
                     }
                 }
@@ -400,7 +406,7 @@ public class OtherUserProfileActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Intent reviews = new Intent(OtherUserProfileActivity.this, ReviewsActivity.class);
-                reviews.putExtra("user_id",userid);
+                reviews.putExtra("user_id", userid);
 
                 startActivity(reviews);
             }
@@ -444,13 +450,14 @@ public class OtherUserProfileActivity extends Activity {
 
             i.putExtra("uname", profileuname);
             i.putExtra("post_location", pos);
-            // startActivity(i);
+            i.putExtra("profiletype", 2);
+            startActivity(i);
 
 
         }
     }
 
-    public void getPorfile(final String followerid, final String followingid,final String uname) {
+    public void getPorfile(final String followerid, final String followingid, final String uname) {
 
 
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -519,8 +526,7 @@ public class OtherUserProfileActivity extends Activity {
                 params.put("rqid", "14");
                 params.put("followerid", followerid);
                 params.put("followingid", followingid);
-                params.put("uname",uname);
-
+                params.put("uname", uname);
 
 
                 return params;
@@ -536,8 +542,16 @@ public class OtherUserProfileActivity extends Activity {
         queue.add(sr);
     }
 
+    //for sticky header
+    private int count = 0;
+    //data for sticky header
+    boolean isprivate = false;
 
-    public void getData(final String userid,final String profileuname) {
+    int sectionManager = -1;
+    int headerCount = 0;
+    int sectionFirstPosition = 0;
+
+    public void getData(final String userid, final String profileuname) {
 
 
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -546,7 +560,7 @@ public class OtherUserProfileActivity extends Activity {
             public void onResponse(String response) {
                 prog.setVisibility(View.GONE);
 
-                // Log.e("response", response.toString());
+
                 try {
                     JSONObject jobj = new JSONObject(response.toString());
                     JSONArray jarray = jobj.getJSONArray("data");
@@ -555,15 +569,120 @@ public class OtherUserProfileActivity extends Activity {
                         ShopData pdb = new ShopData();
                         pdb.setPrice(jo.getString("price_now"));
                         pdb.setPostid(jo.getString("post_id"));
-
-                        pdb.setImageurl(jo.getString("image_url"));
+                        pdb.setImageurl(jo.getString("imageurl1"));
                         items.add(pdb);
+                        ArrayList<String> imgurls = new ArrayList<String>();
+
+                        String imgurl = jo.getString("imageurl1");
+
+                        imgurls.add(imgurl);
+
+                        imgurl = jo.getString("imageurl2");
+                        if (imgurl.length() > 0)
+                            imgurls.add(imgurl);
+
+                        imgurl = jo.getString("imageurl3");
+                        if (imgurl.length() > 0)
+                            imgurls.add(imgurl);
+                        imgurl = jo.getString("imageurl4");
+                        if (imgurl.length() > 0)
+                            imgurls.add(imgurl);
+                        //adding for headers
+                        String header = jo.getString("uname") + "";
+
+                        sectionManager = (sectionManager + 1) % 1;
+                        sectionFirstPosition = count + headerCount;
+
+                        headerCount += 1;
+                        Home_List_Data hld2 = new Home_List_Data(header, "header", sectionManager, sectionFirstPosition);
+                        mItems.add(hld2);
+
+                        if (jo.getString("utype").compareTo("private") == 0)
+                            isprivate = true;
+                        else
+                            isprivate = false;
+
+                        //content
+                        Home_List_Data hld = new Home_List_Data(jo.getString("uname") + "", isprivate, "contentotheruser", sectionManager, sectionFirstPosition);
+                        hld.setProfilepicurl(jo.getString("profile_pic"));
+                        hld.setPricenow(jo.getString("price_now"));
+                        hld.setPricewas(jo.getString("price_was"));
+                        hld.setSize(jo.getString("size"));
+                        hld.setLikestotal(jo.getInt("likes"));
+                        hld.setImageurls(imgurls);
+                        hld.setPost_id(jo.getString("post_id"));
+                        hld.setDescription(jo.getString("description"));
+                        hld.setUname(jo.getString("uname"));
+                        hld.setLikedvalue(jo.getString("isliked"));
+                        hld.setColors(jo.getString("color"));
+                        hld.setConditon(jo.getString("condition"));
+                        hld.setCategory(jo.getInt("category_type"));
+                        hld.setBrandname(jo.getString("brand_name"));
+                        hld.setUserid(jo.getString("user_id"));
+                        hld.setProdtype(jo.getString("prod_type"));
+                        hld.setTime(TimeAgo.getMilliseconds(jo.getString("date_time")));
+
+                        if (hld.getCategory() == 2) {
+                            String size = "";
+
+                            try {
+                                String[] lndbagsize = hld.getSize().split(",");
+                                if (lndbagsize.length > 1) {
+                                    for (int j = 0; j < lndbagsize.length; j++) {
+                                        size = size + ConstantValues.bagsize[Integer.parseInt(lndbagsize[j])] + ",";
+                                    }
+                                    hld.setSize(size);
+                                } else
+                                    hld.setSize(ConstantValues.bagsize[Integer.parseInt(hld.getSize())]);
+
+
+                            } catch (Exception ex) {
+                                Log.e("error", ex.getMessage());
+                            }
+                        } else if (hld.getCategory() == 4) {
+                            String color = "";
+
+                            try {
+                                String[] lndcolormetaltype = hld.getColors().split(",");
+                                if (lndcolormetaltype.length > 1) {
+                                    for (int j = 0; j < lndcolormetaltype.length; j++) {
+                                        color = color + ConstantValues.metaltype[Integer.parseInt(lndcolormetaltype[j])] + ",";
+                                    }
+                                    hld.setColors(color);
+                                } else
+                                    hld.setColors(ConstantValues.metaltype[Integer.parseInt(hld.getColors())]);
+
+
+                            } catch (Exception ex) {
+                                Log.e("error", ex.getMessage());
+                            }
+                        }
+
+                        //for header
+                        hld2.setProfilepicurl(jo.getString("profile_pic"));
+                        hld2.setPricenow(jo.getString("price_now"));
+                        hld2.setPricewas(jo.getString("price_was"));
+                        hld2.setSize(jo.getString("size"));
+                        hld2.setLikestotal(jo.getInt("likes"));
+                        hld2.setImageurls(imgurls);
+                        hld2.setPost_id(jo.getString("post_id"));
+                        hld2.setDescription(jo.getString("description"));
+                        hld2.setUname(jo.getString("uname"));
+                        hld2.setLikedvalue(jo.getString("isliked"));
+                        hld2.setColors(jo.getString("color"));
+                        hld2.setConditon(jo.getString("condition"));
+                        hld2.setCategory(jo.getInt("category_type"));
+                        hld2.setBrandname(jo.getString("brand_name"));
+                        hld2.setProdtype(jo.getString("prod_type"));
+                        hld2.setUserid(jo.getString("user_id"));
+                        mItems.add(hld);
+                        count++;
                     }
                     skipdata = items.size();
                     adapter.notifyDataSetChanged();
                     loading = true;
                 } catch (Exception ex) {
-                    //Log.e("json parsing error",ex.getMessage());
+                    Log.e("json parsing error", ex.getMessage());
                     loading = false;
                 }
             }
@@ -580,7 +699,7 @@ public class OtherUserProfileActivity extends Activity {
                 params.put("rqid", "1");
                 params.put("skipdata", skipdata + "");
                 params.put("user_id", userid);
-                params.put("uname",profileuname);
+                params.put("uname", profileuname);
 
                 return params;
             }

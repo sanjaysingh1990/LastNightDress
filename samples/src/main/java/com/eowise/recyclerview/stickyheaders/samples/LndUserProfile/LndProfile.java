@@ -513,6 +513,8 @@ public class LndProfile extends AppCompatActivity {
             Intent i = new Intent(LndProfile.this, LndUserFullStickyActivity.class);
             i.putExtra("uname", SingleTon.pref.getString("uname", "uname"));
             i.putExtra("post_location", pos);
+            i.putExtra("profiletype",1);
+
             Main_TabHost.activity.startActivityForResult(i, 5);
 
 

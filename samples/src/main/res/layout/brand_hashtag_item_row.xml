@@ -27,6 +27,7 @@
             android:textSize="16sp"
             android:textStyle="bold"
             android:layout_weight="1"
+            android:layout_gravity="center_vertical"
             />
 <TextView
     android:layout_width="wrap_content"
@@ -36,6 +37,7 @@
     android:textColor="#000"
     android:textSize="16sp"
     android:id="@+id/total"
+    android:gravity="center_horizontal"
     />
     </LinearLayout>
 

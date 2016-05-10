@@ -16,6 +16,7 @@
 
 package com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.ViewCompat;
@@ -28,6 +29,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
+import com.eowise.recyclerview.stickyheaders.samples.Main_TabHost;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.NewMessage.SendMessageActivity;
 import com.eowise.recyclerview.stickyheaders.samples.R;
@@ -47,7 +49,7 @@ class MessageSwipeableItemAdapter2
         implements SwipeableItemAdapter<RecyclerView.ViewHolder> {
     private static final String TAG = "MySwipeableItemAdapter";
     private static EventListener mEventListener;
-    static Context con;
+    Activity con;
     public static final int MESSAGE = 1, BLANK = 2;
 
     // NOTE: Make accessible with short name
@@ -67,7 +69,7 @@ class MessageSwipeableItemAdapter2
 
     }
 
-    public static class MyViewHolder extends AbstractSwipeableItemViewHolder implements View.OnClickListener {
+    public class MyViewHolder extends AbstractSwipeableItemViewHolder implements View.OnClickListener {
         public PagerSwipeItemFrameLayout mContainer;
         public TextView uname, message;
         LinearLayout fullmsg;
@@ -95,11 +97,11 @@ class MessageSwipeableItemAdapter2
             sendmsg.putExtra("user_id", md.getSender_id());
             sendmsg.putExtra("msgstatus", md.getMsgindicator());
             sendmsg.putExtra("msgid", md.getMsgid());
+            sendmsg.putExtra("pos", getAdapterPosition());
             md.setMsgindicator(1);
             MessageFragment.myItemAdapter.notifyDataSetChanged();
+            Main_TabHost.activity.startActivityForResult(sendmsg, 200);
 
-
-            con.startActivity(sendmsg);
         }
 
 
@@ -115,7 +117,7 @@ class MessageSwipeableItemAdapter2
         }
     }
 
-    public MessageSwipeableItemAdapter2(AbstractDataProvider2 dataProvider, boolean canSwipeLeft, Context context) {
+    public MessageSwipeableItemAdapter2(AbstractDataProvider2 dataProvider, boolean canSwipeLeft, Activity context) {
         mProvider = dataProvider;
         mCanSwipeLeft = canSwipeLeft;
         con = context;

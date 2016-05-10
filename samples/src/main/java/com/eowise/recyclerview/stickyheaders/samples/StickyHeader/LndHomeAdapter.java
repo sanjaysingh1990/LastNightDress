@@ -1248,6 +1248,8 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     AlertDialog alert = null;
+    int pastVisiblesItems, visibleItemCount, totalItemCount;
+    boolean loading=true;
 
     private void show(View v, final int pos) {
         View view = null;
@@ -1329,7 +1331,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 showtext.setVisibility(View.GONE);
 
                 RecyclerView recyclerView = (RecyclerView) sendtodialog.findViewById(R.id.recyclerView);
-                LinearLayoutManager layoutManager
+             final  LinearLayoutManager layoutManager
                         = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
 
                 // mLayoutManager.
@@ -1348,11 +1350,12 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     @Override
                     public void onClick(View v) {
 
-                        if (sendcancel.getText().toString().compareToIgnoreCase("send") == 0 && usermessage.getText().length() == 0)
-                            return;
-                        if (SentToAdapter.usersselected.size() == 0) {
+                        if (!(sendcancel.getText().toString().compareToIgnoreCase("send") == 0)) {
                             sendtodialog.dismiss();
                             return;
+                        }
+                        if (SentToAdapter.usersselected.size() == 0) {
+                             return;
                         }
                         try {
                             JSONObject jobj = new JSONObject();
@@ -1371,6 +1374,25 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         }
                         sendtodialog.dismiss();
 
+                    }
+                });
+                recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                    @Override
+                    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                        if (dx > 0) //check for scroll down
+                        {
+                            visibleItemCount = layoutManager.getChildCount();
+                            totalItemCount = layoutManager.getItemCount();
+                            pastVisiblesItems = layoutManager.findFirstVisibleItemPosition();
+
+                            if (loading) {
+                                if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                                    loading = false;
+                               //  Toast.makeText(mContext,"called",Toast.LENGTH_SHORT).show();
+//                                    getData();
+                                }
+                            }
+                        }
                     }
                 });
 
@@ -1561,7 +1583,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     JSONObject jobj = new JSONObject(response.toString());
                     if (jobj.getBoolean("status")) {
                         SentToAdapter.usersselected.clear();
-                        Toast.makeText(mContext, jobj.getString("message"), Toast.LENGTH_SHORT).show();
+                         Main_TabHost.main.showPopup("Shared successfully");
                     } else {
                         Toast.makeText(mContext, jobj.getString("message"), Toast.LENGTH_SHORT).show();
                     }

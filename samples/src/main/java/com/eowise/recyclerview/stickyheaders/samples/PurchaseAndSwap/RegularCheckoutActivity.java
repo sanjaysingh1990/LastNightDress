@@ -11,11 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.eowise.recyclerview.stickyheaders.samples.LndMore.LndLuxuryandDesignerAuthentication;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalPayment;
 import com.paypal.android.sdk.payments.PayPalService;
@@ -25,6 +27,7 @@ import com.paypal.android.sdk.payments.PaymentConfirmation;
 import org.json.JSONException;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -47,7 +50,17 @@ public class RegularCheckoutActivity extends AppCompatActivity {
     TextView newpayment;
     @Bind(R.id.cardno)
     EditText cardno;
+    @Bind({R.id.brandname, R.id.sellername, R.id.sellertext, R.id.pricetext, R.id.shippingtext, R.id.grandtotaltext, R.id.orderdatetext, R.id.ordernumbertext})
+    List<TextView> regularcheckout;
+    @Bind(R.id.sameaddrellayout)
+    RelativeLayout sameaddrellayout;
+    @Bind(R.id.newaddrellayout)
+    RelativeLayout newaddrellayout;
 
+    @Bind(R.id.samepayrellayout)
+    RelativeLayout samepayrellayout;
+    @Bind(R.id.newpayrellayout)
+    RelativeLayout newpayrellayout;
     private static final String CONFIG_ENVIRONMENT = PayPalConfiguration.ENVIRONMENT_NO_NETWORK;
     // note that these credentials will differ between live & sandbox environments.
     private static final String CONFIG_CLIENT_ID = "AQROuxZHCry7zhjtDYgK2S0uq1P2XQThAEb6UEUB3ntPe7p0RW2gfiupZDlHLEAtZVHlDt9x9VHkc_fd";
@@ -64,12 +77,21 @@ public class RegularCheckoutActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         Intent intent = new Intent(this, PayPalService.class);
         intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
+//applying custom fonts
+        regularcheckout.get(0).setTypeface(SingleTon.robotobold);
+        regularcheckout.get(1).setTypeface(SingleTon.robotoregular);
+        for (int i = 2; i < regularcheckout.size(); i++) {
+            regularcheckout.get(i).setTypeface(SingleTon.robotomedium);
 
+        }
 
     }
 
 
     public void sameadd(View v) {
+        this.sameaddrellayout.setBackgroundColor(Color.parseColor("#be4d66"));
+        this.newaddrellayout.setBackgroundColor(Color.parseColor("#dbdbdb"));
+
         this.sameadd.setBackgroundColor(Color.parseColor("#be4d66"));
         this.sameadd.setTextColor(Color.parseColor("#ffffff"));
         this.sameadd.setCompoundDrawablesWithIntrinsicBounds(R.drawable.payment_selection, 0, 0, 0);
@@ -80,9 +102,18 @@ public class RegularCheckoutActivity extends AppCompatActivity {
         this.newadd.setBackgroundColor(Color.parseColor("#dbdbdb"));
         newaddress.setVisibility(View.GONE);
         sameaddress.setVisibility(View.VISIBLE);
+        if (sameadd.getText().toString().compareToIgnoreCase("cancel") == 0) {
+            this.newadd.setText("New Address");
+            this.sameadd.setText("Same Address");
+        }
+
     }
 
     public void newadd(View v) {
+        this.newaddrellayout.setBackgroundColor(Color.parseColor("#be4d66"));
+        this.sameaddrellayout.setBackgroundColor(Color.parseColor("#dbdbdb"));
+
+
         this.newadd.setCompoundDrawablesWithIntrinsicBounds(R.drawable.payment_selection, 0, 0, 0);
         this.sameadd.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
 
@@ -93,9 +124,23 @@ public class RegularCheckoutActivity extends AppCompatActivity {
         this.sameadd.setBackgroundColor(Color.parseColor("#dbdbdb"));
         newaddress.setVisibility(View.VISIBLE);
         sameaddress.setVisibility(View.GONE);
+        if (newadd.getText().toString().compareToIgnoreCase("new address") == 0) {
+            this.newadd.setText("Save");
+            this.sameadd.setText("Cancel");
+        } else {
+            this.newadd.setText("New Address");
+            this.sameadd.setText("Same Address");
+            newaddress.setVisibility(View.GONE);
+            sameaddress.setVisibility(View.VISIBLE);
+
+        }
     }
 
     public void newpayment(View v) {
+        this.newpayrellayout.setBackgroundColor(Color.parseColor("#be4d66"));
+        this.sameaddrellayout.setBackgroundColor(Color.parseColor("#dbdbdb"));
+
+
         this.newpayment.setCompoundDrawablesWithIntrinsicBounds(R.drawable.payment_selection, 0, 0, 0);
         this.samepayment
                 .setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
@@ -106,10 +151,21 @@ public class RegularCheckoutActivity extends AppCompatActivity {
         this.samepayment.setTextColor(Color.parseColor("#be4d66"));
         this.samepayment.setBackgroundColor(Color.parseColor("#dbdbdb"));
         this.cardno.setEnabled(true);
+        if (newpayment.getText().toString().compareToIgnoreCase("new payment") == 0) {
+            this.newpayment.setText("Save");
+            this.samepayment.setText("Cancel");
+        } else {
+            this.newpayment.setText("New Payment");
+            this.samepayment.setText("Same Payment");
 
+        }
     }
 
     public void samepayment(View v) {
+        this.sameaddrellayout.setBackgroundColor(Color.parseColor("#be4d66"));
+        this.newpayment.setBackgroundColor(Color.parseColor("#dbdbdb"));
+
+
         this.samepayment.setBackgroundColor(Color.parseColor("#be4d66"));
         this.samepayment.setTextColor(Color.parseColor("#ffffff"));
         this.samepayment.setCompoundDrawablesWithIntrinsicBounds(R.drawable.payment_selection, 0, 0, 0);
@@ -119,6 +175,10 @@ public class RegularCheckoutActivity extends AppCompatActivity {
         this.newpayment.setTextColor(Color.parseColor("#be4d66"));
         this.newpayment.setBackgroundColor(Color.parseColor("#dbdbdb"));
         this.cardno.setEnabled(false);
+        if (samepayment.getText().toString().compareToIgnoreCase("cancel") == 0) {
+            this.newpayment.setText("New Payment");
+            this.samepayment.setText("Same Payment");
+        }
 
     }
 
