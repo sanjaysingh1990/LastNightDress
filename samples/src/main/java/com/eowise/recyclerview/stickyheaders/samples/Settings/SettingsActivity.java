@@ -192,7 +192,7 @@ public class SettingsActivity extends AppCompatActivity {
                 edit.remove("uname");
                 edit.apply();
                 // handle me
-
+                SingleTon.db.clearAll();
                 Intent intent = new Intent(getApplicationContext(), LndLoginSignup.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);

@@ -57,6 +57,7 @@
         android:layout_marginRight="10dp"
         android:id="@+id/udateinfo"
         android:clickable="false"
+        android:visibility="gone"
         />
 </FrameLayout>
     </android.support.v7.widget.Toolbar>

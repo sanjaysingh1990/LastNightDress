@@ -56,6 +56,8 @@
         android:layout_gravity="right|center_vertical"
         android:onClick="update"
         android:layout_marginRight="10dp"
+        android:id="@+id/updateinfo"
+        android:visibility="gone"
         />
 </FrameLayout>
     </android.support.v7.widget.Toolbar>

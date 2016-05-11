@@ -203,12 +203,7 @@
 
                 <MultiAutoCompleteTextView
                     android:id="@+id/autocomplete"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textColor="@color/black"
-
-                    />
+                    style="@style/AutocompleteEditText" />
 
                 <ImageButton
                     android:id="@+id/instruction"
@@ -424,8 +419,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:background="#222427"
-                           />
+                            android:background="#222427" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -696,6 +690,7 @@
                         android:tag="4"
                         android:text="Causal\nDress"
                         android:textColor="#fff" />
+
                     <TextView
                         android:id="@+id/dresstypeall"
                         android:layout_width="match_parent"
@@ -738,6 +733,7 @@
                     android:tag="12"
                     android:text="Last Night's Dress"
                     android:textColor="#fff" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -770,6 +766,7 @@
                         android:text="New"
                         android:textColor="#fff" />
                 </LinearLayout>
+
                 <TextView
                     android:id="@+id/lndconditontext"
                     android:layout_width="match_parent"
@@ -777,6 +774,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:textColor="@color/heading" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -1109,6 +1107,12 @@
 
 
             </LinearLayout>
+
+            <include
+                android:layout_marginTop="10dp"
+                layout="@layout/lnd_item_shipping"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:layout_width="match_parent"

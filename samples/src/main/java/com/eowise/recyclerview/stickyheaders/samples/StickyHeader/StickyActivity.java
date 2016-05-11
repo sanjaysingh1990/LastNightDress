@@ -259,7 +259,24 @@ public class StickyActivity extends AppCompatActivity {
                         hld.setBrandname(jo.getString("brand_name"));
                         hld.setProdtype(jo.getString("prod_type"));
                         hld.setTime(getMilliseconds(jo.getString("date_time")));
+                       /* if (hld.getCategory() == 1) {
+                            String size = "";
 
+                            try {
+                                String[] lndbagsize = hld.getSize().split(",");
+                                if (lndbagsize.length > 1) {
+                                    for (int i = 0; i < lndbagsize.length; i++) {
+                                        size = size + ConstantValues.bagsize[Integer.parseInt(lndbagsize[i])] + ",";
+                                    }
+                                    hld.setSize(size);
+                                } else
+                                    hld.setSize(ConstantValues.bagsize[Integer.parseInt(hld.getSize())]);
+
+
+                            } catch (Exception ex) {
+                                Log.e("error", ex.getMessage());
+                            }
+                        } else*/
                         if (hld.getCategory() == 2) {
                             String size = "";
 
@@ -316,7 +333,7 @@ public class StickyActivity extends AppCompatActivity {
 
                         hld2.setUname(jo.getString("uname"));
                         hld2.setLikedvalue(jo.getString("like"));
-                      //  hld2.setLikestotal(jo.getInt("likes"));
+                        //  hld2.setLikestotal(jo.getInt("likes"));
 
                         hld2.setUserid(jo.getString("user_id"));
                         hld2.setBrandname(jo.getString("brand_name"));

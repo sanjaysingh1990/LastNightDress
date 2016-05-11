@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.TextView;
@@ -62,6 +63,7 @@ public class Main_TabHost extends AppCompatActivity {
     private String data = "";
     public static TextView message, notification, followers;
     public static PopupWindow popupWindow;
+    public static RelativeLayout msgparent, notiparent, follparent;
 
     /**
      * Called when the activity is first created.
@@ -323,7 +325,7 @@ public class Main_TabHost extends AppCompatActivity {
         LayoutInflater li = getLayoutInflater();
         //Getting the View object as defined in the customtoast.xml file
         View layout = li.inflate(R.layout.customtoast, (ViewGroup) findViewById(R.id.custom_toast_layout));
-        TextView txt= (TextView) layout.findViewById(R.id.info);
+        TextView txt = (TextView) layout.findViewById(R.id.info);
         txt.setText(msg);
         //Creating the Toast object
         toast = new Toast(getApplicationContext());
@@ -343,7 +345,10 @@ public class Main_TabHost extends AppCompatActivity {
         message = (TextView) popupView.findViewById(R.id.message);
         notification = (TextView) popupView.findViewById(R.id.notification);
         followers = (TextView) popupView.findViewById(R.id.followers);
-
+        //parent reference
+        msgparent= (RelativeLayout) popupView.findViewById(R.id.msgparent);
+        notiparent= (RelativeLayout) popupView.findViewById(R.id.notiparent);
+        follparent= (RelativeLayout) popupView.findViewById(R.id.follparent);
 
         try {
             JSONObject jobj = new JSONObject(data);
@@ -364,6 +369,13 @@ public class Main_TabHost extends AppCompatActivity {
                 followers.setText(foll + "+");
             else
                 followers.setText(foll + "");
+
+            if (msg == 0)
+                msgparent.setVisibility(View.GONE);
+             if (noti == 0)
+                notiparent.setVisibility(View.GONE);
+             if(foll==0)
+                follparent.setVisibility(View.GONE);
 
         } catch (JSONException ex) {
             Log.e("error", ex.getMessage());

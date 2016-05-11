@@ -454,19 +454,6 @@
                 android:textColor="@color/black"
                 android:textSize="12sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dp"
-                android:text="Enter"
-                android:textColor="#be4d66"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:onClick="check"
-                android:clickable="true"
-                />
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"

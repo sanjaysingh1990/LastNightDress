@@ -73,8 +73,9 @@
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="5dp"
                     android:background="@drawable/purchse_rounded_corners"
-                    android:paddingBottom="18dp"
-                    android:paddingTop="18dp"></Spinner>
+                    android:entries="@array/service"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"></Spinner>
 
                 <ImageButton
                     android:layout_width="wrap_content"
@@ -120,14 +121,20 @@
                     android:layout_weight="0" />
 
                 <CheckBox
+                    android:id="@+id/checkbox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginTop="3dp"
                     android:layout_weight="1"
+                    android:button="@drawable/checkbox_selector"
+                    android:scaleX="0.85"
+                    android:scaleY="0.85"
                     android:text="Offer free shipping"
-                    android:textColor="#757575"
-                    android:textSize="11sp" />
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+
+
             </LinearLayout>
         </LinearLayout>
 
@@ -137,7 +144,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="gone"
+            >
 
             <TextView
 
@@ -156,8 +164,9 @@
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="5dp"
                     android:background="@drawable/purchse_rounded_corners"
-                    android:paddingBottom="18dp"
-                    android:paddingTop="18dp"></Spinner>
+                    android:entries="@array/weight"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"></Spinner>
 
                 <ImageButton
                     android:layout_width="wrap_content"
@@ -208,6 +217,7 @@
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
                     android:text="cm.x"
+                    android:textColor="@color/heading"
                     android:textSize="11sp" />
                 <!-- width-->
                 <LinearLayout
@@ -240,6 +250,7 @@
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
                     android:text="cm.x"
+                    android:textColor="@color/heading"
                     android:textSize="11sp" />
                 <!-- height -->
                 <LinearLayout
@@ -286,8 +297,9 @@
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="5dp"
                     android:background="@drawable/purchse_rounded_corners"
-                    android:paddingBottom="18dp"
-                    android:paddingTop="18dp"></Spinner>
+                    android:entries="@array/service"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"></Spinner>
 
                 <ImageButton
                     android:layout_width="wrap_content"
@@ -367,11 +379,12 @@
         <!-- servce block -->
 
 
-    <LinearLayout
-        android:id="@+id/chargeactualcostinternational"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/chargeactualcostinternational"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
             <TextView
 
                 style="@style/LnditemshipTextView"
@@ -389,8 +402,9 @@
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="5dp"
                     android:background="@drawable/purchse_rounded_corners"
-                    android:paddingBottom="18dp"
-                    android:paddingTop="18dp"></Spinner>
+                    android:entries="@array/weight"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"></Spinner>
 
                 <ImageButton
                     android:layout_width="wrap_content"
@@ -442,6 +456,7 @@
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
                     android:text="cm.x"
+                    android:textColor="@color/heading"
                     android:textSize="11sp" />
                 <!-- width-->
                 <LinearLayout
@@ -474,6 +489,7 @@
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
                     android:text="cm.x"
+                    android:textColor="@color/heading"
                     android:textSize="11sp" />
                 <!-- height -->
                 <LinearLayout
@@ -520,8 +536,9 @@
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="5dp"
                     android:background="@drawable/purchse_rounded_corners"
-                    android:paddingBottom="18dp"
-                    android:paddingTop="18dp"></Spinner>
+                    android:entries="@array/service"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"></Spinner>
 
                 <ImageButton
                     android:layout_width="wrap_content"
@@ -540,15 +557,20 @@
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
+
                 <CheckBox
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginTop="3dp"
                     android:layout_weight="1"
+                    android:button="@drawable/checkbox_selector"
+                    android:scaleX="0.85"
+                    android:scaleY="0.85"
                     android:text="No international shipping"
-                    android:textColor="#757575"
-                    android:textSize="11sp" />
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+
 
                 <CheckBox
                     android:layout_width="match_parent"
@@ -556,116 +578,127 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginTop="3dp"
                     android:layout_weight="1"
+                    android:button="@drawable/checkbox_selector"
+                    android:scaleX="0.85"
+                    android:scaleY="0.85"
                     android:text="Free international shipping"
-                    android:textColor="#757575"
-                    android:textSize="11sp" />
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
             </LinearLayout>
-</LinearLayout>
-            <LinearLayout
-                android:id="@+id/chargefixedcostinternational"
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/chargefixedcostinternational"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            >
+
+
+            <TextView
+
+                style="@style/LnditemshipTextView"
+                android:layout_marginTop="10dp"
+                android:text="Service"
+
+                />
+
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone"
-                >
+                android:layout_height="wrap_content">
 
-
-                <TextView
-
-                    style="@style/LnditemshipTextView"
-                    android:layout_marginTop="10dp"
-                    android:text="Service"
-
-                    />
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <Spinner
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
-                        android:layout_marginTop="5dp"
-                        android:background="@drawable/purchse_rounded_corners"
-                        android:paddingBottom="18dp"
-                        android:paddingTop="18dp"></Spinner>
-
-                    <ImageButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right|center_vertical"
-                        android:layout_marginRight="10dp"
-                        android:background="?attr/selectableItemBackground"
-                        android:src="@drawable/down_arrow"
-
-                        />
-                </FrameLayout>
-
-                <TextView
-
-                    style="@style/LnditemshipTextView"
-                    android:layout_marginTop="10dp"
-                    android:text="Cost"
-
-                    />
-
-                <LinearLayout
+                <Spinner
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
-                    android:orientation="horizontal">
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/purchse_rounded_corners"
+                    android:entries="@array/service"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"></Spinner>
 
-                    <EditText
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_marginRight="10dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:src="@drawable/down_arrow"
+
+                    />
+            </FrameLayout>
+
+            <TextView
+
+                style="@style/LnditemshipTextView"
+                android:layout_marginTop="10dp"
+                android:text="Cost"
+
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/purchse_rounded_corners"
+                    android:hint="US $"
+                    android:paddingBottom="11dp"
+                    android:paddingLeft="5dp"
+                    android:paddingTop="11dp"
+                    android:textSize="12sp" />
+
+                <View
+                    android:layout_width="20dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <CheckBox
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
+                        android:layout_gravity="center_vertical"
+
                         android:layout_weight="1"
-                        android:background="@drawable/purchse_rounded_corners"
-                        android:hint="US $"
-                        android:paddingBottom="11dp"
-                        android:paddingLeft="5dp"
-                        android:paddingTop="11dp"
-                        android:textSize="12sp" />
+                        android:button="@drawable/checkbox_selector"
+                        android:scaleX="0.85"
+                        android:scaleY="0.85"
+                        android:text="No international shipping"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
 
-                    <View
-                        android:layout_width="20dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0" />
 
-                    <LinearLayout
+                    <CheckBox
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="3dp"
                         android:layout_weight="1"
-                        >
-
-                        <CheckBox
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginTop="3dp"
-                            android:layout_weight="1"
-                            android:text="No international shipping"
-                            android:textColor="#757575"
-                            android:textSize="11sp" />
-
-                        <CheckBox
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginTop="3dp"
-                            android:layout_weight="1"
-                            android:text="Free international shipping"
-                            android:textColor="#757575"
-                            android:textSize="11sp" />
-                    </LinearLayout>
-
+                        android:button="@drawable/checkbox_selector"
+                        android:scaleX="0.85"
+                        android:scaleY="0.85"
+                        android:text="Free international shipping"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
                 </LinearLayout>
 
             </LinearLayout>
+
         </LinearLayout>
+    </LinearLayout>
 
 </ScrollView>

@@ -627,7 +627,7 @@
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
                         android:padding="10dp"
-                        android:text="Used"
+                        android:text="@string/used"
                         android:textColor="#fff" />
 
                     <TextView

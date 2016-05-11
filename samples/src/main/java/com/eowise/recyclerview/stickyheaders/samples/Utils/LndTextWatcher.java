@@ -15,6 +15,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -31,15 +32,16 @@ import java.util.Map;
 public class LndTextWatcher implements TextWatcher {
     MultiAutoCompleteTextView desc;
     Context con;
-    ArrayList<String> data=new ArrayList<>();
-    public static Hashtable<String,Integer> users=new Hashtable();
+    ArrayList<String> data = new ArrayList<>();
+    public static Hashtable<String, Integer> users = new Hashtable();
 
-    char start=0;
-    public LndTextWatcher(MultiAutoCompleteTextView desc,Context con)
-    {
-        this.desc=desc;
-        this.con=con;
+    char start = 0;
+
+    public LndTextWatcher(MultiAutoCompleteTextView desc, Context con) {
+        this.desc = desc;
+        this.con = con;
     }
+
     @Override
     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -65,9 +67,7 @@ public class LndTextWatcher implements TextWatcher {
 
 
             }
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
 
         }
     }
@@ -76,6 +76,7 @@ public class LndTextWatcher implements TextWatcher {
     public void afterTextChanged(Editable editable) {
 
     }
+
     public void getUsers(final String keyword) {
 
 
@@ -92,22 +93,19 @@ public class LndTextWatcher implements TextWatcher {
                     JSONObject jobj = new JSONObject(response.toString());
                     JSONArray jarray = jobj.getJSONArray("data");
                     // Log.e("len",jarray.length()+"");
-                    for (int i = 0; i < jarray.length(); i++)
-                    {
+                    for (int i = 0; i < jarray.length(); i++) {
                         JSONObject jo = jarray.getJSONObject(i);
                         //PeopleData pd = new PeopleData();
                         // pd.setUname(jo.getString("uname"));
                         // pd.setImageurl(jo.getString("imgurl"));
                         //pd.setUserid(jo.getString("user_id"));
-                        users.put(jo.getString("uname"),jo.getInt("user_id"));
+                        users.put(jo.getString("uname"), jo.getInt("user_id"));
                         data.add(jo.getString("uname"));
                     }
 
                     final ArrayAdapter<String> adapter = new ArrayAdapter<String>(con, R.layout.custom_textview, data);
                     desc.setAdapter(adapter);
-                }
-                catch (Exception ex)
-                {
+                } catch (Exception ex) {
                     Log.e("response", ex.getMessage() + "");
                 }
             }
@@ -123,6 +121,7 @@ public class LndTextWatcher implements TextWatcher {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("rqid", "1");
                 params.put("keyword", keyword);
+                params.put("user_id", SingleTon.pref.getString("user_id", ""));
 
                 return params;
             }

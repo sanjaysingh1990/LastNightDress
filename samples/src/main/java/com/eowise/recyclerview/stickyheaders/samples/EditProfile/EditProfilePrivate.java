@@ -14,6 +14,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -21,6 +23,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -61,7 +64,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 
-public class EditProfilePrivate extends AppCompatActivity {
+public class EditProfilePrivate extends AppCompatActivity implements TextWatcher {
 
     public static int CAMERA_INTENT_CALLED = 100;
     public static int GALLERY_INTENT_CALLED = 200;
@@ -80,11 +83,14 @@ public class EditProfilePrivate extends AppCompatActivity {
     TextView heading;
     @Bind(R.id.editprofilepic)
     ImageView profilepic;
+    @Bind(R.id.udateinfo)
+    ImageButton updateinfo;
     static String imageurl = "";
     static String filename = "";
     int picfrom = 0;
     private static final int CAMERA = 0;
     private CallbackManager callbackManager;
+    private boolean once = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -213,9 +219,10 @@ public class EditProfilePrivate extends AppCompatActivity {
 
                         ((TextView) parent.getChildAt(0)).setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow, 0);
 
-                    } else
+                    } else {
                         ((TextView) parent.getChildAt(0)).setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow, 0);
-
+                        updateinfo.setVisibility(View.VISIBLE);
+                    }
                 } catch (NullPointerException ex) {
 
                 }
@@ -227,6 +234,13 @@ public class EditProfilePrivate extends AppCompatActivity {
 
             }
         });
+
+        //setup text change listener
+        desc.addTextChangedListener(this);
+        fullname.addTextChangedListener(this);
+        uname.addTextChangedListener(this);
+        email.addTextChangedListener(this);
+
     }
 
     public void edit(View v) {
@@ -317,6 +331,9 @@ public class EditProfilePrivate extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         //   super.onActivityResult(requestCode, resultCode, data);
+        updateinfo.setVisibility(View.VISIBLE);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == CAMERA) {
             // If image available
             if (resultCode == Activity.RESULT_OK) {
@@ -486,6 +503,24 @@ public class EditProfilePrivate extends AppCompatActivity {
         RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         sr.setRetryPolicy(policy);
         queue.add(sr);
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        if (once) {
+            updateinfo.setVisibility(View.VISIBLE);
+            once = false;
+        }
     }
 }
 

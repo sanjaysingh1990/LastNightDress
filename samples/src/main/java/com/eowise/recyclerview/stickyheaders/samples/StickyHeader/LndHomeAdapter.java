@@ -10,6 +10,8 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -61,9 +63,11 @@ import com.eowise.recyclerview.stickyheaders.samples.UserProfile.OtherUserProfil
 import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ConstantValues;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.RelativeTimeTextView;
+import com.eowise.recyclerview.stickyheaders.samples.adapters.NewMessageAdapter;
 import com.eowise.recyclerview.stickyheaders.samples.adapters.SentToAdapter;
 import com.eowise.recyclerview.stickyheaders.samples.data.Chat_Banner_Data;
 import com.eowise.recyclerview.stickyheaders.samples.data.FollowersFollowingData;
+import com.eowise.recyclerview.stickyheaders.samples.data.MessageToFriendsData;
 import com.eowise.recyclerview.stickyheaders.samples.interfaces.TagClick;
 import com.init.superslim.GridSLM;
 import com.init.superslim.LinearSLM;
@@ -195,12 +199,12 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     if (jobj.getBoolean("status")) {
                         int val = jobj.getInt("value");
                         if (val == 1) {
-                          //  Home_List_Data hld1 = mItems.get(pos);
+                            //  Home_List_Data hld1 = mItems.get(pos);
                             Home_List_Data hld2 = mItems.get(pos + 1);
                             if (hld2.getLikestotal() != 0) {
-                              //  hld1.setLikestotal(hld1.getLikestotal() - 1);
+                                //  hld1.setLikestotal(hld1.getLikestotal() - 1);
                                 hld2.setLikestotal(hld2.getLikestotal() - 1);
-                                Toast.makeText(mContext,response+"",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(mContext, response + "", Toast.LENGTH_SHORT).show();
 
                             }
                             notifyDataSetChanged();
@@ -208,10 +212,10 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             //notifyItemChanged(pos + 1);
 
                         } else {
-                           // Home_List_Data hld1 = mItems.get(pos);
+                            // Home_List_Data hld1 = mItems.get(pos);
                             Home_List_Data hld2 = mItems.get(pos + 1);
 
-                           // hld1.setLikestotal(hld1.getLikestotal() + 1);
+                            // hld1.setLikestotal(hld1.getLikestotal() + 1);
                             hld2.setLikestotal(hld2.getLikestotal() + 1);
                             notifyDataSetChanged();
                             //notifyItemChanged(pos);
@@ -517,10 +521,23 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 //price was and price now
                 vh4.price_was.setText("$" + item.getPricewas());
                 vh4.price_now.setText("$" + item.getPricenow());
+                //bag size
+                try {
+                    int pos = Integer.parseInt(item.getSize());
+                    vh4.len.setText(ConstantValues.bagsize[pos]);
 
-                vh4.len.setText(item.getSize().toUpperCase());
-                vh4.likescount.setText(item.getLikestotal() + " likes");
-                vh4.condition.setText(item.getConditon());
+                } catch (Exception ex) {
+
+                    vh4.len.setText((item.getSize().toUpperCase()));
+
+                }
+                try {
+                    vh4.condition.setText(ConstantValues.condition[Integer.parseInt(item.getConditon())]);
+
+                } catch (Exception ex) {
+
+                }
+                 vh4.likescount.setText(item.getLikestotal() + " likes");
                 vh4.color.setText(item.getColors());
                 vh4.time.setReferenceTime(item.getTime());
 
@@ -1249,7 +1266,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     AlertDialog alert = null;
     int pastVisiblesItems, visibleItemCount, totalItemCount;
-    boolean loading=true;
+    boolean loading = true;
 
     private void show(View v, final int pos) {
         View view = null;
@@ -1326,12 +1343,14 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 sendtodialog.setContentView(R.layout.sendtouser_dialog_layout);
                 prog = (ProgressBar) sendtodialog.findViewById(R.id.progressBar);
                 usermessage = (EditText) sendtodialog.findViewById(R.id.messagetext);
+                EditText sendto = (EditText) sendtodialog.findViewById(R.id.sendto);
+
                 sendcancel = (TextView) sendtodialog.findViewById(R.id.cancel);
                 showtext = (TextView) sendtodialog.findViewById(R.id.showtext);
                 showtext.setVisibility(View.GONE);
 
                 RecyclerView recyclerView = (RecyclerView) sendtodialog.findViewById(R.id.recyclerView);
-             final  LinearLayoutManager layoutManager
+                final LinearLayoutManager layoutManager
                         = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
 
                 // mLayoutManager.
@@ -1355,7 +1374,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             return;
                         }
                         if (SentToAdapter.usersselected.size() == 0) {
-                             return;
+                            return;
                         }
                         try {
                             JSONObject jobj = new JSONObject();
@@ -1388,14 +1407,14 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             if (loading) {
                                 if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
                                     loading = false;
-                               //  Toast.makeText(mContext,"called",Toast.LENGTH_SHORT).show();
+                                    //  Toast.makeText(mContext,"called",Toast.LENGTH_SHORT).show();
 //                                    getData();
                                 }
                             }
                         }
                     }
                 });
-
+addTextListener(sendto,recyclerView);
                 break;
             case R.id.messagetouser:
                 hld = mItems.get(pos);
@@ -1583,7 +1602,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     JSONObject jobj = new JSONObject(response.toString());
                     if (jobj.getBoolean("status")) {
                         SentToAdapter.usersselected.clear();
-                         Main_TabHost.main.showPopup("Shared successfully");
+                        Main_TabHost.main.showPopup("Shared successfully");
                     } else {
                         Toast.makeText(mContext, jobj.getString("message"), Toast.LENGTH_SHORT).show();
                     }
@@ -1634,7 +1653,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             public void onResponse(String response) {
 
                 pDialog.dismiss();
-               // Log.e("response", response.toString());
+                // Log.e("response", response.toString());
                 try {
                     JSONObject jobj = new JSONObject(response.toString());
                     if (jobj.getBoolean("status")) {
@@ -1677,39 +1696,72 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         queue.add(sr);
 
 
-
     }
-private void delete(int pos)
-{
-    int sectionManager = -1;
-    int headerCount = 0;
-    int sectionFirstPosition = 0;
-    int count = 0;
 
-    deleteditemssposition.add((pos / 2) + "");
+    private void delete(int pos) {
+        int sectionManager = -1;
+        int headerCount = 0;
+        int sectionFirstPosition = 0;
+        int count = 0;
 
-    mItems.remove(pos);
-    mItems.remove(pos - 1);
+        deleteditemssposition.add((pos / 2) + "");
 
-    for (int i = 0; i < mItems.size(); i++) {
-        if (i % 2 == 0) {
-            sectionManager = (sectionManager + 1) % 1;
-            sectionFirstPosition = count + headerCount;
-            headerCount += 1;
-            count++;
+        mItems.remove(pos);
+        mItems.remove(pos - 1);
+
+        for (int i = 0; i < mItems.size(); i++) {
+            if (i % 2 == 0) {
+                sectionManager = (sectionManager + 1) % 1;
+                sectionFirstPosition = count + headerCount;
+                headerCount += 1;
+                count++;
+            }
+            Home_List_Data hld = mItems.get(i);
+
+            hld.sectionManager = sectionManager;
+            hld.sectionFirstPosition = sectionFirstPosition;
+
+
         }
-        Home_List_Data hld = mItems.get(i);
+        notifyHeaderChanges();
 
-        hld.sectionManager = sectionManager;
-        hld.sectionFirstPosition = sectionFirstPosition;
-
+        notifyDataSetChanged();
 
     }
-    notifyHeaderChanges();
 
-    notifyDataSetChanged();
+    public void addTextListener(EditText searchbox, final RecyclerView recyclerView) {
 
-}
+        searchbox.addTextChangedListener(new TextWatcher() {
+
+            public void afterTextChanged(Editable s) {
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence query, int start, int before, int count) {
+
+                query = query.toString().toLowerCase();
+
+                final List<FollowersFollowingData> filteredList = new ArrayList<>();
+
+                for (int i = 0; i < users.size(); i++) {
+
+                    final String text = users.get(i).getUname().toLowerCase();
+                    if (text.contains(query)) {
+
+                        filteredList.add(users.get(i));
+                    }
+                }
+
+                recyclerView.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.HORIZONTAL,false));
+                mAdapter = new SentToAdapter(mContext, filteredList);
+
+                recyclerView.setAdapter(mAdapter);
+                mAdapter.notifyDataSetChanged();  // data set changed
+            }
+        });
+    }
 }
 
 

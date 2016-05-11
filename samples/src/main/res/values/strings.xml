@@ -243,4 +243,12 @@ You are in safe hands when shopping on Last Night’s Dress. If there is any iss
         <item>Visa</item>
         <item>Master Card</item>
     </string-array>
+
+    <!-- text for post and filter pages -->
+    <string name="used">Gently Used</string>
+    <string-array name="service">
+        <item>FedEx</item>
+        <item>Canada Post</item>
+
+    </string-array>
 </resources>
