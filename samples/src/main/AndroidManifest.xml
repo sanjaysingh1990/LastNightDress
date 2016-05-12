@@ -126,8 +126,7 @@
             android:label="@string/title_activity_purchase"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
-            />
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
         <activity
             android:name=".StickyHeader.StickyActivity"
             android:screenOrientation="portrait"
@@ -206,7 +205,8 @@
             android:name=".MySales.OrderDetailsSales"
             android:label="@string/title_activity_order_details_sales"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".MyPurchases.OrderDetailsPurchased"
             android:label="@string/title_activity_order_details_sales"
@@ -225,7 +225,8 @@
         <activity
             android:name=".MyPurchases.RateUserActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".PostDataShop.HandBagsEditPost"
             android:screenOrientation="portrait"
@@ -407,9 +408,12 @@
         <activity
             android:name=".PurchaseAndSwap.RegularCheckoutFinishActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustNothing|adjustResize"
-            />
+            android:windowSoftInputMode="adjustNothing|adjustResize" />
         <activity android:name=".Dummy"></activity>
+        <activity
+            android:name=".MySales.MySalesReportRatingActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>

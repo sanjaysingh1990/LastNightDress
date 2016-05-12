@@ -17,11 +17,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.eowise.recyclerview.stickyheaders.samples.LndMessage.SendSwapRequestActivity;
 import com.eowise.recyclerview.stickyheaders.samples.Main_TabHost;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener;
 
 import java.util.List;
 
@@ -36,12 +40,18 @@ public class OrderDetailsSales extends AppCompatActivity {
     @Bind({R.id.brandname, R.id.buyername, R.id.listprice, R.id.yourearning, R.id.orderdate, R.id.ordernumber, R.id.statustext, R.id.courier, R.id.shipppingmethod})
     List<TextView> inprocess;
 
-
+    private void updateKeyboardStatusText(boolean isOpen)
+    {
+   // Toast.makeText(this,String.format("keyboard is %s", (isOpen ? "visible" : "hidden")),Toast.LENGTH_SHORT).show();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
+
+
+
         Bundle extra = getIntent().getExtras();
         if (extra != null) {
             String status = extra.getString("type");
@@ -50,6 +60,14 @@ public class OrderDetailsSales extends AppCompatActivity {
                 setContentView(R.layout.sales_inprocess_layout);
                 ButterKnife.bind(this);
                 getReference();
+                KeyboardVisibilityEvent.setEventListener(this, new KeyboardVisibilityEventListener() {
+                    @Override
+                    public void onVisibilityChanged(boolean isOpen) {
+                        updateKeyboardStatusText(isOpen);
+                    }
+                });
+
+                updateKeyboardStatusText(KeyboardVisibilityEvent.isKeyboardVisible(this));
             } else if (status.compareToIgnoreCase("Shipped") == 0) {
                 setContentView(R.layout.sales_item_shipped_layout);
                 ButterKnife.bind(this);
@@ -94,7 +112,8 @@ public class OrderDetailsSales extends AppCompatActivity {
                 reportrating.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        setContentView(R.layout.saller_reporting_rating_layout);
+                       Intent reportrating=new Intent(OrderDetailsSales.this,MySalesReportRatingActivity.class);
+                       startActivity(reportrating);
 
                     }
                 });
@@ -193,6 +212,7 @@ public class OrderDetailsSales extends AppCompatActivity {
                 setContentView(R.layout.sales_inprocess_layout);
                 ButterKnife.bind(OrderDetailsSales.this);
                 getReference();
+
             }
 
 
@@ -225,7 +245,7 @@ public class OrderDetailsSales extends AppCompatActivity {
         getReference2();
     }
 
-    public void check(View v) {
+    public void check() {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         View view = LayoutInflater.from(this).inflate(R.layout.lnd_trackingnumber_error_dialog
                 , null);
@@ -241,5 +261,8 @@ public class OrderDetailsSales extends AppCompatActivity {
         });
 
     }
-
+public void itemshipped(View v)
+{
+    check();
+}
 }

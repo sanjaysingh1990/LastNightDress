@@ -96,8 +96,8 @@ public class ColoredRatingBar extends View {
             drawables = new Bitmap[]{BitmapFactory.decodeResource(res, R.drawable.star_pink_small),BitmapFactory.decodeResource(res, R.drawable.star_pink_small),BitmapFactory.decodeResource(res, R.drawable.star_pink_small)};
             progressBackground = BitmapFactory.decodeResource(res, R.drawable.star_grey_small);
         }else{
-            drawables = new Bitmap[]{BitmapFactory.decodeResource(res, R.drawable.star_pink_small),BitmapFactory.decodeResource(res, R.drawable.star_pink_small),BitmapFactory.decodeResource(res, R.drawable.star_pink_small)};
-            progressBackground = BitmapFactory.decodeResource(res, R.drawable.star_grey_small);
+            drawables = new Bitmap[]{BitmapFactory.decodeResource(res, R.drawable.purchase_rate_user),BitmapFactory.decodeResource(res, R.drawable.purchase_rate_user),BitmapFactory.decodeResource(res, R.drawable.purchase_rate_user)};
+            progressBackground = BitmapFactory.decodeResource(res, R.drawable.purchase_rate_user_gray);
         }
     }
 

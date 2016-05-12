@@ -693,8 +693,10 @@
             android:padding="10dp"
             android:text="Item shipped"
             android:textColor="#be4d66"
-
+            android:id="@+id/itemshipped"
             android:textSize="16sp"
+            android:onClick="itemshipped"
+            android:clickable="true"
 
 
             />

@@ -147,10 +147,18 @@
     </style>
 
     <style name="coloredRatingBarStyleSmallIndicator">
+        <item name="indicator2">true</item>
+        <item name="type">small</item>
+    </style>
+
+    <style name="coloredRatingBarStylenormalIndicator">
         <item name="indicator2">false</item>
         <item name="type">normal</item>
     </style>
-
+    <style name="coloredRatingBarStylenormalIndicator2">
+        <item name="indicator2">true</item>
+        <item name="type">normal</item>
+    </style>
     <style name="LndAgentTextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

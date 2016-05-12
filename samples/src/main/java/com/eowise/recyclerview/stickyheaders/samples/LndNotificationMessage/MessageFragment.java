@@ -78,7 +78,7 @@ public class MessageFragment extends Fragment {
     private RecyclerView.Adapter mWrappedAdapter;
     private RecyclerViewSwipeManager mRecyclerViewSwipeManager;
     private RecyclerViewTouchActionGuardManager mRecyclerViewTouchActionGuardManager;
-    static  MessageSwipeableItemAdapter2 myItemAdapter;
+    static MessageSwipeableItemAdapter2 myItemAdapter;
 
     public MessageFragment() {
         super();
@@ -87,7 +87,7 @@ public class MessageFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-         messageFragment=this;
+        messageFragment = this;
         mDataProvider = getArguments().getString(ARG_DATA_PROVIDER);
         mCanSwipeLeft = getArguments().getBoolean(ARG_CAN_SWIPE_LEFT);
     }
@@ -168,7 +168,7 @@ public class MessageFragment extends Fragment {
 //        animator.setRemoveDuration(2000);
 //        mRecyclerViewSwipeManager.setMoveToOutsideWindowAnimationDuration(2000);
 //        mRecyclerViewSwipeManager.setReturnToDefaultPositionAnimationDuration(2000);
-    getData();
+        getData();
 
     }
 
@@ -219,11 +219,11 @@ public class MessageFragment extends Fragment {
     }
 
 
-    public  void getData(){
+    public void getData() {
 
 
         RequestQueue queue = Volley.newRequestQueue(getActivity());
-        StringRequest sr = new StringRequest(Request.Method.POST,"http://52.76.68.122/lnd/androidiosphpfiles/inboxope.php", new Response.Listener<String>() {
+        StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/inboxope.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -231,11 +231,10 @@ public class MessageFragment extends Fragment {
                 try {
 
                     JSONObject jobj = new JSONObject(response.toString());
-                    JSONArray jarray=jobj.getJSONArray("data");
-                    for(int i=0;i<jarray.length();i++)
-                    {
-                        JSONObject jo=jarray.getJSONObject(i);
-                        MessageData cd=new MessageData();
+                    JSONArray jarray = jobj.getJSONArray("data");
+                    for (int i = 0; i < jarray.length(); i++) {
+                        JSONObject jo = jarray.getJSONObject(i);
+                        MessageData cd = new MessageData();
                         cd.setProfilepic(jo.getString("profile_pic"));
                         cd.setMsgindicator(jo.getInt("msg_status"));
                         cd.setUname(jo.getString("uname"));
@@ -246,18 +245,14 @@ public class MessageFragment extends Fragment {
                         cd.setTimeago(TimeAgo.getMilliseconds(jo.getString("time")));
 
 
-
-
                         mProvider.addItem(cd);
                         mAdapter.notifyDataSetChanged();
 
                     }
 
 
-                }
-                catch(Exception ex)
-                {
-                    Log.e("json parsing error", ex.getMessage()+"");
+                } catch (Exception ex) {
+                    Log.e("json parsing error", ex.getMessage() + "");
                 }
             }
         }, new Response.ErrorListener() {
@@ -266,33 +261,33 @@ public class MessageFragment extends Fragment {
 
                 //  Log.e("response",error.getMessage()+"");
             }
-        }){
+        }) {
             @Override
-            protected Map<String,String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("rqid","4");
-                params.put("user_id", SingleTon.pref.getString("user_id",""));
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("rqid", "4");
+                params.put("user_id", SingleTon.pref.getString("user_id", ""));
+                params.put("skipdata", 0 + "");
 
                 return params;
             }
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("Content-Type","application/x-www-form-urlencoded");
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/x-www-form-urlencoded");
                 return params;
             }
         };
         queue.add(sr);
     }
 
-public void updateList(Bundle extra)
-{
-    MessageData md=mProvider.getItem(extra.getInt("pos")).getMessage();
-    md.setMessage(extra.getString("message"));
-    md.setTimeago(TimeAgo.getMilliseconds(extra.getString("time")));
+    public void updateList(Bundle extra) {
 
-    mAdapter.notifyDataSetChanged();
-}
+        MessageData md = mProvider.getItem(extra.getInt("pos")).getMessage();
+        md.setMessage(extra.getString("message"));
+        md.setTimeago(TimeAgo.getMilliseconds(extra.getString("time")));
+        mAdapter.notifyDataSetChanged();
+    }
 }
 

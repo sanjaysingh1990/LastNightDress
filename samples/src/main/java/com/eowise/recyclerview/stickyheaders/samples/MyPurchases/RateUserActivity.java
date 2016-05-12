@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.ColoredRatingBar;
 import com.eowise.recyclerview.stickyheaders.samples.adapters.MyPurchasesAdapter;
 
 import butterknife.Bind;
@@ -26,7 +27,7 @@ public class RateUserActivity extends AppCompatActivity {
     @Bind(R.id.heading)TextView heading;
 
     @Bind(R.id.actionbutton)TextView actionbutton;
-    @Bind(R.id.ratingBar)RatingBar ratingbar;
+    @Bind(R.id.ratingBar)ColoredRatingBar ratingbar;
     @Bind(R.id.yourcomment)EditText yourcomment;
 
     @Override

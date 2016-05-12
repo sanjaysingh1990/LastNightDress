@@ -372,26 +372,29 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                 android:padding="25dp"
+                android:padding="25dp"
                 android:text="Please select one of the following options" />
 
             <RadioGroup
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_marginLeft="25dp"
                 android:layout_marginTop="10dp"
-                >
+                android:orientation="vertical">
 
                 <RadioButton
+                    android:id="@+id/radiobutton1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Buyer gave false accusation" />
 
                 <RadioButton
+                    android:id="@+id/radiobutton2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Buyer used profanity" />
+                    android:text="Buyer used profanity"
+
+                    />
             </RadioGroup>
 
             <LinearLayout
@@ -441,10 +444,9 @@
             android:padding="10dp"
             android:text="Submit"
             android:textColor="#be4d66"
-
+            android:id="@+id/submit"
             android:textSize="16sp"
-
-
+            android:clickable="true"
             />
 
 

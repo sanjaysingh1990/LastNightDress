@@ -30,6 +30,7 @@ import com.eowise.recyclerview.stickyheaders.samples.Main_TabHost;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.TimeAgo;
 import com.eowise.recyclerview.stickyheaders.samples.adapters.SendMsgListAdapter;
 import com.eowise.recyclerview.stickyheaders.samples.data.Chat_Banner_Data;
 import com.eowise.recyclerview.stickyheaders.samples.data.MessageData;
@@ -252,6 +253,8 @@ public class SendMessageActivity extends AppCompatActivity {
                         md.setUname(jo.getString("uname"));
                         md.setTime(jo.getString("date_time"));
                         md.setProfilepic(jo.getString("profile_pic"));
+                        md.setCurrenttimestamp(jo.getString("date_time"));
+
                         if (jo.getString("uname").compareTo(uname) == 0) {
                             md.setUserType(UserType.SELF);
                         } else {

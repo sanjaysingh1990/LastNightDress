@@ -93,8 +93,8 @@ public class OrderDetailsPurchased extends AppCompatActivity {
                 editrating.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        setContentView(R.layout.purchases_rateuser_layout);
-
+                        Intent rateuser=new Intent(OrderDetailsPurchased.this,RateUserActivity.class);
+                        startActivity(rateuser);
                     }
                 });
             }
