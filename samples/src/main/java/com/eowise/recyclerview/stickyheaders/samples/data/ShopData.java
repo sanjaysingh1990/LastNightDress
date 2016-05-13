@@ -52,4 +52,14 @@ public class ShopData {
     private String uname;
 
     private boolean itemchecked;
+
+    public int issold() {
+        return issold;
+    }
+
+    public void setIssold(int issold) {
+        this.issold = issold;
+    }
+
+    private int issold;
 }

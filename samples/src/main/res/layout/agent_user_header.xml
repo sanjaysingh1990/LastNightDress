@@ -16,17 +16,10 @@
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="12dp"
             android:src="@drawable/empty_user2" />
 
-        <LinearLayout
-            android:id="@+id/rating"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="5dp"
-            android:clickable="true"
-            android:orientation="horizontal"></LinearLayout>
+
 
         <TextView xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:emojicon="http://schemas.android.com/apk/res-auto"
@@ -36,7 +29,6 @@
             android:layout_below="@+id/ratingBar"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
-            android:layout_marginTop="2dp"
             android:gravity="center_horizontal"
             android:text="Basic User"
             android:textColor="#be4d66"
@@ -75,7 +67,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/profile"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
             android:orientation="horizontal"
 
 
@@ -113,8 +105,8 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="3dp"
-                android:layout_marginTop="3dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="10dp"
                 android:layout_weight="0"
                 android:background="#A4A4A4" />
 
@@ -148,8 +140,8 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="3dp"
-                android:layout_marginTop="3dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="10dp"
                 android:layout_weight="0"
                 android:background="#A4A4A4" />
 
@@ -190,7 +182,7 @@
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:layout_below="@+id/tabs"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="6dp"
             android:background="#dadada" />
     </LinearLayout>
 </LinearLayout>

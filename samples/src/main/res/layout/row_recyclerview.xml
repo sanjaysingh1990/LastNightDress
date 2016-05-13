@@ -33,7 +33,14 @@
         android:padding="4dp"
         android:textSize="12sp"
         />
-
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar1"
+        android:layout_weight="1"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:visibility="invisible"
+        />
 </FrameLayout>
 <View
     android:layout_width="0.5dp"
@@ -68,7 +75,14 @@
             android:padding="4dp"
             android:textSize="12sp"
             />
-
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressBar2"
+            android:layout_weight="1"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:visibility="invisible"
+            />
     </FrameLayout>
 
     <View
@@ -103,7 +117,14 @@
             android:padding="4dp"
             android:textSize="12sp"
             />
-
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressBar3"
+            android:layout_weight="1"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:visibility="invisible"
+            />
     </FrameLayout>
 
 </LinearLayout>

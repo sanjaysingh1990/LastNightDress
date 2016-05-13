@@ -249,6 +249,7 @@ You are in safe hands when shopping on Last Night’s Dress. If there is any iss
     <string-array name="service">
         <item>FedEx</item>
         <item>Canada Post</item>
+        <item>USPC</item>
 
     </string-array>
 </resources>

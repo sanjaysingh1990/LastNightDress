@@ -1546,7 +1546,6 @@ addTextListener(sendto,recyclerView);
                         FollowersFollowingData fd = new FollowersFollowingData();
                         fd.setUname(jsonObject.getString("uname"));
                         fd.setUserpic(jsonObject.getString("user_pic"));
-                        fd.setStatus(jsonObject.getString("check"));
                         fd.setUserid(jsonObject.getString("followerid"));
                         fd.setSelected(false);
                         users.add(fd);
@@ -1570,7 +1569,7 @@ addTextListener(sendto,recyclerView);
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("rqid", "1");
+                params.put("rqid", "9");
                 params.put("user_id", userid);
                 params.put("skipdata", 0 + "");
 

@@ -11,117 +11,132 @@
         android:layout_height="wrap_content"
         android:background="#404040"
         android:orientation="horizontal"
-
+        android:padding="10dp"
         >
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:padding="10dp"
-            android:clickable="true"
-            android:id="@+id/userprofile"
-            >
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/mainprofilepic"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_gravity="center_horizontal"
-                android:src="@drawable/empty_user2" />
-
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/userprofile"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="6dp"
-                android:text="Amanda"
-                android:textColor="@color/white"
-                android:textSize="11sp"
-                android:id="@+id/uname"
-                android:singleLine="true"
-                />
-        </LinearLayout>
+                android:layout_centerVertical="true"
 
-        <LinearLayout
+                android:clickable="true"
+                android:orientation="vertical">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/mainprofilepic"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/empty_user2" />
+
+                <TextView
+                    android:id="@+id/uname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="6dp"
+                    android:singleLine="true"
+                    android:text="Amanda"
+                    android:textColor="@color/white"
+                    android:textSize="11sp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:padding="10dp">
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
-            <TextView
-                style="@style/LndAgentListTextView"
-                android:text="31"
-                android:id="@+id/totalpost"
-               />
-
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="Total Posts"
-                android:textColor="@color/white"
-                android:textSize="11sp"
-                android:layout_marginTop="3dp"
-                android:singleLine="true"
+                android:layout_centerVertical="true"
+                android:orientation="vertical"
+                                >
 
-                />
-        </LinearLayout>
 
-        <LinearLayout
+                <TextView
+                    android:id="@+id/totalpost"
+                    style="@style/LndAgentListTextView"
+                    android:text="31" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="6dp"
+                    android:singleLine="true"
+                    android:text="Total Posts"
+                    android:textColor="@color/white"
+                    android:textSize="11sp"
+
+                    />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:padding="10dp">
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
-            <TextView
-                style="@style/LndAgentListTextView"
-                android:text="19"
-                android:id="@+id/totalsales"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="Items Sold"
-                android:textColor="@color/white"
-                android:textSize="11sp"
-                android:layout_marginTop="3dp"
-                android:singleLine="true"
-                />
+                android:layout_centerVertical="true"
+                android:orientation="vertical">
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/totalsales"
+                    style="@style/LndAgentListTextView"
+                    android:text="19" />
 
-        <LinearLayout
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="6dp"
+                    android:singleLine="true"
+                    android:text="Items Sold"
+                    android:textColor="@color/white"
+                    android:textSize="11sp" />
+
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:padding="10dp">
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
-            <TextView
-                style="@style/LndAgentListTextView"
-                android:text="4/5"
-                android:id="@+id/totalrefuser"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="Basic Users"
-                android:textColor="@color/white"
-                android:textSize="11sp"
-                android:layout_marginTop="3dp"
-                android:id="@+id/totalrefusertext"
-                android:singleLine="true"
-                />
-        </LinearLayout>
+                android:layout_centerVertical="true"
+                android:orientation="vertical">
 
+                <TextView
+                    android:id="@+id/totalrefuser"
+                    style="@style/LndAgentListTextView"
+                    android:text="4/5" />
+
+                <TextView
+                    android:id="@+id/totalrefusertext"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="6dp"
+                    android:singleLine="true"
+                    android:text="Basic Users"
+                    android:textColor="@color/white"
+                    android:textSize="11sp" />
+            </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
 
     <View

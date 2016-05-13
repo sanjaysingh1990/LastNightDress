@@ -114,6 +114,11 @@ public class NumberedAdapter extends RecyclerView.Adapter {
 
             }
             //settting price
+            if(shopdata.get(position).issold()==0)
+            {
+                ((ItemViewHolder)holder).price.setText("SOLD");
+            }
+            else
             SingleTon.showValue(country, ((ItemViewHolder) holder).price, price_now);
            //  Log.e("url", sd.getImageurl() + "'");
             if (sd.getImageurl().length() == 0)

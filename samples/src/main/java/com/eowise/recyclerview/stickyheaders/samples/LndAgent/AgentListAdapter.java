@@ -225,17 +225,17 @@ class AgentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             case HEADER:
                 Header header = (Header) holder;
                 if (item.getHeaderType() == 1)
-                    header.total.setText("Basic Users (" + item.getTotal() + "/5)");
+                    header.total.setText("Basic Users");
                 else if (item.getHeaderType() == 2)
-                    header.total.setText("Agents (" + item.getTotal() + "/25)");
+                    header.total.setText("Agents");
                 else if (item.getHeaderType() == 3)
-                    header.total.setText("Agency (" + item.getTotal() + "/5)");
+                    header.total.setText("Agency");
                 else if (item.getHeaderType() == 4)
-                    header.total.setText("Area Manager (" + item.getTotal() + "/5)");
+                    header.total.setText("Area Manager");
                 else if (item.getHeaderType() == 5)
-                    header.total.setText("Regional Director (" + item.getTotal() + "/5)");
+                    header.total.setText("Regional Director");
                 else if (item.getHeaderType() == 6)
-                    header.total.setText("Sales Director (" + item.getTotal() + "/5)");
+                    header.total.setText("Sales Director");
 
                 break;
 

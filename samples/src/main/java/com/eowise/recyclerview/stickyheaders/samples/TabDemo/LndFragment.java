@@ -78,7 +78,8 @@ public class LndFragment extends Fragment {
     int sectionFirstPosition = 0;
     private int count = 0;
     private boolean isfirttime = true;
-    private String query="";
+    private String query = "";
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -172,7 +173,7 @@ public class LndFragment extends Fragment {
                             if (dataleft)
                                 try {
                                     loadmore = true;
-                                    getData(skipdata,query);
+                                    getData(skipdata, query);
                                 } catch (Exception ex) {
 
                                 }
@@ -238,6 +239,7 @@ public class LndFragment extends Fragment {
                         ShopData pdb = new ShopData();
                         pdb.setPrice(jo.getString("price_now"));
                         pdb.setImageurl(jo.getString("imageurl1"));
+                        pdb.setIssold(jo.getInt("issold"));
                         shopdata.add(pdb);
 
 //for full view
@@ -365,17 +367,17 @@ public class LndFragment extends Fragment {
             public void onErrorResponse(VolleyError error) {
                 LndShopActivity.prog.setVisibility(View.GONE);
                 swipeRefreshLayout.setRefreshing(false);
-                dataleft=true;
-                if(!pullrefresh)
-                try {
-                    shopdata.remove(shopdata.size() - 1);
+                dataleft = true;
+                if (!pullrefresh)
+                    try {
+                        shopdata.remove(shopdata.size() - 1);
 
-                    adapter.notifyItemRemoved(shopdata.size() - 1);
+                        adapter.notifyItemRemoved(shopdata.size() - 1);
 
 
-                } catch (Exception ex) {
+                    } catch (Exception ex) {
 
-                }
+                    }
                 pullrefresh = false;
 
                 //Log.e("response",error.getMessage()+"");
@@ -465,18 +467,16 @@ public class LndFragment extends Fragment {
         headerCount = 0;
         sectionFirstPosition = 0;
 
-       skipdata=0;
-        query=data;
-        isfirttime=true;
+        skipdata = 0;
+        query = data;
+        isfirttime = true;
         try {
             shopdata.clear();
             mItems.clear();
-            dataleft=true;
-            count=0;
+            dataleft = true;
+            count = 0;
             getData(skipdata, query);
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
 
         }
     }

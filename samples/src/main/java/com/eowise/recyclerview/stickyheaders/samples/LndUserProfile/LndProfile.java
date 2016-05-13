@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,6 +46,10 @@ import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.Home_List_Data
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ColoredRatingBar;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ConstantValues;
 import com.eowise.recyclerview.stickyheaders.samples.data.ShopData;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -86,15 +92,15 @@ public class LndProfile extends AppCompatActivity {
     ColoredRatingBar rating;
     TextView heading;
 
-     ArrayList<ShopData> items = new ArrayList<>();
+    ArrayList<ShopData> items = new ArrayList<>();
     private int skipdata = 0;
     private AVLoadingIndicatorView prog;
     private Dialog dialog;
     public static int check = 0;
-    private boolean dataleft =true;
+    private boolean dataleft = true;
     public static Context con;
     public static ArrayList<Home_List_Data> mItems = new ArrayList<>();
-    private int count=0;
+    private int count = 0;
     //data for sticky header
     boolean isprivate = false;
 
@@ -107,7 +113,7 @@ public class LndProfile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lnd_profile);
 
-         con=this;
+        con = this;
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler);
         createAdapter(mRecyclerView);
         //setting button
@@ -125,9 +131,9 @@ public class LndProfile extends AppCompatActivity {
         heading = (TextView) findViewById(R.id.heading);
         heading.setTypeface(SingleTon.robotobold);
 
-   //clear list
+        //clear list
         mItems.clear();
-            getData();
+        getData();
 
 //get profile information
         String uname = SingleTon.pref.getString("uname", "uname");
@@ -179,7 +185,7 @@ public class LndProfile extends AppCompatActivity {
 
         adapter = new ParallaxRecyclerAdapter<ShopData>(items) {
             @Override
-            public void onBindViewHolderImpl(RecyclerView.ViewHolder viewHolder, ParallaxRecyclerAdapter<ShopData> adapter, int i) {
+            public void onBindViewHolderImpl(final RecyclerView.ViewHolder viewHolder, ParallaxRecyclerAdapter<ShopData> adapter, int i) {
                 String country = SingleTon.pref.getString("country", "united states");
                 double price_now = 0.0;
                 if (i == 0) {
@@ -188,7 +194,33 @@ public class LndProfile extends AppCompatActivity {
                     try {
                         ((MyPost) viewHolder).image1.setVisibility(View.VISIBLE);
                         ((MyPost) viewHolder).price1.setVisibility(View.VISIBLE);
-                        SingleTon.imageLoader.displayImage(items.get(0).getImageurl(), ((MyPost) viewHolder).image1, SingleTon.options);
+
+
+
+                            ImageLoader.getInstance()
+                                    .displayImage(items.get(0).getImageurl(), ((MyPost) viewHolder).image1, SingleTon.options4, new SimpleImageLoadingListener() {
+                                        @Override
+                                        public void onLoadingStarted(String imageUri, View view) {
+
+                                            ((MyPost)viewHolder).prog1.setVisibility(View.VISIBLE);
+                                        }
+
+                                        @Override
+                                        public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                                            ((MyPost)viewHolder).prog1.setVisibility(View.GONE);
+                                        }
+
+                                        @Override
+                                        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                                            ((MyPost)viewHolder).prog1.setVisibility(View.GONE);
+                                        }
+                                    }, new ImageLoadingProgressListener() {
+                                        @Override
+                                        public void onProgressUpdate(String imageUri, View view, int current, int total) {
+
+                                        }
+                                    });
+
                         ((MyPost) viewHolder).price1.setText("$" + items.get(0).getPrice());
                         ((MyPost) viewHolder).image1.setOnClickListener(new MyClass(0));
                         //settting price
@@ -212,7 +244,32 @@ public class LndProfile extends AppCompatActivity {
                         ((MyPost) viewHolder).image2.setVisibility(View.VISIBLE);
                         ((MyPost) viewHolder).price2.setVisibility(View.VISIBLE);
 
-                        SingleTon.imageLoader.displayImage(items.get(1).getImageurl(), ((MyPost) viewHolder).image2, SingleTon.options);
+                        ImageLoader.getInstance()
+                                .displayImage(items.get(1).getImageurl(), ((MyPost) viewHolder).image2, SingleTon.options4, new SimpleImageLoadingListener() {
+                                    @Override
+                                    public void onLoadingStarted(String imageUri, View view) {
+
+                                        ((MyPost)viewHolder).prog2.setVisibility(View.VISIBLE);
+                                    }
+
+                                    @Override
+                                    public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                                        ((MyPost)viewHolder).prog2.setVisibility(View.GONE);
+                                    }
+
+                                    @Override
+                                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                                        ((MyPost)viewHolder).prog2.setVisibility(View.GONE);
+                                    }
+                                }, new ImageLoadingProgressListener() {
+                                    @Override
+                                    public void onProgressUpdate(String imageUri, View view, int current, int total) {
+
+                                    }
+                                });
+
+
+
                         ((MyPost) viewHolder).price2.setText("$" + items.get(1).getPrice());
                         ((MyPost) viewHolder).image2.setOnClickListener(new MyClass(1));
                         //settting price
@@ -234,7 +291,32 @@ public class LndProfile extends AppCompatActivity {
                         ((MyPost) viewHolder).price3.setVisibility(View.VISIBLE);
 
                         ((MyPost) viewHolder).image3.setVisibility(View.VISIBLE);
-                        SingleTon.imageLoader.displayImage(items.get(2).getImageurl(), ((MyPost) viewHolder).image3, SingleTon.options);
+
+                        ImageLoader.getInstance()
+                                .displayImage(items.get(2).getImageurl(), ((MyPost) viewHolder).image3, SingleTon.options4, new SimpleImageLoadingListener() {
+                                    @Override
+                                    public void onLoadingStarted(String imageUri, View view) {
+
+                                        ((MyPost)viewHolder).prog3.setVisibility(View.VISIBLE);
+                                    }
+
+                                    @Override
+                                    public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                                        ((MyPost)viewHolder).prog3.setVisibility(View.GONE);
+                                    }
+
+                                    @Override
+                                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                                        ((MyPost)viewHolder).prog3.setVisibility(View.GONE);
+                                    }
+                                }, new ImageLoadingProgressListener() {
+                                    @Override
+                                    public void onProgressUpdate(String imageUri, View view, int current, int total) {
+
+                                    }
+                                });
+
+
                         ((MyPost) viewHolder).price3.setText("$" + items.get(2).getPrice());
                         ((MyPost) viewHolder).image3.setOnClickListener(new MyClass(2));
                         //settting price
@@ -256,17 +338,40 @@ public class LndProfile extends AppCompatActivity {
                 } else {
                     //image1
                     try {
+                        ShopData sd=items.get((2 * i + 1 + i) - 1);
                         ((MyPost) viewHolder).price1.setVisibility(View.VISIBLE);
 
                         ((MyPost) viewHolder).image1.setVisibility(View.VISIBLE);
-                        SingleTon.imageLoader.displayImage(items.get((2 * i + 1 + i) - 1).getImageurl(), ((MyPost) viewHolder).image1, SingleTon.options);
+                        ImageLoader.getInstance()
+                                .displayImage(sd.getImageurl(), ((MyPost) viewHolder).image1, SingleTon.options4, new SimpleImageLoadingListener() {
+                                    @Override
+                                    public void onLoadingStarted(String imageUri, View view) {
+
+                                        ((MyPost)viewHolder).prog1.setVisibility(View.VISIBLE);
+                                    }
+
+                                    @Override
+                                    public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                                        ((MyPost)viewHolder).prog1.setVisibility(View.GONE);
+                                    }
+
+                                    @Override
+                                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                                        ((MyPost)viewHolder).prog1.setVisibility(View.GONE);
+                                    }
+                                }, new ImageLoadingProgressListener() {
+                                    @Override
+                                    public void onProgressUpdate(String imageUri, View view, int current, int total) {
+
+                                    }
+                                });
 
                         ((MyPost) viewHolder).image1.setOnClickListener(new MyClass((2 * i + 1 + i) - 1));
 
                         //settting price
                         try {
 
-                            price_now = Double.parseDouble(items.get((2 * i + 1 + i) - 1).getPrice());
+                            price_now = Double.parseDouble(sd.getPrice());
                         } catch (Exception ex) {
 
                         }
@@ -280,17 +385,41 @@ public class LndProfile extends AppCompatActivity {
 
                     //image2
                     try {
+                        ShopData sd=items.get((2 * i + 2 + i) - 1);
                         ((MyPost) viewHolder).price2.setVisibility(View.VISIBLE);
 
                         ((MyPost) viewHolder).image2.setVisibility(View.VISIBLE);
-                        SingleTon.imageLoader.displayImage(items.get((2 * i + 2 + i) - 1).getImageurl(), ((MyPost) viewHolder).image2, SingleTon.options);
+                         ImageLoader.getInstance()
+                                .displayImage(sd.getImageurl(), ((MyPost) viewHolder).image2, SingleTon.options4, new SimpleImageLoadingListener() {
+                                    @Override
+                                    public void onLoadingStarted(String imageUri, View view) {
+
+                                        ((MyPost)viewHolder).prog2.setVisibility(View.VISIBLE);
+                                    }
+
+                                    @Override
+                                    public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                                        ((MyPost)viewHolder).prog2.setVisibility(View.GONE);
+                                    }
+
+                                    @Override
+                                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                                        ((MyPost)viewHolder).prog2.setVisibility(View.GONE);
+                                    }
+                                }, new ImageLoadingProgressListener() {
+                                    @Override
+                                    public void onProgressUpdate(String imageUri, View view, int current, int total) {
+
+                                    }
+                                });
+
 
                         ((MyPost) viewHolder).image2.setOnClickListener(new MyClass((2 * i + 2 + i) - 1));
 
                         //settting price
                         try {
 
-                            price_now = Double.parseDouble(items.get((2 * i + 2 + i) - 1).getPrice());
+                            price_now = Double.parseDouble(sd.getPrice());
                         } catch (Exception ex) {
 
                         }
@@ -304,8 +433,33 @@ public class LndProfile extends AppCompatActivity {
                     //image3
                     try {
 
-                        SingleTon.imageLoader.displayImage(items.get((2 * i + 3 + i) - 1).getImageurl(), ((MyPost) viewHolder).image3, SingleTon.options);
-                        ((MyPost) viewHolder).price3.setText("$" + items.get((2 * i + 3 + i) - 1).getPrice());
+                        ShopData sd= items.get((2 * i + 3 + i) - 1);
+                        ImageLoader.getInstance()
+                                .displayImage(sd.getImageurl(), ((MyPost) viewHolder).image3, SingleTon.options4, new SimpleImageLoadingListener() {
+                                    @Override
+                                    public void onLoadingStarted(String imageUri, View view) {
+
+                                        ((MyPost)viewHolder).prog3.setVisibility(View.VISIBLE);
+                                    }
+
+                                    @Override
+                                    public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                                        ((MyPost)viewHolder).prog3.setVisibility(View.GONE);
+                                    }
+
+                                    @Override
+                                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                                        ((MyPost)viewHolder).prog3.setVisibility(View.GONE);
+                                    }
+                                }, new ImageLoadingProgressListener() {
+                                    @Override
+                                    public void onProgressUpdate(String imageUri, View view, int current, int total) {
+
+                                    }
+                                });
+
+
+                        ((MyPost) viewHolder).price3.setText("$" + sd.getPrice());
                         ((MyPost) viewHolder).image3.setOnClickListener(new MyClass((2 * i + 3 + i) - 1));
 
                         ((MyPost) viewHolder).price3.setVisibility(View.VISIBLE);
@@ -315,7 +469,7 @@ public class LndProfile extends AppCompatActivity {
                         //settting price
                         try {
 
-                            price_now = Double.parseDouble(items.get((2 * i + 3 + i) - 1).getPrice());
+                            price_now = Double.parseDouble(sd.getPrice());
                         } catch (Exception ex) {
 
                         }
@@ -381,7 +535,7 @@ public class LndProfile extends AppCompatActivity {
 
                             if (dataleft)
                                 try {
-                                  loading=false;
+                                    loading = false;
                                     getData();
                                 } catch (Exception ex) {
 
@@ -393,9 +547,8 @@ public class LndProfile extends AppCompatActivity {
                                     items.add(null);
                                     adapter.notifyItemChanged(items.size() - 1);
 
-                                }
-                                else
-                                    loading=false;
+                                } else
+                                    loading = false;
                             }
 
 
@@ -438,7 +591,7 @@ public class LndProfile extends AppCompatActivity {
                 followers.putExtra("user_id", userid);
                 followers.putExtra("userp", 1);
 
-                Main_TabHost.activity.startActivityForResult(followers,7);
+                Main_TabHost.activity.startActivityForResult(followers, 7);
             }
         });
 //to go following page
@@ -471,7 +624,7 @@ public class LndProfile extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent reviews = new Intent(LndProfile.this, ReviewsActivity.class);
-                reviews.putExtra("user_id",SingleTon.pref.getString("user_id",""));
+                reviews.putExtra("user_id", SingleTon.pref.getString("user_id", ""));
                 startActivity(reviews);
             }
         });
@@ -484,6 +637,7 @@ public class LndProfile extends AppCompatActivity {
     static class MyPost extends RecyclerView.ViewHolder {
         public ImageView image1, image2, image3;
         public TextView price1, price2, price3;
+        public ProgressBar prog1, prog2, prog3;
 
         public MyPost(View itemView) {
             super(itemView);
@@ -493,6 +647,9 @@ public class LndProfile extends AppCompatActivity {
             price1 = (TextView) itemView.findViewById(R.id.price1);
             price2 = (TextView) itemView.findViewById(R.id.price2);
             price3 = (TextView) itemView.findViewById(R.id.price3);
+            prog1 = (ProgressBar) itemView.findViewById(R.id.progressBar1);
+            prog2 = (ProgressBar) itemView.findViewById(R.id.progressBar2);
+            prog3 = (ProgressBar) itemView.findViewById(R.id.progressBar3);
 
             image1.setClickable(true);
             image2.setClickable(true);
@@ -513,7 +670,7 @@ public class LndProfile extends AppCompatActivity {
             Intent i = new Intent(LndProfile.this, LndUserFullStickyActivity.class);
             i.putExtra("uname", SingleTon.pref.getString("uname", "uname"));
             i.putExtra("post_location", pos);
-            i.putExtra("profiletype",1);
+            i.putExtra("profiletype", 1);
 
             Main_TabHost.activity.startActivityForResult(i, 5);
 
@@ -591,71 +748,71 @@ public class LndProfile extends AppCompatActivity {
         queue.add(sr);
     }
 
-/*
-    public void getData() {
+    /*
+        public void getData() {
 
-        prog.setVisibility(View.VISIBLE);
-        RequestQueue queue = Volley.newRequestQueue(this);
-        StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/postdata.php", new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                prog.setVisibility(View.GONE);
-                loading=true;
-                // Log.e("response", response.toString());
-                try {
-                    JSONObject jobj = new JSONObject(response.toString());
-                    JSONArray jarray = jobj.getJSONArray("data");
+            prog.setVisibility(View.VISIBLE);
+            RequestQueue queue = Volley.newRequestQueue(this);
+            StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/postdata.php", new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    prog.setVisibility(View.GONE);
+                    loading=true;
+                    // Log.e("response", response.toString());
+                    try {
+                        JSONObject jobj = new JSONObject(response.toString());
+                        JSONArray jarray = jobj.getJSONArray("data");
 
-                    for (int i = 0; i < jarray.length(); i++) {
-                        JSONObject jo = jarray.getJSONObject(i);
-                        ShopData pdb = new ShopData();
-                        pdb.setPrice(jo.getString("price_now"));
-                        pdb.setPostid(jo.getString("post_id"));
+                        for (int i = 0; i < jarray.length(); i++) {
+                            JSONObject jo = jarray.getJSONObject(i);
+                            ShopData pdb = new ShopData();
+                            pdb.setPrice(jo.getString("price_now"));
+                            pdb.setPostid(jo.getString("post_id"));
 
-                        pdb.setImageurl(jo.getString("image_url"));
-                        items.add(pdb);
+                            pdb.setImageurl(jo.getString("image_url"));
+                            items.add(pdb);
+                        }
+
+
+                        skipdata = items.size();
+
+                        if (jarray.length() == 0) {
+
+                            dataleft = false;
+                        }
+
+                    } catch (Exception ex) {
+                        //Log.e("json parsing error",ex.getMessage());
+
                     }
-
-
-                    skipdata = items.size();
-
-                    if (jarray.length() == 0) {
-
-                        dataleft = false;
-                    }
-
-                } catch (Exception ex) {
-                    //Log.e("json parsing error",ex.getMessage());
-
                 }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                prog.setVisibility(View.GONE);
-                //  Log.e("response",error.getMessage()+"");
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("rqid", "1");
-                params.put("skipdata", skipdata + "");
-                params.put("user_id", SingleTon.pref.getString("user_id", ""));
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    prog.setVisibility(View.GONE);
+                    //  Log.e("response",error.getMessage()+"");
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("rqid", "1");
+                    params.put("skipdata", skipdata + "");
+                    params.put("user_id", SingleTon.pref.getString("user_id", ""));
 
-                return params;
-            }
+                    return params;
+                }
 
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Content-Type", "application/x-www-form-urlencoded");
-                return params;
-            }
-        };
-        queue.add(sr);
-    }
-*/
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("Content-Type", "application/x-www-form-urlencoded");
+                    return params;
+                }
+            };
+            queue.add(sr);
+        }
+    */
     @Override
     public void onBackPressed() {
         try
@@ -696,7 +853,7 @@ public class LndProfile extends AppCompatActivity {
         return output;
     }
 
-    public  void updateList(ArrayList<String> pos) {
+    public void updateList(ArrayList<String> pos) {
 
         for (String position : pos) {
             int repos = Integer.parseInt(position);
@@ -718,12 +875,11 @@ public class LndProfile extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 prog.setVisibility(View.GONE);
-                loading=true;
+                loading = true;
 
-               // Log.e("json", response.toString());
+                // Log.e("json", response.toString());
 
                 try {
-
 
 
                     JSONObject jobj = new JSONObject(response.toString());
@@ -745,22 +901,22 @@ public class LndProfile extends AppCompatActivity {
 
                         ArrayList<String> imgurls = new ArrayList<String>();
 
-                        String imgurl=jo.getString("imageurl1");
+                        String imgurl = jo.getString("imageurl1");
 
                         imgurls.add(imgurl);
 
-                        imgurl=jo.getString("imageurl2");
-                        if(imgurl.length()>0)
+                        imgurl = jo.getString("imageurl2");
+                        if (imgurl.length() > 0)
                             imgurls.add(imgurl);
 
-                        imgurl=jo.getString("imageurl3");
-                        if(imgurl.length()>0)
+                        imgurl = jo.getString("imageurl3");
+                        if (imgurl.length() > 0)
                             imgurls.add(imgurl);
-                        imgurl=jo.getString("imageurl4");
-                        if(imgurl.length()>0)
+                        imgurl = jo.getString("imageurl4");
+                        if (imgurl.length() > 0)
                             imgurls.add(imgurl);
 
-                         Log.e("size",imgurls.size()+"");
+                        Log.e("size", imgurls.size() + "");
                         //adding for headers
                         String header = jo.getString("uname") + "";
 
@@ -796,50 +952,39 @@ public class LndProfile extends AppCompatActivity {
                         hld.setProdtype(jo.getString("prod_type"));
                         hld.setTime(getMilliseconds(jo.getString("date_time")));
 
-                        if(hld.getCategory()==2)
-                        {
-                            String size="";
+                        if (hld.getCategory() == 2) {
+                            String size = "";
 
-                            try
-                            {
-                                String[] lndbagsize=hld.getSize().split(",");
-                                if(lndbagsize.length>1) {
-                                    for ( int j = 0; j < lndbagsize.length; j++) {
+                            try {
+                                String[] lndbagsize = hld.getSize().split(",");
+                                if (lndbagsize.length > 1) {
+                                    for (int j = 0; j < lndbagsize.length; j++) {
                                         size = size + ConstantValues.bagsize[Integer.parseInt(lndbagsize[j])] + ",";
                                     }
                                     hld.setSize(size);
-                                }
-                                else
+                                } else
                                     hld.setSize(ConstantValues.bagsize[Integer.parseInt(hld.getSize())]);
 
 
+                            } catch (Exception ex) {
+                                Log.e("error", ex.getMessage());
                             }
-                            catch (Exception ex)
-                            {
-                                Log.e("error",ex.getMessage());
-                            }
-                        }
-                        else if(hld.getCategory()==4)
-                        {
-                            String color="";
+                        } else if (hld.getCategory() == 4) {
+                            String color = "";
 
-                            try
-                            {
-                                String[] lndcolormetaltype=hld.getColors().split(",");
-                                if(lndcolormetaltype.length>1) {
-                                    for (int j = 0; j <lndcolormetaltype.length; j++) {
+                            try {
+                                String[] lndcolormetaltype = hld.getColors().split(",");
+                                if (lndcolormetaltype.length > 1) {
+                                    for (int j = 0; j < lndcolormetaltype.length; j++) {
                                         color = color + ConstantValues.metaltype[Integer.parseInt(lndcolormetaltype[j])] + ",";
                                     }
                                     hld.setColors(color);
-                                }
-                                else
+                                } else
                                     hld.setColors(ConstantValues.metaltype[Integer.parseInt(hld.getColors())]);
 
 
-                            }
-                            catch (Exception ex)
-                            {
-                                Log.e("error",ex.getMessage());
+                            } catch (Exception ex) {
+                                Log.e("error", ex.getMessage());
                             }
                         }
 
@@ -881,7 +1026,7 @@ public class LndProfile extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-              //  dialog.setVisibility(View.GONE);
+                //  dialog.setVisibility(View.GONE);
 
             }
         }) {
@@ -890,7 +1035,7 @@ public class LndProfile extends AppCompatActivity {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("rqid", "11");
                 params.put("user_id", SingleTon.pref.getString("user_id", ""));
-                params.put("skipdata", skipdata+"");
+                params.put("skipdata", skipdata + "");
                 return params;
             }
 
@@ -903,8 +1048,8 @@ public class LndProfile extends AppCompatActivity {
         };
         queue.add(sr);
     }
-    static long getMilliseconds(String datetime)
-    {
+
+    static long getMilliseconds(String datetime) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         try {
@@ -919,6 +1064,7 @@ public class LndProfile extends AppCompatActivity {
         }
         return 0;
     }
+
     private void checkFavorate(Home_List_Data hld) {
         FavoriteData fd = SingleTon.db.getContact(hld.getPost_id());
         if (fd != null) {
