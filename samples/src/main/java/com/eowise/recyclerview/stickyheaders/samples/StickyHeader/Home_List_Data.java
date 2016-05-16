@@ -19,6 +19,16 @@ public class Home_List_Data implements Serializable {
     private int likestotal;
     private String conditon;
 
+    public int getIssold() {
+        return issold;
+    }
+
+    public void setIssold(int issold) {
+        this.issold = issold;
+    }
+
+    private int issold;
+
     public String getNotilikedby() {
         return notilikedby;
     }
@@ -48,6 +58,7 @@ public class Home_List_Data implements Serializable {
     }
 
     private long time;
+
     public int getHeadertype() {
         return headertype;
     }
@@ -57,6 +68,7 @@ public class Home_List_Data implements Serializable {
     }
 
     private int headertype;
+
     public boolean isfavorate() {
         return isfavorate;
     }
@@ -66,6 +78,7 @@ public class Home_List_Data implements Serializable {
     }
 
     private boolean isfavorate;
+
     public int getCategory() {
         return category;
     }
@@ -77,7 +90,6 @@ public class Home_List_Data implements Serializable {
     private int category;
 
 
-
     public boolean isvisible() {
         return isvisible;
     }
@@ -87,6 +99,7 @@ public class Home_List_Data implements Serializable {
     }
 
     private boolean isvisible;
+
     public String getProdtype() {
         return prodtype;
     }
@@ -96,6 +109,7 @@ public class Home_List_Data implements Serializable {
     }
 
     private String prodtype;
+
     public String getUserid() {
         return userid;
     }
@@ -138,8 +152,6 @@ public class Home_List_Data implements Serializable {
     private String likedvalue;
 
 
-
-
     public String getDescription() {
         return description;
     }
@@ -149,6 +161,7 @@ public class Home_List_Data implements Serializable {
     }
 
     private String description;
+
     public String getPost_id() {
         return post_id;
     }
@@ -243,8 +256,6 @@ public class Home_List_Data implements Serializable {
     public void setConditon(String conditon) {
         this.conditon = conditon;
     }
-
-
 
 
 }

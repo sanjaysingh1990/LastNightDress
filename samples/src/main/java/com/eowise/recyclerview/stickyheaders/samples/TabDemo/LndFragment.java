@@ -300,7 +300,7 @@ public class LndFragment extends Fragment {
                         hld.setBrandname(jo.getString("brand_name"));
                         hld.setTime(getMilliseconds(jo.getString("date_time")));
                         hld.setProdtype(jo.getString("prod_type"));
-
+                        hld.setIssold(jo.getInt("issold"));
                         if (hld.getCategory() == 2) {
                             String size = "";
 
@@ -345,6 +345,8 @@ public class LndFragment extends Fragment {
                         hld2.setLikedvalue(jo.getString("like"));
                         hld2.setUserid(jo.getString("user_id"));
                         hld2.setBrandname(jo.getString("brand_name"));
+                        hld2.setIssold(jo.getInt("issold"));
+
                         checkFavorate2(hld);
                         mItems.add(hld);
                         count++;

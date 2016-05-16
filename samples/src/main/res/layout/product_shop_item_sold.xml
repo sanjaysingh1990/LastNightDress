@@ -20,7 +20,6 @@
             android:orientation="vertical">
 
 
-
             <com.eowise.recyclerview.stickyheaders.samples.StickyHeader.HomeImageSliderLayout
                 android:id="@+id/switcher"
                 android:layout_width="match_parent"
@@ -52,13 +51,13 @@
             android:layout_gravity="center_vertical|left"
             android:background="?attr/selectableItemBackground"
             android:src="@drawable/image_backward" />
+
         <ProgressBar
+            android:id="@+id/fullpostloading"
             style="?android:attr/progressBarStyleLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/fullpostloading"
-            android:layout_gravity="center_vertical|center_horizontal"
-            />
+            android:layout_gravity="center_vertical|center_horizontal" />
     </FrameLayout>
 
 
@@ -260,32 +259,31 @@
 
         >
 
+
         <RelativeLayout
+            android:id="@+id/itemsold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="#be4d66"
-            android:clickable="true">
+            android:background="@color/gray"
+            android:clickable="true"
+           >
 
             <TextView
-                android:id="@+id/buy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:clickable="true"
-                android:drawableLeft="@drawable/shop_icon2"
-                android:drawablePadding="5dp"
+
                 android:gravity="center_vertical"
                 android:paddingBottom="8dp"
                 android:paddingLeft="8dp"
                 android:paddingRight="20dp"
                 android:paddingTop="8dp"
-                android:text="Buy"
-                android:textColor="#fff" />
+                android:text="Sold"
+                android:textColor="@color/light_black" />
 
 
         </RelativeLayout>
-
 
     </LinearLayout>
 
@@ -327,30 +325,32 @@
                 android:textColor="#b4b4b4"
                 android:textSize="14sp" />
         </RelativeLayout>
-      <LinearLayout
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:orientation="horizontal"
-          android:paddingLeft="14dp"
-          android:layout_marginTop="5dp"
-          >
-          <TextView
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="Shipping :"
-              android:textColor="#be4d66"
-              android:textStyle="bold"
 
-              />
-          <TextView
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_marginLeft="3dp"
-              android:text="$15"
-              android:id="@+id/shipping"
-              android:textColor="@color/black"
-              />
-      </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal"
+            android:paddingLeft="14dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Shipping :"
+                android:textColor="#be4d66"
+                android:textStyle="bold"
+
+                />
+
+            <TextView
+                android:id="@+id/shipping"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:text="$15"
+                android:textColor="@color/black" />
+        </LinearLayout>
+
         <github.ankushsachdeva.emojicon.EmojiconTextView xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:emojicon="http://schemas.android.com/apk/res-auto"
             android:id="@+id/desc"
@@ -363,32 +363,33 @@
             emojicon:emojiconSize="18sp"
 
             />
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:layout_marginLeft="15dp"
-    android:layout_marginTop="3dp"
-    >
-    <TextView
-        android:id="@+id/comment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
 
-        android:clickable="true"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="3dp"
+            android:orientation="horizontal">
 
-        android:gravity="center_vertical"
-        android:text="Comment"
-        android:textColor="#b4b4b4" />
-    <ImageView
-        android:layout_width="12dp"
-        android:layout_height="12dp"
-        android:src="@drawable/comment_lock_icon"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="1dp"
-        />
-</LinearLayout>
+            <TextView
+                android:id="@+id/comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:clickable="true"
+
+                android:gravity="center_vertical"
+                android:text="Comment"
+                android:textColor="#b4b4b4" />
+
+            <ImageView
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="1dp"
+                android:src="@drawable/comment_lock_icon" />
+        </LinearLayout>
 
     </LinearLayout>
 

@@ -121,6 +121,7 @@ public class LndComments extends AppCompatActivity {
 
 
                     recyclerAdapter.notifyDataSetChanged();
+                    recyclerView.scrollToPosition(data.size()-1);
                     skipdata = data.size();
                     if (jarray.length() < 25)
                         loading = false;

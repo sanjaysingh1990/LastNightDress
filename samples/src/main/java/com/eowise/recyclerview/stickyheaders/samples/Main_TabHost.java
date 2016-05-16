@@ -2,12 +2,15 @@ package com.eowise.recyclerview.stickyheaders.samples;
 
 import android.app.Activity;
 import android.app.LocalActivityManager;
+import android.app.ProgressDialog;
 import android.app.TabActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -31,6 +34,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.eowise.recyclerview.stickyheaders.samples.GCM.ApplicationConstants;
 import com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage.LndNotificationMessageActivity;
 import com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage.MessageFragment;
 import com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage.NotificationFragment;
@@ -40,13 +44,22 @@ import com.eowise.recyclerview.stickyheaders.samples.TabDemo.LndFragment;
 import com.eowise.recyclerview.stickyheaders.samples.TabDemo.LndShopActivity;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.BlankActivity;
 import com.eowise.recyclerview.stickyheaders.samples.data.NotificationData;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
+
+import cz.msebera.android.httpclient.Header;
 
 public class Main_TabHost extends AppCompatActivity {
     public static TabWidget tabWidget;
@@ -64,6 +77,11 @@ public class Main_TabHost extends AppCompatActivity {
     public static TextView message, notification, followers;
     public static PopupWindow popupWindow;
     public static RelativeLayout msgparent, notiparent, follparent;
+    private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    private GoogleCloudMessaging gcmObj;
+    private String regId = "";
+    public static final String REG_ID = "regId";
+    RequestParams params = new RequestParams();
 
     /**
      * Called when the activity is first created.
@@ -218,6 +236,13 @@ public class Main_TabHost extends AppCompatActivity {
 
             }
         }
+        regId = SingleTon.pref.getString(REG_ID, "");
+        if (regId.length() == 0) {
+            if (checkPlayServices()) {
+                registerInBackground();
+            }
+        }
+
 
     }
 
@@ -304,7 +329,7 @@ public class Main_TabHost extends AppCompatActivity {
         try
 
         {
-            Toast.makeText(this, "status" + Main_TabHost.currenttab.pop(), Toast.LENGTH_SHORT).show();
+
             Main_TabHost.tabHost.setCurrentTab(Main_TabHost.currenttab.pop());
         } catch (Exception ex) {
             finish();
@@ -346,9 +371,9 @@ public class Main_TabHost extends AppCompatActivity {
         notification = (TextView) popupView.findViewById(R.id.notification);
         followers = (TextView) popupView.findViewById(R.id.followers);
         //parent reference
-        msgparent= (RelativeLayout) popupView.findViewById(R.id.msgparent);
-        notiparent= (RelativeLayout) popupView.findViewById(R.id.notiparent);
-        follparent= (RelativeLayout) popupView.findViewById(R.id.follparent);
+        msgparent = (RelativeLayout) popupView.findViewById(R.id.msgparent);
+        notiparent = (RelativeLayout) popupView.findViewById(R.id.notiparent);
+        follparent = (RelativeLayout) popupView.findViewById(R.id.follparent);
 
         try {
             JSONObject jobj = new JSONObject(data);
@@ -372,9 +397,9 @@ public class Main_TabHost extends AppCompatActivity {
 
             if (msg == 0)
                 msgparent.setVisibility(View.GONE);
-             if (noti == 0)
+            if (noti == 0)
                 notiparent.setVisibility(View.GONE);
-             if(foll==0)
+            if (foll == 0)
                 follparent.setVisibility(View.GONE);
 
         } catch (JSONException ex) {
@@ -491,4 +516,130 @@ public class Main_TabHost extends AppCompatActivity {
         queue.add(sr);
     }
 
+    private boolean checkPlayServices() {
+        int resultCode = GooglePlayServicesUtil
+                .isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+                GooglePlayServicesUtil.getErrorDialog(resultCode, this,
+                        PLAY_SERVICES_RESOLUTION_REQUEST).show();
+            } else {
+                Toast.makeText(
+                        Main_TabHost.this,
+                        "This device doesn't support Play services, App will not work normally",
+                        Toast.LENGTH_LONG).show();
+                finish();
+            }
+            return false;
+        } else {
+            Toast.makeText(
+                    Main_TabHost.this,
+                    "This device supports Play services, App will work normally",
+                    Toast.LENGTH_LONG);
+        }
+        return true;
+    }
+
+    private void registerInBackground() {
+        new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... params) {
+                String msg = "";
+                try {
+                    if (gcmObj == null) {
+                        gcmObj = GoogleCloudMessaging
+                                .getInstance(Main_TabHost.this);
+                    }
+                    regId = gcmObj
+                            .register(ApplicationConstants.GOOGLE_PROJ_ID);
+                    msg = "Registration ID :" + regId;
+
+                } catch (IOException ex) {
+                    msg = "Error :" + ex.getMessage();
+                }
+                return msg;
+            }
+
+            @Override
+            protected void onPostExecute(String msg) {
+                if (!TextUtils.isEmpty(regId)) {
+                    storeRegIdinSharedPref(regId);
+                    Toast.makeText(
+                            getApplicationContext(),
+                            "Registered with GCM Server successfully.\n\n"
+                                    + msg, Toast.LENGTH_SHORT);
+                } else {
+                    Toast.makeText(
+                            getApplicationContext(),
+                            "Reg ID Creation Failed.\n\nEither you haven't enabled Internet or GCM server is busy right now. Make sure you enabled Internet and try registering again after some time."
+                                    + msg, Toast.LENGTH_LONG).show();
+                }
+            }
+        }.execute(null, null, null);
+    }
+
+    private void storeRegIdinSharedPref(String regId
+    ) {
+        SharedPreferences.Editor editor = SingleTon.pref.edit();
+        editor.putString(REG_ID, regId);
+
+        editor.commit();
+        storeRegIdinServer();
+
+    }
+
+    private void storeRegIdinServer() {
+
+        params.put("regid", regId);
+        params.put("user_id", SingleTon.pref.getString("user_id", "'"));
+        params.put("devicetype", "android");
+        params.put("datetime", SingleTon.getCurrentTimeStamp());
+
+        // Make RESTful webservice call using AsyncHttpClient object
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.post(ApplicationConstants.APP_SERVER_URL, params,
+                new AsyncHttpResponseHandler() {
+                    // When the response returned by REST has Http
+                    // response code '200'
+
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+                        showPopup("your device is ready to receive notification");
+
+                    }
+
+
+                    // When the response returned by REST has Http
+                    // response code other than '200' such as '404',
+                    // '500' or '403' etc
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+                        // When Http response code is '404'
+                        if (statusCode == 404) {
+                            Toast.makeText(getApplicationContext(),
+                                    "Requested resource not found",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                        // When Http response code is '500'
+                        else if (statusCode == 500) {
+                            Toast.makeText(getApplicationContext(),
+                                    "Something went wrong at server end",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                        // When Http response code other than 404, 500
+                        else {
+                            Toast.makeText(
+                                    getApplicationContext(),
+                                    "Unexpected Error occcured! [Most common Error: Device might "
+                                            + "not be connected to Internet or remote server is not up and running], check for other errors as well",
+                                    Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+
+                });
+    }
 }

@@ -93,6 +93,8 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private static final int VIEW_TYPE_CONTENT_SHOP_OTHER = 0x02;
     private static final int VIEW_TYPE_CONTENT_PRIVATE_USER = 0x03;
     private static final int VIEW_TYPE_CONTENT_SHOP_USER = 0x04;
+    private static final int VIEW_TYPE_CONTENT_SHOP_ITEM_SOLD = 0x05;
+    private static final int VIEW_TYPE_CONTENT_PRIVATE_USER_ITEM_SOLD = 0x06;
 
     private static final int LINEAR = 0;
 
@@ -279,6 +281,16 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.list_item_user_private_post, parent, false);
             return new LndProductPrivateUserHolder(view, mContext);
+        } else if (viewType == VIEW_TYPE_CONTENT_PRIVATE_USER_ITEM_SOLD) {
+
+            view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.product_private_item_sold, parent, false);
+            return new LndProductPrivateHolderSold(view, mContext);
+        } else if (viewType == VIEW_TYPE_CONTENT_SHOP_ITEM_SOLD) {
+
+            view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.product_shop_item_sold, parent, false);
+            return new LndProductPrivateHolderSold(view, mContext);
         } else {
             view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.list_item_user_shop_post, parent, false);
@@ -537,7 +549,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 } catch (Exception ex) {
 
                 }
-                 vh4.likescount.setText(item.getLikestotal() + " likes");
+                vh4.likescount.setText(item.getLikestotal() + " likes");
                 vh4.color.setText(item.getColors());
                 vh4.time.setReferenceTime(item.getTime());
 
@@ -672,7 +684,175 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                 break;
 
+            case VIEW_TYPE_CONTENT_PRIVATE_USER_ITEM_SOLD:
+                LndProductPrivateHolderSold vh6 = (LndProductPrivateHolderSold) holder;
 
+
+                uname = Capitalize.capitalizeFirstLetter(item.getUname());
+                //end here
+                vh6.description.setMovementMethod(LinkMovementMethod.getInstance());
+                vh6.description.setText(mTagSelectingTextview.addClickablePart(uname + " " + item.getDescription(),
+                        this, hashTagHyperLinkDisabled, hastTagColorBlue, uname.length()),
+                        TextView.BufferType.SPANNABLE);
+                vh6.price_was.setText("$" + item.getPricewas());
+                vh6.price_now.setText("$" + item.getPricenow());
+                vh6.time.setReferenceTime(item.getTime());
+                //to check sold or not
+
+                Log.e("itemsold private other", item.getIssold() + "");
+                //bag size
+                try {
+                    int pos = Integer.parseInt(item.getSize());
+                    vh6.len.setText(ConstantValues.bagsize[pos]);
+
+                } catch (Exception ex) {
+
+                    vh6.len.setText((item.getSize().toUpperCase()));
+
+                }
+                vh6.likescount.setText(item.getLikestotal() + " likes");
+                //start
+
+                try {
+                    vh6.condition.setText(ConstantValues.condition[Integer.parseInt(item.getConditon())]);
+
+                } catch (Exception ex) {
+
+                }
+
+                //for private dress color and private metal type
+
+                vh6.color.setText(Capitalize.capitalizeFirstLetter(item.getColors()));
+
+
+                try {
+                    vh6.hfl.setFeatureItems(vh6.forward, vh6.backward, position, this, vh6.progress);
+                    if (position == mItems.size() - 1) {
+                        vh6.spaceview.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 100));
+                        notifyDataSetChanged();
+                    }
+                    int pos = Integer.parseInt(item.getConditon());
+                    vh6.condition.setText(ConstantValues.condition[pos]);
+                } catch (Exception ex) {
+
+                }
+                //likers view
+                vh6.likescount.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent likers = new Intent(mContext, LikersActivity.class);
+                        likers.putExtra("postid", item.getPost_id());
+                        mContext.startActivity(likers);
+                    }
+                });
+                //check favorate
+                if (item.isfavorate())
+                    vh6.favorates.setImageResource(R.drawable.filled_favorate_icon);
+                else
+                    vh6.favorates.setImageResource(R.drawable.favorite_icon);
+
+
+                break;
+
+            case VIEW_TYPE_CONTENT_SHOP_ITEM_SOLD:
+                // Log.e("colors",item.getColors());
+                final LndProductShopHolderSold vh7 = (LndProductShopHolderSold) holder;
+
+
+                uname = Capitalize.capitalizeFirstLetter(item.getUname());
+                //end here
+                vh7.description.setMovementMethod(LinkMovementMethod.getInstance());
+                vh7.description.setText(mTagSelectingTextview.addClickablePart(uname + " " + item.getDescription(),
+                        this, hashTagHyperLinkDisabled, hastTagColorBlue, uname.length()),
+                        TextView.BufferType.SPANNABLE);
+                vh7.price_was.setText("$" + item.getPricewas());
+                vh7.price_now.setText("$" + item.getPricenow());
+                vh7.likescount.setText(item.getLikestotal() + " likes");
+                vh7.time.setReferenceTime(item.getTime());
+                //to check sold or not
+
+                Log.e("itemsold shop other", item.getIssold() + "");
+
+
+                try {
+                    vh7.hfl.setFeatureItems(vh7.forward, vh7.backward, position, this, vh7.progress);
+                    if (position == mItems.size() - 1) {
+                        vh7.spaceview.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 100));
+                    }
+                    int pos = Integer.parseInt(item.getConditon());
+                    vh7.condition.setText(ConstantValues.condition[pos]);
+
+                } catch (Exception ex) {
+
+                }
+                //checking for single or multiple sizes
+                try {
+                    if (item.getSize().split(",").length == 1) {
+                        vh7.size.setText(Capitalize.capitalize(item.getSize()));
+                        vh7.size.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                        vh7.size.setClickable(false);
+                    } else {
+                        vh7.size.setClickable(true);
+                        vh7.size.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow, 0);
+                        vh7.size.setText("Size");
+                        vh7.size.setOnClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                popupWindow(item.getSize(), (TextView) view, item.getCategory()).showAsDropDown(view, -5, 0);
+
+
+                            }
+                        });
+
+                    }
+                } catch (Exception ex) {
+
+                }
+                //likers view
+                vh7.likescount.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent likers = new Intent(mContext, LikersActivity.class);
+                        likers.putExtra("username", SingleTon.pref.getString("uname", ""));
+                        likers.putExtra("postid", item.getPost_id());
+                        mContext.startActivity(likers);
+                    }
+                });
+
+                //for single or multiple colors
+                try {
+                    if (item.getColors().split(",").length == 1) {
+                        vh7.color.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                        //for private dress color and private metal type
+
+                        vh7.color.setText(Capitalize.capitalizeFirstLetter(item.getColors()));
+
+                        vh7.color.setClickable(false);
+                    } else {
+                        vh7.color.setClickable(true);
+                        vh7.color.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow, 0);
+                        vh7.color.setText("Color  ");
+                        vh7.color.setOnClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                popupWindow2(item.getColors(), (TextView) view, item.getCategory()).showAsDropDown(view, -5, 0);
+
+
+                            }
+                        });
+                    }
+                } catch (Exception ex) {
+
+                }
+
+                //check favorate
+                if (item.isfavorate())
+                    vh7.favorates.setImageResource(R.drawable.filled_favorate_icon);
+                else
+                    vh7.favorates.setImageResource(R.drawable.favorite_icon);
+
+
+                break;
             default:
                 break;
         }
@@ -870,11 +1050,19 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             return VIEW_TYPE_HEADER;
         else if (lineItem.sectiontype.compareTo("contentotheruser") == 0) {
 
-            if (lineItem.isprivate)
-                return VIEW_TYPE_CONTENT_PRIVATE_OTHER;
-            else
-                return VIEW_TYPE_CONTENT_SHOP_OTHER;
+            if (lineItem.isprivate) {
+                if (lineItem.getIssold() == 1)
+                    return VIEW_TYPE_CONTENT_PRIVATE_OTHER;
+                else
+                    return VIEW_TYPE_CONTENT_PRIVATE_USER_ITEM_SOLD;
 
+            } else {
+                if (lineItem.getIssold() == 1)
+                    return VIEW_TYPE_CONTENT_SHOP_OTHER;
+                else
+                    return VIEW_TYPE_CONTENT_SHOP_ITEM_SOLD;
+
+            }
         } else {
 
             if (lineItem.isprivate)
@@ -882,6 +1070,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             else
                 return VIEW_TYPE_CONTENT_SHOP_USER;
         }
+
 
     }
 
@@ -966,6 +1155,145 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     break;*/
             }
 
+        }
+    }
+
+    class LndProductPrivateHolderSold extends RecyclerView.ViewHolder implements OnClickListener {
+
+        private TextView color;
+        public HomeImageSliderLayout hfl;
+        public EmojiconTextView description;
+        public TextView len;
+        public TextView price_was, price_now;
+        public ImageButton msgtouser, favorates, sendto;
+
+        Context con;
+        ImageButton forward, backward;
+        public TextView likescount;
+        public View spaceview;
+        public TextView condition;
+        public TextView comment;
+        public RelativeTimeTextView time;
+        public ProgressBar progress;
+
+        LndProductPrivateHolderSold(View view, Context context) {
+            super(view);
+            con = context;
+            //setting height
+            DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+
+            int height = displayMetrics.heightPixels;
+            int width = displayMetrics.widthPixels;
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+
+//setting margins around imageimageview
+            params.height = (height * 70) / 100; //left, top, right, bottom
+            params.width = width;
+            description = (EmojiconTextView) view.findViewById(R.id.desc);
+            price_was = (TextView) view.findViewById(R.id.pricewas);
+            price_now = (TextView) view.findViewById(R.id.pricenow);
+            len = (TextView) view.findViewById(R.id.len);
+            msgtouser = (ImageButton) view.findViewById(R.id.messagetouser);
+            favorates = (ImageButton) view.findViewById(R.id.favorate);
+            sendto = (ImageButton) view.findViewById(R.id.sendto);
+            likescount = (TextView) view.findViewById(R.id.likescount);
+            condition = (TextView) view.findViewById(R.id.condition);
+            color = (TextView) view.findViewById(R.id.color);
+            hfl = (HomeImageSliderLayout) view.findViewById(R.id.switcher);
+            hfl.setLayoutParams(params);
+            forward = (ImageButton) view.findViewById(R.id.forward);
+            backward = (ImageButton) view.findViewById(R.id.backward);
+            spaceview = view.findViewById(R.id.space);
+            comment = (TextView) itemView.findViewById(R.id.comment);
+            time = (RelativeTimeTextView) view.findViewById(R.id.time);
+            progress = (ProgressBar) view.findViewById(R.id.fullpostloading);
+            //bind with listeners
+          /*  this.sendto.setOnClickListener(this);
+            this.msgtouser.setOnClickListener(this);
+            this.favorates.setOnClickListener(this);
+            this.comment.setOnClickListener(this);*/
+
+        }
+
+
+        @Override
+        public void onClick(View v) {
+            show(v, getAdapterPosition());
+        }
+
+    }
+
+    class LndProductShopHolderSold extends RecyclerView.ViewHolder implements OnClickListener {
+
+        public HomeImageSliderLayout hfl;
+        public EmojiconTextView description;
+        public TextView price_was, price_now;
+        public ImageButton msgtouser, favorates, sendto;
+
+        public TextView likescount;
+        public TextView condition;
+        public TextView comment;
+        public RelativeTimeTextView time;
+        Context con;
+        ImageButton forward, backward;
+        public TextView size, color;
+        public View spaceview;
+        public ProgressBar progress;
+
+        LndProductShopHolderSold(View view, Context context) {
+            super(view);
+            con = context;
+            //setting height
+            DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+
+            int height = displayMetrics.heightPixels;
+            int width = displayMetrics.widthPixels;
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+
+//setting margins around imageimageview
+            params.height = (height * 70) / 100; //left, top, right, bottom
+            params.width = width;
+            description = (EmojiconTextView) view.findViewById(R.id.desc);
+            price_was = (TextView) view.findViewById(R.id.pricewas);
+            price_now = (TextView) view.findViewById(R.id.pricenow);
+            msgtouser = (ImageButton) view.findViewById(R.id.messagetouser);
+            favorates = (ImageButton) view.findViewById(R.id.favorate);
+            sendto = (ImageButton) view.findViewById(R.id.sendto);
+
+            comment = (TextView) itemView.findViewById(R.id.comment);
+            time = (RelativeTimeTextView) view.findViewById(R.id.time);
+
+            likescount = (TextView) view.findViewById(R.id.likescount);
+            condition = (TextView) view.findViewById(R.id.condition);
+            // pattern = (TextView) view.findViewById(R.id.pattern);
+            hfl = (HomeImageSliderLayout) view.findViewById(R.id.switcher);
+            hfl.setLayoutParams(params);
+            forward = (ImageButton) view.findViewById(R.id.forward);
+            backward = (ImageButton) view.findViewById(R.id.backward);
+            spaceview = view.findViewById(R.id.space);
+            progress = (ProgressBar) view.findViewById(R.id.fullpostloading);
+
+            size = (TextView) view.findViewById(R.id.size);
+            color = (TextView) view.findViewById(R.id.color);
+
+            description = (EmojiconTextView) view.findViewById(R.id.desc);
+
+
+            //bind with listeners
+          /*  this.buy.setOnClickListener(this);
+
+            this.sendto.setOnClickListener(this);
+            this.msgtouser.setOnClickListener(this);
+            this.favorates.setOnClickListener(this);
+            this.comment.setOnClickListener(this);*/
+
+
+        }
+
+
+        @Override
+        public void onClick(View view) {
+            show(view, getAdapterPosition());
         }
     }
 
@@ -1414,7 +1742,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         }
                     }
                 });
-addTextListener(sendto,recyclerView);
+                addTextListener(sendto, recyclerView);
                 break;
             case R.id.messagetouser:
                 hld = mItems.get(pos);
@@ -1753,7 +2081,7 @@ addTextListener(sendto,recyclerView);
                     }
                 }
 
-                recyclerView.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.HORIZONTAL,false));
+                recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
                 mAdapter = new SentToAdapter(mContext, filteredList);
 
                 recyclerView.setAdapter(mAdapter);
@@ -1762,6 +2090,5 @@ addTextListener(sendto,recyclerView);
         });
     }
 }
-
 
 

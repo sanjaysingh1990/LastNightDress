@@ -259,6 +259,8 @@ public class StickyActivity extends AppCompatActivity {
                         hld.setBrandname(jo.getString("brand_name"));
                         hld.setProdtype(jo.getString("prod_type"));
                         hld.setTime(getMilliseconds(jo.getString("date_time")));
+                        hld.setIssold(jo.getInt("issold"));
+
                        /* if (hld.getCategory() == 1) {
                             String size = "";
 
@@ -328,6 +330,7 @@ public class StickyActivity extends AppCompatActivity {
                             hld2.setHeadertype(0);
 
                         hld2.setProfilepicurl(jo.getString("profile_pic"));
+                        hld2.setIssold(jo.getInt("issold"));
 
                         hld2.setPost_id(jo.getString("post_id"));
 

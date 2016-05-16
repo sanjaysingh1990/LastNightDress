@@ -20,7 +20,6 @@
             android:orientation="vertical">
 
 
-
             <com.eowise.recyclerview.stickyheaders.samples.StickyHeader.HomeImageSliderLayout
                 android:id="@+id/switcher"
                 android:layout_width="match_parent"
@@ -52,13 +51,13 @@
             android:layout_gravity="center_vertical|left"
             android:background="?attr/selectableItemBackground"
             android:src="@drawable/image_backward" />
+
         <ProgressBar
+            android:id="@+id/fullpostloading"
             style="?android:attr/progressBarStyleLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/fullpostloading"
-            android:layout_gravity="center_vertical|center_horizontal"
-            />
+            android:layout_gravity="center_vertical|center_horizontal" />
     </FrameLayout>
 
 
@@ -167,6 +166,7 @@
             android:orientation="vertical"
             android:paddingBottom="12dp"
 
+
             android:paddingTop="12dp"
 
             >
@@ -192,22 +192,20 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:orientation="vertical"
+            android:paddingBottom="12dp"
+            android:paddingTop="12dp"
 
 
             >
 
             <TextView
-                android:id="@+id/size"
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:layout_gravity="center_horizontal"
-                android:drawablePadding="-4dp"
-                android:drawableRight="@drawable/down_arrow"
-                android:entries="@array/size_length"
-                android:text="Size"
+                android:id="@+id/len"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="S"
                 android:textColor="#be4d66"
                 android:textSize="13sp" />
 
@@ -224,21 +222,23 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="12dp"
+            android:paddingTop="12dp"
+
+
+            >
 
             <TextView
                 android:id="@+id/color"
                 android:layout_width="wrap_content"
-                android:layout_height="20dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:drawablePadding="-4dp"
-                android:drawableRight="@drawable/down_arrow"
-                android:entries="@array/color_names"
                 android:gravity="center_horizontal"
-                android:text="Color  "
+                android:text="Pattern"
                 android:textColor="#be4d66"
+
                 android:textSize="13sp"
 
                 />
@@ -253,143 +253,123 @@
         android:layout_height="0.5dp"
         android:background="#dadada" />
 
-    <LinearLayout
+
+    <RelativeLayout
+        android:id="@+id/sold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:background="@color/gray"
+        android:clickable="true">
 
-        >
-
-        <RelativeLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="#be4d66"
-            android:clickable="true">
+            android:layout_centerInParent="true"
 
-            <TextView
-                android:id="@+id/buy"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:clickable="true"
-                android:drawableLeft="@drawable/shop_icon2"
-                android:drawablePadding="5dp"
-                android:gravity="center_vertical"
-                android:paddingBottom="8dp"
-                android:paddingLeft="8dp"
-                android:paddingRight="20dp"
-                android:paddingTop="8dp"
-                android:text="Buy"
-                android:textColor="#fff" />
+            android:gravity="center_vertical"
+            android:paddingBottom="8dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="20dp"
+            android:paddingTop="8dp"
+            android:text="Sold"
+            android:textColor="@color/light_black" />
 
 
-        </RelativeLayout>
+    </RelativeLayout>
 
-
-    </LinearLayout>
-
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp">
 
-        <RelativeLayout
+        <TextView
+            android:id="@+id/likescount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="10dp"
-
-            >
-
-            <TextView
-                android:id="@+id/likescount"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:clickable="true"
-                android:drawableLeft="@drawable/total_liked_icon"
-                android:drawablePadding="5dp"
-                android:gravity="center_vertical"
-                android:text="124 likes"
-                android:textColor="#be4d66"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
-            <com.eowise.recyclerview.stickyheaders.samples.Utils.RelativeTimeTextView
-                android:id="@+id/time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="4m"
-                android:textAppearance="?android:textAppearanceMedium"
-                android:textColor="#b4b4b4"
-                android:textSize="14sp" />
-        </RelativeLayout>
-      <LinearLayout
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:orientation="horizontal"
-          android:paddingLeft="14dp"
-          android:layout_marginTop="5dp"
-          >
-          <TextView
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="Shipping :"
-              android:textColor="#be4d66"
-              android:textStyle="bold"
-
-              />
-          <TextView
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_marginLeft="3dp"
-              android:text="$15"
-              android:id="@+id/shipping"
-              android:textColor="@color/black"
-              />
-      </LinearLayout>
-        <github.ankushsachdeva.emojicon.EmojiconTextView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:emojicon="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/desc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_alignParentLeft="true"
             android:clickable="true"
-            android:paddingLeft="14dp"
-            android:paddingRight="10dp"
-            emojicon:emojiconSize="18sp"
+            android:drawableLeft="@drawable/total_liked_icon"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:text="124 likes"
+            android:textColor="#be4d66"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
-            />
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:layout_marginLeft="15dp"
-    android:layout_marginTop="3dp"
-    >
-    <TextView
-        android:id="@+id/comment"
+        <com.eowise.recyclerview.stickyheaders.samples.Utils.RelativeTimeTextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="4m"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textColor="#b4b4b4"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal"
+        android:paddingLeft="14dp">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Shipping :"
+            android:textColor="#be4d66"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/shipping"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
+            android:text="$15"
+            android:textColor="@color/black" />
+    </LinearLayout>
+
+    <github.ankushsachdeva.emojicon.EmojiconTextView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:emojicon="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:clickable="true"
+        android:paddingLeft="14dp"
+        android:paddingRight="10dp"
+        emojicon:emojiconSize="18sp"
 
-        android:gravity="center_vertical"
-        android:text="Comment"
-        android:textColor="#b4b4b4" />
-    <ImageView
-        android:layout_width="12dp"
-        android:layout_height="12dp"
-        android:src="@drawable/comment_lock_icon"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="1dp"
         />
-</LinearLayout>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:clickable="true"
+
+            android:gravity="center_vertical"
+            android:text="Comment"
+            android:textColor="#b4b4b4" />
+
+        <ImageView
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="1dp"
+            android:src="@drawable/comment_lock_icon" />
     </LinearLayout>
 
     <View
@@ -397,5 +377,4 @@
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:background="@color/white" />
-
 </LinearLayout>

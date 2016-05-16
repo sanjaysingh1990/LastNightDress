@@ -18,11 +18,7 @@ import android.widget.Toast;
 import com.eowise.recyclerview.stickyheaders.samples.LndMore.LndLuxuryandDesignerAuthentication;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
-import com.paypal.android.sdk.payments.PayPalConfiguration;
-import com.paypal.android.sdk.payments.PayPalPayment;
-import com.paypal.android.sdk.payments.PayPalService;
-import com.paypal.android.sdk.payments.PaymentActivity;
-import com.paypal.android.sdk.payments.PaymentConfirmation;
+
 
 import org.json.JSONException;
 
@@ -61,13 +57,13 @@ public class RegularCheckoutActivity extends AppCompatActivity {
     RelativeLayout samepayrellayout;
     @Bind(R.id.newpayrellayout)
     RelativeLayout newpayrellayout;
-    private static final String CONFIG_ENVIRONMENT = PayPalConfiguration.ENVIRONMENT_NO_NETWORK;
+ /*   private static final String CONFIG_ENVIRONMENT = PayPalConfiguration.ENVIRONMENT_NO_NETWORK;
     // note that these credentials will differ between live & sandbox environments.
     private static final String CONFIG_CLIENT_ID = "AQROuxZHCry7zhjtDYgK2S0uq1P2XQThAEb6UEUB3ntPe7p0RW2gfiupZDlHLEAtZVHlDt9x9VHkc_fd";
     private static final int REQUEST_CODE_PAYMENT = 1;
     private static PayPalConfiguration config = new PayPalConfiguration()
             .environment(CONFIG_ENVIRONMENT)
-            .clientId(CONFIG_CLIENT_ID);
+            .clientId(CONFIG_CLIENT_ID);*/
 
 
     @Override
@@ -75,8 +71,8 @@ public class RegularCheckoutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_regular_checkout);
         ButterKnife.bind(this);
-        Intent intent = new Intent(this, PayPalService.class);
-        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
+       /* Intent intent = new Intent(this, PayPalService.class);
+        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);*/
 //applying custom fonts
         regularcheckout.get(0).setTypeface(SingleTon.robotobold);
         regularcheckout.get(1).setTypeface(SingleTon.robotoregular);
@@ -103,6 +99,7 @@ public class RegularCheckoutActivity extends AppCompatActivity {
         newaddress.setVisibility(View.GONE);
         sameaddress.setVisibility(View.VISIBLE);
         if (sameadd.getText().toString().compareToIgnoreCase("cancel") == 0) {
+            
             this.newadd.setText("New Address");
             this.sameadd.setText("Same Address");
         }
@@ -125,6 +122,7 @@ public class RegularCheckoutActivity extends AppCompatActivity {
         newaddress.setVisibility(View.VISIBLE);
         sameaddress.setVisibility(View.GONE);
         if (newadd.getText().toString().compareToIgnoreCase("new address") == 0) {
+            this.newadd.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
             this.newadd.setText("Save");
             this.sameadd.setText("Cancel");
         } else {
@@ -132,13 +130,14 @@ public class RegularCheckoutActivity extends AppCompatActivity {
             this.sameadd.setText("Same Address");
             newaddress.setVisibility(View.GONE);
             sameaddress.setVisibility(View.VISIBLE);
+            this.newadd.setCompoundDrawablesWithIntrinsicBounds(R.drawable.payment_selection, 0, 0, 0);
 
         }
     }
 
     public void newpayment(View v) {
         this.newpayrellayout.setBackgroundColor(Color.parseColor("#be4d66"));
-        this.sameaddrellayout.setBackgroundColor(Color.parseColor("#dbdbdb"));
+        this.samepayrellayout.setBackgroundColor(Color.parseColor("#dbdbdb"));
 
 
         this.newpayment.setCompoundDrawablesWithIntrinsicBounds(R.drawable.payment_selection, 0, 0, 0);
@@ -152,9 +151,11 @@ public class RegularCheckoutActivity extends AppCompatActivity {
         this.samepayment.setBackgroundColor(Color.parseColor("#dbdbdb"));
         this.cardno.setEnabled(true);
         if (newpayment.getText().toString().compareToIgnoreCase("new payment") == 0) {
+            this.newpayment.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
             this.newpayment.setText("Save");
             this.samepayment.setText("Cancel");
         } else {
+            this.newpayment.setCompoundDrawablesWithIntrinsicBounds(R.drawable.payment_selection, 0, 0, 0);
             this.newpayment.setText("New Payment");
             this.samepayment.setText("Same Payment");
 
@@ -162,8 +163,8 @@ public class RegularCheckoutActivity extends AppCompatActivity {
     }
 
     public void samepayment(View v) {
-        this.sameaddrellayout.setBackgroundColor(Color.parseColor("#be4d66"));
-        this.newpayment.setBackgroundColor(Color.parseColor("#dbdbdb"));
+        this.samepayrellayout.setBackgroundColor(Color.parseColor("#be4d66"));
+        this.newpayrellayout.setBackgroundColor(Color.parseColor("#dbdbdb"));
 
 
         this.samepayment.setBackgroundColor(Color.parseColor("#be4d66"));
@@ -187,10 +188,10 @@ public class RegularCheckoutActivity extends AppCompatActivity {
     }
 
     public void done(View v) {
-        onBuyPressed();
+        //onBuyPressed();
     }
 
-    public void onBuyPressed() {
+  /*  public void onBuyPressed() {
         PayPalPayment thingToBuy = getThingToBuy(PayPalPayment.PAYMENT_INTENT_ORDER);
         Intent intent = new Intent(RegularCheckoutActivity.this, PaymentActivity.class);
         intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
@@ -234,11 +235,11 @@ public class RegularCheckoutActivity extends AppCompatActivity {
             }
         }
     }
-
+*/
     @Override
     public void onDestroy() {
         // Stop service when done
-        stopService(new Intent(this, PayPalService.class));
+       // stopService(new Intent(this, PayPalService.class));
         super.onDestroy();
     }
 
