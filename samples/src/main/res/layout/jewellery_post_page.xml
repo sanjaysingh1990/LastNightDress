@@ -1082,6 +1082,11 @@
 
             </LinearLayout>
 
+            <include
+                android:layout_marginTop="10dp"
+                layout="@layout/lnd_item_shipping"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

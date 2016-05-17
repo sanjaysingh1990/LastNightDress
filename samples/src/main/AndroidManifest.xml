@@ -23,9 +23,10 @@
 
     <uses-permission android:name="com.prgguru.example.permission.C2D_MESSAGE" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-   
+
     <!-- GCM Permissions - End here  -->
     <uses-permission android:name="android.permission.VIBRATE" />
+
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
@@ -49,7 +50,9 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
         <activity
             android:name=".Splash"
@@ -245,17 +248,17 @@
             android:name=".PostDataShop.HandBagsEditPost"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateVisible|adjustPan" />
+            android:windowSoftInputMode="stateHidden|adjustPan|stateAlwaysHidden" />
         <activity
             android:name=".PostDataShop.ShoesEditPost"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateVisible|adjustPan" />
+            android:windowSoftInputMode="stateHidden|adjustPan|stateAlwaysHidden" />
         <activity
             android:name=".PostDataShop.JewelleryEditPost"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateVisible|adjustPan" />
+            android:windowSoftInputMode="stateHidden|adjustPan|stateAlwaysHidden" />
         <activity
             android:name=".TabDemo.LndShopActivity"
             android:screenOrientation="portrait"
@@ -369,7 +372,7 @@
             android:name=".HashTagsFullView.HashTagStickyActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-
+<!--
         <service
             android:name="com.paypal.android.sdk.payments.PayPalService"
             android:exported="false" />
@@ -385,9 +388,11 @@
             android:name="io.card.payment.CardIOActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
+
         <activity
             android:name="io.card.payment.DataEntryActivity"
             android:screenOrientation="portrait" />
+              -->
         <activity
             android:name=".HashTagsFullView.LndBrandHashTagGridViewActivity"
             android:label="@string/title_activity_lnd_brand_hash_tag_grid_view"
@@ -432,7 +437,7 @@
 
         <receiver
             android:name=".GCM.GcmBroadcastReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND" >
+            android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />

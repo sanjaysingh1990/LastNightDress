@@ -11,15 +11,20 @@ public class ConcreteData1 extends AbstractDataProvider2.Data {
     private boolean mPinned;
     private int msgtype;
    private MessageData md;
-    public ConcreteData1(long id, int viewType,MessageData md) {
+    private String datetime;
+    public ConcreteData1(long id, int viewType,MessageData md,String datetime) {
         mId = id;
         mViewType = viewType;
         this.msgtype =1;
         this.md=md;
+        this.datetime=datetime;
 
     }
 
-
+   public String getDatetime()
+   {
+       return datetime;
+   }
     @Override
     public boolean isSectionHeader() {
         return false;

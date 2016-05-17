@@ -344,13 +344,15 @@ public class Main_TabHost extends AppCompatActivity {
         edit.commit();
     }
 
-    public void showPopup(String msg) {
+    public  void showPopup(String msg,int status) {
         //initializing popup
         //Creating the LayoutInflater instance
         LayoutInflater li = getLayoutInflater();
         //Getting the View object as defined in the customtoast.xml file
         View layout = li.inflate(R.layout.customtoast, (ViewGroup) findViewById(R.id.custom_toast_layout));
         TextView txt = (TextView) layout.findViewById(R.id.info);
+        ImageView checkmark= (ImageView) layout.findViewById(R.id.checkmark);
+        checkmark.setVisibility(status);
         txt.setText(msg);
         //Creating the Toast object
         toast = new Toast(getApplicationContext());
@@ -439,7 +441,7 @@ public class Main_TabHost extends AppCompatActivity {
 
                     JSONObject jobj = new JSONObject(response.toString());
                     if (jobj.getBoolean("status"))
-                        showPopup("Request Sent");
+                        showPopup("Request Sent",View.VISIBLE);
                     else
                         Toast.makeText(getApplicationContext(), jobj.getString("message"), Toast.LENGTH_SHORT).show();
                 } catch (Exception ex) {
@@ -594,6 +596,7 @@ public class Main_TabHost extends AppCompatActivity {
         params.put("user_id", SingleTon.pref.getString("user_id", "'"));
         params.put("devicetype", "android");
         params.put("datetime", SingleTon.getCurrentTimeStamp());
+        params.put("rqid", "1");
 
         // Make RESTful webservice call using AsyncHttpClient object
         AsyncHttpClient client = new AsyncHttpClient();
@@ -605,8 +608,9 @@ public class Main_TabHost extends AppCompatActivity {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
 
-                        showPopup("your device is ready to receive notification");
-
+                        showPopup("your device is ready to receive notification",View.VISIBLE);
+                        String s = new String(responseBody);
+                        Log.e("response",s);
                     }
 
 

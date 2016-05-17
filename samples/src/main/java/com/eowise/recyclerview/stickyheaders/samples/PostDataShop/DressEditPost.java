@@ -945,16 +945,16 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
     private void unselectactualPrice() {
         ActualCost1.setChecked(false);
         FixedCost1.setChecked(false);
-        ActualCost1.setTextColor(Color.parseColor("#000000"));
-        FixedCost1.setTextColor(Color.parseColor("#000000"));
+        ActualCost1.setTextColor(Color.parseColor("#ffffff"));
+        FixedCost1.setTextColor(Color.parseColor("#ffffff"));
 
     }
 
     private void unselectfixedPrice() {
         FixedCost2.setChecked(false);
         ActualCost2.setChecked(false);
-        FixedCost2.setTextColor(Color.parseColor("#000000"));
-        ActualCost2.setTextColor(Color.parseColor("#000000"));
+        FixedCost2.setTextColor(Color.parseColor("#ffffff"));
+        ActualCost2.setTextColor(Color.parseColor("#ffffff"));
 
     }
 }

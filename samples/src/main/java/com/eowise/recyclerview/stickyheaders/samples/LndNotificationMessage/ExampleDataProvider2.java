@@ -72,6 +72,11 @@ public class ExampleDataProvider2 extends AbstractDataProvider2 {
     }
 
     @Override
+    public List<ConcreteData1> getList() {
+        return mData;
+    }
+
+    @Override
     public void moveItem(int fromPosition, int toPosition) {
         if (fromPosition == toPosition) {
             return;
@@ -90,7 +95,7 @@ public class ExampleDataProvider2 extends AbstractDataProvider2 {
 
         final int swipeReaction = RecyclerViewSwipeManager.REACTION_CAN_SWIPE_UP | RecyclerViewSwipeManager.REACTION_CAN_SWIPE_DOWN;
 
-        mData.add(new ConcreteData1(id, viewType,md));
+        mData.add(new ConcreteData1(id, viewType,md,md.getDatetime()));
 
 
 

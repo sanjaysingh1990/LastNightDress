@@ -51,7 +51,14 @@ import com.h6ah4i.android.widget.advrecyclerview.utils.WrapperAdapterUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MessageFragment extends Fragment {
@@ -241,7 +248,7 @@ public class MessageFragment extends Fragment {
                         cd.setMessage(jo.getString("msg"));
                         cd.setMsgid(jo.getInt("msg_id"));
                         cd.setSender_id(jo.getString("sender_id"));
-
+                        cd.setDatetime(jo.getString("time"));
                         cd.setTimeago(TimeAgo.getMilliseconds(jo.getString("time")));
 
 
@@ -287,7 +294,37 @@ public class MessageFragment extends Fragment {
         MessageData md = mProvider.getItem(extra.getInt("pos")).getMessage();
         md.setMessage(extra.getString("message"));
         md.setTimeago(TimeAgo.getMilliseconds(extra.getString("time")));
+        md.setDatetime(extra.getString("time"));
         mAdapter.notifyDataSetChanged();
+        order(mProvider.getList());
+        mAdapter.notifyDataSetChanged();
+
     }
+
+    private  void order(List<ConcreteData1> list) {
+
+        Collections.sort(list, byDate);
+    }
+     final Comparator<ConcreteData1> byDate = new Comparator<ConcreteData1>() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        public int compare(ConcreteData1 ord1, ConcreteData1 ord2) {
+            Date d1 = null;
+            Date d2 = null;
+            try {
+                d1 = sdf.parse(ord1.getDatetime());
+                d2 = sdf.parse(ord2.getDatetime());
+            } catch (ParseException ex) {
+                // TODO Auto-generated catch block
+                Log.e("error",ex.getMessage());
+                Toast.makeText(getActivity(),"error",Toast.LENGTH_SHORT).show();
+            }
+
+
+           // return (d1.getTime() > d2.getTime() ? -1 : 1);     //descending
+            //Log.e("satus",(d1.getTime() > d2.getTime() ? 1 : -1)+"");
+            return (d1.getTime() > d2.getTime() ? 1 : -1);     //ascending
+        }
+    };
 }
 

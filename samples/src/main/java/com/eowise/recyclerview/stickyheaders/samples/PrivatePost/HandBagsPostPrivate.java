@@ -18,6 +18,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -103,6 +104,27 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
     //condition reference
     @Bind(R.id.conditionnew)
     TextView conditionnew;
+
+    //included layout shipping
+    @Bind(R.id.actualcost1)
+    CheckBox ActualCost1;
+    @Bind(R.id.fixedcost1)
+    CheckBox FixedCost1;
+    @Bind(R.id.actualcost2)
+    CheckBox ActualCost2;
+    @Bind(R.id.fixedcost2)
+    CheckBox FixedCost2;
+
+    @Bind(R.id.chargefixedcost)
+    LinearLayout chargefixedcost;
+    @Bind(R.id.chargeactualcost)
+    LinearLayout chargeactualcost;
+
+    @Bind(R.id.chargefixedcostinternational)
+    LinearLayout chargefixedcostinternaltional;
+    @Bind(R.id.chargeactualcostinternational)
+    LinearLayout chargeactualcostinternational;
+
 
     int typehandbag = 0;
     int condition = 0;
@@ -226,6 +248,12 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
 
         //Create a new Tokenizer which will get text after '@' and terminate on ' '
         desc.setTokenizer(new LndTokenizer());
+
+        ActualCost1.setOnClickListener(this);
+        ActualCost2.setOnClickListener(this);
+        FixedCost2.setOnClickListener(this);
+        FixedCost1.setOnClickListener(this);
+
 
         setupEmoji();
 
@@ -365,6 +393,37 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
                 condition = 11;
                 conditionspinner.setSelection(0);
                 lnditemcondition.setText(ConstantValues.conditiondesciptions[11]);
+
+                break;
+            case R.id.actualcost1:
+                unselectactualPrice();
+                ((CheckBox) v).setChecked(true);
+                ((CheckBox) v).setTextColor(Color.parseColor("#ffffff"));
+                chargeactualcost.setVisibility(View.VISIBLE);
+                chargefixedcost.setVisibility(View.GONE);
+                break;
+            case R.id.actualcost2:
+                unselectfixedPrice();
+                ((CheckBox) v).setChecked(true);
+                ((CheckBox) v).setTextColor(Color.parseColor("#ffffff"));
+                chargeactualcostinternational.setVisibility(View.VISIBLE);
+                chargefixedcostinternaltional.setVisibility(View.GONE);
+                break;
+            case R.id.fixedcost1:
+
+                unselectactualPrice();
+                ((CheckBox) v).setChecked(true);
+                ((CheckBox) v).setTextColor(Color.parseColor("#ffffff"));
+                chargeactualcost.setVisibility(View.GONE);
+                chargefixedcost.setVisibility(View.VISIBLE);
+
+                break;
+            case R.id.fixedcost2:
+                unselectfixedPrice();
+                ((CheckBox) v).setChecked(true);
+                ((CheckBox) v).setTextColor(Color.parseColor("#ffffff"));
+                chargeactualcostinternational.setVisibility(View.GONE);
+                chargefixedcostinternaltional.setVisibility(View.VISIBLE);
 
                 break;
 
@@ -724,5 +783,19 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
 
         queue.add(sr);
     }
+    private void unselectactualPrice() {
+        ActualCost1.setChecked(false);
+        FixedCost1.setChecked(false);
+        ActualCost1.setTextColor(Color.parseColor("#ffffff"));
+        FixedCost1.setTextColor(Color.parseColor("#ffffff"));
 
+    }
+
+    private void unselectfixedPrice() {
+        FixedCost2.setChecked(false);
+        ActualCost2.setChecked(false);
+        FixedCost2.setTextColor(Color.parseColor("#ffffff"));
+        ActualCost2.setTextColor(Color.parseColor("#ffffff"));
+
+    }
 }

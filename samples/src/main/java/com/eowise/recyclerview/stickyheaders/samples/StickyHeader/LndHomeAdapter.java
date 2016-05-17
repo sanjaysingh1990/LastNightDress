@@ -63,11 +63,9 @@ import com.eowise.recyclerview.stickyheaders.samples.UserProfile.OtherUserProfil
 import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ConstantValues;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.RelativeTimeTextView;
-import com.eowise.recyclerview.stickyheaders.samples.adapters.NewMessageAdapter;
 import com.eowise.recyclerview.stickyheaders.samples.adapters.SentToAdapter;
 import com.eowise.recyclerview.stickyheaders.samples.data.Chat_Banner_Data;
 import com.eowise.recyclerview.stickyheaders.samples.data.FollowersFollowingData;
-import com.eowise.recyclerview.stickyheaders.samples.data.MessageToFriendsData;
 import com.eowise.recyclerview.stickyheaders.samples.interfaces.TagClick;
 import com.init.superslim.GridSLM;
 import com.init.superslim.LinearSLM;
@@ -290,7 +288,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.product_shop_item_sold, parent, false);
-            return new LndProductPrivateHolderSold(view, mContext);
+            return new LndProductShopHolderSold(view, mContext);
         } else {
             view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.list_item_user_shop_post, parent, false);
@@ -1351,6 +1349,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             //bind with listeners
             this.buy.setOnClickListener(this);
+
             this.swap.setOnClickListener(this);
             this.sendto.setOnClickListener(this);
             this.msgtouser.setOnClickListener(this);
@@ -1422,8 +1421,8 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             description = (EmojiconTextView) view.findViewById(R.id.desc);
             //bind with listeners
-            this.buy.setOnClickListener(this);
-
+            // this.buy.setOnClickListener(this);
+            this.buy.setOnClickListener(new BuyItem(size, color));
             this.sendto.setOnClickListener(this);
             this.msgtouser.setOnClickListener(this);
             this.favorates.setOnClickListener(this);
@@ -1589,6 +1588,29 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         @Override
         public void onClick(View view) {
             show(view, getAdapterPosition());
+        }
+    }
+
+    class BuyItem implements OnClickListener {
+        TextView size, color;
+
+        public BuyItem(TextView size, TextView color) {
+            this.size = size;
+            this.color = color;
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (size.getText().toString().trim().compareToIgnoreCase("size") == 0) {
+                Main_TabHost.main.showPopup("select size", View.GONE);
+                return;
+
+            } else if (color.getText().toString().trim().compareToIgnoreCase("color") == 0) {
+                Main_TabHost.main.showPopup("select color", View.GONE);
+                return;
+            }
+            Intent buy = new Intent(mContext, RegularCheckoutActivity.class);
+            mContext.startActivity(buy);
         }
     }
 
@@ -1929,7 +1951,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     JSONObject jobj = new JSONObject(response.toString());
                     if (jobj.getBoolean("status")) {
                         SentToAdapter.usersselected.clear();
-                        Main_TabHost.main.showPopup("Shared successfully");
+                        Main_TabHost.main.showPopup("Shared successfully", View.VISIBLE);
                     } else {
                         Toast.makeText(mContext, jobj.getString("message"), Toast.LENGTH_SHORT).show();
                     }

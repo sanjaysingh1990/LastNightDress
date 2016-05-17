@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import com.eowise.recyclerview.stickyheaders.samples.Main_TabHost;
 import com.eowise.recyclerview.stickyheaders.samples.R;
@@ -28,7 +29,7 @@ public class GCMNotificationIntentService extends IntentService {
 	@Override
 	protected void onHandleIntent(Intent intent) {
 		Bundle extras = intent.getExtras();
-		GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(this);
+			GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(this);
 
 		String messageType = gcm.getMessageType(intent);
 
@@ -42,8 +43,10 @@ public class GCMNotificationIntentService extends IntentService {
 						+ extras.toString());
 			} else if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE
 					.equals(messageType)) {
-				sendNotification("Message Received from Google GCM Server:\n\n"
-						+ extras.get(ApplicationConstants.MSG_KEY));
+				//sendNotification("Message Received from Google GCM Server:\n\n"
+						//+ extras.get(ApplicationConstants.MSG_KEY));
+				sendNotification(extras.getString("message")+"");
+
 			}
 		}
 		GcmBroadcastReceiver.completeWakefulIntent(intent);
@@ -52,7 +55,9 @@ public class GCMNotificationIntentService extends IntentService {
 	private void sendNotification(String msg) {
 	        Intent resultIntent = new Intent(this,Main_TabHost.class);
 	        resultIntent.putExtra("msg", msg);
-	        PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0,
+      		Log.e("data",msg);
+
+		PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0,
 	                resultIntent, PendingIntent.FLAG_ONE_SHOT);
 	        
 	        NotificationCompat.Builder mNotifyBuilder;
@@ -79,7 +84,7 @@ public class GCMNotificationIntentService extends IntentService {
 	        
 	        mNotifyBuilder.setDefaults(defaults);
 	        // Set the content for Notification 
-	        mNotifyBuilder.setContentText("New message from Server");
+	        mNotifyBuilder.setContentText(msg);
 	        // Set autocancel
 	        mNotifyBuilder.setAutoCancel(true);
 	        // Post a notification

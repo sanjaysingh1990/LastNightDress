@@ -17,7 +17,10 @@
 package com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage;
 
 
+import com.eowise.recyclerview.stickyheaders.samples.data.ConcreteData1;
 import com.eowise.recyclerview.stickyheaders.samples.data.MessageData;
+
+import java.util.List;
 
 public abstract class AbstractDataProvider2 {
 
@@ -45,4 +48,5 @@ public abstract class AbstractDataProvider2 {
     public abstract void moveItem(int fromPosition, int toPosition);
     public abstract void addItem(MessageData md);
     public abstract int undoLastRemoval();
+    public abstract List<ConcreteData1> getList();
 }

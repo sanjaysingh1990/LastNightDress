@@ -44,6 +44,8 @@ import com.h6ah4i.android.widget.advrecyclerview.swipeable.action.SwipeResultAct
 import com.h6ah4i.android.widget.advrecyclerview.swipeable.action.SwipeResultActionRemoveItem;
 import com.h6ah4i.android.widget.advrecyclerview.utils.AbstractSwipeableItemViewHolder;
 
+import github.ankushsachdeva.emojicon.EmojiconTextView;
+
 class MessageSwipeableItemAdapter2
         extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         implements SwipeableItemAdapter<RecyclerView.ViewHolder> {
@@ -71,7 +73,8 @@ class MessageSwipeableItemAdapter2
 
     public class MyViewHolder extends AbstractSwipeableItemViewHolder implements View.OnClickListener {
         public PagerSwipeItemFrameLayout mContainer;
-        public TextView uname, message;
+        public TextView uname;
+        public EmojiconTextView message;
         LinearLayout fullmsg;
         public ImageView profilepic, messindicator;
         public RelativeTimeTextView time;
@@ -80,7 +83,7 @@ class MessageSwipeableItemAdapter2
             super(v);
             mContainer = (PagerSwipeItemFrameLayout) v.findViewById(R.id.container);
             uname = (TextView) v.findViewById(R.id.uname);
-            message = (TextView) v.findViewById(R.id.msg);
+            message = (EmojiconTextView) v.findViewById(R.id.msg);
             profilepic = (ImageView) v.findViewById(R.id.profilepic);
             messindicator = (ImageView) v.findViewById(R.id.messidicator);
             time = (RelativeTimeTextView) v.findViewById(R.id.time);

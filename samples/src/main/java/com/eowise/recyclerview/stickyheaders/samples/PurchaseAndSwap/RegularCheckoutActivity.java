@@ -99,7 +99,7 @@ public class RegularCheckoutActivity extends AppCompatActivity {
         newaddress.setVisibility(View.GONE);
         sameaddress.setVisibility(View.VISIBLE);
         if (sameadd.getText().toString().compareToIgnoreCase("cancel") == 0) {
-            
+
             this.newadd.setText("New Address");
             this.sameadd.setText("Same Address");
         }

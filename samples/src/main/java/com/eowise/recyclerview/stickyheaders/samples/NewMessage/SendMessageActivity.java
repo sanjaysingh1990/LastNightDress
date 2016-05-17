@@ -352,6 +352,7 @@ public class SendMessageActivity extends AppCompatActivity {
         intent.putExtra("message", md.getMessage());
         intent.putExtra("pos",pos);
         intent.putExtra("time",md.getCurrenttimestamp());
+
         setResult(200, intent);
         finish();//finishing activity
     }

@@ -21,5 +21,6 @@
         android:src="@drawable/item_checked"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="10dp"
+        android:id="@+id/checkmark"
         />
 </LinearLayout>

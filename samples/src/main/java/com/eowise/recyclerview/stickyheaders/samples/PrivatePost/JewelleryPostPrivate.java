@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -108,6 +109,28 @@ public class JewelleryPostPrivate extends AppCompatActivity implements View.OnCl
     EditText pricenow;
     @Bind(R.id.lndconditontext)
     TextView lnditemcondition;
+
+    //included layout shipping
+    @Bind(R.id.actualcost1)
+    CheckBox ActualCost1;
+    @Bind(R.id.fixedcost1)
+    CheckBox FixedCost1;
+    @Bind(R.id.actualcost2)
+    CheckBox ActualCost2;
+    @Bind(R.id.fixedcost2)
+    CheckBox FixedCost2;
+
+    @Bind(R.id.chargefixedcost)
+    LinearLayout chargefixedcost;
+    @Bind(R.id.chargeactualcost)
+    LinearLayout chargeactualcost;
+
+    @Bind(R.id.chargefixedcostinternational)
+    LinearLayout chargefixedcostinternaltional;
+    @Bind(R.id.chargeactualcostinternational)
+    LinearLayout chargeactualcostinternational;
+
+
     int jewellerytype_selected = 0;
     int condition_selected = 0;
     int metaltype_selected = 0;
@@ -234,6 +257,11 @@ public class JewelleryPostPrivate extends AppCompatActivity implements View.OnCl
         //Create a new Tokenizer which will get text after '@' and terminate on ' '
         desc.setTokenizer(new LndTokenizer());
 
+
+        ActualCost1.setOnClickListener(this);
+        ActualCost2.setOnClickListener(this);
+        FixedCost2.setOnClickListener(this);
+        FixedCost1.setOnClickListener(this);
         setupEmoji();
     }
 
@@ -462,6 +490,37 @@ public class JewelleryPostPrivate extends AppCompatActivity implements View.OnCl
 
                 changeRingsize((TextView) v);
                 ringsizeselected = "11.5";
+
+                break;
+            case R.id.actualcost1:
+                unselectactualPrice();
+                ((CheckBox) v).setChecked(true);
+                ((CheckBox) v).setTextColor(Color.parseColor("#ffffff"));
+                chargeactualcost.setVisibility(View.VISIBLE);
+                chargefixedcost.setVisibility(View.GONE);
+                break;
+            case R.id.actualcost2:
+                unselectfixedPrice();
+                ((CheckBox) v).setChecked(true);
+                ((CheckBox) v).setTextColor(Color.parseColor("#ffffff"));
+                chargeactualcostinternational.setVisibility(View.VISIBLE);
+                chargefixedcostinternaltional.setVisibility(View.GONE);
+                break;
+            case R.id.fixedcost1:
+
+                unselectactualPrice();
+                ((CheckBox) v).setChecked(true);
+                ((CheckBox) v).setTextColor(Color.parseColor("#ffffff"));
+                chargeactualcost.setVisibility(View.GONE);
+                chargefixedcost.setVisibility(View.VISIBLE);
+
+                break;
+            case R.id.fixedcost2:
+                unselectfixedPrice();
+                ((CheckBox) v).setChecked(true);
+                ((CheckBox) v).setTextColor(Color.parseColor("#ffffff"));
+                chargeactualcostinternational.setVisibility(View.GONE);
+                chargefixedcostinternaltional.setVisibility(View.VISIBLE);
 
                 break;
 
@@ -896,5 +955,20 @@ public class JewelleryPostPrivate extends AppCompatActivity implements View.OnCl
     public void priceins(View v) {
         if (!lndcommistiondialog.popupWindow.isShowing())
             lndcommistiondialog.show(v);
+    }
+    private void unselectactualPrice() {
+        ActualCost1.setChecked(false);
+        FixedCost1.setChecked(false);
+        ActualCost1.setTextColor(Color.parseColor("#ffffff"));
+        FixedCost1.setTextColor(Color.parseColor("#ffffff"));
+
+    }
+
+    private void unselectfixedPrice() {
+        FixedCost2.setChecked(false);
+        ActualCost2.setChecked(false);
+        FixedCost2.setTextColor(Color.parseColor("#ffffff"));
+        ActualCost2.setTextColor(Color.parseColor("#ffffff"));
+
     }
 }

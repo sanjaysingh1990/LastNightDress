@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/light_black">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -31,7 +32,7 @@
                 android:gravity="center_horizontal"
                 android:padding="12dp"
                 android:text="charge actual cost"
-                android:textColor="#757575"
+                android:textColor="@color/white"
 
                 />
 
@@ -72,10 +73,14 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="5dp"
-                    android:background="@drawable/purchse_rounded_corners"
+                    android:background="@color/post_item_back_color"
                     android:entries="@array/service"
                     android:paddingBottom="10dp"
-                    android:paddingTop="10dp"></Spinner>
+                    android:paddingTop="10dp"
+                    android:theme="@style/myspinnerstyle"
+
+
+                    ></Spinner>
 
                 <ImageButton
                     android:layout_width="wrap_content"
@@ -108,12 +113,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:layout_weight="1"
-                    android:background="@drawable/purchse_rounded_corners"
+                    android:background="@drawable/shipping_field_rounded_corners"
                     android:hint="US $"
-                    android:paddingBottom="11dp"
+                    android:paddingBottom="10dp"
                     android:paddingLeft="5dp"
-                    android:paddingTop="11dp"
-                    android:textSize="12sp" />
+                    android:paddingTop="10dp"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/gray"
+                    android:textSize="15sp" />
 
                 <View
                     android:layout_width="20dp"
@@ -131,8 +138,7 @@
                     android:scaleX="0.85"
                     android:scaleY="0.85"
                     android:text="Offer free shipping"
-                    android:textColor="@color/white"
-                    android:textSize="15sp" />
+                    android:textColor="@color/white" />
 
 
             </LinearLayout>
@@ -144,8 +150,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="gone"
-            >
+            android:visibility="gone">
 
             <TextView
 
@@ -163,10 +168,11 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="5dp"
-                    android:background="@drawable/purchse_rounded_corners"
+                    android:background="@color/post_item_back_color"
                     android:entries="@array/weight"
                     android:paddingBottom="10dp"
-                    android:paddingTop="10dp"></Spinner>
+                    android:paddingTop="10dp"
+                    android:theme="@style/myspinnerstyle"></Spinner>
 
                 <ImageButton
                     android:layout_width="wrap_content"
@@ -202,11 +208,14 @@
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="5dp"
                         android:layout_weight="1"
-                        android:background="@drawable/purchse_rounded_corners"
-                        android:paddingBottom="9dp"
+                        android:background="@drawable/shipping_field_rounded_corners"
+                        android:hint="0"
+                        android:paddingBottom="8dp"
                         android:paddingLeft="5dp"
-                        android:paddingTop="9dp"
-                        android:textSize="12sp" />
+                        android:paddingTop="8dp"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/gray"
+                        android:textSize="15sp" />
 
                 </LinearLayout>
 
@@ -235,11 +244,14 @@
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="5dp"
                         android:layout_weight="1"
-                        android:background="@drawable/purchse_rounded_corners"
-                        android:paddingBottom="9dp"
+                        android:background="@drawable/shipping_field_rounded_corners"
+                        android:hint="0"
+                        android:paddingBottom="8dp"
                         android:paddingLeft="5dp"
-                        android:paddingTop="9dp"
-                        android:textSize="12sp" />
+                        android:paddingTop="8dp"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/gray"
+                        android:textSize="15sp" />
 
                 </LinearLayout>
 
@@ -269,11 +281,14 @@
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="5dp"
                         android:layout_weight="1"
-                        android:background="@drawable/purchse_rounded_corners"
-                        android:paddingBottom="9dp"
+                        android:background="@drawable/shipping_field_rounded_corners"
+                        android:hint="0"
+                        android:paddingBottom="8dp"
                         android:paddingLeft="5dp"
-                        android:paddingTop="9dp"
-                        android:textSize="12sp" />
+                        android:paddingTop="8dp"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/gray"
+                        android:textSize="15sp" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -296,10 +311,11 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="5dp"
-                    android:background="@drawable/purchse_rounded_corners"
+                    android:background="@color/post_item_back_color"
                     android:entries="@array/service"
                     android:paddingBottom="10dp"
-                    android:paddingTop="10dp"></Spinner>
+                    android:paddingTop="10dp"
+                    android:theme="@style/myspinnerstyle"></Spinner>
 
                 <ImageButton
                     android:layout_width="wrap_content"
@@ -313,14 +329,17 @@
             </FrameLayout>
 
             <CheckBox
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginTop="5dp"
                 android:layout_weight="1"
+                android:button="@drawable/checkbox_selector"
+                android:scaleX="0.85"
+                android:scaleY="0.85"
                 android:text="Offer free shipping"
-                android:textColor="#757575"
-                android:textSize="12sp" />
+                android:textColor="@color/white" />
 
         </LinearLayout>
 
@@ -372,7 +391,7 @@
                 android:gravity="center_horizontal"
                 android:padding="12dp"
                 android:text="charge a fixed cost"
-                android:textColor="#757575" />
+                android:textColor="@color/white" />
 
         </LinearLayout>
         <!-- item weight package -->
@@ -401,10 +420,13 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="5dp"
-                    android:background="@drawable/purchse_rounded_corners"
+                    android:background="@color/post_item_back_color"
                     android:entries="@array/weight"
                     android:paddingBottom="10dp"
-                    android:paddingTop="10dp"></Spinner>
+                    android:paddingTop="10dp"
+                    android:theme="@style/myspinnerstyle">
+
+                </Spinner>
 
                 <ImageButton
                     android:layout_width="wrap_content"
@@ -441,11 +463,16 @@
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="5dp"
                         android:layout_weight="1"
-                        android:background="@drawable/purchse_rounded_corners"
-                        android:paddingBottom="9dp"
+                        android:background="@drawable/shipping_field_rounded_corners"
+                        android:hint="0"
+                        android:paddingBottom="8dp"
                         android:paddingLeft="5dp"
-                        android:paddingTop="9dp"
-                        android:textSize="12sp" />
+                        android:paddingTop="8dp"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/gray"
+                        android:textSize="15sp"
+
+                        />
 
                 </LinearLayout>
 
@@ -474,11 +501,14 @@
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="5dp"
                         android:layout_weight="1"
-                        android:background="@drawable/purchse_rounded_corners"
-                        android:paddingBottom="9dp"
+                        android:background="@drawable/shipping_field_rounded_corners"
+                        android:hint="0"
+                        android:paddingBottom="8dp"
                         android:paddingLeft="5dp"
-                        android:paddingTop="9dp"
-                        android:textSize="12sp" />
+                        android:paddingTop="8dp"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/gray"
+                        android:textSize="15sp" />
 
                 </LinearLayout>
 
@@ -508,11 +538,14 @@
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="5dp"
                         android:layout_weight="1"
-                        android:background="@drawable/purchse_rounded_corners"
-                        android:paddingBottom="9dp"
+                        android:background="@drawable/shipping_field_rounded_corners"
+                        android:hint="0"
+                        android:paddingBottom="8dp"
                         android:paddingLeft="5dp"
-                        android:paddingTop="9dp"
-                        android:textSize="12sp" />
+                        android:paddingTop="8dp"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/gray"
+                        android:textSize="15sp" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -535,10 +568,11 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="5dp"
-                    android:background="@drawable/purchse_rounded_corners"
+                    android:background="@color/post_item_back_color"
                     android:entries="@array/service"
                     android:paddingBottom="10dp"
-                    android:paddingTop="10dp"></Spinner>
+                    android:paddingTop="10dp"
+                    android:theme="@style/myspinnerstyle"></Spinner>
 
                 <ImageButton
                     android:layout_width="wrap_content"
@@ -592,8 +626,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="gone"
-            >
+            android:visibility="gone">
 
 
             <TextView
@@ -614,10 +647,11 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="5dp"
-                    android:background="@drawable/purchse_rounded_corners"
+                    android:background="@color/post_item_back_color"
                     android:entries="@array/service"
                     android:paddingBottom="10dp"
-                    android:paddingTop="10dp"></Spinner>
+                    android:paddingTop="10dp"
+                    android:theme="@style/myspinnerstyle"></Spinner>
 
                 <ImageButton
                     android:layout_width="wrap_content"
@@ -650,12 +684,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:layout_weight="1"
-                    android:background="@drawable/purchse_rounded_corners"
+                    android:background="@drawable/shipping_field_rounded_corners"
                     android:hint="US $"
-                    android:paddingBottom="11dp"
+                    android:paddingBottom="10dp"
                     android:paddingLeft="5dp"
-                    android:paddingTop="11dp"
-                    android:textSize="12sp" />
+                    android:paddingTop="10dp"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/gray"
+                    android:textSize="15sp" />
 
                 <View
                     android:layout_width="20dp"

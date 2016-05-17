@@ -239,7 +239,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:background="#1d1f21"
+                    android:background="@color/post_item_back_color"
                     android:orientation="horizontal"
                     android:padding="10dp">
 
@@ -253,7 +253,7 @@
                         android:hint="Was"
                         android:inputType="numberDecimal"
                         android:textColor="#fff"
-                        android:textColorHint="#dadada"
+                        android:textColorHint="@color/gray"
                         android:textSize="15sp" />
 
                     <EditText
