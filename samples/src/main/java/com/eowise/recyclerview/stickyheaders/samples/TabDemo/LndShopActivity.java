@@ -54,6 +54,7 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
     static int filterselected = 0;
     static String prequery = "";
     private String previousurl = " ";
+    private boolean isvisible = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,21 +95,21 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
                     }
                 } else if (LndShopActivity.selectedcategory == 2 && position == 0) {
                     query = handbagsfilterquery();
-                    Log.e("query",query);
+                    Log.e("query", query);
                     if (prequery.compareToIgnoreCase(query) != 0) {
                         prequery = query;
                         getData(query);
                     }
                 } else if (LndShopActivity.selectedcategory == 3 && position == 0) {
                     query = shoefilterquery();
-                     Log.e("query",query);
+                    Log.e("query", query);
                     if (prequery.compareToIgnoreCase(query) != 0) {
                         prequery = query;
                         getData(query);
                     }
                 } else if (LndShopActivity.selectedcategory == 4 && position == 0) {
                     query = jewelleryfilterquery();
-                    Log.e("query",query);
+                    Log.e("query", query);
                     if (prequery.compareToIgnoreCase(query) != 0) {
                         prequery = query;
                         getData(query);
@@ -153,8 +154,17 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
     public void onAnimationEnd(Animation animation) {
         if (animation == anim1) {
             Main_TabHost.tabWidget.setVisibility(View.GONE);
+
+
+            if (Main_TabHost.popupWindow.isShowing()) {
+                isvisible = true;
+                Main_TabHost.popupWindow.dismiss();
+            }
         } else {
             Main_TabHost.tabWidget.setVisibility(View.VISIBLE);
+            if (isvisible) {
+               Main_TabHost.main.showPopup();
+            }
 
         }
     }
@@ -356,7 +366,7 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
             if (HandbagsFilterFragment.handbagtypelist[i].length() > 0) {
                 if (type) {
 
-                    query2 = query2+" (";
+                    query2 = query2 + " (";
                     type = false;
                 }
 
@@ -413,8 +423,8 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
         //for color
 
         for (int i = 0; i < HandbagsFilterFragment.colorlist.length; i++) {
-           if(HandbagsFilterFragment.colorlist.length==15)
-               break;
+            if (HandbagsFilterFragment.colorlist.length == 15)
+                break;
 
             if (HandbagsFilterFragment.colorlist[i].length() > 0) {
                 if (color) {

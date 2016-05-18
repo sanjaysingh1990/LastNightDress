@@ -295,35 +295,45 @@ public class MessageFragment extends Fragment {
         md.setMessage(extra.getString("message"));
         md.setTimeago(TimeAgo.getMilliseconds(extra.getString("time")));
         md.setDatetime(extra.getString("time"));
+
         mAdapter.notifyDataSetChanged();
         order(mProvider.getList());
         mAdapter.notifyDataSetChanged();
 
     }
 
-    private  void order(List<ConcreteData1> list) {
+    private void order(List<ConcreteData1> list) {
 
         Collections.sort(list, byDate);
     }
-     final Comparator<ConcreteData1> byDate = new Comparator<ConcreteData1>() {
+
+    final Comparator<ConcreteData1> byDate = new Comparator<ConcreteData1>() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         public int compare(ConcreteData1 ord1, ConcreteData1 ord2) {
-            Date d1 = null;
-            Date d2 = null;
+
             try {
-                d1 = sdf.parse(ord1.getDatetime());
-                d2 = sdf.parse(ord2.getDatetime());
-            } catch (ParseException ex) {
+
+                if (ord1.getMessage().getTimeago() > ord2.getMessage().getTimeago()) {
+
+
+                    return -1;
+                } else {
+
+
+                    return 1;
+
+                }
+            } catch (Exception ex) {
                 // TODO Auto-generated catch block
-                Log.e("error",ex.getMessage());
-                Toast.makeText(getActivity(),"error",Toast.LENGTH_SHORT).show();
+                Log.e("error", ex.getMessage());
+
             }
 
 
-           // return (d1.getTime() > d2.getTime() ? -1 : 1);     //descending
+            // return (d1.getTime() > d2.getTime() ? -1 : 1);     //descending
             //Log.e("satus",(d1.getTime() > d2.getTime() ? 1 : -1)+"");
-            return (d1.getTime() > d2.getTime() ? 1 : -1);     //ascending
+            return 0;     //ascending
         }
     };
 }

@@ -21,6 +21,7 @@ import com.eowise.recyclerview.stickyheaders.samples.data.ConcreteData1;
 import com.eowise.recyclerview.stickyheaders.samples.data.MessageData;
 import com.h6ah4i.android.widget.advrecyclerview.swipeable.RecyclerViewSwipeManager;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class ExampleDataProvider2 extends AbstractDataProvider2 {
 
     public ExampleDataProvider2() {
 
-        mData = new LinkedList<>();
+        mData = new ArrayList<>();
 
     }
 

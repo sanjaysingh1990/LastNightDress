@@ -46,19 +46,34 @@
     android:layout_marginLeft="10dp"
     android:onClick="back"
     />
+<FrameLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="right|center_vertical"
+    android:layout_marginRight="10dp"
 
+    >
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/save_icon"
         android:background="?attr/selectableItemBackground"
-        android:layout_gravity="right|center_vertical"
         android:onClick="update"
-        android:layout_marginRight="10dp"
         android:id="@+id/udateinfo"
         android:clickable="false"
         android:visibility="gone"
         />
+    <com.eowise.recyclerview.stickyheaders.samples.Loading.AVLoadingIndicatorView
+        android:layout_width="29dp"
+        android:layout_height="29dp"
+        app:indicator="LineSpinFadeLoader"
+        android:layout_centerInParent="true"
+        app:indicator_color="#be4d66"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:id="@+id/loader"
+        android:visibility="gone"
+        />
+</FrameLayout>
 </FrameLayout>
     </android.support.v7.widget.Toolbar>
 

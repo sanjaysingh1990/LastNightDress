@@ -272,7 +272,7 @@
             android:paddingRight="20dp"
             android:paddingTop="8dp"
             android:text="Sold"
-            android:textColor="@color/light_black" />
+            android:textColor="#757575" />
 
 
     </RelativeLayout>

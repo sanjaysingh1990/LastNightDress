@@ -104,7 +104,7 @@ public class PeopleBrandHashTapAdapter extends RecyclerView.Adapter {
             case VIEW_BRAND:
 
                 ((BrandViewHolder) holder).brandhashtag.setText(pd.getBrandname());
-                ((BrandViewHolder) holder).total.setText(pd.getTotal());
+                ((BrandViewHolder) holder).total.setText(pd.getTotal()+"\nPosts");
 
 
                 break;

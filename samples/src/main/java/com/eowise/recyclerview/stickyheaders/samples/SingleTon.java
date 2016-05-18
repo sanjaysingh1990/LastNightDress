@@ -47,7 +47,7 @@ public class SingleTon extends Application {
 
         options4 = new DisplayImageOptions.Builder()
 
-                .showImageOnLoading(R.drawable.loader_white)
+                .showImageOnLoading(R.drawable.loading_icon)
                 .showImageForEmptyUri(R.drawable.loading_icon)
                 .showImageOnFail(R.drawable.loading_icon)
                 .cacheInMemory(true)

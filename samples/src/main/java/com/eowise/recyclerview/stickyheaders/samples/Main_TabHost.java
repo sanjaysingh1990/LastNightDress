@@ -311,6 +311,7 @@ public class Main_TabHost extends AppCompatActivity {
                 if (data != null) {
 
 
+                    getNotification();
                     MessageFragment.messageFragment.updateList(data.getExtras());
                     break;
                 }
@@ -344,14 +345,14 @@ public class Main_TabHost extends AppCompatActivity {
         edit.commit();
     }
 
-    public  void showPopup(String msg,int status) {
+    public void showPopup(String msg, int status) {
         //initializing popup
         //Creating the LayoutInflater instance
         LayoutInflater li = getLayoutInflater();
         //Getting the View object as defined in the customtoast.xml file
         View layout = li.inflate(R.layout.customtoast, (ViewGroup) findViewById(R.id.custom_toast_layout));
         TextView txt = (TextView) layout.findViewById(R.id.info);
-        ImageView checkmark= (ImageView) layout.findViewById(R.id.checkmark);
+        ImageView checkmark = (ImageView) layout.findViewById(R.id.checkmark);
         checkmark.setVisibility(status);
         txt.setText(msg);
         //Creating the Toast object
@@ -407,6 +408,10 @@ public class Main_TabHost extends AppCompatActivity {
         } catch (JSONException ex) {
             Log.e("error", ex.getMessage());
         }
+        if (popupWindow != null) {
+            popupWindow.dismiss();
+            popupWindow = null;
+        }
         popupWindow = new PopupWindow(
                 popupView, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 
@@ -415,10 +420,14 @@ public class Main_TabHost extends AppCompatActivity {
 
 
         int width = SingleTon.displayMetrics.widthPixels;
-        int margin = ((width / 5) * 30) / 100;
+        int margin = ((width / 5) * 20) / 100;
 
         if (msg > 0 || noti > 0 || foll > 0)
-            popupWindow.showAsDropDown(v, -margin, 0);
+            if (msgparent.getVisibility() == View.VISIBLE && notiparent.getVisibility() == View.VISIBLE && follparent.getVisibility() == View.VISIBLE)
+                popupWindow.showAsDropDown(v, -35, 0);
+            else
+                popupWindow.showAsDropDown(v, 8, 0);
+
         popupView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -441,7 +450,7 @@ public class Main_TabHost extends AppCompatActivity {
 
                     JSONObject jobj = new JSONObject(response.toString());
                     if (jobj.getBoolean("status"))
-                        showPopup("Request Sent",View.VISIBLE);
+                        showPopup("Request Sent", View.VISIBLE);
                     else
                         Toast.makeText(getApplicationContext(), jobj.getString("message"), Toast.LENGTH_SHORT).show();
                 } catch (Exception ex) {
@@ -474,6 +483,10 @@ public class Main_TabHost extends AppCompatActivity {
         queue.add(sr);
     }
 
+    public void showPopup() {
+        showpopup.performClick();
+    }
+
     public void getNotification() {
 
 
@@ -486,8 +499,7 @@ public class Main_TabHost extends AppCompatActivity {
                     JSONObject jobj = new JSONObject(response.toString());
                     if (jobj.getBoolean("status"))
                         showpopup.performClick();
-                    else
-                        Toast.makeText(getApplicationContext(), jobj.getString("message"), Toast.LENGTH_SHORT).show();
+
                 } catch (Exception ex) {
                     Log.e("json parsing error", ex.getMessage() + "");
                 }
@@ -608,9 +620,8 @@ public class Main_TabHost extends AppCompatActivity {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
 
-                        showPopup("your device is ready to receive notification",View.VISIBLE);
-                        String s = new String(responseBody);
-                        Log.e("response",s);
+                        // showPopup("your device is ready to receive notification",View.VISIBLE);
+
                     }
 
 

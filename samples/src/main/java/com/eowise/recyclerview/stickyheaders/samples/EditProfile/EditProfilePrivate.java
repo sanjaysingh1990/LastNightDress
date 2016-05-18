@@ -39,6 +39,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.eowise.recyclerview.stickyheaders.samples.ChangePassword.ChangePassword;
+import com.eowise.recyclerview.stickyheaders.samples.Loading.AVLoadingIndicatorView;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost.CompressImage;
 import com.eowise.recyclerview.stickyheaders.samples.R;
@@ -83,14 +84,18 @@ public class EditProfilePrivate extends AppCompatActivity implements TextWatcher
     TextView heading;
     @Bind(R.id.editprofilepic)
     ImageView profilepic;
-    @Bind(R.id.udateinfo)
+    @Bind(R.id.updateinfo)
     ImageButton updateinfo;
+    @Bind(R.id.loader)
+    AVLoadingIndicatorView loader;
     static String imageurl = "";
     static String filename = "";
     int picfrom = 0;
     private static final int CAMERA = 0;
     private CallbackManager callbackManager;
-    private boolean once = true;
+
+    private boolean once = false;
+    private boolean isprofileupdated = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -221,7 +226,9 @@ public class EditProfilePrivate extends AppCompatActivity implements TextWatcher
 
                     } else {
                         ((TextView) parent.getChildAt(0)).setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow, 0);
-                        updateinfo.setVisibility(View.VISIBLE);
+                        if (once)
+                            updateinfo.setVisibility(View.VISIBLE);
+                        else once = true;
                     }
                 } catch (NullPointerException ex) {
 
@@ -320,7 +327,13 @@ public class EditProfilePrivate extends AppCompatActivity implements TextWatcher
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        if (isprofileupdated) {
+            Intent intent = new Intent();
+            intent.putExtra("status", true);
+            setResult(2, intent);
+
+        }
+        finish();
     }
 
     public void changepass(View v) {
@@ -331,11 +344,11 @@ public class EditProfilePrivate extends AppCompatActivity implements TextWatcher
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         //   super.onActivityResult(requestCode, resultCode, data);
-        updateinfo.setVisibility(View.VISIBLE);
-        callbackManager.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == CAMERA) {
-            // If image available
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+         if (requestCode == CAMERA) {
+
+             // If image available
             if (resultCode == Activity.RESULT_OK) {
                 try {
 
@@ -352,13 +365,15 @@ public class EditProfilePrivate extends AppCompatActivity implements TextWatcher
                     imageurl = Base64.encodeToString(byte_arr, 0);
                     profilepic.setImageBitmap(selectedImage);
                     picfrom = 3;
+                    updateinfo.setVisibility(View.VISIBLE);
 
                 } catch (Exception ex) {
 
                 }
             }
         } else if (requestCode == GALLERY_INTENT_CALLED && resultCode == RESULT_OK) {
-            try {
+
+             try {
                 Uri selectedImageuri = data.getData();
                 String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
@@ -382,7 +397,9 @@ public class EditProfilePrivate extends AppCompatActivity implements TextWatcher
                 byte[] byte_arr = stream.toByteArray();
                 // Encode Image to String
                 imageurl = Base64.encodeToString(byte_arr, 0);
-            } catch (Exception e) {
+                 updateinfo.setVisibility(View.VISIBLE);
+
+             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -441,9 +458,8 @@ public class EditProfilePrivate extends AppCompatActivity implements TextWatcher
     }
 
     public void updateProfile(final String data) {
-        final ProgressDialog pDialog = new ProgressDialog(this);
-        pDialog.setMessage("wait upading profile...");
-        pDialog.show();
+        loader.setVisibility(View.VISIBLE);
+        updateinfo.setVisibility(View.GONE);
 
 
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -451,21 +467,18 @@ public class EditProfilePrivate extends AppCompatActivity implements TextWatcher
             @Override
             public void onResponse(String response) {
 
-                //  Log.e("json", response.toString());
+                loader.setVisibility(View.GONE);
+                updateinfo.setVisibility(View.GONE);
                 try {
-                    pDialog.dismiss();
+
                     JSONObject jobj = new JSONObject(response.toString());
                     if (jobj.getBoolean("status")) {
-                        Toast.makeText(EditProfilePrivate.this, jobj.getString("message"), Toast.LENGTH_LONG).show();
 
                         SharedPreferences.Editor edit = SingleTon.pref.edit();
                         edit.putString("imageurl", jobj.getString("profile_pic"));
                         edit.commit();
 
-                        Intent intent = new Intent();
-                        intent.putExtra("status", true);
-                        setResult(2, intent);
-                        finish();//finishing activity
+                        isprofileupdated = true;
                     } else {
                         Toast.makeText(EditProfilePrivate.this, jobj.getString("message"), Toast.LENGTH_LONG).show();
                         uname.requestFocus();
@@ -478,7 +491,8 @@ public class EditProfilePrivate extends AppCompatActivity implements TextWatcher
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                pDialog.dismiss();
+                updateinfo.setVisibility(View.VISIBLE);
+                loader.setVisibility(View.GONE);
                 //  Log.e("response", error.getMessage() + "");
                 Toast.makeText(EditProfilePrivate.this, "Profile not update please try again", Toast.LENGTH_LONG).show();
             }
@@ -517,10 +531,8 @@ public class EditProfilePrivate extends AppCompatActivity implements TextWatcher
 
     @Override
     public void afterTextChanged(Editable s) {
-        if (once) {
-            updateinfo.setVisibility(View.VISIBLE);
-            once = false;
-        }
+        updateinfo.setVisibility(View.VISIBLE);
     }
 }
+
 

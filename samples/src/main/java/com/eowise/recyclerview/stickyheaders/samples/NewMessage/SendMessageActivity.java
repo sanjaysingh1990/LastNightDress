@@ -96,8 +96,8 @@ public class SendMessageActivity extends AppCompatActivity {
             chatbanner = (Chat_Banner_Data) extra.get("bannerdata");
             if (chatbanner != null)
                 chatbanner.setSellerid(senderid);
-            if (extra.getInt("msgstatus") == 0)
-                changeStatus(extra.getInt("msgid"));
+           /* if (extra.getInt("msgstatus") == 0)
+                changeStatus(extra.getInt("msgid"));*/
         }
         // Toast.makeText(this,"called"+extra.getString("user_id"),Toast.LENGTH_SHORT).show();
 

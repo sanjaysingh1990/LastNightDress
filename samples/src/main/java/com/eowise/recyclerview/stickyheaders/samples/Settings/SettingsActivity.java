@@ -268,11 +268,11 @@ public class SettingsActivity extends AppCompatActivity {
 
             }
         });
-        //no swap for shop user
+      /*  //no swap for shop user
         if (SingleTon.pref.getString("utype", "").compareToIgnoreCase("shop") == 0) {
-            swaps.setVisibility(View.GONE);
-            line.setVisibility(View.GONE);
-        }
+          //  swaps.setVisibility(View.GONE);
+           // line.setVisibility(View.GONE);
+        }*/
 //switch listener
         swap_status.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
