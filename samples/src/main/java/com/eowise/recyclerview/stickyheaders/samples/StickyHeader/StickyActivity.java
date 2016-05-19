@@ -1,10 +1,15 @@
 package com.eowise.recyclerview.stickyheaders.samples.StickyHeader;
 
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -23,6 +28,7 @@ import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.SQLDB.FavoriteData;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ConstantValues;
 import com.eowise.recyclerview.stickyheaders.samples.contacts.ContactsActivity;
+import com.facebook.FacebookSdk;
 import com.init.superslim.LayoutManager;
 
 import org.json.JSONArray;
@@ -55,7 +61,7 @@ public class StickyActivity extends AppCompatActivity {
 
     private TextView heading;
     private AVLoadingIndicatorView dialog;
-
+    private TextView instructiontextview;
     private SwipeRefreshLayout swipeRefreshLayout;
 
     boolean loading = true;
@@ -72,10 +78,9 @@ public class StickyActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.sticky_header_layout);
-
-//for header
+        instructiontextview= (TextView) findViewById(R.id.instructiontextview)
+        ;//for header
         if (savedInstanceState != null) {
             mHeaderDisplay = savedInstanceState
                     .getInt(KEY_HEADER_POSITIONING,
@@ -151,10 +156,23 @@ public class StickyActivity extends AppCompatActivity {
                 }
             }
         });
-
+        applySpannable();
         getData();
     }
+private void applySpannable()
+{
 
+    Spannable word = new SpannableString("Tap on the camera ");
+
+    word.setSpan(new StyleSpan(android.graphics.Typeface.BOLD),0,word.length(),0);
+    word.setSpan(new ForegroundColorSpan(Color.parseColor("#222427")), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+    instructiontextview.setText(word);
+    Spannable wordTwo = new SpannableString("to post your first item");
+
+    wordTwo.setSpan(new ForegroundColorSpan(Color.parseColor("#757575")), 0, wordTwo.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+    instructiontextview.append(wordTwo);
+}
     private ArrayList<Home_List_Data> setData() {
         boolean isprivate = false;
         final String[] countryNames = getResources().getStringArray(R.array.country_names);

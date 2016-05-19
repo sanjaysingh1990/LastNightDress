@@ -1,47 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="#fff"
-    >
+    android:orientation="vertical">
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            >
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:background="#fff"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        />
-</android.support.v4.widget.SwipeRefreshLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#fff"
+
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="gone"
+                >
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/home_first_time_back_image" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:gravity="center_horizontal"
+                        android:paddingBottom="10dp"
+                        android:text="@string/item_sell2"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textColor="@color/white"
+
+                        />
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:orientation="vertical"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingTop="10dp">
+
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/lnd_facebook_button"
+                        android:text="Invite your Facebook friends"
+                        android:textColor="@color/white"
+                        android:layout_gravity="center_horizontal"
+                        android:drawableLeft="@drawable/facebook_icon_white"
+                        android:drawablePadding="6dp"
+                        />
+
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/lnd_twitter_button"
+                        android:text="Invite your Twitter followers"
+                        android:textColor="@color/white"
+
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="50dp"
+                    android:layout_weight="0"
+                    android:background="@color/gray"
+                    android:orientation="vertical"
+                    android:padding="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="10dp"
+
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="@string/item_sell"
+                        android:textColor="@color/light_black"
+                        android:drawableBottom="@drawable/down_arrow_instruction"
+                        android:id="@+id/instructiontextview"
+                        />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:background="@color/gray" />
+                </LinearLayout>
+            </LinearLayout>
+        </FrameLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#fff"
-        app:elevation="0dp"
-        >
+        app:elevation="0dp">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             style="@style/header"
             android:background="#fff"
-            app:layout_scrollFlags="scroll|enterAlways"
             app:contentInsetLeft="0dp"
             app:contentInsetStart="0dp"
-            >
+            app:layout_scrollFlags="scroll|enterAlways">
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -50,23 +147,23 @@
                     android:id="@+id/heading"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="33sp"
-                    android:textColor="#000"
-                    android:text="Last Night's Dress"
                     android:layout_centerInParent="true"
                     android:paddingLeft="15dp"
-                    />
+                    android:text="Last Night's Dress"
+                    android:textColor="#000"
+                    android:textSize="33sp" />
+
                 <View
-                    android:layout_width="match_parent"
                     style="@style/headerline"
-                    android:background="#dadada"
+                    android:layout_width="match_parent"
                     android:layout_alignParentBottom="true"
-                    />
+                    android:background="#dadada" />
             </RelativeLayout>
 
         </android.support.v7.widget.Toolbar>
 
         //add this invisible view under the toolbar
+
         <View
             android:layout_width="match_parent"
             android:layout_height="0.1dp"
@@ -75,15 +172,15 @@
             />
 
     </android.support.design.widget.AppBarLayout>
+
     <com.eowise.recyclerview.stickyheaders.samples.Loading.AVLoadingIndicatorView
+        android:id="@+id/loader"
         android:layout_width="45dp"
         android:layout_height="45dp"
-        app:indicator="LineSpinFadeLoader"
         android:layout_centerInParent="true"
-        app:indicator_color="#be4d66"
         android:layout_gravity="center_vertical|center_horizontal"
-        android:id="@+id/loader"
         android:visibility="gone"
-        />
+        app:indicator="LineSpinFadeLoader"
+        app:indicator_color="#be4d66" />
 
 </android.support.design.widget.CoordinatorLayout>

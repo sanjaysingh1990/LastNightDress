@@ -252,4 +252,12 @@ You are in safe hands when shopping on Last Night’s Dress. If there is any iss
         <item>USPC</item>
 
     </string-array>
+
+
+    <!-- home page string if no item available -->
+    <string name="item_sell">Tap on the camera to post your first item
+</string>
+    <string name="item_sell2">Get your friends to join\n
+and start following their wardrobe
+</string>
 </resources>

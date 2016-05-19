@@ -124,10 +124,8 @@ delivery.setTextColor(Color.parseColor("#dbdbdb"));
         this.newadd.setBackgroundColor(Color.parseColor("#dbdbdb"));
         newaddress.setVisibility(View.GONE);
         sameaddress.setVisibility(View.VISIBLE);
-        if(sameadd.getText().toString().compareToIgnoreCase("cancel")==0)
-        {
-            this.sameadd.setCompoundDrawablesWithIntrinsicBounds(R.drawable.payment_selection, 0, 0, 0);
-            this.newadd.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+        if (sameadd.getText().toString().compareToIgnoreCase("cancel") == 0) {
+
             this.newadd.setText("New Address");
             this.sameadd.setText("Same Address");
         }
@@ -135,7 +133,6 @@ delivery.setTextColor(Color.parseColor("#dbdbdb"));
     }
 
     public void newadd(View v) {
-
         this.newaddrellayout.setBackgroundColor(Color.parseColor("#be4d66"));
         this.sameaddrellayout.setBackgroundColor(Color.parseColor("#dbdbdb"));
 
@@ -150,28 +147,24 @@ delivery.setTextColor(Color.parseColor("#dbdbdb"));
         this.sameadd.setBackgroundColor(Color.parseColor("#dbdbdb"));
         newaddress.setVisibility(View.VISIBLE);
         sameaddress.setVisibility(View.GONE);
-        if(newadd.getText().toString().compareToIgnoreCase("new address")==0)
-        {
-            this.sameadd.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+        if (newadd.getText().toString().compareToIgnoreCase("new address") == 0) {
+            this.newadd.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
             this.newadd.setText("Save");
             this.sameadd.setText("Cancel");
-        }
-        else
-        {
-            this.newadd.setCompoundDrawablesWithIntrinsicBounds(R.drawable.payment_selection, 0, 0, 0);
-            this.sameadd.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+        } else {
             this.newadd.setText("New Address");
             this.sameadd.setText("Same Address");
             newaddress.setVisibility(View.GONE);
             sameaddress.setVisibility(View.VISIBLE);
+            this.newadd.setCompoundDrawablesWithIntrinsicBounds(R.drawable.payment_selection, 0, 0, 0);
 
         }
     }
 
     public void newpayment(View v) {
-
         this.newpayrellayout.setBackgroundColor(Color.parseColor("#be4d66"));
-        this.sameaddrellayout.setBackgroundColor(Color.parseColor("#dbdbdb"));
+        this.samepayrellayout.setBackgroundColor(Color.parseColor("#dbdbdb"));
+
 
         this.newpayment.setCompoundDrawablesWithIntrinsicBounds(R.drawable.payment_selection, 0, 0, 0);
         this.samepayment
@@ -183,13 +176,12 @@ delivery.setTextColor(Color.parseColor("#dbdbdb"));
         this.samepayment.setTextColor(Color.parseColor("#be4d66"));
         this.samepayment.setBackgroundColor(Color.parseColor("#dbdbdb"));
         this.cardno.setEnabled(true);
-        if(newpayment.getText().toString().compareToIgnoreCase("new payment")==0)
-        {
+        if (newpayment.getText().toString().compareToIgnoreCase("new payment") == 0) {
+            this.newpayment.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
             this.newpayment.setText("Save");
             this.samepayment.setText("Cancel");
-        }
-        else
-        {
+        } else {
+            this.newpayment.setCompoundDrawablesWithIntrinsicBounds(R.drawable.payment_selection, 0, 0, 0);
             this.newpayment.setText("New Payment");
             this.samepayment.setText("Same Payment");
 
@@ -197,8 +189,9 @@ delivery.setTextColor(Color.parseColor("#dbdbdb"));
     }
 
     public void samepayment(View v) {
-        this.sameaddrellayout.setBackgroundColor(Color.parseColor("#be4d66"));
-        this.newpayment.setBackgroundColor(Color.parseColor("#dbdbdb"));
+        this.samepayrellayout.setBackgroundColor(Color.parseColor("#be4d66"));
+        this.newpayrellayout.setBackgroundColor(Color.parseColor("#dbdbdb"));
+
 
         this.samepayment.setBackgroundColor(Color.parseColor("#be4d66"));
         this.samepayment.setTextColor(Color.parseColor("#ffffff"));
@@ -209,8 +202,7 @@ delivery.setTextColor(Color.parseColor("#dbdbdb"));
         this.newpayment.setTextColor(Color.parseColor("#be4d66"));
         this.newpayment.setBackgroundColor(Color.parseColor("#dbdbdb"));
         this.cardno.setEnabled(false);
-        if(samepayment.getText().toString().compareToIgnoreCase("cancel")==0)
-        {
+        if (samepayment.getText().toString().compareToIgnoreCase("cancel") == 0) {
             this.newpayment.setText("New Payment");
             this.samepayment.setText("Same Payment");
         }
