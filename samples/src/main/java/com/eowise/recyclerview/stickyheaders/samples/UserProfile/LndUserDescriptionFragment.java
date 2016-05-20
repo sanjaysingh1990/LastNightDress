@@ -126,7 +126,7 @@ public class LndUserDescriptionFragment extends Fragment implements View.OnClick
                         edit.putString("imageurl", jobj.getString("imageurl"));
                         edit.commit();
 
-                        Intent i = new Intent(getActivity(), Lnd_Email_Verfication_activity.class);
+                        Intent i = new Intent(getActivity(), Main_TabHost.class);
                         startActivity(i);
                         ActivityCompat.finishAffinity(getActivity());
                     }

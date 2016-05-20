@@ -16,16 +16,25 @@
 
 package com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage;
 
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -62,6 +71,9 @@ public class NotificationFragment extends Fragment {
     public static AbstractDataProvider mProvider;
     public static NotificationFragment notification;
     private ArrayList<String> notificationids = new ArrayList<String>();
+    private boolean firsttime = true;
+    private LinearLayout indicator;
+    private TextView instructiontextview;
 
     public static NotificationFragment newInstance(String dataProvider, boolean canSwipeLeft) {
         NotificationFragment fragment = new NotificationFragment();
@@ -162,7 +174,24 @@ public class NotificationFragment extends Fragment {
 //        animator.setRemoveDuration(2000);
 //        mRecyclerViewSwipeManager.setMoveToOutsideWindowAnimationDuration(2000);
 //        mRecyclerViewSwipeManager.setReturnToDefaultPositionAnimationDuration(2000);
+        indicator = (LinearLayout) getView().findViewById(R.id.indicator);
+        instructiontextview = (TextView) getView().findViewById(R.id.instructiontextview);
+        applySpannable();
         getData();
+    }
+
+    private void applySpannable() {
+
+        Spannable word = new SpannableString("Tap on the camera ");
+
+        word.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), 0, word.length(), 0);
+        word.setSpan(new ForegroundColorSpan(Color.parseColor("#222427")), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        instructiontextview.setText(word);
+        Spannable wordTwo = new SpannableString("to post your first item");
+
+        wordTwo.setSpan(new ForegroundColorSpan(Color.parseColor("#757575")), 0, wordTwo.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        instructiontextview.append(wordTwo);
     }
 
     @Override
@@ -221,6 +250,17 @@ public class NotificationFragment extends Fragment {
                     LndNotificationMessageActivity.loader.setVisibility(View.GONE);
                     JSONObject jobj = new JSONObject(response.toString());
                     JSONArray jarray = jobj.getJSONArray("data");
+
+                    //to show instruction page
+                    if (jarray.length() == 0) {
+                        if (firsttime) {
+                            firsttime = false;
+                            ((LndNotificationMessageActivity) getActivity()).showInstruction(1);
+                            showInstruction();
+                        }
+                        return;
+
+                    }
                     for (int i = 0; i < jarray.length(); i++) {
                         JSONObject jo = jarray.getJSONObject(i);
                         NotificationData nd = new NotificationData();
@@ -244,7 +284,7 @@ public class NotificationFragment extends Fragment {
                     nd.setNotitype("8");
                     mProvider.addItem(nd);
                     mAdapter.notifyDataSetChanged();
-
+                    firsttime = false;
                     if (notificationids.size() > 0) {
                         JSONObject data = new JSONObject();
                         JSONArray notiarray = new JSONArray(notificationids);
@@ -253,6 +293,7 @@ public class NotificationFragment extends Fragment {
 
 
                     }
+
                 } catch (Exception ex) {
                     Log.e("json parsing error", ex.getMessage() + "");
                 }
@@ -368,5 +409,29 @@ public class NotificationFragment extends Fragment {
             e.printStackTrace();
         }
         return 0;
+    }
+
+    private void showInstruction() {
+        //Load animation
+        final Animation slide_up = AnimationUtils.loadAnimation(getActivity(),
+                R.anim.slide_up);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(1500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        indicator.setVisibility(View.VISIBLE);
+                        indicator.startAnimation(slide_up);
+                    }
+                });
+            }
+        }).start();
     }
 }

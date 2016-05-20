@@ -87,7 +87,10 @@ public class EditProfilePrivate extends AppCompatActivity implements TextWatcher
     @Bind(R.id.updateinfo)
     ImageButton updateinfo;
     @Bind(R.id.loader)
+
     AVLoadingIndicatorView loader;
+    @Bind(R.id.leftchar)
+    TextView leftchar;
     static String imageurl = "";
     static String filename = "";
     int picfrom = 0;
@@ -241,7 +244,25 @@ public class EditProfilePrivate extends AppCompatActivity implements TextWatcher
 
             }
         });
+        //characters left
+        leftchar.setText(150 - desc.length() + " Characters");
+        //char left
+        desc.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                leftchar.setText(150 - charSequence.length() + " Characters");
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
         //setup text change listener
         desc.addTextChangedListener(this);
         fullname.addTextChangedListener(this);
@@ -346,9 +367,9 @@ public class EditProfilePrivate extends AppCompatActivity implements TextWatcher
         //   super.onActivityResult(requestCode, resultCode, data);
 
         callbackManager.onActivityResult(requestCode, resultCode, data);
-         if (requestCode == CAMERA) {
+        if (requestCode == CAMERA) {
 
-             // If image available
+            // If image available
             if (resultCode == Activity.RESULT_OK) {
                 try {
 
@@ -373,7 +394,7 @@ public class EditProfilePrivate extends AppCompatActivity implements TextWatcher
             }
         } else if (requestCode == GALLERY_INTENT_CALLED && resultCode == RESULT_OK) {
 
-             try {
+            try {
                 Uri selectedImageuri = data.getData();
                 String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
@@ -397,9 +418,9 @@ public class EditProfilePrivate extends AppCompatActivity implements TextWatcher
                 byte[] byte_arr = stream.toByteArray();
                 // Encode Image to String
                 imageurl = Base64.encodeToString(byte_arr, 0);
-                 updateinfo.setVisibility(View.VISIBLE);
+                updateinfo.setVisibility(View.VISIBLE);
 
-             } catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

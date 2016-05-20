@@ -19,22 +19,27 @@ package com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.eowise.recyclerview.stickyheaders.samples.Loading.AVLoadingIndicatorView;
 import com.eowise.recyclerview.stickyheaders.samples.NewMessage.NewMessageActivity;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 
 
 public class LndNotificationMessageActivity extends AppCompatActivity {
@@ -47,18 +52,21 @@ public class LndNotificationMessageActivity extends AppCompatActivity {
     private TextView heading;
     private ImageButton newmessage;
     public static AVLoadingIndicatorView loader;
-
+    public LinearLayout instructionview;
+    private FrameLayout container;
+    private TextView insheading,inssubheading;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_demo_viewpager);
-        display = getWindowManager().getDefaultDisplay();
+         display = getWindowManager().getDefaultDisplay();
         mTabLayout = (TabLayout) findViewById(R.id.tabs);
         mViewPager = (ViewPager) findViewById(R.id.pager);
         heading = (TextView) findViewById(R.id.heading);
-        newmessage= (ImageButton) findViewById(R.id.newmessage);
-        loader= (AVLoadingIndicatorView)findViewById(R.id.loader);
-
+        newmessage = (ImageButton) findViewById(R.id.newmessage);
+        loader = (AVLoadingIndicatorView) findViewById(R.id.loader);
+        instructionview = (LinearLayout) findViewById(R.id.instructionview);
+        container= (FrameLayout) findViewById(R.id.container);
 //        Typeface tf=Typeface.createFromAsset(getAssets(),"Mural_Script.ttf");
         // heading.setTypeface(tf);
         mViewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
@@ -84,7 +92,8 @@ public class LndNotificationMessageActivity extends AppCompatActivity {
                     newmessage.setVisibility(View.VISIBLE);
                 else
                     newmessage.setVisibility(View.GONE);
-
+             if(isnotification||ismessage)
+                 showinfo(position);
             }
 
             @Override
@@ -92,6 +101,14 @@ public class LndNotificationMessageActivity extends AppCompatActivity {
 
             }
         });
+
+         insheading= (TextView) findViewById(R.id.insheading);
+         inssubheading= (TextView) findViewById(R.id.inssubheading);
+        insheading.setTypeface(SingleTon.robotomedium);
+        CoordinatorLayout.LayoutParams params =
+                (CoordinatorLayout.LayoutParams) container.getLayoutParams();
+        params.setBehavior(new AppBarLayout.ScrollingViewBehavior());
+        container.requestLayout();
     }
 
     public AbstractDataProvider getDataProvider(String dataProviderName) {
@@ -123,7 +140,6 @@ public class LndNotificationMessageActivity extends AppCompatActivity {
         if (position >= 0) {
             ((MessageFragment) fragment).notifyItemInserted(position);
         }
-
 
 
     }
@@ -184,11 +200,42 @@ public class LndNotificationMessageActivity extends AppCompatActivity {
         }
 
     }
-    public void newmessage(View v)
-    {
-        Intent nm=new Intent(this, NewMessageActivity.class);
+
+    public void newmessage(View v) {
+        Intent nm = new Intent(this, NewMessageActivity.class);
         startActivity(nm);
     }
 
+    public void showInstruction(int from) {
+        if(from==1)
+            isnotification=true;
+        else if(from==2)
+        ismessage=true;
+        CoordinatorLayout.LayoutParams params =
+                (CoordinatorLayout.LayoutParams) container.getLayoutParams();
+        params.setBehavior(null);
+        container.requestLayout();
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);  // or however you need to do it for your code
+        AppBarLayout.LayoutParams params2 = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
+        params2.setScrollFlags(0);
+        instructionview.setVisibility(View.VISIBLE);
+    }
+private boolean isnotification=false,ismessage=false;
 
+    private void showinfo(int pos)
+    {
+
+        if(pos==0)
+        {
+            insheading.setText(getResources().getString(R.string.noti_heading));
+            inssubheading.setText(getResources().getString(R.string.noti_ins_subheading));
+        }
+        else
+        {
+
+            insheading.setText(getResources().getString(R.string.message_heading));
+            inssubheading.setText(getResources().getString(R.string.message_ins_subheading));
+
+        }
+    }
 }

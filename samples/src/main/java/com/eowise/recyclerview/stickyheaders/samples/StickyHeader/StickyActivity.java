@@ -3,17 +3,23 @@ package com.eowise.recyclerview.stickyheaders.samples.StickyHeader;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -22,6 +28,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage.LndNotificationMessageActivity;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.Loading.AVLoadingIndicatorView;
 import com.eowise.recyclerview.stickyheaders.samples.R;
@@ -63,7 +70,9 @@ public class StickyActivity extends AppCompatActivity {
     private AVLoadingIndicatorView dialog;
     private TextView instructiontextview;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private LinearLayout indicator;
 
+    private LinearLayout instructionview;
     boolean loading = true;
     int pastVisiblesItems, visibleItemCount, totalItemCount;
     int skipdata = 0;
@@ -74,12 +83,16 @@ public class StickyActivity extends AppCompatActivity {
     int headerCount = 0;
     int sectionFirstPosition = 0;
     int i = 0;
+    private boolean firsttime = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sticky_header_layout);
-        instructiontextview= (TextView) findViewById(R.id.instructiontextview)
+        instructiontextview = (TextView) findViewById(R.id.instructiontextview);
+        indicator = (LinearLayout) findViewById(R.id.indicator);
+        instructionview = (LinearLayout) findViewById(R.id.instructionview);
+//
         ;//for header
         if (savedInstanceState != null) {
             mHeaderDisplay = savedInstanceState
@@ -159,20 +172,21 @@ public class StickyActivity extends AppCompatActivity {
         applySpannable();
         getData();
     }
-private void applySpannable()
-{
 
-    Spannable word = new SpannableString("Tap on the camera ");
+    private void applySpannable() {
 
-    word.setSpan(new StyleSpan(android.graphics.Typeface.BOLD),0,word.length(),0);
-    word.setSpan(new ForegroundColorSpan(Color.parseColor("#222427")), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-    instructiontextview.setText(word);
-    Spannable wordTwo = new SpannableString("to post your first item");
+        Spannable word = new SpannableString("Tap on the camera ");
 
-    wordTwo.setSpan(new ForegroundColorSpan(Color.parseColor("#757575")), 0, wordTwo.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        word.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), 0, word.length(), 0);
+        word.setSpan(new ForegroundColorSpan(Color.parseColor("#222427")), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        instructiontextview.setText(word);
+        Spannable wordTwo = new SpannableString("to post your first item");
 
-    instructiontextview.append(wordTwo);
-}
+        wordTwo.setSpan(new ForegroundColorSpan(Color.parseColor("#757575")), 0, wordTwo.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        instructiontextview.append(wordTwo);
+    }
+
     private ArrayList<Home_List_Data> setData() {
         boolean isprivate = false;
         final String[] countryNames = getResources().getStringArray(R.array.country_names);
@@ -199,6 +213,34 @@ private void applySpannable()
         return mItems;
     }
 
+    private void showInstruction() {
+       Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);  // or however you need to do it for your code
+        AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
+        params.setScrollFlags(0);
+        swipeRefreshLayout.setEnabled(false);
+        //Load animation
+        final Animation slide_up = AnimationUtils.loadAnimation(this,
+                R.anim.slide_up);
+
+        instructionview.setVisibility(View.VISIBLE);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(1500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        indicator.setVisibility(View.VISIBLE);
+                        indicator.startAnimation(slide_up);
+                    }
+                });
+            }
+        }).start();
+    }
 
     public void getData() {
 
@@ -211,11 +253,18 @@ private void applySpannable()
                 SingleTon.lnduserid.clear();
                 try {
 
-                    Log.e("json", response);
 
                     JSONObject jobj = new JSONObject(response.toString());
                     JSONArray jarray = jobj.getJSONArray("data");
+                    //to show instruction page
+                    if (jarray.length() == 0) {
+                        if (firsttime) {
+                            firsttime = false;
+                            showInstruction();
+                        }
+                        return;
 
+                    }
                     for (int j = 0; j < jarray.length(); j++) {
 
 
@@ -372,9 +421,10 @@ private void applySpannable()
                         loading = true;
                     //notifying adapter
                     mAdapter.notifyDataSetChanged();
-
+                    firsttime = false;
 
                 } catch (Exception ex) {
+                    Toast.makeText(getApplicationContext(),ex.getMessage()+"",Toast.LENGTH_SHORT).show();
                     Log.e("json parsing error", ex.getMessage());
                 }
             }

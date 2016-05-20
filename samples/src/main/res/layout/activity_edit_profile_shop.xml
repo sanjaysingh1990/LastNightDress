@@ -146,6 +146,7 @@
                 android:text="150 characters"
                 android:textColor="#9ea6b0"
                 android:textSize="13sp"
+                android:id="@+id/leftchar"
                 />
             </LinearLayout>
 
@@ -171,14 +172,14 @@
                 android:textColor="#000000"
                 android:textColorHint="#dadada"
                 android:textSize="16sp"
-                android:drawableLeft="@drawable/lnd_profile_user_name"
+                android:drawableLeft="@drawable/lnd_profile_fullname"
                 android:drawablePadding="5dp"
                 />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@color/light_black" />
+                android:background="@color/gray" />
 
             <EditText
                 android:id="@+id/uname"
@@ -188,17 +189,18 @@
                 android:layout_marginTop="3dp"
                 android:background="@null"
                 android:hint="User name"
-                android:paddingLeft="10dp"
+
                 android:textColor="#000000"
                 android:textColorHint="#dadada"
                 android:textSize="16sp"
-
+                android:drawableLeft="@drawable/lnd_profile_user_name"
+                android:drawablePadding="5dp"
                 />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@color/light_black"  />
+                android:background="@color/gray"  />
 
             <EditText
                 android:id="@+id/email"
@@ -209,7 +211,8 @@
                 android:clickable="false"
                 android:editable="false"
                 android:hint="Email"
-                android:paddingLeft="10dp"
+                android:drawableLeft="@drawable/lnd_profile_email"
+                android:drawablePadding="5dp"
                 android:textColor="#000000"
                 android:textColorHint="#dadada"
                 android:textSize="16sp" />
@@ -217,7 +220,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@color/light_black"  />
+                android:background="@color/gray"  />
 
             <EditText
                 android:id="@+id/companyname"
@@ -226,7 +229,8 @@
                 android:layout_marginTop="3dp"
                 android:background="@null"
                 android:hint="Company Name"
-                android:paddingLeft="10dp"
+                android:drawableLeft="@drawable/lnd_profile_company_name"
+                android:drawablePadding="5dp"
                 android:textColor="#000000"
                 android:textColorHint="#dadada"
                 android:textSize="16sp"
@@ -236,7 +240,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@color/light_black"  />
+                android:background="@color/gray"  />
 
             <EditText
                 android:id="@+id/address"
@@ -245,7 +249,8 @@
                 android:layout_marginTop="3dp"
                 android:background="@null"
                 android:hint="Address"
-                android:paddingLeft="10dp"
+                android:drawableLeft="@drawable/lnd_profile_address_country"
+                android:drawablePadding="5dp"
                 android:textColor="#000000"
                 android:textColorHint="#dadada"
                 android:textSize="16sp"
@@ -255,7 +260,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@color/light_black" />
+                android:background="@color/gray" />
 
             <EditText
                 android:id="@+id/city"
@@ -273,7 +278,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@color/light_black"/>
+                android:background="@color/gray"/>
 
             <EditText
                 android:id="@+id/zipcode"
@@ -292,7 +297,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@color/light_black" />
+                android:background="@color/gray" />
 
             <Spinner
                 android:id="@+id/country"
@@ -306,7 +311,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@color/light_black"  />
+                android:background="@color/gray"  />
 
             <TextView
                 android:id="@+id/changepassword"

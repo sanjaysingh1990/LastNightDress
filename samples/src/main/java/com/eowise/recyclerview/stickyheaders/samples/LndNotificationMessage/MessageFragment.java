@@ -17,16 +17,25 @@
 package com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -66,7 +75,7 @@ public class MessageFragment extends Fragment {
     private static final String ARG_CAN_SWIPE_LEFT = "can swipe left";
     public static AbstractDataProvider2 mProvider;
     public static MessageFragment messageFragment;
-
+    private TextView instructiontextview;
     public static MessageFragment newInstance(String dataProvider, boolean canSwipeLeft) {
         MessageFragment fragment = new MessageFragment();
         Bundle args = new Bundle();
@@ -80,12 +89,14 @@ public class MessageFragment extends Fragment {
     private boolean mCanSwipeLeft;
 
     public static RecyclerView mRecyclerView;
+    private LinearLayout indicator;
     private RecyclerView.LayoutManager mLayoutManager;
     public static RecyclerView.Adapter mAdapter;
     private RecyclerView.Adapter mWrappedAdapter;
     private RecyclerViewSwipeManager mRecyclerViewSwipeManager;
     private RecyclerViewTouchActionGuardManager mRecyclerViewTouchActionGuardManager;
     static MessageSwipeableItemAdapter2 myItemAdapter;
+    private boolean firsttime = true;
 
     public MessageFragment() {
         super();
@@ -175,8 +186,49 @@ public class MessageFragment extends Fragment {
 //        animator.setRemoveDuration(2000);
 //        mRecyclerViewSwipeManager.setMoveToOutsideWindowAnimationDuration(2000);
 //        mRecyclerViewSwipeManager.setReturnToDefaultPositionAnimationDuration(2000);
+
+        indicator = (LinearLayout) getView().findViewById(R.id.indicator);
+        instructiontextview= (TextView) getView().findViewById(R.id.instructiontextview);
+        applySpannable();
         getData();
 
+
+    }
+    private void applySpannable() {
+
+        Spannable word = new SpannableString("Tap on the camera ");
+
+        word.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), 0, word.length(), 0);
+        word.setSpan(new ForegroundColorSpan(Color.parseColor("#222427")), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        instructiontextview.setText(word);
+        Spannable wordTwo = new SpannableString("to post your first item");
+
+        wordTwo.setSpan(new ForegroundColorSpan(Color.parseColor("#757575")), 0, wordTwo.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        instructiontextview.append(wordTwo);
+    }
+    private void showInstruction() {
+        //Load animation
+        final Animation slide_up = AnimationUtils.loadAnimation(getActivity(),
+                R.anim.slide_up);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(1500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        indicator.setVisibility(View.VISIBLE);
+                       indicator.startAnimation(slide_up);
+                    }
+                });
+            }
+        }).start();
     }
 
     @Override
@@ -239,6 +291,15 @@ public class MessageFragment extends Fragment {
 
                     JSONObject jobj = new JSONObject(response.toString());
                     JSONArray jarray = jobj.getJSONArray("data");
+                    if (jarray.length() == 0) {
+                        if (firsttime) {
+                            firsttime = false;
+                            ((LndNotificationMessageActivity) getActivity()).showInstruction(2);
+                            showInstruction();
+                        }
+                        return;
+
+                    }
                     for (int i = 0; i < jarray.length(); i++) {
                         JSONObject jo = jarray.getJSONObject(i);
                         MessageData cd = new MessageData();
@@ -257,7 +318,7 @@ public class MessageFragment extends Fragment {
 
                     }
 
-
+                  firsttime=false;
                 } catch (Exception ex) {
                     Log.e("json parsing error", ex.getMessage() + "");
                 }

@@ -1,15 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="#fff"
-    >
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/container"
+        >
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:layout_gravity="center_horizontal|top" />
+        <LinearLayout
+            android:id="@+id/instructionview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/lnd_activity_message_indicator" />
+
+            <TextView
+                android:id="@+id/insheading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:text="Recent activity on your posts"
+                android:textColor="@color/light_black"
+                android:textSize="15sp"
+
+                />
+
+            <TextView
+                android:id="@+id/inssubheading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:gravity="center_horizontal"
+                android:text="@string/noti_ins_subheading"
+                android:textColor="#757575" />
+        </LinearLayout>
 
 
+    </FrameLayout>
 
 
     <android.support.design.widget.AppBarLayout
@@ -17,100 +64,94 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#fff"
-        app:elevation="0dp"
-        >
+        app:elevation="0dp">
+
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             style="@style/header"
             android:background="@color/white"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:contentInsetLeft="0dp"
-            app:contentInsetStart="0dp"
-            android:contentInsetRight="0dp"
             android:contentInsetEnd="0dp"
-            app:contentInsetRight="0dp"
+            android:contentInsetRight="0dp"
             app:contentInsetEnd="0dp"
+            app:contentInsetLeft="0dp"
+            app:contentInsetRight="0dp"
+            app:contentInsetStart="0dp"
+            app:layout_scrollFlags="scroll|enterAlways"
 
             >
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
 
                 >
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_centerInParent="true"
                     android:layout_alignParentLeft="true"
-                    >
+                    android:layout_centerInParent="true"
+                    android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
-                        android:text="Activity"
-                        android:textSize="18sp"
-                        android:textColor="@color/heading_color"
-                        android:textStyle="bold"
-                        android:layout_weight="1"
                         android:layout_gravity="center_vertical"
-                        />
+                        android:layout_marginLeft="15dp"
+                        android:layout_weight="1"
+                        android:text="Activity"
+                        android:textColor="@color/heading_color"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
                     <ImageButton
                         android:id="@+id/newmessage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/create_new"
+                        android:layout_marginRight="5dp"
                         android:layout_weight="0"
                         android:background="?attr/selectableItemBackground"
                         android:onClick="newmessage"
-                        android:layout_marginRight="5dp"
-                        android:visibility="invisible"
-                        />
+                        android:src="@drawable/create_new"
+                        android:visibility="invisible" />
                 </LinearLayout>
 
                 <View
-                    android:layout_width="match_parent"
                     style="@style/headerline"
-                    android:background="#dadada"
+                    android:layout_width="match_parent"
                     android:layout_alignParentBottom="true"
-                    />
+                    android:background="#dadada" />
 
             </RelativeLayout>
         </android.support.v7.widget.Toolbar>
 
         //add this invisible view under the toolbar
+
         <View
             android:layout_width="match_parent"
             android:layout_height="0.1dp"
             android:background="#fff"
 
             />
+
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabTextColor="#dadada"
             app:tabSelectedTextColor="#be4d66"
-            />
+            app:tabTextColor="#dadada"
+            android:fillViewport="false" />
     </android.support.design.widget.AppBarLayout>
 
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/pager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            />
-
     <com.eowise.recyclerview.stickyheaders.samples.Loading.AVLoadingIndicatorView
+        android:id="@+id/loader"
         android:layout_width="45dp"
         android:layout_height="45dp"
-        app:indicator="LineSpinFadeLoader"
         android:layout_centerInParent="true"
-        app:indicator_color="#be4d66"
         android:layout_gravity="center_vertical|center_horizontal"
-        android:id="@+id/loader"
-        />
+        app:indicator="LineSpinFadeLoader"
+        app:indicator_color="#be4d66" />
+
 </android.support.design.widget.CoordinatorLayout>

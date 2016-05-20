@@ -96,6 +96,8 @@ public class EditProfileShop extends AppCompatActivity implements TextWatcher {
     ImageButton updateinfo;
     @Bind(R.id.loader)
     AVLoadingIndicatorView loader;
+    @Bind(R.id.leftchar)
+    TextView leftchar;
     static String imageurl = "";
     static String filename = "";
     int picfrom = 0;
@@ -260,6 +262,25 @@ public class EditProfileShop extends AppCompatActivity implements TextWatcher {
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        //characters left
+        leftchar.setText(150 - desc.length() + " Characters");
+        //char left
+        desc.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                leftchar.setText(150 - charSequence.length() + " Characters");
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
 
             }
         });

@@ -260,4 +260,16 @@ You are in safe hands when shopping on Last Night’s Dress. If there is any iss
     <string name="item_sell2">Get your friends to join\n
 and start following their wardrobe
 </string>
+
+    <!-- notification message instrution text -->
+    <string name="message_heading">LND Chat</string>
+    <string name="message_ins_subheading">When someone sends you a message,\n
+you will see it here
+</string>
+    <string name="noti_heading">Recent activity on your posts
+</string>
+    <string name="noti_ins_subheading">When someone likes, buys or requests a swap for\n
+any of your posts, you will see it here
+
+</string>
 </resources>

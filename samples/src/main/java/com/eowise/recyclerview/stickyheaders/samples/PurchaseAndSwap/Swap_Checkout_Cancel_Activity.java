@@ -73,4 +73,8 @@ public class Swap_Checkout_Cancel_Activity extends AppCompatActivity {
         showInfo("Transaction Completed    ",traninfo);
 
     }
+    public void back(View v)
+    {
+        finish();
+    }
 }

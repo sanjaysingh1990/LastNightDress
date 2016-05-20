@@ -297,4 +297,8 @@ delivery.setTextColor(Color.parseColor("#dbdbdb"));
     {
         setContentView(R.layout.lnd_purchase_newshipping_level);
     }
+    public void back(View v)
+    {
+        finish();
+    }
 }

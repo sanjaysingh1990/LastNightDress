@@ -131,7 +131,7 @@ public class ReviewsActivity extends AppCompatActivity {
             protected Map<String,String> getParams(){
                 Map<String,String> params = new HashMap<String, String>();
                 params.put("rqid","15");
-                params.put("skipdata",0+"");
+                params.put("skipdata","0");
                 params.put("user_id",userid);
 
                 return params;
