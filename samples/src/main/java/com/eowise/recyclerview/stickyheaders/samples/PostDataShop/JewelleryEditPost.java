@@ -131,6 +131,8 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
     LinearLayout chargefixedcostinternaltional;
     @Bind(R.id.chargeactualcostinternational)
     LinearLayout chargeactualcostinternational;
+    @Bind(R.id.lndconditontext)
+    TextView lnditemcondition;
 
     int jewelleryselected = 0;
     int condition = 0;
@@ -185,11 +187,14 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
                     ((TextView) parent.getChildAt(0)).setBackgroundColor(Color.parseColor("#be4d66"));
                     conditionspinner.setBackgroundColor(Color.parseColor("#be4d66"));
                     condition = pos;
+                    lnditemcondition.setText(ConstantValues.conditiondesciptions[pos]);
                     condition();
                 } else {
                     ((TextView) parent.getChildAt(0)).setTextColor(Color.parseColor("#ffffff"));
                     ((TextView) parent.getChildAt(0)).setBackgroundColor(Color.parseColor("#1d1f21"));
                     conditionspinner.setBackgroundColor(Color.parseColor("#1d1f21"));
+                    lnditemcondition.setText(ConstantValues.conditiondesciptions[pos]);
+
                     if (condition != 11)
                         condition = pos;
                 }
@@ -450,6 +455,7 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
                 conditionnew.setChecked(true);
                 condition = 11;
                 conditionspinner.setSelection(0);
+                lnditemcondition.setText(ConstantValues.conditiondesciptions[11]);
 
                 break;
             case R.id.actualcost1:

@@ -1,13 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/lnd_registration_private_shop_background" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="#60000000"
+        >
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
+
     >
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="160dp"
-    android:background="@drawable/gradient_back_profileimage"
     android:layout_weight="0"
     >
 
@@ -42,11 +57,7 @@
 
     </LinearLayout>
 </RelativeLayout>
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_weight="1"
-    >
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -59,12 +70,14 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:hint="Company Name"
-
+                android:backgroundTint="@color/white"
+                android:drawableLeft="@drawable/lnd_profile_company_name"
+                android:drawablePadding="6dp"
                 android:background="@null"
                 android:layout_marginTop="3dp"
 
-                android:textColorHint="#dadada"
-                android:textColor="#000000"
+                android:textColorHint="@color/user_registration_hint_color"
+                android:textColor="@color/white"
                 android:textSize="16sp"
 
                 />
@@ -83,9 +96,12 @@
 
                 android:background="@null"
                 android:layout_marginTop="15dp"
+                android:backgroundTint="@color/white"
+                android:drawableLeft="@drawable/lnd_profile_fullname"
+                android:drawablePadding="6dp"
+                android:textColorHint="@color/user_registration_hint_color"
+                android:textColor="@color/white"
 
-                android:textColorHint="#dadada"
-                android:textColor="#000000"
                 android:textSize="16sp"
 
                 />
@@ -103,9 +119,12 @@
                 android:hint="Username"
                 android:background="@null"
                 android:layout_marginTop="15dp"
+                android:backgroundTint="@color/white"
+                android:drawableLeft="@drawable/lnd_profile_user_name"
+                android:drawablePadding="6dp"
+                android:textColorHint="@color/user_registration_hint_color"
+                android:textColor="@color/white"
 
-                android:textColorHint="#dadada"
-                android:textColor="#000000"
                 android:textSize="16sp"
 
                 />
@@ -125,9 +144,11 @@
                 android:layout_marginTop="15dp"
                 android:id="@+id/email"
                 android:background="@null"
-
-                android:textColorHint="#dadada"
-                android:textColor="#000000"
+                android:backgroundTint="@color/white"
+                android:drawableLeft="@drawable/lnd_profile_email"
+                android:drawablePadding="6dp"
+                android:textColorHint="@color/user_registration_hint_color"
+                android:textColor="@color/white"
 
                 />
             <View
@@ -146,9 +167,11 @@
                 android:layout_marginTop="15dp"
                 android:id="@+id/address"
                 android:background="@null"
-
-                android:textColorHint="#dadada"
-                android:textColor="#000000"
+                android:backgroundTint="@color/white"
+                android:drawableLeft="@drawable/lnd_profile_address_country"
+                android:drawablePadding="6dp"
+                android:textColorHint="@color/user_registration_hint_color"
+                android:textColor="@color/white"
 
                 />
             <View
@@ -168,8 +191,8 @@
                 android:id="@+id/city"
                 android:background="@null"
 
-                android:textColorHint="#dadada"
-                android:textColor="#000000"
+                android:textColorHint="@color/user_registration_hint_color"
+                android:textColor="@color/white"
 
                 />
             <View
@@ -188,8 +211,9 @@
                 android:id="@+id/postalzip"
                 android:background="@null"
 
-                android:textColorHint="#dadada"
-                android:textColor="#000000"
+                android:textColorHint="@color/user_registration_hint_color"
+                android:textColor="@color/white"
+
 
                 />
             <View
@@ -221,9 +245,12 @@
                 android:layout_marginTop="15dp"
                 android:id="@+id/pass"
                 android:background="@null"
+                android:backgroundTint="@color/white"
+                android:drawableLeft="@drawable/lnd_profile_password"
+                android:drawablePadding="6dp"
+                android:textColorHint="@color/user_registration_hint_color"
+                android:textColor="@color/white"
 
-                android:textColorHint="#dadada"
-                android:textColor="#000000"
                 android:textSize="16sp"
                 android:inputType="textPassword"
                 />
@@ -238,14 +265,16 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
     android:text="Next"
-    android:textColor="#be4d66"
+    android:textColor="@color/white"
     android:layout_marginTop="25dp"
-    android:textSize="16sp"
+    android:textSize="18sp"
     android:clickable="true"
     android:id="@+id/next"
     />
 
 
         </LinearLayout>
-</ScrollView>
+
 </LinearLayout>
+    </ScrollView>
+    </FrameLayout>

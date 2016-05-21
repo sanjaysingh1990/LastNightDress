@@ -101,7 +101,7 @@ public class PrivateFragment extends Fragment {
         //profile image view reference
         profileimage = (ImageView) view.findViewById(R.id.profileimg);
         //making input views scrollable when keyboar opens
-      //  getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        //  getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
 
         username.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -136,15 +136,20 @@ public class PrivateFragment extends Fragment {
         country.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long l) {
-                if (pos == 0)
-                    try {
+                try {
 
+                    if (pos == 0) {
 
-                        ((TextView) parent.getChildAt(0)).setTextColor(Color.parseColor("#dadada"));
+                        ((TextView) parent.getChildAt(0)).setTextColor(Color.parseColor("#bdbdbd"));
                         ((TextView) parent.getChildAt(0)).setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow, 0);
-                    } catch (NullPointerException ex) {
+                    } else {
+                        ((TextView) parent.getChildAt(0)).setTextColor(Color.parseColor("#ffffff"));
+                        ((TextView) parent.getChildAt(0)).setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow, 0);
 
                     }
+                } catch (NullPointerException ex) {
+
+                }
             }
 
             @Override
@@ -171,9 +176,7 @@ public class PrivateFragment extends Fragment {
                     if (jobj.getBoolean("status")) {
                         username.requestFocus();
                         username.setError("Choose another username");
-                    }
-                    else
-                    {
+                    } else {
                         username.setError(null);
 
                     }
@@ -281,7 +284,7 @@ public class PrivateFragment extends Fragment {
 
     public static void setResult(int requestCode, int resultCode, Intent data) {
 
-       Log.e("called",(requestCode == GALLERY_INTENT_CALLED && resultCode == Activity.RESULT_OK)+"");
+        Log.e("called", (requestCode == GALLERY_INTENT_CALLED && resultCode == Activity.RESULT_OK) + "");
         if (requestCode == CAMERA) {
             // If image available
             if (resultCode == Activity.RESULT_OK) {
@@ -331,7 +334,7 @@ public class PrivateFragment extends Fragment {
                 // Encode Image to String
                 imageurl = Base64.encodeToString(byte_arr, 0);
             } catch (Exception e) {
-               Log.e("error",e.getMessage()+"'");
+                Log.e("error", e.getMessage() + "'");
             }
         }
 
@@ -344,7 +347,7 @@ public class PrivateFragment extends Fragment {
 
 
             String imgurl = "http://graph.facebook.com/" + object.getString("id") + "/picture?type=large";
-           // Log.d("url", imgurl);
+            // Log.d("url", imgurl);
             //  Toast.makeText(getActivity(), imgurl, Toast.LENGTH_SHORT).show();
             SingleTon.imageLoader.displayImage(imgurl, profileimage, SingleTon.options2, new ImageLoadingListener() {
                 @Override
@@ -393,6 +396,8 @@ public class PrivateFragment extends Fragment {
             this.fullname.requestFocus();
             this.fullname.setError("field is empty");
             return;
+        } else {
+            this.fullname.setError(null);
         }
 
         if (username.length() == 0) {
@@ -407,6 +412,15 @@ public class PrivateFragment extends Fragment {
             this.email.setError("field is empty");
 
             return;
+        } else {
+            this.email.setError(null);
+        }
+        if (!isValidEmail(email)) {
+            //  Toast.makeText(this,"Enter valid Email",Toast.LENGTH_SHORT).show();
+            this.email.setError("Enter a valid Email");
+            return;
+        } else {
+            this.email.setError(null);
         }
         if (this.country.getSelectedItemPosition() == 0) {
             Toast.makeText(getActivity(), "Select your country", Toast.LENGTH_SHORT).show();
@@ -414,52 +428,49 @@ public class PrivateFragment extends Fragment {
             return;
         }
 
+
         if (password.length() == 0) {
             //   Toast.makeText(this,"Name field is empty",Toast.LENGTH_SHORT).show();
             this.password.requestFocus();
             this.password.setError("field is empty");
             return;
-        } else if (!isValidEmail(email)) {
-            //  Toast.makeText(this,"Enter valid Email",Toast.LENGTH_SHORT).show();
-            this.email.setError("Enter a valid Email");
-            return;
+        } else {
+            this.password.setError(null);
         }
 
 
         try
 
         {
-            LndUserDescriptionFragment.profiletype=1;
-            LndUserDescriptionFragment.jsonprivate.put("usertype","private");
+            LndUserDescriptionFragment.profiletype = 1;
+            LndUserDescriptionFragment.jsonprivate.put("usertype", "private");
 
             LndUserDescriptionFragment.jsonprivate.put("fullname", fullname);
             LndUserDescriptionFragment.jsonprivate.put("username", username);
-            LndUserDescriptionFragment.jsonprivate.put("email",email);
-            LndUserDescriptionFragment.jsonprivate.put("password",password);
-            LndUserDescriptionFragment.jsonprivate.put("country",this.country.getSelectedItemPosition());
+            LndUserDescriptionFragment.jsonprivate.put("email", email);
+            LndUserDescriptionFragment.jsonprivate.put("password", password);
+            LndUserDescriptionFragment.jsonprivate.put("country", this.country.getSelectedItemPosition());
 
 
-            if(picfrom==2||picfrom==3||picfrom==1)
-            {
+            if (picfrom == 2 || picfrom == 3 || picfrom == 1) {
 
-                LndUserDescriptionFragment.jsonprivate.put("imageurl",imageurl);
-                LndUserDescriptionFragment.jsonprivate.put("filename","lnd"+System.currentTimeMillis()+".jpg");
+                LndUserDescriptionFragment.jsonprivate.put("imageurl", imageurl);
+                LndUserDescriptionFragment.jsonprivate.put("filename", "lnd" + System.currentTimeMillis() + ".jpg");
 
-            }
-            else
-            {
-                LndUserDescriptionFragment.jsonprivate.put("imageurl","");
-                LndUserDescriptionFragment.jsonprivate.put("filename","");
+            } else {
+                LndUserDescriptionFragment.jsonprivate.put("imageurl", "");
+                LndUserDescriptionFragment.jsonprivate.put("filename", "");
             }
             //current page value on stack;
-               LndLoginSignup.currenttab.push(4);
-               LndLoginSignup.mViewPager.setCurrentItem(6);
+            LndLoginSignup.currenttab.push(4);
+            LndLoginSignup.mViewPager.setCurrentItem(6);
 
         } catch (JSONException ex) {
             Log.e("error", ex.getMessage() + "");
         }
 
     }
+
     public final static boolean isValidEmail(CharSequence target) {
         if (target == null) {
             return false;

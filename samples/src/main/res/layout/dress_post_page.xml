@@ -171,7 +171,7 @@
                 android:hint="Brand"
                 android:padding="10dp"
                 android:textColor="#000"
-                android:textColorHint="#dadada"
+                android:textColorHint="@color/gray"
                 android:textSize="15sp"
 
                 />
@@ -203,7 +203,9 @@
 
                 <MultiAutoCompleteTextView
                     android:id="@+id/autocomplete"
-                    style="@style/AutocompleteEditText" />
+                      style="@style/AutocompleteEditText"
+
+                    />
 
                 <ImageButton
                     android:id="@+id/instruction"
@@ -1109,10 +1111,10 @@
             </LinearLayout>
 
             <include
-                android:layout_marginTop="10dp"
                 layout="@layout/lnd_item_shipping"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp" />
 
             <TextView
                 android:layout_width="match_parent"

@@ -79,7 +79,7 @@ public class ReviewsActivity extends AppCompatActivity {
             public void onResponse(String response) {
                 prog.setVisibility(View.GONE);
 
-                 Log.e("reviews", response.toString());
+                // Log.e("reviews", response.toString());
                 try {
                     JSONObject jobj = new JSONObject(response.toString());
                     JSONArray jarray=jobj.getJSONArray("data");

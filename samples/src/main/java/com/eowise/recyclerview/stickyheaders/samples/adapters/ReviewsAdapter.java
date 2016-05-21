@@ -34,6 +34,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /**
  * Created by aurel on 22/09/14.
  */
@@ -59,11 +61,13 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
-      final  ReviewsData rd = items.get(position);
+        final ReviewsData rd = items.get(position);
         viewHolder.rating.setNumStars(rd.getRated_value());
         viewHolder.uname.setText(Capitalize.capitalizeFirstLetter(rd.getReviewbyuname()));
         viewHolder.message.setText(rd.getReviewmessage());
-        if (rd.isreplied()==1) {
+        SingleTon.imageLoader.displayImage(rd.getProfilepic(), viewHolder.profilepic, SingleTon.options3);
+
+        if (rd.isreplied() == 1) {
             viewHolder.reply.setText("Replied");
             viewHolder.reply.setVisibility(View.VISIBLE);
             viewHolder.replyby.setText(Capitalize.capitalizeFirstLetter(SingleTon.pref.getString("uname", "")));
@@ -72,7 +76,7 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHold
 
         }
         // viewHolder.reply.setVisibility(View.GONE);
-        else if(rd.isreplied()==2) {
+        else if (rd.isreplied() == 2) {
             viewHolder.reply.setText("Reply");
             viewHolder.reply.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -81,8 +85,7 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHold
                 }
             });
 
-        }
-        else if(rd.isreplied()==3) {
+        } else if (rd.isreplied() == 3) {
             viewHolder.reply.setText("");
 
 
@@ -111,7 +114,7 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHold
             }
         });
         //view reference
-        RatingBar rating= (RatingBar) dialog.findViewById(R.id.ratingBar);
+        RatingBar rating = (RatingBar) dialog.findViewById(R.id.ratingBar);
         TextView reviewbyuser = (TextView) dialog.findViewById(R.id.reviewbyuser);
         TextView reviewmessage = (TextView) dialog.findViewById(R.id.reviewmessage);
         final EditText replybox = (EditText) dialog.findViewById(R.id.replybox);
@@ -124,27 +127,24 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHold
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(replybox.getText().length()==0)
+                if (replybox.getText().length() == 0)
                     return;
                 RequestQueue queue = Volley.newRequestQueue(mContext);
-                StringRequest sr = new StringRequest(Request.Method.POST,"http://52.76.68.122/lnd/androidiosphpfiles/lndusers.php", new Response.Listener<String>() {
+                StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/lndusers.php", new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                       // prog.setVisibility(View.GONE);
+                        // prog.setVisibility(View.GONE);
 
-                         Log.e("reply", response.toString());
                         try {
                             JSONObject jobj = new JSONObject(response.toString());
-                            if(jobj.getBoolean("status")) {
+                            if (jobj.getBoolean("status")) {
                                 dialog.dismiss();
                                 rd.setIsreplied(1);
                                 rd.setReviewreplied(replybox.getText().toString());
                                 notifyDataSetChanged();
 
                             }
-                            }
-                        catch(Exception ex)
-                        {
+                        } catch (Exception ex) {
                             //Log.e("json parsing error",ex.getMessage());
                         }
                     }
@@ -153,12 +153,12 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHold
                     public void onErrorResponse(VolleyError error) {
                         //  Log.e("response",error.getMessage()+"");
                     }
-                }){
+                }) {
                     @Override
-                    protected Map<String,String> getParams(){
-                        Map<String,String> params = new HashMap<String, String>();
-                        params.put("rqid","16");
-                        params.put("reply",replybox.getText().toString());
+                    protected Map<String, String> getParams() {
+                        Map<String, String> params = new HashMap<String, String>();
+                        params.put("rqid", "16");
+                        params.put("reply", replybox.getText().toString());
 
                         params.put("review_id", rd.getReviewid());
 
@@ -168,8 +168,8 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHold
 
                     @Override
                     public Map<String, String> getHeaders() throws AuthFailureError {
-                        Map<String,String> params = new HashMap<String, String>();
-                        params.put("Content-Type","application/x-www-form-urlencoded");
+                        Map<String, String> params = new HashMap<String, String>();
+                        params.put("Content-Type", "application/x-www-form-urlencoded");
                         return params;
                     }
                 };
@@ -182,7 +182,8 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHold
         public TextView uname, message, reply;
         public RatingBar rating;
         public LinearLayout repliedview;
-        public TextView replyby,replymessage;
+        public TextView replyby, replymessage;
+        public CircleImageView profilepic;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -193,6 +194,7 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHold
             repliedview = (LinearLayout) itemView.findViewById(R.id.repliedview);
             replyby = (TextView) itemView.findViewById(R.id.replyby);
             replymessage = (TextView) itemView.findViewById(R.id.replytext);
+            profilepic = (CircleImageView) itemView.findViewById(R.id.profilepic);
 
         }
 

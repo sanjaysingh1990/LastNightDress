@@ -53,19 +53,28 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class ShopFragment extends Fragment {
-   @Bind(R.id.companyname) EditText companyname;
-    @Bind(R.id.fullname) EditText fullname;
-    @Bind(R.id.uname) EditText username;
-    @Bind(R.id.address) EditText address;
-    @Bind(R.id.email) EditText email;
-    @Bind(R.id.city) EditText city;
-    @Bind(R.id.postalzip) EditText posttalzip;
-    @Bind(R.id.pass) EditText password;
-    @Bind(R.id.country) Spinner country;
+    @Bind(R.id.companyname)
+    EditText companyname;
+    @Bind(R.id.fullname)
+    EditText fullname;
+    @Bind(R.id.uname)
+    EditText username;
+    @Bind(R.id.address)
+    EditText address;
+    @Bind(R.id.email)
+    EditText email;
+    @Bind(R.id.city)
+    EditText city;
+    @Bind(R.id.postalzip)
+    EditText posttalzip;
+    @Bind(R.id.pass)
+    EditText password;
+    @Bind(R.id.country)
+    Spinner country;
     @Bind(R.id.imgoptions)
     TextView imgoptions;
 
-   static ImageView profileimage;
+    static ImageView profileimage;
     @Bind(R.id.next)
     TextView next;
     private static int GALLERY_INTENT_CALLED = 250;
@@ -80,14 +89,14 @@ public class ShopFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View view= inflater.inflate(
+        View view = inflater.inflate(
                 R.layout.lnd_shop_user_registration, container, false);
         //making input views scrollable when keyboar opens
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
         //initialize butter knife
         ButterKnife.bind(this, view);
-     profileimage= (ImageView) view.findViewById(R.id.profileimg);
+        profileimage = (ImageView) view.findViewById(R.id.profileimg);
         //custom font
         imgoptions.setTypeface(SingleTon.subheading);
         companyname.setTypeface(SingleTon.mainfont);
@@ -130,16 +139,23 @@ public class ShopFragment extends Fragment {
         country.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long l) {
-                if (pos == 0)
-                    try {
+                try {
 
+                    if (pos == 0) {
 
-                        ((TextView) parent.getChildAt(0)).setTextColor(Color.parseColor("#dadada"));
-
+                        ((TextView) parent.getChildAt(0)).setTextColor(Color.parseColor("#bdbdbd"));
                         ((TextView) parent.getChildAt(0)).setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow, 0);
-                    } catch (NullPointerException ex) {
+                    }
+                    else
+                    {
+                        ((TextView) parent.getChildAt(0)).setTextColor(Color.parseColor("#ffffff"));
+                        ((TextView) parent.getChildAt(0)).setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow, 0);
 
                     }
+                }
+                catch (NullPointerException ex) {
+
+                }
             }
 
             @Override
@@ -150,26 +166,23 @@ public class ShopFragment extends Fragment {
         return view;
     }
 
-    public  void check(final String uname){
+    public void check(final String uname) {
 
 
         RequestQueue queue = Volley.newRequestQueue(getActivity());
-        StringRequest sr = new StringRequest(Request.Method.POST,"http://52.76.68.122/lnd/androidiosphpfiles/lndusers.php", new Response.Listener<String>() {
+        StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/lndusers.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
-                 Log.e("response private", response.toString());
+                Log.e("response private", response.toString());
                 try {
-                    JSONObject jobj=new JSONObject(response.toString());
-                    if(jobj.getBoolean("status"))
-                     {
-                         username.requestFocus();
-                         username.setError("Choose another username");
+                    JSONObject jobj = new JSONObject(response.toString());
+                    if (jobj.getBoolean("status")) {
+                        username.requestFocus();
+                        username.setError("Choose another username");
                     }
 
-                }
-                catch(Exception ex)
-                {
+                } catch (Exception ex) {
                     Log.e("json parsing error", ex.getMessage());
                 }
             }
@@ -177,27 +190,28 @@ public class ShopFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Log.e("response",error.getMessage()+"");
+                Log.e("response", error.getMessage() + "");
             }
-        }){
+        }) {
             @Override
-            protected Map<String,String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("rqid","7");
-                params.put("uname",uname);
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("rqid", "7");
+                params.put("uname", uname);
 
                 return params;
             }
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("Content-Type","application/x-www-form-urlencoded");
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/x-www-form-urlencoded");
                 return params;
             }
         };
         queue.add(sr);
     }
+
     public void imgoptions() {
         TextView fb, camera, gallery, cancel;
         final Dialog dialog = new Dialog(getActivity(), android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
@@ -229,7 +243,7 @@ public class ShopFragment extends Fragment {
             public void onClick(View v) {
                 // handle me
                 LoginManager.getInstance().logInWithReadPermissions(getActivity(), Arrays.asList("public_profile", "user_friends", "email"));
-                LndLoginSignup.currentpage=5;
+                LndLoginSignup.currentpage = 5;
                 dialog.dismiss();
 
             }
@@ -303,7 +317,7 @@ public class ShopFragment extends Fragment {
                 String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
                 // Get the cursor
-                Cursor cursor =LndLoginSignup.act.getContentResolver().query(selectedImageuri,
+                Cursor cursor = LndLoginSignup.act.getContentResolver().query(selectedImageuri,
                         filePathColumn, null, null, null);
                 // Move to first row
                 cursor.moveToFirst();
@@ -329,55 +343,63 @@ public class ShopFragment extends Fragment {
 
     }
 
-    public void saveData()
-    {
-        String fullname="",username="",email="",password="",companyname="",address="",city="",zipcode="",country="";
-            fullname= this.fullname.getText().toString();
-            username= this.username.getText().toString();
-            email = this.email.getText().toString();
-            password = this.password.getText().toString();
-            companyname = this.companyname.getText().toString();
-            address = this.address.getText().toString();
-            city = this.city.getText().toString();
-            zipcode = this.posttalzip.getText().toString();
-            country = this.country.getSelectedItem().toString();
+    public void saveData() {
+        String fullname = "", username = "", email = "", password = "", companyname = "", address = "", city = "", zipcode = "", country = "";
+        fullname = this.fullname.getText().toString();
+        username = this.username.getText().toString();
+        email = this.email.getText().toString();
+        password = this.password.getText().toString();
+        companyname = this.companyname.getText().toString();
+        address = this.address.getText().toString();
+        city = this.city.getText().toString();
+        zipcode = this.posttalzip.getText().toString();
+        country = this.country.getSelectedItem().toString();
         if (companyname.length() == 0) {
             //Toast.makeText(this, "Company field is empty", Toast.LENGTH_SHORT).show();
             this.companyname.requestFocus();
             this.companyname.setError("field is empty");
 
             return;
+        } else {
+            this.companyname.setError(null);
         }
 
-        if(fullname.length()==0)
-            {
-                //   Toast.makeText(this,"Name field is empty",Toast.LENGTH_SHORT).show();
-                this.fullname.requestFocus();
-                this.fullname.setError("field is empty");
-                return;
-            }
+        if (fullname.length() == 0) {
+            //   Toast.makeText(this,"Name field is empty",Toast.LENGTH_SHORT).show();
 
-            if(username.length()==0)
-            {
-                //   Toast.makeText(this,"Name field is empty",Toast.LENGTH_SHORT).show();
-                this.username.requestFocus();
-                this.username.setError("field is empty");
-                return;
-            }
+            this.fullname.setError("field is empty");
+            this.fullname.requestFocus();
+            return;
+        } else {
+            this.fullname.setError(null);
+        }
+        if (username.length() == 0) {
+            //   Toast.makeText(this,"Name field is empty",Toast.LENGTH_SHORT).show();
+            this.username.requestFocus();
+            this.username.setError("field is empty");
+            return;
+        } else {
+            this.username.setError(null);
+        }
 
-            if (email.length() == 0) {
-               // Toast.makeText(this, "Name field is empty", Toast.LENGTH_SHORT).show();
-                this.email.requestFocus();
+        if (email.length() == 0) {
+            // Toast.makeText(this, "Name field is empty", Toast.LENGTH_SHORT).show();
+            this.email.requestFocus();
 
-                this.email.setError("field is empty");
-                return;
-            }
+            this.email.setError("field is empty");
+            return;
+        } else {
+            this.email.setError(null);
+        }
+
         if (!isValidEmail(email)) {
             //   Toast.makeText(this, "Enter valid Email", Toast.LENGTH_SHORT).show();
             this.email.requestFocus();
 
             this.email.setError("Enter a valid Email");
             return;
+        } else {
+            this.email.setError(null);
         }
 
         if (address.length() == 0) {
@@ -387,7 +409,10 @@ public class ShopFragment extends Fragment {
             this.address.setError("field is empty");
 
             return;
+        } else {
+            this.address.setError(null);
         }
+
 
         if (city.length() == 0) {
             // Toast.makeText(this, "City field is empty", Toast.LENGTH_SHORT).show();
@@ -396,21 +421,28 @@ public class ShopFragment extends Fragment {
             this.city.setError("field is empty");
 
             return;
+        } else {
+            this.city.setError(null);
         }
+
         if (zipcode.length() == 0) {
             //  Toast.makeText(this, "Zipcode field is empty", Toast.LENGTH_SHORT).show();
             this.posttalzip.requestFocus();
 
-            this.posttalzip .setError("field is empty");
+            this.posttalzip.setError("field is empty");
 
             return;
+        } else {
+            this.posttalzip.setError(null);
         }
+
         if (this.country.getSelectedItemPosition() == 0) {
             Toast.makeText(getActivity(), "Select your country", Toast.LENGTH_SHORT).show();
             //   ShopFragment.shopcountry.setError("field is empty");
 
             return;
         }
+
 
         if (password.length() == 0) {
             //Toast.makeText(this, "Password field is empty", Toast.LENGTH_SHORT).show();
@@ -419,47 +451,45 @@ public class ShopFragment extends Fragment {
             this.password.setError("field is empty");
 
             return;
+        } else {
+            this.password.setError(null);
         }
 
 
-
         try {
-            LndUserDescriptionFragment.profiletype=2;
-            LndUserDescriptionFragment.jsonshop.put("usertype","shop");
+            LndUserDescriptionFragment.profiletype = 2;
+            LndUserDescriptionFragment.jsonshop.put("usertype", "shop");
             LndUserDescriptionFragment.jsonshop.put("fullname", fullname);
-            LndUserDescriptionFragment.jsonshop.put("username",username);
-            LndUserDescriptionFragment.jsonshop.put("email",email);
-            LndUserDescriptionFragment.jsonshop.put("password",password);
-            LndUserDescriptionFragment.jsonshop.put("companyname",companyname);
+            LndUserDescriptionFragment.jsonshop.put("username", username);
+            LndUserDescriptionFragment.jsonshop.put("email", email);
+            LndUserDescriptionFragment.jsonshop.put("password", password);
+            LndUserDescriptionFragment.jsonshop.put("companyname", companyname);
             LndUserDescriptionFragment.jsonshop.put("address", address);
-            LndUserDescriptionFragment.jsonshop.put("city",city);
+            LndUserDescriptionFragment.jsonshop.put("city", city);
             LndUserDescriptionFragment.jsonshop.put("zipcode", zipcode);
-            LndUserDescriptionFragment.jsonshop.put("country",this.country.getSelectedItemPosition());
+            LndUserDescriptionFragment.jsonshop.put("country", this.country.getSelectedItemPosition());
 
 
-            if(picfrom==2||picfrom==3||picfrom==1)
-            {
+            if (picfrom == 2 || picfrom == 3 || picfrom == 1) {
 
-                LndUserDescriptionFragment.jsonshop.put("imageurl",imageurl);
-                LndUserDescriptionFragment.jsonshop.put("filename","lnd"+System.currentTimeMillis()+".jpg");
+                LndUserDescriptionFragment.jsonshop.put("imageurl", imageurl);
+                LndUserDescriptionFragment.jsonshop.put("filename", "lnd" + System.currentTimeMillis() + ".jpg");
 
-            }
-            else {
+            } else {
 
-                LndUserDescriptionFragment.jsonshop.put("imageurl","");
+                LndUserDescriptionFragment.jsonshop.put("imageurl", "");
 
-                LndUserDescriptionFragment.jsonshop.put("filename","");
+                LndUserDescriptionFragment.jsonshop.put("filename", "");
             }
             //current page value on stack;
             LndLoginSignup.currenttab.push(5);
             LndLoginSignup.mViewPager.setCurrentItem(6);
-        }
-        catch(Exception ex)
-        {
-           Log.e("error",ex.getMessage()+"");
+        } catch (Exception ex) {
+            Log.e("error", ex.getMessage() + "");
         }
 
     }
+
     public final static boolean isValidEmail(CharSequence target) {
         if (target == null) {
             return false;
@@ -509,6 +539,7 @@ public class ShopFragment extends Fragment {
         }
 
     }
+
     @Override
     public void onResume() {
         super.onResume();

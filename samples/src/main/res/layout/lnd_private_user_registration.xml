@@ -1,169 +1,207 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="match_parent">
 
-    >
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="180dp"
-    android:background="@drawable/gradient_back_profileimage"
-
-    >
-
-    <LinearLayout
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_centerInParent="true"
-        >
-        <de.hdodenhof.circleimageview.CircleImageView
-             android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:src="@drawable/empty_user_profile"
-            android:gravity="center"
-            android:id="@+id/profileimg"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/lnd_registration_private_shop_background" />
 
 
-            android:layout_marginTop="20dp"
-            android:layout_gravity="center_horizontal|center_vertical"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add image"
-            android:textColor="#ffffff"
-            android:textStyle="bold"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="15dp"
-            android:clickable="true"
-            android:id="@+id/imgoptions"
-            />
-
-    </LinearLayout>
-</RelativeLayout>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
-        >
-        <LinearLayout
+        android:background="#60000000">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-           android:padding="20dp"
+
             >
-            <EditText
-                android:id="@+id/fullname"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:hint="Full name"
-                android:layout_below="@+id/profile"
-                android:background="@null"
-                android:layout_marginTop="3dp"
 
-                android:textColorHint="#dadada"
-                android:textColor="#000000"
-                android:textSize="16sp"
-
-                />
-<View
-    android:layout_width="match_parent"
-    android:layout_height="1dp"
-    android:background="#dadada"
-    android:layout_marginTop="10dp"
-    />
-            <EditText
-                android:id="@+id/uname"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:hint="Username"
-                android:background="@null"
-                android:layout_marginTop="15dp"
-
-                android:textColorHint="#dadada"
-                android:textColor="#000000"
-                android:textSize="16sp"
-
-                />
-            <View
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#dadada"
-                android:layout_marginTop="10dp"
-                />
+                android:layout_height="180dp"
 
-            <EditText
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:hint="Email"
-                android:textSize="16sp"
+                >
 
-                android:layout_marginTop="15dp"
-                android:id="@+id/email"
-                android:background="@null"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical">
 
-                android:textColorHint="#dadada"
-                android:textColor="#000000"
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/profileimg"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_gravity="center_horizontal|center_vertical"
+                        android:layout_marginTop="20dp"
 
-                />
-            <View
+
+                        android:gravity="center"
+                        android:src="@drawable/empty_user_profile" />
+
+                    <TextView
+                        android:id="@+id/imgoptions"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="15dp"
+                        android:clickable="true"
+                        android:text="Add image"
+                        android:textColor="#ffffff"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+            </RelativeLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#dadada"
-                android:layout_marginTop="10dp"
-                />
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:id="@+id/country"
-                android:background="@null"
-                android:layout_marginLeft="-5dp"
-                android:entries="@array/country_arrays"
-                />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#dadada"
-                android:layout_marginTop="10dp"
-                />
-            <EditText
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:hint="Password"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="20dp">
 
-                android:layout_marginTop="15dp"
-                android:id="@+id/pass"
-                android:background="@null"
+                <EditText
+                    android:id="@+id/fullname"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/profile"
+                    android:layout_marginTop="3dp"
+                    android:background="@null"
+                    android:backgroundTint="@color/white"
+                    android:drawableLeft="@drawable/lnd_profile_fullname"
+                    android:drawablePadding="6dp"
+                    android:gravity="center_vertical"
+                    android:hint="Full name"
+                    android:textColor="@color/white"
 
-                android:textColorHint="#dadada"
-                android:textColor="#000000"
-                android:textSize="16sp"
-                android:inputType="textPassword"
-                />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#dadada"
-                android:layout_marginTop="10dp"
-                />
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center_horizontal"
-    android:text="Next"
-    android:textColor="#be4d66"
-    android:layout_marginTop="25dp"
-    android:textSize="16sp"
-    android:clickable="true"
-    android:id="@+id/next"
-    />
+                    android:textColorHint="@color/user_registration_hint_color"
 
+                    android:textSize="16sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#dadada" />
+
+                <EditText
+                    android:id="@+id/uname"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:background="@null"
+                    android:backgroundTint="@color/white"
+                    android:drawableLeft="@drawable/lnd_profile_user_name"
+                    android:drawablePadding="6dp"
+                    android:gravity="center_vertical"
+                    android:hint="Username"
+                    android:textColor="@color/white"
+
+                    android:textColorHint="@color/user_registration_hint_color"
+
+                    android:textSize="16sp"
+
+                    />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#dadada" />
+
+                <EditText
+                    android:id="@+id/email"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:background="@null"
+                    android:backgroundTint="@color/white"
+                    android:drawableLeft="@drawable/lnd_profile_email"
+                    android:drawablePadding="6dp"
+                    android:gravity="center_vertical"
+                    android:hint="Email"
+                    android:textColor="@color/white"
+
+
+                    android:textColorHint="@color/user_registration_hint_color"
+
+                    android:textSize="16sp"
+
+                    />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#dadada" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Spinner
+                        android:id="@+id/country"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:entries="@array/country_arrays"
+                        android:gravity="center_vertical"
+
+                        />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#dadada" />
+
+                <EditText
+                    android:id="@+id/pass"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:background="@null"
+                    android:backgroundTint="@color/white"
+                    android:drawableLeft="@drawable/lnd_profile_password"
+                    android:drawablePadding="6dp"
+                    android:gravity="center_vertical"
+                    android:hint="Password"
+                    android:inputType="textPassword"
+                    android:textColor="@color/white"
+
+                    android:textColorHint="@color/user_registration_hint_color"
+
+                    android:textSize="16sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#dadada" />
+
+                <TextView
+                    android:id="@+id/next"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="25dp"
+                    android:clickable="true"
+                    android:text="Next"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+
+
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
-</LinearLayout>
+</FrameLayout>

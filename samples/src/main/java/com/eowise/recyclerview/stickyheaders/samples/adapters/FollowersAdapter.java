@@ -192,6 +192,7 @@ public class FollowersAdapter extends RecyclerView.Adapter<FollowersAdapter.View
                 params.put("followerid",followerid);
                 params.put("followingid",followingid);
                 params.put("date_time", SingleTon.getCurrentTimeStamp());
+                params.put("uname", SingleTon.pref.getString("uname",""));
 
                 return params;
             }

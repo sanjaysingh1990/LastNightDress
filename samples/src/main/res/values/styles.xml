@@ -203,6 +203,8 @@
         <item name="android:background">@drawable/edittext_bottom_line</item>
         <item name="android:layout_marginTop">8dp</item>
         <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:textColorHint">@color/gray</item>
+        <item name="android:hint">description</item>
     </style>
 
 </resources>

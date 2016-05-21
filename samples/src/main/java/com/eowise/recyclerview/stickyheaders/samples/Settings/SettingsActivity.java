@@ -189,7 +189,7 @@ public class SettingsActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 SharedPreferences.Editor edit = SingleTon.pref.edit();
-                edit.remove("uname");
+                edit.clear();
                 edit.apply();
                 // handle me
                 SingleTon.db.clearAll();

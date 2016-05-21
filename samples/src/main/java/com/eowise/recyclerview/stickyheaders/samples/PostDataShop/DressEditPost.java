@@ -19,6 +19,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
@@ -562,29 +563,29 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
 
         if (brand.getText().length() == 0) {
             brand.setError("field is empty");
-            brand.requestFocus();
+          //  brand.requestFocus();
             return;
         }
 
         if (desc.getText().length() == 0) {
             desc.setError("field is empty");
-            desc.requestFocus();
+           // desc.requestFocus();
             return;
         } else if (pricenow.getText().length() == 0) {
             pricenow.setError("field is empty");
-            pricenow.requestFocus();
+           // pricenow.requestFocus();
             return;
         } else if (pricewas.getText().length() == 0) {
             pricewas.setError("field is empty");
-            pricewas.requestFocus();
+           // pricewas.requestFocus();
             return;
         } else if (pn < 50) {
             pricenow.setError("minimum price should be 50");
-            pricenow.requestFocus();
+          //  pricenow.requestFocus();
             return;
         } else if (pw < pn) {
             pricewas.setError("pricewas must be greater than pricenow");
-            pricewas.requestFocus();
+           // pricewas.requestFocus();
             return;
         } else if (size) {
             Toast.makeText(this, "select  size", Toast.LENGTH_SHORT).show();
@@ -920,7 +921,7 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
                     //else, open the text keyboard first and immediately after that show the emoji popup
                     else {
                         desc.setFocusableInTouchMode(true);
-                        desc.requestFocus();
+                       // desc.requestFocus();
                         popup.showAtBottomPending();
                         final InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         inputMethodManager.showSoftInput(desc, InputMethodManager.SHOW_IMPLICIT);
@@ -956,6 +957,12 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
         FixedCost2.setTextColor(Color.parseColor("#ffffff"));
         ActualCost2.setTextColor(Color.parseColor("#ffffff"));
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 }
 

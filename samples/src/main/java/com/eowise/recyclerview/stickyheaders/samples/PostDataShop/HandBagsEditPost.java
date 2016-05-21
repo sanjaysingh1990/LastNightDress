@@ -118,7 +118,8 @@ public class HandBagsEditPost extends AppCompatActivity implements View.OnClickL
     CheckBox ActualCost2;
     @Bind(R.id.fixedcost2)
     CheckBox FixedCost2;
-
+    @Bind(R.id.lndconditontext)
+    TextView lnditemcondition;
     @Bind(R.id.chargefixedcost)
     LinearLayout chargefixedcost;
     @Bind(R.id.chargeactualcost)
@@ -166,8 +167,10 @@ public class HandBagsEditPost extends AppCompatActivity implements View.OnClickL
                     ((TextView) parent.getChildAt(0)).setBackgroundColor(Color.parseColor("#be4d66"));
                     conditionspinner.setBackgroundColor(Color.parseColor("#be4d66"));
                     condition = pos;
+                    lnditemcondition.setText(ConstantValues.conditiondesciptions[pos]);
                     condition();
                 } else {
+                    lnditemcondition.setText(ConstantValues.conditiondesciptions[pos]);
                     ((TextView) parent.getChildAt(0)).setTextColor(Color.parseColor("#ffffff"));
                     ((TextView) parent.getChildAt(0)).setBackgroundColor(Color.parseColor("#1d1f21"));
                     conditionspinner.setBackgroundColor(Color.parseColor("#1d1f21"));
@@ -418,6 +421,8 @@ public class HandBagsEditPost extends AppCompatActivity implements View.OnClickL
                 conditionnew.setBackgroundColor(Color.parseColor("#be4d66"));
                 condition = 11;
                 conditionspinner.setSelection(0);
+                lnditemcondition.setText(ConstantValues.conditiondesciptions[11]);
+
                 break;
             case R.id.purses:
                 if (handbagtype.get(0).isChecked()) {

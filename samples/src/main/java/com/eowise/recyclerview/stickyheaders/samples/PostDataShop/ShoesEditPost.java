@@ -111,7 +111,8 @@ public class ShoesEditPost extends AppCompatActivity implements View.OnClickList
     TextView earnings;
     @Bind(R.id.infoview)
     LinearLayout inforview;
-
+    @Bind(R.id.lndconditontext)
+    TextView lnditemcondition;
     @Bind(R.id.emoji_btn)
     ImageButton emojiButton;
     @Bind(R.id.rootview)
@@ -187,11 +188,14 @@ public class ShoesEditPost extends AppCompatActivity implements View.OnClickList
                     ((TextView) parent.getChildAt(0)).setBackgroundColor(Color.parseColor("#be4d66"));
                     conditionspinner.setBackgroundColor(Color.parseColor("#be4d66"));
                     condition = pos;
+                    lnditemcondition.setText(ConstantValues.conditiondesciptions[pos]);
+
                     condition();
                 } else {
                     ((TextView) parent.getChildAt(0)).setTextColor(Color.parseColor("#ffffff"));
                     ((TextView) parent.getChildAt(0)).setBackgroundColor(Color.parseColor("#1d1f21"));
                     conditionspinner.setBackgroundColor(Color.parseColor("#1d1f21"));
+                    lnditemcondition.setText(ConstantValues.conditiondesciptions[pos]);
                     if (condition != 11)
                         condition = pos;
                 }
@@ -417,6 +421,8 @@ public class ShoesEditPost extends AppCompatActivity implements View.OnClickList
                 conditionnew.setChecked(true);
                 conditionspinner.setSelection(0);
                 condition = 11;
+                lnditemcondition.setText(ConstantValues.conditiondesciptions[11]);
+
                 break;
             case R.id.actualcost1:
                 unselectactualPrice();

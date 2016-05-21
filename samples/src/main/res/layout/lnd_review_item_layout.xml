@@ -1,148 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="15dp"
-    android:paddingTop="15dp"
-    android:paddingRight="10dp"
-    android:paddingBottom="10dp"
     android:background="@color/white"
-    >
+    android:orientation="vertical"
+    android:paddingBottom="10dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="10dp"
+    android:paddingTop="15dp">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
-    <de.hdodenhof.circleimageview.CircleImageView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/profilepic"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@drawable/image1"
-        app:civ_border_width="1dp"
-        app:civ_border_color="#dadada"
-        android:layout_gravity="top"
-        android:clickable="true"
-        android:layout_weight="0"
+        android:orientation="horizontal">
 
-        />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_weight="1"
-        android:paddingLeft="8dp"
-        android:layout_marginTop="5dp"
-        >
-
-        <RatingBar
-            style="@style/StarRatingBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/ratingBar"
-            android:isIndicator="true"
-            android:max="5"
-            android:numStars="2"
-            android:stepSize="1"
-
-
-            />
-         <LinearLayout
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:orientation="horizontal"
-             android:paddingLeft="6dp"
-
-             >
-             <TextView
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:text="By:"
-                 />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Nancy Smith"
-                android:textColor="@color/lndcolor"
-                android:id="@+id/uname"
-                android:textStyle="bold"
-                android:layout_marginLeft="5dp"
-                />
-         </LinearLayout>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxLines="3"
-            android:text=""
-            android:paddingLeft="6dp"
-            android:layout_marginTop="5dp"
-            android:id="@+id/message"
-            />
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginLeft="6dp"
-    android:text="Replied"
-    android:textColor="@color/lndcolor"
-    android:layout_marginTop="5dp"
-    android:clickable="true"
-    android:id="@+id/reply"
-    />
-    </LinearLayout>
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp"
-        android:id="@+id/repliedview"
-        android:visibility="gone"
-        >
         <de.hdodenhof.circleimageview.CircleImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/replierprofilepic"
+            android:id="@+id/profilepic"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/image1"
-            app:civ_border_width="1dp"
-            app:civ_border_color="#dadada"
             android:layout_gravity="top"
-            android:clickable="true"
             android:layout_weight="0"
+            android:clickable="true"
+            android:src="@drawable/image1"
 
             />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
             android:orientation="vertical"
-            android:paddingLeft="15dp"
+            android:paddingLeft="8dp">
+
+            <RatingBar
+                android:id="@+id/ratingBar"
+                style="@style/StarRatingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:isIndicator="true"
+                android:max="5"
+                android:numStars="2"
+                android:stepSize="1"
+
+
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="6dp"
+
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="By:" />
+
+                <TextView
+                    android:id="@+id/uname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="Nancy Smith"
+                    android:textColor="@color/lndcolor"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:maxLines="3"
+                android:paddingLeft="6dp"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/reply"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:layout_marginTop="5dp"
+                android:clickable="true"
+                android:text="Replied"
+                android:textColor="@color/lndcolor" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/repliedview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/replierprofilepic"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="top"
+            android:layout_weight="0"
+            android:clickable="true"
+            android:src="@drawable/image1"
+            app:civ_border_color="#dadada"
+            app:civ_border_width="1dp"
+
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginTop="5dp"
-            >
+            android:orientation="vertical"
+            android:paddingLeft="15dp">
+
             <TextView
+                android:id="@+id/replyby"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Oliva Newton Wild"
-                android:textStyle="bold"
                 android:textColor="@color/lndcolor"
-                android:id="@+id/replyby"
-                />
-           <TextView
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:text=""
-               android:layout_marginTop="5dp"
-               android:paddingBottom="3dp"
-               android:id="@+id/replytext"
-               />
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/replytext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:paddingBottom="3dp"
+                android:text="" />
         </LinearLayout>
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#dadada"
-        android:layout_marginTop="5dp"
         android:layout_marginLeft="55dp"
-        />
+        android:layout_marginTop="5dp"
+        android:background="#dadada" />
 </LinearLayout>
