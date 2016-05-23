@@ -27,6 +27,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
 import com.eowise.recyclerview.stickyheaders.samples.adapters.MarginDecoration;
 import com.eowise.recyclerview.stickyheaders.samples.adapters.SwapRequestAcceptdAdapter;
 import com.eowise.recyclerview.stickyheaders.samples.data.NotificationData;
@@ -138,6 +139,7 @@ public class SwapRequestActivity extends AppCompatActivity {
             mainObj.put("receiverid", nd.getSenderid());
             mainObj.put("date_time", SingleTon.getCurrentTimeStamp());
             mainObj.put("noti_id",nd.getNotification_id());
+            mainObj.put("uname", Capitalize.capitalizeFirstLetter(SingleTon.pref.getString("uname","")));
 
             return mainObj.toString();
         } catch (Exception ex) {
