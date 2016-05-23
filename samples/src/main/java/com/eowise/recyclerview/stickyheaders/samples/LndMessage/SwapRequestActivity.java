@@ -53,9 +53,9 @@ public class SwapRequestActivity extends AppCompatActivity {
     protected Handler handler;
 
     private boolean dataleft = true;
-    String swapreceiverid = "", postids = "";
+
     public static String swapingpostid = "";
-    int pos = 0, skipdata = 0;
+    int pos=-1, skipdata = 0;
     @Bind(R.id.swap)
     TextView sendswap;
     @Bind(R.id.nothanks)
@@ -107,11 +107,12 @@ public class SwapRequestActivity extends AppCompatActivity {
         if (extra != null) {
             nd = (NotificationData) extra.get("data");
             heading.setText("Swap with " + nd.getUname());
-            postids = nd.getSwappostids();
+           // postids = nd.getSwappostids();
             pos = extra.getInt("pos");
+           // notification_id=nd.getNotification_id();*/
         }
         handler = new Handler();
-        JSONArray jsArray = new JSONArray(Arrays.asList(postids.split(",")));
+        JSONArray jsArray = new JSONArray(Arrays.asList(nd.getSwappostids().split(",")));
         JSONObject jobj = new JSONObject();
 
         try {
@@ -131,10 +132,13 @@ public class SwapRequestActivity extends AppCompatActivity {
             String swapconfirmsenderid = SingleTon.pref.getString("user_id", "");
 
             JSONObject mainObj = new JSONObject();
-            mainObj.put("postid", swapingpostid);
+            mainObj.put("swapedpostid", swapingpostid);
+            mainObj.put("postid",nd.getPostid());
             mainObj.put("senderid", swapconfirmsenderid);
             mainObj.put("receiverid", nd.getSenderid());
             mainObj.put("date_time", SingleTon.getCurrentTimeStamp());
+            mainObj.put("noti_id",nd.getNotification_id());
+
             return mainObj.toString();
         } catch (Exception ex) {
             Log.e("json error", ex.getMessage() + "");
@@ -330,7 +334,7 @@ public class SwapRequestActivity extends AppCompatActivity {
         StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/inboxope.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.e("response", response.toString());
+                Log.e("data", response.toString());
                 try {
                     pDialog.dismiss();
                 } catch (Exception ex) {

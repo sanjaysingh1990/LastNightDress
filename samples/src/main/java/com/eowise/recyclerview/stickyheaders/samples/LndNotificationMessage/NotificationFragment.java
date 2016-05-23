@@ -413,7 +413,7 @@ public class NotificationFragment extends Fragment {
         return 0;
     }
 
-    private void showInstruction() throws Exception {
+    private void showInstruction() {
         //Load animation
         final Animation slide_up = AnimationUtils.loadAnimation(getActivity(),
                 R.anim.slide_up);
@@ -426,14 +426,20 @@ public class NotificationFragment extends Fragment {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        indicator.setVisibility(View.VISIBLE);
-                        indicator.startAnimation(slide_up);
-                    }
-                });
+                try {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            indicator.setVisibility(View.VISIBLE);
+                            indicator.startAnimation(slide_up);
+                        }
+                    });
+                } catch (Exception ex) {
+
+                }
             }
         }).start();
     }
+
 }
+
