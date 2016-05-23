@@ -25,38 +25,27 @@
             android:orientation="vertical">
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/ref_code"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp">
-
-
-                <EditText
-                    android:id="@+id/desc_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/edittext_rounded_corners"
-                    android:hint="'' Your bio"
-                    android:textColor="#fff"
-                    android:textColorHint="@color/user_registration_hint_color"
-
-                    android:textSize="13sp" />
-
-            </LinearLayout>
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/edittext_rounded_corners"
+                android:hint="****"
+                android:textColor="#fff"
+                android:textColorHint="@color/user_registration_hint_color"
+                android:textSize="13sp" />
 
 
             <TextView
                 android:id="@+id/leftchar"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="5dp"
-                android:gravity="right"
-                android:paddingRight="18dp"
-                android:text="150 Characters"
+                android:text="your referral code is"
                 android:textColor="#fff"
-                android:textSize="11sp" />
+                android:textSize="14sp" />
 
         </LinearLayout>
 
@@ -69,7 +58,7 @@
             android:layout_gravity="right"
             android:layout_marginTop="30dp"
             android:clickable="true"
-            android:text="Next"
+            android:text="Finish"
             android:textColor="#fff"
             android:textSize="18sp"
             android:textStyle="bold" />

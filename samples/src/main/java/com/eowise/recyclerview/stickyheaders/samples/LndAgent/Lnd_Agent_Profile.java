@@ -23,6 +23,7 @@ import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
 import com.eowise.recyclerview.stickyheaders.samples.data.LndAgentBean;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -67,7 +68,35 @@ public class Lnd_Agent_Profile extends AppCompatActivity {
 
         adapter.notifyDataSetChanged();
     }
+private void addUser(JSONObject jsonObject) throws Exception
+{
 
+        LndAgentBean agent = new LndAgentBean();
+        if (jsonObject.getString("user_type").equals("private"))
+            agent.setType(2);
+        else
+            agent.setType(3);
+
+        agent.setUname(jsonObject.getString("uname"));
+        agent.setTotalpost(jsonObject.getString("total_posts"));
+        agent.setTotalsales(jsonObject.getString("total_sales"));
+        agent.setTotalrefuser(jsonObject.getString("total_ref_user"));
+        agent.setProfilepic(jsonObject.getString("profile_pic"));
+        agent.setUserposition(jsonObject.getInt("user_position"));
+        data.add(agent);
+    }
+
+
+    private void addHeader(int headertype,String totalcount) throws Exception
+    {
+
+        LndAgentBean regionaldirectorheader = new LndAgentBean();
+        regionaldirectorheader.setType(1);
+        regionaldirectorheader.setHeaderType(headertype);
+        regionaldirectorheader.setTotal(totalcount);
+
+        data.add(regionaldirectorheader);
+    }
     public void getData() {
 
 
@@ -75,101 +104,67 @@ public class Lnd_Agent_Profile extends AppCompatActivity {
         StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/postdata.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                boolean normaluser = true, agentuser = true, agencyuser = true, areamanager = true, regionalmanager = true, salesdirector = true;
 
                 try {
                     JSONObject jobj = new JSONObject(response.toString());
-                    JSONArray jsonArray = jobj.getJSONArray("data");
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject jsonObject = jsonArray.getJSONObject(i);
-                        LndAgentBean agent = new LndAgentBean();
-                        switch (jsonObject.getInt("user_position")) {
-
-                            case 1:
-                                if (normaluser) {
-                                    LndAgentBean basicuserheader = new LndAgentBean();
-                                    basicuserheader.setType(1);
-                                    basicuserheader.setHeaderType(1);
-                                    basicuserheader.setTotal(jsonObject.getString("total_basicuser"));
-
-                                    normaluser = false;
-                                    data.add(basicuserheader);
-
-                                }
-
-                                break;
-
-
-                            case 2:
-                                if (agentuser) {
-                                    LndAgentBean agentheader = new LndAgentBean();
-                                    agentheader.setType(1);
-                                    agentheader.setHeaderType(2);
-                                    agentheader.setTotal(jsonObject.getString("total_agent"));
-                                    agentuser = false;
-                                    data.add(agentheader);
-
-                                }
-                               break;
-
-                            case 3:
-                                if (agencyuser) {
-                                    LndAgentBean agencyheader = new LndAgentBean();
-                                    agencyheader.setType(1);
-                                    agencyheader.setHeaderType(3);
-                                    agencyheader.setTotal(jsonObject.getString("total_agency"));
-                                    agencyuser = false;
-                                    data.add(agencyheader);
-
-                                }
-
-
-                                break;
-
-
-                            case 4:
-                                if (areamanager) {
-                                    LndAgentBean areamanagerheader = new LndAgentBean();
-                                    areamanagerheader.setType(1);
-                                    areamanagerheader.setHeaderType(4);
-                                    areamanagerheader.setTotal(jsonObject.getString("total_areamanager"));
-                                    areamanager = false;
-                                    data.add(areamanagerheader);
-
-                                }
-
-
-                                break;
-
-
-                            case 5:
-                                if (regionalmanager) {
-                                    LndAgentBean regionaldirectorheader = new LndAgentBean();
-                                    regionaldirectorheader.setType(1);
-                                    regionaldirectorheader.setHeaderType(5);
-                                    regionaldirectorheader.setTotal(jsonObject.getString("total_regionaldirector"));
-                                    regionalmanager = false;
-                                    data.add(regionaldirectorheader);
-
-                                }
-
-
-                            break;
-
+                     boolean status=jobj.getBoolean("status");
+                    if(status)
+                    {
+                       //for regiional director
+                        JSONArray regionaldirector=jobj.getJSONArray("regionaldirector");
+                        if(regionaldirector.length()>0)
+                        {
+                            addHeader(5,jobj.getString("total_regionaldirector"));
                         }
-                        if (jsonObject.getString("user_type").equals("private"))
-                            agent.setType(2);
-                        else
-                            agent.setType(3);
+                        for(int i=0;i<regionaldirector.length();i++)
+                        {
+                           addUser(regionaldirector.getJSONObject(i));
+                        }
+                        //for area manager
+                        JSONArray areamanager=jobj.getJSONArray("areamanager");
+                        if(areamanager.length()>0)
+                        {
+                            addHeader(4,jobj.getString("total_areamanager"));
+                        }
+                        for(int i=0;i<areamanager.length();i++)
+                        {
+                            addUser(areamanager.getJSONObject(i));
+                        }
 
-                        agent.setUname(jsonObject.getString("uname"));
-                        agent.setTotalpost(jsonObject.getString("total_posts"));
-                        agent.setTotalsales(jsonObject.getString("total_sales"));
-                        agent.setTotalrefuser(jsonObject.getString("total_ref_user"));
-                        agent.setProfilepic(jsonObject.getString("profile_pic"));
-                        agent.setUserposition(jsonObject.getInt("user_position"));
-                        data.add(agent);
+                        //for agency
+                        JSONArray agency=jobj.getJSONArray("agency");
+                        if(agency.length()>0)
+                        {
+                            addHeader(3,jobj.getString("total_agency"));
+                        }
+                        for(int i=0;i<agency.length();i++)
+                        {
+                            addUser(agency.getJSONObject(i));
+                        }
+
+                        //for agent
+                        JSONArray agent=jobj.getJSONArray("agents");
+                        if(agent.length()>0)
+                        {
+                            addHeader(2,jobj.getString("total_agent"));
+                        }
+                        for(int i=0;i<agent.length();i++)
+                        {
+                            addUser(agent.getJSONObject(i));
+                        }
+                        //for agent
+                        JSONArray basicuser=jobj.getJSONArray("basicuser");
+                        if(agent.length()>0)
+                        {
+                            addHeader(1,jobj.getString("total_basicuser"));
+                        }
+                        for(int i=0;i<basicuser.length();i++)
+                        {
+                            addUser(basicuser.getJSONObject(i));
+                        }
                     }
+
+
                     adapter.notifyDataSetChanged();
 
                 } catch (Exception ex) {
@@ -186,7 +181,7 @@ public class Lnd_Agent_Profile extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("rqid", "19");
+                params.put("rqid", "20");
                 params.put("ref_code", 233+"");
 
                 return params;

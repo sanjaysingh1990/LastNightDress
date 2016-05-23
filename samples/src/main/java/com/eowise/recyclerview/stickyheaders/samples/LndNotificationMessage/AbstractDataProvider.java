@@ -51,6 +51,7 @@ public abstract class AbstractDataProvider {
 
     public abstract void moveItem(int fromPosition, int toPosition);
     public abstract void addItem(NotificationData nd);
+    public abstract void addItemat(NotificationData nd,int pos);
 
     public abstract int undoLastRemoval();
 }

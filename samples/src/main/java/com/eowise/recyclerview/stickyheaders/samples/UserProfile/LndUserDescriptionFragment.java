@@ -69,7 +69,7 @@ public class LndUserDescriptionFragment extends Fragment implements View.OnClick
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                leftchar.setText(150 - charSequence.length() + "");
+                leftchar.setText(150 - charSequence.length() + " Characters");
             }
 
             @Override
@@ -125,10 +125,11 @@ public class LndUserDescriptionFragment extends Fragment implements View.OnClick
                         edit.putString("country",jobj.getString("country"));
                         edit.putString("imageurl", jobj.getString("imageurl"));
                         edit.commit();
+                        LndLoginSignup.currentpage = 6;
+                        //current page value on stack;
+                        LndLoginSignup.currenttab.push(6);
+                        LndLoginSignup.mViewPager.setCurrentItem(7);
 
-                        Intent i = new Intent(getActivity(), Main_TabHost.class);
-                        startActivity(i);
-                        ActivityCompat.finishAffinity(getActivity());
                     }
                     else
                     {

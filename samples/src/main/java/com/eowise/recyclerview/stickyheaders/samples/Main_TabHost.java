@@ -248,6 +248,7 @@ public class Main_TabHost extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Toast.makeText(this, requestCode + "", Toast.LENGTH_SHORT).show();
         super.onActivityResult(requestCode, resultCode, data);
         int pos = 0;
         switch (requestCode) {
@@ -281,9 +282,17 @@ public class Main_TabHost extends AppCompatActivity {
                 break;
             case 6:
                 if (data != null) {
-                    pos = data.getIntExtra("pos", 0);
-                    NotificationData nd = (NotificationData) data.getExtras().get("data");
-                    NotificationFragment.notification.setCheckout(pos, nd);
+                    if (data.getBooleanExtra("isswapok", false)) {
+
+                        pos = data.getIntExtra("pos", 0);
+                        NotificationData nd = (NotificationData) data.getExtras().get("data");
+                        NotificationFragment.notification.setCheckout(pos, nd);
+                    }
+                    else
+                    {
+                        pos = data.getIntExtra("pos", -1);
+                        NotificationFragment.notification.cancelSwap(pos);
+                    }
                 }
                 break;
             case 7:

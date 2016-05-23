@@ -94,7 +94,7 @@ public class LndLoginFragment extends Fragment implements View.OnClickListener {
             case R.id.resetpassword:
                 //current page value on stack;
                 LndLoginSignup.currenttab.push(1);
-                LndLoginSignup.mViewPager.setCurrentItem(3);
+                LndLoginSignup.mViewPager.setCurrentItem(5);
 
                 break;
         }

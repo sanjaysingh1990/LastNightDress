@@ -233,7 +233,7 @@ class NotificationSwipeableItemAdapter
                     Intent swaprequestaccept = new Intent(activity, SwapRequestActivity.class);
                     swaprequestaccept.putExtra("data", mProvider.getItem(getAdapterPosition()).getNotificationdata());
                     swaprequestaccept.putExtra("pos", getAdapterPosition());
-                    Main_TabHost.activity.startActivityForResult(swaprequestaccept, 8);
+                    Main_TabHost.activity.startActivityForResult(swaprequestaccept, 6);
                     break;
 
                 case R.id.swapcancel:
@@ -558,7 +558,7 @@ class NotificationSwipeableItemAdapter
                 break;
             case USERACCEPTEDCHECKOUT:
 
-                setSpannableText2(Capitalize.capitalizeFirstLetter(item.getUname()), " requested a ", new TimeAgo(activity).timeAgo(item.getNotificationdata().getTime()), ((CheckOut) holder).notiTextView);
+              setSpannableText2(Capitalize.capitalizeFirstLetter(item.getUname()), " requested a ", new TimeAgo(activity).timeAgo(item.getNotificationdata().getTime()), ((CheckOut) holder).notiTextView);
 
                 SingleTon.imageLoader.displayImage(item.getImageurl(), ((CheckOut) holder).notiimage, SingleTon.options);
                 SingleTon.imageLoader.displayImage(item.getProfilepic(), ((CheckOut) holder).notiprofile, SingleTon.options2);

@@ -270,8 +270,9 @@ public class SwapRequestActivity extends AppCompatActivity {
                         //   NotificationFragment.recyclerAdapter.notifyDataSetChanged();
                         Intent intent = new Intent();
                         intent.putExtra("pos",pos);
+                        intent.putExtra("isswapok",false);
 
-                        setResult(8, intent);
+                        setResult(6, intent);
                         finish();
 
                         Toast.makeText(SwapRequestActivity.this, jobj.getString("message"), Toast.LENGTH_LONG).show();
@@ -340,6 +341,7 @@ public class SwapRequestActivity extends AppCompatActivity {
                     JSONObject jobj = new JSONObject(response.toString());
                     if (jobj.getBoolean("status")) {
                         Intent intent = new Intent();
+                        intent.putExtra("isswapok",true);
                         intent.putExtra("data",nd);
                         intent.putExtra("pos",pos);
 

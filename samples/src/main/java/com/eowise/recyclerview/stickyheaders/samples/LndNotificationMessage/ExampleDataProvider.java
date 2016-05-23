@@ -162,6 +162,16 @@ public class ExampleDataProvider extends AbstractDataProvider {
     }
 
     @Override
+    public void addItemat(NotificationData nd, int pos) {
+        final long id = mData.size();
+        final int viewType = 0;
+        final int swipeReaction = RecyclerViewSwipeManager.REACTION_CAN_SWIPE_UP | RecyclerViewSwipeManager.REACTION_CAN_SWIPE_DOWN;
+
+        mData.add(pos,new ConcreteData2(id, viewType, nd, swipeReaction, NotificationType.USERACCEPTEDCHECKOUT));
+
+    }
+
+    @Override
     public void removeItem(int position) {
         //noinspection UnnecessaryLocalVariable
         final ConcreteData2 removedItem = mData.remove(position);

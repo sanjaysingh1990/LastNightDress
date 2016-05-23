@@ -75,7 +75,7 @@
                 android:drawablePadding="6dp"
                 android:background="@null"
                 android:layout_marginTop="3dp"
-
+                android:imeOptions="actionNext"
                 android:textColorHint="@color/user_registration_hint_color"
                 android:textColor="@color/white"
                 android:textSize="16sp"
@@ -93,7 +93,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:hint="Owners full name"
-
+                android:imeOptions="actionNext"
                 android:background="@null"
                 android:layout_marginTop="15dp"
                 android:backgroundTint="@color/white"
@@ -124,7 +124,7 @@
                 android:drawablePadding="6dp"
                 android:textColorHint="@color/user_registration_hint_color"
                 android:textColor="@color/white"
-
+                android:imeOptions="actionNext"
                 android:textSize="16sp"
 
                 />
@@ -140,7 +140,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Company email"
                 android:textSize="16sp"
-
+                android:imeOptions="actionNext"
                 android:layout_marginTop="15dp"
                 android:id="@+id/email"
                 android:background="@null"
@@ -163,7 +163,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Address"
                 android:textSize="16sp"
-
+                android:imeOptions="actionNext"
                 android:layout_marginTop="15dp"
                 android:id="@+id/address"
                 android:background="@null"
@@ -190,7 +190,7 @@
                 android:layout_marginTop="15dp"
                 android:id="@+id/city"
                 android:background="@null"
-
+                android:imeOptions="actionNext"
                 android:textColorHint="@color/user_registration_hint_color"
                 android:textColor="@color/white"
 
@@ -213,7 +213,7 @@
 
                 android:textColorHint="@color/user_registration_hint_color"
                 android:textColor="@color/white"
-
+                android:imeOptions="actionNext"
 
                 />
             <View
@@ -241,7 +241,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:hint="Password"
-
+                android:imeOptions="actionDone"
                 android:layout_marginTop="15dp"
                 android:id="@+id/pass"
                 android:background="@null"

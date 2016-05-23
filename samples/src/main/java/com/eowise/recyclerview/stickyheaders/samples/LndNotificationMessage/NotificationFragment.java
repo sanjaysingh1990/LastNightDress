@@ -373,10 +373,8 @@ public class NotificationFragment extends Fragment {
         queue.add(sr);
     }
 
-    public void setCheckout(int pos, NotificationData nd) {
-        mProvider.removeItem(pos);
-        mAdapter.notifyDataSetChanged();
-        NotificationData nd2 = new NotificationData();
+    public void setCheckout(int pos, NotificationData nd3) {
+        NotificationData nd = mProvider.getItem(pos).getNotificationdata();
         nd.setNotification_id(nd.getNotification_id());
         nd.setProfilepicimg(nd.getProfilepicimg());
         nd.setMessage(nd.getMessage());
@@ -385,8 +383,12 @@ public class NotificationFragment extends Fragment {
         nd.setNotitype("9");
         nd.setPostid(nd.getPostid());
         nd.setImgurl(nd.getImgurl());
-        mProvider.addItem(nd);
+        mProvider.removeItem(pos);
         mAdapter.notifyDataSetChanged();
+
+        mProvider.addItemat(nd, pos);
+        mAdapter.notifyDataSetChanged();
+
     }
 
     public void cancelSwap(int pos) {
@@ -411,7 +413,7 @@ public class NotificationFragment extends Fragment {
         return 0;
     }
 
-    private void showInstruction() {
+    private void showInstruction() throws Exception {
         //Load animation
         final Animation slide_up = AnimationUtils.loadAnimation(getActivity(),
                 R.anim.slide_up);

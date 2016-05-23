@@ -28,8 +28,8 @@ public class LndLoginSignup extends AppCompatActivity {
 
     static ViewPager mViewPager;
     public static JSONObject jobj = new JSONObject();
-    public static int currentpage=-1;
-    public static Stack<Integer> currenttab=new Stack<>();
+    public static int currentpage = -1;
+    public static Stack<Integer> currenttab = new Stack<>();
     public static Activity act;
 
     @Override
@@ -37,7 +37,7 @@ public class LndLoginSignup extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fill_more_info);
         mViewPager = (ViewPager) findViewById(R.id.pager);
-         act=this;
+        act = this;
 //disable viewpager swipe
        /* mViewPager.setOnTouchListener(new View.OnTouchListener() {
 
@@ -72,25 +72,28 @@ public class LndLoginSignup extends AppCompatActivity {
                 return new LndLoginFragment();
             else if (position == 2)
                 return new LndUserTypeFragment();
-            else if(position==3)
-                return new ResetPasswordFragment();
-            else if (position == 4)
+            else if (position == 3)
                 return new PrivateFragment();
-            else if(position==5)
+            else if (position == 4)
                 return new ShopFragment();
-             else if(position==6)
+            else if (position == 5)
+                return new ResetPasswordFragment();
+            else if (position == 6)
                 return new LndUserDescriptionFragment();
+            else if (position == 7)
+                return new LndUserReferalCodeFragment();
             else
-                return new ResetPasswordEmailSentFragment();
 
+                return new ResetPasswordEmailSentFragment();
         }
 
         @Override
         public int getCount() {
             // Show 3 total pages.    LndLoginSignup.mViewPager.setCurrentItem(0);
 
-            return 8;
+            return 9;
         }
+
         public int getItemPosition(Object object) {
             notifyDataSetChanged();
             return POSITION_NONE;
@@ -103,9 +106,7 @@ public class LndLoginSignup extends AppCompatActivity {
 
         try {
             mViewPager.setCurrentItem(currenttab.pop());
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             finish();
         }
 
@@ -113,33 +114,26 @@ public class LndLoginSignup extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-      //  Toast.makeText(this,requestCode+"",Toast.LENGTH_SHORT).show();
+        //  Toast.makeText(this,requestCode+"",Toast.LENGTH_SHORT).show();
 
-        if(requestCode==100||requestCode==200)
-        {
-            PrivateFragment.setResult(requestCode,resultCode,data);
-        }
-        else if(requestCode==150||requestCode==250)
-        {
-            ShopFragment.setResult(requestCode,resultCode,data);
-        }
-        else
-        LoginSignup.callbackManager.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 100 || requestCode == 200) {
+            PrivateFragment.setResult(requestCode, resultCode, data);
+        } else if (requestCode == 150 || requestCode == 250) {
+            ShopFragment.setResult(requestCode, resultCode, data);
+        } else
+            LoginSignup.callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        if (Build.VERSION.SDK_INT < 16)
-        {
+        if (Build.VERSION.SDK_INT < 16) {
             // Hide the status bar
-           // getWindow().setFlag(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            // getWindow().setFlag(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
             // Hide the action bar
 
-        }
-        else
-        {
+        } else {
             // Hide the status bar
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
 
