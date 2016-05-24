@@ -78,6 +78,7 @@
                         android:drawableLeft="@drawable/facebook_icon_white"
                         android:drawablePadding="6dp"
                         android:textAllCaps="false"
+                        android:id="@+id/facebook"
                         />
 
 
@@ -92,7 +93,9 @@
                         android:drawableLeft="@drawable/twitter_white_icon"
                         android:drawablePadding="6dp"
                         android:textAllCaps="false"
+                        android:id="@+id/twitter"
                         />
+
 
                 </LinearLayout>
 

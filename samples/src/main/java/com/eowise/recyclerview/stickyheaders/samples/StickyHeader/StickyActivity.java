@@ -1,5 +1,6 @@
 package com.eowise.recyclerview.stickyheaders.samples.StickyHeader;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,7 +30,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost.CameraPreviewFragment;
 import com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage.LndNotificationMessageActivity;
+import com.eowise.recyclerview.stickyheaders.samples.Main_TabHost;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.Loading.AVLoadingIndicatorView;
 import com.eowise.recyclerview.stickyheaders.samples.R;
@@ -37,6 +41,14 @@ import com.eowise.recyclerview.stickyheaders.samples.Utils.ConstantValues;
 import com.eowise.recyclerview.stickyheaders.samples.contacts.ContactsActivity;
 import com.facebook.FacebookSdk;
 import com.init.superslim.LayoutManager;
+import com.twitter.sdk.android.Twitter;
+import com.twitter.sdk.android.core.Callback;
+import com.twitter.sdk.android.core.Result;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+import com.twitter.sdk.android.core.TwitterException;
+import com.twitter.sdk.android.core.TwitterSession;
+import com.twitter.sdk.android.core.identity.TwitterLoginButton;
+import com.twitter.sdk.android.core.models.User;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -48,6 +60,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+
+import io.fabric.sdk.android.Fabric;
 
 
 public class StickyActivity extends AppCompatActivity {
@@ -84,14 +98,42 @@ public class StickyActivity extends AppCompatActivity {
     int sectionFirstPosition = 0;
     int i = 0;
     private boolean firsttime = true;
+    // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
+
+    private Button twitter,facebook;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.sticky_header_layout);
+
         instructiontextview = (TextView) findViewById(R.id.instructiontextview);
         indicator = (LinearLayout) findViewById(R.id.indicator);
         instructionview = (LinearLayout) findViewById(R.id.instructionview);
+
+        //for twitter
+        twitter= (Button) findViewById(R.id.twitter);
+        twitter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Main_TabHost parentActivity;
+                parentActivity = (Main_TabHost)StickyActivity.this.getParent();
+                parentActivity.twitter();
+            }
+        });
+         //for facebook
+        facebook= (Button) findViewById(R.id.facebook);
+        facebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Main_TabHost parentActivity;
+                parentActivity = (Main_TabHost)StickyActivity.this.getParent();
+                parentActivity.inviteFriends();
+            }
+        });
 //
         ;//for header
         if (savedInstanceState != null) {
@@ -481,5 +523,7 @@ public class StickyActivity extends AppCompatActivity {
         }
         return 0;
     }
+
+
 
 }

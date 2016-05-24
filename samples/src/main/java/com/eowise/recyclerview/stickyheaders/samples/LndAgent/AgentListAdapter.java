@@ -245,7 +245,7 @@ class AgentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 if (item.getUserposition() == 1) {
                     normalUser.totalrefuser.setText(item.getTotalrefuser() + "/5");
                     normalUser.totalrefusertext.setText("Basic Users");
-                    normalUser.uname.setCompoundDrawablesWithIntrinsicBounds(0, 0,0, 0);
+                    normalUser.uname.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
 
                 } else if (item.getUserposition() == 2) {
                     normalUser.totalrefuser.setText(item.getTotalrefuser() + "/25");
@@ -279,7 +279,7 @@ class AgentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 if (item.getUserposition() == 1) {
                     shopUser.totalrefuser.setText(item.getTotalrefuser() + "/5");
                     shopUser.totalrefusertext.setText("Basic Users");
-                    shopUser.uname.setCompoundDrawablesWithIntrinsicBounds(0, 0,0, 0);
+                    shopUser.uname.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
 
                 } else if (item.getUserposition() == 2) {
                     shopUser.totalrefuser.setText(item.getTotalrefuser() + "/25");
@@ -313,6 +313,8 @@ class AgentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 UserHeader userHeader = (UserHeader) holder;
                 String imgurl = SingleTon.pref.getString("imageurl", "");
                 SingleTon.imageLoader.displayImage(imgurl, userHeader.profileimg, SingleTon.options2);
+                userHeader.totalagents.setText(item.getUsertotalagents());
+                userHeader.totalshops.setText(item.getUsertotalshops());
                 break;
 
         }

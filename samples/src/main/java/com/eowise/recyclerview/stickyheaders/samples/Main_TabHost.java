@@ -44,12 +44,25 @@ import com.eowise.recyclerview.stickyheaders.samples.TabDemo.LndFragment;
 import com.eowise.recyclerview.stickyheaders.samples.TabDemo.LndShopActivity;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.BlankActivity;
 import com.eowise.recyclerview.stickyheaders.samples.data.NotificationData;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.share.model.AppInviteContent;
+import com.facebook.share.widget.AppInviteDialog;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.twitter.sdk.android.Twitter;
+import com.twitter.sdk.android.core.Callback;
+import com.twitter.sdk.android.core.Result;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+import com.twitter.sdk.android.core.TwitterException;
+import com.twitter.sdk.android.core.TwitterSession;
+import com.twitter.sdk.android.core.identity.TwitterLoginButton;
+import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -60,6 +73,7 @@ import java.util.Map;
 import java.util.Stack;
 
 import cz.msebera.android.httpclient.Header;
+import io.fabric.sdk.android.Fabric;
 
 public class Main_TabHost extends AppCompatActivity {
     public static TabWidget tabWidget;
@@ -82,6 +96,10 @@ public class Main_TabHost extends AppCompatActivity {
     private String regId = "";
     public static final String REG_ID = "regId";
     RequestParams params = new RequestParams();
+    private static final String TWITTER_KEY = "4OuMi2Mc6KRBSrRpMskHyhWqh";
+    private static final String TWITTER_SECRET = "X7642MPH314iPB04eZEiNiqjdAixj7lS8OglLeD8AUFr0TP1F1";
+    public static TwitterLoginButton loginButton;
+    TwitterSession session;
 
     /**
      * Called when the activity is first created.
@@ -90,11 +108,16 @@ public class Main_TabHost extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
+        Fabric.with(this, new Twitter(authConfig));
+
         setContentView(R.layout.tabhost_main);
         activity = this;
         tabHost = (TabHost) findViewById(R.id.tabhost);
         tabWidget = (TabWidget) findViewById(android.R.id.tabs);
         main = this;
+        //for sending app request to facebook friends
+        sCallbackManager = CallbackManager.Factory.create();
 
         //  tabHost.setup();
         LocalActivityManager mLocalActivityManager = new LocalActivityManager(this, false);
@@ -184,9 +207,32 @@ public class Main_TabHost extends AppCompatActivity {
                 }
             }
         }).start();
+        loginButton = (TwitterLoginButton) findViewById(R.id.twitter_login_button);
 
+        loginButton.setCallback(new Callback<TwitterSession>() {
+            @Override
+            public void success(Result<TwitterSession> result) {
+                session = result.data;
+
+                String username = session.getUserName();
+                Long  userid = session.getUserId();
+
+
+                Toast.makeText(Main_TabHost.this,username+"",Toast.LENGTH_LONG).show();
+                setUpViewsForTweetComposer();
+            }
+
+            @Override
+            public void failure(TwitterException exception) {
+                Log.e("TwitterKit", "Login with Twitter failure", exception);
+            }
+        });
     }
-
+    private void setUpViewsForTweetComposer() {
+        TweetComposer.Builder builder = new TweetComposer.Builder(this)
+                .text("Hey friends check this out cool app. and use my referal code 0233 while login. https://play.google.com/store/apps/details?id=com.init.sikhdiary&hl=en ");
+        builder.show();
+    }
     private void setupTab(final View view, final Intent intent, int iconid) {
         View tabview = createTabView(getApplicationContext(), iconid);
         TabHost.TabSpec setContent = tabHost.newTabSpec("").setIndicator(tabview).setContent(intent);
@@ -247,9 +293,11 @@ public class Main_TabHost extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-     //   Toast.makeText(this, requestCode + "", Toast.LENGTH_SHORT).show();
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+       // Toast.makeText(this, requestCode + "", Toast.LENGTH_SHORT).show();
         super.onActivityResult(requestCode, resultCode, data);
+        loginButton.onActivityResult(requestCode, resultCode, data);
+        sCallbackManager.onActivityResult(requestCode, resultCode, data);
         int pos = 0;
         switch (requestCode) {
             case 0:
@@ -665,5 +713,56 @@ public class Main_TabHost extends AppCompatActivity {
                     }
 
                 });
+    }
+    public void twitter()
+    {
+        loginButton.performClick();
+    }
+
+    //to invite facebook friends
+    CallbackManager sCallbackManager;
+
+    public void inviteFriends()
+    {
+        String AppURl = "https://fb.me/1290239177669120";  //Generated from //fb developers
+
+        String previewImageUrl = "https://lh3.googleusercontent.com/YxCdiUIkiV88w6N1NvTqKsLZtCpBB7VX6VxBEHVZbwZrhiKoiFbkOctm-_sdJCSnacki=h900";
+
+
+
+        if (AppInviteDialog.canShow()) {
+            AppInviteContent content = new AppInviteContent.Builder()
+                    .setApplinkUrl(AppURl).setPreviewImageUrl(previewImageUrl)
+                    .build();
+
+            AppInviteDialog appInviteDialog = new AppInviteDialog(Main_TabHost.this);
+            appInviteDialog.registerCallback(sCallbackManager,
+                    new FacebookCallback<AppInviteDialog.Result>() {
+                        @Override
+                        public void onSuccess(AppInviteDialog.Result result) {
+                            Toast.makeText(Main_TabHost.this, "Invitation sent", Toast.LENGTH_SHORT).show();
+                            // Log.e("Invitation", "Invitation Sent Successfully");
+                            //finish();
+                        }
+
+                        @Override
+                        public void onCancel() {
+                            Toast.makeText(Main_TabHost.this, "Invitation Cancelled", Toast.LENGTH_SHORT).show();
+
+                            //  Log.e("Invitation", "Invitation Sent Successfully");
+
+                        }
+
+                        @Override
+                        public void onError(FacebookException e) {
+                            Toast.makeText(Main_TabHost.this, "Error " + e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                            // Log.e("Invitation", "Error Occured");
+                        }
+                    });
+
+            appInviteDialog.show(content);
+        }
+
     }
 }

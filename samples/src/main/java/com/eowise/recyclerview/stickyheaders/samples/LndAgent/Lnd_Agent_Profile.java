@@ -110,6 +110,12 @@ private void addUser(JSONObject jsonObject) throws Exception
                      boolean status=jobj.getBoolean("status");
                     if(status)
                     {
+
+                        //for user
+                      LndAgentBean agentbean=  data.get(0);
+                      int totalagents=jobj.getInt("total_agent")+jobj.getInt("total_basicuser")+jobj.getInt("total_agency")+jobj.getInt("total_areamanager") +jobj.getInt("total_regionaldirector");
+                      agentbean.setUsertotalagents(totalagents+"");
+                      agentbean.setUsertotalshops(jobj.getInt("total_shops")+"");
                        //for regiional director
                         JSONArray regionaldirector=jobj.getJSONArray("regionaldirector");
                         if(regionaldirector.length()>0)

@@ -69,6 +69,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 public class MessageFragment extends Fragment {
     private static final String ARG_DATA_PROVIDER = "data provider";
@@ -76,6 +77,7 @@ public class MessageFragment extends Fragment {
     public static AbstractDataProvider2 mProvider;
     public static MessageFragment messageFragment;
     private TextView instructiontextview;
+
     public static MessageFragment newInstance(String dataProvider, boolean canSwipeLeft) {
         MessageFragment fragment = new MessageFragment();
         Bundle args = new Bundle();
@@ -188,12 +190,13 @@ public class MessageFragment extends Fragment {
 //        mRecyclerViewSwipeManager.setReturnToDefaultPositionAnimationDuration(2000);
 
         indicator = (LinearLayout) getView().findViewById(R.id.indicator);
-        instructiontextview= (TextView) getView().findViewById(R.id.instructiontextview);
+        instructiontextview = (TextView) getView().findViewById(R.id.instructiontextview);
         applySpannable();
         getData();
 
 
     }
+
     private void applySpannable() {
 
         Spannable word = new SpannableString("Tap on the camera ");
@@ -207,6 +210,7 @@ public class MessageFragment extends Fragment {
 
         instructiontextview.append(wordTwo);
     }
+
     private void showInstruction() {
         //Load animation
         final Animation slide_up = AnimationUtils.loadAnimation(getActivity(),
@@ -220,13 +224,17 @@ public class MessageFragment extends Fragment {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        indicator.setVisibility(View.VISIBLE);
-                       indicator.startAnimation(slide_up);
-                    }
-                });
+                try {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            indicator.setVisibility(View.VISIBLE);
+                            indicator.startAnimation(slide_up);
+                        }
+                    });
+                } catch (Exception ex) {
+
+                }
             }
         }).start();
     }
@@ -318,7 +326,7 @@ public class MessageFragment extends Fragment {
 
                     }
 
-                  firsttime=false;
+                    firsttime = false;
                 } catch (Exception ex) {
                     Log.e("json parsing error", ex.getMessage() + "");
                 }

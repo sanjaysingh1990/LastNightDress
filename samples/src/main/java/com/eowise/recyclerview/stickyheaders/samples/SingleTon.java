@@ -19,6 +19,9 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
+import com.twitter.sdk.android.Twitter;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+import io.fabric.sdk.android.Fabric;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -26,6 +29,13 @@ import java.util.HashMap;
 import java.util.Locale;
 
 public class SingleTon extends Application {
+
+    // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
+
+
+    // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
+
+
 
     public static SharedPreferences pref;
     public static DisplayImageOptions options,options2,options3,options4;
@@ -41,7 +51,7 @@ public class SingleTon extends Application {
         super.onCreate();
 
 
-         displayMetrics = getResources().getDisplayMetrics();
+               displayMetrics = getResources().getDisplayMetrics();
 
         // UNIVERSAL IMAGE LOADER SETUP
 

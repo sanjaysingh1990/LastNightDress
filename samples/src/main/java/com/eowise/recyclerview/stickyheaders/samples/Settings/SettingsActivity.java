@@ -57,7 +57,7 @@ import butterknife.ButterKnife;
 public class SettingsActivity extends AppCompatActivity {
     @Bind(R.id.heading)
     TextView heading;
-    @Bind({R.id.fbfrnds, R.id.contactsfrnds, R.id.editprofiletext, R.id.changepasstext, R.id.allowswaps, R.id.privacypolicytext, R.id.mysales, R.id.mypurchases, R.id.logout, R.id.notificationtext, R.id.currencytext, R.id.clear,R.id.agenttext,R.id.sellworldwietext})
+    @Bind({R.id.fbfrnds, R.id.contactsfrnds, R.id.editprofiletext, R.id.changepasstext, R.id.allowswaps, R.id.privacypolicytext, R.id.mysales, R.id.mypurchases, R.id.logout, R.id.notificationtext, R.id.currencytext, R.id.clear, R.id.agenttext, R.id.sellworldwietext})
     List<TextView> settingstext;
     CallbackManager sCallbackManager;
     @Bind(R.id.swapstatus)
@@ -99,7 +99,7 @@ public class SettingsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // handle me
                 Intent i = new Intent(SettingsActivity.this, ReadMore.class);
-                i.putExtra("pos",1);
+                i.putExtra("pos", 1);
                 startActivity(i);
             }
         });
@@ -111,7 +111,7 @@ public class SettingsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // handle me
                 Intent i = new Intent(SettingsActivity.this, ReadMore.class);
-                i.putExtra("pos",3);
+                i.putExtra("pos", 3);
                 startActivity(i);
             }
         });
@@ -322,14 +322,11 @@ public class SettingsActivity extends AppCompatActivity {
 
     public void changeSwapstatus(final int swapstatus, final String userid) {
 
-        final ProgressDialog pDialog = new ProgressDialog(this);
-        pDialog.setMessage("wait changing...");
-        pDialog.show();
+
         RequestQueue queue = Volley.newRequestQueue(this);
         StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/lndusers.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                pDialog.dismiss();
                 // Log.e("response", response.toString());
                 try {
                     JSONObject jobj = new JSONObject(response.toString());
@@ -351,7 +348,6 @@ public class SettingsActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error)
 
             {
-                pDialog.dismiss();
                 Toast.makeText(SettingsActivity.this, "can't change swap status", Toast.LENGTH_SHORT).show();
 
             }
@@ -400,7 +396,7 @@ public class SettingsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 alert.dismiss();
                 SingleTon.db.clearAll();
-                Toast.makeText(SettingsActivity.this,"History clear",Toast.LENGTH_SHORT).show();
+                Toast.makeText(SettingsActivity.this, "History clear", Toast.LENGTH_SHORT).show();
 
             }
         });

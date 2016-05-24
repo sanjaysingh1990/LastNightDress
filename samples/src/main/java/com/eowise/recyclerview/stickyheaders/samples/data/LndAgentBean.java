@@ -10,6 +10,25 @@ public class LndAgentBean
     private String totalpost;
     private String totalsales;
 
+    public String getUsertotalshops() {
+        return usertotalshops;
+    }
+
+    public void setUsertotalshops(String usertotalshops) {
+        this.usertotalshops = usertotalshops;
+    }
+
+    public String getUsertotalagents() {
+        return usertotalagents;
+    }
+
+    public void setUsertotalagents(String usertotalagents) {
+        this.usertotalagents = usertotalagents;
+    }
+
+    private String usertotalagents;
+    private String usertotalshops;
+
 
     public int getUserposition() {
         return userposition;
