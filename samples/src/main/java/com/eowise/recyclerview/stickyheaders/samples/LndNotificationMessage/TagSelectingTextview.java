@@ -433,8 +433,14 @@ public class TagSelectingTextview {
         }, 0,len, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         int pos=len+5;
         CharSequence  spanText2 = nTagString.substring(pos,pos+len2);
+        CharSequence text="";
+        if(nTagString.contains("more"))
+             text =str+",more";
 
-        final CharSequence mLastTextSpan2 =spanText2;
+        else
+                text =spanText2;
+
+        final CharSequence mLastTextSpan2 =text;
 
         string.setSpan(new ClickableSpan() {
 

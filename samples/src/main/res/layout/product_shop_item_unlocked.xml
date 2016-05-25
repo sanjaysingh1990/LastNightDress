@@ -292,24 +292,23 @@
             android:layout_weight="1"
             android:background="#be4d66"
             android:clickable="true"
-            android:visibility="gone"
             >
 
+
             <TextView
-                android:id="@+id/swap"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:clickable="true"
-                android:drawableLeft="@drawable/shop_icon2"
-                android:drawablePadding="5dp"
-                android:gravity="center_vertical"
-                android:paddingBottom="8dp"
-                android:paddingLeft="8dp"
-                android:paddingRight="20dp"
-                android:paddingTop="8dp"
                 android:text="Swap"
-                android:textColor="#fff" />
+                android:id="@+id/swap"
+                android:textColor="#fff"
+                android:padding="8dp"
+                android:drawablePadding="5dp"
+                android:drawableLeft="@drawable/exchange_icon"
+                android:gravity="center_vertical"
+                android:clickable="true"
+                android:layout_centerInParent="true"
+                />
+
 
 
         </RelativeLayout>

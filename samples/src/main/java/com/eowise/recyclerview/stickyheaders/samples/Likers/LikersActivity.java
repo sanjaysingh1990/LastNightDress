@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -60,15 +61,21 @@ public class LikersActivity extends AppCompatActivity {
         recyclerView.setAdapter(recyclerAdapter);
         //reading bundle
         String postid="";
+        int type=0;
+
         Bundle extra = getIntent().getExtras();
         if (extra != null) {
-
             postid=extra.getString("postid","");
+            type=extra.getInt("type",0);
+           if(type==1)
+            getLikers(postid,1);
+            else if(type==2)
+            getLikers(postid,2);
+
         }
-        getLikers(postid);
     }
 
-    public void getLikers(final String postid) {
+    public void getLikers(final String postid,final int rqid) {
         final ProgressDialog pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");
         pDialog.show();
@@ -111,9 +118,11 @@ public class LikersActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("rqid", "1");
+                params.put("rqid", rqid+"");
                 params.put("user_id", SingleTon.pref.getString("user_id",""));
                 params.put("post_id", postid);
+                params.put("skipdata","0");
+
 
 
                 return params;

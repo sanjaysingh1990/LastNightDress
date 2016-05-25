@@ -19,6 +19,15 @@ public class Home_List_Data implements Serializable {
     private int likestotal;
     private String conditon;
 
+    public int getSwapstatus() {
+        return swapstatus;
+    }
+
+    public void setSwapstatus(int swapstatus) {
+        this.swapstatus = swapstatus;
+    }
+
+    private int swapstatus;
     public int getIssold() {
         return issold;
     }

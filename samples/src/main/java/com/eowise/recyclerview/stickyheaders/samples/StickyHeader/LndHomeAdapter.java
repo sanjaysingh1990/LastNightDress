@@ -93,6 +93,8 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private static final int VIEW_TYPE_CONTENT_SHOP_USER = 0x04;
     private static final int VIEW_TYPE_CONTENT_SHOP_ITEM_SOLD = 0x05;
     private static final int VIEW_TYPE_CONTENT_PRIVATE_USER_ITEM_SOLD = 0x06;
+    private static final int VIEW_TYPE_CONTENT_SHOP_ITEM_UNLOKED = 0x07;
+    private static final int VIEW_TYPE_CONTENT_PRIVATE_USER_ITEM_LOCKED = 0x08;
 
     private static final int LINEAR = 0;
 
@@ -159,6 +161,13 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
             mContext.startActivity(profile);
 
+        } else if (tag.toString().contains("more")) {
+            String[] id = tag.toString().split(",");
+            // Toast.makeText(mContext,id[0],Toast.LENGTH_SHORT).show();
+            Intent likers = new Intent(mContext, LikersActivity.class);
+            likers.putExtra("postid", id[0]);
+            likers.putExtra("type", 2);
+            mContext.startActivity(likers);
         } else {
 
             Intent profile;
@@ -269,12 +278,26 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.product_private_item, parent, false);
             return new LndProductPrivateHolder(view, mContext);
-        } else if (viewType == VIEW_TYPE_CONTENT_SHOP_OTHER) {
+        }
+        else if (viewType == VIEW_TYPE_CONTENT_PRIVATE_USER_ITEM_LOCKED) {
+
+            view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.product_private_item_locked, parent, false);
+            return new LndProductPrivateHolder(view, mContext);
+        }
+        else if (viewType == VIEW_TYPE_CONTENT_SHOP_OTHER) {
             view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.product_shop_item, parent, false);
             return new LndProductShopHolder(view, mContext);
 
-        } else if (viewType == VIEW_TYPE_CONTENT_PRIVATE_USER) {
+        }
+        else if (viewType == VIEW_TYPE_CONTENT_SHOP_ITEM_UNLOKED) {
+            view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.product_shop_item_unlocked, parent, false);
+            return new LndProductShopHolder(view, mContext);
+
+        }
+        else if (viewType == VIEW_TYPE_CONTENT_PRIVATE_USER) {
 
             view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.list_item_user_private_post, parent, false);
@@ -325,8 +348,9 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     {
                         String[] users = item.getNotilikedby().split(",");
                         vh1.activitydoneby.setText(mTagSelectingTextview.addClickablePart(users[0] + " and " + (item.getNotitotallikers() - 1) + " more liked this",
-                                this, hashTagHyperLinkDisabled, hastTagColorBlue, users[0].length()),
+                                this, hashTagHyperLinkDisabled, hastTagColorBlue, users[0].length(), ((item.getNotitotallikers() - 1) + " more").length(), item.getPost_id()),
                                 TextView.BufferType.SPANNABLE);
+
 
                     } else if (item.getNotitotallikers() == 1) {
                         String[] users = item.getNotilikedby().split(",");
@@ -411,6 +435,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     public void onClick(View view) {
                         Intent likers = new Intent(mContext, LikersActivity.class);
                         likers.putExtra("postid", item.getPost_id());
+                        likers.putExtra("type", 1);
                         mContext.startActivity(likers);
                     }
                 });
@@ -424,7 +449,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 break;
             case VIEW_TYPE_CONTENT_SHOP_OTHER:
                 // Log.e("colors",item.getColors());
-                final LndProductShopHolder vh3 = (LndProductShopHolder) holder;
+                 LndProductShopHolder vh3 = (LndProductShopHolder) holder;
 
 
                 uname = Capitalize.capitalizeFirstLetter(item.getUname());
@@ -480,6 +505,8 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         Intent likers = new Intent(mContext, LikersActivity.class);
                         likers.putExtra("username", SingleTon.pref.getString("uname", ""));
                         likers.putExtra("postid", item.getPost_id());
+                        likers.putExtra("type", 1);
+
                         mContext.startActivity(likers);
                     }
                 });
@@ -519,6 +546,171 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                 break;
 
+            case VIEW_TYPE_CONTENT_SHOP_ITEM_UNLOKED:
+                // Log.e("colors",item.getColors());
+                vh3 = (LndProductShopHolder) holder;
+
+
+                uname = Capitalize.capitalizeFirstLetter(item.getUname());
+                //end here
+                vh3.description.setMovementMethod(LinkMovementMethod.getInstance());
+                vh3.description.setText(mTagSelectingTextview.addClickablePart(uname + " " + item.getDescription(),
+                        this, hashTagHyperLinkDisabled, hastTagColorBlue, uname.length()),
+                        TextView.BufferType.SPANNABLE);
+                vh3.price_was.setText("$" + item.getPricewas());
+                vh3.price_now.setText("$" + item.getPricenow());
+                vh3.likescount.setText(item.getLikestotal() + " likes");
+                vh3.time.setReferenceTime(item.getTime());
+
+
+                try {
+                    vh3.hfl.setFeatureItems(vh3.forward, vh3.backward, position, this, vh3.progress);
+                    if (position == mItems.size() - 1) {
+                        vh3.spaceview.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 100));
+                    }
+                    int pos = Integer.parseInt(item.getConditon());
+                    vh3.condition.setText(ConstantValues.condition[pos]);
+
+                } catch (Exception ex) {
+
+                }
+                //checking for single or multiple sizes
+                try {
+                    if (item.getSize().split(",").length == 1) {
+                        vh3.size.setText(Capitalize.capitalize(item.getSize()));
+                        vh3.size.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                        vh3.size.setClickable(false);
+                    } else {
+                        vh3.size.setClickable(true);
+                        vh3.size.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow, 0);
+                        vh3.size.setText("Size");
+                        vh3.size.setOnClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                popupWindow(item.getSize(), (TextView) view, item.getCategory()).showAsDropDown(view, -5, 0);
+
+
+                            }
+                        });
+
+                    }
+                } catch (Exception ex) {
+
+                }
+                //likers view
+                vh3.likescount.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent likers = new Intent(mContext, LikersActivity.class);
+                        likers.putExtra("username", SingleTon.pref.getString("uname", ""));
+                        likers.putExtra("postid", item.getPost_id());
+                        likers.putExtra("type", 1);
+
+                        mContext.startActivity(likers);
+                    }
+                });
+
+                //for single or multiple colors
+                try {
+                    if (item.getColors().split(",").length == 1) {
+                        vh3.color.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                        //for private dress color and private metal type
+
+                        vh3.color.setText(Capitalize.capitalizeFirstLetter(item.getColors()));
+
+                        vh3.color.setClickable(false);
+                    } else {
+                        vh3.color.setClickable(true);
+                        vh3.color.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow, 0);
+                        vh3.color.setText("Color  ");
+                        vh3.color.setOnClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                popupWindow2(item.getColors(), (TextView) view, item.getCategory()).showAsDropDown(view, -5, 0);
+
+
+                            }
+                        });
+                    }
+                } catch (Exception ex) {
+
+                }
+
+                //check favorate
+                if (item.isfavorate())
+                    vh3.favorates.setImageResource(R.drawable.filled_favorate_icon);
+                else
+                    vh3.favorates.setImageResource(R.drawable.favorite_icon);
+
+
+                break;
+            case VIEW_TYPE_CONTENT_PRIVATE_USER_ITEM_LOCKED:
+                vh2 = (LndProductPrivateHolder) holder;
+
+
+                 uname = Capitalize.capitalizeFirstLetter(item.getUname());
+                //end here
+                vh2.description.setMovementMethod(LinkMovementMethod.getInstance());
+                vh2.description.setText(mTagSelectingTextview.addClickablePart(uname + " " + item.getDescription(),
+                        this, hashTagHyperLinkDisabled, hastTagColorBlue, uname.length()),
+                        TextView.BufferType.SPANNABLE);
+                vh2.price_was.setText("$" + item.getPricewas());
+                vh2.price_now.setText("$" + item.getPricenow());
+                vh2.time.setReferenceTime(item.getTime());
+                //bag size
+                try {
+                    int pos = Integer.parseInt(item.getSize());
+                    vh2.len.setText(ConstantValues.bagsize[pos]);
+
+                } catch (Exception ex) {
+
+                    vh2.len.setText((item.getSize().toUpperCase()));
+
+                }
+                vh2.likescount.setText(item.getLikestotal() + " likes");
+                //start
+
+                try {
+                    vh2.condition.setText(ConstantValues.condition[Integer.parseInt(item.getConditon())]);
+
+                } catch (Exception ex) {
+
+                }
+
+                //for private dress color and private metal type
+
+                vh2.color.setText(Capitalize.capitalizeFirstLetter(item.getColors()));
+
+
+                try {
+                    vh2.hfl.setFeatureItems(vh2.forward, vh2.backward, position, this, vh2.progress);
+                    if (position == mItems.size() - 1) {
+                        vh2.spaceview.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 100));
+                        notifyDataSetChanged();
+                    }
+                    int pos = Integer.parseInt(item.getConditon());
+                    vh2.condition.setText(ConstantValues.condition[pos]);
+                } catch (Exception ex) {
+
+                }
+                //likers view
+                vh2.likescount.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent likers = new Intent(mContext, LikersActivity.class);
+                        likers.putExtra("postid", item.getPost_id());
+                        likers.putExtra("type", 1);
+                        mContext.startActivity(likers);
+                    }
+                });
+                //check favorate
+                if (item.isfavorate())
+                    vh2.favorates.setImageResource(R.drawable.filled_favorate_icon);
+                else
+                    vh2.favorates.setImageResource(R.drawable.favorite_icon);
+
+
+                break;
             case VIEW_TYPE_CONTENT_PRIVATE_USER:
                 LndProductPrivateUserHolder vh4 = (LndProductPrivateUserHolder) holder;
                 uname = Capitalize.capitalizeFirstLetter(item.getUname());
@@ -576,6 +768,8 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         Intent likers = new Intent(mContext, LikersActivity.class);
                         likers.putExtra("user_id", SingleTon.pref.getString("user_id", ""));
                         likers.putExtra("postid", item.getPost_id());
+                        likers.putExtra("type", 1);
+
                         mContext.startActivity(likers);
                     }
                 });
@@ -640,6 +834,8 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         Intent likers = new Intent(mContext, LikersActivity.class);
                         likers.putExtra("username", SingleTon.pref.getString("uname", ""));
                         likers.putExtra("postid", item.getPost_id());
+                        likers.putExtra("type", 1);
+
                         mContext.startActivity(likers);
                     }
                 });
@@ -740,6 +936,8 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     public void onClick(View view) {
                         Intent likers = new Intent(mContext, LikersActivity.class);
                         likers.putExtra("postid", item.getPost_id());
+                        likers.putExtra("type", 1);
+
                         mContext.startActivity(likers);
                     }
                 });
@@ -813,6 +1011,8 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         Intent likers = new Intent(mContext, LikersActivity.class);
                         likers.putExtra("username", SingleTon.pref.getString("uname", ""));
                         likers.putExtra("postid", item.getPost_id());
+                        likers.putExtra("type", 1);
+
                         mContext.startActivity(likers);
                     }
                 });
@@ -1049,15 +1249,24 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         else if (lineItem.sectiontype.compareTo("contentotheruser") == 0) {
 
             if (lineItem.isprivate) {
-                if (lineItem.getIssold() == 1)
-                    return VIEW_TYPE_CONTENT_PRIVATE_OTHER;
-                else
+                //to check availability
+                if (lineItem.getIssold() == 1) {
+                    if (lineItem.getSwapstatus() == 0)
+                        return VIEW_TYPE_CONTENT_PRIVATE_OTHER;
+                    else
+                        return VIEW_TYPE_CONTENT_PRIVATE_USER_ITEM_LOCKED;//layout to show off
+                } else
                     return VIEW_TYPE_CONTENT_PRIVATE_USER_ITEM_SOLD;
 
             } else {
-                if (lineItem.getIssold() == 1)
+                if (lineItem.getIssold() == 1) {
+                    if(lineItem.getSwapstatus()==0)
                     return VIEW_TYPE_CONTENT_SHOP_OTHER;
-                else
+                    else
+                        return VIEW_TYPE_CONTENT_SHOP_ITEM_UNLOKED;
+
+                }
+                    else
                     return VIEW_TYPE_CONTENT_SHOP_ITEM_SOLD;
 
             }

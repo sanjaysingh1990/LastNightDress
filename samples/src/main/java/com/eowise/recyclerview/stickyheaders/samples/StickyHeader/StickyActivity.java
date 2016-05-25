@@ -369,6 +369,8 @@ public class StickyActivity extends AppCompatActivity {
                         hld.setProdtype(jo.getString("prod_type"));
                         hld.setTime(getMilliseconds(jo.getString("date_time")));
                         hld.setIssold(jo.getInt("issold"));
+                        hld.setSwapstatus(jo.getInt("swap_status"));
+
 
                        /* if (hld.getCategory() == 1) {
                             String size = "";
@@ -449,6 +451,7 @@ public class StickyActivity extends AppCompatActivity {
 
                         hld2.setUserid(jo.getString("user_id"));
                         hld2.setBrandname(jo.getString("brand_name"));
+                        hld2.setSwapstatus(jo.getInt("swap_status"));
 
 
                         checkFavorate(hld);
