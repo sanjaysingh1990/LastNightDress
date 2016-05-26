@@ -175,7 +175,7 @@
             android:label="@string/title_activity_post_data"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:windowSoftInputMode="stateHidden|adjustPan|stateAlwaysHidden" />
         <activity
             android:name=".EditProfile.EditProfilePrivate"
             android:label="@string/title_activity_edit_post"
