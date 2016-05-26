@@ -226,6 +226,7 @@ You are in safe hands when shopping on Last Night’s Dress. If there is any iss
     <string name="shipping_label_purchase_info">Once you have purchased your shipping label it will be sent to your email. Please select the correct package weight or your package will not be delivered. We do not offer any shipping label over 5kg.
 </string>
     <array name="weight">
+        <item>Select</item>
         <item>Up to 5 pounds</item>
         <item>6 pounds</item>
         <item>7 pounds"</item>
@@ -247,6 +248,7 @@ You are in safe hands when shopping on Last Night’s Dress. If there is any iss
     <!-- text for post and filter pages -->
     <string name="used">Gently Used</string>
     <string-array name="service">
+        <item>Select</item>
         <item>FedEx</item>
         <item>Canada Post</item>
         <item>USPC</item>

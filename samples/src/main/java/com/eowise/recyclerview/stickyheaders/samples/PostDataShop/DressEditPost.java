@@ -628,6 +628,7 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
             // desc.requestFocus();
             return;
         } else if (pricenow.getText().length() == 0) {
+            pricenow.requestFocus();
             pricenow.setError("field is empty");
             // pricenow.requestFocus();
             return;
@@ -657,7 +658,20 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
             return;
 
         }
+         //for shipping national fixed cost
+        if(FixedCost1.isChecked())
+        {
+            if(nationalfixedcostservicespinner.getSelectedItemPosition()==0)
+            {
 
+                Toast.makeText(this, "select national shipping service" + condition, Toast.LENGTH_SHORT).show();
+                return;
+            }
+            else if( nationalfixedcostinputbox.getText().length()==0)
+            {
+
+            }
+        }
 
         JSONArray dressArray = new JSONArray(dresssize);
         JSONArray colorArray = new JSONArray(dresscolor);
@@ -738,13 +752,14 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
 
             JSONArray usermentionArray = new JSONArray(usermentions);
             mainObj.put("usermentions", usermentionArray);
-            if (extra == null) {
-                Intent shpping = new Intent(this, Shipping_Activity.class);
-                startActivity(shpping);
-            }
-            // uploadDress(mainObj.toString());
 
-            // Log.e("json", mainObj.toString());
+
+            if (extra == null) {
+                //uploadDress(mainObj.toString());
+
+            }
+            //
+             Log.e("json", mainObj.toString());
         } catch (Exception ex) {
             Log.e("json error", ex.getMessage() + "");
         }
