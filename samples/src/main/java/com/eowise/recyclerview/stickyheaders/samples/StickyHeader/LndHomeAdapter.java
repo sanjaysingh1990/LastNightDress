@@ -278,26 +278,22 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.product_private_item, parent, false);
             return new LndProductPrivateHolder(view, mContext);
-        }
-        else if (viewType == VIEW_TYPE_CONTENT_PRIVATE_USER_ITEM_LOCKED) {
+        } else if (viewType == VIEW_TYPE_CONTENT_PRIVATE_USER_ITEM_LOCKED) {
 
             view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.product_private_item_locked, parent, false);
             return new LndProductPrivateHolder(view, mContext);
-        }
-        else if (viewType == VIEW_TYPE_CONTENT_SHOP_OTHER) {
+        } else if (viewType == VIEW_TYPE_CONTENT_SHOP_OTHER) {
             view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.product_shop_item, parent, false);
             return new LndProductShopHolder(view, mContext);
 
-        }
-        else if (viewType == VIEW_TYPE_CONTENT_SHOP_ITEM_UNLOKED) {
+        } else if (viewType == VIEW_TYPE_CONTENT_SHOP_ITEM_UNLOKED) {
             view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.product_shop_item_unlocked, parent, false);
             return new LndProductShopHolder(view, mContext);
 
-        }
-        else if (viewType == VIEW_TYPE_CONTENT_PRIVATE_USER) {
+        } else if (viewType == VIEW_TYPE_CONTENT_PRIVATE_USER) {
 
             view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.list_item_user_private_post, parent, false);
@@ -368,11 +364,58 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     }
                 } else if (item.getHeadertype() == 2) {
                     vh1.headertop.setVisibility(View.VISIBLE);
+                    vh1.activitydoneby.setMovementMethod(LinkMovementMethod.getInstance());
 
-                    //  vh1.activitytype.setText("commented on this.");
+                    if (item.getNotitotallikers() > 2)
+
+                    {
+                        String[] users = item.getNotilikedby().split(",");
+                        vh1.activitydoneby.setText(mTagSelectingTextview.addClickablePart(users[0] + " and " + (item.getNotitotallikers() - 1) + " more commented on this",
+                                this, hashTagHyperLinkDisabled, hastTagColorBlue, users[0].length(), ((item.getNotitotallikers() - 1) + " more").length(), item.getPost_id()),
+                                TextView.BufferType.SPANNABLE);
+
+
+                    } else if (item.getNotitotallikers() == 1) {
+                        String[] users = item.getNotilikedby().split(",");
+
+                        vh1.activitydoneby.setText(mTagSelectingTextview.addClickablePart(Capitalize.capitalizeFirstLetter(users[0] + " commented on this."),
+                                this, hashTagHyperLinkDisabled, hastTagColorBlue, users[0].length()),
+                                TextView.BufferType.SPANNABLE);
+
+                    } else {
+                        String[] users = item.getNotilikedby().split(",");
+                        vh1.activitydoneby.setText(mTagSelectingTextview.addClickablePart(Capitalize.capitalizeFirstLetter(users[0]) + " and " + users[1] + " commented on this.",
+                                this, hashTagHyperLinkDisabled, hastTagColorBlue, users[0].length(), users[1].length(), ""),
+                                TextView.BufferType.SPANNABLE);
+
+                    }
                 } else if (item.getHeadertype() == 3) {
                     vh1.headertop.setVisibility(View.VISIBLE);
-                    vh1.activitydoneby.setText("Omid Fatahi");
+                    vh1.activitydoneby.setMovementMethod(LinkMovementMethod.getInstance());
+
+                    if (item.getNotitotallikers() > 2)
+
+                    {
+                        String[] users = item.getNotilikedby().split(",");
+                        vh1.activitydoneby.setText(mTagSelectingTextview.addClickablePart(users[0] + " and " + (item.getNotitotallikers() - 1) + " more mentioned you on this",
+                                this, hashTagHyperLinkDisabled, hastTagColorBlue, users[0].length(), ((item.getNotitotallikers() - 1) + " more").length(), item.getPost_id()),
+                                TextView.BufferType.SPANNABLE);
+
+
+                    } else if (item.getNotitotallikers() == 1) {
+                        String[] users = item.getNotilikedby().split(",");
+
+                        vh1.activitydoneby.setText(mTagSelectingTextview.addClickablePart(Capitalize.capitalizeFirstLetter(users[0] + " mentioned you on this."),
+                                this, hashTagHyperLinkDisabled, hastTagColorBlue, users[0].length()),
+                                TextView.BufferType.SPANNABLE);
+
+                    } else {
+                        String[] users = item.getNotilikedby().split(",");
+                        vh1.activitydoneby.setText(mTagSelectingTextview.addClickablePart(Capitalize.capitalizeFirstLetter(users[0]) + " and " + users[1] + " mentioned you on this.",
+                                this, hashTagHyperLinkDisabled, hastTagColorBlue, users[0].length(), users[1].length(), ""),
+                                TextView.BufferType.SPANNABLE);
+
+                    }
                     // vh1.activitytype.setText("was mentioned in this post.");
                 } else
 
@@ -449,7 +492,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 break;
             case VIEW_TYPE_CONTENT_SHOP_OTHER:
                 // Log.e("colors",item.getColors());
-                 LndProductShopHolder vh3 = (LndProductShopHolder) holder;
+                LndProductShopHolder vh3 = (LndProductShopHolder) holder;
 
 
                 uname = Capitalize.capitalizeFirstLetter(item.getUname());
@@ -648,7 +691,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 vh2 = (LndProductPrivateHolder) holder;
 
 
-                 uname = Capitalize.capitalizeFirstLetter(item.getUname());
+                uname = Capitalize.capitalizeFirstLetter(item.getUname());
                 //end here
                 vh2.description.setMovementMethod(LinkMovementMethod.getInstance());
                 vh2.description.setText(mTagSelectingTextview.addClickablePart(uname + " " + item.getDescription(),
@@ -1260,13 +1303,12 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             } else {
                 if (lineItem.getIssold() == 1) {
-                    if(lineItem.getSwapstatus()==0)
-                    return VIEW_TYPE_CONTENT_SHOP_OTHER;
+                    if (lineItem.getSwapstatus() == 0)
+                        return VIEW_TYPE_CONTENT_SHOP_OTHER;
                     else
                         return VIEW_TYPE_CONTENT_SHOP_ITEM_UNLOKED;
 
-                }
-                    else
+                } else
                     return VIEW_TYPE_CONTENT_SHOP_ITEM_SOLD;
 
             }

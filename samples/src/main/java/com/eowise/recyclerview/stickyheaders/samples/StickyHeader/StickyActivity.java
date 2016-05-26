@@ -100,7 +100,7 @@ public class StickyActivity extends AppCompatActivity {
     private boolean firsttime = true;
     // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
 
-    private Button twitter,facebook;
+    private Button twitter, facebook;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,24 +113,24 @@ public class StickyActivity extends AppCompatActivity {
         instructionview = (LinearLayout) findViewById(R.id.instructionview);
 
         //for twitter
-        twitter= (Button) findViewById(R.id.twitter);
+        twitter = (Button) findViewById(R.id.twitter);
         twitter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Main_TabHost parentActivity;
-                parentActivity = (Main_TabHost)StickyActivity.this.getParent();
+                parentActivity = (Main_TabHost) StickyActivity.this.getParent();
                 parentActivity.twitter();
             }
         });
-         //for facebook
-        facebook= (Button) findViewById(R.id.facebook);
+        //for facebook
+        facebook = (Button) findViewById(R.id.facebook);
         facebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Main_TabHost parentActivity;
-                parentActivity = (Main_TabHost)StickyActivity.this.getParent();
+                parentActivity = (Main_TabHost) StickyActivity.this.getParent();
                 parentActivity.inviteFriends();
             }
         });
@@ -256,7 +256,7 @@ public class StickyActivity extends AppCompatActivity {
     }
 
     private void showInstruction() {
-       Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);  // or however you need to do it for your code
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);  // or however you need to do it for your code
         AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
         params.setScrollFlags(0);
         swipeRefreshLayout.setEnabled(false);
@@ -430,14 +430,20 @@ public class StickyActivity extends AppCompatActivity {
                         //for header
                         if (jo.getInt("noti_type_home") == 1) {
                             hld2.setHeadertype(1);
-                            hld2.setNotitotallikers(jo.getInt("noti_total_likers"));
-                            hld2.setNotilikedby(jo.getString("noti_likedby"));
+                            hld2.setNotitotallikers(jo.getInt("noti_total"));
+                            hld2.setNotilikedby(jo.getString("noti_users"));
 
-                        } else if (jo.getInt("noti_type_home") == 2)
+                        } else if (jo.getInt("noti_type_home") == 2) {
                             hld2.setHeadertype(2);
-                        else if (jo.getInt("noti_type_home") == 3)
+                            hld2.setNotitotallikers(jo.getInt("noti_total"));
+                            hld2.setNotilikedby(jo.getString("noti_users"));
+
+                        } else if (jo.getInt("noti_type_home") == 3) {
                             hld2.setHeadertype(3);
-                        else
+                            hld2.setNotitotallikers(jo.getInt("noti_total"));
+                            hld2.setNotilikedby(jo.getString("noti_users"));
+
+                        } else
                             hld2.setHeadertype(0);
 
                         hld2.setProfilepicurl(jo.getString("profile_pic"));
@@ -469,7 +475,7 @@ public class StickyActivity extends AppCompatActivity {
                     firsttime = false;
 
                 } catch (Exception ex) {
-                    Toast.makeText(getApplicationContext(),ex.getMessage()+"",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), ex.getMessage() + "", Toast.LENGTH_SHORT).show();
                     Log.e("json parsing error", ex.getMessage());
                 }
             }
@@ -526,7 +532,6 @@ public class StickyActivity extends AppCompatActivity {
         }
         return 0;
     }
-
 
 
 }

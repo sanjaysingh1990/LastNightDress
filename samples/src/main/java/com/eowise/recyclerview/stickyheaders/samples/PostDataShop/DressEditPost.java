@@ -142,6 +142,62 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
     @Bind(R.id.chargeactualcostinternational)
     LinearLayout chargeactualcostinternational;
 
+    //for shipping national fixed cost
+    @Bind(R.id.nationalfixedcostservicespinner)
+    Spinner nationalfixedcostservicespinner;
+    @Bind(R.id.nationalfixedcostedittext)
+    EditText nationalfixedcostinputbox;
+    @Bind(R.id.nationfixedcostfreeshipping)
+    CheckBox nationfixedcostfreeshipping;
+
+    //for shipping national actual cost
+    @Bind(R.id.nationalactualcostservicespinner)
+    Spinner nationalactualcostservicespinner;
+
+    @Bind(R.id.nationalactualweightpackagespinner)
+    Spinner nationalactualweightpackagespinner;
+    @Bind(R.id.nationalactualcostfressshipping)
+    CheckBox nationalactualcostfressshipping;
+    @Bind(R.id.nationalactualcostlength)
+    EditText nationalactualcostlength;
+    @Bind(R.id.nationalactualcostwidth)
+    EditText nationalactualcostwidth;
+    @Bind(R.id.nationalactualcostheight)
+    EditText nationalactualcostheight;
+
+    //end here
+
+    //for shipping international actualcost
+
+    @Bind(R.id.internationalactualcostservicespinner)
+    Spinner internationalactualcostservicespinner;
+
+    @Bind(R.id.internationalweightpackagespinner)
+    Spinner internationalweightpackagespinner;
+    @Bind(R.id.internationalactualcostfreeshipping)
+    CheckBox internationalactualcostfreeshipping;
+    @Bind(R.id.internationalactualcostnointernationshipping)
+    CheckBox internationalactualcostnointernationshipping;
+
+    @Bind(R.id.internationalactualcostlength)
+    EditText internationalactualcostlength;
+    @Bind(R.id.internationalactualcostwidth)
+    EditText internationalactualcostwidth;
+    @Bind(R.id.internationalactualcostheight)
+    EditText internationalactualcostheight;
+
+    //for shipping international fixedcost
+    //for shipping national fixed cost
+    @Bind(R.id.internationalfixedcostservicespinner)
+    Spinner internationalfixedcostservicespinner;
+    @Bind(R.id.internationalfixedcostedittext)
+    EditText internationalfixedcostedittext;
+    @Bind(R.id.internationalfixedcostnointernationshipping)
+    CheckBox internationalfixedcostnointernationshipping;
+    @Bind(R.id.internationalfixedcostfreeshipping)
+    CheckBox internationalfixedcostfreeshipping;
+
+    //END HERE
 
     String[] links = {"", "", "", ""};
     ArrayList<String> filename = new ArrayList<>();
@@ -563,29 +619,29 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
 
         if (brand.getText().length() == 0) {
             brand.setError("field is empty");
-          //  brand.requestFocus();
+            //  brand.requestFocus();
             return;
         }
 
         if (desc.getText().length() == 0) {
             desc.setError("field is empty");
-           // desc.requestFocus();
+            // desc.requestFocus();
             return;
         } else if (pricenow.getText().length() == 0) {
             pricenow.setError("field is empty");
-           // pricenow.requestFocus();
+            // pricenow.requestFocus();
             return;
         } else if (pricewas.getText().length() == 0) {
             pricewas.setError("field is empty");
-           // pricewas.requestFocus();
+            // pricewas.requestFocus();
             return;
         } else if (pn < 50) {
             pricenow.setError("minimum price should be 50");
-          //  pricenow.requestFocus();
+            //  pricenow.requestFocus();
             return;
         } else if (pw < pn) {
             pricewas.setError("pricewas must be greater than pricenow");
-           // pricewas.requestFocus();
+            // pricewas.requestFocus();
             return;
         } else if (size) {
             Toast.makeText(this, "select  size", Toast.LENGTH_SHORT).show();
@@ -921,7 +977,7 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
                     //else, open the text keyboard first and immediately after that show the emoji popup
                     else {
                         desc.setFocusableInTouchMode(true);
-                       // desc.requestFocus();
+                        // desc.requestFocus();
                         popup.showAtBottomPending();
                         final InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         inputMethodManager.showSoftInput(desc, InputMethodManager.SHOW_IMPLICIT);
