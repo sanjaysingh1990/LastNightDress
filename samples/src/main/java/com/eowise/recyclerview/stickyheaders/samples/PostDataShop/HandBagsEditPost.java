@@ -63,6 +63,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -70,7 +72,7 @@ import github.ankushsachdeva.emojicon.EmojiconGridView;
 import github.ankushsachdeva.emojicon.EmojiconsPopup;
 import github.ankushsachdeva.emojicon.emoji.Emojicon;
 
-public class HandBagsEditPost extends AppCompatActivity implements View.OnClickListener {
+public class HandBagsEditPost extends LndPostBaseActivity implements View.OnClickListener {
     @Bind({R.id.image1, R.id.image2, R.id.image3, R.id.image4})
     List<ImageView> images;
 
@@ -109,33 +111,17 @@ public class HandBagsEditPost extends AppCompatActivity implements View.OnClickL
     ImageButton emojiButton;
     @Bind(R.id.rootview)
     View rootView;
-    //included layout shipping
-    @Bind(R.id.actualcost1)
-    CheckBox ActualCost1;
-    @Bind(R.id.fixedcost1)
-    CheckBox FixedCost1;
-    @Bind(R.id.actualcost2)
-    CheckBox ActualCost2;
-    @Bind(R.id.fixedcost2)
-    CheckBox FixedCost2;
+
     @Bind(R.id.lndconditontext)
     TextView lnditemcondition;
-    @Bind(R.id.chargefixedcost)
-    LinearLayout chargefixedcost;
-    @Bind(R.id.chargeactualcost)
-    LinearLayout chargeactualcost;
 
-    @Bind(R.id.chargefixedcostinternational)
-    LinearLayout chargefixedcostinternaltional;
-    @Bind(R.id.chargeactualcostinternational)
-    LinearLayout chargeactualcostinternational;
     private Bundle extra;
     ArrayList<String> filename = new ArrayList<>();
     PopupWindow popupWindow;
     InstructionDialogs lndcommistiondialog;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.handbags_post_page);
 
@@ -525,6 +511,9 @@ public class HandBagsEditPost extends AppCompatActivity implements View.OnClickL
         ArrayList<String> pursesize = new ArrayList<>();
         ArrayList<String> pursetype = new ArrayList<>();
         ArrayList<String> pursecolor = new ArrayList<>();
+        ArrayList<String> hashtags = new ArrayList<>();
+        ArrayList<Integer> usermentions = new ArrayList<>();
+
         int pw = 0, pn = 0;
         try {
             pw = Integer.parseInt(pricewas.getText().toString());
@@ -598,7 +587,8 @@ public class HandBagsEditPost extends AppCompatActivity implements View.OnClickL
 
         }
 
-
+        if(!validateShipping())
+            return;
         JSONArray typeArray = new JSONArray(pursetype);
         JSONArray sizeArray = new JSONArray(pursesize);
         JSONArray colorarray = new JSONArray(pursecolor);
@@ -648,6 +638,37 @@ public class HandBagsEditPost extends AppCompatActivity implements View.OnClickL
             mainObj.put("pricenow", pricenow.getText().toString());
             mainObj.put("pricewas", pricewas.getText().toString());
             mainObj.put("datetime", SingleTon.getCurrentTimeStamp());
+            //end of shipping query here
+            querypart1 = querypart1 + ") ";
+            querypart2 = querypart2 + ") ";
+            mainObj.put("shippingquery",querypart1+querypart2);
+
+            //get hashtag and user mentions
+            String text = desc.getText().toString();
+            String regexPattern1 = "(#\\w+)";
+            String regexPattern2 = "(@\\w+)";
+            //get all hashtags
+            Pattern p1 = Pattern.compile(regexPattern1);
+            Matcher m1 = p1.matcher(text);
+            while (m1.find()) {
+                String hashtag = m1.group(1).substring(1);
+                hashtags.add(hashtag);
+            }
+            JSONArray hashtagArray = new JSONArray(hashtags);
+            //get all username mentions
+            p1 = Pattern.compile(regexPattern2);
+            mainObj.put("hashtags", hashtagArray);
+            m1 = p1.matcher(text);
+            while (m1.find()) {
+                String usermention = m1.group(1).substring(1);
+                if (LndTextWatcher.users.containsKey(usermention))
+                    usermentions.add(LndTextWatcher.users.get(usermention));
+            }
+
+            JSONArray usermentionArray = new JSONArray(usermentions);
+            mainObj.put("usermentions", usermentionArray);
+
+
             if (extra == null)
                 postPurse(mainObj.toString());
 
@@ -834,19 +855,5 @@ public class HandBagsEditPost extends AppCompatActivity implements View.OnClickL
     private void changeEmojiKeyboardIcon(ImageView iconToBeChanged, int drawableResourceId) {
         iconToBeChanged.setImageResource(drawableResourceId);
     }
-    private void unselectactualPrice() {
-        ActualCost1.setChecked(false);
-        FixedCost1.setChecked(false);
-        ActualCost1.setTextColor(Color.parseColor("#ffffff"));
-        FixedCost1.setTextColor(Color.parseColor("#ffffff"));
 
-    }
-
-    private void unselectfixedPrice() {
-        FixedCost2.setChecked(false);
-        ActualCost2.setChecked(false);
-        FixedCost2.setTextColor(Color.parseColor("#ffffff"));
-        ActualCost2.setTextColor(Color.parseColor("#ffffff"));
-
-    }
 }

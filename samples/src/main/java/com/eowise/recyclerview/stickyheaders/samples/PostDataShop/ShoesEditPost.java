@@ -65,6 +65,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -72,7 +74,7 @@ import github.ankushsachdeva.emojicon.EmojiconGridView;
 import github.ankushsachdeva.emojicon.EmojiconsPopup;
 import github.ankushsachdeva.emojicon.emoji.Emojicon;
 
-public class ShoesEditPost extends AppCompatActivity implements View.OnClickListener {
+public class ShoesEditPost extends LndPostBaseActivity implements View.OnClickListener {
     @Bind({R.id.size1, R.id.size2, R.id.size3, R.id.size4, R.id.size5, R.id.size6, R.id.size7, R.id.size8, R.id.size9, R.id.size10, R.id.size11, R.id.size12, R.id.size13, R.id.size14, R.id.size15})
     List<CheckBox> shoesize;
     @Bind({R.id.color1, R.id.color2, R.id.color3, R.id.color4, R.id.color5, R.id.color6, R.id.color7, R.id.color8, R.id.color9, R.id.color10, R.id.color11, R.id.color12, R.id.color13, R.id.color14, R.id.color15})
@@ -117,25 +119,6 @@ public class ShoesEditPost extends AppCompatActivity implements View.OnClickList
     ImageButton emojiButton;
     @Bind(R.id.rootview)
     View rootView;
-    //included layout shipping
-    @Bind(R.id.actualcost1)
-    CheckBox ActualCost1;
-    @Bind(R.id.fixedcost1)
-    CheckBox FixedCost1;
-    @Bind(R.id.actualcost2)
-    CheckBox ActualCost2;
-    @Bind(R.id.fixedcost2)
-    CheckBox FixedCost2;
-
-    @Bind(R.id.chargefixedcost)
-    LinearLayout chargefixedcost;
-    @Bind(R.id.chargeactualcost)
-    LinearLayout chargeactualcost;
-
-    @Bind(R.id.chargefixedcostinternational)
-    LinearLayout chargefixedcostinternaltional;
-    @Bind(R.id.chargeactualcostinternational)
-    LinearLayout chargeactualcostinternational;
     int condition = 0;
     int shoetype = 0;
     private Bundle extra;
@@ -145,7 +128,7 @@ public class ShoesEditPost extends AppCompatActivity implements View.OnClickList
     InstructionDialogs lndcommistiondialog;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.shoes_post_page);
 
@@ -514,6 +497,9 @@ public class ShoesEditPost extends AppCompatActivity implements View.OnClickList
         ArrayList<String> shoetype = new ArrayList<>();
         ArrayList<String> shoesize = new ArrayList<>();
         ArrayList<String> shoecolor = new ArrayList<>();
+        ArrayList<String> hashtags = new ArrayList<>();
+        ArrayList<Integer> usermentions = new ArrayList<>();
+
 
         try {
             pw = Integer.parseInt(pricewas.getText().toString());
@@ -586,10 +572,8 @@ public class ShoesEditPost extends AppCompatActivity implements View.OnClickList
             return;
 
         }
-        //taking date time
-        Calendar cal = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
-        String strDate = sdf.format(cal.getTime());
+        if(!validateShipping())
+            return;
 
         JSONArray typeArray = new JSONArray(shoetype);
         JSONArray sizeArray = new JSONArray(shoesize);
@@ -637,12 +621,37 @@ public class ShoesEditPost extends AppCompatActivity implements View.OnClickList
 
             mainObj.put("shoesize", sizeArray);
             mainObj.put("shoetype", typeArray);
-            mainObj.put("datetime", strDate);
+            mainObj.put("datetime", SingleTon.getCurrentTimeStamp());
             mainObj.put("color", colorArray);
             mainObj.put("images", imagesarray);
             mainObj.put("description", desc.getText().toString());
             mainObj.put("pricenow", pricenow.getText().toString());
             mainObj.put("pricewas", pricewas.getText().toString());
+            //get hashtag and user mentions
+            String text = desc.getText().toString();
+            String regexPattern1 = "(#\\w+)";
+            String regexPattern2 = "(@\\w+)";
+            //get all hashtags
+            Pattern p1 = Pattern.compile(regexPattern1);
+            Matcher m1 = p1.matcher(text);
+            while (m1.find()) {
+                String hashtag = m1.group(1).substring(1);
+                hashtags.add(hashtag);
+            }
+            JSONArray hashtagArray = new JSONArray(hashtags);
+            //get all username mentions
+            p1 = Pattern.compile(regexPattern2);
+            mainObj.put("hashtags", hashtagArray);
+            m1 = p1.matcher(text);
+            while (m1.find()) {
+                String usermention = m1.group(1).substring(1);
+                if (LndTextWatcher.users.containsKey(usermention))
+                    usermentions.add(LndTextWatcher.users.get(usermention));
+            }
+
+            JSONArray usermentionArray = new JSONArray(usermentions);
+            mainObj.put("usermentions", usermentionArray);
+
             if (extra == null)
                 postShoe(mainObj.toString());
 
@@ -836,19 +845,5 @@ public class ShoesEditPost extends AppCompatActivity implements View.OnClickList
 
     }
 
-    private void unselectactualPrice() {
-        ActualCost1.setChecked(false);
-        FixedCost1.setChecked(false);
-        ActualCost1.setTextColor(Color.parseColor("#ffffff"));
-        FixedCost1.setTextColor(Color.parseColor("#ffffff"));
 
-    }
-
-    private void unselectfixedPrice() {
-        FixedCost2.setChecked(false);
-        ActualCost2.setChecked(false);
-        FixedCost2.setTextColor(Color.parseColor("#ffffff"));
-        ActualCost2.setTextColor(Color.parseColor("#ffffff"));
-
-    }
 }

@@ -65,6 +65,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -72,7 +74,7 @@ import github.ankushsachdeva.emojicon.EmojiconGridView;
 import github.ankushsachdeva.emojicon.EmojiconsPopup;
 import github.ankushsachdeva.emojicon.emoji.Emojicon;
 
-public class JewelleryEditPost extends AppCompatActivity implements View.OnClickListener {
+public class JewelleryEditPost extends LndPostBaseActivity implements View.OnClickListener {
     @Bind({R.id.image1, R.id.image2, R.id.image3, R.id.image4})
     List<ImageView> images;
 
@@ -112,25 +114,7 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
     ImageButton emojiButton;
     @Bind(R.id.rootview)
     View rootView;
-    //included layout shipping
-    @Bind(R.id.actualcost1)
-    CheckBox ActualCost1;
-    @Bind(R.id.fixedcost1)
-    CheckBox FixedCost1;
-    @Bind(R.id.actualcost2)
-    CheckBox ActualCost2;
-    @Bind(R.id.fixedcost2)
-    CheckBox FixedCost2;
 
-    @Bind(R.id.chargefixedcost)
-    LinearLayout chargefixedcost;
-    @Bind(R.id.chargeactualcost)
-    LinearLayout chargeactualcost;
-
-    @Bind(R.id.chargefixedcostinternational)
-    LinearLayout chargefixedcostinternaltional;
-    @Bind(R.id.chargeactualcostinternational)
-    LinearLayout chargeactualcostinternational;
     @Bind(R.id.lndconditontext)
     TextView lnditemcondition;
 
@@ -146,7 +130,7 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
     InstructionDialogs lndcommistiondialog;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.jewellery_post_page);
         //intialiaing dialog
@@ -330,7 +314,7 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
             //metal
 
             String[] jewellerymetal = hld.getColors().split(",");
-             for (int i = 0; i < jewellerymetal.length; i++) {
+            for (int i = 0; i < jewellerymetal.length; i++) {
                 int index = Arrays.asList(ConstantValues.metaltype).indexOf(jewellerymetal[i]);
                 this.metaltype.get(index - 1).setChecked(true);
 
@@ -610,6 +594,9 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
         int pw = 0, pn = 0;
         ArrayList<String> ringsize = new ArrayList<>();
         ArrayList<String> metaltype = new ArrayList<>();
+        ArrayList<String> hashtags = new ArrayList<>();
+        ArrayList<Integer> usermentions = new ArrayList<>();
+
 
         try {
             pw = Integer.parseInt(pricewas.getText().toString());
@@ -684,7 +671,8 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
             return;
 
         }
-
+        if (!validateShipping())
+            return;
 
         JSONArray sizeArray = new JSONArray(ringsize);
         JSONArray metalArray = new JSONArray(metaltype);
@@ -737,6 +725,31 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
             mainObj.put("pricewas", pricewas.getText().toString());
             mainObj.put("metaltype", metalArray);
             mainObj.put("images", imagesarray);
+            //get hashtag and user mentions
+            String text = desc.getText().toString();
+            String regexPattern1 = "(#\\w+)";
+            String regexPattern2 = "(@\\w+)";
+            //get all hashtags
+            Pattern p1 = Pattern.compile(regexPattern1);
+            Matcher m1 = p1.matcher(text);
+            while (m1.find()) {
+                String hashtag = m1.group(1).substring(1);
+                hashtags.add(hashtag);
+            }
+            JSONArray hashtagArray = new JSONArray(hashtags);
+            //get all username mentions
+            p1 = Pattern.compile(regexPattern2);
+            mainObj.put("hashtags", hashtagArray);
+            m1 = p1.matcher(text);
+            while (m1.find()) {
+                String usermention = m1.group(1).substring(1);
+                if (LndTextWatcher.users.containsKey(usermention))
+                    usermentions.add(LndTextWatcher.users.get(usermention));
+            }
+
+            JSONArray usermentionArray = new JSONArray(usermentions);
+            mainObj.put("usermentions", usermentionArray);
+
             if (extra == null)
                 jewelleryPost(mainObj.toString());
 
@@ -925,19 +938,5 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
         iconToBeChanged.setImageResource(drawableResourceId);
     }
 
-    private void unselectactualPrice() {
-        ActualCost1.setChecked(false);
-        FixedCost1.setChecked(false);
-        ActualCost1.setTextColor(Color.parseColor("#ffffff"));
-        FixedCost1.setTextColor(Color.parseColor("#ffffff"));
 
-    }
-
-    private void unselectfixedPrice() {
-        FixedCost2.setChecked(false);
-        ActualCost2.setChecked(false);
-        FixedCost2.setTextColor(Color.parseColor("#ffffff"));
-        ActualCost2.setTextColor(Color.parseColor("#ffffff"));
-
-    }
 }

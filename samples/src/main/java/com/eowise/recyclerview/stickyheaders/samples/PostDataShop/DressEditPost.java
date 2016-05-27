@@ -78,7 +78,7 @@ import github.ankushsachdeva.emojicon.EmojiconGridView;
 import github.ankushsachdeva.emojicon.EmojiconsPopup;
 import github.ankushsachdeva.emojicon.emoji.Emojicon;
 
-public class DressEditPost extends AppCompatActivity implements View.OnClickListener {
+public class DressEditPost extends LndPostBaseActivity implements View.OnClickListener {
     @Bind({R.id.size1, R.id.size2, R.id.size3, R.id.size4, R.id.size5, R.id.size6, R.id.size7})
     List<CheckBox> lnddresssize1;
 
@@ -127,82 +127,7 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
     @Bind(R.id.autocomplete)
     MultiAutoCompleteTextView desc;
 
-    //included layout shipping
-    @Bind(R.id.actualcost1)
-    CheckBox ActualCost1;
-    @Bind(R.id.fixedcost1)
-    CheckBox FixedCost1;
-    @Bind(R.id.actualcost2)
-    CheckBox ActualCost2;
-    @Bind(R.id.fixedcost2)
-    CheckBox FixedCost2;
 
-    @Bind(R.id.chargefixedcost)
-    LinearLayout chargefixedcost;
-    @Bind(R.id.chargeactualcost)
-    LinearLayout chargeactualcost;
-
-    @Bind(R.id.chargefixedcostinternational)
-    LinearLayout chargefixedcostinternaltional;
-    @Bind(R.id.chargeactualcostinternational)
-    LinearLayout chargeactualcostinternational;
-
-    //for shipping national fixed cost
-    @Bind(R.id.nationalfixedcostservicespinner)
-    Spinner nationalfixedcostservicespinner;
-    @Bind(R.id.nationalfixedcostedittext)
-    EditText nationalfixedcostinputbox;
-    @Bind(R.id.nationfixedcostfreeshipping)
-    CheckBox nationalfixedcostfreeshipping;
-
-    //for shipping national actual cost
-    @Bind(R.id.nationalactualcostservicespinner)
-    Spinner nationalactualcostservicespinner;
-
-    @Bind(R.id.nationalactualweightpackagespinner)
-    Spinner nationalactualweightpackagespinner;
-    @Bind(R.id.nationalactualcostfressshipping)
-    CheckBox nationalactualcostfressshipping;
-    @Bind(R.id.nationalactualcostlength)
-    EditText nationalactualcostlength;
-    @Bind(R.id.nationalactualcostwidth)
-    EditText nationalactualcostwidth;
-    @Bind(R.id.nationalactualcostheight)
-    EditText nationalactualcostheight;
-
-    //end here
-
-    //for shipping international actualcost
-
-    @Bind(R.id.internationalactualcostservicespinner)
-    Spinner internationalactualcostservicespinner;
-
-    @Bind(R.id.internationalweightpackagespinner)
-    Spinner internationalweightpackagespinner;
-    @Bind(R.id.internationalactualcostfreeshipping)
-    CheckBox internationalactualcostfreeshipping;
-    @Bind(R.id.internationalactualcostnointernationshipping)
-    CheckBox internationalactualcostnointernationshipping;
-
-    @Bind(R.id.internationalactualcostlength)
-    EditText internationalactualcostlength;
-    @Bind(R.id.internationalactualcostwidth)
-    EditText internationalactualcostwidth;
-    @Bind(R.id.internationalactualcostheight)
-    EditText internationalactualcostheight;
-
-    //for shipping international fixedcost
-    //for shipping national fixed cost
-    @Bind(R.id.internationalfixedcostservicespinner)
-    Spinner internationalfixedcostservicespinner;
-    @Bind(R.id.internationalfixedcostedittext)
-    EditText internationalfixedcostedittext;
-    @Bind(R.id.internationalfixedcostnointernationshipping)
-    CheckBox internationalfixedcostnointernationshipping;
-    @Bind(R.id.internationalfixedcostfreeshipping)
-    CheckBox internationalfixedcostfreeshipping;
-
-    //END HERE
 
     String[] links = {"", "", "", ""};
     ArrayList<String> filename = new ArrayList<>();
@@ -213,7 +138,7 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
     InstructionDialogs lndcommistiondialog;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dress_post_page);
         //intialiaing dialog
@@ -356,13 +281,15 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
 
 
     }
+
     private void updateKeyboardStatusText(boolean isOpen) {
-        if(isOpen)
+        if (isOpen)
             lndpostdress.setVisibility(View.GONE);
         else
             lndpostdress.setVisibility(View.VISIBLE);
 
     }
+
     private void setValues(Home_List_Data hld) {
         //set images
         for (int i = 0; i < hld.getImageurls().size(); i++) {
@@ -552,14 +479,17 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
                 ((CheckBox) v).setTextColor(Color.parseColor("#ffffff"));
                 chargeactualcost.setVisibility(View.VISIBLE);
                 chargefixedcost.setVisibility(View.GONE);
+                nationalfixedcostfreeshipping.setChecked(false);
                 break;
             case R.id.actualcost2:
-               // unselectfixedPrice();
+                // unselectfixedPrice();
                 FixedCost2.setChecked(false);
                 ((CheckBox) v).setTextColor(Color.parseColor("#ffffff"));
                 chargeactualcostinternational.setVisibility(View.VISIBLE);
                 chargefixedcostinternaltional.setVisibility(View.GONE);
-                
+                internationalfixedcostfreeshipping.setChecked(false);
+                internationalfixedcostnointernationshipping.setChecked(false);
+
                 break;
             case R.id.fixedcost1:
 
@@ -568,14 +498,18 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
                 ((CheckBox) v).setTextColor(Color.parseColor("#ffffff"));
                 chargeactualcost.setVisibility(View.GONE);
                 chargefixedcost.setVisibility(View.VISIBLE);
+                nationalactualcostfressshipping.setChecked(false);
 
                 break;
             case R.id.fixedcost2:
-               // unselectfixedPrice();
+                // unselectfixedPrice();
                 ActualCost2.setChecked(false);
                 ((CheckBox) v).setTextColor(Color.parseColor("#ffffff"));
                 chargeactualcostinternational.setVisibility(View.GONE);
                 chargefixedcostinternaltional.setVisibility(View.VISIBLE);
+                internationalactualcostfreeshipping
+                        .setChecked(false);
+                internationalactualcostnointernationshipping.setChecked(false);
 
                 break;
 
@@ -682,114 +616,9 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
             Toast.makeText(this, "select condition", Toast.LENGTH_SHORT).show();
             return;
 
-    }
-        String querypart1="insert into table(";
-        String querypart2=" values(";
-        //for shipping national fixed cost
-         if (FixedCost1.isChecked() && !(nationalfixedcostfreeshipping.isChecked())) {
-            if (nationalfixedcostservicespinner.getSelectedItemPosition() == 0) {
-
-                Toast.makeText(this, "select national shipping service", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            else
-            {
-                querypart1=querypart1+"service_type_national";
-                querypart2=querypart2+"\""+nationalfixedcostservicespinner.getSelectedItem()+"\"";
-            }
-             if (nationalfixedcostinputbox.getText().length() == 0) {
-                nationalfixedcostinputbox.requestFocus();
-                nationalfixedcostinputbox.setError("enter charge fixed cost");
-                return;
-            }
-             else
-             {
-                 querypart1=querypart1+",charge_cost_national";
-                 querypart2=querypart2+","+nationalfixedcostinputbox.getText();
-             }
         }
-        //for shipping national actual cost
-         if (ActualCost1.isChecked() && !(nationalactualcostfressshipping.isChecked())) {
-
-            if (nationalactualweightpackagespinner.getSelectedItemPosition() == 0) {
-                Toast.makeText(this, "select weight of packaged item" + condition, Toast.LENGTH_SHORT).show();
-                return;
-            }
-             else
-            {
-                querypart1=querypart1+"package_weight_national";
-            }
-             if (nationalactualcostlength.getText().length() == 0) {
-                nationalactualcostlength.requestFocus();
-                nationalactualcostlength.setError("Length ?");
-                return;
-            }
-             else
-             {
-                 querypart1=querypart1+",length_national";
-             }
-             if (nationalactualcostwidth.getText().length() == 0) {
-                nationalactualcostwidth.requestFocus();
-                nationalactualcostwidth.setError("Width ?");
-                return;
-            }
-             else
-                 querypart1=querypart1+",width_national";
-
-             if (nationalactualcostheight.getText().length() == 0) {
-                nationalactualcostheight.requestFocus();
-                nationalactualcostheight.setError("Height ?");
-                return;
-            }
-             else
-                 querypart1=querypart1+",height_national";
-
-             if (nationalactualcostservicespinner.getSelectedItemPosition() == 0) {
-
-                Toast.makeText(this, "select national shipping service", Toast.LENGTH_SHORT).show();
-                return;
-            }
-             else
-                 querypart1=querypart1+"service_type_national";
-        }
-        //for shipping international fixed cost
-         if (FixedCost2.isChecked() && !((internationalfixedcostfreeshipping.isChecked()||internationalfixedcostnointernationshipping.isChecked()))) {
-            if (internationalfixedcostservicespinner.getSelectedItemPosition() == 0) {
-
-                Toast.makeText(this, "select international shipping service", Toast.LENGTH_SHORT).show();
-                return;
-            } else if (internationalfixedcostedittext.getText().length() == 0) {
-                internationalfixedcostedittext.requestFocus();
-                internationalfixedcostedittext.setError("enter charge fixed cost");
-                return;
-            }
-        }
-        //for shipping international actual cost
-         if (ActualCost2.isChecked() && !((internationalactualcostfreeshipping.isChecked()||internationalactualcostnointernationshipping.isChecked()))) {
-
-            if (internationalweightpackagespinner.getSelectedItemPosition() == 0) {
-                Toast.makeText(this, "select weight of packaged item", Toast.LENGTH_SHORT).show();
-                return;
-            } else if (internationalactualcostlength.getText().length() == 0) {
-                internationalactualcostlength.requestFocus();
-                internationalactualcostlength.setError("Length ?");
-                return;
-            } else if (internationalactualcostwidth.getText().length() == 0) {
-                internationalactualcostwidth.requestFocus();
-                internationalactualcostwidth.setError("Width ?");
-                return;
-            } else if (internationalactualcostheight.getText().length() == 0) {
-                internationalactualcostheight.requestFocus();
-                internationalactualcostheight.setError("Height ?");
-                return;
-            } else if (internationalactualcostservicespinner.getSelectedItemPosition() == 0) {
-
-                Toast.makeText(this, "select international shipping service", Toast.LENGTH_SHORT).show();
-                return;
-            }
-        }
-        Toast.makeText(this,nationalfixedcostfreeshipping.isChecked()+"",Toast.LENGTH_SHORT).show();
-
+      if(!validateShipping())
+          return;
         JSONArray dressArray = new JSONArray(dresssize);
         JSONArray colorArray = new JSONArray(dresscolor);
 
@@ -844,6 +673,11 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
             mainObj.put("pricenow", pricenow.getText().toString());
             mainObj.put("pricewas", pricewas.getText().toString());
             mainObj.put("datetime", SingleTon.getCurrentTimeStamp());
+            mainObj.put("datetime", SingleTon.getCurrentTimeStamp());
+            //end of shipping query here
+            querypart1 = querypart1 + ") ";
+            querypart2 = querypart2 + ") ";
+            mainObj.put("shippingquery",querypart1+querypart2);
 
             //get hashtag and user mentions
             String text = desc.getText().toString();
@@ -872,14 +706,13 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
 
 
             if (extra == null) {
-                //uploadDress(mainObj.toString());
+                uploadDress(mainObj.toString());
 
             }
             //end query here
-            querypart1=querypart1+") ";
-            querypart2=querypart2+") ";
+
             Log.e("json", mainObj.toString());
-            Log.e("json2",querypart1+querypart2);
+            Log.e("json2", querypart1 + querypart2);
         } catch (Exception ex) {
             Log.e("json error", ex.getMessage() + "");
         }
@@ -1134,21 +967,7 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
         iconToBeChanged.setImageResource(drawableResourceId);
     }
 
-    private void unselectactualPrice() {
-        ActualCost1.setChecked(false);
-        FixedCost1.setChecked(false);
-        ActualCost1.setTextColor(Color.parseColor("#ffffff"));
-        FixedCost1.setTextColor(Color.parseColor("#ffffff"));
 
-    }
-
-    private void unselectfixedPrice() {
-        FixedCost2.setChecked(false);
-        ActualCost2.setChecked(false);
-        FixedCost2.setTextColor(Color.parseColor("#ffffff"));
-        ActualCost2.setTextColor(Color.parseColor("#ffffff"));
-
-    }
 
     @Override
     protected void onStart() {

@@ -390,7 +390,7 @@
                 android:padding="12dp"
                 android:text="charge actual cost"
                 android:textColor="#ffffff"
-
+                android:checked="true"
                 />
 
             <CheckBox
@@ -404,7 +404,7 @@
                 android:padding="12dp"
                 android:text="charge a fixed cost"
                 android:textColor="@color/white"
-                android:checked="true"
+
                 />
 
         </LinearLayout>

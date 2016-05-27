@@ -55,7 +55,7 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".Splash"
+            android:name="com.eowise.recyclerview.stickyheaders.samples.Splash"
             android:screenOrientation="portrait"
             android:theme="@style/AppFullScreenTheme"
             android:windowSoftInputMode="adjustPan">
@@ -305,22 +305,22 @@
             android:name=".PrivatePost.DressPostPrivate"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateVisible|adjustPan" />
+            android:windowSoftInputMode="stateHidden|adjustPan|stateAlwaysHidden" />
         <activity
             android:name=".PrivatePost.HandBagsPostPrivate"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateVisible|adjustPan" />
+            android:windowSoftInputMode="stateHidden|adjustPan|stateAlwaysHidden" />
         <activity
             android:name=".PrivatePost.JewelleryPostPrivate"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateVisible|adjustPan" />
+            android:windowSoftInputMode="stateHidden|adjustPan|stateAlwaysHidden" />
         <activity
             android:name=".PrivatePost.ShoesPostPrivate"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateVisible|adjustPan" />
+            android:windowSoftInputMode="stateHidden|adjustPan|stateAlwaysHidden"/>
         <activity
             android:name=".UserProfile.LndLoginSignup"
             android:screenOrientation="portrait"

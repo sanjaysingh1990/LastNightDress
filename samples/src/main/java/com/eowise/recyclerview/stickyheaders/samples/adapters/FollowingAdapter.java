@@ -128,6 +128,8 @@ public class FollowingAdapter extends RecyclerView.Adapter<FollowingAdapter.View
             {
                 Intent otherlnduser=new Intent(mContext, OtherUserProfileActivity.class);
                 otherlnduser.putExtra("uname",items.get(getAdapterPosition()).getUname());
+                otherlnduser.putExtra("user_id","-1");
+
                 mContext.startActivity(otherlnduser);
             }
             }

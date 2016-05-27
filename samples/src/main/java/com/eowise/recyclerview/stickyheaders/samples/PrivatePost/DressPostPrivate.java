@@ -43,6 +43,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost.CameraReviewFragment;
 import com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost.CompressImage;
+import com.eowise.recyclerview.stickyheaders.samples.PostDataShop.LndPostBaseActivity;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.PostDataShop.Lnd_Post_Instruction;
 import com.eowise.recyclerview.stickyheaders.samples.R;
@@ -71,7 +72,7 @@ import github.ankushsachdeva.emojicon.EmojiconGridView;
 import github.ankushsachdeva.emojicon.EmojiconsPopup;
 import github.ankushsachdeva.emojicon.emoji.Emojicon;
 
-public class DressPostPrivate extends AppCompatActivity implements View.OnClickListener {
+public class DressPostPrivate extends LndPostBaseActivityPrivate implements View.OnClickListener {
     @Bind({R.id.size1, R.id.size2, R.id.size3, R.id.size4, R.id.size5, R.id.size6, R.id.size7, R.id.numsize1, R.id.numsize2, R.id.numsize3, R.id.numsize4, R.id.numsize5, R.id.numsize6, R.id.numsize7, R.id.numsize8, R.id.numsize9, R.id.numsize10, R.id.numsize11, R.id.numsize12})
     List<TextView> dresssize;
     @Bind(R.id.dresstype1)
@@ -127,25 +128,7 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
     @Bind(R.id.conditionspinner)
     Spinner conditionspinner;
 
-    //included layout shipping
-    @Bind(R.id.actualcost1)
-    CheckBox ActualCost1;
-    @Bind(R.id.fixedcost1)
-    CheckBox FixedCost1;
-    @Bind(R.id.actualcost2)
-    CheckBox ActualCost2;
-    @Bind(R.id.fixedcost2)
-    CheckBox FixedCost2;
 
-    @Bind(R.id.chargefixedcost)
-    LinearLayout chargefixedcost;
-    @Bind(R.id.chargeactualcost)
-    LinearLayout chargeactualcost;
-
-    @Bind(R.id.chargefixedcostinternational)
-    LinearLayout chargefixedcostinternaltional;
-    @Bind(R.id.chargeactualcostinternational)
-    LinearLayout chargeactualcostinternational;
     String[] links = {"", "", "", ""};
     ArrayList<String> filename = new ArrayList<>();
     PopupWindow popupWindow;
@@ -153,7 +136,7 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dress_post_page);
         //intialiaing dialog
@@ -595,10 +578,14 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
             Toast.makeText(this, "select color", Toast.LENGTH_SHORT).show();
             return;
         }
+        if(!validateShipping())
+            return;
+
         dresssize.add(sizetype);
         dresscolor.add(colortype);
         JSONArray dressArray = new JSONArray(dresssize);
         JSONArray colorArray = new JSONArray(dresscolor);
+
         try {
             //image1 json
             JSONObject image1 = new JSONObject();
@@ -650,6 +637,11 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
             mainObj.put("pricenow", pricenow.getText().toString());
             mainObj.put("pricewas", pricewas.getText().toString());
             mainObj.put("datetime", SingleTon.getCurrentTimeStamp());
+            //end of shipping query here
+            querypart1 = querypart1 + ") ";
+            querypart2 = querypart2 + ") ";
+            mainObj.put("shippingquery",querypart1+querypart2);
+
             //get hashtag and user mentions
             String text = desc.getText().toString();
             String regexPattern1 = "(#\\w+)";
@@ -674,7 +666,7 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
 
             JSONArray usermentionArray = new JSONArray(usermentions);
             mainObj.put("usermentions", usermentionArray);
-            uploadImage(mainObj.toString());
+           // uploadImage(mainObj.toString());
 
             Log.e("json", mainObj.toString());
         } catch (Exception ex) {
@@ -962,19 +954,5 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
     private void changeEmojiKeyboardIcon(ImageView iconToBeChanged, int drawableResourceId) {
         iconToBeChanged.setImageResource(drawableResourceId);
     }
-    private void unselectactualPrice() {
-        ActualCost1.setChecked(false);
-        FixedCost1.setChecked(false);
-        ActualCost1.setTextColor(Color.parseColor("#ffffff"));
-        FixedCost1.setTextColor(Color.parseColor("#ffffff"));
 
-    }
-
-    private void unselectfixedPrice() {
-        FixedCost2.setChecked(false);
-        ActualCost2.setChecked(false);
-        FixedCost2.setTextColor(Color.parseColor("#ffffff"));
-        ActualCost2.setTextColor(Color.parseColor("#ffffff"));
-
-    }
 }

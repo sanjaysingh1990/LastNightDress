@@ -208,7 +208,10 @@ public class Home_List_Data implements Serializable {
         this.sectionManager = sectionManager;
         this.sectionFirstPosition = sectionFirstPosition;
     }
+public Home_List_Data()
+{
 
+}
     public Home_List_Data(String text, String sectiontype, int sectionManager,
                           int sectionFirstPosition) {
         this.sectiontype = sectiontype;

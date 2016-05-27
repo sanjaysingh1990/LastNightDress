@@ -1623,7 +1623,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public EmojiconTextView description;
         public TextView price_was, price_now;
         public ImageButton msgtouser, favorates, sendto;
-        public TextView buy;
+        public TextView buy,swap;
         public TextView likescount;
         public TextView condition;
         public TextView comment;
@@ -1656,6 +1656,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             buy = (TextView) itemView.findViewById(R.id.buy);
             comment = (TextView) itemView.findViewById(R.id.comment);
             time = (RelativeTimeTextView) view.findViewById(R.id.time);
+            swap = (TextView) itemView.findViewById(R.id.swap);
 
             likescount = (TextView) view.findViewById(R.id.likescount);
             condition = (TextView) view.findViewById(R.id.condition);
@@ -1678,6 +1679,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             this.msgtouser.setOnClickListener(this);
             this.favorates.setOnClickListener(this);
             this.comment.setOnClickListener(this);
+            this.swap.setOnClickListener(this);
 
 
         }
