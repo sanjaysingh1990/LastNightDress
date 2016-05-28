@@ -124,6 +124,8 @@ public class LndUserDescriptionFragment extends Fragment implements View.OnClick
                         edit.putString("utype",jobj.getString("type"));
                         edit.putString("country",jobj.getString("country"));
                         edit.putString("imageurl", jobj.getString("imageurl"));
+                        edit.putString("ref_code",jobj.getString("ref_code"));
+                        Log.e("code",jobj.getString("ref_code"));
                         edit.commit();
                         LndLoginSignup.currentpage = 6;
                         //current page value on stack;

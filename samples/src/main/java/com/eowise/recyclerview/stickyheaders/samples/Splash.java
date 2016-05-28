@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.os.Bundle;
 
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
@@ -42,6 +43,8 @@ public class Splash extends AppCompatActivity {
         } catch (NoSuchAlgorithmException e) {
             Log.e("error",e.getMessage());
         }*/
+
+
 
        new Thread(new Runnable() {
             @Override

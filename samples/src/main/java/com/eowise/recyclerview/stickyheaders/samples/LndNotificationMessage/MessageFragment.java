@@ -92,13 +92,16 @@ public class MessageFragment extends Fragment {
 
     public static RecyclerView mRecyclerView;
     private LinearLayout indicator;
-    private RecyclerView.LayoutManager mLayoutManager;
+    private LinearLayoutManager mLayoutManager;
     public static RecyclerView.Adapter mAdapter;
     private RecyclerView.Adapter mWrappedAdapter;
     private RecyclerViewSwipeManager mRecyclerViewSwipeManager;
     private RecyclerViewTouchActionGuardManager mRecyclerViewTouchActionGuardManager;
     static MessageSwipeableItemAdapter2 myItemAdapter;
     private boolean firsttime = true;
+    int pastVisiblesItems, visibleItemCount, totalItemCount;
+    boolean loading = true;
+    private int skipdata = 0;
 
     public MessageFragment() {
         super();
@@ -123,7 +126,7 @@ public class MessageFragment extends Fragment {
 
 
         mRecyclerView = (RecyclerView) getView().findViewById(R.id.recycler_view);
-        mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        mLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
 
         // touch guard manager  (this class is required to suppress scrolling while swipe-dismiss animation is running)
         mRecyclerViewTouchActionGuardManager = new RecyclerViewTouchActionGuardManager();
@@ -191,6 +194,29 @@ public class MessageFragment extends Fragment {
 
         indicator = (LinearLayout) getView().findViewById(R.id.indicator);
         instructiontextview = (TextView) getView().findViewById(R.id.instructiontextview);
+        //load more
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0) //check for scroll down
+                {
+                    visibleItemCount = mLayoutManager.getChildCount();
+                    totalItemCount = mLayoutManager.getItemCount();
+                    pastVisiblesItems = mLayoutManager.findFirstVisibleItemPosition();
+
+                    if (loading) {
+                        if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                            loading = false;
+
+                             getData();
+                            //Toast.makeText(getActivity(), "called", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }
+            }
+        });
+
+
         applySpannable();
         getData();
 
@@ -325,7 +351,11 @@ public class MessageFragment extends Fragment {
                         mAdapter.notifyDataSetChanged();
 
                     }
-
+                    skipdata = mProvider.getCount();
+                    if (jarray.length() < 25)
+                        loading = false;
+                    else
+                        loading = true;
                     firsttime = false;
                 } catch (Exception ex) {
                     Log.e("json parsing error", ex.getMessage() + "");
@@ -343,7 +373,7 @@ public class MessageFragment extends Fragment {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("rqid", "4");
                 params.put("user_id", SingleTon.pref.getString("user_id", ""));
-                params.put("skipdata", 0 + "");
+                params.put("skipdata", skipdata + "");
 
                 return params;
             }

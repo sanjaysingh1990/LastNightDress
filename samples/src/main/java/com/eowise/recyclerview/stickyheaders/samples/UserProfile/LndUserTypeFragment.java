@@ -49,13 +49,13 @@ public class LndUserTypeFragment extends Fragment implements View.OnClickListene
                 LndLoginSignup.currentpage=5;
                 //current page value on stack;
                 LndLoginSignup.currenttab.push(2);
-                LndLoginSignup.mViewPager.setCurrentItem(3);
+                LndLoginSignup.mViewPager.setCurrentItem(4);
                 break;
             case R.id.privateuser:
                 LndLoginSignup.currentpage=3;
                 //current page value on stack;
                 LndLoginSignup.currenttab.push(2);
-                LndLoginSignup.mViewPager.setCurrentItem(4);
+                LndLoginSignup.mViewPager.setCurrentItem(3);
                 break;
         }
     }

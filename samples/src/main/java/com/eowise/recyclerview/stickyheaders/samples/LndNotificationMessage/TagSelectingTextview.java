@@ -127,7 +127,7 @@ public class TagSelectingTextview {
 
                     // color for the hash tag
                     ds.setColor(Color.parseColor(mhastTagColor));
-
+                    ds.setTextSize(15);
                     if (mHypeLinkEnabled == 0) {
                         ds.setUnderlineText(false);// Disable the
                         // underline for
@@ -236,6 +236,7 @@ public class TagSelectingTextview {
 
                     // color for the hash tag
                     ds.setColor(Color.parseColor(mhastTagColor));
+                    ds.setTextSize(6);
 
                     if (mHypeLinkEnabled == 0) {
                         ds.setUnderlineText(false);// Disable the
@@ -360,7 +361,7 @@ public class TagSelectingTextview {
                 // color for the hash tag
                 ds.setColor(Color.parseColor("#dadada"));
                 ds.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
-                ds.setTextSize(22.0f);
+                ds.setTextSize(16.0f);
                 if (mHypeLinkEnabled == 0) {
                     ds.setUnderlineText(false);// Disable the
                     // underline for

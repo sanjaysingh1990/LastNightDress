@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -52,9 +53,6 @@ import com.facebook.share.widget.AppInviteDialog;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
@@ -72,7 +70,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 
-import cz.msebera.android.httpclient.Header;
 import io.fabric.sdk.android.Fabric;
 
 public class Main_TabHost extends AppCompatActivity {
@@ -95,7 +92,6 @@ public class Main_TabHost extends AppCompatActivity {
     private GoogleCloudMessaging gcmObj;
     private String regId = "";
     public static final String REG_ID = "regId";
-    RequestParams params = new RequestParams();
     private static final String TWITTER_KEY = "4OuMi2Mc6KRBSrRpMskHyhWqh";
     private static final String TWITTER_SECRET = "X7642MPH314iPB04eZEiNiqjdAixj7lS8OglLeD8AUFr0TP1F1";
     public static TwitterLoginButton loginButton;
@@ -660,59 +656,43 @@ public class Main_TabHost extends AppCompatActivity {
     }
 
     private void storeRegIdinServer() {
+     final   String android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(),
+                Settings.Secure.ANDROID_ID);
 
-        params.put("regid", regId);
-        params.put("user_id", SingleTon.pref.getString("user_id", "'"));
-        params.put("devicetype", "android");
-        params.put("datetime", SingleTon.getCurrentTimeStamp());
-        params.put("rqid", "1");
+        RequestQueue queue = Volley.newRequestQueue(this);
+        StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+               Toast.makeText(Main_TabHost.this,"called",Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
 
-        // Make RESTful webservice call using AsyncHttpClient object
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.post(ApplicationConstants.APP_SERVER_URL, params,
-                new AsyncHttpResponseHandler() {
-                    // When the response returned by REST has Http
-                    // response code '200'
+                Log.e("response", error.getMessage() + "");
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("regid", regId);
+                params.put("user_id", SingleTon.pref.getString("user_id", "'"));
+                params.put("devicetype", "android");
+                params.put("datetime", SingleTon.getCurrentTimeStamp());
+                params.put("physical_device_id",android_id);
+                params.put("rqid", "1");
+                return params;
+            }
 
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                return params;
+            }
+        };
+        queue.add(sr);
 
-                        // showPopup("your device is ready to receive notification",View.VISIBLE);
-
-                    }
-
-
-                    // When the response returned by REST has Http
-                    // response code other than '200' such as '404',
-                    // '500' or '403' etc
-
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
-                        // When Http response code is '404'
-                        if (statusCode == 404) {
-                            Toast.makeText(getApplicationContext(),
-                                    "Requested resource not found",
-                                    Toast.LENGTH_LONG).show();
-                        }
-                        // When Http response code is '500'
-                        else if (statusCode == 500) {
-                            Toast.makeText(getApplicationContext(),
-                                    "Something went wrong at server end",
-                                    Toast.LENGTH_LONG).show();
-                        }
-                        // When Http response code other than 404, 500
-                        else {
-                            Toast.makeText(
-                                    getApplicationContext(),
-                                    "Unexpected Error occcured! [Most common Error: Device might "
-                                            + "not be connected to Internet or remote server is not up and running], check for other errors as well",
-                                    Toast.LENGTH_LONG).show();
-                        }
-
-                    }
-
-                });
     }
     public void twitter()
     {

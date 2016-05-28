@@ -88,12 +88,14 @@ public class NotificationFragment extends Fragment {
     private boolean mCanSwipeLeft;
 
     public static RecyclerView mRecyclerView;
-    private RecyclerView.LayoutManager mLayoutManager;
+    private LinearLayoutManager mLayoutManager;
     public static RecyclerView.Adapter mAdapter;
     private RecyclerView.Adapter mWrappedAdapter;
     private RecyclerViewSwipeManager mRecyclerViewSwipeManager;
     private RecyclerViewTouchActionGuardManager mRecyclerViewTouchActionGuardManager;
-
+    int pastVisiblesItems, visibleItemCount, totalItemCount;
+    boolean loading = true;
+    private int skipdata = 0;
     public NotificationFragment() {
         super();
     }
@@ -176,6 +178,28 @@ public class NotificationFragment extends Fragment {
 //        mRecyclerViewSwipeManager.setReturnToDefaultPositionAnimationDuration(2000);
         indicator = (LinearLayout) getView().findViewById(R.id.indicator);
         instructiontextview = (TextView) getView().findViewById(R.id.instructiontextview);
+       //for load more
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0) //check for scroll down
+                {
+                    visibleItemCount = mLayoutManager.getChildCount();
+                    totalItemCount = mLayoutManager.getItemCount();
+                    pastVisiblesItems = mLayoutManager.findFirstVisibleItemPosition();
+
+                    if (loading) {
+                        if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                            loading = false;
+
+                             getData();
+                           // Toast.makeText(getActivity(), "called", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }
+            }
+        });
+
         applySpannable();
         getData();
     }
@@ -293,7 +317,11 @@ public class NotificationFragment extends Fragment {
 
 
                     }
-
+                    skipdata = mProvider.getCount();
+                    if (jarray.length() < 25)
+                        loading = false;
+                    else
+                        loading = true;
                 } catch (Exception ex) {
                     Log.e("json parsing error", ex.getMessage() + "");
                 }
