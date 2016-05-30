@@ -23,6 +23,8 @@ import android.widget.VideoView;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.CamUtils;
 import com.eowise.recyclerview.stickyheaders.samples.data.CameraData;
+import com.eowise.recyclerview.stickyheaders.samples.define.Camera;
+import com.eowise.recyclerview.stickyheaders.samples.define.Extension;
 import com.eowise.recyclerview.stickyheaders.samples.define.MediaType;
 
 import java.io.File;
@@ -93,7 +95,15 @@ public class CameraReviewFragment extends Fragment
 
             // Send broadcast
             // getActivity().sendBroadcast(mIntent);
+           try {
+               final File capturedImageFile = new File(getTempDirectoryPath(), System.currentTimeMillis() + ".jpg");
+               bitmap.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(capturedImageFile));
+               url = capturedImageFile.getAbsolutePath().toString();
+           }
+           catch(Exception ex)
+           {
 
+           }
             CameraData cd=new CameraData();
             if (urls.get("1") == null) {
                  cd.setFilename("lnd" + System.currentTimeMillis() + ".jpg");
@@ -228,7 +238,8 @@ private class LoadImage extends AsyncTask<String,Void,Bitmap>
         mIvPhoto.setImageBitmap(bitmap);
 
     }
-}
+}  Bitmap bitmap = null;
+
     private Bitmap showPhotoOnUI(boolean is_success) {
         try {
             Bitmap mBitmap = null;
@@ -252,8 +263,7 @@ private class LoadImage extends AsyncTask<String,Void,Bitmap>
             mFile.createNewFile();
 
             // Begin crop photo in here
-            Bitmap bitmap = null;
-
+          CustomCamera.camera.setCropModeOrFullMode(false);
             if (CustomCamera.camera.isCropModeOrFullMode()) {
                 /**
                  * Crop mode
@@ -413,7 +423,9 @@ private class LoadImage extends AsyncTask<String,Void,Bitmap>
 
                     // Rotate Front photo need again in here
                     bitmap = mBitmapRotated;
-                    mIvPhoto.setImageBitmap(bitmap);
+                    // Set image bitmap
+
+                    return mBitmapRotated;
                 } else {
                     // Front Camera
 
@@ -421,7 +433,9 @@ private class LoadImage extends AsyncTask<String,Void,Bitmap>
                     mBitmapRotated = CamUtils.rotateFrontImage(getActivity(), mBitmapRotated);
 
                     bitmap = mBitmapRotated;
-                    mIvPhoto.setImageBitmap(bitmap);
+                    // Set image bitmap
+
+                    return mBitmapRotated;
                 }
             }
 

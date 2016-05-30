@@ -210,6 +210,6 @@ act=this;
         orientation = (orientation + 45) / 90 * 90;
         this.current_orientation = orientation % 360;
 
-        return current_orientation;
+        return 90;//current_orientation;
     }
 }

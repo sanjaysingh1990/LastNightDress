@@ -774,7 +774,7 @@ Log.e("size1",SIZE[0]+"");
         }
 
         return Bitmap.createBitmap(
-                mBitmap, 0, 0, mBitmap.getWidth(), mBitmap.getHeight(), matrix, true);
+                mBitmap, 0, 0, mBitmap.getWidth(), mBitmap.getHeight(), matrix, false);
     }
 
     /**

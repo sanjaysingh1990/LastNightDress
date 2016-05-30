@@ -663,8 +663,7 @@ public class Main_TabHost extends AppCompatActivity {
         StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-               Toast.makeText(Main_TabHost.this,"called",Toast.LENGTH_SHORT).show();
-            }
+                      }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {

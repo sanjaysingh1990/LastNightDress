@@ -5,6 +5,7 @@ package com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost;
  */
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.hardware.Camera;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -27,10 +28,11 @@ public class CustomCameraPreview extends SurfaceView implements SurfaceHolder.Ca
     private Camera.Size mPreviewSize;
 
     private List<Camera.Size> mSupportedPreviewSizes;
-
+    private Context con;
     public CustomCameraPreview(Context context, Camera camera) {
         super(context);
         mCamera = camera;        // supported preview sizes
+        con=context;
         try {
 
             mSupportedPreviewSizes = mCamera.getParameters().getSupportedPreviewSizes();
@@ -121,7 +123,34 @@ public class CustomCameraPreview extends SurfaceView implements SurfaceHolder.Ca
 //                if (1600 <= size.width & size.width <= 1920) {
             parameters.setPreviewSize(mPreviewSize.width, mPreviewSize.height);
             parameters.setPictureSize(mPreviewSize.width, mPreviewSize.height);
-//                    break;
+            // Set continuous picture focus, if it's supported
+
+
+            int currentInt = android.os.Build.VERSION.SDK_INT;
+
+            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                if (currentInt != 7) {
+                    parameters.set("orientation", "portrait");
+                    mCamera.setDisplayOrientation(90);
+                } else {
+                    //Log.d("System out", "Portrait " + currentInt);
+                    parameters.set("orientation", "portrait");
+                    parameters.setRotation(90);
+
+                /*
+                 * params.set("orientation", "portrait");
+                 * params.set("rotation",90);
+                 */
+                }
+            }
+
+            parameters.setExposureCompensation(parameters.getMaxExposureCompensation()-5);
+            if(parameters.isAutoExposureLockSupported()) {
+                parameters.setAutoExposureLock(false);
+
+            }
+//
+//        break;
 //                }
 //            }
 
@@ -131,7 +160,7 @@ public class CustomCameraPreview extends SurfaceView implements SurfaceHolder.Ca
             } catch (Exception e) {
                 if (mCamera != null) {
                     mCamera.setPreviewDisplay(mHolder);
-                    mCamera.startPreview();
+                   mCamera.startPreview();
                 }
             }
 

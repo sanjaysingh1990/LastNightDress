@@ -22,6 +22,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -35,6 +36,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.UserProfile.SelectCategoryActivity;
@@ -51,6 +53,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 
 public class CameraPreviewFragment extends Fragment
@@ -78,7 +81,7 @@ public class CameraPreviewFragment extends Fragment
     public ImageView gallery, image1, image2, image3, image4;
     private ImageButton cancel1, cancel2, cancel3, cancel4;
     private Bitmap capturedImage;
-    private ImageButton camera_flash;
+    private static ImageButton camera_flash;
     public ImageButton add1, add2, add3, add4;
     public static int GALLERY_INTENT_CALLED = 200;
     SoundPool soundPool;
@@ -151,9 +154,11 @@ public class CameraPreviewFragment extends Fragment
             //   CamUtils.addPictureToGallery(getActivity(), pictureFile.getAbsolutePath());
 
             // Go to Review page
-            ((FragmentActivity) getActivity())
-                    .getSupportFragmentManager().beginTransaction()
-                    .addToBackStack(null)
+            FragmentTransaction ft = ((FragmentActivity) getActivity())
+                    .getSupportFragmentManager().beginTransaction();
+            ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_from_left);
+
+            ft.addToBackStack(null)
                     .replace(R.id.fl_custom_camera,
                             CameraReviewFragment.newInstance(pictureFile.getAbsolutePath()))
                     .commitAllowingStateLoss();
@@ -370,6 +375,8 @@ public class CameraPreviewFragment extends Fragment
         }
     }
 
+    static String mFlashMode;
+
     // for the Preview - from http://developer.android.com/reference/android/hardware/Camera.html#setDisplayOrientation(int)
     // note, if orientation is locked to landscape this is only called when setting up the activity, and will always have the same orientation
     public static void setCameraDisplayOrientation(Activity activity, int camera_id) {
@@ -401,8 +408,12 @@ public class CameraPreviewFragment extends Fragment
         }
 
         // On Sony Device, has issue : Black screen was shown on it
-        if (CustomCamera.mCamera != null)
+        if (CustomCamera.mCamera != null) {
             CustomCamera.mCamera.setDisplayOrientation(result);
+            Log.e("allset", "true" + result);
+        }
+
+
     }
 
     public static void stopAndRelaseRecordingVideo() {
@@ -610,7 +621,20 @@ public class CameraPreviewFragment extends Fragment
         else
             // Hide switch camera button
             mIbtnSwitchFrontOrBackCamera.setVisibility(View.INVISIBLE);
-
+        //to check flash availabe or not
+        Camera.Parameters parameters = CustomCamera.mCamera.getParameters();
+        List<String> flashModes = parameters.getSupportedFlashModes();
+        if (flashModes != null && flashModes.contains(mFlashMode)) {
+            parameters.setFlashMode(mFlashMode);
+            camera_flash.setVisibility(View.VISIBLE);
+        } else {
+            camera_flash.setVisibility(View.INVISIBLE);
+        }
+       /* if (parameters.getSupportedFocusModes().contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)) {
+            parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+        }*/
+        // Lock in the changes
+        CustomCamera.mCamera.setParameters(parameters);
         return v;
     }
 
@@ -804,8 +828,12 @@ public class CameraPreviewFragment extends Fragment
             @Override
             public void onClick(View arg0) {
                 // TODO Auto-generated method stub
-                Intent selectcategory = new Intent(getActivity(), SelectCategoryActivity.class);
-                startActivity(selectcategory);
+                if (CameraReviewFragment.urls.size() > 0) {
+                    Intent selectcategory = new Intent(getActivity(), SelectCategoryActivity.class);
+                    startActivity(selectcategory);
+                } else {
+                    Toast.makeText(getContext(), "select atleast one image", Toast.LENGTH_SHORT).show();
+                }
                 //finish();
             }
         });

@@ -78,7 +78,7 @@ import github.ankushsachdeva.emojicon.EmojiconGridView;
 import github.ankushsachdeva.emojicon.EmojiconsPopup;
 import github.ankushsachdeva.emojicon.emoji.Emojicon;
 
-public class DressEditPost extends LndPostBaseActivity implements View.OnClickListener {
+public class DressEditPost extends AppCompatActivity implements View.OnClickListener {
     @Bind({R.id.size1, R.id.size2, R.id.size3, R.id.size4, R.id.size5, R.id.size6, R.id.size7})
     List<CheckBox> lnddresssize1;
 
@@ -127,25 +127,98 @@ public class DressEditPost extends LndPostBaseActivity implements View.OnClickLi
     @Bind(R.id.autocomplete)
     MultiAutoCompleteTextView desc;
 
+    //included layout shipping
+    @Bind(R.id.actualcost1)
+    CheckBox ActualCost1;
+    @Bind(R.id.fixedcost1)
+    CheckBox FixedCost1;
+    @Bind(R.id.actualcost2)
+    CheckBox ActualCost2;
+    @Bind(R.id.fixedcost2)
+    CheckBox FixedCost2;
 
+    @Bind(R.id.chargefixedcost)
+    LinearLayout chargefixedcost;
+    @Bind(R.id.chargeactualcost)
+    LinearLayout chargeactualcost;
+
+    @Bind(R.id.chargefixedcostinternational)
+    LinearLayout chargefixedcostinternaltional;
+    @Bind(R.id.chargeactualcostinternational)
+    LinearLayout chargeactualcostinternational;
+
+    //for shipping national fixed cost
+    @Bind(R.id.nationalfixedcostservicespinner)
+    Spinner nationalfixedcostservicespinner;
+    @Bind(R.id.nationalfixedcostedittext)
+    EditText nationalfixedcostinputbox;
+    @Bind(R.id.nationfixedcostfreeshipping)
+    CheckBox nationalfixedcostfreeshipping;
+
+    //for shipping national actual cost
+    @Bind(R.id.nationalactualcostservicespinner)
+    Spinner nationalactualcostservicespinner;
+
+    @Bind(R.id.nationalactualweightpackagespinner)
+    Spinner nationalactualweightpackagespinner;
+    @Bind(R.id.nationalactualcostfressshipping)
+    CheckBox nationalactualcostfressshipping;
+    @Bind(R.id.nationalactualcostlength)
+    EditText nationalactualcostlength;
+    @Bind(R.id.nationalactualcostwidth)
+    EditText nationalactualcostwidth;
+    @Bind(R.id.nationalactualcostheight)
+    EditText nationalactualcostheight;
+
+    //end here
+
+    //for shipping international actualcost
+
+    @Bind(R.id.internationalactualcostservicespinner)
+    Spinner internationalactualcostservicespinner;
+
+    @Bind(R.id.internationalweightpackagespinner)
+    Spinner internationalweightpackagespinner;
+    @Bind(R.id.internationalactualcostfreeshipping)
+    CheckBox internationalactualcostfreeshipping;
+    @Bind(R.id.internationalactualcostnointernationshipping)
+    CheckBox internationalactualcostnointernationshipping;
+
+    @Bind(R.id.internationalactualcostlength)
+    EditText internationalactualcostlength;
+    @Bind(R.id.internationalactualcostwidth)
+    EditText internationalactualcostwidth;
+    @Bind(R.id.internationalactualcostheight)
+    EditText internationalactualcostheight;
+
+    //for shipping international fixedcost
+    //for shipping national fixed cost
+    @Bind(R.id.internationalfixedcostservicespinner)
+    Spinner internationalfixedcostservicespinner;
+    @Bind(R.id.internationalfixedcostedittext)
+    EditText internationalfixedcostedittext;
+    @Bind(R.id.internationalfixedcostnointernationshipping)
+    CheckBox internationalfixedcostnointernationshipping;
+    @Bind(R.id.internationalfixedcostfreeshipping)
+    CheckBox internationalfixedcostfreeshipping;
+
+    //END HERE
 
     String[] links = {"", "", "", ""};
-    ArrayList<String> filename = new ArrayList<>();
+    String filename[] = {"", "", "", ""};
     PopupWindow popupWindow;
     int dresstype = 0;
     int condition = 0;
     private Bundle extra;
     InstructionDialogs lndcommistiondialog;
-
+    String querypart1 ="";
+    String querypart2 ="";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dress_post_page);
         //intialiaing dialog
-        lndcommistiondialog = new InstructionDialogs(this);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         ButterKnife.bind(this);
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
@@ -190,7 +263,6 @@ public class DressEditPost extends LndPostBaseActivity implements View.OnClickLi
 
                 if (pos > 0) {
 
-
                     ((TextView) parent.getChildAt(0)).setTextColor(Color.parseColor("#ffffff"));
                     ((TextView) parent.getChildAt(0)).setBackgroundColor(Color.parseColor("#be4d66"));
                     conditionspinner.setBackgroundColor(Color.parseColor("#be4d66"));
@@ -216,8 +288,7 @@ public class DressEditPost extends LndPostBaseActivity implements View.OnClickLi
             }
         });
 
-        for (int i = 0; i < 4; i++)
-            filename.add("");
+
         //text change listener
         pricenow.addTextChangedListener(new TextWatcher() {
             @Override
@@ -262,10 +333,6 @@ public class DressEditPost extends LndPostBaseActivity implements View.OnClickLi
         desc.setTokenizer(new LndTokenizer());
 
         //
-        ActualCost1.setOnClickListener(this);
-        ActualCost2.setOnClickListener(this);
-        FixedCost2.setOnClickListener(this);
-        FixedCost1.setOnClickListener(this);
 
         //keyboard listener
         KeyboardVisibilityEvent.setEventListener(this, new KeyboardVisibilityEventListener() {
@@ -276,6 +343,12 @@ public class DressEditPost extends LndPostBaseActivity implements View.OnClickLi
         });
 
         updateKeyboardStatusText(KeyboardVisibilityEvent.isKeyboardVisible(this));
+
+        //listener for shipping
+        ActualCost1.setOnClickListener(this);
+        ActualCost2.setOnClickListener(this);
+        FixedCost2.setOnClickListener(this);
+        FixedCost1.setOnClickListener(this);
 
         setupEmoji();
 
@@ -396,7 +469,7 @@ public class DressEditPost extends LndPostBaseActivity implements View.OnClickLi
             //    System.out.println(entry.getKey());
             CameraData cd = entry.getValue();
             int value = Integer.parseInt(entry.getKey()) - 1;
-            filename.add(value, cd.getFilename());
+            filename[value] = cd.getFilename();
             new AsyncTaskLoadImage(images.get(value), value).execute(cd.getImageurl());
 
 
@@ -531,6 +604,8 @@ public class DressEditPost extends LndPostBaseActivity implements View.OnClickLi
         ArrayList<String> hashtags = new ArrayList<>();
         ArrayList<Integer> usermentions = new ArrayList<>();
 
+        String querypart1 = "insert into lnd_table_how_to_ship(";
+        String querypart2 = " values(";
 
         int pw = 0, pn = 0;
         try {
@@ -617,30 +692,30 @@ public class DressEditPost extends LndPostBaseActivity implements View.OnClickLi
             return;
 
         }
-      if(!validateShipping())
-          return;
+        if (!validateShipping())
+            return;
         JSONArray dressArray = new JSONArray(dresssize);
         JSONArray colorArray = new JSONArray(dresscolor);
 
         try {
             //image1 json
             JSONObject image1 = new JSONObject();
-            image1.put("imagename", filename.get(0));
+            image1.put("imagename", filename[0]);
             image1.put("imageurl", links[0]);
 
             //image2 json
             JSONObject image2 = new JSONObject();
-            image2.put("imagename", filename.get(1));
-            image2.put("imageurl", links[1]);
+            image2.put("imagename", filename[1]);
+             image2.put("imageurl", links[1]);
 
             //image3 json
             JSONObject image3 = new JSONObject();
-            image3.put("imagename", filename.get(2));
+            image3.put("imagename", filename[2]);
             image3.put("imageurl", links[2]);
 
             //image4 json
             JSONObject image4 = new JSONObject();
-            image4.put("imagename", filename.get(3));
+            image4.put("imagename", filename[3]);
             image4.put("imageurl", links[3]);
 
 
@@ -677,7 +752,7 @@ public class DressEditPost extends LndPostBaseActivity implements View.OnClickLi
             //end of shipping query here
             querypart1 = querypart1 + ") ";
             querypart2 = querypart2 + ") ";
-            mainObj.put("shippingquery",querypart1+querypart2);
+            mainObj.put("shippingquery", querypart1 + querypart2);
 
             //get hashtag and user mentions
             String text = desc.getText().toString();
@@ -711,8 +786,8 @@ public class DressEditPost extends LndPostBaseActivity implements View.OnClickLi
             }
             //end query here
 
-            Log.e("json", mainObj.toString());
-            Log.e("json2", querypart1 + querypart2);
+            //Log.e("json", mainObj.toString());
+           // Log.e("json2", querypart1 + querypart2);
         } catch (Exception ex) {
             Log.e("json error", ex.getMessage() + "");
         }
@@ -968,12 +1043,194 @@ public class DressEditPost extends LndPostBaseActivity implements View.OnClickLi
     }
 
 
-
     @Override
     protected void onStart() {
         super.onStart();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
+
+    public void unselectactualPrice() {
+        ActualCost1.setChecked(false);
+        FixedCost1.setChecked(false);
+        ActualCost1.setTextColor(Color.parseColor("#ffffff"));
+        FixedCost1.setTextColor(Color.parseColor("#ffffff"));
+
+    }
+
+    public void unselectfixedPrice() {
+        FixedCost2.setChecked(false);
+        ActualCost2.setChecked(false);
+        FixedCost2.setTextColor(Color.parseColor("#ffffff"));
+        ActualCost2.setTextColor(Color.parseColor("#ffffff"));
+
+    }
+
+    public boolean validateShipping() {
+        //for shipping national fixed cost
+        if (FixedCost1.isChecked() && !(nationalfixedcostfreeshipping.isChecked())) {
+            if (nationalfixedcostservicespinner.getSelectedItemPosition() == 0) {
+
+                Toast.makeText(this, "select national shipping service", Toast.LENGTH_SHORT).show();
+                return false;
+            } else {
+                querypart1 = querypart1 + "service_type_national";
+                querypart2 = querypart2 + ",\"" + nationalfixedcostservicespinner.getSelectedItem() + "\"";
+            }
+            if (nationalfixedcostinputbox.getText().length() == 0) {
+                nationalfixedcostinputbox.requestFocus();
+                nationalfixedcostinputbox.setError("enter charge fixed cost");
+                return false;
+            } else {
+                querypart1 = querypart1 + ",charge_cost_national";
+                querypart2 = querypart2 + "," + nationalfixedcostinputbox.getText();
+            }
+        }
+        //for shipping national actual cost
+        if (ActualCost1.isChecked() && !(nationalactualcostfressshipping.isChecked())) {
+
+            if (nationalactualweightpackagespinner.getSelectedItemPosition() == 0) {
+                Toast.makeText(this, "select weight of packaged item", Toast.LENGTH_SHORT).show();
+                return false;
+            } else {
+                querypart1 = querypart1 + "package_weight_national";
+                querypart2 = querypart2 + "\"" + nationalactualweightpackagespinner.getSelectedItem() + "\"";
+            }
+            if (nationalactualcostlength.getText().length() == 0) {
+                nationalactualcostlength.requestFocus();
+                nationalactualcostlength.setError("Length ?");
+                return false;
+            } else {
+                querypart1 = querypart1 + ",length_national";
+                querypart2 = querypart2 + "," + nationalactualcostlength.getText();
+
+            }
+            if (nationalactualcostwidth.getText().length() == 0) {
+                nationalactualcostwidth.requestFocus();
+                nationalactualcostwidth.setError("Width ?");
+                return false;
+            } else {
+                querypart1 = querypart1 + ",width_national";
+                querypart2 = querypart2 + "," + nationalactualcostwidth.getText();
+
+            }
+            if (nationalactualcostheight.getText().length() == 0) {
+                nationalactualcostheight.requestFocus();
+                nationalactualcostheight.setError("Height ?");
+                return false;
+            } else {
+                querypart1 = querypart1 + ",height_national";
+                querypart2 = querypart2 + "," + nationalactualcostheight.getText();
+
+            }
+            if (nationalactualcostservicespinner.getSelectedItemPosition() == 0) {
+
+                Toast.makeText(this, "select national shipping service", Toast.LENGTH_SHORT).show();
+                return false;
+            } else
+                querypart1 = querypart1 + ",service_type_national";
+            querypart2 = querypart2 + ",\"" + nationalactualcostservicespinner.getSelectedItem() + "\"";
+
+        }
+
+        //for shipping international fixed cost
+        if (FixedCost2.isChecked() && !((internationalfixedcostfreeshipping.isChecked() || internationalfixedcostnointernationshipping.isChecked()))) {
+            if (internationalfixedcostservicespinner.getSelectedItemPosition() == 0) {
+
+                Toast.makeText(this, "select international shipping service", Toast.LENGTH_SHORT).show();
+                return false;
+            } else {
+                querypart1 = querypart1 + ",service_type_international";
+                querypart2 = querypart2 + ",\"" + nationalfixedcostservicespinner.getSelectedItem() + "\"";
+            }
+            if (internationalfixedcostedittext.getText().length() == 0) {
+                internationalfixedcostedittext.requestFocus();
+                internationalfixedcostedittext.setError("enter charge fixed cost");
+                return false;
+            } else {
+                querypart1 = querypart1 + ",charge_cost_international";
+                querypart2 = querypart2 + "," + nationalfixedcostinputbox.getText();
+            }
+        }
+        //for shipping international actual cost
+        if (ActualCost2.isChecked() && !((internationalactualcostfreeshipping.isChecked() || internationalactualcostnointernationshipping.isChecked()))) {
+
+            if (internationalweightpackagespinner.getSelectedItemPosition() == 0) {
+                Toast.makeText(this, "select weight of packaged item", Toast.LENGTH_SHORT).show();
+                return false;
+            } else {
+                querypart1 = querypart1 + ",package_weight_international";
+                querypart2 = querypart2 + ",\"" + internationalweightpackagespinner.getSelectedItem() + "\"";
+
+            }
+            if (internationalactualcostlength.getText().length() == 0) {
+                internationalactualcostlength.requestFocus();
+                internationalactualcostlength.setError("Length ?");
+                return false;
+            } else {
+                querypart1 = querypart1 + ",length_international";
+                querypart2 = querypart2 + "," + internationalactualcostlength.getText();
+            }
+            if (internationalactualcostwidth.getText().length() == 0) {
+                internationalactualcostwidth.requestFocus();
+                internationalactualcostwidth.setError("Width ?");
+                return false;
+            } else {
+                querypart1 = querypart1 + ",width_international";
+                querypart2 = querypart2 + "," + internationalactualcostwidth.getText();
+            }
+            if (internationalactualcostheight.getText().length() == 0) {
+                internationalactualcostheight.requestFocus();
+                internationalactualcostheight.setError("Height ?");
+                return false;
+            } else {
+                querypart1 = querypart1 + ",height_international";
+                querypart2 = querypart2 + "," + internationalactualcostheight.getText();
+            }
+            if (internationalactualcostservicespinner.getSelectedItemPosition() == 0) {
+
+                Toast.makeText(this, "select international shipping service", Toast.LENGTH_SHORT).show();
+                return false;
+            } else {
+                querypart1 = querypart1 + ",service_type_international";
+                querypart2 = querypart2 + ",\"" + internationalactualcostservicespinner.getSelectedItem() + "\"";
+
+            }
+        }
+        //national free shipping for fixed cost and actual cost
+        if (nationalactualcostfressshipping.isChecked()) {
+            querypart1 = querypart1 + "isfree_shipping_national";
+            querypart2 = querypart2 + "1";
+        } else if (nationalfixedcostfreeshipping.isChecked()) {
+            querypart1 = querypart1 + "isfree_shipping_national";
+            querypart2 = querypart2 + "1";
+
+        }
+        if (ActualCost2.isChecked() || FixedCost2.isChecked()) {
+
+            //international free shipping for fixed cost and actual cost
+
+            if (internationalfixedcostfreeshipping.isChecked()) {
+                querypart1 = querypart1 + ",isfree_shipping_international";
+                querypart2 = querypart2 + ",1";
+            } else if (internationalactualcostfreeshipping.isChecked()) {
+                querypart1 = querypart1 + ",isfree_shipping_international";
+                querypart2 = querypart2 + ",1";
+
+            }
+            if (internationalfixedcostnointernationshipping.isChecked()) {
+                querypart1 = querypart1 + ",isno_shipping_international";
+                querypart2 = querypart2 + ",1";
+            } else if (internationalactualcostnointernationshipping.isChecked()) {
+                querypart1 = querypart1 + ",isno_shipping_international";
+                querypart2 = querypart2 + ",1";
+
+            }
+
+        }
+
+        return true;
+    }
+
 }
 
 
