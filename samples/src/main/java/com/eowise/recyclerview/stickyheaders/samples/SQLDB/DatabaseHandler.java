@@ -7,21 +7,31 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.eowise.recyclerview.stickyheaders.samples.Notification.Notification_Settings;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.data.PeopleData;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
     private static final String DATABASE_NAME = "LastNightDress";
     private static final String TABLE_FAVORITE = "favorite";
     private static final String TABLE_USER = "users";
+    private static final String TABLE_NOTIFICATION = "notification";
     private static final String KEY_POSTID = "postid";
     private static final String KEY_IMAGEURL = "imageurl";
     private static final String KEY_COST = "cost";
     private static final String KEY_USERNAME = "username";
     private static final String KEY_USERID = "userid";
+    private static final String KEY_IS_FOLLOW_ENABLE="follow_noti";
+    private static final String KEY_IS_LIKES_ENABLE="likes_noti";
+    private static final String KEY_IS_COMMENT_ENABLE="comment_noti";
+    private static final String KEY_IS_SHARE_ENABLE="share_noti";
+    private static final String KEY_IS_SWAP_ENABLE="swap_noti";
+    private static final String KEY_IS_SALE_ENABLE="sale_noti";
+    private static final String KEY_IS_MESSAGE_ENABLE="message_noti";
 
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -38,8 +48,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         String CREATE_USERS_TABLE = "CREATE TABLE " + TABLE_USER + "("
                 + KEY_USERNAME + " TEXT," + KEY_IMAGEURL + " TEXT,"
                  +  KEY_USERID + " TEXT PRIMARY KEY "+ ")";
+        String CREATE_NOTIFICATION_TABLE = "CREATE TABLE " + TABLE_NOTIFICATION + "("
+                + KEY_IS_FOLLOW_ENABLE + " TINYINT," + KEY_IS_LIKES_ENABLE + " TINYINT,"
+                +  KEY_IS_COMMENT_ENABLE +" TINYINT,"+KEY_IS_SHARE_ENABLE+" TINYINT,"+KEY_IS_SWAP_ENABLE+" TINYINT,"+KEY_IS_SALE_ENABLE+" TINYINT,"+KEY_IS_MESSAGE_ENABLE+" TINYINT,"+KEY_USERID+" TEXT PRIMARY KEY"+ ")";
+
         db.execSQL(CREATE_CONTACTS_TABLE);
         db.execSQL(CREATE_USERS_TABLE);
+        db.execSQL(CREATE_NOTIFICATION_TABLE);
 
     }
 
@@ -49,6 +64,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // Drop older table if existed
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_FAVORITE);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NOTIFICATION);
 
         // Create tables again
         onCreate(db);
@@ -73,6 +89,28 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     return rows;
     }
 
+    // code to add current user notification settings
+    public long addValues(Notification_Settings noti,String userid) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_USERID,userid);
+        values.put(KEY_IS_FOLLOW_ENABLE,noti.getFollow());
+        values.put(KEY_IS_LIKES_ENABLE,noti.getLikes());
+        values.put(KEY_IS_COMMENT_ENABLE,noti.getComment());
+        values.put(KEY_IS_SHARE_ENABLE,noti.getShare());
+        values.put(KEY_IS_SWAP_ENABLE,noti.getSwap());
+        values.put(KEY_IS_SALE_ENABLE,noti.getSale());
+        values.put(KEY_IS_MESSAGE_ENABLE,noti.getMessage());
+
+        // Inserting Row
+        long rows=     db.insertWithOnConflict(TABLE_NOTIFICATION, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+
+
+        //2nd argument is String containing nullColumnHack
+        db.close(); // Closing database connection
+        return rows;
+    }
     // code to get the single contact
   public  FavoriteData getContact(String id) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -89,6 +127,31 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
         return null;
     }
+
+    // code to get the user settings
+    public  ArrayList<Integer> getSettings(String id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_NOTIFICATION, new String[] { KEY_IS_FOLLOW_ENABLE,
+                        KEY_IS_LIKES_ENABLE,KEY_IS_COMMENT_ENABLE,KEY_IS_SHARE_ENABLE,KEY_IS_SWAP_ENABLE,KEY_IS_SALE_ENABLE,KEY_IS_MESSAGE_ENABLE }, KEY_USERID + "=?",
+                new String[] { id }, null, null, null, null);
+        if (cursor != null && cursor.getCount()>0) {
+            cursor.moveToFirst();
+            ArrayList<Integer> values=new ArrayList<>();
+            values.add(cursor.getInt(0));
+            values.add(cursor.getInt(1));
+            values.add(cursor.getInt(2));
+            values.add(cursor.getInt(3));
+            values.add(cursor.getInt(4));
+            values.add(cursor.getInt(5));
+            values.add(cursor.getInt(6));
+
+            // return contact
+            return values;
+        }
+        return null;
+    }
+
 
     // code to get all contacts in a list view
     public List<FavoriteData> getAllContacts() {
@@ -126,6 +189,24 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // updating row
         return db.update(TABLE_FAVORITE, values, KEY_POSTID + " = ?",
                 new String[] { fav.getPostid() });
+    }
+    // code to update the settings
+    public int updateSettings(ArrayList<Integer> noti) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_IS_FOLLOW_ENABLE,noti.get(0));
+        values.put(KEY_IS_LIKES_ENABLE,noti.get(1));
+        values.put(KEY_IS_COMMENT_ENABLE,noti.get(2));
+        values.put(KEY_IS_SHARE_ENABLE,noti.get(3));
+        values.put(KEY_IS_SWAP_ENABLE,noti.get(4));
+        values.put(KEY_IS_SALE_ENABLE,noti.get(5));
+        values.put(KEY_IS_MESSAGE_ENABLE,noti.get(6));
+
+
+        // updating row
+        return db.update(TABLE_NOTIFICATION, values, KEY_USERID + " = ?",
+                new String[] {SingleTon.pref.getString("user_id","")});
     }
 
     // Deleting single contact

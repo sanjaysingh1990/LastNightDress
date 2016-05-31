@@ -1,12 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:background="#ffffff"
-              android:id="@+id/container"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:id="@+id/container"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
 
     >
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/header"
+        android:background="#FFFFFF"
+        android:layout_width="match_parent"
+        app:contentInsetStart="0dp"
+        app:contentInsetLeft="0dp"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Justin Watson"
+                android:gravity = "center"
+                android:id="@+id/heading"
+
+                android:textColor="@color/heading_color"
+                android:textSize="18dp"
+                android:layout_centerInParent="true"
+                />
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/overflow_icon"
+                android:background="?attr/selectableItemBackground"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="5dp"
+                android:id="@+id/setting"
+                android:layout_centerVertical="true"
+                />
+            <View
+                android:layout_width="match_parent"
+                style="@style/headerline"
+                android:background="#dadada"
+                android:layout_alignParentBottom="true" />
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
 
     <de.hdodenhof.circleimageview.CircleImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -27,16 +68,17 @@
         android:clickable="true"
         android:id="@+id/rating"
         >
-    <com.eowise.recyclerview.stickyheaders.samples.Utils.ColoredRatingBar
-        xmlns:rb="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/ratingBar"
-        style="@style/coloredRatingBarStyleSmallIndicator"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="5dp"
-        />
-        </LinearLayout>
+        <com.eowise.recyclerview.stickyheaders.samples.Utils.ColoredRatingBar
+            xmlns:rb="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/ratingBar"
+            style="@style/coloredRatingBarStyleSmallIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            rb:rating="4.5"
+            />
+    </LinearLayout>
     <github.ankushsachdeva.emojicon.EmojiconTextView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:emojicon="http://schemas.android.com/apk/res-auto"
@@ -51,7 +93,7 @@
         android:layout_below="@+id/ratingBar"
         android:layout_centerHorizontal="true"
         android:textColor="#404040"
-
+       android:text="We live at the rink and the boys grow out of the equipment faster every year.  We have High end well maintained equipment."
         android:gravity="center_horizontal"
 
         android:maxLength="150"
@@ -162,7 +204,7 @@
                 android:text="sales"
                 android:layout_gravity="center"
                 android:textSize="13sp"
-                 android:layout_marginTop="-2dp"
+                android:layout_marginTop="-2dp"
                 android:textColor="#9ea6b0"
                 android:id="@+id/sales"
                 />
@@ -299,4 +341,91 @@
 
 
         />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:src="@drawable/image1"
+            android:layout_weight="1"
+            android:scaleType="centerCrop"
+            />
+        >
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:src="@drawable/image1"
+            android:layout_weight="1"
+            android:scaleType="centerCrop"
+            />
+        >
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:src="@drawable/image1"
+            android:layout_weight="1"
+            android:scaleType="centerCrop"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:src="@drawable/image1"
+            android:layout_weight="1"
+            android:scaleType="centerCrop"
+            />
+        >
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:src="@drawable/image1"
+            android:layout_weight="1"
+            android:scaleType="centerCrop"
+            />
+        >
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:src="@drawable/image1"
+            android:layout_weight="1"
+            android:scaleType="centerCrop"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:src="@drawable/image1"
+            android:layout_weight="1"
+            android:scaleType="centerCrop"
+            />
+        >
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:src="@drawable/image1"
+            android:layout_weight="1"
+            android:scaleType="centerCrop"
+            />
+        >
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:src="@drawable/image1"
+            android:layout_weight="1"
+            android:scaleType="centerCrop"
+            />
+    </LinearLayout>
 </LinearLayout>

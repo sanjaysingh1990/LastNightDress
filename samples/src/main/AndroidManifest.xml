@@ -55,7 +55,7 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name="com.eowise.recyclerview.stickyheaders.samples.Splash"
+            android:name=".Demo"
             android:screenOrientation="portrait"
             android:theme="@style/AppFullScreenTheme"
             android:windowSoftInputMode="adjustPan">
@@ -428,7 +428,6 @@
             android:name=".PurchaseAndSwap.RegularCheckoutFinishActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing|adjustResize" />
-        <activity android:name=".Dummy"></activity>
         <activity
             android:name=".MySales.MySalesReportRatingActivity"
             android:screenOrientation="portrait"

@@ -40,7 +40,7 @@
                 android:paddingLeft="15dp"
                 android:text="App For Hockey"
                 android:textColor="@color/heading_color"
-                android:textSize="33sp" />
+                android:textSize="28sp" />
 
             <View
                 android:layout_width="match_parent"
@@ -116,7 +116,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
                 android:src="@drawable/hockey"
-                android:layout_marginTop="-140dp"
+                android:layout_marginTop="-60dp"
                 android:scaleType="centerCrop"
                 >
 
@@ -339,7 +339,7 @@
                 android:clickable="true"
                 android:drawablePadding="5dp"
                 android:gravity="center_vertical"
-
+                android:drawableLeft="@drawable/shop_icon2"
                 android:padding="8dp"
                 android:text="Buy"
                 android:textColor="#fff" />
@@ -363,7 +363,7 @@
                 android:clickable="true"
                 android:drawablePadding="5dp"
                 android:gravity="center_vertical"
-
+                android:drawableLeft="@drawable/exchange_icon"
                 android:padding="8dp"
                 android:text="Swap"
                 android:textColor="#fff" />
@@ -392,13 +392,18 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:clickable="true"
+                android:background="@null"
+                android:backgroundTint="@color/hockeycolor"
+                android:drawableTint="@color/hockeycolor"
                 android:drawableLeft="@drawable/total_liked_icon"
                 android:drawablePadding="5dp"
                 android:gravity="center_vertical"
                 android:text="29 likes"
                 android:textColor="@color/hockeycolor"
                 android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+
+                />
 
             <com.eowise.recyclerview.stickyheaders.samples.Utils.RelativeTimeTextView
                 android:id="@+id/time"
@@ -445,8 +450,8 @@
             android:clickable="true"
             android:paddingLeft="14dp"
             android:paddingRight="10dp"
-            android:text="Luke Miles I hate to see these skates go, I’ve only worn it once and it’s in perfect condition. These #Nike skates are perfect for anyone who has flat feet. (place two emoji's, Snow flake and snowman)"
-            emojicon:emojiconSize="18sp"
+            android:text="Luke Miles I hate to see these skates go, I’ve only worn it once and it’s in perfect condition. These #Nike skates are perfect for anyone who has flat feet. (place two emoji's, Snow flake and snowman) 0x1f604"
+            emojicon:emojiconSize="16sp"
 
             />
 

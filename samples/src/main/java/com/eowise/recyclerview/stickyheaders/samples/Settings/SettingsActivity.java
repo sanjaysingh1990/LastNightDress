@@ -295,7 +295,7 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         //check swap on or off
-        if (SingleTon.pref.getBoolean("swap", false)) {
+        if (SingleTon.pref.getInt("swap_status", 0) == 1) {
             swap_status.setChecked(true);
         } else {
             swap_status.setChecked(false);
@@ -331,10 +331,14 @@ public class SettingsActivity extends AppCompatActivity {
                 try {
                     JSONObject jobj = new JSONObject(response.toString());
                     if (jobj.getBoolean("status")) {
-                        if (jobj.getString("value").compareTo("0") == 0)
+                        if (jobj.getInt("value") == 0)
                             Toast.makeText(SettingsActivity.this, "swap locked", Toast.LENGTH_SHORT).show();
                         else
                             Toast.makeText(SettingsActivity.this, "swap unlocked", Toast.LENGTH_SHORT).show();
+                        //change shared preference value
+                        SharedPreferences.Editor edit = SingleTon.pref.edit();
+                        edit.putInt("swap_status", jobj.getInt("value"));
+                        edit.commit();
 
                     } else
 

@@ -2,8 +2,6 @@ package com.eowise.recyclerview.stickyheaders.samples;
 
 import android.app.Activity;
 import android.app.LocalActivityManager;
-import android.app.ProgressDialog;
-import android.app.TabActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -35,7 +33,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.eowise.recyclerview.stickyheaders.samples.GCM.ApplicationConstants;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.ApplicationConstants;
 import com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage.LndNotificationMessageActivity;
 import com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage.MessageFragment;
 import com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage.NotificationFragment;

@@ -73,6 +73,7 @@
                     android:layout_marginTop="3dp"
                     android:background="@null"
                     android:backgroundTint="@color/white"
+
                     android:drawableLeft="@drawable/lnd_profile_fullname"
                     android:drawablePadding="6dp"
                     android:gravity="center_vertical"
