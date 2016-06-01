@@ -42,7 +42,6 @@ public class PeopleFragment extends Fragment {
   //   private TextView showinfo;
     static PeopleBrandHashTapAdapter recyclerAdapter;
     static RecyclerView recyclerView;
-    protected Handler handler;
     public static PeopleFragment createInstance(int itemsCount) {
         PeopleFragment partThreeFragment = new PeopleFragment();
         Bundle bundle = new Bundle();
@@ -59,7 +58,6 @@ public class PeopleFragment extends Fragment {
         recyclerView= (RecyclerView) view.findViewById(R.id.recyclerView);
        // showinfo=(TextView)view.findViewById(R.id.showinfo);
         setupRecyclerView(recyclerView);
-        handler = new Handler();
 
 
         PeopleHashTagActivity.Search.addTextChangedListener(new TextWatcher() {
@@ -91,12 +89,7 @@ public class PeopleFragment extends Fragment {
             }
         });
 
-        //checking on swipe
-        String people=PeopleHashTagActivity.Search.getText()+"";
-        if(people.length()>0)
-            getData(people);
-        //load from database
-        intialize();
+
 
         return view;
     }
@@ -173,7 +166,7 @@ public class PeopleFragment extends Fragment {
         pd.setType(0);
         itemList.add(pd);
         recyclerAdapter.notifyDataSetChanged();
-        RequestQueue queue = Volley.newRequestQueue(getActivity());
+        RequestQueue queue = Volley.newRequestQueue(PeopleHashTagActivity.act);
         StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/readname.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -238,5 +231,16 @@ public class PeopleFragment extends Fragment {
             }
         };
         queue.add(sr);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //checking on swipe
+        String people=PeopleHashTagActivity.Search.getText()+"";
+        if(people.length()>0)
+            getData(people);
+        //load from database
+        intialize();
     }
 }

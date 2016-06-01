@@ -366,9 +366,12 @@ public class OtherUserProfileActivity extends Activity {
         message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent sendreceive = new Intent(OtherUserProfileActivity.this, SendMessageActivity.class);
-                sendreceive.putExtra("uname", profileuname);
-                startActivity(sendreceive);
+                if((profileuname!=null&&profileuname.length()>0)&&(userid!=null&&userid.length()>0)) {
+                    Intent sendreceive = new Intent(OtherUserProfileActivity.this, SendMessageActivity.class);
+                    sendreceive.putExtra("uname", profileuname);
+                    sendreceive.putExtra("user_id",userid);
+                    startActivity(sendreceive);
+                }
             }
         });
 
@@ -469,6 +472,7 @@ public class OtherUserProfileActivity extends Activity {
                 try {
 
                     JSONObject jobj = new JSONObject(response.toString());
+                    userid=jobj.getString("user_id");
                     totalsales.setText(jobj.getString("sales"));
                     totalswaps.setText(jobj.getString("swaps") + "");
                     SingleTon.imageLoader.displayImage(jobj.getString("imageurl"), profilepic, SingleTon.options2);

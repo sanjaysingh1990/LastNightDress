@@ -36,8 +36,9 @@ import java.util.Map;
 public class HashTagFragment extends Fragment {
 
     public final static String ITEMS_COUNT_KEY = "PartThreeFragment$ItemsCount";
-   private List<PeopleData> itemList = new ArrayList<PeopleData>();
+    private List<PeopleData> itemList = new ArrayList<PeopleData>();
     private PeopleBrandHashTapAdapter recyclerAdapter;
+
     public static HashTagFragment createInstance(int itemsCount) {
         HashTagFragment partThreeFragment = new HashTagFragment();
         Bundle bundle = new Bundle();
@@ -53,9 +54,6 @@ public class HashTagFragment extends Fragment {
                 R.layout.message_fragment, container, false);
         setupRecyclerView(recyclerView);
 
-        String hashtag=PeopleHashTagActivity.Search.getText()+"";
-        if(hashtag.length()>0)
-        getData(hashtag);
 
         //on text change
         PeopleHashTagActivity.Search.addTextChangedListener(new TextWatcher() {
@@ -74,7 +72,7 @@ public class HashTagFragment extends Fragment {
             public void afterTextChanged(Editable s) {
                 if (PeopleHashTagActivity.viewPager.getCurrentItem() == 2) {
                     if (s.length() == 0) {
-                       // intialize();
+                        // intialize();
                     } else
 
                         getData(s.toString());
@@ -87,52 +85,48 @@ public class HashTagFragment extends Fragment {
 
     private void setupRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerAdapter = new PeopleBrandHashTapAdapter(getActivity(),itemList);
+        recyclerAdapter = new PeopleBrandHashTapAdapter(getActivity(), itemList);
         recyclerView.setAdapter(recyclerAdapter);
     }
 
 
-    public  void getData(final String keyword){
+    public void getData(final String keyword) {
         itemList.clear();
-        PeopleData pd=new PeopleData();
+        PeopleData pd = new PeopleData();
         pd.setType(0);
         itemList.add(pd);
         recyclerAdapter.notifyDataSetChanged();
 
 
-        RequestQueue queue = Volley.newRequestQueue(getActivity());
-        StringRequest sr = new StringRequest(Request.Method.POST,"http://52.76.68.122/lnd/androidiosphpfiles/readname.php", new Response.Listener<String>() {
+        RequestQueue queue = Volley.newRequestQueue(PeopleHashTagActivity.act);
+        StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/readname.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
                 //Log.e("response", response.toString()+"");
-               try {
+                try {
                     itemList.clear();
                     JSONObject jobj = new JSONObject(response.toString());
-                    JSONArray jarray=jobj.getJSONArray("data");
-                    for(int i=0;i<jarray.length();i++)
-                    {
-                        JSONObject jo=jarray.getJSONObject(i);
-                        PeopleData ht=new PeopleData();
+                    JSONArray jarray = jobj.getJSONArray("data");
+                    for (int i = 0; i < jarray.length(); i++) {
+                        JSONObject jo = jarray.getJSONObject(i);
+                        PeopleData ht = new PeopleData();
                         ht.setHasttag(jo.getString("hash_tag"));
                         ht.setTotal(jo.getString("total"));
                         ht.setType(4);
                         itemList.add(ht);
                     }
-                   if(jarray.length()==0)
-                   {
-                       PeopleData pd=new PeopleData();
+                    if (jarray.length() == 0) {
+                        PeopleData pd = new PeopleData();
 
-                       pd.setType(2);
-                       itemList.add(pd);
+                        pd.setType(2);
+                        itemList.add(pd);
 
-                   }
+                    }
                     recyclerAdapter.notifyDataSetChanged();
 
 
-                }
-                catch(Exception ex)
-                {
+                } catch (Exception ex) {
                     Log.e("json parsing error", ex.getMessage());
                 }
             }
@@ -140,16 +134,16 @@ public class HashTagFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 //on server error showing no result
-                PeopleData pd=new PeopleData();
+                PeopleData pd = new PeopleData();
                 pd.setType(2);
                 itemList.add(pd);
-                Log.e("response",error.getMessage()+"");
+                Log.e("response", error.getMessage() + "");
             }
-        }){
+        }) {
             @Override
-            protected Map<String,String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("rqid","4");
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("rqid", "4");
                 params.put("skipdata", "0");
                 params.put("keyword", keyword);
                 return params;
@@ -157,12 +151,19 @@ public class HashTagFragment extends Fragment {
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("Content-Type","application/x-www-form-urlencoded");
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/x-www-form-urlencoded");
                 return params;
             }
         };
         queue.add(sr);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        String hashtag = PeopleHashTagActivity.Search.getText() + "";
+        if (hashtag.length() > 0)
+            getData(hashtag);
+    }
 }

@@ -211,6 +211,21 @@ public class LndNotificationMessageActivity extends AppCompatActivity {
             isnotification=true;
         else if(from==2)
         ismessage=true;
+      disable();
+    }
+    private void enable()
+    {
+        CoordinatorLayout.LayoutParams params =
+                (CoordinatorLayout.LayoutParams) container.getLayoutParams();
+        params.setBehavior(new AppBarLayout.ScrollingViewBehavior());
+        container.requestLayout();
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);  // or however you need to do it for your code
+        AppBarLayout.LayoutParams params2 = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
+        params2.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS);
+        instructionview.setVisibility(View.GONE);
+    }
+    private void disable()
+    {
         CoordinatorLayout.LayoutParams params =
                 (CoordinatorLayout.LayoutParams) container.getLayoutParams();
         params.setBehavior(null);
@@ -219,19 +234,30 @@ public class LndNotificationMessageActivity extends AppCompatActivity {
         AppBarLayout.LayoutParams params2 = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
         params2.setScrollFlags(0);
         instructionview.setVisibility(View.VISIBLE);
+
     }
 private boolean isnotification=false,ismessage=false;
 
     private void showinfo(int pos)
     {
 
+
         if(pos==0)
         {
+            if(!isnotification)
+                enable();
+            else
+               disable();
+
             insheading.setText(getResources().getString(R.string.noti_heading));
-            inssubheading.setText(getResources().getString(R.string.noti_ins_subheading));
+                inssubheading.setText(getResources().getString(R.string.noti_ins_subheading));
         }
         else
         {
+            if(!ismessage)
+               enable();
+            else
+                disable();
 
             insheading.setText(getResources().getString(R.string.message_heading));
             inssubheading.setText(getResources().getString(R.string.message_ins_subheading));

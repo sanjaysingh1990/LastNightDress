@@ -10,13 +10,13 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        app:elevation="0dp"
+        app:elevation="6dp"
+
         >
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             style="@style/header"
-            android:background="@color/white"
+
             app:layout_scrollFlags="scroll|enterAlways"
             app:contentInsetLeft="0dp"
             app:contentInsetStart="0dp"
@@ -91,12 +91,13 @@
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabTextColor="#dadada"
-            app:tabSelectedTextColor="@color/accent"
-            app:tabIndicatorColor="@color/accent"
-            app:tabIndicatorHeight="2dp"
-            app:tabMode="fixed"
-            app:tabGravity="fill"
+            android:layout_below="@+id/toolbar"
+            android:background="@android:color/white"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:tabIndicatorColor="@color/lndcolor"
+            app:tabSelectedTextColor="@color/lndcolor"
+            app:tabTextColor="@color/gray"
             />
     </android.support.design.widget.AppBarLayout>
     <android.support.v4.view.ViewPager

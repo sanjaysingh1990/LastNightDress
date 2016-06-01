@@ -38,7 +38,8 @@ public class BrandNameFragment extends Fragment {
     public final static String ITEMS_COUNT_KEY = "PartThreeFragment$ItemsCount";
     private List<PeopleData> itemList = new ArrayList<PeopleData>();
     private PeopleBrandHashTapAdapter recyclerAdapter;
-    static String previouskeyword="";
+    static String previouskeyword = "";
+
     public static BrandNameFragment createInstance(int itemsCount) {
         BrandNameFragment partThreeFragment = new BrandNameFragment();
         Bundle bundle = new Bundle();
@@ -53,12 +54,7 @@ public class BrandNameFragment extends Fragment {
         RecyclerView recyclerView = (RecyclerView) inflater.inflate(
                 R.layout.message_fragment, container, false);
         setupRecyclerView(recyclerView);
-        String hashtag=PeopleHashTagActivity.Search.getText()+"";
-        if(hashtag.length()>0&&hashtag.compareTo(previouskeyword)!=0) {
-            previouskeyword=hashtag;
-            getData(hashtag);
 
-        }
         //on text change
         PeopleHashTagActivity.Search.addTextChangedListener(new TextWatcher() {
             @Override
@@ -102,17 +98,18 @@ public class BrandNameFragment extends Fragment {
     public void getData(final String keyword) {
 
         itemList.clear();
-        PeopleData pd=new PeopleData();
+        PeopleData pd = new PeopleData();
         pd.setType(0);
         itemList.add(pd);
-        recyclerAdapter.notifyDataSetChanged();
-        RequestQueue queue = Volley.newRequestQueue(getActivity());
+        if (recyclerAdapter != null)
+            recyclerAdapter.notifyDataSetChanged();
+        RequestQueue queue = Volley.newRequestQueue(PeopleHashTagActivity.act);
         StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/readname.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
 
-                 // Log.e("response hashtag", response.toString());
+                // Log.e("response hashtag", response.toString());
                 try {
                     itemList.clear();
                     JSONObject jobj = new JSONObject(response.toString());
@@ -126,15 +123,15 @@ public class BrandNameFragment extends Fragment {
                         itemList.add(brand);
                     }
 
-                    if(jarray.length()==0)
-                    {
-                        PeopleData pd=new PeopleData();
+                    if (jarray.length() == 0) {
+                        PeopleData pd = new PeopleData();
 
                         pd.setType(2);
                         itemList.add(pd);
 
                     }
-                    recyclerAdapter.notifyDataSetChanged();
+                    if (recyclerAdapter != null)
+                        recyclerAdapter.notifyDataSetChanged();
 
 
                 } catch (Exception ex) {
@@ -169,4 +166,17 @@ public class BrandNameFragment extends Fragment {
         queue.add(sr);
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.e("frag","brand name fragment");
+        String hashtag = PeopleHashTagActivity.Search.getText() + "";
+
+        if (hashtag.length() > 0 && hashtag.compareTo(previouskeyword) != 0) {
+            previouskeyword = hashtag;
+            getData(hashtag);
+
+        }
+    }
 }

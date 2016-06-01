@@ -643,8 +643,8 @@ public class Main_TabHost extends AppCompatActivity {
         }.execute(null, null, null);
     }
 
-    private void storeRegIdinSharedPref(String regId
-    ) {
+    private void storeRegIdinSharedPref(String regId)
+     {
         SharedPreferences.Editor editor = SingleTon.pref.edit();
         editor.putString(REG_ID, regId);
 
@@ -672,7 +672,7 @@ public class Main_TabHost extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("regid", regId);
+                params.put("gcmid", regId);
                 params.put("user_id", SingleTon.pref.getString("user_id", "'"));
                 params.put("devicetype", "android");
                 params.put("datetime", SingleTon.getCurrentTimeStamp());

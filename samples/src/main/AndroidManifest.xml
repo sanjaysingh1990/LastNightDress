@@ -55,7 +55,7 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".Demo"
+            android:name=".Splash"
             android:screenOrientation="portrait"
             android:theme="@style/AppFullScreenTheme"
             android:windowSoftInputMode="adjustPan">

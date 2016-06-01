@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -128,7 +129,7 @@ public class LndFragment extends Fragment {
                 skipdata = 0;
                 dataleft = true;
                 loading = true;
-                shopdata.clear();
+
                 try {
                     // Toast.makeText(getActivity(), LndShopActivity.selectedcategory + "", Toast.LENGTH_SHORT).show();
                     pullrefresh = true;
@@ -140,8 +141,7 @@ public class LndFragment extends Fragment {
         });
 
         //clear list
-        mItems.clear();
-        return shopview;
+          return shopview;
     }
 
     private void setupRecyclerView(View recyclerView) {
@@ -201,10 +201,10 @@ public class LndFragment extends Fragment {
     }
 
     public void getData(final int dataskip, final String query) throws Exception {
-
-        if (pullrefresh)
+        if (pullrefresh) {
             LndShopActivity.prog.setVisibility(View.GONE);
-        if (isfirttime) {
+        }
+            if (isfirttime) {
             LndShopActivity.prog.setVisibility(View.VISIBLE);
             isfirttime = false;
         }
@@ -212,6 +212,14 @@ public class LndFragment extends Fragment {
         StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/postdata.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                if(pullrefresh)
+                {
+                    shopdata.clear();
+                    mItems.clear();
+                    adapter.notifyDataSetChanged();
+
+
+                }
                 pullrefresh = false;
                 loading = true;
 

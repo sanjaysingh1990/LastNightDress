@@ -65,25 +65,25 @@ public class NumberedAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder vh;
+
         if (viewType == VIEW_ITEM) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false);
-            Display display = con.getWindowManager().getDefaultDisplay();
-            Point size = new Point();
-            display.getSize(size);
-            int width = size.x;
-            int height = size.y;
+
 
 
             ViewGroup.LayoutParams params = view.getLayoutParams();
 
-            params.height = (width / 3);
+            params.height = (SingleTon.displayMetrics.widthPixels / 3);
             view.requestLayout();
 
             vh = new ItemViewHolder(view);
         } else {
             View v = LayoutInflater.from(parent.getContext()).inflate(
                     R.layout.progressbar_item, parent, false);
+            ViewGroup.LayoutParams params = v.getLayoutParams();
 
+            params.height = (SingleTon.displayMetrics.widthPixels / 3);
+            v.requestLayout();
             vh = new ProgressViewHolder(v);
         }
         return vh;
