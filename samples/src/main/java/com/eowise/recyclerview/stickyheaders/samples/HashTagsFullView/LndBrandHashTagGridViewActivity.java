@@ -21,6 +21,7 @@ import com.android.volley.toolbox.Volley;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.Loading.AVLoadingIndicatorView;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.ApplicationConstants;
 import com.eowise.recyclerview.stickyheaders.samples.adapters.MarginDecoration;
 import com.eowise.recyclerview.stickyheaders.samples.adapters.NumberedAdapter;
 import com.eowise.recyclerview.stickyheaders.samples.data.ShopData;
@@ -150,7 +151,7 @@ public class LndBrandHashTagGridViewActivity extends AppCompatActivity {
 
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/postdata.php", new Response.Listener<String>() {
+        StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_POST_DATA, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //  Log.e("dataresponse", response.toString());
@@ -167,6 +168,8 @@ public class LndBrandHashTagGridViewActivity extends AppCompatActivity {
                         ShopData pdb = new ShopData();
                         pdb.setPrice(jo.getString("price_now"));
                         pdb.setImageurl(jo.getString("imageurl1"));
+                        pdb.setIssold(jo.getInt("issold"));
+
                         shopdata.add(pdb);
                     }
                     //storing data here for full view in next

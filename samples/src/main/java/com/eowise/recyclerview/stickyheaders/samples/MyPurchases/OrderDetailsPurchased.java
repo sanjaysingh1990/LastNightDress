@@ -85,7 +85,7 @@ public class OrderDetailsPurchased extends AppCompatActivity {
                 setContentView(R.layout.purchases_claimdeclined_layout);
 
             }
-            else if (status.compareToIgnoreCase("Report rating") == 0) {
+            else if (status.compareToIgnoreCase("Rating reported") == 0) {
                 setContentView(R.layout.purchases_ratingreported_layout);
                 ButterKnife.bind(this);
                 getReference();

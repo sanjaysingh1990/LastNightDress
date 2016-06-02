@@ -56,7 +56,7 @@ import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.Home_List_Data
 import com.eowise.recyclerview.stickyheaders.samples.UserProfile.OtherUserProfileActivity;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ConstantValues;
-import com.eowise.recyclerview.stickyheaders.samples.adapters.SentToAdapter;
+import com.eowise.recyclerview.stickyheaders.samples.adapters.SendToAdapter;
 import com.eowise.recyclerview.stickyheaders.samples.data.FollowersFollowingData;
 import com.eowise.recyclerview.stickyheaders.samples.interfaces.TagClick;
 import com.init.superslim.GridSLM;
@@ -94,7 +94,7 @@ public class LndUserFullPostAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     List<FollowersFollowingData> users = new ArrayList<>();
     public static EditText usermessage;
     public static TextView sendcancel;
-    private SentToAdapter mAdapter;
+    private SendToAdapter mAdapter;
     private ProgressBar prog;
     private TextView showtext;
 
@@ -703,7 +703,7 @@ public class LndUserFullPostAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
                 // mLayoutManager.
                 recyclerView.setLayoutManager(layoutManager);
-                mAdapter = new SentToAdapter(mContext, users);
+                mAdapter = new SendToAdapter(mContext, users);
                 recyclerView.setAdapter(mAdapter);
                 String uname = SingleTon.pref.getString("uname", "uname");
 

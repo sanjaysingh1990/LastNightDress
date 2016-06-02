@@ -57,7 +57,7 @@ import com.eowise.recyclerview.stickyheaders.samples.UserProfile.OtherUserProfil
 import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ConstantValues;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.RelativeTimeTextView;
-import com.eowise.recyclerview.stickyheaders.samples.adapters.SentToAdapter;
+import com.eowise.recyclerview.stickyheaders.samples.adapters.SendToAdapter;
 import com.eowise.recyclerview.stickyheaders.samples.data.Chat_Banner_Data;
 import com.eowise.recyclerview.stickyheaders.samples.data.FollowersFollowingData;
 import com.eowise.recyclerview.stickyheaders.samples.interfaces.TagClick;
@@ -141,7 +141,7 @@ public class NotificationFullPost extends AppCompatActivity implements View.OnCl
     List<FollowersFollowingData> users = new ArrayList<>();
     public static EditText usermessage;
     public static TextView sendcancel;
-    private SentToAdapter mAdapter;
+    private SendToAdapter mAdapter;
     private ProgressBar prog;
     private TextView showtext;
 
@@ -260,7 +260,7 @@ public class NotificationFullPost extends AppCompatActivity implements View.OnCl
 
                 // mLayoutManager.
                 recyclerView.setLayoutManager(layoutManager);
-                mAdapter = new SentToAdapter(this, users);
+                mAdapter = new SendToAdapter(this, users);
                 recyclerView.setAdapter(mAdapter);
                 //to get all followers
                 getFollowers(SingleTon.pref.getString("user_id", ""));
@@ -275,13 +275,13 @@ public class NotificationFullPost extends AppCompatActivity implements View.OnCl
 
                         if (sendcancel.getText().toString().compareToIgnoreCase("send") == 0 && usermessage.getText().length() == 0)
                             return;
-                        if (SentToAdapter.usersselected.size() == 0) {
+                        if (SendToAdapter.usersselected.size() == 0) {
                             sendtodialog.dismiss();
                             return;
                         }
                         try {
                             JSONObject jobj = new JSONObject();
-                            JSONArray dressArray = new JSONArray(SentToAdapter.usersselected.keySet());
+                            JSONArray dressArray = new JSONArray(SendToAdapter.usersselected.keySet());
                             jobj.put("userids", dressArray);
                             jobj.put("message", usermessage.getText() + "");
                             jobj.put("postid", hld.getPost_id());

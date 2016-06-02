@@ -658,7 +658,7 @@ public class Main_TabHost extends AppCompatActivity {
                 Settings.Secure.ANDROID_ID);
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL, new Response.Listener<String>() {
+        StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_NOTIFICATION_SETTING, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                       }

@@ -80,5 +80,8 @@ public class PeopleHashTagActivity extends AppCompatActivity {
             }
         });
     }
-
+public void back(View v)
+{
+    onBackPressed();
+}
 }

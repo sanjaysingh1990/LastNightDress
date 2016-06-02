@@ -191,7 +191,7 @@ public class HandBagsEditPost extends AppCompatActivity implements View.OnClickL
 
     //END HERE
     private Bundle extra;
-    String filename[] = {"","","",""};
+    String filename[] = {"", "", "", ""};
     PopupWindow popupWindow;
     InstructionDialogs lndcommistiondialog;
     String querypart1 = "";
@@ -320,7 +320,7 @@ public class HandBagsEditPost extends AppCompatActivity implements View.OnClickL
             //    System.out.println(entry.getKey());
             CameraData cd = entry.getValue();
             int value = Integer.parseInt(entry.getKey()) - 1;
-            filename[value]= cd.getFilename();
+            filename[value] = cd.getFilename();
             new AsyncTaskLoadImage(images.get(value), value).execute(cd.getImageurl());
 
 
@@ -583,8 +583,8 @@ public class HandBagsEditPost extends AppCompatActivity implements View.OnClickL
         ArrayList<String> pursecolor = new ArrayList<>();
         ArrayList<String> hashtags = new ArrayList<>();
         ArrayList<Integer> usermentions = new ArrayList<>();
-        String querypart1 = "insert into lnd_table_how_to_ship(";
-        String querypart2 = " values(";
+        querypart1 = "update lnd_table_how_to_ship set ";
+        querypart2 = " where post_id=";
 
         int pw = 0, pn = 0;
         try {
@@ -711,8 +711,7 @@ public class HandBagsEditPost extends AppCompatActivity implements View.OnClickL
             mainObj.put("pricewas", pricewas.getText().toString());
             mainObj.put("datetime", SingleTon.getCurrentTimeStamp());
             //end of shipping query here
-            querypart1 = querypart1 + ") ";
-            querypart2 = querypart2 + ") ";
+
             mainObj.put("shippingquery", querypart1 + querypart2);
 
             //get hashtag and user mentions
@@ -742,9 +741,10 @@ public class HandBagsEditPost extends AppCompatActivity implements View.OnClickL
 
 
             if (extra == null)
-                postPurse(mainObj.toString());
 
-            // Log.e("json", mainObj.toString());
+              postPurse(mainObj.toString());
+
+          // Log.e("json", mainObj.toString());
         } catch (Exception ex) {
             Log.e("json error", ex.getMessage() + "");
         }
@@ -763,12 +763,12 @@ public class HandBagsEditPost extends AppCompatActivity implements View.OnClickL
             @Override
             public void onResponse(String response) {
                 pDialog.dismiss();
-                //    Log.e("responsedata", response.toString());
+                   Log.e("json2", response.toString());
                 try {
                     JSONObject jobj = new JSONObject(response);
                     if (jobj.getBoolean("status")) {
                         Toast.makeText(HandBagsEditPost.this, jobj.getString("message") + "", Toast.LENGTH_LONG).show();
-                        finish();
+                      //  finish();
                     } else {
                         Toast.makeText(HandBagsEditPost.this, jobj.getString("message") + "", Toast.LENGTH_LONG).show();
 
@@ -927,6 +927,7 @@ public class HandBagsEditPost extends AppCompatActivity implements View.OnClickL
     private void changeEmojiKeyboardIcon(ImageView iconToBeChanged, int drawableResourceId) {
         iconToBeChanged.setImageResource(drawableResourceId);
     }
+
     public void unselectactualPrice() {
         ActualCost1.setChecked(false);
         FixedCost1.setChecked(false);
@@ -951,16 +952,14 @@ public class HandBagsEditPost extends AppCompatActivity implements View.OnClickL
                 Toast.makeText(this, "select national shipping service", Toast.LENGTH_SHORT).show();
                 return false;
             } else {
-                querypart1 = querypart1 + "service_type_national";
-                querypart2 = querypart2 + ",\"" + nationalfixedcostservicespinner.getSelectedItem() + "\"";
+                querypart1 = querypart1 + "service_type_national=\"" + nationalfixedcostservicespinner.getSelectedItem() + "\"";
             }
             if (nationalfixedcostinputbox.getText().length() == 0) {
                 nationalfixedcostinputbox.requestFocus();
                 nationalfixedcostinputbox.setError("enter charge fixed cost");
                 return false;
             } else {
-                querypart1 = querypart1 + ",charge_cost_national";
-                querypart2 = querypart2 + "," + nationalfixedcostinputbox.getText();
+                querypart1 = querypart1 + ",charge_cost_national="+ nationalfixedcostinputbox.getText();
             }
         }
         //for shipping national actual cost
@@ -970,16 +969,14 @@ public class HandBagsEditPost extends AppCompatActivity implements View.OnClickL
                 Toast.makeText(this, "select weight of packaged item", Toast.LENGTH_SHORT).show();
                 return false;
             } else {
-                querypart1 = querypart1 + "package_weight_national";
-                querypart2 = querypart2 + "\"" + nationalactualweightpackagespinner.getSelectedItem() + "\"";
+                querypart1 = querypart1 + ",package_weight_national=" + "\"" + nationalactualweightpackagespinner.getSelectedItem() + "\"";
             }
             if (nationalactualcostlength.getText().length() == 0) {
                 nationalactualcostlength.requestFocus();
                 nationalactualcostlength.setError("Length ?");
                 return false;
             } else {
-                querypart1 = querypart1 + ",length_national";
-                querypart2 = querypart2 + "," + nationalactualcostlength.getText();
+                querypart1 = querypart1 + ",length_national="+ nationalactualcostlength.getText();
 
             }
             if (nationalactualcostwidth.getText().length() == 0) {
@@ -987,8 +984,7 @@ public class HandBagsEditPost extends AppCompatActivity implements View.OnClickL
                 nationalactualcostwidth.setError("Width ?");
                 return false;
             } else {
-                querypart1 = querypart1 + ",width_national";
-                querypart2 = querypart2 + "," + nationalactualcostwidth.getText();
+                querypart1 = querypart1 + ",width_national=" + nationalactualcostwidth.getText();
 
             }
             if (nationalactualcostheight.getText().length() == 0) {
@@ -996,8 +992,7 @@ public class HandBagsEditPost extends AppCompatActivity implements View.OnClickL
                 nationalactualcostheight.setError("Height ?");
                 return false;
             } else {
-                querypart1 = querypart1 + ",height_national";
-                querypart2 = querypart2 + "," + nationalactualcostheight.getText();
+                querypart1 = querypart1 + ",height_national="+ nationalactualcostheight.getText();
 
             }
             if (nationalactualcostservicespinner.getSelectedItemPosition() == 0) {
@@ -1005,8 +1000,7 @@ public class HandBagsEditPost extends AppCompatActivity implements View.OnClickL
                 Toast.makeText(this, "select national shipping service", Toast.LENGTH_SHORT).show();
                 return false;
             } else
-                querypart1 = querypart1 + ",service_type_national";
-            querypart2 = querypart2 + ",\"" + nationalactualcostservicespinner.getSelectedItem() + "\"";
+                querypart1 = querypart1 + ",service_type_national="+ "\"" + nationalactualcostservicespinner.getSelectedItem() + "\"";
 
         }
 
@@ -1017,16 +1011,14 @@ public class HandBagsEditPost extends AppCompatActivity implements View.OnClickL
                 Toast.makeText(this, "select international shipping service", Toast.LENGTH_SHORT).show();
                 return false;
             } else {
-                querypart1 = querypart1 + ",service_type_international";
-                querypart2 = querypart2 + ",\"" + nationalfixedcostservicespinner.getSelectedItem() + "\"";
+                querypart1 = querypart1 + ",service_type_international="+ "\"" + nationalfixedcostservicespinner.getSelectedItem() + "\"";
             }
             if (internationalfixedcostedittext.getText().length() == 0) {
                 internationalfixedcostedittext.requestFocus();
                 internationalfixedcostedittext.setError("enter charge fixed cost");
                 return false;
             } else {
-                querypart1 = querypart1 + ",charge_cost_international";
-                querypart2 = querypart2 + "," + nationalfixedcostinputbox.getText();
+                querypart1 = querypart1 + ",charge_cost_international=" + nationalfixedcostinputbox.getText();
             }
         }
         //for shipping international actual cost
@@ -1036,8 +1028,7 @@ public class HandBagsEditPost extends AppCompatActivity implements View.OnClickL
                 Toast.makeText(this, "select weight of packaged item", Toast.LENGTH_SHORT).show();
                 return false;
             } else {
-                querypart1 = querypart1 + ",package_weight_international";
-                querypart2 = querypart2 + ",\"" + internationalweightpackagespinner.getSelectedItem() + "\"";
+                querypart1 = querypart1 + ",package_weight_international="+ "\"" + internationalweightpackagespinner.getSelectedItem() + "\"";
 
             }
             if (internationalactualcostlength.getText().length() == 0) {
@@ -1045,42 +1036,36 @@ public class HandBagsEditPost extends AppCompatActivity implements View.OnClickL
                 internationalactualcostlength.setError("Length ?");
                 return false;
             } else {
-                querypart1 = querypart1 + ",length_international";
-                querypart2 = querypart2 + "," + internationalactualcostlength.getText();
+                querypart1 = querypart1 + ",length_international=" + internationalactualcostlength.getText();
             }
             if (internationalactualcostwidth.getText().length() == 0) {
                 internationalactualcostwidth.requestFocus();
                 internationalactualcostwidth.setError("Width ?");
                 return false;
             } else {
-                querypart1 = querypart1 + ",width_international";
-                querypart2 = querypart2 + "," + internationalactualcostwidth.getText();
+                querypart1 = querypart1 + ",width_international=" + internationalactualcostwidth.getText();
             }
             if (internationalactualcostheight.getText().length() == 0) {
                 internationalactualcostheight.requestFocus();
                 internationalactualcostheight.setError("Height ?");
                 return false;
             } else {
-                querypart1 = querypart1 + ",height_international";
-                querypart2 = querypart2 + "," + internationalactualcostheight.getText();
+                querypart1 = querypart1 + ",height_international=" + internationalactualcostheight.getText();
             }
             if (internationalactualcostservicespinner.getSelectedItemPosition() == 0) {
 
                 Toast.makeText(this, "select international shipping service", Toast.LENGTH_SHORT).show();
                 return false;
             } else {
-                querypart1 = querypart1 + ",service_type_international";
-                querypart2 = querypart2 + ",\"" + internationalactualcostservicespinner.getSelectedItem() + "\"";
+                querypart1 = querypart1 + ",service_type_international=" + "\"" + internationalactualcostservicespinner.getSelectedItem() + "\"";
 
             }
         }
         //national free shipping for fixed cost and actual cost
         if (nationalactualcostfressshipping.isChecked()) {
-            querypart1 = querypart1 + "isfree_shipping_national";
-            querypart2 = querypart2 + "1";
+            querypart1 = querypart1 + "isfree_shipping_national="+ "1";
         } else if (nationalfixedcostfreeshipping.isChecked()) {
-            querypart1 = querypart1 + "isfree_shipping_national";
-            querypart2 = querypart2 + "1";
+            querypart1 = querypart1 + "isfree_shipping_national=" + "1";
 
         }
         if (ActualCost2.isChecked() || FixedCost2.isChecked()) {
@@ -1088,24 +1073,20 @@ public class HandBagsEditPost extends AppCompatActivity implements View.OnClickL
             //international free shipping for fixed cost and actual cost
 
             if (internationalfixedcostfreeshipping.isChecked()) {
-                querypart1 = querypart1 + ",isfree_shipping_international";
-                querypart2 = querypart2 + ",1";
+                querypart1 = querypart1 + ",isfree_shipping_international=" + "1";
             } else if (internationalactualcostfreeshipping.isChecked()) {
-                querypart1 = querypart1 + ",isfree_shipping_international";
-                querypart2 = querypart2 + ",1";
+                querypart1 = querypart1 + ",isfree_shipping_international=" + "1";
 
             }
             if (internationalfixedcostnointernationshipping.isChecked()) {
-                querypart1 = querypart1 + ",isno_shipping_international";
-                querypart2 = querypart2 + ",1";
+                querypart1 = querypart1 + ",isno_shipping_international="+ "1";
             } else if (internationalactualcostnointernationshipping.isChecked()) {
-                querypart1 = querypart1 + ",isno_shipping_international";
-                querypart2 = querypart2 + ",1";
+                querypart1 = querypart1 + ",isno_shipping_international=" + "1";
 
             }
 
         }
-
+//Log.e("query",querypart1+querypart2);
         return true;
     }
 }

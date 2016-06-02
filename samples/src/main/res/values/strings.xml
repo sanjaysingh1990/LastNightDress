@@ -145,7 +145,7 @@
     <string name="time_ago_prefix"></string>
     <string name="time_ago_suffix">ago</string>
 
-    <string name="time_ago_seconds">1m</string>
+    <string name="time_ago_seconds">less than a min</string>
     <string name="time_ago_minute">1m</string>
     <string name="time_ago_hour">1h</string>
     <string name="time_ago_day">1d</string>

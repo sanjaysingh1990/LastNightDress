@@ -54,7 +54,7 @@ import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.Home_List_Data
 import com.eowise.recyclerview.stickyheaders.samples.UserProfile.OtherUserProfileActivity;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ConstantValues;
-import com.eowise.recyclerview.stickyheaders.samples.adapters.SentToAdapter;
+import com.eowise.recyclerview.stickyheaders.samples.adapters.SendToAdapter;
 import com.eowise.recyclerview.stickyheaders.samples.data.Chat_Banner_Data;
 import com.eowise.recyclerview.stickyheaders.samples.data.FollowersFollowingData;
 import com.eowise.recyclerview.stickyheaders.samples.interfaces.TagClick;
@@ -94,7 +94,7 @@ public class LndHashtTagBrandAdapter extends RecyclerView.Adapter<RecyclerView.V
     List<FollowersFollowingData> users = new ArrayList<>();
     public static EditText usermessage;
     public static TextView sendcancel;
-    private SentToAdapter mAdapter;
+    private SendToAdapter mAdapter;
     private ProgressBar prog;
     private TextView showtext;
     private ImageButton likebutton;
@@ -897,7 +897,7 @@ public class LndHashtTagBrandAdapter extends RecyclerView.Adapter<RecyclerView.V
 
                 // mLayoutManager.
                 recyclerView.setLayoutManager(layoutManager);
-                mAdapter = new SentToAdapter(mContext, users);
+                mAdapter = new SendToAdapter(mContext, users);
                 recyclerView.setAdapter(mAdapter);
                 String userid = SingleTon.pref.getString("user_id", "");
                 //to get all followers
@@ -913,13 +913,13 @@ public class LndHashtTagBrandAdapter extends RecyclerView.Adapter<RecyclerView.V
 
                         if (sendcancel.getText().toString().compareToIgnoreCase("send") == 0 && usermessage.getText().length() == 0)
                             return;
-                        if (SentToAdapter.usersselected.size() == 0) {
+                        if (SendToAdapter.usersselected.size() == 0) {
                             dialog.dismiss();
                             return;
                         }
                         try {
                             JSONObject jobj = new JSONObject();
-                            JSONArray dressArray = new JSONArray(SentToAdapter.usersselected.keySet());
+                            JSONArray dressArray = new JSONArray(SendToAdapter.usersselected.keySet());
                             jobj.put("userids", dressArray);
                             jobj.put("message", usermessage.getText() + "");
                             jobj.put("postid", mItems.get(pos).getPost_id());
@@ -1052,7 +1052,7 @@ public class LndHashtTagBrandAdapter extends RecyclerView.Adapter<RecyclerView.V
                 try {
                     JSONObject jobj = new JSONObject(response.toString());
                     if (jobj.getBoolean("status")) {
-                        SentToAdapter.usersselected.clear();
+                        SendToAdapter.usersselected.clear();
                         Toast.makeText(mContext, jobj.getString("message"), Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(mContext, jobj.getString("message"), Toast.LENGTH_SHORT).show();

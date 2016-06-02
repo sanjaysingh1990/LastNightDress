@@ -5,13 +5,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ProgressBar;
-
-import com.eowise.recyclerview.stickyheaders.samples.adapters.SentToAdapter;
 
 /**
  * Created by sanjay on 12/29/2015.

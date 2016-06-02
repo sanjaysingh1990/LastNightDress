@@ -391,7 +391,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="Item Delivered"
-            android:textColor="#b4b4b4"
+            android:textColor="@color/disable_button"
             android:background="#e8e9eb"
             android:gravity="center"
             android:padding="10dp"

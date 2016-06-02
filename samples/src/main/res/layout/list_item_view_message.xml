@@ -86,15 +86,20 @@
                 android:clickable="true"
                 />
             <github.ankushsachdeva.emojicon.EmojiconTextView
+                xmlns:emojicon="http://schemas.android.com/apk/res-auto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/msg"
                 android:layout_marginLeft="5dp"
                 android:textColor="#000"
                 android:textSize="13sp"
-
+                android:text="hello"
                 android:singleLine="true"
                 android:layout_marginRight="6dp"
+                android:paddingBottom="2dp"
+                emojicon:emojiconSize="14sp"
+
+
                 />
 
         </LinearLayout>

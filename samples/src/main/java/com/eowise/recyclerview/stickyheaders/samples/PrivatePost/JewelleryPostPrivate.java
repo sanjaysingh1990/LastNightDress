@@ -842,8 +842,9 @@ public class JewelleryPostPrivate extends AppCompatActivity implements View.OnCl
     public void done(View v) {
         ArrayList<String> hashtags = new ArrayList<>();
         ArrayList<Integer> usermentions = new ArrayList<>();
-        String querypart1 = "insert into lnd_table_how_to_ship(";
-        String querypart2 = " values(";
+        querypart1 = "update lnd_table_how_to_ship set ";
+        querypart2 = " where post_id=";
+
 
         int pw = 0, pn = 0;
 
@@ -949,8 +950,7 @@ public class JewelleryPostPrivate extends AppCompatActivity implements View.OnCl
             mainObj.put("metaltype", metaltype_selected);
             mainObj.put("images", imagesarray);
             //end of shipping query here
-            querypart1 = querypart1 + ") ";
-            querypart2 = querypart2 + ") ";
+
             mainObj.put("shippingquery",querypart1+querypart2);
 
             //get hashtag and user mentions
@@ -1079,16 +1079,14 @@ public class JewelleryPostPrivate extends AppCompatActivity implements View.OnCl
                 Toast.makeText(this, "select national shipping service", Toast.LENGTH_SHORT).show();
                 return false;
             } else {
-                querypart1 = querypart1 + "service_type_national";
-                querypart2 = querypart2 + ",\"" + nationalfixedcostservicespinner.getSelectedItem() + "\"";
+                querypart1 = querypart1 + "service_type_national=\"" + nationalfixedcostservicespinner.getSelectedItem() + "\"";
             }
             if (nationalfixedcostinputbox.getText().length() == 0) {
                 nationalfixedcostinputbox.requestFocus();
                 nationalfixedcostinputbox.setError("enter charge fixed cost");
                 return false;
             } else {
-                querypart1 = querypart1 + ",charge_cost_national";
-                querypart2 = querypart2 + "," + nationalfixedcostinputbox.getText();
+                querypart1 = querypart1 + ",charge_cost_national="+ nationalfixedcostinputbox.getText();
             }
         }
         //for shipping national actual cost
@@ -1098,16 +1096,14 @@ public class JewelleryPostPrivate extends AppCompatActivity implements View.OnCl
                 Toast.makeText(this, "select weight of packaged item", Toast.LENGTH_SHORT).show();
                 return false;
             } else {
-                querypart1 = querypart1 + "package_weight_national";
-                querypart2 = querypart2 + "\"" + nationalactualweightpackagespinner.getSelectedItem() + "\"";
+                querypart1 = querypart1 + ",package_weight_national=" + "\"" + nationalactualweightpackagespinner.getSelectedItem() + "\"";
             }
             if (nationalactualcostlength.getText().length() == 0) {
                 nationalactualcostlength.requestFocus();
                 nationalactualcostlength.setError("Length ?");
                 return false;
             } else {
-                querypart1 = querypart1 + ",length_national";
-                querypart2 = querypart2 + "," + nationalactualcostlength.getText();
+                querypart1 = querypart1 + ",length_national="+ nationalactualcostlength.getText();
 
             }
             if (nationalactualcostwidth.getText().length() == 0) {
@@ -1115,8 +1111,7 @@ public class JewelleryPostPrivate extends AppCompatActivity implements View.OnCl
                 nationalactualcostwidth.setError("Width ?");
                 return false;
             } else {
-                querypart1 = querypart1 + ",width_national";
-                querypart2 = querypart2 + "," + nationalactualcostwidth.getText();
+                querypart1 = querypart1 + ",width_national=" + nationalactualcostwidth.getText();
 
             }
             if (nationalactualcostheight.getText().length() == 0) {
@@ -1124,8 +1119,7 @@ public class JewelleryPostPrivate extends AppCompatActivity implements View.OnCl
                 nationalactualcostheight.setError("Height ?");
                 return false;
             } else {
-                querypart1 = querypart1 + ",height_national";
-                querypart2 = querypart2 + "," + nationalactualcostheight.getText();
+                querypart1 = querypart1 + ",height_national="+ nationalactualcostheight.getText();
 
             }
             if (nationalactualcostservicespinner.getSelectedItemPosition() == 0) {
@@ -1133,8 +1127,7 @@ public class JewelleryPostPrivate extends AppCompatActivity implements View.OnCl
                 Toast.makeText(this, "select national shipping service", Toast.LENGTH_SHORT).show();
                 return false;
             } else
-                querypart1 = querypart1 + ",service_type_national";
-            querypart2 = querypart2 + ",\"" + nationalactualcostservicespinner.getSelectedItem() + "\"";
+                querypart1 = querypart1 + ",service_type_national="+ "\"" + nationalactualcostservicespinner.getSelectedItem() + "\"";
 
         }
 
@@ -1145,16 +1138,14 @@ public class JewelleryPostPrivate extends AppCompatActivity implements View.OnCl
                 Toast.makeText(this, "select international shipping service", Toast.LENGTH_SHORT).show();
                 return false;
             } else {
-                querypart1 = querypart1 + ",service_type_international";
-                querypart2 = querypart2 + ",\"" + nationalfixedcostservicespinner.getSelectedItem() + "\"";
+                querypart1 = querypart1 + ",service_type_international="+ "\"" + nationalfixedcostservicespinner.getSelectedItem() + "\"";
             }
             if (internationalfixedcostedittext.getText().length() == 0) {
                 internationalfixedcostedittext.requestFocus();
                 internationalfixedcostedittext.setError("enter charge fixed cost");
                 return false;
             } else {
-                querypart1 = querypart1 + ",charge_cost_international";
-                querypart2 = querypart2 + "," + nationalfixedcostinputbox.getText();
+                querypart1 = querypart1 + ",charge_cost_international=" + nationalfixedcostinputbox.getText();
             }
         }
         //for shipping international actual cost
@@ -1164,8 +1155,7 @@ public class JewelleryPostPrivate extends AppCompatActivity implements View.OnCl
                 Toast.makeText(this, "select weight of packaged item", Toast.LENGTH_SHORT).show();
                 return false;
             } else {
-                querypart1 = querypart1 + ",package_weight_international";
-                querypart2 = querypart2 + ",\"" + internationalweightpackagespinner.getSelectedItem() + "\"";
+                querypart1 = querypart1 + ",package_weight_international="+ "\"" + internationalweightpackagespinner.getSelectedItem() + "\"";
 
             }
             if (internationalactualcostlength.getText().length() == 0) {
@@ -1173,42 +1163,36 @@ public class JewelleryPostPrivate extends AppCompatActivity implements View.OnCl
                 internationalactualcostlength.setError("Length ?");
                 return false;
             } else {
-                querypart1 = querypart1 + ",length_international";
-                querypart2 = querypart2 + "," + internationalactualcostlength.getText();
+                querypart1 = querypart1 + ",length_international=" + internationalactualcostlength.getText();
             }
             if (internationalactualcostwidth.getText().length() == 0) {
                 internationalactualcostwidth.requestFocus();
                 internationalactualcostwidth.setError("Width ?");
                 return false;
             } else {
-                querypart1 = querypart1 + ",width_international";
-                querypart2 = querypart2 + "," + internationalactualcostwidth.getText();
+                querypart1 = querypart1 + ",width_international=" + internationalactualcostwidth.getText();
             }
             if (internationalactualcostheight.getText().length() == 0) {
                 internationalactualcostheight.requestFocus();
                 internationalactualcostheight.setError("Height ?");
                 return false;
             } else {
-                querypart1 = querypart1 + ",height_international";
-                querypart2 = querypart2 + "," + internationalactualcostheight.getText();
+                querypart1 = querypart1 + ",height_international=" + internationalactualcostheight.getText();
             }
             if (internationalactualcostservicespinner.getSelectedItemPosition() == 0) {
 
                 Toast.makeText(this, "select international shipping service", Toast.LENGTH_SHORT).show();
                 return false;
             } else {
-                querypart1 = querypart1 + ",service_type_international";
-                querypart2 = querypart2 + ",\"" + internationalactualcostservicespinner.getSelectedItem() + "\"";
+                querypart1 = querypart1 + ",service_type_international=" + "\"" + internationalactualcostservicespinner.getSelectedItem() + "\"";
 
             }
         }
         //national free shipping for fixed cost and actual cost
         if (nationalactualcostfressshipping.isChecked()) {
-            querypart1 = querypart1 + "isfree_shipping_national";
-            querypart2 = querypart2 + "1";
+            querypart1 = querypart1 + "isfree_shipping_national="+ "1";
         } else if (nationalfixedcostfreeshipping.isChecked()) {
-            querypart1 = querypart1 + "isfree_shipping_national";
-            querypart2 = querypart2 + "1";
+            querypart1 = querypart1 + "isfree_shipping_national=" + "1";
 
         }
         if (ActualCost2.isChecked() || FixedCost2.isChecked()) {
@@ -1216,24 +1200,20 @@ public class JewelleryPostPrivate extends AppCompatActivity implements View.OnCl
             //international free shipping for fixed cost and actual cost
 
             if (internationalfixedcostfreeshipping.isChecked()) {
-                querypart1 = querypart1 + ",isfree_shipping_international";
-                querypart2 = querypart2 + ",1";
+                querypart1 = querypart1 + ",isfree_shipping_international=" + "1";
             } else if (internationalactualcostfreeshipping.isChecked()) {
-                querypart1 = querypart1 + ",isfree_shipping_international";
-                querypart2 = querypart2 + ",1";
+                querypart1 = querypart1 + ",isfree_shipping_international=" + "1";
 
             }
             if (internationalfixedcostnointernationshipping.isChecked()) {
-                querypart1 = querypart1 + ",isno_shipping_international";
-                querypart2 = querypart2 + ",1";
+                querypart1 = querypart1 + ",isno_shipping_international="+ "1";
             } else if (internationalactualcostnointernationshipping.isChecked()) {
-                querypart1 = querypart1 + ",isno_shipping_international";
-                querypart2 = querypart2 + ",1";
+                querypart1 = querypart1 + ",isno_shipping_international=" + "1";
 
             }
 
         }
-
+//Log.e("query",querypart1+querypart2);
         return true;
     }
 

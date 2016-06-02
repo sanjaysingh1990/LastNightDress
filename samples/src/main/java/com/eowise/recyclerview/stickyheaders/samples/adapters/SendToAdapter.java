@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.eowise.recyclerview.stickyheaders.samples.Loading.AVLoadingIndicatorView;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.LndHomeAdapter;
@@ -28,15 +29,17 @@ import butterknife.ButterKnife;
 /**
  * Created by aurel on 22/09/14.
  */
-public class SentToAdapter extends RecyclerView.Adapter<SentToAdapter.ViewHolder> {
+public class SendToAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static Map<Integer, Parcelable> scrollStatePositionsMap = new HashMap<>();
     private static List<FollowersFollowingData> items;
     private PersonDataProvider personDataProvider;
     static Context mContext;
     static int count = 0;
+    private final int VIEW_ITEM = 1;
+    private final int VIEW_PROG = 0;
     public static HashMap<String, Boolean> usersselected = new HashMap<>();
 
-    public SentToAdapter(Context context, List<FollowersFollowingData> data) {
+    public SendToAdapter(Context context, List<FollowersFollowingData> data) {
         this.mContext = context;
         this.personDataProvider = personDataProvider;
         this.items = data;
@@ -44,8 +47,20 @@ public class SentToAdapter extends RecyclerView.Adapter<SentToAdapter.ViewHolder
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.send_to_row, viewGroup, false);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        RecyclerView.ViewHolder vh;
+        if (viewType == VIEW_ITEM) {
+            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.send_to_row, parent, false);
+            vh = new ItemViewHolder(itemView);
+
+        }
+        else
+        {
+            View v = LayoutInflater.from(parent.getContext()).inflate(
+                    R.layout.progressbar_item, parent, false);
+            ViewGroup.LayoutParams params = v.getLayoutParams();
+            vh = new ProgressViewHolder(v);
+        }
 
         //Perhaps the first most crucial part. The ViewPager loses its width information when it is put
         //inside a RecyclerView. It needs to be explicitly resized, in this case to the width of the
@@ -54,7 +69,6 @@ public class SentToAdapter extends RecyclerView.Adapter<SentToAdapter.ViewHolder
         v.getLayoutParams().width = displayMetrics.widthPixels;
         v.requestLayout();*/
 
-        ViewHolder vh = new ViewHolder(itemView);
         return vh;
 
     }
@@ -66,20 +80,26 @@ public class SentToAdapter extends RecyclerView.Adapter<SentToAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
-        FollowersFollowingData fd = items.get(position);
-        SingleTon.imageLoader.displayImage(fd.getUserpic(), viewHolder.profilepic, SingleTon.options3);
-        viewHolder.uname.setText(Capitalize.capitalize(fd.getUname()));
-        viewHolder.profilepic.setOnClickListener(new MyEvent(viewHolder.userselected, fd));
-        if (fd.isSelected()) {
-            viewHolder.userselected.setBackgroundResource(R.drawable.user_selected);
+    public void onBindViewHolder(final RecyclerView.ViewHolder viewHolder, final int position) {
+        if (viewHolder instanceof ItemViewHolder) {
+            {
 
-        } else
-            viewHolder.userselected.setBackground(null);
+                ItemViewHolder holder = (ItemViewHolder) viewHolder;
+                FollowersFollowingData fd = items.get(position);
+                SingleTon.imageLoader.displayImage(fd.getUserpic(), holder.profilepic, SingleTon.options3);
+                holder.uname.setText(Capitalize.capitalize(fd.getUname()));
+                holder.profilepic.setOnClickListener(new MyEvent(holder.userselected, fd));
+                if (fd.isSelected()) {
+                    holder.userselected.setBackgroundResource(R.drawable.user_selected);
+
+                } else
+                    holder.userselected.setBackground(null);
+            }
+            }
 
     }
 
-    private class MyEvent implements View.OnClickListener {
+    public class MyEvent implements View.OnClickListener {
 
         RelativeLayout relativelayout;
         FollowersFollowingData fd;
@@ -143,7 +163,7 @@ public class SentToAdapter extends RecyclerView.Adapter<SentToAdapter.ViewHolder
     }
 
 
-    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public static class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @Bind(R.id.uname)
         TextView uname;
         @Bind(R.id.profilepic)
@@ -152,7 +172,7 @@ public class SentToAdapter extends RecyclerView.Adapter<SentToAdapter.ViewHolder
         RelativeLayout userselected;
 
 
-        public ViewHolder(View itemView) {
+        public ItemViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
 
@@ -164,6 +184,16 @@ public class SentToAdapter extends RecyclerView.Adapter<SentToAdapter.ViewHolder
 
         }
     }
+    @Override
+    public int getItemViewType(int position) {
+        return items.get(position) != null ? VIEW_ITEM : VIEW_PROG;
+    }
+    public static class ProgressViewHolder extends RecyclerView.ViewHolder {
+        public AVLoadingIndicatorView progressBar;
 
-
+        public ProgressViewHolder(View v) {
+            super(v);
+            progressBar = (AVLoadingIndicatorView) v.findViewById(R.id.progress);
+        }
+    }
 }

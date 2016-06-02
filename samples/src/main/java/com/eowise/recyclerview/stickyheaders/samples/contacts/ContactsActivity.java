@@ -25,7 +25,7 @@ import butterknife.ButterKnife;
 public class ContactsActivity extends AppCompatActivity
 {
     @Bind(R.id.recyclerView) RecyclerView recyclerView;
-    public static List<PeopleData> data=new ArrayList<PeopleData>();
+    private List<PeopleData> data=new ArrayList<PeopleData>();
     private ContactsAdapter recyclerAdapter;
     @Bind(R.id.heading)TextView heading;
     @Override

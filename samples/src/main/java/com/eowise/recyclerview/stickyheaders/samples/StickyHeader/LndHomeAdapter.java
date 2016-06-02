@@ -60,10 +60,11 @@ import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.SQLDB.FavoriteData;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.UserProfile.OtherUserProfileActivity;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.ApplicationConstants;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ConstantValues;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.RelativeTimeTextView;
-import com.eowise.recyclerview.stickyheaders.samples.adapters.SentToAdapter;
+import com.eowise.recyclerview.stickyheaders.samples.adapters.SendToAdapter;
 import com.eowise.recyclerview.stickyheaders.samples.data.Chat_Banner_Data;
 import com.eowise.recyclerview.stickyheaders.samples.data.FollowersFollowingData;
 import com.eowise.recyclerview.stickyheaders.samples.interfaces.TagClick;
@@ -108,10 +109,10 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     List<FollowersFollowingData> users = new ArrayList<>();
     public static EditText usermessage;
     public static TextView sendcancel;
-    private SentToAdapter mAdapter;
+    private SendToAdapter mAdapter;
     private ProgressBar prog;
     private TextView showtext;
-
+    private int skipfollow = 0;
 
     TagSelectingTextview mTagSelectingTextview;
     public static int hashTagHyperLinkEnabled = 1;
@@ -1457,10 +1458,10 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             time = (RelativeTimeTextView) view.findViewById(R.id.time);
             progress = (ProgressBar) view.findViewById(R.id.fullpostloading);
             //bind with listeners
-          /*  this.sendto.setOnClickListener(this);
+            this.sendto.setOnClickListener(this);
             this.msgtouser.setOnClickListener(this);
             this.favorates.setOnClickListener(this);
-            this.comment.setOnClickListener(this);*/
+            this.comment.setOnClickListener(this);
 
         }
 
@@ -1529,12 +1530,11 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
 
             //bind with listeners
-          /*  this.buy.setOnClickListener(this);
 
             this.sendto.setOnClickListener(this);
             this.msgtouser.setOnClickListener(this);
             this.favorates.setOnClickListener(this);
-            this.comment.setOnClickListener(this);*/
+            this.comment.setOnClickListener(this);
 
 
         }
@@ -1623,7 +1623,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public EmojiconTextView description;
         public TextView price_was, price_now;
         public ImageButton msgtouser, favorates, sendto;
-        public TextView buy,swap;
+        public TextView buy, swap;
         public TextView likescount;
         public TextView condition;
         public TextView comment;
@@ -1935,7 +1935,8 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 break;
 
             case R.id.sendto:
-
+                loading=true;
+                skipfollow=0;
                 users.clear();
 
                 final Dialog sendtodialog = new Dialog(mContext, R.style.DialogSlideAnim3);
@@ -1958,7 +1959,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                 // mLayoutManager.
                 recyclerView.setLayoutManager(layoutManager);
-                mAdapter = new SentToAdapter(mContext, users);
+                mAdapter = new SendToAdapter(mContext, users);
                 recyclerView.setAdapter(mAdapter);
                 String userid = SingleTon.pref.getString("user_id", "");
                 //to get all followers
@@ -1976,12 +1977,12 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             sendtodialog.dismiss();
                             return;
                         }
-                        if (SentToAdapter.usersselected.size() == 0) {
+                        if (SendToAdapter.usersselected.size() == 0) {
                             return;
                         }
                         try {
                             JSONObject jobj = new JSONObject();
-                            JSONArray dressArray = new JSONArray(SentToAdapter.usersselected.keySet());
+                            JSONArray dressArray = new JSONArray(SendToAdapter.usersselected.keySet());
                             jobj.put("userids", dressArray);
                             jobj.put("message", usermessage.getText() + "");
                             jobj.put("postid", mItems.get(pos).getPost_id());
@@ -2010,8 +2011,10 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             if (loading) {
                                 if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
                                     loading = false;
-                                    //  Toast.makeText(mContext,"called",Toast.LENGTH_SHORT).show();
-//                                    getData();
+                                    Toast.makeText(mContext, "called", Toast.LENGTH_SHORT).show();
+                                    users.add(null);
+                                    mAdapter.notifyDataSetChanged();
+                                    getFollowers(SingleTon.pref.getString("user_id", ""));
                                 }
                             }
                         }
@@ -2135,12 +2138,17 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         prog.setVisibility(View.VISIBLE);
 
         RequestQueue queue = Volley.newRequestQueue(mContext);
-        StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/followfollowing.php", new Response.Listener<String>() {
+        StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_FOLLOWING, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                prog.setVisibility(View.GONE);
 
-                //   Log.e("follower", response.toString());
+                prog.setVisibility(View.GONE);
+                //remove progress bar and update list
+                if (!loading) {
+                    users.remove(users.size() - 1);
+                    mAdapter.notifyDataSetChanged();
+                }
+                  Log.e("json", response.toString());
                 try {
                     JSONObject jobj = new JSONObject(response.toString());
                     JSONArray jsonArray = jobj.getJSONArray("data");
@@ -2153,8 +2161,12 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         fd.setSelected(false);
                         users.add(fd);
                     }
-                    if (jsonArray.length() == 0)
-                        showtext.setVisibility(View.VISIBLE);
+                    skipfollow=users.size();
+                    if (jsonArray.length() < 25)
+                        loading = false;
+                    else
+                        loading = true;
+
                 } catch (Exception ex) {
 
                     Log.e("json parsing error", ex.getMessage());
@@ -2174,7 +2186,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("rqid", "9");
                 params.put("user_id", userid);
-                params.put("skipdata", 0 + "");
+                params.put("skipdata", skipfollow + "");
 
 
                 return params;
@@ -2194,7 +2206,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         prog.setVisibility(View.VISIBLE);
 
         RequestQueue queue = Volley.newRequestQueue(mContext);
-        StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/lndnotification.php", new Response.Listener<String>() {
+        StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_NOTIFICATION, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 prog.setVisibility(View.GONE);
@@ -2203,7 +2215,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 try {
                     JSONObject jobj = new JSONObject(response.toString());
                     if (jobj.getBoolean("status")) {
-                        SentToAdapter.usersselected.clear();
+                        SendToAdapter.usersselected.clear();
                         Main_TabHost.main.showPopup("Shared successfully", View.VISIBLE);
                     } else {
                         Toast.makeText(mContext, jobj.getString("message"), Toast.LENGTH_SHORT).show();
@@ -2250,7 +2262,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         pDialog.show();
 
         RequestQueue queue = Volley.newRequestQueue(mContext);
-        StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/postdata.php", new Response.Listener<String>() {
+        StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_POST_DATA, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -2261,7 +2273,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     if (jobj.getBoolean("status")) {
 
                         Toast.makeText(mContext, jobj.getString("message"), Toast.LENGTH_LONG).show();
-                        LndUserFullStickyActivity lnd = (LndUserFullStickyActivity) mContext;
+
                         delete(pos);
                     } else {
                         Toast.makeText(mContext, jobj.getString("message"), Toast.LENGTH_LONG).show();
@@ -2357,7 +2369,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
 
                 recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
-                mAdapter = new SentToAdapter(mContext, filteredList);
+                mAdapter = new SendToAdapter(mContext, filteredList);
 
                 recyclerView.setAdapter(mAdapter);
                 mAdapter.notifyDataSetChanged();  // data set changed

@@ -120,7 +120,7 @@
                                 android:lineSpacingMultiplier="1.1"
 
                                 android:singleLine="true"
-
+                                android:textSize="18sp"
                                 android:text="Marciano"
                                 android:textColor="@color/heading_color"
                                 android:textStyle="bold" />
@@ -151,9 +151,9 @@
                                 android:lineSpacingMultiplier="1.1"
                                 android:singleLine="true"
                                 android:text="Seller: "
-                                android:textColor="#bababa"
+                                android:textColor="@color/sale_purchase_lable_color"
                                 android:textSize="14sp"
-                                android:textStyle="bold" />
+                                />
 
                             <TextView
                                 android:id="@+id/sellername"
@@ -182,9 +182,9 @@
                                 android:lineSpacingMultiplier="1.1"
                                 android:singleLine="true"
                                 android:text="Price: "
-                                android:textColor="#bababa"
+                                android:textColor="@color/sale_purchase_lable_color"
                                 android:textSize="14sp"
-                                android:textStyle="bold"
+
 
                                 />
 
@@ -214,9 +214,9 @@
                                 android:lineSpacingMultiplier="1.1"
                                 android:singleLine="true"
                                 android:text="Shipping: "
-                                android:textColor="#bababa"
+                                android:textColor="@color/sale_purchase_lable_color"
                                 android:textSize="14sp"
-                                android:textStyle="bold"
+
 
                                 />
 
@@ -246,9 +246,9 @@
                                 android:lineSpacingMultiplier="1.1"
                                 android:singleLine="true"
                                 android:text="Grand Total: "
-                                android:textColor="#bababa"
+                                android:textColor="@color/sale_purchase_lable_color"
                                 android:textSize="14sp"
-                                android:textStyle="bold"
+
 
                                 />
 
@@ -278,9 +278,8 @@
                                 android:lineSpacingMultiplier="1.1"
                                 android:singleLine="true"
                                 android:text="Order Date: "
-                                android:textColor="#bababa"
+                                android:textColor="@color/sale_purchase_lable_color"
                                 android:textSize="14sp"
-                                android:textStyle="bold"
 
                                 />
 
@@ -310,9 +309,8 @@
                                 android:lineSpacingMultiplier="1.1"
                                 android:singleLine="true"
                                 android:text="Order Number: "
-                                android:textColor="#bababa"
+                                android:textColor="@color/sale_purchase_lable_color"
                                 android:textSize="14sp"
-                                android:textStyle="bold"
 
                                 />
 
@@ -364,7 +362,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:layout_marginTop="3dp"
-                android:background="#dadada" />
+                android:background="@color/gray" />
 
             <LinearLayout
                 android:layout_width="match_parent"

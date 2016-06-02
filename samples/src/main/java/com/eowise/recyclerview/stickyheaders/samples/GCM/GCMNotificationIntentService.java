@@ -1,5 +1,6 @@
 package com.eowise.recyclerview.stickyheaders.samples.GCM;
 
+import android.app.ActivityManager;
 import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -15,6 +16,8 @@ import android.util.Log;
 import com.eowise.recyclerview.stickyheaders.samples.Main_TabHost;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+
+import java.util.List;
 
 public class GCMNotificationIntentService extends IntentService {
 	// Sets an ID for the notification, so it can be updated
@@ -72,8 +75,7 @@ public class GCMNotificationIntentService extends IntentService {
 	                .setLargeIcon(largeIcon)
 			     	.setPriority(Notification.PRIORITY_MAX)
 				  	.setSmallIcon(R.drawable.logo);
-
-	        // Set pending intent
+		      // Set pending intent
 	        mNotifyBuilder.setContentIntent(resultPendingIntent);
 	        
 	        // Set Vibrate, Sound and Light	        
@@ -88,6 +90,25 @@ public class GCMNotificationIntentService extends IntentService {
 	        // Set autocancel
 	        mNotifyBuilder.setAutoCancel(true);
 	        // Post a notification
-	        mNotificationManager.notify(notifyID, mNotifyBuilder.build());
+
+		ActivityManager activityManager = (ActivityManager)getSystemService(Context.ACTIVITY_SERVICE);
+		List<ActivityManager.RunningTaskInfo> services = activityManager
+				.getRunningTasks(Integer.MAX_VALUE);
+		boolean isActivityFound = false;
+
+		if (services.get(0).topActivity.getPackageName().toString()
+				.equalsIgnoreCase(getPackageName().toString())) {
+			isActivityFound = true;
+		}
+
+		if (isActivityFound) {
+			Main_TabHost.main.getNotification();
+			Log.e("json","running");
+		} else {
+			// write your code to build a notification.
+			// return the notification you built here
+			mNotificationManager.notify(notifyID, mNotifyBuilder.build());
+		}
+
 	}
 }
