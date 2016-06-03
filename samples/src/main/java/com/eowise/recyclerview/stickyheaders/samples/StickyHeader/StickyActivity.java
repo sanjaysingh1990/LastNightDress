@@ -11,6 +11,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.util.Log;
@@ -37,6 +39,7 @@ import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.Loading.AVLoadingIndicatorView;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.SQLDB.FavoriteData;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ConstantValues;
 import com.eowise.recyclerview.stickyheaders.samples.contacts.ContactsActivity;
 import com.facebook.FacebookSdk;
@@ -370,6 +373,26 @@ public class StickyActivity extends AppCompatActivity {
                         hld.setTime(getMilliseconds(jo.getString("date_time")));
                         hld.setIssold(jo.getInt("issold"));
                         hld.setSwapstatus(jo.getInt("swap_status"));
+                        hld.setComments(jo.getString("post_comments"));
+                        if (!jo.isNull("post_comments")) {
+                            String[] comments = jo.getString("post_comments").split(",");
+                            ArrayList<SpannableString> post_cont = new ArrayList<>();
+                            for (int i = 0; i < comments.length; i++) {
+                                String[] unamencomnt = comments[i].split(" ");
+                                SpannableString word = new SpannableString(Capitalize.capitalizeFirstLetter(comments[i]));
+
+                                word.setSpan(new ForegroundColorSpan(Color.parseColor("#be4d66")), 0, unamencomnt[0].length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                word.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, unamencomnt[0].length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                                post_cont.add(word);
+                            }
+                            hld.setPostcomments(post_cont);
+
+                        } else {
+                            ArrayList<SpannableString> post_cont = new ArrayList<>();
+                            hld.setPostcomments(post_cont);
+
+                        }
 
 
                        /* if (hld.getCategory() == 1) {

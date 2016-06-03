@@ -24,6 +24,7 @@ import com.android.volley.toolbox.Volley;
 import com.eowise.recyclerview.stickyheaders.samples.Loading.AVLoadingIndicatorView;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.ApplicationConstants;
 import com.eowise.recyclerview.stickyheaders.samples.adapters.LndCommentsAdapter;
 import com.eowise.recyclerview.stickyheaders.samples.adapters.NewMessageAdapter;
 import com.eowise.recyclerview.stickyheaders.samples.data.CommentData;
@@ -58,6 +59,7 @@ public class LndComments extends AppCompatActivity {
     boolean loading = true;
     int pastVisiblesItems, visibleItemCount, totalItemCount;
     private int skipdata = 0;
+    private String postid="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +74,12 @@ public class LndComments extends AppCompatActivity {
         heading = (TextView) findViewById(R.id.heading);
         //applying custom font
         heading.setTypeface(SingleTon.hfont);
-        getData();
+        //get data from previous activity
+       Bundle extras=getIntent().getExtras();
+      if(extras!=null) {
+          postid=extras.getString("post_id","");
+          getData(postid);
+      }
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -96,15 +103,13 @@ public class LndComments extends AppCompatActivity {
 
     }
 
-    public void getData() {
-
-        RequestQueue queue = Volley.newRequestQueue(this);
-        StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/lndcomments.php", new Response.Listener<String>() {
+    public void getData(final String postid) {
+          RequestQueue queue = Volley.newRequestQueue(this);
+        StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_COMMENTS, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
-                //   Log.e("response", response.toString());
-                try {
+                 try {
                     loader.setVisibility(View.GONE);
                     JSONObject jobj = new JSONObject(response.toString());
                     JSONArray jarray = jobj.getJSONArray("data");
@@ -142,7 +147,7 @@ public class LndComments extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("rqid", "0");
-                params.put("postid", 13 + "");
+                params.put("postid",postid);
                 params.put("skipdata", skipdata + "");
 
 
@@ -158,7 +163,58 @@ public class LndComments extends AppCompatActivity {
         };
         queue.add(sr);
     }
+    public void PostComment() {
 
+        RequestQueue queue = Volley.newRequestQueue(this);
+        StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_COMMENTS, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                //   Log.e("response", response.toString());
+                try {
+                    loader.setVisibility(View.GONE);
+                    JSONObject jobj = new JSONObject(response.toString());
+                    if(jobj.getBoolean("status"))
+                    {
+                        commentbox.setText("");
+                    }
+                    }
+                catch (Exception ex)
+                {
+
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                loader.setVisibility(View.GONE);
+                Log.e("response", error.getMessage() + "");
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("rqid", "2");
+                params.put("postid",postid);
+                params.put("datetime",SingleTon.getCurrentTimeStamp());
+                params.put("user_id", SingleTon.pref.getString("user_id",""));
+                params.put("comment_text",commentbox.getText().toString());
+
+
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                return params;
+            }
+        };
+        queue.add(sr);
+    }
     public void back(View v) {
         onBackPressed();
     }
@@ -197,7 +253,8 @@ public class LndComments extends AppCompatActivity {
         data.add(cmntdata);
         recyclerAdapter.notifyDataSetChanged();
         recyclerView.scrollToPosition(data.size()-1);
-        commentbox.setText("");
+
+        PostComment();
     }
 }
 

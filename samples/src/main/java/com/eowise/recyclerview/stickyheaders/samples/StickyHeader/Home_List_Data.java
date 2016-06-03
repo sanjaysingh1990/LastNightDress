@@ -1,5 +1,8 @@
 package com.eowise.recyclerview.stickyheaders.samples.StickyHeader;
 
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -18,6 +21,25 @@ public class Home_List_Data implements Serializable {
     private String pricenow;
     private int likestotal;
     private String conditon;
+
+    public ArrayList<SpannableString> getPostcomments() {
+        return postcomments;
+    }
+
+    public void setPostcomments(ArrayList<SpannableString> postcomments) {
+        this.postcomments = postcomments;
+    }
+
+    private ArrayList<SpannableString> postcomments;
+     public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
+
+    private String comments;
 
     public int getSwapstatus() {
         return swapstatus;

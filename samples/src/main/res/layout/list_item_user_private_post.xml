@@ -400,6 +400,14 @@
             android:layout_marginTop="1dp"
             android:src="@drawable/comment_lock_icon" />
     </LinearLayout>
+    <TextView
+        android:id="@+id/commenttextview"
+        android:gravity="left"
+        android:layout_height="fill_parent"
+        android:layout_width="wrap_content"
+
+        android:layout_marginLeft="15dp"
+        android:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."></TextView>
 
     <View
         android:id="@+id/space"

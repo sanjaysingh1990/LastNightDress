@@ -767,6 +767,12 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 //price was and price now
                 vh4.price_was.setText("$" + item.getPricewas());
                 vh4.price_now.setText("$" + item.getPricenow());
+                vh4.showComments.setText("");
+                for(int val=0;val<item.getPostcomments().size();val++)
+                {
+                    vh4.showComments.append(item.getPostcomments().get(val));
+                    vh4.showComments.append("\n");
+                }
                 //bag size
                 try {
                     int pos = Integer.parseInt(item.getSize());
@@ -834,7 +840,12 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 vh5.price_now.setText("$" + item.getPricenow());
                 vh5.likescount.setText(item.getLikestotal() + " likes");
                 vh5.time.setReferenceTime(item.getTime());
-
+                vh5.showComments.setText("");
+                for(int val=0;val<item.getPostcomments().size();val++)
+            {
+                vh5.showComments.append(item.getPostcomments().get(val));
+                vh5.showComments.append("\n");
+            }
                 try {
                     vh5.hfl.setFeatureItems(vh5.forward, vh5.backward, position, this, vh5.progress);
                     if (position == mItems.size() - 1) {
@@ -1709,6 +1720,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public RelativeTimeTextView time;
         public ProgressBar progress;
         public TextView comment;
+        public TextView showComments;
 
         LndProductPrivateUserHolder(View view, Context context) {
             super(view);
@@ -1743,6 +1755,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             backward = (ImageButton) view.findViewById(R.id.backward);
             spaceview = view.findViewById(R.id.space);
             comment = (TextView) itemView.findViewById(R.id.comment);
+            showComments= (TextView) itemView.findViewById(R.id.commenttextview);
 
             //hiding views for user
             msgtouser.setVisibility(View.GONE);
@@ -1779,7 +1792,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public RelativeTimeTextView time;
         public ProgressBar progress;
         public TextView comment;
-
+        public TextView showComments;
         Context con;
         ImageButton forward, backward;
         public TextView size, color;
@@ -1821,7 +1834,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             condition = (TextView) view.findViewById(R.id.condition);
             progress = (ProgressBar) view.findViewById(R.id.fullpostloading);
             comment = (TextView) itemView.findViewById(R.id.comment);
-
+            showComments= (TextView) itemView.findViewById(R.id.commenttextview);
             //hiding views for user
             msgtouser.setVisibility(View.GONE);
             favorates.setVisibility(View.GONE);
@@ -1928,7 +1941,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     public void onClick(View v) {
                         alert.dismiss();
                         Intent i = new Intent(mContext, LndComments.class);
-                        i.putExtra("pos", 2);
+                        i.putExtra("post_id", mItems.get(pos).getPost_id());
                         mContext.startActivity(i);
                     }
                 });
