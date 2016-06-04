@@ -36,6 +36,7 @@ import org.json.JSONObject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -57,9 +58,11 @@ public class LndComments extends AppCompatActivity {
     private LndCommentsAdapter recyclerAdapter;
     private TextView heading;
     boolean loading = true;
-    int pastVisiblesItems, visibleItemCount, totalItemCount;
+    int pastVisiblesItems, visibleItemCount, totalItemCount,firstVisibleItemIndex,previousTotal;
     private int skipdata = 0;
     private String postid="";
+    private boolean loadmore=false;
+    private boolean isrunning=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +83,7 @@ public class LndComments extends AppCompatActivity {
           postid=extras.getString("post_id","");
           getData(postid);
       }
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        /*recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 if (dy > 0) //check for scroll down
@@ -99,12 +102,52 @@ public class LndComments extends AppCompatActivity {
                     }
                 }
             }
+        });*/
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                visibleItemCount = recyclerView.getChildCount();
+                totalItemCount = manager.getItemCount();
+                firstVisibleItemIndex = manager.findFirstVisibleItemPosition();
+
+                //synchronizew loading state when item count changes
+                if (loading) {
+                    if (totalItemCount > previousTotal) {
+                        loading = false;
+                        previousTotal = totalItemCount;
+                    }
+                }
+                if (!loading)
+                    if ((totalItemCount - visibleItemCount) <= firstVisibleItemIndex) {
+                        // Loading NOT in progress and end of list has been reached
+                        // also triggered if not enough items to fill the screen
+                        // if you start loading
+                        //Toast.makeText(LndComments.this,"bottom",Toast.LENGTH_SHORT).show();
+
+                        //loading = true;
+                    } else if (firstVisibleItemIndex == 0){
+                        // top of list reached
+                        // if you start loading
+                        loadmore=true;
+                        loading = true;
+                        if(!isrunning) {
+                            isrunning=true;
+                            getData(postid);
+
+                        }
+                        }
+            }
         });
 
     }
-
+int count=0;
     public void getData(final String postid) {
-          RequestQueue queue = Volley.newRequestQueue(this);
+     count++;
+      Log.e("called",count+"'");
+        RequestQueue queue = Volley.newRequestQueue(this);
         StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_COMMENTS, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -126,13 +169,22 @@ public class LndComments extends AppCompatActivity {
 
 
                     recyclerAdapter.notifyDataSetChanged();
-                    recyclerView.scrollToPosition(data.size()-1);
-                    skipdata = data.size();
-                    if (jarray.length() < 25)
-                        loading = false;
-                    else
+                    if(!loadmore) {
+                        recyclerView.scrollToPosition(data.size() - 1);
+
+                    }
+                     else
+                        Collections.reverse(data);
+                        skipdata = data.size();
+                    if (jarray.length() < 10) {
                         loading = true;
-                } catch (Exception ex) {
+                        isrunning=true;
+                    }
+                        else {
+                        loading = false;
+                        isrunning=false;
+                    }
+                    } catch (Exception ex) {
                     Log.e("json parsing error", ex.getMessage());
                 }
             }

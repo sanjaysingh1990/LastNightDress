@@ -407,6 +407,24 @@
             android:layout_marginTop="1dp"
             />
     </LinearLayout>
+    <TextView
+        android:id="@+id/commenttextview"
+        android:gravity="left"
+        android:layout_height="fill_parent"
+        android:layout_width="wrap_content"
+        android:lineSpacingMultiplier="1.3"
+        android:layout_marginLeft="15dp"
+
+        />
+    <TextView
+        android:id="@+id/viewallcomments"
+        android:gravity="left"
+        android:layout_height="fill_parent"
+        android:layout_width="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="-10dp"
+        android:clickable="true"
+        />
 <View
     android:layout_width="match_parent"
     android:layout_height="30dp"

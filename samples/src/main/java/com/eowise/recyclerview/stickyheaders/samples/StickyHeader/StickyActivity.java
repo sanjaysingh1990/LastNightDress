@@ -373,16 +373,21 @@ public class StickyActivity extends AppCompatActivity {
                         hld.setTime(getMilliseconds(jo.getString("date_time")));
                         hld.setIssold(jo.getInt("issold"));
                         hld.setSwapstatus(jo.getInt("swap_status"));
-                        hld.setComments(jo.getString("post_comments"));
-                        if (!jo.isNull("post_comments")) {
-                            String[] comments = jo.getString("post_comments").split(",");
-                            ArrayList<SpannableString> post_cont = new ArrayList<>();
-                            for (int i = 0; i < comments.length; i++) {
-                                String[] unamencomnt = comments[i].split(" ");
-                                SpannableString word = new SpannableString(Capitalize.capitalizeFirstLetter(comments[i]));
+                        hld.setTotalcomments(jo.getInt("post_total_comment"));
+                        JSONArray commnets=jo.getJSONArray("postcoments");
+                        if(commnets.length()>0)
+                        {
 
-                                word.setSpan(new ForegroundColorSpan(Color.parseColor("#be4d66")), 0, unamencomnt[0].length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                                word.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, unamencomnt[0].length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                             ArrayList<SpannableString> post_cont = new ArrayList<>();
+                            for (int i = 0; i < commnets.length(); i++) {
+                                JSONObject jsonObject=commnets.getJSONObject(i);
+                                String uname = jsonObject.getString("uname");
+                                String comment = jsonObject.getString("comment");
+
+                                SpannableString word = new SpannableString(Capitalize.capitalizeFirstLetter(uname+" "+comment));
+
+                                word.setSpan(new ForegroundColorSpan(Color.parseColor("#be4d66")), 0, uname.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                word.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, uname.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
                                 post_cont.add(word);
                             }

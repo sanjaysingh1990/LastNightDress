@@ -22,6 +22,15 @@ public class Home_List_Data implements Serializable {
     private int likestotal;
     private String conditon;
 
+    public int getTotalcomments() {
+        return totalcomments;
+    }
+
+    public void setTotalcomments(int totalcomments) {
+        this.totalcomments = totalcomments;
+    }
+
+    private int totalcomments;
     public ArrayList<SpannableString> getPostcomments() {
         return postcomments;
     }

@@ -88,15 +88,7 @@ public class LndCommentsAdapter extends RecyclerView.Adapter<LndCommentsAdapter.
                 TextView.BufferType.SPANNABLE);
     }
 
-    private String capitalize(final String line) {
-        String[] split = line.split(" ");
-        String output = "";
-        for (String str : split) {
 
-            output += Character.toUpperCase(str.charAt(0)) + str.substring(1) + " ";
-        }
-        return output;
-    }
 
     @Override
     public int getItemCount() {

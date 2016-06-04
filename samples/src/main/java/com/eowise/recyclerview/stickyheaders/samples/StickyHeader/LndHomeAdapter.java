@@ -447,6 +447,23 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     vh2.len.setText((item.getSize().toUpperCase()));
 
                 }
+                //for comments
+                vh2.showComments.setText("");
+                for (int val = 0; val < item.getPostcomments().size(); val++) {
+                    vh2.showComments.append(item.getPostcomments().get(val));
+                    vh2.showComments.append("\n");
+                }
+                if (item.getTotalcomments() > 5) {
+                    vh2.viewallComments.setVisibility(View.VISIBLE);
+                    vh2.viewallComments.setText("view all " + item.getTotalcomments() + " comments");
+
+                } else {
+
+                    vh2.viewallComments.setVisibility(View.GONE);
+                }
+
+                //end here
+
                 vh2.likescount.setText(item.getLikestotal() + " likes");
                 //start
 
@@ -519,6 +536,24 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 } catch (Exception ex) {
 
                 }
+                //for comments
+                vh3.showComments.setText("");
+                for (int val = 0; val < item.getPostcomments().size(); val++) {
+                    vh3.showComments.append(item.getPostcomments().get(val));
+                    vh3.showComments.append("\n");
+                }
+                if (item.getTotalcomments() > 5) {
+                    vh3.viewallComments.setVisibility(View.VISIBLE);
+                    vh3.viewallComments.setText("view all " + item.getTotalcomments() + " comments");
+
+                } else {
+
+                    vh3.viewallComments.setVisibility(View.GONE);
+                }
+
+                //end here
+
+
                 //checking for single or multiple sizes
                 try {
                     if (item.getSize().split(",").length == 1) {
@@ -618,6 +653,24 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 } catch (Exception ex) {
 
                 }
+                //for comments
+                vh3.showComments.setText("");
+                for (int val = 0; val < item.getPostcomments().size(); val++) {
+                    vh3.showComments.append(item.getPostcomments().get(val));
+                    vh3.showComments.append("\n");
+                }
+                if (item.getTotalcomments() > 5) {
+                    vh3.viewallComments.setVisibility(View.VISIBLE);
+                    vh3.viewallComments.setText("view all " + item.getTotalcomments() + " comments");
+
+                } else {
+
+                    vh3.viewallComments.setVisibility(View.GONE);
+                }
+
+                //end here
+
+
                 //checking for single or multiple sizes
                 try {
                     if (item.getSize().split(",").length == 1) {
@@ -714,6 +767,23 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 vh2.likescount.setText(item.getLikestotal() + " likes");
                 //start
 
+                //for comments
+                vh2.showComments.setText("");
+                for (int val = 0; val < item.getPostcomments().size(); val++) {
+                    vh2.showComments.append(item.getPostcomments().get(val));
+                    vh2.showComments.append("\n");
+                }
+                if (item.getTotalcomments() > 5) {
+                    vh2.viewallComments.setVisibility(View.VISIBLE);
+                    vh2.viewallComments.setText("view all " + item.getTotalcomments() + " comments");
+
+                } else {
+
+                    vh2.viewallComments.setVisibility(View.GONE);
+                }
+
+                //end here
+
                 try {
                     vh2.condition.setText(ConstantValues.condition[Integer.parseInt(item.getConditon())]);
 
@@ -768,10 +838,15 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 vh4.price_was.setText("$" + item.getPricewas());
                 vh4.price_now.setText("$" + item.getPricenow());
                 vh4.showComments.setText("");
-                for(int val=0;val<item.getPostcomments().size();val++)
-                {
+                for (int val = 0; val < item.getPostcomments().size(); val++) {
                     vh4.showComments.append(item.getPostcomments().get(val));
                     vh4.showComments.append("\n");
+                }
+                if (item.getTotalcomments() > 5) {
+                    vh4.viewallComments.setVisibility(View.VISIBLE);
+                    vh4.viewallComments.setText("view all " + item.getTotalcomments() + " comments");
+                } else {
+                    vh4.viewallComments.setVisibility(View.GONE);
                 }
                 //bag size
                 try {
@@ -841,11 +916,18 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 vh5.likescount.setText(item.getLikestotal() + " likes");
                 vh5.time.setReferenceTime(item.getTime());
                 vh5.showComments.setText("");
-                for(int val=0;val<item.getPostcomments().size();val++)
-            {
-                vh5.showComments.append(item.getPostcomments().get(val));
-                vh5.showComments.append("\n");
-            }
+                for (int val = 0; val < item.getPostcomments().size(); val++) {
+                    vh5.showComments.append(item.getPostcomments().get(val));
+                    vh5.showComments.append("\n");
+                }
+                if (item.getTotalcomments() > 5) {
+                    vh5.viewallComments.setVisibility(View.VISIBLE);
+                    vh5.viewallComments.setText("view all " + item.getTotalcomments() + " comments");
+
+                } else {
+
+                    vh5.viewallComments.setVisibility(View.GONE);
+                }
                 try {
                     vh5.hfl.setFeatureItems(vh5.forward, vh5.backward, position, this, vh5.progress);
                     if (position == mItems.size() - 1) {
@@ -961,6 +1043,22 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
                 vh6.likescount.setText(item.getLikestotal() + " likes");
                 //start
+                //for comments
+                vh6.showComments.setText("");
+                for (int val = 0; val < item.getPostcomments().size(); val++) {
+                    vh6.showComments.append(item.getPostcomments().get(val));
+                    vh6.showComments.append("\n");
+                }
+                if (item.getTotalcomments() > 5) {
+                    vh6.viewallComments.setVisibility(View.VISIBLE);
+                    vh6.viewallComments.setText("view all " + item.getTotalcomments() + " comments");
+
+                } else {
+
+                    vh6.viewallComments.setVisibility(View.GONE);
+                }
+
+                //end here
 
                 try {
                     vh6.condition.setText(ConstantValues.condition[Integer.parseInt(item.getConditon())]);
@@ -1036,6 +1134,24 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 } catch (Exception ex) {
 
                 }
+                //for comments
+                vh7.showComments.setText("");
+                for (int val = 0; val < item.getPostcomments().size(); val++) {
+                    vh7.showComments.append(item.getPostcomments().get(val));
+                    vh7.showComments.append("\n");
+                }
+                if (item.getTotalcomments() > 5) {
+                    vh7.viewallComments.setVisibility(View.VISIBLE);
+                    vh7.viewallComments.setText("view all " + item.getTotalcomments() + " comments");
+
+                } else {
+
+                    vh7.viewallComments.setVisibility(View.GONE);
+                }
+
+                //end here
+
+
                 //checking for single or multiple sizes
                 try {
                     if (item.getSize().split(",").length == 1) {
@@ -1436,6 +1552,8 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public TextView comment;
         public RelativeTimeTextView time;
         public ProgressBar progress;
+        public TextView showComments;
+        public TextView viewallComments;
 
         LndProductPrivateHolderSold(View view, Context context) {
             super(view);
@@ -1468,7 +1586,10 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             comment = (TextView) itemView.findViewById(R.id.comment);
             time = (RelativeTimeTextView) view.findViewById(R.id.time);
             progress = (ProgressBar) view.findViewById(R.id.fullpostloading);
+            showComments = (TextView) itemView.findViewById(R.id.commenttextview);
+            viewallComments = (TextView) itemView.findViewById(R.id.viewallcomments);
             //bind with listeners
+            viewallComments.setOnClickListener(this);
             this.sendto.setOnClickListener(this);
             this.msgtouser.setOnClickListener(this);
             this.favorates.setOnClickListener(this);
@@ -1500,6 +1621,8 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public TextView size, color;
         public View spaceview;
         public ProgressBar progress;
+        public TextView showComments;
+        public TextView viewallComments;
 
         LndProductShopHolderSold(View view, Context context) {
             super(view);
@@ -1538,10 +1661,12 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             color = (TextView) view.findViewById(R.id.color);
 
             description = (EmojiconTextView) view.findViewById(R.id.desc);
+            showComments = (TextView) itemView.findViewById(R.id.commenttextview);
+            viewallComments = (TextView) itemView.findViewById(R.id.viewallcomments);
 
 
             //bind with listeners
-
+            viewallComments.setOnClickListener(this);
             this.sendto.setOnClickListener(this);
             this.msgtouser.setOnClickListener(this);
             this.favorates.setOnClickListener(this);
@@ -1574,6 +1699,8 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public TextView comment;
         public RelativeTimeTextView time;
         public ProgressBar progress;
+        public TextView showComments;
+        public TextView viewallComments;
 
         LndProductPrivateHolder(View view, Context context) {
             super(view);
@@ -1608,10 +1735,12 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             comment = (TextView) itemView.findViewById(R.id.comment);
             time = (RelativeTimeTextView) view.findViewById(R.id.time);
             progress = (ProgressBar) view.findViewById(R.id.fullpostloading);
+            showComments = (TextView) itemView.findViewById(R.id.commenttextview);
+            viewallComments = (TextView) itemView.findViewById(R.id.viewallcomments);
 
             //bind with listeners
             this.buy.setOnClickListener(this);
-
+            viewallComments.setOnClickListener(this);
             this.swap.setOnClickListener(this);
             this.sendto.setOnClickListener(this);
             this.msgtouser.setOnClickListener(this);
@@ -1644,6 +1773,8 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public TextView size, color;
         public View spaceview;
         public ProgressBar progress;
+        public TextView showComments;
+        public TextView viewallComments;
 
         LndProductShopHolder(View view, Context context) {
             super(view);
@@ -1683,8 +1814,10 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             color = (TextView) view.findViewById(R.id.color);
 
             description = (EmojiconTextView) view.findViewById(R.id.desc);
-            //bind with listeners
-            // this.buy.setOnClickListener(this);
+            showComments = (TextView) itemView.findViewById(R.id.commenttextview);
+            viewallComments = (TextView) itemView.findViewById(R.id.viewallcomments);
+             //bind with listener
+            viewallComments.setOnClickListener(this);
             this.buy.setOnClickListener(new BuyItem(size, color));
             this.sendto.setOnClickListener(this);
             this.msgtouser.setOnClickListener(this);
@@ -1721,6 +1854,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public ProgressBar progress;
         public TextView comment;
         public TextView showComments;
+        public TextView viewallComments;
 
         LndProductPrivateUserHolder(View view, Context context) {
             super(view);
@@ -1755,7 +1889,8 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             backward = (ImageButton) view.findViewById(R.id.backward);
             spaceview = view.findViewById(R.id.space);
             comment = (TextView) itemView.findViewById(R.id.comment);
-            showComments= (TextView) itemView.findViewById(R.id.commenttextview);
+            showComments = (TextView) itemView.findViewById(R.id.commenttextview);
+            viewallComments = (TextView) itemView.findViewById(R.id.viewallcomments);
 
             //hiding views for user
             msgtouser.setVisibility(View.GONE);
@@ -1768,6 +1903,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             this.msgtouser.setOnClickListener(this);
             this.favorates.setOnClickListener(this);
             this.comment.setOnClickListener(this);
+            viewallComments.setOnClickListener(this);
 
 
         }
@@ -1793,6 +1929,8 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public ProgressBar progress;
         public TextView comment;
         public TextView showComments;
+        public TextView viewallComments;
+
         Context con;
         ImageButton forward, backward;
         public TextView size, color;
@@ -1834,7 +1972,9 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             condition = (TextView) view.findViewById(R.id.condition);
             progress = (ProgressBar) view.findViewById(R.id.fullpostloading);
             comment = (TextView) itemView.findViewById(R.id.comment);
-            showComments= (TextView) itemView.findViewById(R.id.commenttextview);
+            showComments = (TextView) itemView.findViewById(R.id.commenttextview);
+            viewallComments = (TextView) itemView.findViewById(R.id.viewallcomments);
+
             //hiding views for user
             msgtouser.setVisibility(View.GONE);
             favorates.setVisibility(View.GONE);
@@ -1846,6 +1986,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             this.msgtouser.setOnClickListener(this);
             this.favorates.setOnClickListener(this);
             this.comment.setOnClickListener(this);
+            viewallComments.setOnClickListener(this);
 
 
         }
@@ -1891,7 +2032,12 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         switch (v.getId()) {
 
+            case R.id.viewallcomments:
+                Intent comment = new Intent(mContext, LndComments.class);
+                comment.putExtra("post_id", mItems.get(pos).getPost_id());
 
+                mContext.startActivity(comment);
+                break;
             case R.id.buy:
                 Intent buy = new Intent(mContext, RegularCheckoutActivity.class);
 
@@ -1948,8 +2094,8 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 break;
 
             case R.id.sendto:
-                loading=true;
-                skipfollow=0;
+                loading = true;
+                skipfollow = 0;
                 users.clear();
 
                 final Dialog sendtodialog = new Dialog(mContext, R.style.DialogSlideAnim3);
@@ -2161,7 +2307,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     users.remove(users.size() - 1);
                     mAdapter.notifyDataSetChanged();
                 }
-                  Log.e("json", response.toString());
+                Log.e("json", response.toString());
                 try {
                     JSONObject jobj = new JSONObject(response.toString());
                     JSONArray jsonArray = jobj.getJSONArray("data");
@@ -2174,7 +2320,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         fd.setSelected(false);
                         users.add(fd);
                     }
-                    skipfollow=users.size();
+                    skipfollow = users.size();
                     if (jsonArray.length() < 25)
                         loading = false;
                     else

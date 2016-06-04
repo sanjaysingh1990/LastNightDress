@@ -1,6 +1,7 @@
 package com.eowise.recyclerview.stickyheaders.samples.TabDemo;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -8,6 +9,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +34,7 @@ import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.SQLDB.FavoriteData;
 import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.Home_List_Data;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ApplicationConstants;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ConstantValues;
 import com.eowise.recyclerview.stickyheaders.samples.adapters.MarginDecoration;
 import com.eowise.recyclerview.stickyheaders.samples.adapters.NumberedAdapter;
@@ -310,6 +315,32 @@ public class LndFragment extends Fragment {
                         hld.setTime(getMilliseconds(jo.getString("date_time")));
                         hld.setProdtype(jo.getString("prod_type"));
                         hld.setIssold(jo.getInt("issold"));
+                        hld.setTotalcomments(jo.getInt("post_total_comment"));
+                        JSONArray commnets=jo.getJSONArray("postcoments");
+                        if(commnets.length()>0)
+                        {
+
+                            ArrayList<SpannableString> post_cont = new ArrayList<>();
+                            for (int j = 0; j < commnets.length(); j++) {
+                                JSONObject jsonObject=commnets.getJSONObject(j);
+                                String uname = jsonObject.getString("uname");
+                                String comment = jsonObject.getString("comment");
+
+                                SpannableString word = new SpannableString(Capitalize.capitalizeFirstLetter(uname+" "+comment));
+
+                                word.setSpan(new ForegroundColorSpan(Color.parseColor("#be4d66")), 0, uname.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                word.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, uname.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                                post_cont.add(word);
+                            }
+                            hld.setPostcomments(post_cont);
+
+                        } else {
+                            ArrayList<SpannableString> post_cont = new ArrayList<>();
+                            hld.setPostcomments(post_cont);
+
+                        }
+
                         if (hld.getCategory() == 2) {
                             String size = "";
 

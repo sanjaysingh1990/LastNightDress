@@ -1,9 +1,13 @@
 package com.eowise.recyclerview.stickyheaders.samples.HashTagsFullView;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -14,6 +18,8 @@ import com.eowise.recyclerview.stickyheaders.samples.Loading.AVLoadingIndicatorV
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.Home_List_Data;
 import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.LndHomeAdapter;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.TimeAgo;
 import com.init.superslim.LayoutManager;
 
 import org.json.JSONArray;
@@ -226,6 +232,33 @@ public class HashTagStickyActivity extends AppCompatActivity {
                 hld.setCategory(jo.getInt("category_type"));
                 hld.setUserid(jo.getString("user_id"));
                 hld.setBrandname(jo.getString("brand_name"));
+                hld.setTotalcomments(jo.getInt("post_total_comment"));
+                hld.setIssold(jo.getInt("issold"));
+                hld.setTime(TimeAgo.getMilliseconds(jo.getString("date_time")));
+                JSONArray commnets=jo.getJSONArray("postcoments");
+                if(commnets.length()>0)
+                {
+
+                    ArrayList<SpannableString> post_cont = new ArrayList<>();
+                    for (int j = 0; j < commnets.length(); j++) {
+                        JSONObject jsonObject=commnets.getJSONObject(j);
+                        String uname = jsonObject.getString("uname");
+                        String comment = jsonObject.getString("comment");
+
+                        SpannableString word = new SpannableString(Capitalize.capitalizeFirstLetter(uname+" "+comment));
+
+                        word.setSpan(new ForegroundColorSpan(Color.parseColor("#be4d66")), 0, uname.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        word.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, uname.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                        post_cont.add(word);
+                    }
+                    hld.setPostcomments(post_cont);
+
+                } else {
+                    ArrayList<SpannableString> post_cont = new ArrayList<>();
+                    hld.setPostcomments(post_cont);
+
+                }
 
                 //for header
                 hld2.setProfilepicurl(jo.getString("profile_pic"));
