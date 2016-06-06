@@ -44,6 +44,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.eowise.recyclerview.stickyheaders.samples.HashTagsFullView.LndBrandHashTagGridViewActivity;
 import com.eowise.recyclerview.stickyheaders.samples.Likers.LikersActivity;
+import com.eowise.recyclerview.stickyheaders.samples.LndAgent.Agent_Signup;
 import com.eowise.recyclerview.stickyheaders.samples.LndComments;
 import com.eowise.recyclerview.stickyheaders.samples.LndMessage.SendSwapRequestActivity;
 import com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage.TagSelectingTextview;
@@ -427,6 +428,11 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             case VIEW_TYPE_CONTENT_PRIVATE_OTHER:
                 LndProductPrivateHolder vh2 = (LndProductPrivateHolder) holder;
 
+                //TO CHECK COMMENT LOCKED OR NOT
+                if(SingleTon.pref.getInt("user_position",-1)>0)
+                    vh2.islocked.setVisibility(View.GONE);
+                else
+                    vh2.islocked.setVisibility(View.VISIBLE);
 
                 String uname = Capitalize.capitalizeFirstLetter(item.getUname());
                 //end here
@@ -437,6 +443,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 vh2.price_was.setText("$" + item.getPricewas());
                 vh2.price_now.setText("$" + item.getPricenow());
                 vh2.time.setReferenceTime(item.getTime());
+
                 //bag size
                 try {
                     int pos = Integer.parseInt(item.getSize());
@@ -512,7 +519,11 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 // Log.e("colors",item.getColors());
                 LndProductShopHolder vh3 = (LndProductShopHolder) holder;
 
-
+                //TO CHECK COMMENT LOCKED OR NOT
+                if(SingleTon.pref.getInt("user_position",-1)>0)
+                    vh3.islocked.setVisibility(View.GONE);
+                else
+                    vh3.islocked.setVisibility(View.VISIBLE);
                 uname = Capitalize.capitalizeFirstLetter(item.getUname());
                 //end here
                 vh3.description.setMovementMethod(LinkMovementMethod.getInstance());
@@ -629,7 +640,11 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 // Log.e("colors",item.getColors());
                 vh3 = (LndProductShopHolder) holder;
 
-
+                //TO CHECK COMMENT LOCKED OR NOT
+                if(SingleTon.pref.getInt("user_position",-1)>0)
+                    vh3.islocked.setVisibility(View.GONE);
+                else
+                    vh3.islocked.setVisibility(View.VISIBLE);
                 uname = Capitalize.capitalizeFirstLetter(item.getUname());
                 //end here
                 vh3.description.setMovementMethod(LinkMovementMethod.getInstance());
@@ -744,7 +759,11 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             case VIEW_TYPE_CONTENT_PRIVATE_USER_ITEM_LOCKED:
                 vh2 = (LndProductPrivateHolder) holder;
 
-
+                //TO CHECK COMMENT LOCKED OR NOT
+                if(SingleTon.pref.getInt("user_position",-1)>0)
+                    vh2.islocked.setVisibility(View.GONE);
+                else
+                    vh2.islocked.setVisibility(View.VISIBLE);
                 uname = Capitalize.capitalizeFirstLetter(item.getUname());
                 //end here
                 vh2.description.setMovementMethod(LinkMovementMethod.getInstance());
@@ -828,7 +847,11 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             case VIEW_TYPE_CONTENT_PRIVATE_USER:
                 LndProductPrivateUserHolder vh4 = (LndProductPrivateUserHolder) holder;
                 uname = Capitalize.capitalizeFirstLetter(item.getUname());
-
+                //TO CHECK COMMENT LOCKED OR NOT
+                if(SingleTon.pref.getInt("user_position",-1)>0)
+                    vh4.islocked.setVisibility(View.GONE);
+                else
+                    vh4.islocked.setVisibility(View.VISIBLE);
                 //checking description for hashtag and usermention
                 vh4.description.setMovementMethod(LinkMovementMethod.getInstance());
                 vh4.description.setText(mTagSelectingTextview.addClickablePart(uname + " " + item.getDescription(),
@@ -909,7 +932,11 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 vh5.description.setText(mTagSelectingTextview.addClickablePart(uname + " " + item.getDescription(),
                         this, hashTagHyperLinkDisabled, hastTagColorBlue, uname.length()),
                         TextView.BufferType.SPANNABLE);
-
+                //TO CHECK COMMENT LOCKED OR NOT
+                if(SingleTon.pref.getInt("user_position",-1)>0)
+                    vh5.islocked.setVisibility(View.GONE);
+                else
+                    vh5.islocked.setVisibility(View.VISIBLE);
                 //price was and price now
                 vh5.price_was.setText("$" + item.getPricewas());
                 vh5.price_now.setText("$" + item.getPricenow());
@@ -1017,7 +1044,11 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             case VIEW_TYPE_CONTENT_PRIVATE_USER_ITEM_SOLD:
                 LndProductPrivateHolderSold vh6 = (LndProductPrivateHolderSold) holder;
-
+                //TO CHECK COMMENT LOCKED OR NOT
+                if(SingleTon.pref.getInt("user_position",-1)>0)
+                    vh6.islocked.setVisibility(View.GONE);
+                else
+                    vh6.islocked.setVisibility(View.VISIBLE);
 
                 uname = Capitalize.capitalizeFirstLetter(item.getUname());
                 //end here
@@ -1107,7 +1138,11 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 // Log.e("colors",item.getColors());
                 final LndProductShopHolderSold vh7 = (LndProductShopHolderSold) holder;
 
-
+                //TO CHECK COMMENT LOCKED OR NOT
+                if(SingleTon.pref.getInt("user_position",-1)>0)
+                    vh7.islocked.setVisibility(View.GONE);
+                else
+                    vh7.islocked.setVisibility(View.VISIBLE);
                 uname = Capitalize.capitalizeFirstLetter(item.getUname());
                 //end here
                 vh7.description.setMovementMethod(LinkMovementMethod.getInstance());
@@ -1554,7 +1589,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public ProgressBar progress;
         public TextView showComments;
         public TextView viewallComments;
-
+        public ImageView islocked;
         LndProductPrivateHolderSold(View view, Context context) {
             super(view);
             con = context;
@@ -1588,6 +1623,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             progress = (ProgressBar) view.findViewById(R.id.fullpostloading);
             showComments = (TextView) itemView.findViewById(R.id.commenttextview);
             viewallComments = (TextView) itemView.findViewById(R.id.viewallcomments);
+            islocked= (ImageView) itemView.findViewById(R.id.islocked);
             //bind with listeners
             viewallComments.setOnClickListener(this);
             this.sendto.setOnClickListener(this);
@@ -1623,6 +1659,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public ProgressBar progress;
         public TextView showComments;
         public TextView viewallComments;
+        public ImageView islocked;
 
         LndProductShopHolderSold(View view, Context context) {
             super(view);
@@ -1643,6 +1680,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             msgtouser = (ImageButton) view.findViewById(R.id.messagetouser);
             favorates = (ImageButton) view.findViewById(R.id.favorate);
             sendto = (ImageButton) view.findViewById(R.id.sendto);
+            islocked= (ImageView) itemView.findViewById(R.id.islocked);
 
             comment = (TextView) itemView.findViewById(R.id.comment);
             time = (RelativeTimeTextView) view.findViewById(R.id.time);
@@ -1701,6 +1739,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public ProgressBar progress;
         public TextView showComments;
         public TextView viewallComments;
+        public ImageView islocked;
 
         LndProductPrivateHolder(View view, Context context) {
             super(view);
@@ -1737,6 +1776,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             progress = (ProgressBar) view.findViewById(R.id.fullpostloading);
             showComments = (TextView) itemView.findViewById(R.id.commenttextview);
             viewallComments = (TextView) itemView.findViewById(R.id.viewallcomments);
+            islocked= (ImageView) itemView.findViewById(R.id.islocked);
 
             //bind with listeners
             this.buy.setOnClickListener(this);
@@ -1775,6 +1815,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public ProgressBar progress;
         public TextView showComments;
         public TextView viewallComments;
+        public ImageView islocked;
 
         LndProductShopHolder(View view, Context context) {
             super(view);
@@ -1799,6 +1840,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             comment = (TextView) itemView.findViewById(R.id.comment);
             time = (RelativeTimeTextView) view.findViewById(R.id.time);
             swap = (TextView) itemView.findViewById(R.id.swap);
+            islocked= (ImageView) itemView.findViewById(R.id.islocked);
 
             likescount = (TextView) view.findViewById(R.id.likescount);
             condition = (TextView) view.findViewById(R.id.condition);
@@ -1855,6 +1897,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public TextView comment;
         public TextView showComments;
         public TextView viewallComments;
+        public ImageView islocked;
 
         LndProductPrivateUserHolder(View view, Context context) {
             super(view);
@@ -1891,6 +1934,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             comment = (TextView) itemView.findViewById(R.id.comment);
             showComments = (TextView) itemView.findViewById(R.id.commenttextview);
             viewallComments = (TextView) itemView.findViewById(R.id.viewallcomments);
+            islocked= (ImageView) itemView.findViewById(R.id.islocked);
 
             //hiding views for user
             msgtouser.setVisibility(View.GONE);
@@ -1930,6 +1974,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public TextView comment;
         public TextView showComments;
         public TextView viewallComments;
+        public ImageView islocked;
 
         Context con;
         ImageButton forward, backward;
@@ -1974,6 +2019,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             comment = (TextView) itemView.findViewById(R.id.comment);
             showComments = (TextView) itemView.findViewById(R.id.commenttextview);
             viewallComments = (TextView) itemView.findViewById(R.id.viewallcomments);
+            islocked= (ImageView) itemView.findViewById(R.id.islocked);
 
             //hiding views for user
             msgtouser.setVisibility(View.GONE);
@@ -2072,7 +2118,14 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 view = LayoutInflater.from(mContext).inflate(R.layout.agent_comment_popup, null);
                 dialog.setView(view);
                 alert = dialog.create();
-                alert.show();
+                if(SingleTon.pref.getInt("user_position",-1)>0)
+                {
+                    Intent i = new Intent(mContext, LndComments.class);
+                    i.putExtra("post_id", mItems.get(pos).getPost_id());
+                    mContext.startActivity(i);
+                }
+                else
+                    alert.show();
                 //cancel dialog
                 view.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -2086,8 +2139,8 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     @Override
                     public void onClick(View v) {
                         alert.dismiss();
-                        Intent i = new Intent(mContext, LndComments.class);
-                        i.putExtra("post_id", mItems.get(pos).getPost_id());
+                        Intent i = new Intent(mContext, Agent_Signup.class);
+
                         mContext.startActivity(i);
                     }
                 });

@@ -35,10 +35,12 @@ import com.android.volley.toolbox.Volley;
 import com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost.CameraPreviewFragment;
 import com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage.LndNotificationMessageActivity;
 import com.eowise.recyclerview.stickyheaders.samples.Main_TabHost;
+import com.eowise.recyclerview.stickyheaders.samples.PostDataShop.MySpannableString;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.Loading.AVLoadingIndicatorView;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.SQLDB.FavoriteData;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.ApplicationConstants;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ConstantValues;
 import com.eowise.recyclerview.stickyheaders.samples.contacts.ContactsActivity;
@@ -291,7 +293,7 @@ public class StickyActivity extends AppCompatActivity {
 
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/postdata.php", new Response.Listener<String>() {
+        StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_POST_DATA, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 dialog.setVisibility(View.GONE);
@@ -378,19 +380,21 @@ public class StickyActivity extends AppCompatActivity {
                         if(commnets.length()>0)
                         {
 
-                             ArrayList<SpannableString> post_cont = new ArrayList<>();
+                            /* ArrayList<SpannableString> post_cont = new ArrayList<>();
                             for (int i = 0; i < commnets.length(); i++) {
                                 JSONObject jsonObject=commnets.getJSONObject(i);
                                 String uname = jsonObject.getString("uname");
                                 String comment = jsonObject.getString("comment");
 
-                                SpannableString word = new SpannableString(Capitalize.capitalizeFirstLetter(uname+" "+comment));
+                                MySpannableString word = new MySpannableString(Capitalize.capitalizeFirstLetter(uname+" "+comment));
 
                                 word.setSpan(new ForegroundColorSpan(Color.parseColor("#be4d66")), 0, uname.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                                 word.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, uname.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
                                 post_cont.add(word);
                             }
+                            hld.setPostcomments(post_cont);*/
+                            ArrayList<SpannableString> post_cont = new ArrayList<>();
                             hld.setPostcomments(post_cont);
 
                         } else {

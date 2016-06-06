@@ -35,6 +35,7 @@ import com.eowise.recyclerview.stickyheaders.samples.NewMessage.SendMessageActiv
 import com.eowise.recyclerview.stickyheaders.samples.LndUserProfile.ParallaxRecyclerAdapter;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.Home_List_Data;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.ApplicationConstants;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ColoredRatingBar;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ConstantValues;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.TimeAgo;
@@ -464,7 +465,7 @@ public class OtherUserProfileActivity extends Activity {
 
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/lndusers.php", new Response.Listener<String>() {
+        StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_USER, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -559,7 +560,7 @@ public class OtherUserProfileActivity extends Activity {
 
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/postdata.php", new Response.Listener<String>() {
+        StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_POST_DATA, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 prog.setVisibility(View.GONE);

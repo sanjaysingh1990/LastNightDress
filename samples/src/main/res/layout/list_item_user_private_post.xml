@@ -398,7 +398,9 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="1dp"
-            android:src="@drawable/comment_lock_icon" />
+            android:src="@drawable/comment_lock_icon"
+            android:id="@+id/islocked"
+            />
     </LinearLayout>
     <TextView
         android:id="@+id/commenttextview"

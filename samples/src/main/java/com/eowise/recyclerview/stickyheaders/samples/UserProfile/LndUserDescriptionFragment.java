@@ -28,6 +28,7 @@ import com.android.volley.toolbox.Volley;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.Main_TabHost;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.ApplicationConstants;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -108,11 +109,11 @@ public class LndUserDescriptionFragment extends Fragment implements View.OnClick
         pDialog.show();
 
         RequestQueue queue = Volley.newRequestQueue(getActivity());
-        StringRequest sr = new StringRequest(Request.Method.POST,"http://52.76.68.122/lnd/androidiosphpfiles/lndusers.php", new Response.Listener<String>() {
+        StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_USER, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 pDialog.dismiss();
-               // Log.e("reslogin", response.toString());
+               Log.e("json", response.toString());
                 try
                 {
                     JSONObject jobj=new JSONObject(response.toString());
@@ -124,9 +125,11 @@ public class LndUserDescriptionFragment extends Fragment implements View.OnClick
                         edit.putString("utype",jobj.getString("type"));
                         edit.putString("country",jobj.getString("country"));
                         edit.putString("imageurl", jobj.getString("imageurl"));
+                        edit.putInt("user_position", jobj.getInt("user_position"));
                         edit.putString("ref_code",jobj.getString("ref_code"));
                         Log.e("code",jobj.getString("ref_code"));
                         edit.commit();
+                        LndUserReferalCodeFragment.ref_code.setText(jobj.getString("ref_code"));
                         LndLoginSignup.currentpage = 6;
                         //current page value on stack;
                         LndLoginSignup.currenttab.push(6);

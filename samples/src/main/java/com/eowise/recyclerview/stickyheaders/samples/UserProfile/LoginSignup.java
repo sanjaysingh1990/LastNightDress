@@ -32,6 +32,7 @@ import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.Main_TabHost;
 import com.eowise.recyclerview.stickyheaders.samples.MoreInfo.FillUserInfo;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.ApplicationConstants;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -480,7 +481,7 @@ private void showAlert()
 
 
         RequestQueue queue = Volley.newRequestQueue(getActivity());
-        StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/lndusers.php", new Response.Listener<String>() {
+        StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_USER, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
               //      Log.e("check", response.toString());
@@ -493,6 +494,7 @@ private void showAlert()
                         edit.putString("utype", jobj.getString("type"));
                         edit.putString("country", jobj.getString("country"));
                         edit.putString("user_id", jobj.getString("user_id"));
+                        edit.putInt("user_position", jobj.getInt("user_position"));
 
                         edit.putString("imageurl", jobj.getString("imageurl"));
                         edit.commit();

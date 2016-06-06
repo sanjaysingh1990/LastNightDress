@@ -43,6 +43,7 @@ import com.eowise.recyclerview.stickyheaders.samples.Settings.ReadMore;
 import com.eowise.recyclerview.stickyheaders.samples.Settings.SettingsActivity;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.Home_List_Data;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ColoredRatingBar;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ConstantValues;
 import com.eowise.recyclerview.stickyheaders.samples.data.ShopData;
@@ -137,7 +138,7 @@ public class LndProfile extends AppCompatActivity {
 
 //get profile information
         String uname = SingleTon.pref.getString("uname", "uname");
-        heading.setText(capitalize(uname));
+        heading.setText(Capitalize.capitalizeFirstLetter(uname));
         String user_id = SingleTon.pref.getString("user_id", "");
 
         getPorfile(user_id);
@@ -843,15 +844,7 @@ public class LndProfile extends AppCompatActivity {
         }
     }
 
-    private String capitalize(final String line) {
-        String[] split = line.split(" ");
-        String output = "";
-        for (String str : split) {
 
-            output += Character.toUpperCase(str.charAt(0)) + str.substring(1) + " ";
-        }
-        return output;
-    }
 
     public void updateList(ArrayList<String> pos) {
 

@@ -136,6 +136,8 @@ public class LndLoginFragment extends Fragment implements View.OnClickListener {
                         edit.putString("country", jobj.getString("country"));
                         edit.putString("imageurl", jobj.getString("imageurl"));
                         edit.putInt("swap_status", jobj.getInt("swap_status"));
+                        edit.putInt("user_position", jobj.getInt("user_position"));
+
                         edit.commit();
 
                         Intent i = new Intent(getActivity(), Main_TabHost.class);

@@ -21,7 +21,7 @@ public class Home_List_Data implements Serializable {
     private String pricenow;
     private int likestotal;
     private String conditon;
-
+    private static final long serialVersionUID = 1L;
     public int getTotalcomments() {
         return totalcomments;
     }

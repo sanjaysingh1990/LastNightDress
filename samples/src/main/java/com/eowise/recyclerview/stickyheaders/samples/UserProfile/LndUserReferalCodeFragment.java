@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.eowise.recyclerview.stickyheaders.samples.Main_TabHost;
 import com.eowise.recyclerview.stickyheaders.samples.R;
@@ -24,12 +25,14 @@ public class LndUserReferalCodeFragment extends Fragment implements View.OnClick
 
     @Bind(R.id.finish)
     TextView finish;
+   public static TextView ref_code;
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.lnd_user_reference_code, container, false);
-
+        ref_code= (TextView) view.findViewById(R.id.ref_code);
         ButterKnife.bind(this, view);
 
         //font setup
@@ -39,7 +42,8 @@ public class LndUserReferalCodeFragment extends Fragment implements View.OnClick
 
         //bind with listener
         finish.setOnClickListener(this);
-        return view;
+
+       return view;
     }
 
 
@@ -51,4 +55,6 @@ public class LndUserReferalCodeFragment extends Fragment implements View.OnClick
         startActivity(i);
         ActivityCompat.finishAffinity(getActivity());
     }
+
+
 }

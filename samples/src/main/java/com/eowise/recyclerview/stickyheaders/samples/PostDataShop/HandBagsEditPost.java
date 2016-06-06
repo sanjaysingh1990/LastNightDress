@@ -768,7 +768,7 @@ public class HandBagsEditPost extends AppCompatActivity implements View.OnClickL
                     JSONObject jobj = new JSONObject(response);
                     if (jobj.getBoolean("status")) {
                         Toast.makeText(HandBagsEditPost.this, jobj.getString("message") + "", Toast.LENGTH_LONG).show();
-                      //  finish();
+                       finish();
                     } else {
                         Toast.makeText(HandBagsEditPost.this, jobj.getString("message") + "", Toast.LENGTH_LONG).show();
 

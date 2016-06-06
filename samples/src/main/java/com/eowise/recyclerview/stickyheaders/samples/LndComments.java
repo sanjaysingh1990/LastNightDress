@@ -164,7 +164,7 @@ int count=0;
                         cmntdata.setCommenttxxt(jo.getString("comment_text"));
                         cmntdata.setTime(getMilliseconds(jo.getString("date_time")));
 
-                        data.add(cmntdata);
+                        data.add(0,cmntdata);
                     }
 
 
@@ -173,10 +173,10 @@ int count=0;
                         recyclerView.scrollToPosition(data.size() - 1);
 
                     }
-                     else
-                        Collections.reverse(data);
+                     //else
+                     //   Collections.reverse(data);
                         skipdata = data.size();
-                    if (jarray.length() < 10) {
+                    if (jarray.length() < 25) {
                         loading = true;
                         isrunning=true;
                     }

@@ -135,7 +135,11 @@ public class LndFragment extends Fragment {
                 skipdata = 0;
                 dataleft = true;
                 loading = true;
-
+                isprivate = false;
+                sectionManager = -1;
+                headerCount = 0;
+                sectionFirstPosition = 0;
+                count = 0;
                 try {
                     // Toast.makeText(getActivity(), LndShopActivity.selectedcategory + "", Toast.LENGTH_SHORT).show();
                     pullrefresh = true;
@@ -147,7 +151,7 @@ public class LndFragment extends Fragment {
         });
 
         //clear list
-          return shopview;
+        return shopview;
     }
 
     private void setupRecyclerView(View recyclerView) {
@@ -210,7 +214,7 @@ public class LndFragment extends Fragment {
         if (pullrefresh) {
             LndShopActivity.prog.setVisibility(View.GONE);
         }
-            if (isfirttime) {
+        if (isfirttime) {
             LndShopActivity.prog.setVisibility(View.VISIBLE);
             isfirttime = false;
         }
@@ -218,8 +222,7 @@ public class LndFragment extends Fragment {
         StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_POST_DATA, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                if(pullrefresh)
-                {
+                if (pullrefresh) {
                     shopdata.clear();
                     mItems.clear();
                     adapter.notifyDataSetChanged();
@@ -316,17 +319,16 @@ public class LndFragment extends Fragment {
                         hld.setProdtype(jo.getString("prod_type"));
                         hld.setIssold(jo.getInt("issold"));
                         hld.setTotalcomments(jo.getInt("post_total_comment"));
-                        JSONArray commnets=jo.getJSONArray("postcoments");
-                        if(commnets.length()>0)
-                        {
+                        JSONArray commnets = jo.getJSONArray("postcoments");
+                        if (commnets.length() > 0) {
 
                             ArrayList<SpannableString> post_cont = new ArrayList<>();
                             for (int j = 0; j < commnets.length(); j++) {
-                                JSONObject jsonObject=commnets.getJSONObject(j);
+                                JSONObject jsonObject = commnets.getJSONObject(j);
                                 String uname = jsonObject.getString("uname");
                                 String comment = jsonObject.getString("comment");
 
-                                SpannableString word = new SpannableString(Capitalize.capitalizeFirstLetter(uname+" "+comment));
+                                SpannableString word = new SpannableString(Capitalize.capitalizeFirstLetter(uname + " " + comment));
 
                                 word.setSpan(new ForegroundColorSpan(Color.parseColor("#be4d66")), 0, uname.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                                 word.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, uname.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);

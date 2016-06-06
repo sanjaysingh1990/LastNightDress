@@ -78,7 +78,7 @@ import github.ankushsachdeva.emojicon.EmojiconGridView;
 import github.ankushsachdeva.emojicon.EmojiconsPopup;
 import github.ankushsachdeva.emojicon.emoji.Emojicon;
 
-public class DressEditPost extends AppCompatActivity implements View.OnClickListener {
+public class DressEditPost extends AppCompatActivity implements View.OnClickListener,LndShippingCallback {
     @Bind({R.id.size1, R.id.size2, R.id.size3, R.id.size4, R.id.size5, R.id.size6, R.id.size7})
     List<CheckBox> lnddresssize1;
 
@@ -449,10 +449,16 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
 
             }
         }
-
+        getShippingLabel(hld.getPost_id());
 
     }
+private void getShippingLabel(String postid)
+{
+   GetLndShippingInfo lndshipping=new GetLndShippingInfo(this);
+    lndshipping.registerCallback(this);
+    lndshipping.getData(postid);
 
+}
     @Override
     protected void onResume() {
         super.onResume();
@@ -860,6 +866,11 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
         sr.setRetryPolicy(policy);
 
         queue.add(sr);
+    }
+
+    @Override
+    public void callbackReturn(String data) {
+        Log.e("json",data+"");
     }
 
     private class AsyncTaskLoadImage extends AsyncTask<String, Bitmap, Bitmap> {

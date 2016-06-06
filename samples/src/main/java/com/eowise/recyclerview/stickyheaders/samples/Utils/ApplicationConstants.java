@@ -10,6 +10,7 @@ public interface ApplicationConstants {
 	public static final String APP_SERVER_URL_LND_FOLLOWING="http://52.76.68.122/lnd/androidiosphpfiles/followfollowing.php";
 	public static final String APP_SERVER_URL_LND_INBOXOPERATION="http://52.76.68.122/lnd/androidiosphpfiles/inboxope.php";
 	public static final String APP_SERVER_URL_LND_COMMENTS="http://52.76.68.122/lnd/androidiosphpfiles/lndcomments.php";
+	public static final String APP_SERVER_URL_LND_SHIPPINGINFO="http://52.76.68.122/lnd/androidiosphpfiles/lndshippinginfodata.php";
 
 
 	// Google Project Number
