@@ -34,6 +34,7 @@ import com.eowise.recyclerview.stickyheaders.samples.Loading.AVLoadingIndicatorV
 import com.eowise.recyclerview.stickyheaders.samples.NewMessage.SendMessageActivity;
 import com.eowise.recyclerview.stickyheaders.samples.LndUserProfile.ParallaxRecyclerAdapter;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.CommentBean;
 import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.Home_List_Data;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ApplicationConstants;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ColoredRatingBar;
@@ -626,6 +627,27 @@ public class OtherUserProfileActivity extends Activity {
                         hld.setUserid(jo.getString("user_id"));
                         hld.setProdtype(jo.getString("prod_type"));
                         hld.setTime(TimeAgo.getMilliseconds(jo.getString("date_time")));
+                        JSONArray commnets=jo.getJSONArray("postcoments");
+                        if(commnets.length()>0)
+                        {
+
+                            ArrayList<CommentBean> post_cont = new ArrayList<>();
+                            for (int j= 0; j < commnets.length(); j++) {
+                                JSONObject jsonObject=commnets.getJSONObject(j);
+                                String uname = jsonObject.getString("uname");
+                                String comment = jsonObject.getString("comment");
+                                CommentBean cb=new CommentBean();
+                                cb.setUname(uname);
+                                cb.setComment(comment);
+                                post_cont.add(cb);
+                            }
+                            hld.setUserpostcomments(post_cont);
+
+                        } else {
+                            ArrayList<CommentBean> post_cont = new ArrayList<>();
+                            hld.setUserpostcomments(post_cont);
+
+                        }
 
                         if (hld.getCategory() == 2) {
                             String size = "";
@@ -665,21 +687,17 @@ public class OtherUserProfileActivity extends Activity {
 
                         //for header
                         hld2.setProfilepicurl(jo.getString("profile_pic"));
-                        hld2.setPricenow(jo.getString("price_now"));
-                        hld2.setPricewas(jo.getString("price_was"));
-                        hld2.setSize(jo.getString("size"));
-                        hld2.setLikestotal(jo.getInt("likes"));
-                        hld2.setImageurls(imgurls);
+                        hld2.setIssold(jo.getInt("issold"));
+
                         hld2.setPost_id(jo.getString("post_id"));
-                        hld2.setDescription(jo.getString("description"));
+
                         hld2.setUname(jo.getString("uname"));
                         hld2.setLikedvalue(jo.getString("isliked"));
-                        hld2.setColors(jo.getString("color"));
-                        hld2.setConditon(jo.getString("condition"));
-                        hld2.setCategory(jo.getInt("category_type"));
-                        hld2.setBrandname(jo.getString("brand_name"));
-                        hld2.setProdtype(jo.getString("prod_type"));
+                        //  hld2.setLikestotal(jo.getInt("likes"));
+
                         hld2.setUserid(jo.getString("user_id"));
+                        hld2.setBrandname(jo.getString("brand_name"));
+                        hld2.setSwapstatus(jo.getInt("swap_status"));
                         mItems.add(hld);
                         count++;
                     }

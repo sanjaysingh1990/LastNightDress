@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.Loading.AVLoadingIndicatorView;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.CommentBean;
 import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.Home_List_Data;
 import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.LndHomeAdapter;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
@@ -239,24 +240,21 @@ public class HashTagStickyActivity extends AppCompatActivity {
                 if(commnets.length()>0)
                 {
 
-                    ArrayList<SpannableString> post_cont = new ArrayList<>();
+                    ArrayList<CommentBean> post_cont = new ArrayList<>();
                     for (int j = 0; j < commnets.length(); j++) {
                         JSONObject jsonObject=commnets.getJSONObject(j);
                         String uname = jsonObject.getString("uname");
                         String comment = jsonObject.getString("comment");
-
-                        SpannableString word = new SpannableString(Capitalize.capitalizeFirstLetter(uname+" "+comment));
-
-                        word.setSpan(new ForegroundColorSpan(Color.parseColor("#be4d66")), 0, uname.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        word.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, uname.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-                        post_cont.add(word);
+                        CommentBean cb=new CommentBean();
+                        cb.setUname(uname);
+                        cb.setComment(comment);
+                        post_cont.add(cb);
                     }
-                    hld.setPostcomments(post_cont);
+                    hld.setUserpostcomments(post_cont);
 
                 } else {
-                    ArrayList<SpannableString> post_cont = new ArrayList<>();
-                    hld.setPostcomments(post_cont);
+                    ArrayList<CommentBean> post_cont = new ArrayList<>();
+                    hld.setUserpostcomments(post_cont);
 
                 }
 

@@ -4,222 +4,245 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Parcelable;
+import android.support.v7.widget.RecyclerView;
+import android.text.method.LinkMovementMethod;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
+import com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage.AbstractDataProvider2;
+import com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage.MessageFragment;
+import com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage.PagerSwipeItemFrameLayout;
+import com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage.TagSelectingTextview;
+import com.eowise.recyclerview.stickyheaders.samples.LndUserProfile.LndProfile;
 import com.eowise.recyclerview.stickyheaders.samples.NewMessage.SendMessageActivity;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.UserProfile.OtherUserProfileActivity;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.RelativeTimeTextView;
+import com.eowise.recyclerview.stickyheaders.samples.data.CommentData;
 import com.eowise.recyclerview.stickyheaders.samples.data.MessageData;
+import com.eowise.recyclerview.stickyheaders.samples.data.MessageToFriendsData;
+import com.eowise.recyclerview.stickyheaders.samples.data.PersonDataProvider;
 import com.eowise.recyclerview.stickyheaders.samples.data.UserType;
+import com.eowise.recyclerview.stickyheaders.samples.interfaces.TagClick;
 
-import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import github.ankushsachdeva.emojicon.EmojiconTextView;
 
-
 /**
- * Created by madhur on 17/01/15.
+ * Created by aurel on 22/09/14.
  */
-public class SendMsgListAdapter extends BaseAdapter {
+public class SendMsgListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements TagClick {
+    private static List<MessageData> items;
+    private PersonDataProvider personDataProvider;
+    static Context mContext;
+    static int count = 0;
+    TagSelectingTextview mTagSelectingTextview;
+    public static int hashTagHyperLinkDisabled = 0;
+    String hastTagColorBlue = "#be4d66";
+    private final int VIEW_ITEM_SELF = 1;
+    private final int VIEW_ITEM_OTHER = 2;
+    private final int VIEW_ITEM_BANNER = 3;
+    private final int VIEW_ITEM_IMAGE = 4;
 
-    private List<MessageData> chatMessages;
-    private Context context;
+    public SendMsgListAdapter(Context context, List<MessageData> data) {
+        this.mContext = context;
+        this.items = data;
+        mTagSelectingTextview = new TagSelectingTextview();
 
-    public SendMsgListAdapter(List<MessageData> chatMessages, Context context) {
-        this.chatMessages = chatMessages;
-        this.context = context;
+        setHasStableIds(true);
+    }
+
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        RecyclerView.ViewHolder vh;
+
+        if (viewType == VIEW_ITEM_SELF) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_user2_item, parent, false);
+            ViewGroup.LayoutParams params = view.getLayoutParams();
+
+            vh = new MsgSelfOther(view);
+        }else  if (viewType == VIEW_ITEM_OTHER) {
+            View v = LayoutInflater.from(parent.getContext()).inflate(
+                    R.layout.chat_user1_item, parent, false);
+
+            vh = new MsgSelfOther(v);
+        }
+        else  if (viewType == VIEW_ITEM_BANNER)
+        {
+            View v = LayoutInflater.from(parent.getContext()).inflate(
+                    R.layout.banner_layout, parent, false);
+
+            vh = new Banner(v);
+        }
+        else
+        {
+            View v = LayoutInflater.from(parent.getContext()).inflate(
+                    R.layout.chat_user2_item_image, parent, false);
+
+            vh = new ImageMsg(v);
+        }
+            return vh;
 
     }
 
-
     @Override
-    public int getCount() {
-        return chatMessages.size();
-    }
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        MessageData cd = items.get(position);
+        switch(holder.getItemViewType())
+        {
+            case VIEW_ITEM_SELF:
+                MsgSelfOther holder1= (MsgSelfOther) holder;
+                holder1.timeTextView.setText(cd.getTime());
+                holder1.messageTextView.setText(cd.getMessage());
+                SingleTon.imageLoader.displayImage(cd.getProfilepic(), holder1.profpic, SingleTon.options3);
+                break;
 
-    @Override
-    public Object getItem(int position) {
-        return chatMessages.get(position);
+            case VIEW_ITEM_OTHER:
+                holder1= (MsgSelfOther) holder;
+                holder1.timeTextView.setText(cd.getTime());
+                holder1.messageTextView.setText(cd.getMessage());
+                SingleTon.imageLoader.displayImage(cd.getProfilepic(), holder1.profpic, SingleTon.options3);
+
+                break;
+            case VIEW_ITEM_BANNER:
+           Banner  holder3= (Banner) holder;
+
+                holder3.brandname.setText(Capitalize.capitalizeFirstLetter(SendMessageActivity.chatbanner.getBrand()));
+                holder3.sellername.setText(Capitalize.capitalizeFirstLetter(SendMessageActivity.chatbanner.getSellername()));
+                holder3.size.setText(SendMessageActivity.chatbanner.getSize().split(",").length + "");
+                holder3.price.setText("$" + SendMessageActivity.chatbanner.getPricenow());
+                SingleTon.imageLoader2.displayImage(SendMessageActivity.chatbanner.getImage_url(), holder3.bannerimage, SingleTon.options);
+
+
+                break;
+            case VIEW_ITEM_IMAGE:
+                ImageMsg  holder4= (ImageMsg) holder;
+
+                try {
+                    byte[] decodedString = Base64.decode(cd.getBase64_imgage_url(), Base64.DEFAULT);
+                    Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                    holder4.shareimg.setImageBitmap(decodedByte);
+                } catch (Exception ex) {
+                    Log.e("error", ex.getMessage());
+                }
+                holder4.timeTextView.setText(cd.getTime());
+                SingleTon.imageLoader.displayImage(cd.getProfilepic(), holder4.profpic, SingleTon.options3);
+
+                break;
+
+        }
     }
 
     @Override
     public long getItemId(int position) {
-        return position;
-    }
+        return items.get(position).hashCode();
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View v = null;
-        MessageData message = chatMessages.get(position);
-
-        ViewHolder1 holder1;
-        ViewHolder2 holder2;
-        ViewHolder3 holder3;
-        ViewHolder4 holder4;
-
-        if (message.getUserType() == UserType.SELF) {
-            if (convertView == null) {
-                v = LayoutInflater.from(context).inflate(R.layout.chat_user2_item, null, false);
-                holder1 = new ViewHolder1();
-
-                holder1.profpic = (ImageView) v.findViewById(R.id.chatpicsender);
-                holder1.messageTextView = (EmojiconTextView) v.findViewById(R.id.message_text);
-                holder1.timeTextView = (TextView) v.findViewById(R.id.time_text);
-
-                v.setTag(holder1);
-            } else {
-                v = convertView;
-                holder1 = (ViewHolder1) v.getTag();
-
-            }
-            holder1.timeTextView.setText(message.getTime());
-            holder1.messageTextView.setText(message.getMessage());
-            SingleTon.imageLoader.displayImage(message.getProfilepic(), holder1.profpic, SingleTon.options3);
-
-            //holder1.timeTextView.setText(message.getTime());
-
-        } else if (message.getUserType() == UserType.OTHER) {
-
-            if (convertView == null) {
-                v = LayoutInflater.from(context).inflate(R.layout.chat_user1_item, null, false);
-
-                holder2 = new ViewHolder2();
-
-
-                holder2.messageTextView = (EmojiconTextView) v.findViewById(R.id.message_text);
-                holder2.timeTextView = (TextView) v.findViewById(R.id.time_text);
-                holder2.profpic = (ImageView) v.findViewById(R.id.chatpic);
-                v.setTag(holder2);
-
-            } else {
-                v = convertView;
-                holder2 = (ViewHolder2) v.getTag();
-
-            }
-            holder2.timeTextView.setText(message.getTime());
-
-            holder2.messageTextView.setText(message.getMessage());
-            SingleTon.imageLoader.displayImage(message.getProfilepic(), holder2.profpic, SingleTon.options3);
-
-
-        } else if (message.getUserType() == UserType.BANNER) {
-            if (convertView == null) {
-                v = LayoutInflater.from(context).inflate(R.layout.banner_layout, null, false);
-                holder3 = new ViewHolder3();
-
-
-                holder3.brandname = (TextView) v.findViewById(R.id.brandname);
-                holder3.sellername = (TextView) v.findViewById(R.id.sellername);
-                holder3.sellername.setTypeface(SingleTon.robotomedium);
-                holder3.size = (TextView) v.findViewById(R.id.size);
-                holder3.price = (TextView) v.findViewById(R.id.listprice);
-                holder3.bannerimage = (ImageView) v.findViewById(R.id.bannerimg);
-
-                v.setTag(holder3);
-            } else {
-                v = convertView;
-                holder3 = (ViewHolder3) v.getTag();
-
-            }
-
-            holder3.brandname.setText(Capitalize.capitalizeFirstLetter(SendMessageActivity.chatbanner.getBrand()));
-            holder3.sellername.setText(Capitalize.capitalizeFirstLetter(SendMessageActivity.chatbanner.getSellername()));
-            holder3.size.setText(SendMessageActivity.chatbanner.getSize().split(",").length + "");
-            holder3.price.setText("$" + SendMessageActivity.chatbanner.getPricenow());
-            SingleTon.imageLoader2.displayImage(SendMessageActivity.chatbanner.getImage_url(), holder3.bannerimage, SingleTon.options);
-
-            //banner username
-            holder3.sellername.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent userprofile = new Intent(context, OtherUserProfileActivity.class);
-                    userprofile.putExtra("uname", SendMessageActivity.chatbanner.getSellername());
-                    userprofile.putExtra("user_id", SendMessageActivity.chatbanner.getSellerid());
-                    context.startActivity(userprofile);
-                }
-            });
-
-        } else if (message.getUserType() == UserType.SELF_IMAGE) {
-            if (convertView == null) {
-                v = LayoutInflater.from(context).inflate(R.layout.chat_user2_item_image, null, false);
-
-                holder4 = new ViewHolder4();
-
-
-                holder4.timeTextView = (TextView) v.findViewById(R.id.time_text);
-                holder4.profpic = (ImageView) v.findViewById(R.id.chatpicsender);
-                holder4.shareimg = (ImageView) v.findViewById(R.id.shareimg);
-
-                v.setTag(holder4);
-
-
-            } else {
-                v = convertView;
-                holder4 = (ViewHolder4) v.getTag();
-
-            }
-            try {
-                byte[] decodedString = Base64.decode(message.getBase64_imgage_url(), Base64.DEFAULT);
-                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-                holder4.shareimg.setImageBitmap(decodedByte);
-            } catch (Exception ex) {
-                Log.e("error", ex.getMessage() + message.getBase64_imgage_url());
-            }
-            holder4.timeTextView.setText(message.getTime());
-            SingleTon.imageLoader.displayImage(message.getProfilepic(), holder4.profpic, SingleTon.options3);
-        }
-        return v;
-    }
-
-    @Override
-    public int getViewTypeCount() {
-        return 4;
     }
 
     @Override
     public int getItemViewType(int position) {
-        MessageData message = chatMessages.get(position);
-        return message.getUserType().ordinal();
+        if(items.get(position).getUserType()== UserType.SELF)
+          {
+         return VIEW_ITEM_SELF;
+        }
+        else if(items.get(position).getUserType()== UserType.OTHER)
+        {
+            return VIEW_ITEM_SELF;
+        }
+        else if(items.get(position).getUserType()== UserType.BANNER)
+        {
+            return VIEW_ITEM_SELF;
+        }
+        else if(items.get(position).getUserType()== UserType.SELF_IMAGE)
+        {
+            return VIEW_ITEM_IMAGE;
+        }
+        return 0;
     }
 
-    private class ViewHolder1 {
+    @Override
+    public int getItemCount() {
+        return items.size();
+    }
+
+    @Override
+    public void clickedTag(CharSequence tag) {
+        Intent profile;
+        if (SingleTon.pref.getString("uname", "").compareToIgnoreCase(tag.toString()) == 0) {
+            profile = new Intent(mContext, LndProfile.class);
+        } else {
+            profile = new Intent(mContext, OtherUserProfileActivity.class);
+            profile.putExtra("uname", tag.toString().trim());
+            profile.putExtra("user_id", "-1");
+
+        }
+
+        mContext.startActivity(profile);
+    }
+
+
+    public static class MsgSelfOther extends RecyclerView.ViewHolder {
         public ImageView profpic;
         public EmojiconTextView messageTextView;
         public TextView timeTextView;
 
+        public MsgSelfOther(View v) {
+            super(v);
+            profpic = (ImageView) v.findViewById(R.id.chatpicsender);
+            messageTextView = (EmojiconTextView) v.findViewById(R.id.message_text);
+            timeTextView = (TextView) v.findViewById(R.id.time_text);
+        }
+
 
     }
 
-    private class ViewHolder2 {
-        public ImageView profpic;
-        public EmojiconTextView messageTextView;
-        public TextView timeTextView;
 
-    }
-
-    private class ViewHolder3 {
+    public static class Banner extends RecyclerView.ViewHolder {
         public ImageView bannerimage;
         public TextView brandname;
         public TextView sellername;
         public TextView size;
         public TextView price;
 
+        public Banner(View v) {
+            super(v);
+            brandname = (TextView) v.findViewById(R.id.brandname);
+            sellername = (TextView) v.findViewById(R.id.sellername);
+            sellername.setTypeface(SingleTon.robotomedium);
+            size = (TextView) v.findViewById(R.id.size);
+            price = (TextView) v.findViewById(R.id.listprice);
+            bannerimage = (ImageView) v.findViewById(R.id.bannerimg);
+        }
+
+
     }
 
-    private class ViewHolder4 {
+    public static class ImageMsg extends RecyclerView.ViewHolder {
         public ImageView shareimg;
         public TextView timeTextView;
         public ImageView profpic;
+
+        public ImageMsg(View v) {
+            super(v);
+            timeTextView = (TextView) v.findViewById(R.id.time_text);
+            profpic = (ImageView) v.findViewById(R.id.chatpicsender);
+            shareimg = (ImageView) v.findViewById(R.id.shareimg);
+        }
+
+
     }
+
+
 }

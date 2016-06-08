@@ -380,26 +380,21 @@ public class StickyActivity extends AppCompatActivity {
                         if(commnets.length()>0)
                         {
 
-                            /* ArrayList<SpannableString> post_cont = new ArrayList<>();
+                             ArrayList<CommentBean> post_cont = new ArrayList<>();
                             for (int i = 0; i < commnets.length(); i++) {
                                 JSONObject jsonObject=commnets.getJSONObject(i);
                                 String uname = jsonObject.getString("uname");
                                 String comment = jsonObject.getString("comment");
-
-                                MySpannableString word = new MySpannableString(Capitalize.capitalizeFirstLetter(uname+" "+comment));
-
-                                word.setSpan(new ForegroundColorSpan(Color.parseColor("#be4d66")), 0, uname.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                                word.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, uname.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-                                post_cont.add(word);
+                                CommentBean cb=new CommentBean();
+                                cb.setUname(uname);
+                                cb.setComment(comment);
+                                post_cont.add(cb);
                             }
-                            hld.setPostcomments(post_cont);*/
-                            ArrayList<SpannableString> post_cont = new ArrayList<>();
-                            hld.setPostcomments(post_cont);
+                            hld.setUserpostcomments(post_cont);
 
                         } else {
-                            ArrayList<SpannableString> post_cont = new ArrayList<>();
-                            hld.setPostcomments(post_cont);
+                            ArrayList<CommentBean> post_cont = new ArrayList<>();
+                            hld.setUserpostcomments(post_cont);
 
                         }
 

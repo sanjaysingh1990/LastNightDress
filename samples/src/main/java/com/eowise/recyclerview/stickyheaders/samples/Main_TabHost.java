@@ -33,6 +33,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.crashlytics.android.Crashlytics;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ApplicationConstants;
 import com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage.LndNotificationMessageActivity;
 import com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage.MessageFragment;
@@ -103,6 +104,7 @@ public class Main_TabHost extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
+        Fabric.with(this, new Crashlytics());
         Fabric.with(this, new Twitter(authConfig));
 
         setContentView(R.layout.tabhost_main);
@@ -290,7 +292,13 @@ public class Main_TabHost extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
        // Toast.makeText(this, requestCode + "", Toast.LENGTH_SHORT).show();
         super.onActivityResult(requestCode, resultCode, data);
-        loginButton.onActivityResult(requestCode, resultCode, data);
+     try {
+         loginButton.onActivityResult(requestCode, resultCode, data);
+     }
+     catch (Exception ex)
+     {
+         
+     }
         sCallbackManager.onActivityResult(requestCode, resultCode, data);
         int pos = 0;
         switch (requestCode) {

@@ -1,7 +1,6 @@
 package com.eowise.recyclerview.stickyheaders.samples.StickyHeader;
 
-import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
+
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -21,6 +20,16 @@ public class Home_List_Data implements Serializable {
     private String pricenow;
     private int likestotal;
     private String conditon;
+
+    public ArrayList<CommentBean> getUserpostcomments() {
+        return userpostcomments;
+    }
+
+    public void setUserpostcomments(ArrayList<CommentBean> userpostcomments) {
+        this.userpostcomments = userpostcomments;
+    }
+
+    private ArrayList<CommentBean> userpostcomments;
     private static final long serialVersionUID = 1L;
     public int getTotalcomments() {
         return totalcomments;
@@ -31,16 +40,9 @@ public class Home_List_Data implements Serializable {
     }
 
     private int totalcomments;
-    public ArrayList<SpannableString> getPostcomments() {
-        return postcomments;
-    }
 
-    public void setPostcomments(ArrayList<SpannableString> postcomments) {
-        this.postcomments = postcomments;
-    }
 
-    private ArrayList<SpannableString> postcomments;
-     public String getComments() {
+    public String getComments() {
         return comments;
     }
 

@@ -60,18 +60,13 @@
     </android.support.v7.widget.Toolbar>
 
 
-    <ListView
-        android:id="@+id/chat_list_view"
-
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/bottomlayout"
         android:layout_weight="1"
-        android:divider="@drawable/chat_divider"
-        android:scrollbarStyle="outsideOverlay"
-        android:transcriptMode="alwaysScroll"
-
-        ></ListView>
+        android:background="@color/white"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"

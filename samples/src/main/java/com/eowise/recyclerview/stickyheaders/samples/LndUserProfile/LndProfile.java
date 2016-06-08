@@ -42,7 +42,9 @@ import com.eowise.recyclerview.stickyheaders.samples.SQLDB.FavoriteData;
 import com.eowise.recyclerview.stickyheaders.samples.Settings.ReadMore;
 import com.eowise.recyclerview.stickyheaders.samples.Settings.SettingsActivity;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
+import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.CommentBean;
 import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.Home_List_Data;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.ApplicationConstants;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ColoredRatingBar;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ConstantValues;
@@ -97,7 +99,7 @@ public class LndProfile extends AppCompatActivity {
     private int skipdata = 0;
     private AVLoadingIndicatorView prog;
     private Dialog dialog;
-    public static int check = 0;
+    public  int check = 0;
     private boolean dataleft = true;
     public static Context con;
     public static ArrayList<Home_List_Data> mItems = new ArrayList<>();
@@ -864,7 +866,7 @@ public class LndProfile extends AppCompatActivity {
         prog.setVisibility(View.VISIBLE);
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/postdata.php", new Response.Listener<String>() {
+        StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_POST_DATA, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 prog.setVisibility(View.GONE);
@@ -909,8 +911,7 @@ public class LndProfile extends AppCompatActivity {
                         if (imgurl.length() > 0)
                             imgurls.add(imgurl);
 
-                        Log.e("size", imgurls.size() + "");
-                        //adding for headers
+                         //adding for headers
                         String header = jo.getString("uname") + "";
 
                         sectionManager = (sectionManager + 1) % 1;
@@ -944,7 +945,28 @@ public class LndProfile extends AppCompatActivity {
                         hld.setUserid(jo.getString("user_id"));
                         hld.setProdtype(jo.getString("prod_type"));
                         hld.setTime(getMilliseconds(jo.getString("date_time")));
+                        JSONArray commnets=jo.getJSONArray("postcoments");
 
+                        if(commnets.length()>0)
+                        {
+
+                            ArrayList<CommentBean> post_cont = new ArrayList<>();
+                            for (int j = 0; j < commnets.length(); j++) {
+                                JSONObject jsonObject=commnets.getJSONObject(j);
+                                String uname = jsonObject.getString("uname");
+                                String comment = jsonObject.getString("comment");
+                                CommentBean cb=new CommentBean();
+                                cb.setUname(uname);
+                                cb.setComment(comment);
+                                post_cont.add(cb);
+                            }
+                            hld.setUserpostcomments(post_cont);
+
+                        } else {
+                            ArrayList<CommentBean> post_cont = new ArrayList<>();
+                            hld.setUserpostcomments(post_cont);
+
+                        }
                         if (hld.getCategory() == 2) {
                             String size = "";
 
@@ -983,21 +1005,17 @@ public class LndProfile extends AppCompatActivity {
 
                         //for header
                         hld2.setProfilepicurl(jo.getString("profile_pic"));
-                        hld2.setPricenow(jo.getString("price_now"));
-                        hld2.setPricewas(jo.getString("price_was"));
-                        hld2.setSize(jo.getString("size"));
-                        hld2.setLikestotal(jo.getInt("likes"));
-                        hld2.setImageurls(imgurls);
+                        hld2.setIssold(jo.getInt("issold"));
+
                         hld2.setPost_id(jo.getString("post_id"));
-                        hld2.setDescription(jo.getString("description"));
+
                         hld2.setUname(jo.getString("uname"));
                         hld2.setLikedvalue(jo.getString("isliked"));
-                        hld2.setColors(jo.getString("color"));
-                        hld2.setConditon(jo.getString("condition"));
-                        hld2.setCategory(jo.getInt("category_type"));
-                        hld2.setBrandname(jo.getString("brand_name"));
-                        hld2.setProdtype(jo.getString("prod_type"));
+                        //  hld2.setLikestotal(jo.getInt("likes"));
+
                         hld2.setUserid(jo.getString("user_id"));
+                        hld2.setBrandname(jo.getString("brand_name"));
+                        hld2.setSwapstatus(jo.getInt("swap_status"));
                         checkFavorate(hld);
                         mItems.add(hld);
                         count++;

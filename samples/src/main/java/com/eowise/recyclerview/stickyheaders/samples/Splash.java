@@ -10,8 +10,10 @@ import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
+import android.view.View;
 
 
+import com.crashlytics.android.Crashlytics;
 import com.eowise.recyclerview.stickyheaders.samples.UserProfile.LndLoginSignup;
 import com.facebook.FacebookSdk;
 
@@ -21,13 +23,18 @@ import org.json.JSONObject;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import io.fabric.sdk.android.Fabric;
+
 public class Splash extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
+        Fabric.with(this, new Crashlytics());
+
         setContentView(R.layout.activity_splash);
+
         //to generate fab
        /* try {
           String  PACKAGE_NAME = getApplicationContext().getPackageName();
@@ -46,7 +53,6 @@ public class Splash extends AppCompatActivity {
         } catch (NoSuchAlgorithmException e) {
             Log.e("error",e.getMessage());
         }*/
-
 
        new Thread(new Runnable() {
             @Override
@@ -71,7 +77,10 @@ public class Splash extends AppCompatActivity {
                }
                }
         }).start();
+
     }
+
+
 private void createJson()
 {
     JSONObject shippingrequest=new JSONObject();

@@ -7,6 +7,8 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -14,7 +16,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,10 +28,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.eowise.recyclerview.stickyheaders.samples.Main_TabHost;
-import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.ApplicationConstants;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
-import com.eowise.recyclerview.stickyheaders.samples.Utils.TimeAgo;
 import com.eowise.recyclerview.stickyheaders.samples.adapters.SendMsgListAdapter;
 import com.eowise.recyclerview.stickyheaders.samples.data.Chat_Banner_Data;
 import com.eowise.recyclerview.stickyheaders.samples.data.MessageData;
@@ -41,7 +42,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.text.DateFormat;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -59,15 +59,15 @@ import github.ankushsachdeva.emojicon.EmojiconsPopup;
 import github.ankushsachdeva.emojicon.emoji.Emojicon;
 
 public class SendMessageActivity extends AppCompatActivity {
-    @Bind(R.id.chat_list_view)
-    ListView chatListView;
+    @Bind(R.id.list)
+    RecyclerView chatRecyclerView;
     @Bind(R.id.smiley)
     ImageButton emojiButton;
 
     @Bind(R.id.uname)
     TextView heading;
     private List<MessageData> data = new ArrayList<MessageData>();
-    private SendMsgListAdapter listAdapter;
+    private SendMsgListAdapter recyclerAdapter;
     @Bind(R.id.commentbox)
     EmojiconEditText cmntbox;
     private Bundle extra;
@@ -76,6 +76,14 @@ public class SendMessageActivity extends AppCompatActivity {
     int pos = -1;
     private static final int CAMERA_PIC_REQUEST = 1337;
     public static Chat_Banner_Data chatbanner;
+    private boolean istop=false;
+    private boolean firsttime=true;
+     private int skipcount=0;
+    int  visibleItemCount, totalItemCount,firstVisibleItemIndex,previousTotal;
+    boolean loading = true;
+    private boolean loadmore=false;
+    private boolean isrunning=false;
+    private int lastscrollposition=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,8 +91,10 @@ public class SendMessageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_send_message);
         //initialize butter knife
         ButterKnife.bind(this);
-        listAdapter = new SendMsgListAdapter(data, this);
-        chatListView.setAdapter(listAdapter);
+        final LinearLayoutManager manager = new LinearLayoutManager(this);
+        chatRecyclerView.setLayoutManager(manager);
+        recyclerAdapter = new SendMsgListAdapter(this, data);
+        chatRecyclerView.setAdapter(recyclerAdapter);
         heading.setTypeface(SingleTon.hfont);
 
         //data from previous page
@@ -201,6 +211,48 @@ public class SendMessageActivity extends AppCompatActivity {
         });
 
 
+        chatRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                visibleItemCount = recyclerView.getChildCount();
+                totalItemCount = manager.getItemCount();
+                firstVisibleItemIndex = manager.findFirstVisibleItemPosition();
+
+                //synchronizew loading state when item count changes
+                if (loading) {
+                    if (totalItemCount > previousTotal) {
+                        loading = false;
+                        previousTotal = totalItemCount;
+                    }
+                }
+                if (!loading)
+                    if ((totalItemCount - visibleItemCount) <= firstVisibleItemIndex) {
+                        // Loading NOT in progress and end of list has been reached
+                        // also triggered if not enough items to fill the screen
+                        // if you start loading
+                        //Toast.makeText(LndComments.this,"bottom",Toast.LENGTH_SHORT).show();
+
+                        //loading = true;
+                    } else if (firstVisibleItemIndex == 0){
+                        // top of list reached
+                        // if you start loading
+                        loadmore=true;
+                        loading = true;
+                        if(!isrunning) {
+                            isrunning=true;
+                            lastscrollposition=data.size();
+                            getData(senderid);
+
+                        }
+                    }
+            }
+        });
+
+
+
         getData(senderid);
 
     }
@@ -228,11 +280,11 @@ public class SendMessageActivity extends AppCompatActivity {
     public void getData(final String senderid) {
         final ProgressDialog pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");
-        pDialog.show();
+       // pDialog.show();
 
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/inboxope.php", new Response.Listener<String>() {
+        StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_INBOXOPERATION, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
@@ -288,10 +340,22 @@ public class SendMessageActivity extends AppCompatActivity {
                             String datestring = formatter.format(testDate.getTime());
                             md.setTime(datestring);
                         }
-                        data.add(md);
+                        if(loadmore)
+                            data.add(0,md);
+                           else
+                          data.add(md);
                     }
-                    if (data.size() == 0)
+                    if (data.size() == 0&&firsttime) {
                         Toast.makeText(SendMessageActivity.this, "No conversation yet !", Toast.LENGTH_LONG).show();
+                        istop=false;
+                    }
+                    else if(data.size()==0)
+                        istop=false;
+                    else {
+                        firsttime = false;
+
+                    }
+                   skipcount=data.size();
 
                     if (extra != null) {
 //banner message
@@ -303,15 +367,26 @@ public class SendMessageActivity extends AppCompatActivity {
                         }
                     }
 
+                    recyclerAdapter.notifyDataSetChanged();
+                    if(!loadmore) {
+                        chatRecyclerView.scrollToPosition(data.size() - 1);
 
-                    listAdapter.notifyDataSetChanged();
-                    //listview scroll to bottom
-                    chatListView.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            chatListView.setSelection(data.size());
-                        }
-                    }, 0);
+                    }
+                    else
+                    {
+                        chatRecyclerView.scrollToPosition(data.size() - lastscrollposition);
+
+                    }
+
+                    if (jarray.length() < 25) {
+                        loading = true;
+                        isrunning=true;
+                    }
+                    else {
+                        loading = false;
+                        isrunning=false;
+                    }
+
 
                 } catch (Exception ex) {
                     Log.e("json parsing error", "" + ex.getMessage() + "");
@@ -331,6 +406,7 @@ public class SendMessageActivity extends AppCompatActivity {
                 params.put("rqid", "3");
                 params.put("receiver_id", SingleTon.pref.getString("user_id", ""));
                 params.put("sender_id", senderid);
+                params.put("skipdata",skipcount+"");
 
                 return params;
             }
@@ -347,15 +423,17 @@ public class SendMessageActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent();
-        MessageData md=data.get(data.size() - 1);
-        intent.putExtra("message", md.getMessage());
-        intent.putExtra("pos",pos);
-        intent.putExtra("time",md.getCurrenttimestamp());
-
-        setResult(200, intent);
-        finish();//finishing activity
-    }
+        if(data.size()!=0) {
+            Intent intent = new Intent();
+            MessageData md = data.get(data.size() - 1);
+            intent.putExtra("message", md.getMessage());
+            intent.putExtra("pos", pos);
+            intent.putExtra("time", md.getCurrenttimestamp());
+            setResult(200, intent);
+            finish();//finishing activity
+        }
+        finish();
+        }
 
     public void back(View v) {
         onBackPressed();
@@ -386,7 +464,7 @@ public class SendMessageActivity extends AppCompatActivity {
             md.setTime(time1.toUpperCase());
         md.setCurrenttimestamp(SingleTon.getCurrentTimeStamp());
         data.add(md);
-        listAdapter.notifyDataSetChanged();
+        recyclerAdapter.notifyDataSetChanged();
         cmntbox.setText("");
 
         try {
@@ -487,7 +565,7 @@ public class SendMessageActivity extends AppCompatActivity {
                 md.setCurrenttimestamp(SingleTon.getCurrentTimeStamp());
 
                 data.add(md);
-                listAdapter.notifyDataSetChanged();
+                recyclerAdapter.notifyDataSetChanged();
 
 
                /* try {

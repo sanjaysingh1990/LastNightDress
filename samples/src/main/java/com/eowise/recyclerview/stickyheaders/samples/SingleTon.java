@@ -14,6 +14,7 @@ import android.util.DisplayMetrics;
 import android.view.Display;
 import android.widget.TextView;
 
+import com.crashlytics.android.Crashlytics;
 import com.eowise.recyclerview.stickyheaders.samples.SQLDB.DatabaseHandler;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;

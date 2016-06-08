@@ -11,8 +11,11 @@ import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
+import android.text.style.ForegroundColorSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -456,10 +459,16 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
                 //for comments
                 vh2.showComments.setText("");
-                for (int val = 0; val < item.getPostcomments().size(); val++) {
-                    vh2.showComments.append(item.getPostcomments().get(val));
-                    vh2.showComments.append("\n");
-                }
+                   for(int i=0;i<item.getUserpostcomments().size();i++) {
+                        CommentBean cb=item.getUserpostcomments().get(i);
+                        SpannableString word = new SpannableString(Capitalize.capitalizeFirstLetter(cb.getUname() + " " +cb.getComment()));
+
+                        word.setSpan(new ForegroundColorSpan(Color.parseColor("#be4d66")), 0, cb.getUname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        word.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, cb.getUname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        vh2.showComments.append(word);
+                        vh2.showComments.append("\n");
+                    }
+
                 if (item.getTotalcomments() > 5) {
                     vh2.viewallComments.setVisibility(View.VISIBLE);
                     vh2.viewallComments.setText("view all " + item.getTotalcomments() + " comments");
@@ -549,10 +558,16 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
                 //for comments
                 vh3.showComments.setText("");
-                for (int val = 0; val < item.getPostcomments().size(); val++) {
-                    vh3.showComments.append(item.getPostcomments().get(val));
-                    vh3.showComments.append("\n");
-                }
+                    for(int i=0;i<item.getUserpostcomments().size();i++) {
+                        CommentBean cb=item.getUserpostcomments().get(i);
+                        SpannableString word = new SpannableString(Capitalize.capitalizeFirstLetter(cb.getUname() + " " +cb.getComment()));
+
+                        word.setSpan(new ForegroundColorSpan(Color.parseColor("#be4d66")), 0, cb.getUname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        word.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, cb.getUname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        vh3.showComments.append(word);
+                        vh3.showComments.append("\n");
+                    }
+
                 if (item.getTotalcomments() > 5) {
                     vh3.viewallComments.setVisibility(View.VISIBLE);
                     vh3.viewallComments.setText("view all " + item.getTotalcomments() + " comments");
@@ -670,10 +685,16 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
                 //for comments
                 vh3.showComments.setText("");
-                for (int val = 0; val < item.getPostcomments().size(); val++) {
-                    vh3.showComments.append(item.getPostcomments().get(val));
-                    vh3.showComments.append("\n");
-                }
+                    for(int i=0;i<item.getUserpostcomments().size();i++) {
+                        CommentBean cb=item.getUserpostcomments().get(i);
+                        SpannableString word = new SpannableString(Capitalize.capitalizeFirstLetter(cb.getUname() + " " +cb.getComment()));
+
+                        word.setSpan(new ForegroundColorSpan(Color.parseColor("#be4d66")), 0, cb.getUname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        word.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, cb.getUname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        vh3.showComments.append(word);
+                        vh3.showComments.append("\n");
+                    }
+
                 if (item.getTotalcomments() > 5) {
                     vh3.viewallComments.setVisibility(View.VISIBLE);
                     vh3.viewallComments.setText("view all " + item.getTotalcomments() + " comments");
@@ -788,10 +809,16 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                 //for comments
                 vh2.showComments.setText("");
-                for (int val = 0; val < item.getPostcomments().size(); val++) {
-                    vh2.showComments.append(item.getPostcomments().get(val));
-                    vh2.showComments.append("\n");
-                }
+                    for(int i=0;i<item.getUserpostcomments().size();i++) {
+                        CommentBean cb=item.getUserpostcomments().get(i);
+                        SpannableString word = new SpannableString(Capitalize.capitalizeFirstLetter(cb.getUname() + " " +cb.getComment()));
+
+                        word.setSpan(new ForegroundColorSpan(Color.parseColor("#be4d66")), 0, cb.getUname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        word.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, cb.getUname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        vh2.showComments.append(word);
+                        vh2.showComments.append("\n");
+                    }
+
                 if (item.getTotalcomments() > 5) {
                     vh2.viewallComments.setVisibility(View.VISIBLE);
                     vh2.viewallComments.setText("view all " + item.getTotalcomments() + " comments");
@@ -861,10 +888,16 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 vh4.price_was.setText("$" + item.getPricewas());
                 vh4.price_now.setText("$" + item.getPricenow());
                 vh4.showComments.setText("");
-                for (int val = 0; val < item.getPostcomments().size(); val++) {
-                    vh4.showComments.append(item.getPostcomments().get(val));
-                    vh4.showComments.append("\n");
-                }
+                    for(int i=0;i<item.getUserpostcomments().size();i++) {
+                        CommentBean cb=item.getUserpostcomments().get(i);
+                        SpannableString word = new SpannableString(Capitalize.capitalizeFirstLetter(cb.getUname() + " " +cb.getComment()));
+
+                        word.setSpan(new ForegroundColorSpan(Color.parseColor("#be4d66")), 0, cb.getUname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        word.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, cb.getUname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        vh4.showComments.append(word);
+                        vh4.showComments.append("\n");
+                    }
+
                 if (item.getTotalcomments() > 5) {
                     vh4.viewallComments.setVisibility(View.VISIBLE);
                     vh4.viewallComments.setText("view all " + item.getTotalcomments() + " comments");
@@ -943,10 +976,16 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 vh5.likescount.setText(item.getLikestotal() + " likes");
                 vh5.time.setReferenceTime(item.getTime());
                 vh5.showComments.setText("");
-                for (int val = 0; val < item.getPostcomments().size(); val++) {
-                    vh5.showComments.append(item.getPostcomments().get(val));
-                    vh5.showComments.append("\n");
-                }
+                    for(int i=0;i<item.getUserpostcomments().size();i++) {
+                        CommentBean cb=item.getUserpostcomments().get(i);
+                        SpannableString word = new SpannableString(Capitalize.capitalizeFirstLetter(cb.getUname() + " " +cb.getComment()));
+
+                        word.setSpan(new ForegroundColorSpan(Color.parseColor("#be4d66")), 0, cb.getUname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        word.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, cb.getUname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        vh5.showComments.append(word);
+                        vh5.showComments.append("\n");
+                    }
+
                 if (item.getTotalcomments() > 5) {
                     vh5.viewallComments.setVisibility(View.VISIBLE);
                     vh5.viewallComments.setText("view all " + item.getTotalcomments() + " comments");
@@ -1076,10 +1115,16 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 //start
                 //for comments
                 vh6.showComments.setText("");
-                for (int val = 0; val < item.getPostcomments().size(); val++) {
-                    vh6.showComments.append(item.getPostcomments().get(val));
-                    vh6.showComments.append("\n");
-                }
+                    for(int i=0;i<item.getUserpostcomments().size();i++) {
+                        CommentBean cb=item.getUserpostcomments().get(i);
+                        SpannableString word = new SpannableString(Capitalize.capitalizeFirstLetter(cb.getUname() + " " +cb.getComment()));
+
+                        word.setSpan(new ForegroundColorSpan(Color.parseColor("#be4d66")), 0, cb.getUname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        word.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, cb.getUname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        vh6.showComments.append(word);
+                        vh6.showComments.append("\n");
+                    }
+
                 if (item.getTotalcomments() > 5) {
                     vh6.viewallComments.setVisibility(View.VISIBLE);
                     vh6.viewallComments.setText("view all " + item.getTotalcomments() + " comments");
@@ -1171,10 +1216,16 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
                 //for comments
                 vh7.showComments.setText("");
-                for (int val = 0; val < item.getPostcomments().size(); val++) {
-                    vh7.showComments.append(item.getPostcomments().get(val));
-                    vh7.showComments.append("\n");
-                }
+                    for(int i=0;i<item.getUserpostcomments().size();i++) {
+                        CommentBean cb=item.getUserpostcomments().get(i);
+                        SpannableString word = new SpannableString(Capitalize.capitalizeFirstLetter(cb.getUname() + " " +cb.getComment()));
+
+                        word.setSpan(new ForegroundColorSpan(Color.parseColor("#be4d66")), 0, cb.getUname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        word.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, cb.getUname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        vh7.showComments.append(word);
+                        vh7.showComments.append("\n");
+                    }
+
                 if (item.getTotalcomments() > 5) {
                     vh7.viewallComments.setVisibility(View.VISIBLE);
                     vh7.viewallComments.setText("view all " + item.getTotalcomments() + " comments");
@@ -2588,6 +2639,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
         });
     }
+
 }
 
 

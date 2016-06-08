@@ -977,6 +977,8 @@ public class ShoesPostPrivate extends AppCompatActivity implements View.OnClickL
     public boolean validateShipping() {
         //for shipping national fixed cost
         if (FixedCost1.isChecked() && !(nationalfixedcostfreeshipping.isChecked())) {
+            querypart1 = querypart1 + "charge_cost_national=2";
+
             if (nationalfixedcostservicespinner.getSelectedItemPosition() == 0) {
 
                 Toast.makeText(this, "select national shipping service", Toast.LENGTH_SHORT).show();
@@ -994,6 +996,7 @@ public class ShoesPostPrivate extends AppCompatActivity implements View.OnClickL
         }
         //for shipping national actual cost
         if (ActualCost1.isChecked() && !(nationalactualcostfressshipping.isChecked())) {
+            querypart1 = querypart1 + "charge_cost_national=1";
 
             if (nationalactualweightpackagespinner.getSelectedItemPosition() == 0) {
                 Toast.makeText(this, "select weight of packaged item", Toast.LENGTH_SHORT).show();
@@ -1036,6 +1039,8 @@ public class ShoesPostPrivate extends AppCompatActivity implements View.OnClickL
 
         //for shipping international fixed cost
         if (FixedCost2.isChecked() && !((internationalfixedcostfreeshipping.isChecked() || internationalfixedcostnointernationshipping.isChecked()))) {
+            querypart1 = querypart1 + ",charge_cost_international=2";
+
             if (internationalfixedcostservicespinner.getSelectedItemPosition() == 0) {
 
                 Toast.makeText(this, "select international shipping service", Toast.LENGTH_SHORT).show();
@@ -1053,6 +1058,7 @@ public class ShoesPostPrivate extends AppCompatActivity implements View.OnClickL
         }
         //for shipping international actual cost
         if (ActualCost2.isChecked() && !((internationalactualcostfreeshipping.isChecked() || internationalactualcostnointernationshipping.isChecked()))) {
+            querypart1 = querypart1 + ",charge_cost_national=1";
 
             if (internationalweightpackagespinner.getSelectedItemPosition() == 0) {
                 Toast.makeText(this, "select weight of packaged item", Toast.LENGTH_SHORT).show();
@@ -1093,7 +1099,7 @@ public class ShoesPostPrivate extends AppCompatActivity implements View.OnClickL
         }
         //national free shipping for fixed cost and actual cost
         if (nationalactualcostfressshipping.isChecked()) {
-            querypart1 = querypart1 + "isfree_shipping_national=" + "1";
+            querypart1 = querypart1 + "isfree_shipping_national="+ "1";
         } else if (nationalfixedcostfreeshipping.isChecked()) {
             querypart1 = querypart1 + "isfree_shipping_national=" + "1";
 
@@ -1109,13 +1115,23 @@ public class ShoesPostPrivate extends AppCompatActivity implements View.OnClickL
 
             }
             if (internationalfixedcostnointernationshipping.isChecked()) {
-                querypart1 = querypart1 + ",isno_shipping_international=" + "1";
+                querypart1 = querypart1 + ",isno_shipping_international="+ "1";
             } else if (internationalactualcostnointernationshipping.isChecked()) {
                 querypart1 = querypart1 + ",isno_shipping_international=" + "1";
 
             }
 
         }
+        //for national actual or fixed cost
+        if (FixedCost1.isChecked())
+            querypart1 = querypart1 + ",charge_cost_national=2";
+        else if (ActualCost1.isChecked())
+            querypart1 = querypart1 + ",charge_cost_national=1";
+//for internation actual and fixed cost
+        if (FixedCost2.isChecked())
+            querypart1 = querypart1 + ",charge_cost_international=2";
+        else if (ActualCost2.isChecked())
+            querypart1 = querypart1 + ",charge_cost_international=1";
 //Log.e("query",querypart1+querypart2);
         return true;
     }
