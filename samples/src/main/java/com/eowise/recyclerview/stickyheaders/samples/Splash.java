@@ -31,7 +31,6 @@ public class Splash extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
-        Fabric.with(this, new Crashlytics());
 
         setContentView(R.layout.activity_splash);
 
@@ -53,7 +52,7 @@ public class Splash extends AppCompatActivity {
         } catch (NoSuchAlgorithmException e) {
             Log.e("error",e.getMessage());
         }*/
-
+createJson();
        new Thread(new Runnable() {
             @Override
             public void run() {

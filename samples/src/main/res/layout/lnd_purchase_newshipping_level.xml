@@ -135,6 +135,7 @@
                             android:layout_marginTop="5dp"
                             android:layout_weight="1"
                             android:background="@drawable/purchse_rounded_corners"
+                            android:inputType="numberDecimal"
                             android:paddingBottom="9dp"
                             android:paddingLeft="5dp"
                             android:paddingTop="9dp"
@@ -173,10 +174,13 @@
                             android:layout_marginTop="5dp"
                             android:layout_weight="1"
                             android:background="@drawable/purchse_rounded_corners"
+                            android:inputType="numberDecimal"
                             android:paddingBottom="9dp"
                             android:paddingLeft="5dp"
                             android:paddingTop="9dp"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"
+
+                            />
 
                     </LinearLayout>
 
@@ -212,10 +216,13 @@
                             android:layout_marginTop="5dp"
                             android:layout_weight="1"
                             android:background="@drawable/purchse_rounded_corners"
+                            android:inputType="numberDecimal"
                             android:paddingBottom="9dp"
                             android:paddingLeft="5dp"
                             android:paddingTop="9dp"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"
+
+                            />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -240,8 +247,9 @@
                         android:layout_marginRight="5dp"
                         android:layout_marginTop="5dp"
                         android:background="@drawable/purchse_rounded_corners"
-                        android:paddingBottom="18dp"
-                        android:paddingTop="18dp"></Spinner>
+                        android:entries="@array/service"
+                        android:paddingBottom="8dp"
+                        android:paddingTop="8dp"></Spinner>
 
                     <ImageButton
                         android:layout_width="wrap_content"
@@ -459,12 +467,12 @@
                     android:id="@+id/cardno"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded"
                     android:hint="xxxx xxxx xxxx 1234"
                     android:inputType="textNoSuggestions"
-                    android:textColorHint="#dadada"
-                    android:background="@drawable/rounded"
                     android:textColor="@color/black"
-                    android:layout_weight="1"
+                    android:textColorHint="#dadada"
 
                     />
 
@@ -481,10 +489,9 @@
         android:background="#be4d66"
         android:clickable="true"
         android:gravity="center"
+        android:onClick="doPayment"
         android:padding="10dp"
         android:text="Process My Order"
         android:textColor="#FFFFFF"
-        android:textSize="16sp"
-        android:onClick="doPayment"
-        />
+        android:textSize="16sp" />
 </LinearLayout>

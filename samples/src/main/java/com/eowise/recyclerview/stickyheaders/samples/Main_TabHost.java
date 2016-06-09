@@ -297,7 +297,7 @@ public class Main_TabHost extends AppCompatActivity {
      }
      catch (Exception ex)
      {
-         
+
      }
         sCallbackManager.onActivityResult(requestCode, resultCode, data);
         int pos = 0;

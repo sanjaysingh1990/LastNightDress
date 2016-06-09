@@ -79,7 +79,7 @@ import github.ankushsachdeva.emojicon.EmojiconGridView;
 import github.ankushsachdeva.emojicon.EmojiconsPopup;
 import github.ankushsachdeva.emojicon.emoji.Emojicon;
 
-public class DressEditPost extends AppCompatActivity implements View.OnClickListener,LndShippingCallback {
+public class DressEditPost extends AppCompatActivity implements View.OnClickListener, LndShippingCallback {
     @Bind({R.id.size1, R.id.size2, R.id.size3, R.id.size4, R.id.size5, R.id.size6, R.id.size7})
     List<CheckBox> lnddresssize1;
 
@@ -127,26 +127,6 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
     View rootView;
     @Bind(R.id.autocomplete)
     MultiAutoCompleteTextView desc;
-
-    //included layout shipping
-    @Bind(R.id.actualcost1)
-    CheckBox ActualCost1;
-    @Bind(R.id.fixedcost1)
-    CheckBox FixedCost1;
-    @Bind(R.id.actualcost2)
-    CheckBox ActualCost2;
-    @Bind(R.id.fixedcost2)
-    CheckBox FixedCost2;
-
-    @Bind(R.id.chargefixedcost)
-    LinearLayout chargefixedcost;
-    @Bind(R.id.chargeactualcost)
-    LinearLayout chargeactualcost;
-
-    @Bind(R.id.chargefixedcostinternational)
-    LinearLayout chargefixedcostinternaltional;
-    @Bind(R.id.chargeactualcostinternational)
-    LinearLayout chargeactualcostinternational;
 
     //for shipping national fixed cost
     @Bind(R.id.nationalfixedcostservicespinner)
@@ -204,6 +184,30 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
     CheckBox internationalfixedcostfreeshipping;
 
     //END HERE
+    //included layout shipping
+    @Bind(R.id.actualcost1)
+    CheckBox ActualCost1;
+    @Bind(R.id.fixedcost1)
+    CheckBox FixedCost1;
+    @Bind(R.id.actualcost2)
+    CheckBox ActualCost2;
+    @Bind(R.id.fixedcost2)
+    CheckBox FixedCost2;
+
+    @Bind(R.id.chargefixedcost)
+    LinearLayout chargefixedcost;
+    @Bind(R.id.chargeactualcost)
+    LinearLayout chargeactualcost;
+
+    @Bind(R.id.chargefixedcostinternational)
+    LinearLayout chargefixedcostinternaltional;
+    @Bind(R.id.chargeactualcostinternational)
+    LinearLayout chargeactualcostinternational;
+
+
+    String querypart1 = "";
+    String querypart2 = "";
+
 
     String[] links = {"", "", "", ""};
     String filename[] = {"", "", "", ""};
@@ -212,12 +216,11 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
     int condition = 0;
     private Bundle extra;
     InstructionDialogs lndcommistiondialog;
-    String querypart1 ="";
-    String querypart2 ="";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dress_post_page);
+       setContentView(R.layout.dress_post_page);
         //intialiaing dialog
 
 
@@ -453,13 +456,14 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
         getShippingLabel(hld.getPost_id());
 
     }
-private void getShippingLabel(String postid)
-{
-   GetLndShippingInfo lndshipping=new GetLndShippingInfo(this);
-    lndshipping.registerCallback(this);
-    lndshipping.getData(postid);
 
-}
+    private void getShippingLabel(String postid) {
+        GetLndShippingInfo lndshipping = new GetLndShippingInfo(this);
+        lndshipping.registerCallback(this);
+        lndshipping.getData(postid);
+
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -593,6 +597,7 @@ private void getShippingLabel(String postid)
 
                 break;
 
+
         }
 
 
@@ -613,7 +618,6 @@ private void getShippingLabel(String postid)
 
         querypart1 = "update lnd_table_how_to_ship set ";
         querypart2 = " where post_id=";
-
 
 
         int pw = 0, pn = 0;
@@ -715,7 +719,7 @@ private void getShippingLabel(String postid)
             //image2 json
             JSONObject image2 = new JSONObject();
             image2.put("imagename", filename[1]);
-             image2.put("imageurl", links[1]);
+            image2.put("imageurl", links[1]);
 
             //image3 json
             JSONObject image3 = new JSONObject();
@@ -794,8 +798,8 @@ private void getShippingLabel(String postid)
             }
             //end query here
 
-           // Log.e("json", mainObj.toString());
-          //  Log.e("json2", querypart1 + querypart2);
+             // Log.e("json", mainObj.toString());
+             // Log.e("json2", querypart1 + querypart2);
         } catch (Exception ex) {
             Log.e("json error", ex.getMessage() + "");
         }
@@ -814,7 +818,7 @@ private void getShippingLabel(String postid)
             @Override
             public void onResponse(String response) {
                 pDialog.dismiss();
-               // Log.e("responsedata", response.toString());
+                Log.e("responsedata", response.toString());
                 try {
                     JSONObject jobj = new JSONObject(response);
                     if (jobj.getBoolean("status")) {
@@ -871,8 +875,12 @@ private void getShippingLabel(String postid)
 
     @Override
     public void callbackReturn(String data) {
-        Log.e("json",data+"");
+
+
+    EditShpping(data);
     }
+
+
 
     private class AsyncTaskLoadImage extends AsyncTask<String, Bitmap, Bitmap> {
 
@@ -1062,22 +1070,6 @@ private void getShippingLabel(String postid)
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
-    public void unselectactualPrice() {
-        ActualCost1.setChecked(false);
-        FixedCost1.setChecked(false);
-        ActualCost1.setTextColor(Color.parseColor("#ffffff"));
-        FixedCost1.setTextColor(Color.parseColor("#ffffff"));
-
-    }
-
-    public void unselectfixedPrice() {
-        FixedCost2.setChecked(false);
-        ActualCost2.setChecked(false);
-        FixedCost2.setTextColor(Color.parseColor("#ffffff"));
-        ActualCost2.setTextColor(Color.parseColor("#ffffff"));
-
-    }
-
     public boolean validateShipping() {
         //for shipping national fixed cost
         if (FixedCost1.isChecked() && !(nationalfixedcostfreeshipping.isChecked())) {
@@ -1088,7 +1080,7 @@ private void getShippingLabel(String postid)
                 Toast.makeText(this, "select national shipping service", Toast.LENGTH_SHORT).show();
                 return false;
             } else {
-                querypart1 = querypart1 + "service_type_national=\"" + nationalfixedcostservicespinner.getSelectedItem() + "\"";
+                querypart1 = querypart1 + ",service_type_national=\"" + nationalfixedcostservicespinner.getSelectedItem() + "\"";
             }
             if (nationalfixedcostinputbox.getText().length() == 0) {
                 nationalfixedcostinputbox.requestFocus();
@@ -1103,7 +1095,7 @@ private void getShippingLabel(String postid)
             querypart1 = querypart1 + "charge_cost_national=1";
 
             if (nationalactualweightpackagespinner.getSelectedItemPosition() == 0) {
-                Toast.makeText(this, "select weight of packaged item", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, ",select weight of packaged item", Toast.LENGTH_SHORT).show();
                 return false;
             } else {
                 querypart1 = querypart1 + ",package_weight_national=" + "\"" + nationalactualweightpackagespinner.getSelectedItem() + "\"";
@@ -1165,7 +1157,7 @@ private void getShippingLabel(String postid)
             querypart1 = querypart1 + ",charge_cost_national=1";
 
             if (internationalweightpackagespinner.getSelectedItemPosition() == 0) {
-                Toast.makeText(this, "select weight of packaged item", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, ",select weight of packaged item", Toast.LENGTH_SHORT).show();
                 return false;
             } else {
                 querypart1 = querypart1 + ",package_weight_international=" + "\"" + internationalweightpackagespinner.getSelectedItem() + "\"";
@@ -1203,7 +1195,7 @@ private void getShippingLabel(String postid)
         }
         //national free shipping for fixed cost and actual cost
         if (nationalactualcostfressshipping.isChecked()) {
-            querypart1 = querypart1 + "isfree_shipping_national="+ "1";
+            querypart1 = querypart1 + "isfree_shipping_national=" + "1";
         } else if (nationalfixedcostfreeshipping.isChecked()) {
             querypart1 = querypart1 + "isfree_shipping_national=" + "1";
 
@@ -1219,7 +1211,7 @@ private void getShippingLabel(String postid)
 
             }
             if (internationalfixedcostnointernationshipping.isChecked()) {
-                querypart1 = querypart1 + ",isno_shipping_international="+ "1";
+                querypart1 = querypart1 + ",isno_shipping_international=" + "1";
             } else if (internationalactualcostnointernationshipping.isChecked()) {
                 querypart1 = querypart1 + ",isno_shipping_international=" + "1";
 
@@ -1239,6 +1231,96 @@ private void getShippingLabel(String postid)
 //Log.e("query",querypart1+querypart2);
         return true;
     }
+    public void unselectactualPrice() {
+        ActualCost1.setChecked(false);
+        FixedCost1.setChecked(false);
+        ActualCost1.setTextColor(Color.parseColor("#ffffff"));
+        FixedCost1.setTextColor(Color.parseColor("#ffffff"));
+
+    }
+
+    public void unselectfixedPrice() {
+        FixedCost2.setChecked(false);
+        ActualCost2.setChecked(false);
+        FixedCost2.setTextColor(Color.parseColor("#ffffff"));
+        ActualCost2.setTextColor(Color.parseColor("#ffffff"));
+
+    }
+    public void EditShpping(String data)
+    {
+        //first make all shipping label unchecked
+        ActualCost1.setChecked(false);
+        FixedCost1.setChecked(false);
+        ActualCost2.setChecked(false);
+        FixedCost2.setChecked(false);
+
+
+        Log.e("json", data + "");
+        try {
+            JSONObject jobj = new JSONObject(data);
+
+            if (jobj.getBoolean("status")) {
+                String[] weight = getResources().getStringArray(R.array.weight);
+                String[] service = getResources().getStringArray(R.array.service);
+
+                //for national shipping
+                if (jobj.getInt("charge_cost_national") == 1) {
+                    ActualCost1.setChecked(true);
+                    if (jobj.getInt("isfree_shipping_national") == 1)
+                        nationalactualcostfressshipping.setChecked(true);
+
+                } else if (jobj.getInt("charge_cost_national") == 2) {
+                    FixedCost1.setChecked(true);
+                    nationalfixedcostinputbox.setText(jobj.getString("cost_national"));
+                    if (jobj.getInt("isfree_shipping_national") == 1)
+                        nationalfixedcostfreeshipping.setChecked(true);
+
+                }
+                //for international for actul
+                if (jobj.getInt("charge_cost_international") == 1) {
+                    ActualCost2.setChecked(true);
+                    if (jobj.getInt("isfree_shipping_international") == 1)
+                        internationalactualcostfreeshipping.setChecked(true);
+                    else if (jobj.getInt("isno_shipping_international") == 1)
+                        internationalactualcostnointernationshipping.setChecked(true);
+                    int val = useLoop(service, jobj.getString("service_type_international"));
+
+                    if (val > -1)
+                        internationalactualcostservicespinner.setSelection(val);
+                    val = useLoop(weight, jobj.getString("package_weight_international"));
+
+                    if (val > -1)
+                        internationalweightpackagespinner.setSelection(val);
+                    //for width height and length
+                    internationalactualcostwidth.setText(jobj.getString("width_international"));
+                    internationalactualcostlength.setText(jobj.getString("length_international"));
+                    internationalactualcostheight.setText(jobj.getString("height_international"));
+
+                }//for fixed
+                else if (jobj.getInt("charge_cost_national") == 2) {
+                    FixedCost2.setChecked(true);
+                    internationalfixedcostedittext.setText(jobj.getString("cost_international"));
+                    if (jobj.getInt("isfree_shipping_international") == 1)
+                        internationalfixedcostfreeshipping.setChecked(true);
+                    else if (jobj.getInt("isno_shipping_international") == 1)
+                        internationalfixedcostnointernationshipping.setChecked(true);
+                }
+
+            }
+        } catch (Exception ex) {
+            Log.e("error", ex.getMessage() + "");
+        }
+    }
+    public static int useLoop(String[] arr, String targetValue) {
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i].compareToIgnoreCase(targetValue) == 0) {
+                return i;
+
+            }
+        }
+        return -1;
+    }
+
 
 }
 

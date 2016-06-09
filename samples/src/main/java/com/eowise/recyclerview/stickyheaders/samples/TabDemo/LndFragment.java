@@ -101,7 +101,7 @@ public class LndFragment extends Fragment {
         handler = new Handler();
         try {
             shopdata.clear();
-
+            mItems.clear();
             getData(skipdata, query);
 
 
