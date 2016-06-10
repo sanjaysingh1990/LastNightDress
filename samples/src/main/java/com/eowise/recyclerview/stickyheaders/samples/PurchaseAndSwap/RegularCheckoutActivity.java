@@ -10,25 +10,45 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.eowise.recyclerview.stickyheaders.samples.LndBaseActivity;
 import com.eowise.recyclerview.stickyheaders.samples.LndMore.LndLuxuryandDesignerAuthentication;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
+import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.Home_List_Data;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.ApplicationConstants;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.RelativeTimeTextView;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.TimeAgo;
 
 
+import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class RegularCheckoutActivity extends AppCompatActivity {
+public class RegularCheckoutActivity extends LndBaseActivity {
     @Bind(R.id.sameadd)
     TextView sameadd;
     @Bind(R.id.newadd)
@@ -57,6 +77,28 @@ public class RegularCheckoutActivity extends AppCompatActivity {
     RelativeLayout samepayrellayout;
     @Bind(R.id.newpayrellayout)
     RelativeLayout newpayrellayout;
+    //refrence for post
+
+    @Bind(R.id.brandname)
+    TextView brandname;
+    @Bind(R.id.sellername)
+    TextView sellername;
+    @Bind(R.id.showtime)
+    RelativeTimeTextView showtime;
+    @Bind(R.id.price)
+    TextView price;
+    @Bind(R.id.shippingprice)
+    TextView shippingprice;
+    @Bind(R.id.grandtotalprice)
+    TextView grandtotalprice;
+    @Bind(R.id.orderdate)
+    TextView orderdate;
+    @Bind(R.id.ordernumber)
+    TextView ordernumber;
+    @Bind(R.id.productimage)
+    ImageView productimage;
+    //end here
+
  /*   private static final String CONFIG_ENVIRONMENT = PayPalConfiguration.ENVIRONMENT_NO_NETWORK;
     // note that these credentials will differ between live & sandbox environments.
     private static final String CONFIG_CLIENT_ID = "AQROuxZHCry7zhjtDYgK2S0uq1P2XQThAEb6UEUB3ntPe7p0RW2gfiupZDlHLEAtZVHlDt9x9VHkc_fd";
@@ -67,7 +109,7 @@ public class RegularCheckoutActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_regular_checkout);
         ButterKnife.bind(this);
@@ -80,6 +122,29 @@ public class RegularCheckoutActivity extends AppCompatActivity {
             regularcheckout.get(i).setTypeface(SingleTon.robotomedium);
 
         }
+        Bundle extra=getIntent().getExtras();
+        if(extra!=null)
+        {
+            Home_List_Data hld= (Home_List_Data) extra.getSerializable("data");
+            brandname.setText(Capitalize.capitalizeFirstLetter(hld.getBrandname()));
+            sellername.setText(Capitalize.capitalize(hld.getUname()));
+            showtime.setReferenceTime(hld.getTime());
+            price.setText("$"+hld.getPricenow());
+            orderdate.setText(TimeAgo.getCurrentDate());
+            SingleTon.imageLoader.displayImage(hld.getImageurls().get(0),productimage,SingleTon.options4);
+
+        }
+
+        //applying custom font
+        brandname.setTypeface(SingleTon.robotobold);
+        sellername.setTypeface(SingleTon.robotobold);
+        showtime.setTypeface(SingleTon.robotobold);
+        price.setTypeface(SingleTon.robotobold);
+        shippingprice.setTypeface(SingleTon.robotobold);
+        grandtotalprice.setTypeface(SingleTon.robotobold);
+        orderdate.setTypeface(SingleTon.robotobold);
+        ordernumber.setTypeface(SingleTon.robotobold);
+
 
     }
 
@@ -271,5 +336,115 @@ public class RegularCheckoutActivity extends AppCompatActivity {
     public void learnmore(View v) {
         Intent luxurydesign = new Intent(this, LndLuxuryandDesignerAuthentication.class);
         startActivity(luxurydesign);
+    }
+
+    private void PurchaseShippingLable(final String data) {
+        showProgress("wait processing");
+        RequestQueue queue = Volley.newRequestQueue(this);
+        StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_FADEX_PURCHASE_SHIPPING_LABLE, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.e("json", response + "");
+                dismissProgress();
+                try
+                {
+                    JSONObject jobj=new JSONObject(response);
+                    JSONObject metajsonobj=jobj.getJSONObject("Meta");
+                    int responsecode=metajsonobj.getInt("Code");
+                    if(responsecode==200) {
+                        JSONObject datajsonobj = jobj.getJSONObject("Data");
+                        //shippinglable.setText("$" + datajsonobj.getString("Charges"));
+                      //  total.setText("$" + datajsonobj.getString("Charges"));
+
+                        JSONArray jarray = datajsonobj.getJSONArray("Packages");
+                        JSONObject jsonpackageinfo=jarray.getJSONObject(0);
+
+
+
+                    }
+                }
+                catch(Exception ex)
+                {
+                    Log.e("jsonerror",ex.getMessage()+"");
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                dismissProgress();
+                Log.e("response", error.getMessage() + "");
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+
+                params.put("data", data);
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                return params;
+            }
+        };
+        int socketTimeout = 60000;
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        sr.setRetryPolicy(policy);
+
+        queue.add(sr);
+
+    }
+    private void getPostInfo(final String data) {
+        showProgress("wait processing");
+        RequestQueue queue = Volley.newRequestQueue(this);
+        StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_SHIPPINGINFO, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.e("json", response + "");
+                dismissProgress();
+                try
+                {
+
+
+
+                }
+                catch(Exception ex)
+                {
+                    Log.e("jsonerror",ex.getMessage()+"");
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                dismissProgress();
+                Log.e("response", error.getMessage() + "");
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+
+                params.put("data", data);
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                return params;
+            }
+        };
+        int socketTimeout = 60000;
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        sr.setRetryPolicy(policy);
+
+        queue.add(sr);
+
     }
 }

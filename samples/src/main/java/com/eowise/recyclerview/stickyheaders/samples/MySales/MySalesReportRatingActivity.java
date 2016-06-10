@@ -20,7 +20,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MySalesReportRatingActivity extends AppCompatActivity implements View.OnClickListener {
+public class  MySalesReportRatingActivity extends AppCompatActivity implements View.OnClickListener {
     @Bind(R.id.submit)
     TextView submit;
     @Bind(R.id.heading)

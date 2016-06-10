@@ -95,7 +95,9 @@
                         android:background="@drawable/purchse_rounded_corners"
                         android:entries="@array/weight"
                         android:paddingBottom="8dp"
-                        android:paddingTop="8dp"></Spinner>
+                        android:paddingTop="8dp"
+                        android:id="@+id/weight"
+                        ></Spinner>
 
                     <ImageButton
                         android:layout_width="wrap_content"
@@ -139,7 +141,10 @@
                             android:paddingBottom="9dp"
                             android:paddingLeft="5dp"
                             android:paddingTop="9dp"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"
+                            android:id="@+id/length"
+                            android:textColor="@color/black"
+                            />
 
                     </LinearLayout>
 
@@ -179,7 +184,8 @@
                             android:paddingLeft="5dp"
                             android:paddingTop="9dp"
                             android:textSize="12sp"
-
+                            android:id="@+id/width"
+                            android:textColor="@color/black"
                             />
 
                     </LinearLayout>
@@ -221,6 +227,8 @@
                             android:paddingLeft="5dp"
                             android:paddingTop="9dp"
                             android:textSize="12sp"
+                            android:id="@+id/height"
+                            android:textColor="@color/black"
 
                             />
 
@@ -249,7 +257,9 @@
                         android:background="@drawable/purchse_rounded_corners"
                         android:entries="@array/service"
                         android:paddingBottom="8dp"
-                        android:paddingTop="8dp"></Spinner>
+                        android:paddingTop="8dp"
+                        android:id="@+id/service"
+                        ></Spinner>
 
                     <ImageButton
                         android:layout_width="wrap_content"
@@ -307,7 +317,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="$10.99"
+                  android:text="$0.00"
                     android:textColor="@color/light_black"
                     android:textSize="14sp" />
             </RelativeLayout>
@@ -327,11 +337,11 @@
                     android:textSize="14sp" />
 
                 <TextView
-                    android:id="@+id/labelprocessing"
+                    android:id="@+id/processinglabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="$1.50"
+                    android:text="$0.00"
                     android:textColor="@color/light_black"
                     android:textSize="14sp" />
             </RelativeLayout>
@@ -386,7 +396,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="$12.50"
+                    android:text="$0.00"
                     android:textColor="@color/light_black"
                     android:textSize="14sp"
                     android:textStyle="bold" />
@@ -489,7 +499,7 @@
         android:background="#be4d66"
         android:clickable="true"
         android:gravity="center"
-        android:onClick="doPayment"
+        android:onClick="PurchaseShippment"
         android:padding="10dp"
         android:text="Process My Order"
         android:textColor="#FFFFFF"

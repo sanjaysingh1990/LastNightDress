@@ -543,6 +543,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 vh3.price_now.setText("$" + item.getPricenow());
                 vh3.likescount.setText(item.getLikestotal() + " likes");
                 vh3.time.setReferenceTime(item.getTime());
+                vh3.buy.setOnClickListener(new BuyItem(vh3.size, vh3.color,position));
 
 
                 try {
@@ -670,6 +671,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 vh3.price_now.setText("$" + item.getPricenow());
                 vh3.likescount.setText(item.getLikestotal() + " likes");
                 vh3.time.setReferenceTime(item.getTime());
+                vh3.buy.setOnClickListener(new BuyItem(vh3.size, vh3.color,position));
 
 
                 try {
@@ -1911,8 +1913,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             viewallComments = (TextView) itemView.findViewById(R.id.viewallcomments);
              //bind with listener
             viewallComments.setOnClickListener(this);
-            this.buy.setOnClickListener(new BuyItem(size, color));
-            this.sendto.setOnClickListener(this);
+             this.sendto.setOnClickListener(this);
             this.msgtouser.setOnClickListener(this);
             this.favorates.setOnClickListener(this);
             this.comment.setOnClickListener(this);
@@ -2097,10 +2098,12 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     class BuyItem implements OnClickListener {
         TextView size, color;
+        int pos;
 
-        public BuyItem(TextView size, TextView color) {
+        public BuyItem(TextView size, TextView color,int pos) {
             this.size = size;
             this.color = color;
+            this.pos=pos;
         }
 
         @Override
@@ -2114,6 +2117,8 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 return;
             }
             Intent buy = new Intent(mContext, RegularCheckoutActivity.class);
+            buy.putExtra("data",mItems.get(pos));
+
             mContext.startActivity(buy);
         }
     }
@@ -2137,6 +2142,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 break;
             case R.id.buy:
                 Intent buy = new Intent(mContext, RegularCheckoutActivity.class);
+                buy.putExtra("data",mItems.get(pos));
 
                 mContext.startActivity(buy);
                 break;

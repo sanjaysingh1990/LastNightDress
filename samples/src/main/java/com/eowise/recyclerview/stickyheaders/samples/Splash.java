@@ -52,7 +52,7 @@ public class Splash extends AppCompatActivity {
         } catch (NoSuchAlgorithmException e) {
             Log.e("error",e.getMessage());
         }*/
-createJson();
+
        new Thread(new Runnable() {
             @Override
             public void run() {
@@ -80,28 +80,6 @@ createJson();
     }
 
 
-private void createJson()
-{
-    JSONObject shippingrequest=new JSONObject();
-try {
-    shippingrequest.put("toCompany", "John Doe");
-    shippingrequest.put("toName", "John Doe");
-    shippingrequest.put("toPhone", "1231231234");
-    shippingrequest.put("toAddr1", "111 W Legion");
-    shippingrequest.put("toCity", "Whitehall");
-    shippingrequest.put("toState", "MT");
-    shippingrequest.put("toCode", "59759");
 
-    shippingrequest.put("length", "15");
-    shippingrequest.put("width", "25");
-    shippingrequest.put("height", "5");
-    shippingrequest.put("weight", "55");
-    Log.e("json",shippingrequest.toString());
-}
-catch(JSONException ex)
-{
-    Log.e("error",ex.getMessage());
-}
-}
 
 }
