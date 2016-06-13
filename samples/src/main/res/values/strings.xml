@@ -239,6 +239,7 @@ You are in safe hands when shopping on Last Night’s Dress. If there is any iss
 
 
     <string-array name="card_type">
+        <item>Select</item>
         <item>Credit Card</item>
         <item>Debit Card</item>
         <item>Visa</item>

@@ -321,6 +321,8 @@ public class LndFragment extends Fragment {
                         hld.setIssold(jo.getInt("issold"));
                         hld.setTotalcomments(jo.getInt("post_total_comment"));
                         JSONArray commnets = jo.getJSONArray("postcoments");
+                        hld.setSwapstatus(jo.getInt("swap_status"));
+
                         if(commnets.length()>0)
                         {
 

@@ -424,8 +424,11 @@
 
                     android:background="@drawable/rounded"
                     android:hint="Full name"
-                    android:textColor="#dadada"
-                    android:textSize="15sp" />
+                    android:textColorHint="#dadada"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+
+                    />
 
                 <EditText
                     android:id="@+id/address"
@@ -434,7 +437,8 @@
                     android:layout_marginTop="15dp"
                     android:background="@drawable/rounded"
                     android:hint="Street address"
-                    android:textColor="#dadada"
+                    android:textColorHint="#dadada"
+                    android:textColor="@color/black"
                     android:textSize="15sp"
 
                     />
@@ -446,7 +450,8 @@
                     android:layout_marginTop="15dp"
                     android:background="@drawable/rounded"
                     android:hint="Apt/Suite/Unit (Optional)"
-                    android:textColor="#dadada"
+                    android:textColorHint="#dadada"
+                    android:textColor="@color/black"
                     android:textSize="15sp"
 
                     />
@@ -464,7 +469,8 @@
                         android:layout_weight="1"
                         android:background="@drawable/rounded"
                         android:hint="Country"
-                        android:textColor="#dadada"
+                        android:textColorHint="#dadada"
+                        android:textColor="@color/black"
                         android:textSize="15sp"
 
                         />
@@ -482,7 +488,8 @@
                         android:layout_weight="1"
                         android:background="@drawable/rounded"
                         android:hint="Province"
-                        android:textColor="#dadada"
+                        android:textColorHint="#dadada"
+                        android:textColor="@color/black"
                         android:textSize="15sp"
 
                         />
@@ -496,7 +503,8 @@
                     android:layout_marginTop="15dp"
                     android:background="@drawable/rounded"
                     android:hint="City*"
-                    android:textColor="#dadada"
+                    android:textColorHint="#dadada"
+                    android:textColor="@color/black"
                     android:textSize="15sp"
 
                     />
@@ -516,7 +524,8 @@
                         android:layout_weight="1"
                         android:background="@drawable/rounded"
                         android:hint="Zip/Postal Code*"
-                        android:textColor="#dadada"
+                        android:textColorHint="#dadada"
+                        android:textColor="@color/black"
                         android:textSize="15sp"
 
                         />
@@ -533,8 +542,10 @@
                         android:layout_weight="1"
                         android:background="@drawable/rounded"
                         android:hint="Phone"
-                        android:textColor="#dadada"
+                        android:textColorHint="#dadada"
+                        android:textColor="@color/black"
                         android:textSize="15sp"
+                        android:inputType="number"
 
                         />
 
@@ -632,7 +643,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:entries="@array/card_type"></Spinner>
+                    android:entries="@array/card_type"
+                    android:id="@+id/cardspinner"
+                    ></Spinner>
 
                 <EditText
                     android:id="@+id/cardno"
@@ -643,8 +656,8 @@
                     android:enabled="false"
                     android:hint="**** **** **** 7894"
                     android:inputType="number"
-                    android:textColor="#000"
-                    android:textColorHint="#dadada" />
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray" />
             </LinearLayout>
 
 
