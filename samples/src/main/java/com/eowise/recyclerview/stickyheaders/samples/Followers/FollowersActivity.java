@@ -125,8 +125,8 @@ public class FollowersActivity extends AppCompatActivity {
                 params.put("rqid", rqid + "");
                 params.put("user_id", userid);
                 params.put("skipdata",skipdata+"");
-
                 params.put("other_userid", SingleTon.pref.getString("user_id",""));
+
                 return params;
             }
 

@@ -432,7 +432,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 LndProductPrivateHolder vh2 = (LndProductPrivateHolder) holder;
 
                 //TO CHECK COMMENT LOCKED OR NOT
-                if(SingleTon.pref.getInt("user_position",-1)>0)
+                if (SingleTon.pref.getInt("user_position", -1) > 0)
                     vh2.islocked.setVisibility(View.GONE);
                 else
                     vh2.islocked.setVisibility(View.VISIBLE);
@@ -459,15 +459,15 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
                 //for comments
                 vh2.showComments.setText("");
-                   for(int i=0;i<item.getUserpostcomments().size();i++) {
-                        CommentBean cb=item.getUserpostcomments().get(i);
-                        SpannableString word = new SpannableString(Capitalize.capitalizeFirstLetter(cb.getUname() + " " +cb.getComment()));
+                for (int i = 0; i < item.getUserpostcomments().size(); i++) {
+                    CommentBean cb = item.getUserpostcomments().get(i);
+                    SpannableString word = new SpannableString(Capitalize.capitalizeFirstLetter(cb.getUname() + " " + cb.getComment()));
 
-                        word.setSpan(new ForegroundColorSpan(Color.parseColor("#be4d66")), 0, cb.getUname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        word.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, cb.getUname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        vh2.showComments.append(word);
-                        vh2.showComments.append("\n");
-                    }
+                    word.setSpan(new ForegroundColorSpan(Color.parseColor("#be4d66")), 0, cb.getUname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    word.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, cb.getUname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    vh2.showComments.append(word);
+                    vh2.showComments.append("\n");
+                }
 
                 if (item.getTotalcomments() > 5) {
                     vh2.viewallComments.setVisibility(View.VISIBLE);
@@ -529,7 +529,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 LndProductShopHolder vh3 = (LndProductShopHolder) holder;
 
                 //TO CHECK COMMENT LOCKED OR NOT
-                if(SingleTon.pref.getInt("user_position",-1)>0)
+                if (SingleTon.pref.getInt("user_position", -1) > 0)
                     vh3.islocked.setVisibility(View.GONE);
                 else
                     vh3.islocked.setVisibility(View.VISIBLE);
@@ -543,7 +543,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 vh3.price_now.setText("$" + item.getPricenow());
                 vh3.likescount.setText(item.getLikestotal() + " likes");
                 vh3.time.setReferenceTime(item.getTime());
-                vh3.buy.setOnClickListener(new BuyItem(vh3.size, vh3.color,position));
+                vh3.buy.setOnClickListener(new BuyItem(vh3.size, vh3.color, position));
 
 
                 try {
@@ -559,15 +559,15 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
                 //for comments
                 vh3.showComments.setText("");
-                    for(int i=0;i<item.getUserpostcomments().size();i++) {
-                        CommentBean cb=item.getUserpostcomments().get(i);
-                        SpannableString word = new SpannableString(Capitalize.capitalizeFirstLetter(cb.getUname() + " " +cb.getComment()));
+                for (int i = 0; i < item.getUserpostcomments().size(); i++) {
+                    CommentBean cb = item.getUserpostcomments().get(i);
+                    SpannableString word = new SpannableString(Capitalize.capitalizeFirstLetter(cb.getUname() + " " + cb.getComment()));
 
-                        word.setSpan(new ForegroundColorSpan(Color.parseColor("#be4d66")), 0, cb.getUname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        word.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, cb.getUname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        vh3.showComments.append(word);
-                        vh3.showComments.append("\n");
-                    }
+                    word.setSpan(new ForegroundColorSpan(Color.parseColor("#be4d66")), 0, cb.getUname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    word.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, cb.getUname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    vh3.showComments.append(word);
+                    vh3.showComments.append("\n");
+                }
 
                 if (item.getTotalcomments() > 5) {
                     vh3.viewallComments.setVisibility(View.VISIBLE);
@@ -657,7 +657,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 vh3 = (LndProductShopHolder) holder;
 
                 //TO CHECK COMMENT LOCKED OR NOT
-                if(SingleTon.pref.getInt("user_position",-1)>0)
+                if (SingleTon.pref.getInt("user_position", -1) > 0)
                     vh3.islocked.setVisibility(View.GONE);
                 else
                     vh3.islocked.setVisibility(View.VISIBLE);
@@ -671,7 +671,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 vh3.price_now.setText("$" + item.getPricenow());
                 vh3.likescount.setText(item.getLikestotal() + " likes");
                 vh3.time.setReferenceTime(item.getTime());
-                vh3.buy.setOnClickListener(new BuyItem(vh3.size, vh3.color,position));
+                vh3.buy.setOnClickListener(new BuyItem(vh3.size, vh3.color, position));
 
 
                 try {
@@ -687,15 +687,15 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
                 //for comments
                 vh3.showComments.setText("");
-                    for(int i=0;i<item.getUserpostcomments().size();i++) {
-                        CommentBean cb=item.getUserpostcomments().get(i);
-                        SpannableString word = new SpannableString(Capitalize.capitalizeFirstLetter(cb.getUname() + " " +cb.getComment()));
+                for (int i = 0; i < item.getUserpostcomments().size(); i++) {
+                    CommentBean cb = item.getUserpostcomments().get(i);
+                    SpannableString word = new SpannableString(Capitalize.capitalizeFirstLetter(cb.getUname() + " " + cb.getComment()));
 
-                        word.setSpan(new ForegroundColorSpan(Color.parseColor("#be4d66")), 0, cb.getUname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        word.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, cb.getUname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        vh3.showComments.append(word);
-                        vh3.showComments.append("\n");
-                    }
+                    word.setSpan(new ForegroundColorSpan(Color.parseColor("#be4d66")), 0, cb.getUname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    word.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, cb.getUname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    vh3.showComments.append(word);
+                    vh3.showComments.append("\n");
+                }
 
                 if (item.getTotalcomments() > 5) {
                     vh3.viewallComments.setVisibility(View.VISIBLE);
@@ -783,7 +783,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 vh2 = (LndProductPrivateHolder) holder;
 
                 //TO CHECK COMMENT LOCKED OR NOT
-                if(SingleTon.pref.getInt("user_position",-1)>0)
+                if (SingleTon.pref.getInt("user_position", -1) > 0)
                     vh2.islocked.setVisibility(View.GONE);
                 else
                     vh2.islocked.setVisibility(View.VISIBLE);
@@ -811,15 +811,15 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                 //for comments
                 vh2.showComments.setText("");
-                    for(int i=0;i<item.getUserpostcomments().size();i++) {
-                        CommentBean cb=item.getUserpostcomments().get(i);
-                        SpannableString word = new SpannableString(Capitalize.capitalizeFirstLetter(cb.getUname() + " " +cb.getComment()));
+                for (int i = 0; i < item.getUserpostcomments().size(); i++) {
+                    CommentBean cb = item.getUserpostcomments().get(i);
+                    SpannableString word = new SpannableString(Capitalize.capitalizeFirstLetter(cb.getUname() + " " + cb.getComment()));
 
-                        word.setSpan(new ForegroundColorSpan(Color.parseColor("#be4d66")), 0, cb.getUname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        word.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, cb.getUname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        vh2.showComments.append(word);
-                        vh2.showComments.append("\n");
-                    }
+                    word.setSpan(new ForegroundColorSpan(Color.parseColor("#be4d66")), 0, cb.getUname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    word.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, cb.getUname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    vh2.showComments.append(word);
+                    vh2.showComments.append("\n");
+                }
 
                 if (item.getTotalcomments() > 5) {
                     vh2.viewallComments.setVisibility(View.VISIBLE);
@@ -877,7 +877,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 LndProductPrivateUserHolder vh4 = (LndProductPrivateUserHolder) holder;
                 uname = Capitalize.capitalizeFirstLetter(item.getUname());
                 //TO CHECK COMMENT LOCKED OR NOT
-                if(SingleTon.pref.getInt("user_position",-1)>0)
+                if (SingleTon.pref.getInt("user_position", -1) > 0)
                     vh4.islocked.setVisibility(View.GONE);
                 else
                     vh4.islocked.setVisibility(View.VISIBLE);
@@ -890,15 +890,15 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 vh4.price_was.setText("$" + item.getPricewas());
                 vh4.price_now.setText("$" + item.getPricenow());
                 vh4.showComments.setText("");
-                    for(int i=0;i<item.getUserpostcomments().size();i++) {
-                        CommentBean cb=item.getUserpostcomments().get(i);
-                        SpannableString word = new SpannableString(Capitalize.capitalizeFirstLetter(cb.getUname() + " " +cb.getComment()));
+                for (int i = 0; i < item.getUserpostcomments().size(); i++) {
+                    CommentBean cb = item.getUserpostcomments().get(i);
+                    SpannableString word = new SpannableString(Capitalize.capitalizeFirstLetter(cb.getUname() + " " + cb.getComment()));
 
-                        word.setSpan(new ForegroundColorSpan(Color.parseColor("#be4d66")), 0, cb.getUname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        word.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, cb.getUname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        vh4.showComments.append(word);
-                        vh4.showComments.append("\n");
-                    }
+                    word.setSpan(new ForegroundColorSpan(Color.parseColor("#be4d66")), 0, cb.getUname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    word.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, cb.getUname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    vh4.showComments.append(word);
+                    vh4.showComments.append("\n");
+                }
 
                 if (item.getTotalcomments() > 5) {
                     vh4.viewallComments.setVisibility(View.VISIBLE);
@@ -968,7 +968,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         this, hashTagHyperLinkDisabled, hastTagColorBlue, uname.length()),
                         TextView.BufferType.SPANNABLE);
                 //TO CHECK COMMENT LOCKED OR NOT
-                if(SingleTon.pref.getInt("user_position",-1)>0)
+                if (SingleTon.pref.getInt("user_position", -1) > 0)
                     vh5.islocked.setVisibility(View.GONE);
                 else
                     vh5.islocked.setVisibility(View.VISIBLE);
@@ -978,15 +978,15 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 vh5.likescount.setText(item.getLikestotal() + " likes");
                 vh5.time.setReferenceTime(item.getTime());
                 vh5.showComments.setText("");
-                    for(int i=0;i<item.getUserpostcomments().size();i++) {
-                        CommentBean cb=item.getUserpostcomments().get(i);
-                        SpannableString word = new SpannableString(Capitalize.capitalizeFirstLetter(cb.getUname() + " " +cb.getComment()));
+                for (int i = 0; i < item.getUserpostcomments().size(); i++) {
+                    CommentBean cb = item.getUserpostcomments().get(i);
+                    SpannableString word = new SpannableString(Capitalize.capitalizeFirstLetter(cb.getUname() + " " + cb.getComment()));
 
-                        word.setSpan(new ForegroundColorSpan(Color.parseColor("#be4d66")), 0, cb.getUname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        word.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, cb.getUname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        vh5.showComments.append(word);
-                        vh5.showComments.append("\n");
-                    }
+                    word.setSpan(new ForegroundColorSpan(Color.parseColor("#be4d66")), 0, cb.getUname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    word.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, cb.getUname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    vh5.showComments.append(word);
+                    vh5.showComments.append("\n");
+                }
 
                 if (item.getTotalcomments() > 5) {
                     vh5.viewallComments.setVisibility(View.VISIBLE);
@@ -1086,7 +1086,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             case VIEW_TYPE_CONTENT_PRIVATE_USER_ITEM_SOLD:
                 LndProductPrivateHolderSold vh6 = (LndProductPrivateHolderSold) holder;
                 //TO CHECK COMMENT LOCKED OR NOT
-                if(SingleTon.pref.getInt("user_position",-1)>0)
+                if (SingleTon.pref.getInt("user_position", -1) > 0)
                     vh6.islocked.setVisibility(View.GONE);
                 else
                     vh6.islocked.setVisibility(View.VISIBLE);
@@ -1117,15 +1117,15 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 //start
                 //for comments
                 vh6.showComments.setText("");
-                    for(int i=0;i<item.getUserpostcomments().size();i++) {
-                        CommentBean cb=item.getUserpostcomments().get(i);
-                        SpannableString word = new SpannableString(Capitalize.capitalizeFirstLetter(cb.getUname() + " " +cb.getComment()));
+                for (int i = 0; i < item.getUserpostcomments().size(); i++) {
+                    CommentBean cb = item.getUserpostcomments().get(i);
+                    SpannableString word = new SpannableString(Capitalize.capitalizeFirstLetter(cb.getUname() + " " + cb.getComment()));
 
-                        word.setSpan(new ForegroundColorSpan(Color.parseColor("#be4d66")), 0, cb.getUname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        word.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, cb.getUname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        vh6.showComments.append(word);
-                        vh6.showComments.append("\n");
-                    }
+                    word.setSpan(new ForegroundColorSpan(Color.parseColor("#be4d66")), 0, cb.getUname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    word.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, cb.getUname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    vh6.showComments.append(word);
+                    vh6.showComments.append("\n");
+                }
 
                 if (item.getTotalcomments() > 5) {
                     vh6.viewallComments.setVisibility(View.VISIBLE);
@@ -1186,7 +1186,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 final LndProductShopHolderSold vh7 = (LndProductShopHolderSold) holder;
 
                 //TO CHECK COMMENT LOCKED OR NOT
-                if(SingleTon.pref.getInt("user_position",-1)>0)
+                if (SingleTon.pref.getInt("user_position", -1) > 0)
                     vh7.islocked.setVisibility(View.GONE);
                 else
                     vh7.islocked.setVisibility(View.VISIBLE);
@@ -1218,15 +1218,15 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
                 //for comments
                 vh7.showComments.setText("");
-                    for(int i=0;i<item.getUserpostcomments().size();i++) {
-                        CommentBean cb=item.getUserpostcomments().get(i);
-                        SpannableString word = new SpannableString(Capitalize.capitalizeFirstLetter(cb.getUname() + " " +cb.getComment()));
+                for (int i = 0; i < item.getUserpostcomments().size(); i++) {
+                    CommentBean cb = item.getUserpostcomments().get(i);
+                    SpannableString word = new SpannableString(Capitalize.capitalizeFirstLetter(cb.getUname() + " " + cb.getComment()));
 
-                        word.setSpan(new ForegroundColorSpan(Color.parseColor("#be4d66")), 0, cb.getUname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        word.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, cb.getUname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        vh7.showComments.append(word);
-                        vh7.showComments.append("\n");
-                    }
+                    word.setSpan(new ForegroundColorSpan(Color.parseColor("#be4d66")), 0, cb.getUname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    word.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, cb.getUname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    vh7.showComments.append(word);
+                    vh7.showComments.append("\n");
+                }
 
                 if (item.getTotalcomments() > 5) {
                     vh7.viewallComments.setVisibility(View.VISIBLE);
@@ -1643,6 +1643,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public TextView showComments;
         public TextView viewallComments;
         public ImageView islocked;
+
         LndProductPrivateHolderSold(View view, Context context) {
             super(view);
             con = context;
@@ -1676,7 +1677,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             progress = (ProgressBar) view.findViewById(R.id.fullpostloading);
             showComments = (TextView) itemView.findViewById(R.id.commenttextview);
             viewallComments = (TextView) itemView.findViewById(R.id.viewallcomments);
-            islocked= (ImageView) itemView.findViewById(R.id.islocked);
+            islocked = (ImageView) itemView.findViewById(R.id.islocked);
             //bind with listeners
             viewallComments.setOnClickListener(this);
             this.sendto.setOnClickListener(this);
@@ -1733,7 +1734,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             msgtouser = (ImageButton) view.findViewById(R.id.messagetouser);
             favorates = (ImageButton) view.findViewById(R.id.favorate);
             sendto = (ImageButton) view.findViewById(R.id.sendto);
-            islocked= (ImageView) itemView.findViewById(R.id.islocked);
+            islocked = (ImageView) itemView.findViewById(R.id.islocked);
 
             comment = (TextView) itemView.findViewById(R.id.comment);
             time = (RelativeTimeTextView) view.findViewById(R.id.time);
@@ -1829,7 +1830,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             progress = (ProgressBar) view.findViewById(R.id.fullpostloading);
             showComments = (TextView) itemView.findViewById(R.id.commenttextview);
             viewallComments = (TextView) itemView.findViewById(R.id.viewallcomments);
-            islocked= (ImageView) itemView.findViewById(R.id.islocked);
+            islocked = (ImageView) itemView.findViewById(R.id.islocked);
 
             //bind with listeners
             this.buy.setOnClickListener(this);
@@ -1893,7 +1894,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             comment = (TextView) itemView.findViewById(R.id.comment);
             time = (RelativeTimeTextView) view.findViewById(R.id.time);
             swap = (TextView) itemView.findViewById(R.id.swap);
-            islocked= (ImageView) itemView.findViewById(R.id.islocked);
+            islocked = (ImageView) itemView.findViewById(R.id.islocked);
 
             likescount = (TextView) view.findViewById(R.id.likescount);
             condition = (TextView) view.findViewById(R.id.condition);
@@ -1911,9 +1912,9 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             description = (EmojiconTextView) view.findViewById(R.id.desc);
             showComments = (TextView) itemView.findViewById(R.id.commenttextview);
             viewallComments = (TextView) itemView.findViewById(R.id.viewallcomments);
-             //bind with listener
+            //bind with listener
             viewallComments.setOnClickListener(this);
-             this.sendto.setOnClickListener(this);
+            this.sendto.setOnClickListener(this);
             this.msgtouser.setOnClickListener(this);
             this.favorates.setOnClickListener(this);
             this.comment.setOnClickListener(this);
@@ -1986,7 +1987,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             comment = (TextView) itemView.findViewById(R.id.comment);
             showComments = (TextView) itemView.findViewById(R.id.commenttextview);
             viewallComments = (TextView) itemView.findViewById(R.id.viewallcomments);
-            islocked= (ImageView) itemView.findViewById(R.id.islocked);
+            islocked = (ImageView) itemView.findViewById(R.id.islocked);
 
             //hiding views for user
             msgtouser.setVisibility(View.GONE);
@@ -2071,7 +2072,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             comment = (TextView) itemView.findViewById(R.id.comment);
             showComments = (TextView) itemView.findViewById(R.id.commenttextview);
             viewallComments = (TextView) itemView.findViewById(R.id.viewallcomments);
-            islocked= (ImageView) itemView.findViewById(R.id.islocked);
+            islocked = (ImageView) itemView.findViewById(R.id.islocked);
 
             //hiding views for user
             msgtouser.setVisibility(View.GONE);
@@ -2100,10 +2101,10 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         TextView size, color;
         int pos;
 
-        public BuyItem(TextView size, TextView color,int pos) {
+        public BuyItem(TextView size, TextView color, int pos) {
             this.size = size;
             this.color = color;
-            this.pos=pos;
+            this.pos = pos;
         }
 
         @Override
@@ -2117,7 +2118,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 return;
             }
             Intent buy = new Intent(mContext, RegularCheckoutActivity.class);
-            buy.putExtra("data",mItems.get(pos));
+            buy.putExtra("data", mItems.get(pos));
 
             mContext.startActivity(buy);
         }
@@ -2142,7 +2143,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 break;
             case R.id.buy:
                 Intent buy = new Intent(mContext, RegularCheckoutActivity.class);
-                buy.putExtra("data",mItems.get(pos));
+                buy.putExtra("data", mItems.get(pos));
 
                 mContext.startActivity(buy);
                 break;
@@ -2175,13 +2176,11 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 view = LayoutInflater.from(mContext).inflate(R.layout.agent_comment_popup, null);
                 dialog.setView(view);
                 alert = dialog.create();
-                if(SingleTon.pref.getInt("user_position",-1)>0)
-                {
+                if (SingleTon.pref.getInt("user_position", -1) > 0) {
                     Intent i = new Intent(mContext, LndComments.class);
                     i.putExtra("post_id", mItems.get(pos).getPost_id());
                     mContext.startActivity(i);
-                }
-                else
+                } else
                     alert.show();
                 //cancel dialog
                 view.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {

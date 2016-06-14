@@ -107,6 +107,7 @@ public class RegularCheckoutFinishActivity extends AppCompatActivity {
             sellername.setText(Capitalize.capitalize(orderdata.getSellername()));
             price.setText("$"+orderdata.getPrice());
             shippingprice.setText("$"+orderdata.getShipping());
+            grandtotalprice.setText("$"+orderdata.getTotal());
             orderdate.setText(orderdata.getOrderdate());
             ordernumber.setText(orderdata.getOrderid());
             shippingaddress.setText(orderdata.getAddress());

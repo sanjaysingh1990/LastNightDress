@@ -426,8 +426,8 @@ public class LndFragment extends Fragment {
 
                 //Log.e("response",error.getMessage()+"");
                 try {
-                    new com.eowise.recyclerview.stickyheaders.samples.AlertDialog().showAlertDialog(getActivity());
-                } catch (Exception ex) {
+                   new com.eowise.recyclerview.stickyheaders.samples.AlertDialog().showAlertDialog(getActivity());
+                 } catch (Exception ex) {
 
                 }
             }

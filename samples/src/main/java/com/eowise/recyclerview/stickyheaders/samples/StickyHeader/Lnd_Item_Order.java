@@ -14,6 +14,15 @@ public class Lnd_Item_Order implements Serializable {
     private String orderid;
     private String address;
 
+    public String getTotal() {
+        return total;
+    }
+
+    public void setTotal(String total) {
+        this.total = total;
+    }
+
+    private String total;
     public String getImageurl() {
         return imageurl;
     }

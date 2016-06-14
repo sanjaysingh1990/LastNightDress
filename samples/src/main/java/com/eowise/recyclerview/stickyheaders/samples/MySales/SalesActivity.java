@@ -5,25 +5,44 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.eowise.recyclerview.stickyheaders.samples.Loading.AVLoadingIndicatorView;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.ApplicationConstants;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.TimeAgo;
 import com.eowise.recyclerview.stickyheaders.samples.adapters.MySalesAdapter;
-import com.eowise.recyclerview.stickyheaders.samples.data.MySalesData;
+import com.eowise.recyclerview.stickyheaders.samples.data.MySalesPurchasesData;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class SalesActivity extends AppCompatActivity {
-    private List<MySalesData> items=new ArrayList<MySalesData>();
+    private List<MySalesPurchasesData> items=new ArrayList<MySalesPurchasesData>();
     @Bind(R.id.recyclerView) RecyclerView recyclerView;
     @Bind(R.id.heading) TextView heading;
     private MySalesAdapter adapter;
+    @Bind(R.id.loader) AVLoadingIndicatorView loader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +55,7 @@ public class SalesActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new MySalesAdapter(this,items);
         recyclerView.setAdapter(adapter);
-        initialize();
+        getSales();
         //appyling custom fonts
         heading.setTypeface(SingleTon.robotobold);
     }
@@ -50,22 +69,79 @@ public class SalesActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
-    private void initialize()
+    private void getData()
     {
        String[] status={"In Process","Shipped","Delivered","Order cancelled","Report rating","Order cancelled"};
-        for(int i=0;i<status.length;i++)
-        {
-            MySalesData mysales=new MySalesData();
-            mysales.setStatus(status[i]);
-            mysales.setUsertype("seller");
-            if(i==status.length-1)
-            {
-                mysales.setUsertype("buyer");
+
+    }
+    private void getSales() {
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_SHIPPINGINFO, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.e("json",response);
+                try {
+                    loader.setVisibility(View.GONE);
+                    JSONObject jobj=new JSONObject(response);
+                    JSONArray jsonArray=jobj.getJSONArray("data");
+                    for(int i=0;i<jsonArray.length();i++)
+                    {
+                        JSONObject jsonObject=jsonArray.getJSONObject(i);
+                        MySalesPurchasesData mysales=new MySalesPurchasesData();
+                        mysales.setOrder_id(jsonObject.getString("order_id"));
+                        mysales.setCourier_type(jsonObject.getString("courier_type"));
+                        mysales.setImage_url(jsonObject.getString("image_url"));
+                        mysales.setShipping_method(jsonObject.getString("shipping_method"));
+                        mysales.setOrder_date(TimeAgo.getMilliseconds(jsonObject.getString("order_date")));
+                        mysales.setOrder_number(jsonObject.getString("order_number"));
+                        mysales.setSeller_name(Capitalize.capitalize(jsonObject.getString("buyer_name")));
+                        mysales.setBrand_name(Capitalize.capitalizeFirstLetter(jsonObject.getString("brand_name")));
+                        mysales.setPrice_now(jsonObject.getString("price_now"));
+                        mysales.setTotal_amount(jsonObject.getString("total_amount"));
+                        mysales.setProfile_pic(jsonObject.getString("profile_pic"));
+                        if(jsonObject.getString("order_sale_status").compareToIgnoreCase("1")==0)
+                            mysales.setOrder_purchase_status("In Process");
+
+                        items.add(mysales);
+
+                    }
+                    adapter.notifyDataSetChanged();
+
+                } catch (JSONException e) {
+                    loader.setVisibility(View.GONE);
+                    try {
+                        new com.eowise.recyclerview.stickyheaders.samples.AlertDialog().showAlertDialog(SalesActivity.this);
+                    } catch (Exception ex) {
+
+                    }
+                    Log.e("jsonerror",e.getMessage()+"");
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                Log.e("response", error.getMessage() + "");
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("rqid", "6");
+                params.put("user_id","84");
+                return params;
             }
 
-            items.add(mysales);
-            adapter.notifyItemInserted(i);
-        }
-    }
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                return params;
+            }
+        };
+        queue.add(sr);
 
+    }
 }

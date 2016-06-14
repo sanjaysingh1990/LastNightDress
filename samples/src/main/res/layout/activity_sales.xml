@@ -1,75 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.eowise.recyclerview.stickyheaders.samples.NewMessage.NewMessageActivity"
-    android:background="@color/white"
-    >
+    android:layout_height="match_parent">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        style="@style/header"
+    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:background="@color/white"
-        app:popupTheme="@style/AppTheme.PopupOverlay"
-        app:contentInsetLeft="0dp"
-        app:contentInsetStart="0dp"
+        android:orientation="vertical"
+        tools:context="com.eowise.recyclerview.stickyheaders.samples.NewMessage.NewMessageActivity">
 
-        >
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <FrameLayout
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            style="@style/header"
+            android:background="@color/white"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+
+            >
+
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                >
+                android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/heading"
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="My Sales"
-                    android:textColor="#000"
-                    android:textSize="18sp"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
 
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_horizontal"
-                    />
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/back_arrow"
-                    android:layout_weight="0"
-                    android:layout_gravity="center_vertical|left"
-                    android:background="?attr/selectableItemBackground"
-                    android:layout_marginLeft="10dp"
-                    android:id="@+id/back"
-                    android:onClick="back"
+                    <TextView
+                        android:id="@+id/heading"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:text="My Sales"
 
-                    />
+                        android:textColor="#000"
+                        android:textSize="18sp" />
+
+                    <ImageButton
+                        android:id="@+id/back"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|left"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="0"
+                        android:background="?attr/selectableItemBackground"
+                        android:onClick="back"
+                        android:src="@drawable/back_arrow"
+
+                        />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_gravity="bottom"
+                        android:background="#dadada" />
+                </FrameLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="#dadada"
-                    android:layout_gravity="bottom" />
-            </FrameLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#dadada"
-                android:layout_alignParentBottom="true"
-                />
-        </RelativeLayout>
-    </android.support.v7.widget.Toolbar>
+                    android:layout_alignParentBottom="true"
+                    android:background="#dadada" />
+            </RelativeLayout>
+        </android.support.v7.widget.Toolbar>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
 
-        />
-</LinearLayout>
+            />
+    </LinearLayout>
+
+    <com.eowise.recyclerview.stickyheaders.samples.Loading.AVLoadingIndicatorView
+        android:id="@+id/loader"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center_vertical|center_horizontal"
+        app:indicator="LineSpinFadeLoader"
+        app:indicator_color="#be4d66" />
+</FrameLayout>

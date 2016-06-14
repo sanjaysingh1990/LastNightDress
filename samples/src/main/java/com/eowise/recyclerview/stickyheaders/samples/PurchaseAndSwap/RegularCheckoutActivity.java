@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -99,6 +100,8 @@ public class RegularCheckoutActivity extends LndBaseActivity {
     TextView ordernumber;
     @Bind(R.id.productimage)
     ImageView productimage;
+    @Bind(R.id.authentication)
+    RadioButton authenticate;
 
     //end here
 
@@ -169,8 +172,7 @@ public class RegularCheckoutActivity extends LndBaseActivity {
                 shipto.put("post_id", hld.getPost_id());
                 shipto.put("sellerid", hld.getUserid());
                 shipto.put("buyerid", SingleTon.pref.getString("user_id", ""));
-                shipto.put("total_amount", grandtotalprice.getText().toString().replace("$", ""));
-                orderdata.setBrand(hld.getBrandname());
+                 orderdata.setBrand(hld.getBrandname());
                 orderdata.setPrice(hld.getPricenow());
                 orderdata.setSellername(hld.getUname());
                 orderdata.setShipping("4.45");
@@ -196,6 +198,7 @@ public class RegularCheckoutActivity extends LndBaseActivity {
         ordernumber.setTypeface(SingleTon.robotobold);
 
         getPreviousTransationInfo();
+        purchaseShippingLable("{\"weight\":\"55\",\"height\":\"5\",\"toName\":\"John Doe\",\"toCode\":\"59759\",\"toState\":\"MT\",\"width\":\"25\",\"length\":\"15\",\"toCity\":\"Whitehall\",\"toPhone\":\"1231231234\",\"toCompany\":\"John Doe\",\"toAddr1\":\"111 W Legion\"}");
 
     }
 
@@ -468,6 +471,13 @@ public class RegularCheckoutActivity extends LndBaseActivity {
     }
 
     public void completePurchase(View v) {
+        String authentication_price="0";
+        if(authenticate.isChecked())
+        {
+            authentication_price="49.99";
+        }
+
+
         if (sameaddornew == 2) {
             if (newadd.getText().toString().compareToIgnoreCase("save") == 0) {
                 Toast.makeText(this, "save new address", Toast.LENGTH_SHORT).show();
@@ -482,6 +492,9 @@ public class RegularCheckoutActivity extends LndBaseActivity {
                     shipto.put("city", city.getText().toString());
                     shipto.put("zipcode", zipcode.getText().toString());
                     shipto.put("phone", phone.getText().toString());
+                    shipto.put("date_time",SingleTon.getCurrentTimeStamp());
+                    shipto.put("item_authentication",authentication_price);
+                    shipto.put("total_amount", grandtotalprice.getText().toString().replace("$", ""));
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -501,6 +514,9 @@ public class RegularCheckoutActivity extends LndBaseActivity {
                     shipto.put("city", jobj.getString("city"));
                     shipto.put("zipcode", jobj.getString("zipcode"));
                     shipto.put("phone", jobj.getString("phone"));
+                    shipto.put("date_time",SingleTon.getCurrentTimeStamp());
+                    shipto.put("item_authentication",authentication_price);
+                    shipto.put("total_amount", grandtotalprice.getText().toString().replace("$", ""));
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -545,7 +561,7 @@ public class RegularCheckoutActivity extends LndBaseActivity {
         startActivity(luxurydesign);
     }
 
-    private void PurchaseShippingLable(final String data) {
+    private void purchaseShippingLable(final String data) {
         showProgress("wait processing");
         RequestQueue queue = Volley.newRequestQueue(this);
         StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_FADEX_PURCHASE_SHIPPING_LABLE, new Response.Listener<String>() {
@@ -559,15 +575,21 @@ public class RegularCheckoutActivity extends LndBaseActivity {
                     int responsecode = metajsonobj.getInt("Code");
                     if (responsecode == 200) {
                         JSONObject datajsonobj = jobj.getJSONObject("Data");
-                        //shippinglable.setText("$" + datajsonobj.getString("Charges"));
-                        //  total.setText("$" + datajsonobj.getString("Charges"));
 
-                        JSONArray jarray = datajsonobj.getJSONArray("Packages");
-                        JSONObject jsonpackageinfo = jarray.getJSONObject(0);
+                        shippingprice.setText("$" + datajsonobj.getString("Charges"));
+                        double val1=Double.parseDouble(orderdata.getPrice());
+                        double val2=Double.parseDouble(datajsonobj.getString("Charges"));
+                        grandtotalprice.setText("$" +(val1+val2 ));
+                        orderdata.setShipping(val2+"");
+                        orderdata.setTotal((val1+val2 )+"");
+                        //JSONArray jarray = datajsonobj.getJSONArray("Packages");
+                        //JSONObject jsonpackageinfo = jarray.getJSONObject(0);
 
 
                     }
                 } catch (Exception ex) {
+                    dismissProgress();
+
                     Log.e("jsonerror", ex.getMessage() + "");
                 }
 

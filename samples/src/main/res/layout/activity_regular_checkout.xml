@@ -228,7 +228,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="3dp"
                                 android:layout_weight="1"
-                                android:text="$4.99"
+                                android:text="$00.00"
                                 android:textColor="#000"
                                 android:textSize="14sp" />
                         </LinearLayout>
@@ -260,7 +260,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="3dp"
                                 android:layout_weight="1"
-                                android:text="$4.99"
+                                android:text="$00.00"
                                 android:textColor="#000"
                                 android:textSize="14sp" />
                         </LinearLayout>
@@ -378,14 +378,18 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Luxury and designer authentication"
-                    android:textColor="#828282" />
+                    android:textColor="#828282"
+                    android:id="@+id/authentication"
+                    />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
-                    android:text="49.99"
-                    android:textColor="#222427" />
+                    android:text="$49.99"
+                    android:textColor="#222427"
+
+                    />
             </LinearLayout>
 
             <TextView

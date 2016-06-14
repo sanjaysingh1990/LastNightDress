@@ -7,13 +7,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.MySales.OrderDetailsSales;
 import com.eowise.recyclerview.stickyheaders.samples.R;
-import com.eowise.recyclerview.stickyheaders.samples.data.MySalesData;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.RelativeTimeTextView;
+import com.eowise.recyclerview.stickyheaders.samples.data.MySalesPurchasesData;
 import com.eowise.recyclerview.stickyheaders.samples.data.NotificationData;
 import com.eowise.recyclerview.stickyheaders.samples.data.PersonDataProvider;
 
@@ -26,12 +28,12 @@ import java.util.Map;
  */
 public class MySalesAdapter extends RecyclerView.Adapter<MySalesAdapter.ViewHolder> {
     private static Map<Integer, Parcelable> scrollStatePositionsMap = new HashMap<>();
-    private static List<MySalesData> items;
+    private static List<MySalesPurchasesData> items;
     private PersonDataProvider personDataProvider;
     static Activity activity;
     static int count=0;
     public static NotificationData nd;
-        public MySalesAdapter(Activity act, List<MySalesData> data) {
+        public MySalesAdapter(Activity act, List<MySalesPurchasesData> data) {
         this.activity = act;
 
         this.items = data;
@@ -52,12 +54,12 @@ public class MySalesAdapter extends RecyclerView.Adapter<MySalesAdapter.ViewHold
 class MyEvents implements View.OnClickListener
 {
     String status;
-    String utype;
-    public MyEvents(String str,String utype)
+
+    public MyEvents(String str)
     {
 
         status=str;
-        this.utype=utype;
+
     }
     @Override
     public void onClick(View v) {
@@ -78,15 +80,7 @@ class MyEvents implements View.OnClickListener
             ordetails.putExtra("type","delivered");
 
         }
-        else if(status.compareToIgnoreCase("Order cancelled")==0)
-        {
-            if(utype.compareTo("buyer")==0)
-                ordetails.putExtra("type","cancelled");
-            else
-                ordetails.putExtra("type","cancelled2");
 
-
-        }
         else if(status.compareToIgnoreCase("claim processing")==0)
         {
             ordetails.putExtra("type","claim processing");
@@ -118,9 +112,15 @@ class MyEvents implements View.OnClickListener
 
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
-     MySalesData msd=items.get(position);
-       viewHolder.orderdetails.setOnClickListener(new MyEvents(msd.getStatus(),msd.getUsertype()));
-        viewHolder.status.setText(msd.getStatus());
+     MySalesPurchasesData msd=items.get(position);
+        viewHolder.orderdetails.setOnClickListener(new MyEvents(msd.getOrder_purchase_status()));
+        viewHolder.status.setText(msd.getOrder_purchase_status());
+        viewHolder.brandname.setText(msd.getBrand_name());
+        viewHolder.time.setReferenceTime(msd.getOrder_date());
+        viewHolder.buyeruname.setText(msd.getSeller_name());
+        SingleTon.imageLoader.displayImage(msd.getImage_url(),viewHolder.productimage, SingleTon.options3);
+        SingleTon.imageLoader.displayImage(msd.getProfile_pic(), viewHolder.profilepic, SingleTon.options3);
+
     }
 private String UpperName(String uname)
 {
@@ -138,6 +138,8 @@ private String UpperName(String uname)
         TextView brandname,status;
         TextView statustext;
         LinearLayout orderdetails;
+        ImageView profilepic,productimage;
+        RelativeTimeTextView time;
         public ViewHolder(View itemView) {
             super(itemView);
             buyeruname= (TextView) itemView.findViewById(R.id.buyeruname);
@@ -145,6 +147,9 @@ private String UpperName(String uname)
             status= (TextView) itemView.findViewById(R.id.status);
             statustext= (TextView) itemView.findViewById(R.id.statustext);
             orderdetails= (LinearLayout) itemView.findViewById(R.id.orderdetails);
+            profilepic= (ImageView) itemView.findViewById(R.id.userprofilepic);
+            productimage= (ImageView) itemView.findViewById(R.id.productimage);
+            time= (RelativeTimeTextView) itemView.findViewById(R.id.showtime);
             orderdetails.setClickable(true);
          //   orderdetails.setOnClickListener(this);
 //appyling font
