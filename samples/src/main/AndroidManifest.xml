@@ -199,12 +199,12 @@
             android:name=".Utils.BlankActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".LndMessage.SwapRequestActivity"
+            android:name=".LndSwapRequestResponse.SwapRequestActivity"
             android:label="@string/title_activity_swap_request"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".LndMessage.SendSwapRequestActivity"
+            android:name=".LndSwapRequestResponse.SendSwapRequestActivity"
             android:label="@string/title_activity_swap_request"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />

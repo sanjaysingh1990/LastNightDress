@@ -30,7 +30,6 @@
             android:layout_marginTop="20dp"
             android:src="@drawable/lnd_agent_login_logo" />
     </LinearLayout>
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -47,7 +47,7 @@ import com.android.volley.toolbox.Volley;
 import com.eowise.recyclerview.stickyheaders.samples.HashTagsFullView.LndBrandHashTagGridViewActivity;
 import com.eowise.recyclerview.stickyheaders.samples.PurchaseAndSwap.SwapCheckOutActivity;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
-import com.eowise.recyclerview.stickyheaders.samples.LndMessage.SwapRequestActivity;
+import com.eowise.recyclerview.stickyheaders.samples.LndSwapRequestResponse.SwapRequestActivity;
 import com.eowise.recyclerview.stickyheaders.samples.LndUserProfile.LndProfile;
 import com.eowise.recyclerview.stickyheaders.samples.Main_TabHost;
 import com.eowise.recyclerview.stickyheaders.samples.NotificationFullPost;
@@ -348,6 +348,9 @@ class NotificationSwipeableItemAdapter
                 case R.id.swapcheckout:
                     Intent checkout = new Intent(activity, SwapCheckOutActivity.class);
                     checkout.putExtra("data", "buy");
+                    checkout.putExtra("post_id",mProvider.getItem(getAdapterPosition()).getNotificationdata().getPostid());
+                    checkout.putExtra("swap_order_id",mProvider.getItem(getAdapterPosition()).getNotificationdata().getSwap_order_id());
+
                     activity.startActivity(checkout);
                     break;
                 case R.id.notiimage:

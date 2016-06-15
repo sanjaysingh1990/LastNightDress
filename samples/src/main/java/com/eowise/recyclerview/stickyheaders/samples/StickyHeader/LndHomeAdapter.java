@@ -49,10 +49,9 @@ import com.eowise.recyclerview.stickyheaders.samples.HashTagsFullView.LndBrandHa
 import com.eowise.recyclerview.stickyheaders.samples.Likers.LikersActivity;
 import com.eowise.recyclerview.stickyheaders.samples.LndAgent.Agent_Signup;
 import com.eowise.recyclerview.stickyheaders.samples.LndComments;
-import com.eowise.recyclerview.stickyheaders.samples.LndMessage.SendSwapRequestActivity;
+import com.eowise.recyclerview.stickyheaders.samples.LndSwapRequestResponse.SendSwapRequestActivity;
 import com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage.TagSelectingTextview;
 import com.eowise.recyclerview.stickyheaders.samples.LndUserProfile.LndProfile;
-import com.eowise.recyclerview.stickyheaders.samples.LndUserProfile.LndUserFullStickyActivity;
 import com.eowise.recyclerview.stickyheaders.samples.Main_TabHost;
 import com.eowise.recyclerview.stickyheaders.samples.NewMessage.SendMessageActivity;
 import com.eowise.recyclerview.stickyheaders.samples.PostDataShop.DressEditPost;

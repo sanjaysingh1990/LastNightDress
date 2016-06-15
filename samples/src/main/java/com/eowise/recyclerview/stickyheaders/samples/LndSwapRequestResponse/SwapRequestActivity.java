@@ -1,4 +1,4 @@
-package com.eowise.recyclerview.stickyheaders.samples.LndMessage;
+package com.eowise.recyclerview.stickyheaders.samples.LndSwapRequestResponse;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -336,7 +336,7 @@ public class SwapRequestActivity extends AppCompatActivity {
         StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/inboxope.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.e("data", response.toString());
+                Log.e("json", response.toString());
                 try {
                     pDialog.dismiss();
                 } catch (Exception ex) {

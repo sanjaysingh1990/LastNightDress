@@ -14,8 +14,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
-import com.eowise.recyclerview.stickyheaders.samples.LndMessage.SendSwapRequestActivity;
-import com.eowise.recyclerview.stickyheaders.samples.LndMessage.SwapRequestActivity;
+import com.eowise.recyclerview.stickyheaders.samples.LndSwapRequestResponse.SendSwapRequestActivity;
+import com.eowise.recyclerview.stickyheaders.samples.LndSwapRequestResponse.SwapRequestActivity;
 import com.eowise.recyclerview.stickyheaders.samples.Loading.AVLoadingIndicatorView;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.data.ShopData;

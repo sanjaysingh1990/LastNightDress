@@ -2,6 +2,7 @@ package com.eowise.recyclerview.stickyheaders.samples.PurchaseAndSwap;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -13,27 +14,51 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.eowise.recyclerview.stickyheaders.samples.LndBaseActivity;
 import com.eowise.recyclerview.stickyheaders.samples.LndMore.LndLuxuryandDesignerAuthentication;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.ApplicationConstants;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.RelativeTimeTextView;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.TimeAgo;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class SwapCheckOutActivity extends AppCompatActivity {
+public class SwapCheckOutActivity extends LndBaseActivity {
     @Bind(R.id.sameadd)
     TextView sameadd;
     @Bind(R.id.newadd)
@@ -50,8 +75,7 @@ public class SwapCheckOutActivity extends AppCompatActivity {
     TextView samepayment;
     @Bind(R.id.newpayment)
     TextView newpayment;
-    @Bind(R.id.cardno)
-    EditText cardno;
+
 
     @Bind(R.id.sameaddrellayout)
     RelativeLayout sameaddrellayout;
@@ -62,12 +86,44 @@ public class SwapCheckOutActivity extends AppCompatActivity {
     RelativeLayout samepayrellayout;
     @Bind(R.id.newpayrellayout)
     RelativeLayout newpayrellayout;
+    //for new card payment
+    @Bind(R.id.cardno)
+    EditText cardno;
+    @Bind(R.id.cardspinner)
+    Spinner cardspinner;
 
+    //refrence for post
 
+    @Bind(R.id.brandname)
+    TextView brandname;
+    @Bind(R.id.sellername)
+    TextView sellername;
+    @Bind(R.id.showtime)
+    RelativeTimeTextView showtime;
+    @Bind(R.id.price)
+    TextView price;
+    @Bind(R.id.shippingprice)
+    TextView shippingprice;
+    @Bind(R.id.grandtotalprice)
+    TextView grandtotalprice;
+    @Bind(R.id.orderdate)
+    TextView orderdate;
+    @Bind(R.id.ordernumber)
+    TextView ordernumber;
+    @Bind(R.id.productimage)
+    ImageView productimage;
+    @Bind(R.id.authentication)
+    RadioButton authenticate;
+    @Bind(R.id.complete)
+    TextView completetransaction;
+    //end here
 
+    @Bind({R.id.sellertext, R.id.pricetext, R.id.shippingtext, R.id.grandtotaltext, R.id.orderdatetext, R.id.ordernumbertext})
+    List<TextView> regularcheckout;
+    private String post_id = "";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_swap_checkout);
         ButterKnife.bind(this);
@@ -92,7 +148,32 @@ public class SwapCheckOutActivity extends AppCompatActivity {
         text.setMovementMethod(LinkMovementMethod.getInstance());
         text.setHighlightColor(Color.TRANSPARENT);
 
+        Bundle extra = getIntent().getExtras();
+        if (extra != null) {
+            //    Toast.makeText(this,extra.getString("post_id"),Toast.LENGTH_SHORT).show();
+            getData(extra.getString("post_id"));
+        }
+        //applying custom font
+        brandname.setTypeface(SingleTon.robotobold);
+        sellername.setTypeface(SingleTon.robotoregular);
 
+        for (int i = 0; i < regularcheckout.size(); i++) {
+            regularcheckout.get(i).setTypeface(SingleTon.robotomedium);
+
+        }
+        //applying custom font
+        brandname.setTypeface(SingleTon.robotobold);
+        sellername.setTypeface(SingleTon.robotobold);
+        showtime.setTypeface(SingleTon.robotobold);
+        price.setTypeface(SingleTon.robotobold);
+        shippingprice.setTypeface(SingleTon.robotobold);
+        grandtotalprice.setTypeface(SingleTon.robotobold);
+        orderdate.setTypeface(SingleTon.robotobold);
+        ordernumber.setTypeface(SingleTon.robotobold);
+        completetransaction.setClickable(false);
+        completetransaction.setBackgroundColor(Color.parseColor("#dadada"));
+        completetransaction.setTextColor(Color.parseColor("#757575"));
+        fullDialogLoader();
     }
 
     /*
@@ -221,9 +302,6 @@ delivery.setTextColor(Color.parseColor("#dbdbdb"));
     }
 
 
-
-
-
     public void showAlert(String paymentdetatils) {
         AlertDialog.Builder dialog = new AlertDialog.Builder(SwapCheckOutActivity.this);
         View view = LayoutInflater.from(SwapCheckOutActivity.this).inflate(R.layout.paypal_payment_dialog_layout, null);
@@ -293,12 +371,184 @@ delivery.setTextColor(Color.parseColor("#dbdbdb"));
         Intent luxurydesign = new Intent(this, LndLuxuryandDesignerAuthentication.class);
         startActivity(luxurydesign);
     }
-    public void doPayment(View v)
-    {
+
+    public void doPayment(View v) {
         setContentView(R.layout.lnd_purchase_newshipping_level);
     }
-    public void back(View v)
-    {
+
+    public void back(View v) {
         finish();
     }
+
+    private void getData(final String post_id) {
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_SHIPPINGINFO, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.e("json", response + "");
+                try {
+
+                    JSONObject jobj = new JSONObject(response);
+                    JSONObject shipto = jobj.getJSONObject("shipto");
+                    JSONObject postinfo = jobj.getJSONObject("post_info");
+
+                    if (shipto.getBoolean("status")) {
+                        String address = shipto.getString("street_address") + "\n" + shipto.getString("apt_suite_unit") + "\n" + shipto.getString("country")
+                                + "\n" + shipto.getString("city") + "\n" + shipto.getString("zipcode");
+                        sameaddress.setText(address);
+                        cardno.setText(shipto.getString("card_no"));
+                        int pos = check(getResources().getStringArray(R.array.card_type), shipto.getString("payment_method"));
+                        if (pos >= 0)
+                            cardspinner.setSelection(pos);
+                    } else {
+                        newadd(null);
+                        newpayment(null);
+                    }
+
+                    //post info
+                    if (postinfo.getBoolean("status")) {
+                        sellername.setText(Capitalize.capitalize(postinfo.getString("swap_seller_name")));
+                        brandname.setText(Capitalize.capitalizeFirstLetter(postinfo.getString("brand_name")));
+                        showtime.setReferenceTime(TimeAgo.getMilliseconds(postinfo.getString("date_time")));
+                        price.setText("$"+postinfo.getString("price_now"));
+                        orderdate.setText(TimeAgo.getCurrentDate());
+                        ordernumber.setText(postinfo.getString("order_id"));
+                        SingleTon.imageLoader.displayImage(postinfo.getString("image_url"), productimage, SingleTon.options4);
+
+                    }
+                    purchaseShippingLable("{\"weight\":\"55\",\"height\":\"5\",\"toName\":\"John Doe\",\"toCode\":\"59759\",\"toState\":\"MT\",\"width\":\"25\",\"length\":\"15\",\"toCity\":\"Whitehall\",\"toPhone\":\"1231231234\",\"toCompany\":\"John Doe\",\"toAddr1\":\"111 W Legion\"}");
+
+                } catch (Exception ex) {
+                    Log.e("jsonerror", ex.getMessage() + "");
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                dismissProgress();
+                Log.e("response", error.getMessage() + "");
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+
+                params.put("rqid", "7");
+                params.put("user_id", SingleTon.pref.getString("user_id", ""));
+                params.put("post_id", post_id);
+                params.put("date_time", SingleTon.getCurrentTimeStamp());
+
+
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                return params;
+            }
+        };
+        int socketTimeout = 60000;
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        sr.setRetryPolicy(policy);
+
+        queue.add(sr);
+
+    }
+
+
+    private int check(String[] arr, String match) {
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i].compareToIgnoreCase(match) == 0) {
+                return i;
+
+            }
+        }
+        return -1;
+    }
+
+    private void purchaseShippingLable(final String data) {
+        //   showProgress("wait processing");
+        RequestQueue queue = Volley.newRequestQueue(this);
+        StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_FADEX_PURCHASE_SHIPPING_LABLE, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.e("json", response + "");
+                dismissProgress();
+                try {
+                    JSONObject jobj = new JSONObject(response);
+                    JSONObject metajsonobj = jobj.getJSONObject("Meta");
+                    int responsecode = metajsonobj.getInt("Code");
+                    if (responsecode == 200) {
+                        JSONObject datajsonobj = jobj.getJSONObject("Data");
+
+                        shippingprice.setText("$" + datajsonobj.getString("Charges"));
+                          double val1=Double.parseDouble(price.getText().toString().replace("$",""));
+                          double val2=Double.parseDouble(datajsonobj.getString("Charges"));
+                          grandtotalprice.setText("$" +(val1+val2 ));
+                        // orderdata.setShipping(val2+"");
+                        //orderdata.setTotal((val1+val2 )+"");
+                        //JSONArray jarray = datajsonobj.getJSONArray("Packages");
+                        //JSONObject jsonpackageinfo = jarray.getJSONObject(0);
+                       //active transaction complet button
+                        completetransaction.setClickable(true);
+                        completetransaction.setBackgroundColor(Color.parseColor("#be4d66"));
+                        completetransaction.setTextColor(Color.parseColor("#ffffff"));
+
+                    }
+                } catch (Exception ex) {
+                    dismissProgress();
+
+                    Log.e("jsonerror", ex.getMessage() + "");
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                dismissProgress();
+                Log.e("response", error.getMessage() + "");
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+
+                params.put("data", data);
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                return params;
+            }
+        };
+        int socketTimeout = 60000;
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        sr.setRetryPolicy(policy);
+
+        queue.add(sr);
+
+    }
+    Dialog dialog;
+private void fullDialogLoader()
+{
+    dialog = new Dialog(this,android.R.style.Theme_Translucent_NoTitleBar);
+    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+    dialog.setContentView(R.layout.swap_status_check_layout);
+    Window window = dialog.getWindow();
+    WindowManager.LayoutParams wlp = window.getAttributes();
+
+    wlp.gravity = Gravity.CENTER;
+    wlp.flags &= ~WindowManager.LayoutParams.FLAG_BLUR_BEHIND;
+    window.setAttributes(wlp);
+    dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+    dialog.show();
+}
+
 }

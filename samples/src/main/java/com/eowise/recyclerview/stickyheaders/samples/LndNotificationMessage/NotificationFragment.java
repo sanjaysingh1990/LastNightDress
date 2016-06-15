@@ -299,7 +299,9 @@ public class NotificationFragment extends Fragment {
                         nd.setImgurl(jo.getString("image_url"));
                         nd.setSwappostids(jo.getString("swappost_id"));
                         nd.setSenderid(jo.getString("sender_id"));
+                        nd.setSwap_order_id(jo.getString("swap_order_id"));
                         notificationids.add(jo.getString("notification_id"));
+
                         mProvider.addItem(nd);
                         mAdapter.notifyDataSetChanged();
 
@@ -340,7 +342,7 @@ public class NotificationFragment extends Fragment {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("rqid", "13");
                 params.put("user_id", SingleTon.pref.getString("user_id", ""));
-                params.put("skipdata", "0");
+                params.put("skipdata", skipdata+"");
 
 
                 return params;

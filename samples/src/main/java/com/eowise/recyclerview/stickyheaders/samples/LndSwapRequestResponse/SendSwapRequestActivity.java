@@ -1,4 +1,4 @@
-package com.eowise.recyclerview.stickyheaders.samples.LndMessage;
+package com.eowise.recyclerview.stickyheaders.samples.LndSwapRequestResponse;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;

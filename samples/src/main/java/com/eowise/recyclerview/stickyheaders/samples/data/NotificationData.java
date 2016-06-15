@@ -22,6 +22,15 @@ public class NotificationData implements Serializable
     private String notitype;
     private String swapstatus;
 
+    public String getSwap_order_id() {
+        return swap_order_id;
+    }
+
+    public void setSwap_order_id(String swap_order_id) {
+        this.swap_order_id = swap_order_id;
+    }
+
+    private String swap_order_id;
 
     public long getTime() {
         return time;

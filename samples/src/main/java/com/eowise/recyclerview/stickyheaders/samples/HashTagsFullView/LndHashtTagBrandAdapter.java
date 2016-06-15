@@ -42,7 +42,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.Likers.LikersActivity;
-import com.eowise.recyclerview.stickyheaders.samples.LndMessage.SendSwapRequestActivity;
+import com.eowise.recyclerview.stickyheaders.samples.LndSwapRequestResponse.SendSwapRequestActivity;
 import com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage.TagSelectingTextview;
 import com.eowise.recyclerview.stickyheaders.samples.Main_TabHost;
 import com.eowise.recyclerview.stickyheaders.samples.NewMessage.SendMessageActivity;
