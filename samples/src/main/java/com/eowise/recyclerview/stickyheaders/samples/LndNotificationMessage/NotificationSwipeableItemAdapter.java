@@ -349,6 +349,7 @@ class NotificationSwipeableItemAdapter
                     Intent checkout = new Intent(activity, SwapCheckOutActivity.class);
                     checkout.putExtra("data", "buy");
                     checkout.putExtra("post_id",mProvider.getItem(getAdapterPosition()).getNotificationdata().getPostid());
+                    checkout.putExtra("seller_id",mProvider.getItem(getAdapterPosition()).getNotificationdata().getSenderid());
                     checkout.putExtra("swap_order_id",mProvider.getItem(getAdapterPosition()).getNotificationdata().getSwap_order_id());
 
                     activity.startActivity(checkout);

@@ -42,6 +42,7 @@ import com.eowise.recyclerview.stickyheaders.samples.LndBaseActivity;
 import com.eowise.recyclerview.stickyheaders.samples.LndMore.LndLuxuryandDesignerAuthentication;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.Lnd_Item_Order;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ApplicationConstants;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.RelativeTimeTextView;
@@ -86,11 +87,7 @@ public class SwapCheckOutActivity extends LndBaseActivity {
     RelativeLayout samepayrellayout;
     @Bind(R.id.newpayrellayout)
     RelativeLayout newpayrellayout;
-    //for new card payment
-    @Bind(R.id.cardno)
-    EditText cardno;
-    @Bind(R.id.cardspinner)
-    Spinner cardspinner;
+
 
     //refrence for post
 
@@ -117,10 +114,36 @@ public class SwapCheckOutActivity extends LndBaseActivity {
     @Bind(R.id.complete)
     TextView completetransaction;
     //end here
-
+//for new shipping address
+    @Bind(R.id.fullname)
+    EditText fullname;
+    @Bind(R.id.address)
+    EditText address;
+    @Bind(R.id.asu)
+    EditText asu;
+    @Bind(R.id.country)
+    EditText country;
+    @Bind(R.id.province)
+    EditText province;
+    @Bind(R.id.city)
+    EditText city;
+    @Bind(R.id.zipcode)
+    EditText zipcode;
+    @Bind(R.id.phone)
+    EditText phone;
+    //for new card payment
+    @Bind(R.id.cardno)
+    EditText cardno;
+    @Bind(R.id.cardspinner)
+    Spinner cardspinner;
     @Bind({R.id.sellertext, R.id.pricetext, R.id.shippingtext, R.id.grandtotaltext, R.id.orderdatetext, R.id.ordernumbertext})
     List<TextView> regularcheckout;
-    private String post_id = "";
+    JSONObject shipto = new JSONObject();
+    Lnd_Item_Order orderdata;
+
+    private int sameaddornew = 1;
+    private int samepaymentornew = 1;
+    private String resp = "";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -148,11 +171,8 @@ public class SwapCheckOutActivity extends LndBaseActivity {
         text.setMovementMethod(LinkMovementMethod.getInstance());
         text.setHighlightColor(Color.TRANSPARENT);
 
-        Bundle extra = getIntent().getExtras();
-        if (extra != null) {
-            //    Toast.makeText(this,extra.getString("post_id"),Toast.LENGTH_SHORT).show();
-            getData(extra.getString("post_id"));
-        }
+        orderdata = new Lnd_Item_Order();
+
         //applying custom font
         brandname.setTypeface(SingleTon.robotobold);
         sellername.setTypeface(SingleTon.robotoregular);
@@ -176,6 +196,22 @@ public class SwapCheckOutActivity extends LndBaseActivity {
         fullDialogLoader();
     }
 
+    private void getInfo() {
+        Bundle extra = getIntent().getExtras();
+        if (extra != null) {
+            Toast.makeText(this, extra.getString("swap_order_id") + "", Toast.LENGTH_SHORT).show();
+            try {
+                shipto.put("post_id", extra.getString("post_id"));
+                shipto.put("sellerid", extra.getString("seller_id"));
+                shipto.put("swap_order_id", extra.getString("swap_order_id"));
+                getData(extra.getString("post_id"), extra.getString("seller_id"));
+            } catch (JSONException ex) {
+
+            }
+
+        }
+    }
+
     /*
 public void pickup(View v)
 {
@@ -192,6 +228,8 @@ delivery.setTextColor(Color.parseColor("#dbdbdb"));
       pickup.setTextColor(Color.parseColor("#dbdbdb"));
   }*/
     public void sameadd(View v) {
+        sameaddornew = 1;
+
         this.sameaddrellayout.setBackgroundColor(Color.parseColor("#be4d66"));
         this.newaddrellayout.setBackgroundColor(Color.parseColor("#dbdbdb"));
 
@@ -214,6 +252,12 @@ delivery.setTextColor(Color.parseColor("#dbdbdb"));
     }
 
     public void newadd(View v) {
+
+        if (this.newadd.getText().toString().compareToIgnoreCase("save") == 0) {
+            if (!validateandsavenewaddress())
+                return;
+        }
+        sameaddornew = 2;
         this.newaddrellayout.setBackgroundColor(Color.parseColor("#be4d66"));
         this.sameaddrellayout.setBackgroundColor(Color.parseColor("#dbdbdb"));
 
@@ -243,6 +287,17 @@ delivery.setTextColor(Color.parseColor("#dbdbdb"));
     }
 
     public void newpayment(View v) {
+
+        if (newpayment.getText().toString().compareToIgnoreCase("save") == 0) {
+            if (!validateandsavenewpayment()) {
+                return;
+            }
+
+
+        }
+
+        samepaymentornew = 2;
+
         this.newpayrellayout.setBackgroundColor(Color.parseColor("#be4d66"));
         this.samepayrellayout.setBackgroundColor(Color.parseColor("#dbdbdb"));
 
@@ -270,6 +325,8 @@ delivery.setTextColor(Color.parseColor("#dbdbdb"));
     }
 
     public void samepayment(View v) {
+        samepaymentornew = 1;
+
         this.samepayrellayout.setBackgroundColor(Color.parseColor("#be4d66"));
         this.newpayrellayout.setBackgroundColor(Color.parseColor("#dbdbdb"));
 
@@ -297,8 +354,97 @@ delivery.setTextColor(Color.parseColor("#dbdbdb"));
     public void newPayment(View v) {
 
         //onBuyPressed();
-        Intent swapstepone = new Intent(this, Swap_Checkout_Cancel_Activity.class);
-        startActivity(swapstepone);
+
+        String authentication_price = "0";
+        if (authenticate.isChecked()) {
+            authentication_price = "49.99";
+        }
+
+
+        if (sameaddornew == 2) {
+            if (newadd.getText().toString().compareToIgnoreCase("save") == 0) {
+                Toast.makeText(this, "save new address", Toast.LENGTH_SHORT).show();
+                return;
+            } else {
+                try {
+                    shipto.put("fullname", fullname.getText().toString());
+                    shipto.put("address", address.getText().toString());
+                    shipto.put("asu", asu.getText().toString());
+                    shipto.put("country", country.getText().toString());
+                    shipto.put("province", province.getText().toString());
+                    shipto.put("city", city.getText().toString());
+                    shipto.put("zipcode", zipcode.getText().toString());
+                    shipto.put("phone", phone.getText().toString());
+                    shipto.put("date_time", SingleTon.getCurrentTimeStamp());
+                    shipto.put("item_authentication", authentication_price);
+                    shipto.put("total_amount", grandtotalprice.getText().toString().replace("$", ""));
+                    shipto.put("buyerid", SingleTon.pref.getString("user_id", ""));
+                    shipto.put("orderid", ordernumber.getText().toString());
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        } else {
+            if (resp.length() > 0) {
+                try {
+
+                    JSONObject jobj = new JSONObject(resp);
+                    shipto.put("fullname", jobj.getString("fullname"));
+                    shipto.put("address", jobj.getString("street_address"));
+                    shipto.put("asu", jobj.getString("apt_suite_unit"));
+                    shipto.put("country", jobj.getString("country"));
+                    shipto.put("province", jobj.getString("province"));
+                    shipto.put("city", jobj.getString("city"));
+                    shipto.put("zipcode", jobj.getString("zipcode"));
+                    shipto.put("phone", jobj.getString("phone"));
+                    shipto.put("date_time", SingleTon.getCurrentTimeStamp());
+                    shipto.put("item_authentication", authentication_price);
+                    shipto.put("total_amount", grandtotalprice.getText().toString().replace("$", ""));
+                    shipto.put("buyerid", SingleTon.pref.getString("user_id", ""));
+                    shipto.put("orderid", ordernumber.getText().toString());
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+        if (samepaymentornew == 2) {
+            if (newpayment.getText().toString().compareToIgnoreCase("save") == 0) {
+                Toast.makeText(this, "save new payment", Toast.LENGTH_SHORT).show();
+                return;
+            } else {
+                try {
+                    shipto.put("cardtype", cardspinner.getSelectedItem().toString());
+                    shipto.put("cardno", cardno.getText().toString());
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            try {
+                JSONObject jobj = new JSONObject(resp);
+                shipto.put("cardtype", jobj.getString("payment_method"));
+                shipto.put("cardno", jobj.getString("card_no"));
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            orderdata.setAddress(shipto.getString("address") + ",\n" + shipto.getString("asu") + ",\n" + shipto.getString("city") + ",\n" + shipto.getString("country") + ",\n" + shipto.getString("zipcode"));
+            JSONObject jobj = new JSONObject(resp);
+            shipto.put("order_no", jobj.getString("order_no"));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Log.e("json", shipto.toString());
+        Log.e("json1", resp);
+        placeOrder();
     }
 
 
@@ -380,7 +526,7 @@ delivery.setTextColor(Color.parseColor("#dbdbdb"));
         finish();
     }
 
-    private void getData(final String post_id) {
+    private void getData(final String post_id, final String sellerid) {
 
         RequestQueue queue = Volley.newRequestQueue(this);
         StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_SHIPPINGINFO, new Response.Listener<String>() {
@@ -392,8 +538,9 @@ delivery.setTextColor(Color.parseColor("#dbdbdb"));
                     JSONObject jobj = new JSONObject(response);
                     JSONObject shipto = jobj.getJSONObject("shipto");
                     JSONObject postinfo = jobj.getJSONObject("post_info");
-
+                    resp = shipto.toString();
                     if (shipto.getBoolean("status")) {
+
                         String address = shipto.getString("street_address") + "\n" + shipto.getString("apt_suite_unit") + "\n" + shipto.getString("country")
                                 + "\n" + shipto.getString("city") + "\n" + shipto.getString("zipcode");
                         sameaddress.setText(address);
@@ -411,11 +558,16 @@ delivery.setTextColor(Color.parseColor("#dbdbdb"));
                         sellername.setText(Capitalize.capitalize(postinfo.getString("swap_seller_name")));
                         brandname.setText(Capitalize.capitalizeFirstLetter(postinfo.getString("brand_name")));
                         showtime.setReferenceTime(TimeAgo.getMilliseconds(postinfo.getString("date_time")));
-                        price.setText("$"+postinfo.getString("price_now"));
+                        price.setText("$" + postinfo.getString("price_now"));
                         orderdate.setText(TimeAgo.getCurrentDate());
                         ordernumber.setText(postinfo.getString("order_id"));
                         SingleTon.imageLoader.displayImage(postinfo.getString("image_url"), productimage, SingleTon.options4);
-
+                        //saving values for next activiyt
+                        orderdata.setBrand(Capitalize.capitalizeFirstLetter(postinfo.getString("brand_name")));
+                        orderdata.setPrice(postinfo.getString("price_now"));
+                        orderdata.setSellername(Capitalize.capitalize(postinfo.getString("swap_seller_name")));
+                        orderdata.setTime(TimeAgo.getMilliseconds(postinfo.getString("date_time")));
+                        orderdata.setImageurl(postinfo.getString("image_url"));
                     }
                     purchaseShippingLable("{\"weight\":\"55\",\"height\":\"5\",\"toName\":\"John Doe\",\"toCode\":\"59759\",\"toState\":\"MT\",\"width\":\"25\",\"length\":\"15\",\"toCity\":\"Whitehall\",\"toPhone\":\"1231231234\",\"toCompany\":\"John Doe\",\"toAddr1\":\"111 W Legion\"}");
 
@@ -486,14 +638,14 @@ delivery.setTextColor(Color.parseColor("#dbdbdb"));
                         JSONObject datajsonobj = jobj.getJSONObject("Data");
 
                         shippingprice.setText("$" + datajsonobj.getString("Charges"));
-                          double val1=Double.parseDouble(price.getText().toString().replace("$",""));
-                          double val2=Double.parseDouble(datajsonobj.getString("Charges"));
-                          grandtotalprice.setText("$" +(val1+val2 ));
-                        // orderdata.setShipping(val2+"");
-                        //orderdata.setTotal((val1+val2 )+"");
+                        double val1 = Double.parseDouble(price.getText().toString().replace("$", ""));
+                        double val2 = Double.parseDouble(datajsonobj.getString("Charges"));
+                        grandtotalprice.setText("$" + (val1 + val2));
+                        orderdata.setShipping(val2 + "");
+                        orderdata.setTotal((val1 + val2) + "");
                         //JSONArray jarray = datajsonobj.getJSONArray("Packages");
                         //JSONObject jsonpackageinfo = jarray.getJSONObject(0);
-                       //active transaction complet button
+                        //active transaction complet button
                         completetransaction.setClickable(true);
                         completetransaction.setBackgroundColor(Color.parseColor("#be4d66"));
                         completetransaction.setTextColor(Color.parseColor("#ffffff"));
@@ -535,20 +687,219 @@ delivery.setTextColor(Color.parseColor("#dbdbdb"));
         queue.add(sr);
 
     }
-    Dialog dialog;
-private void fullDialogLoader()
-{
-    dialog = new Dialog(this,android.R.style.Theme_Translucent_NoTitleBar);
-    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-    dialog.setContentView(R.layout.swap_status_check_layout);
-    Window window = dialog.getWindow();
-    WindowManager.LayoutParams wlp = window.getAttributes();
 
-    wlp.gravity = Gravity.CENTER;
-    wlp.flags &= ~WindowManager.LayoutParams.FLAG_BLUR_BEHIND;
-    window.setAttributes(wlp);
-    dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
-    dialog.show();
-}
+    Dialog dialog;
+
+    private void fullDialogLoader() {
+        dialog = new Dialog(this, android.R.style.Theme_Translucent_NoTitleBar);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.swap_status_check_layout);
+        Window window = dialog.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+
+        wlp.gravity = Gravity.CENTER;
+        wlp.flags &= ~WindowManager.LayoutParams.FLAG_BLUR_BEHIND;
+        window.setAttributes(wlp);
+        dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+        dialog.show();
+        Bundle extra = getIntent().getExtras();
+        if (extra != null) {
+            try {
+
+                checkBeforeDone(extra.getString("swap_order_id"));
+            } catch (Exception ex) {
+
+            }
+
+        }
+    }
+
+
+    private void placeOrder() {
+        showProgress("wait processing");
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_SHIPPINGINFO, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.e("json", response + "");
+                dismissProgress();
+                try {
+                    orderdata.setPaymentmethod(cardspinner.getSelectedItem().toString());
+                    JSONObject jobj = new JSONObject(response);
+                    if (jobj.getBoolean("status")) {
+                        orderdata.setOrderdate(TimeAgo.getCurrentDate());
+                        orderdata.setOrderid(jobj.getString("orderid"));
+                        orderdata.setPaymentmethod(cardspinner.getSelectedItem().toString());
+                        Intent checkoutfinishh = new Intent(SwapCheckOutActivity.this, RegularCheckoutFinishActivity.class);
+                        checkoutfinishh.putExtra("data", orderdata);
+                        checkoutfinishh.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        // startActivity(checkoutfinishh);
+                        // finish();
+                    }
+                } catch (Exception ex) {
+                    Log.e("jsonerror", ex.getMessage() + "");
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                dismissProgress();
+                Log.e("response", error.getMessage() + "");
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+
+                params.put("data", shipto.toString());
+                params.put("rqid", "8");
+
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                return params;
+            }
+        };
+        int socketTimeout = 60000;
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        sr.setRetryPolicy(policy);
+
+        queue.add(sr);
+
+    }
+
+    private void checkBeforeDone(final String swaporderid) {
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_SHIPPINGINFO, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.e("json", response + "");
+                dismissProgress();
+                try {
+                    orderdata.setPaymentmethod(cardspinner.getSelectedItem().toString());
+                    JSONObject jobj = new JSONObject(response);
+                    if (jobj.getBoolean("status")) {
+                      Intent swapstepone = new Intent(SwapCheckOutActivity.this, Swap_Checkout_Cancel_Activity.class);
+                        swapstepone.putExtra("data",response);
+                        startActivity(swapstepone);
+                        finish();
+                    }
+                    else
+                    {
+                        getInfo();
+                    }
+                } catch (Exception ex) {
+                    Log.e("jsonerror", ex.getMessage() + "");
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                dismissProgress();
+                Log.e("response", error.getMessage() + "");
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+
+                params.put("swap_order_id", swaporderid);
+                params.put("rqid", "9");
+                params.put("user_id", SingleTon.pref.getString("user_id", ""));
+
+
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                return params;
+            }
+        };
+        int socketTimeout = 60000;
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        sr.setRetryPolicy(policy);
+
+        queue.add(sr);
+
+    }
+
+    private boolean validateandsavenewaddress() {
+        if (fullname.getText().length() == 0) {
+            fullname.requestFocus();
+            fullname.setError("Filed Empty");
+            return false;
+        } else {
+            fullname.setError(null);
+        }
+        if (address.getText().length() == 0) {
+            address.requestFocus();
+            address.setError("Filed Empty");
+            return false;
+        } else
+            address.setError(null);
+        if (asu.getText().length() == 0) {
+            asu.requestFocus();
+            asu.setError("Filed Empty");
+            return false;
+        } else
+            asu.setError(null);
+        if (country.getText().length() == 0) {
+            country.requestFocus();
+            country.setError("Filed Empty");
+            return false;
+        } else
+            country.setError(null);
+        if (province.getText().length() == 0) {
+            province.requestFocus();
+            province.setError("Filed Empty");
+            return false;
+        } else
+            province.setError(null);
+        if (city.getText().length() == 0) {
+            city.requestFocus();
+            city.setError("Filed Empty");
+            return false;
+        } else
+            city.setError(null);
+        if (zipcode.getText().length() == 0) {
+            zipcode.requestFocus();
+            zipcode.setError("Filed Empty");
+            return false;
+        } else
+            zipcode.setError(null);
+        if (phone.getText().length() == 0) {
+            phone.requestFocus();
+            phone.setError("Filed Empty");
+            return false;
+        } else
+            phone.setError(null);
+        return true;
+    }
+
+    private boolean validateandsavenewpayment() {
+        if (cardspinner.getSelectedItemPosition() == 0) {
+            Toast.makeText(this, "select card type", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (cardno.getText().length() == 0) {
+            cardno.requestFocus();
+            cardno.setError("Filed Empty");
+            return false;
+        } else
+            cardno.setError(null);
+
+        return true;
+    }
 
 }

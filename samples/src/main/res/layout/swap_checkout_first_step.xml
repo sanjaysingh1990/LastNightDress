@@ -91,7 +91,7 @@
                     android:orientation="horizontal">
 
                     <ImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                        android:id="@+id/notipropic"
+                        android:id="@+id/productimage"
                         android:layout_width="90dp"
                         android:layout_height="90dp"
                         android:adjustViewBounds="true"
@@ -122,17 +122,20 @@
 
                                 android:singleLine="true"
 
-                                android:text="Marciano"
-                                android:textColor="@color/heading_color"
-                                android:textStyle="bold" />
+                                android:text="Brand"
 
-                            <TextView
+                                android:textColor="@color/heading_color"
+                                android:textSize="18sp" />
+
+                            <com.eowise.recyclerview.stickyheaders.samples.Utils.RelativeTimeTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="6dp"
-                                android:text="6m"
+                                android:text="0m"
                                 android:textColor="#bababa"
-                                android:textSize="12sp" />
+                                android:textSize="12sp"
+                                android:id="@+id/showtime"
+                                />
                         </LinearLayout>
 
                         <!-- purached action and status -->
@@ -152,8 +155,8 @@
                                 android:lineSpacingMultiplier="1.1"
                                 android:singleLine="true"
                                 android:text="Seller: "
-                                android:textColor="#bababa"
-                                android:textSize="14sp"
+                                android:textColor="@color/sale_purchase_lable_color"
+                               android:textSize="14sp"
                                 android:textStyle="bold" />
 
                             <TextView
@@ -163,8 +166,7 @@
                                 android:layout_marginLeft="3dp"
                                 android:layout_weight="1"
                                 android:singleLine="true"
-                                android:text="Olivia Newton Wilde"
-                                android:textColor="#be4d66"
+                                 android:textColor="#be4d66"
                                 android:textSize="14sp" />
                         </LinearLayout>
 
@@ -176,7 +178,7 @@
                             android:lineSpacingMultiplier="1.1"
                             android:singleLine="true"
                             android:text="SWAP"
-                            android:textColor="#bababa"
+                            android:textColor="@color/sale_purchase_lable_color"
                             android:textSize="14sp"
                             android:textStyle="bold"
 
@@ -197,7 +199,7 @@
                                 android:lineSpacingMultiplier="1.1"
                                 android:singleLine="true"
                                 android:text="Price: "
-                                android:textColor="#bababa"
+                                android:textColor="@color/sale_purchase_lable_color"
                                 android:textSize="14sp"
                                 android:textStyle="bold"
 
@@ -209,7 +211,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="3dp"
                                 android:layout_weight="1"
-                                android:text="$104"
+                                android:text="$00:00"
                                 android:textColor="#000"
                                 android:textSize="14sp" />
                         </LinearLayout>
@@ -229,7 +231,7 @@
                                 android:lineSpacingMultiplier="1.1"
                                 android:singleLine="true"
                                 android:text="Shipping: "
-                                android:textColor="#bababa"
+                                android:textColor="@color/sale_purchase_lable_color"
                                 android:textSize="14sp"
                                 android:textStyle="bold"
 
@@ -241,7 +243,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="3dp"
                                 android:layout_weight="1"
-                                android:text="$4.99"
+                                android:text="$00:00"
                                 android:textColor="#000"
                                 android:textSize="14sp" />
                         </LinearLayout>
@@ -261,7 +263,7 @@
                                 android:lineSpacingMultiplier="1.1"
                                 android:singleLine="true"
                                 android:text="Grand Total: "
-                                android:textColor="#bababa"
+                                android:textColor="@color/sale_purchase_lable_color"
                                 android:textSize="14sp"
                                 android:textStyle="bold"
 
@@ -273,7 +275,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="3dp"
                                 android:layout_weight="1"
-                                android:text="$4.99"
+                                android:text="$00:00"
                                 android:textColor="#000"
                                 android:textSize="14sp" />
                         </LinearLayout>
@@ -293,7 +295,7 @@
                                 android:lineSpacingMultiplier="1.1"
                                 android:singleLine="true"
                                 android:text="Order Date: "
-                                android:textColor="#bababa"
+                                android:textColor="@color/sale_purchase_lable_color"
                                 android:textSize="14sp"
                                 android:textStyle="bold"
 
@@ -305,7 +307,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="3dp"
                                 android:layout_weight="1"
-                                android:text="04-Mar-2016"
+                                android:text="00-Jan-0000"
                                 android:textColor="#000"
                                 android:textSize="14sp" />
                         </LinearLayout>
@@ -325,7 +327,7 @@
                                 android:lineSpacingMultiplier="1.1"
                                 android:singleLine="true"
                                 android:text="Order Number: "
-                                android:textColor="#bababa"
+                                android:textColor="@color/sale_purchase_lable_color"
                                 android:textSize="14sp"
                                 android:textStyle="bold"
 
@@ -337,7 +339,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="3dp"
                                 android:layout_weight="1"
-                                android:text="000123456789123"
+                                android:text="LND000000"
                                 android:textColor="#000"
                                 android:textSize="14sp" />
                         </LinearLayout>

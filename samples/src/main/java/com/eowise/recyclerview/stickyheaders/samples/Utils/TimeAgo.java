@@ -69,29 +69,29 @@ public class TimeAgo {
 		String words;
 		words = (int) hours + "|" + (int) minutes + "|" + (int) seconds;
 
-		if (seconds < 45) {
+		if (seconds < 60) {
 			words = r.getString(R.string.time_ago_seconds, (int) Math.round(seconds));
 		} else if (seconds < 90) {
 			words = r.getString(R.string.time_ago_minute, 1);
-		} else if (minutes < 45) {
+		} else if (minutes < 60) {
 			words = r.getQuantityString(R.plurals.time_ago_minutes,
-					(int) Math.round(minutes), (int) Math.round(minutes));
+					(int) (minutes), (int)(minutes));
 		} else if (minutes < 90) {
 			words = r.getString(R.string.time_ago_hour, 1);
 		} else if (hours < 24) {
 			words = r.getQuantityString(R.plurals.time_ago_hours,
-					(int) Math.round(hours), (int) Math.round(hours));
+					(int) (hours), (int) (hours));
 		} else if (hours < 42) {
 			words = r.getString(R.string.time_ago_day, 1);
 		} else if (days < 7) {
 			words = r.getQuantityString(R.plurals.time_ago_days,
-					(int) Math.round(days), (int) Math.round(days));
-		} else if (days < 11) {
+					(int) (days), (int) (days));
+		} else if (days < 14) {
 			words = r.getQuantityString(R.plurals.time_ago_weeks,
-					(int) Math.round(days / 7), (int) Math.round(days / 7));
+					(int) (days / 7), (int) (days / 7));
 		} else {
 			words = r.getQuantityString(R.plurals.time_ago_weeks,
-					(int) Math.round(weeks), (int) Math.round(weeks));
+					(int) (weeks), (int)   (weeks));
 		}
 
 		StringBuilder sb = new StringBuilder();
