@@ -1,12 +1,10 @@
 package com.eowise.recyclerview.stickyheaders.samples.PurchaseAndSwap;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextPaint;
@@ -19,7 +17,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -51,7 +48,6 @@ import com.eowise.recyclerview.stickyheaders.samples.Utils.TimeAgo;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -731,11 +727,12 @@ delivery.setTextColor(Color.parseColor("#dbdbdb"));
                         orderdata.setOrderdate(TimeAgo.getCurrentDate());
                         orderdata.setOrderid(jobj.getString("orderid"));
                         orderdata.setPaymentmethod(cardspinner.getSelectedItem().toString());
-                        Intent checkoutfinishh = new Intent(SwapCheckOutActivity.this, RegularCheckoutFinishActivity.class);
-                        checkoutfinishh.putExtra("data", orderdata);
-                        checkoutfinishh.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        // startActivity(checkoutfinishh);
-                        // finish();
+                        Intent swapstepone = new Intent(SwapCheckOutActivity.this, Swap_Checkout_Step__First_Activity.class);
+                        swapstepone.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                        swapstepone.putExtra("data", orderdata);
+                        startActivity(swapstepone);
+                       // finish();
                     }
                 } catch (Exception ex) {
                     Log.e("jsonerror", ex.getMessage() + "");
@@ -775,7 +772,7 @@ delivery.setTextColor(Color.parseColor("#dbdbdb"));
     }
 
     private void checkBeforeDone(final String swaporderid) {
-
+            showProgress("loading");
         RequestQueue queue = Volley.newRequestQueue(this);
         StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_SHIPPINGINFO, new Response.Listener<String>() {
             @Override
@@ -786,13 +783,12 @@ delivery.setTextColor(Color.parseColor("#dbdbdb"));
                     orderdata.setPaymentmethod(cardspinner.getSelectedItem().toString());
                     JSONObject jobj = new JSONObject(response);
                     if (jobj.getBoolean("status")) {
-                      Intent swapstepone = new Intent(SwapCheckOutActivity.this, Swap_Checkout_Cancel_Activity.class);
-                        swapstepone.putExtra("data",response);
+                        Intent swapstepone = new Intent(SwapCheckOutActivity.this, Swap_Checkout_Step__First_Activity.class);
+                        swapstepone.putExtra("data", response);
                         startActivity(swapstepone);
                         finish();
-                    }
-                    else
-                    {
+                    } else {
+                        dialog.dismiss();
                         getInfo();
                     }
                 } catch (Exception ex) {

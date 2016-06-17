@@ -414,6 +414,7 @@ public class NotificationFragment extends Fragment {
         nd.setNotitype("9");
         nd.setPostid(nd.getPostid());
         nd.setImgurl(nd.getImgurl());
+        nd.setSwap_order_id(nd3.getSwap_order_id());
         mProvider.removeItem(pos);
         mAdapter.notifyDataSetChanged();
 

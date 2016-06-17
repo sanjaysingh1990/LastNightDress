@@ -421,7 +421,7 @@
             android:name=".LndMore.LndLuxuryandDesignerAuthentication"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".PurchaseAndSwap.Swap_Checkout_Cancel_Activity"
+            android:name=".PurchaseAndSwap.Swap_Checkout_Step__First_Activity"
             android:screenOrientation="portrait" />
         <activity android:name=".LndComments" />
         <activity
@@ -429,9 +429,13 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing|adjustResize" />
         <activity
-            android:name=".MySales.MySalesReportRatingActivity"
+        android:name=".MySales.MySalesReportRatingActivity"
+        android:screenOrientation="portrait"
+        android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".PurchaseAndSwap.Swap_Checkout_Cancel_Activity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="stateHidden|adjustPan|stateAlwaysHidden" />
         <!-- Register Broadcast receiver -->
 
         <receiver

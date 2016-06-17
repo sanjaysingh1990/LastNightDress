@@ -139,7 +139,7 @@ public class SwapRequestActivity extends AppCompatActivity {
             mainObj.put("receiverid", nd.getSenderid());
             mainObj.put("date_time", SingleTon.getCurrentTimeStamp());
             mainObj.put("noti_id",nd.getNotification_id());
-            mainObj.put("uname", Capitalize.capitalizeFirstLetter(SingleTon.pref.getString("uname","")));
+            mainObj.put("uname", (SingleTon.pref.getString("uname","")));
 
             return mainObj.toString();
         } catch (Exception ex) {
@@ -348,6 +348,7 @@ public class SwapRequestActivity extends AppCompatActivity {
                     if (jobj.getBoolean("status")) {
                         Intent intent = new Intent();
                         intent.putExtra("isswapok",true);
+                        nd.setSwap_order_id(jobj.getString("swap_order_id"));
                         intent.putExtra("data",nd);
                         intent.putExtra("pos",pos);
 
