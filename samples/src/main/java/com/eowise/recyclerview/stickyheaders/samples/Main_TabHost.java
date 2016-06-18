@@ -43,6 +43,7 @@ import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.StickyActivity
 import com.eowise.recyclerview.stickyheaders.samples.TabDemo.LndFragment;
 import com.eowise.recyclerview.stickyheaders.samples.TabDemo.LndShopActivity;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.BlankActivity;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.LndUtils;
 import com.eowise.recyclerview.stickyheaders.samples.data.NotificationData;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -290,7 +291,7 @@ public class Main_TabHost extends AppCompatActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-       // Toast.makeText(this, requestCode + "", Toast.LENGTH_SHORT).show();
+      //  Toast.makeText(this, requestCode + "", Toast.LENGTH_SHORT).show();
         super.onActivityResult(requestCode, resultCode, data);
      try {
          loginButton.onActivityResult(requestCode, resultCode, data);
@@ -365,6 +366,11 @@ public class Main_TabHost extends AppCompatActivity {
                     break;
                 }
             case 10:
+                break;
+            case 11:
+                if(data!=null)
+                NotificationFragment.notification.cancelSwap(LndUtils.pos);
+
                 break;
             case 200:
                 if (data != null) {

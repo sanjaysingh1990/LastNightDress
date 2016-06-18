@@ -49,6 +49,7 @@ import com.eowise.recyclerview.stickyheaders.samples.Main_TabHost;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ApplicationConstants;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.LndUtils;
 import com.eowise.recyclerview.stickyheaders.samples.data.NotificationData;
 import com.h6ah4i.android.widget.advrecyclerview.animator.GeneralItemAnimator;
 import com.h6ah4i.android.widget.advrecyclerview.animator.SwipeDismissItemAnimator;
@@ -97,6 +98,7 @@ public class NotificationFragment extends Fragment {
     int pastVisiblesItems, visibleItemCount, totalItemCount;
     boolean loading = true;
     private int skipdata = 0;
+
     public NotificationFragment() {
         super();
     }
@@ -179,7 +181,7 @@ public class NotificationFragment extends Fragment {
 //        mRecyclerViewSwipeManager.setReturnToDefaultPositionAnimationDuration(2000);
         indicator = (LinearLayout) getView().findViewById(R.id.indicator);
         instructiontextview = (TextView) getView().findViewById(R.id.instructiontextview);
-       //for load more
+        //for load more
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -193,8 +195,8 @@ public class NotificationFragment extends Fragment {
                         if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
                             loading = false;
 
-                             getData();
-                           // Toast.makeText(getActivity(), "called", Toast.LENGTH_LONG).show();
+                            getData();
+                            // Toast.makeText(getActivity(), "called", Toast.LENGTH_LONG).show();
                         }
                     }
                 }
@@ -311,6 +313,7 @@ public class NotificationFragment extends Fragment {
                     nd.setNotitype("8");
                     mProvider.addItem(nd);
                     mAdapter.notifyDataSetChanged();
+
                     firsttime = false;
                     if (notificationids.size() > 0) {
                         JSONObject data = new JSONObject();
@@ -342,7 +345,7 @@ public class NotificationFragment extends Fragment {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("rqid", "13");
                 params.put("user_id", SingleTon.pref.getString("user_id", ""));
-                params.put("skipdata", skipdata+"");
+                params.put("skipdata", skipdata + "");
 
 
                 return params;
@@ -417,16 +420,20 @@ public class NotificationFragment extends Fragment {
         nd.setSwap_order_id(nd3.getSwap_order_id());
         mProvider.removeItem(pos);
         mAdapter.notifyDataSetChanged();
-
         mProvider.addItemat(nd, pos);
         mAdapter.notifyDataSetChanged();
 
     }
 
     public void cancelSwap(int pos) {
-        mProvider.removeItem(pos);
-        mAdapter.notifyDataSetChanged();
+         if (pos >= 0) {
 
+            mProvider.removeItem(pos);
+            mAdapter.notifyDataSetChanged();
+            //LndUtils.pos = -1;
+             Toast.makeText(getActivity(), pos + "rquest completed", Toast.LENGTH_SHORT).show();
+
+         }
     }
 
     static long getMilliseconds(String datetime) {

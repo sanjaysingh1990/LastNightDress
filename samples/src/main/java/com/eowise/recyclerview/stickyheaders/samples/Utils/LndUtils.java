@@ -9,4 +9,6 @@ public class LndUtils {
     public static final int IMAGE_BORDER = 24;
     public static final int IMAGE_CORNER_RADIUS = 35;
     public static final int IMAGE_JPEG_COMPRESSION_QUALITY = 75;
+    public static int pos=-1;
+
 }

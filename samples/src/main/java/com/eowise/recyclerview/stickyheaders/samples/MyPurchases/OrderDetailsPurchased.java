@@ -11,12 +11,18 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
 import android.text.style.ImageSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.RelativeTimeTextView;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.TimeAgo;
+import com.eowise.recyclerview.stickyheaders.samples.data.MySalesPurchasesData;
 
 import java.util.List;
 
@@ -24,19 +30,39 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class OrderDetailsPurchased extends AppCompatActivity {
-    @Bind({R.id.brandname, R.id.sellername, R.id.listprice, R.id.shipping, R.id.grandtotalprice, R.id.orderdate, R.id.ordernumber, R.id.statustext, R.id.shipppingmethod})
+    @Bind({R.id.sellertext, R.id.pricetext, R.id.shippingtext, R.id.grandtotaltext, R.id.orderdatetext, R.id.ordernumbertext, R.id.shippingmethodtext})
     List<TextView> inprocess;
     TextView heading;
+    @Bind(R.id.brandname)
+    TextView brandname;
+    @Bind(R.id.sellername)
+    TextView sellername;
+    @Bind(R.id.showtime)
+    RelativeTimeTextView showtime;
+    @Bind(R.id.price)
+    TextView price;
+    @Bind(R.id.shippingprice)
+    TextView shippingprice;
+    @Bind(R.id.grandtotalprice)
+    TextView grandtotalprice;
+    @Bind(R.id.orderdate)
+    TextView orderdate;
+    @Bind(R.id.ordernumber)
+    TextView ordernumber;
+    @Bind(R.id.productimage)
+    ImageView productimage;
+    @Bind(R.id.shipppingmethod)
+    TextView shippingmethod;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
+
         Bundle extra = getIntent().getExtras();
         if (extra != null) {
             String status = extra.getString("type");
-
             if (status.compareToIgnoreCase("in process") == 0) {
                 setContentView(R.layout.purchases_inprocess_layout);
                 ButterKnife.bind(this);
@@ -84,21 +110,19 @@ public class OrderDetailsPurchased extends AppCompatActivity {
             } else if (status.compareToIgnoreCase("claim declined") == 0) {
                 setContentView(R.layout.purchases_claimdeclined_layout);
 
-            }
-            else if (status.compareToIgnoreCase("Rating reported") == 0) {
+            } else if (status.compareToIgnoreCase("Rating reported") == 0) {
                 setContentView(R.layout.purchases_ratingreported_layout);
                 ButterKnife.bind(this);
                 getReference();
-                TextView editrating= (TextView) findViewById(R.id.editrating);
+                TextView editrating = (TextView) findViewById(R.id.editrating);
                 editrating.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent rateuser=new Intent(OrderDetailsPurchased.this,RateUserActivity.class);
+                        Intent rateuser = new Intent(OrderDetailsPurchased.this, RateUserActivity.class);
                         startActivity(rateuser);
                     }
                 });
-            }
-            else if (status.compareToIgnoreCase("Item accepted") == 0) {
+            } else if (status.compareToIgnoreCase("Item accepted") == 0) {
                 setContentView(R.layout.purchases_itemaccepted_layout);
                 ButterKnife.bind(this);
                 getReference();
@@ -106,7 +130,7 @@ public class OrderDetailsPurchased extends AppCompatActivity {
             }
 
         }
-        heading = (TextView) findViewById(R.id.heading);
+          heading = (TextView) findViewById(R.id.heading);
         //applying fonts
         heading.setTypeface(SingleTon.robotobold);
 
@@ -187,14 +211,35 @@ public class OrderDetailsPurchased extends AppCompatActivity {
 
 
         //applying custom fonts
-        inprocess.get(0).setTypeface(SingleTon.robotobold);
-        inprocess.get(1).setTypeface(SingleTon.robotomedium);
-        for (int i = 2; i < inprocess.size(); i++) {
+        for (int i = 0; i < inprocess.size(); i++) {
             inprocess.get(i).setTypeface(SingleTon.robotomedium);
 
         }
+        //applying custom font
+        brandname.setTypeface(SingleTon.robotobold);
+        sellername.setTypeface(SingleTon.robotobold);
+        showtime.setTypeface(SingleTon.robotobold);
+        price.setTypeface(SingleTon.robotobold);
+        shippingprice.setTypeface(SingleTon.robotobold);
+        grandtotalprice.setTypeface(SingleTon.robotobold);
+        orderdate.setTypeface(SingleTon.robotobold);
+        ordernumber.setTypeface(SingleTon.robotobold);
+        Bundle extra = getIntent().getExtras();
+        if (extra != null) {
+            MySalesPurchasesData mspd = (MySalesPurchasesData) extra.getSerializable("data");
+            brandname.setText(mspd.getBrand_name() + "");
+            sellername.setText(mspd.getSeller_name() + "");
+            price.setText("$" + mspd.getPrice_now() + "");
+            shippingprice.setText("$" + mspd.getShipping_charge() + "");
+            grandtotalprice.setText("$" + mspd.getTotal_amount() + "");
+            shippingmethod.setText(mspd.getShipping_method() + "");
+            orderdate.setText(mspd.getOrder_date() + "");
+            ordernumber.setText(mspd.getOrder_id() + "");
+            showtime.setReferenceTime(mspd.getOrder_date());
+            SingleTon.imageLoader.displayImage(mspd.getImage_url(), productimage, SingleTon.options4);
 
 
+        }
     }
 
 }

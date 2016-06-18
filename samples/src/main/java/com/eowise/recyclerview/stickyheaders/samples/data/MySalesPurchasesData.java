@@ -1,9 +1,11 @@
 package com.eowise.recyclerview.stickyheaders.samples.data;
 
+import java.io.Serializable;
+
 /**
  * Created by sanjay on 12/29/2015.
  */
-public class MySalesPurchasesData {
+public class MySalesPurchasesData implements Serializable {
 
     private String courier_type;
     private String image_url;
@@ -127,5 +129,15 @@ public class MySalesPurchasesData {
     private String seller_name;
     private String brand_name;
     private String price_now;
+
+    public String getShipping_charge() {
+        return shipping_charge;
+    }
+
+    public void setShipping_charge(String shipping_charge) {
+        this.shipping_charge = shipping_charge;
+    }
+
+    private String shipping_charge;
 
 }

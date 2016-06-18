@@ -53,7 +53,9 @@ import com.eowise.recyclerview.stickyheaders.samples.Main_TabHost;
 import com.eowise.recyclerview.stickyheaders.samples.NotificationFullPost;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.UserProfile.OtherUserProfileActivity;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.ApplicationConstants;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.LndUtils;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.TimeAgo;
 import com.eowise.recyclerview.stickyheaders.samples.data.RecyclerHeaderViewHolder;
 import com.eowise.recyclerview.stickyheaders.samples.interfaces.TagClick;
@@ -351,7 +353,7 @@ class NotificationSwipeableItemAdapter
                     checkout.putExtra("post_id",mProvider.getItem(getAdapterPosition()).getNotificationdata().getPostid());
                     checkout.putExtra("seller_id",mProvider.getItem(getAdapterPosition()).getNotificationdata().getSenderid());
                     checkout.putExtra("swap_order_id",mProvider.getItem(getAdapterPosition()).getNotificationdata().getSwap_order_id());
-
+                    LndUtils.pos=getAdapterPosition();
                     activity.startActivity(checkout);
                     break;
                 case R.id.notiimage:

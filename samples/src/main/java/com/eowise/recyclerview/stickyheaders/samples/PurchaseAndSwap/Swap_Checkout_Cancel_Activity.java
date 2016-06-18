@@ -1,5 +1,6 @@
 package com.eowise.recyclerview.stickyheaders.samples.PurchaseAndSwap;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -174,8 +175,8 @@ public class Swap_Checkout_Cancel_Activity extends LndBaseActivity {
                 }
             }
         }).start();*/
-
-
+        if (ordernumber.getText().length() > 0)
+            cancelSwap(ordernumber.getText().toString());
     }
 
     private void showInfo(String text, TextView txt) {
@@ -200,17 +201,25 @@ public class Swap_Checkout_Cancel_Activity extends LndBaseActivity {
         finish();
     }
 
-    private void cancelSwap(final String data) {
+    private void cancelSwap(final String orderid) {
         showProgress("wait cancelling swap");
         RequestQueue queue = Volley.newRequestQueue(this);
-        StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_FADEX_PURCHASE_SHIPPING_LABLE, new Response.Listener<String>() {
+        StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_SHIPPINGINFO, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                //  Log.e("json", response + "");
+                Log.e("json", response + "");
                 dismissProgress();
                 try {
                     JSONObject jobj = new JSONObject(response);
-
+                    if (jobj.getBoolean("status"))
+                    {
+                        Intent intent=new Intent();
+                        intent.putExtra("MESSAGE","cancelled");
+                        setResult(2,intent);
+                        finish();
+                    }
+                    else
+                        showToast(jobj.getString("message"));
                 } catch (Exception ex) {
                     dismissProgress();
 
@@ -229,7 +238,10 @@ public class Swap_Checkout_Cancel_Activity extends LndBaseActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
 
-                params.put("data", data);
+                params.put("order_id", orderid);
+                params.put("rqid", "10");
+                params.put("cancel_reason", inputedittext.getText().toString());
+
                 return params;
             }
 

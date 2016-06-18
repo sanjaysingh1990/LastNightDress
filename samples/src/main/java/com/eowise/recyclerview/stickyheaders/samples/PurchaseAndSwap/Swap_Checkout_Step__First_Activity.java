@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.eowise.recyclerview.stickyheaders.samples.LndBaseActivity;
 import com.eowise.recyclerview.stickyheaders.samples.R;
@@ -120,7 +121,7 @@ private void spannableText()
         if (extra != null) {
             Intent canceswap = new Intent(this, Swap_Checkout_Cancel_Activity.class);
             canceswap.putExtra("data",extra.getString("data"));
-            startActivity(canceswap);
+            startActivityForResult(canceswap, 2);
 
         }
 
@@ -142,4 +143,16 @@ private void spannableText()
     public void back(View v) {
         finish();
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+//        Toast.makeText(this,requestCode,Toast.LENGTH_SHORT).show();
+        if(requestCode==2&&data!=null) {
+            Intent intent = new Intent();
+            intent.putExtra("MESSAGE", "cancelled");
+            setResult(11, intent);
+            finish();
+        }
+        }
 }

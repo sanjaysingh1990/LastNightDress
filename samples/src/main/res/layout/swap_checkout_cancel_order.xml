@@ -341,7 +341,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="3dp"
                                 android:layout_weight="1"
-                                android:text="LND000000"
                                 android:textColor="#000"
                                 android:textSize="14sp" />
                         </LinearLayout>
@@ -405,6 +404,7 @@
             android:text="Submit"
             android:textColor="#FFFFFF"
             android:textSize="16sp"
+            android:onClick="cancleOrder"
 
             />
 

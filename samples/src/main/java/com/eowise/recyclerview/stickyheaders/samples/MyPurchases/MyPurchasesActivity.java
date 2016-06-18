@@ -34,26 +34,25 @@ import java.util.List;
 import java.util.Map;
 
 public class MyPurchasesActivity extends AppCompatActivity {
-    private List<MySalesPurchasesData> items=new ArrayList<MySalesPurchasesData>();
+    private List<MySalesPurchasesData> items = new ArrayList<MySalesPurchasesData>();
     private RecyclerView recyclerView;
     private MyPurchasesAdapter adapter;
     private AVLoadingIndicatorView loader;
-    String[] status={"In Process","Shipped","Delivered","Item accepted","Order cancelled","Rating reported","Order cancelled"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_purchases);
-        recyclerView= (RecyclerView) findViewById(R.id.recyclerView);
-        loader= (AVLoadingIndicatorView) findViewById(R.id.loader);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        loader = (AVLoadingIndicatorView) findViewById(R.id.loader);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new MyPurchasesAdapter(this,items);
+        adapter = new MyPurchasesAdapter(this, items);
         recyclerView.setAdapter(adapter);
         getPurchases();
 
     }
-    public void back(View v)
-    {
+
+    public void back(View v) {
         onBackPressed();
     }
 
@@ -62,9 +61,8 @@ public class MyPurchasesActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
-    public void itemAccepted(View v)
-    {
-        Intent rateuser=new Intent(this,RateUserActivity.class);
+    public void itemAccepted(View v) {
+        Intent rateuser = new Intent(this, RateUserActivity.class);
         startActivity(rateuser);
     }
 
@@ -74,15 +72,14 @@ public class MyPurchasesActivity extends AppCompatActivity {
         StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_SHIPPINGINFO, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-            Log.e("json",response);
+                Log.e("json", response);
                 try {
                     loader.setVisibility(View.GONE);
-                    JSONObject jobj=new JSONObject(response);
-                    JSONArray jsonArray=jobj.getJSONArray("data");
-                    for(int i=0;i<jsonArray.length();i++)
-                    {
-                        JSONObject jsonObject=jsonArray.getJSONObject(i);
-                        MySalesPurchasesData mysales=new MySalesPurchasesData();
+                    JSONObject jobj = new JSONObject(response);
+                    JSONArray jsonArray = jobj.getJSONArray("data");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        MySalesPurchasesData mysales = new MySalesPurchasesData();
                         mysales.setOrder_id(jsonObject.getString("order_id"));
                         mysales.setCourier_type(jsonObject.getString("courier_type"));
                         mysales.setImage_url(jsonObject.getString("image_url"));
@@ -93,9 +90,22 @@ public class MyPurchasesActivity extends AppCompatActivity {
                         mysales.setBrand_name(Capitalize.capitalizeFirstLetter(jsonObject.getString("brand_name")));
                         mysales.setPrice_now(jsonObject.getString("price_now"));
                         mysales.setTotal_amount(jsonObject.getString("total_amount"));
+                        mysales.setShipping_charge(jsonObject.getString("shipping_charge"));
 
-                        if(jsonObject.getString("order_purchase_status").compareToIgnoreCase("1")==0)
-                        mysales.setOrder_purchase_status("In Process");
+                        if (jsonObject.getString("order_purchase_status").compareToIgnoreCase("1") == 0)
+                            mysales.setOrder_purchase_status("In Process");
+                        else if (jsonObject.getString("order_purchase_status").compareToIgnoreCase("2") == 0)
+                            mysales.setOrder_purchase_status("Shipped");
+                        else if (jsonObject.getString("order_purchase_status").compareToIgnoreCase("3") == 0)
+                            mysales.setOrder_purchase_status("Delivered");
+                        else if (jsonObject.getString("order_purchase_status").compareToIgnoreCase("4") == 0)
+                            mysales.setOrder_purchase_status("Item accepted");
+                        else if (jsonObject.getString("order_purchase_status").compareToIgnoreCase("5") == 0)
+                            mysales.setOrder_purchase_status("Order cancelled1");
+                        else if (jsonObject.getString("order_purchase_status").compareToIgnoreCase("6") == 0)
+                            mysales.setOrder_purchase_status("Rating reported");
+                        else if (jsonObject.getString("order_purchase_status").compareToIgnoreCase("7") == 0)
+                            mysales.setOrder_purchase_status("Order cancelled2");
 
                         items.add(mysales);
 
@@ -109,7 +119,7 @@ public class MyPurchasesActivity extends AppCompatActivity {
                     } catch (Exception ex) {
 
                     }
-                    Log.e("jsonerror",e.getMessage()+"");
+                    Log.e("jsonerror", e.getMessage() + "");
                 }
 
             }
@@ -124,7 +134,7 @@ public class MyPurchasesActivity extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("rqid", "5");
-                params.put("user_id",SingleTon.pref.getString("user_id",""));
+                params.put("user_id", SingleTon.pref.getString("user_id", ""));
                 return params;
             }
 

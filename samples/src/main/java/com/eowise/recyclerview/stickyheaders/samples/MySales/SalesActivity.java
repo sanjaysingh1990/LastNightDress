@@ -69,11 +69,9 @@ public class SalesActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
-    private void getData()
-    {
-       String[] status={"In Process","Shipped","Delivered","Order cancelled","Report rating","Order cancelled"};
 
-    }
+
+
     private void getSales() {
 
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -100,6 +98,9 @@ public class SalesActivity extends AppCompatActivity {
                         mysales.setPrice_now(jsonObject.getString("price_now"));
                         mysales.setTotal_amount(jsonObject.getString("total_amount"));
                         mysales.setProfile_pic(jsonObject.getString("profile_pic"));
+
+                        String[] status={"In Process","Shipped","Delivered","Order cancelled","Report rating","Order cancelled"};
+
                         if(jsonObject.getString("order_sale_status").compareToIgnoreCase("1")==0)
                             mysales.setOrder_purchase_status("In Process");
 

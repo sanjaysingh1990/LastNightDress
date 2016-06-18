@@ -109,6 +109,7 @@ public class LndNotificationMessageActivity extends AppCompatActivity {
                 (CoordinatorLayout.LayoutParams) container.getLayoutParams();
         params.setBehavior(new AppBarLayout.ScrollingViewBehavior());
         container.requestLayout();
+
     }
 
     public AbstractDataProvider getDataProvider(String dataProviderName) {

@@ -37,6 +37,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.eowise.recyclerview.stickyheaders.samples.LndBaseActivity;
 import com.eowise.recyclerview.stickyheaders.samples.LndMore.LndLuxuryandDesignerAuthentication;
+import com.eowise.recyclerview.stickyheaders.samples.Main_TabHost;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.Lnd_Item_Order;
@@ -376,6 +377,9 @@ delivery.setTextColor(Color.parseColor("#dbdbdb"));
                     shipto.put("total_amount", grandtotalprice.getText().toString().replace("$", ""));
                     shipto.put("buyerid", SingleTon.pref.getString("user_id", ""));
                     shipto.put("orderid", ordernumber.getText().toString());
+                    shipto.put("price", price.getText().toString().replace("$", ""));
+                    shipto.put("shipping_price", shippingprice.getText().toString().replace("$", ""));
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -400,6 +404,8 @@ delivery.setTextColor(Color.parseColor("#dbdbdb"));
                     shipto.put("total_amount", grandtotalprice.getText().toString().replace("$", ""));
                     shipto.put("buyerid", SingleTon.pref.getString("user_id", ""));
                     shipto.put("orderid", ordernumber.getText().toString());
+                    shipto.put("price", price.getText().toString().replace("$", ""));
+                    shipto.put("shipping_price", shippingprice.getText().toString().replace("$", ""));
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -730,9 +736,19 @@ delivery.setTextColor(Color.parseColor("#dbdbdb"));
                         Intent swapstepone = new Intent(SwapCheckOutActivity.this, Swap_Checkout_Step__First_Activity.class);
                         swapstepone.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-                        swapstepone.putExtra("data", orderdata);
+                        JSONObject data=new JSONObject();
+                        data.put("status",true);
+                        data.put("image_url",orderdata.getImageurl());
+                        data.put("brand_name",orderdata.getBrand());
+                        data.put("order_id",orderdata.getOrderid());
+                        data.put("order_date",orderdata.getOrderdate());
+                        data.put("total_amount",orderdata.getTotal());
+                        data.put("price",orderdata.getPrice());
+                        data.put("uname",orderdata.getSellername());
+
+                        swapstepone.putExtra("data",data.toString());
                         startActivity(swapstepone);
-                       // finish();
+                        finish();
                     }
                 } catch (Exception ex) {
                     Log.e("jsonerror", ex.getMessage() + "");
@@ -785,7 +801,7 @@ delivery.setTextColor(Color.parseColor("#dbdbdb"));
                     if (jobj.getBoolean("status")) {
                         Intent swapstepone = new Intent(SwapCheckOutActivity.this, Swap_Checkout_Step__First_Activity.class);
                         swapstepone.putExtra("data", response);
-                        startActivity(swapstepone);
+                        Main_TabHost.activity.startActivityForResult(swapstepone,11);
                         finish();
                     } else {
                         dialog.dismiss();

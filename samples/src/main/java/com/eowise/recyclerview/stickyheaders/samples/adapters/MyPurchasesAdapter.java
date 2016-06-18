@@ -60,26 +60,63 @@ public class MyPurchasesAdapter extends RecyclerView.Adapter<MyPurchasesAdapter.
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
         MySalesPurchasesData msd = items.get(position);
-        viewHolder.orderdetails.setOnClickListener(new MyEvents(msd.getOrder_purchase_status()));
-        viewHolder.status.setText(msd.getOrder_purchase_status());
+        if(msd.getOrder_purchase_status().contains("cancelled"))
+            viewHolder.status.setText(msd.getOrder_purchase_status().substring(0,msd.getOrder_purchase_status().length()-1));
+        else
+            viewHolder.status.setText(msd.getOrder_purchase_status());
         viewHolder.brandname.setText(msd.getBrand_name());
         viewHolder.time.setReferenceTime(msd.getOrder_date());
         viewHolder.selleruname.setText(msd.getSeller_name());
         viewHolder.price.setText("$" + msd.getTotal_amount());
-        SingleTon.imageLoader.displayImage(msd.getImage_url(),viewHolder.productimage, SingleTon.options3);
+        SingleTon.imageLoader.displayImage(msd.getImage_url(),viewHolder.productimage, SingleTon.options4);
 
     }
 
-    class MyEvents implements View.OnClickListener {
-        String status;
 
-        public MyEvents(String str) {
-            status = str;
 
+
+
+    @Override
+    public int getItemCount() {
+        return items.size();
+    }
+
+
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        TextView brandname;
+        TextView selleruname, price, status;
+        TextView sellertext, grandtotal, statustext;
+        LinearLayout orderdetails;
+        RelativeTimeTextView time;
+        ImageView productimage;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            brandname = (TextView) itemView.findViewById(R.id.brandname);
+            selleruname = (TextView) itemView.findViewById(R.id.sellername);
+            price = (TextView) itemView.findViewById(R.id.totalprice);
+            status = (TextView) itemView.findViewById(R.id.status);
+            sellertext = (TextView) itemView.findViewById(R.id.sellertext);
+            grandtotal = (TextView) itemView.findViewById(R.id.grandtotaltext);
+            statustext = (TextView) itemView.findViewById(R.id.statustext);
+            orderdetails = (LinearLayout) itemView.findViewById(R.id.orderdetails);
+            time = (RelativeTimeTextView) itemView.findViewById(R.id.showtime);
+            productimage = (ImageView) itemView.findViewById(R.id.productimage);
+            orderdetails.setClickable(true);
+//applying custom fonts
+            brandname.setTypeface(SingleTon.robotobold);
+            selleruname.setTypeface(SingleTon.robotomedium);
+            price.setTypeface(SingleTon.robotomedium);
+            status.setTypeface(SingleTon.robotomedium);
+            sellertext.setTypeface(SingleTon.robotoregular);
+            grandtotal.setTypeface(SingleTon.robotoregular);
+            statustext.setTypeface(SingleTon.robotoregular);
+            orderdetails.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
+            String status=items.get(getAdapterPosition()).getOrder_purchase_status();
             Intent ordetails = new Intent(activity, OrderDetailsPurchased.class);
 
             if (status.compareToIgnoreCase("in process") == 0) {
@@ -89,14 +126,17 @@ public class MyPurchasesAdapter extends RecyclerView.Adapter<MyPurchasesAdapter.
                 ordetails.putExtra("type", "delivered");
 
             }
-           /* else if(status.compareToIgnoreCase("Order cancelled")==0)
+            else if(status.compareToIgnoreCase("Order cancelled1")==0)
             {
-                if(utype.compareTo("buyer")==0)
-                ordetails.putExtra("type","cancelled");
-                else
-                    ordetails.putExtra("type","cancelled2");
+                ordetails.putExtra("type","cancelled2");
 
-            }*/
+            }
+            else if(status.compareToIgnoreCase("Order cancelled2")==0)
+            {
+                 ordetails.putExtra("type","cancelled");
+
+            }
+
             else if (status.compareToIgnoreCase("shipped") == 0) {
                 ordetails.putExtra("type", "shipped");
 
@@ -137,56 +177,8 @@ public class MyPurchasesAdapter extends RecyclerView.Adapter<MyPurchasesAdapter.
                 ordetails.putExtra("type", "Item accepted");
 
             }
-
+            ordetails.putExtra("data",items.get(getAdapterPosition()));
             activity.startActivity(ordetails);
-        }
-    }
-
-    private String UpperName(String uname) {
-        return Character.toUpperCase(uname.charAt(0)) + uname.substring(1);
-    }
-
-    @Override
-    public int getItemCount() {
-        return items.size();
-    }
-
-
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView brandname;
-        TextView selleruname, price, status;
-        TextView sellertext, grandtotal, statustext;
-        LinearLayout orderdetails;
-        RelativeTimeTextView time;
-        ImageView productimage;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-            brandname = (TextView) itemView.findViewById(R.id.brandname);
-            selleruname = (TextView) itemView.findViewById(R.id.sellername);
-            price = (TextView) itemView.findViewById(R.id.totalprice);
-            status = (TextView) itemView.findViewById(R.id.status);
-            sellertext = (TextView) itemView.findViewById(R.id.sellertext);
-            grandtotal = (TextView) itemView.findViewById(R.id.grandtotaltext);
-            statustext = (TextView) itemView.findViewById(R.id.statustext);
-            orderdetails = (LinearLayout) itemView.findViewById(R.id.orderdetails);
-            time = (RelativeTimeTextView) itemView.findViewById(R.id.showtime);
-            productimage = (ImageView) itemView.findViewById(R.id.productimage);
-            orderdetails.setClickable(true);
-//applying custom fonts
-            brandname.setTypeface(SingleTon.robotobold);
-            selleruname.setTypeface(SingleTon.robotomedium);
-            price.setTypeface(SingleTon.robotomedium);
-            status.setTypeface(SingleTon.robotomedium);
-            sellertext.setTypeface(SingleTon.robotoregular);
-            grandtotal.setTypeface(SingleTon.robotoregular);
-            statustext.setTypeface(SingleTon.robotoregular);
-
-        }
-
-        @Override
-        public void onClick(View v) {
-
         }
     }
 
