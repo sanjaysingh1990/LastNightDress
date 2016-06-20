@@ -11,15 +11,14 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
 import android.text.style.ImageSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.RelativeTimeTextView;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.TimeAgo;
 import com.eowise.recyclerview.stickyheaders.samples.data.MySalesPurchasesData;
@@ -101,9 +100,6 @@ public class OrderDetailsPurchased extends AppCompatActivity {
             } else if (status.compareToIgnoreCase("claim processing") == 0) {
                 setContentView(R.layout.purchases_claimprocessing_layout);
 
-            } else if (status.compareToIgnoreCase("rating reported") == 0) {
-                setContentView(R.layout.purchases_ratingreported_layout);
-
             } else if (status.compareToIgnoreCase("claim approved") == 0) {
                 setContentView(R.layout.purchases_claimapproved_layout);
 
@@ -130,7 +126,7 @@ public class OrderDetailsPurchased extends AppCompatActivity {
             }
 
         }
-          heading = (TextView) findViewById(R.id.heading);
+        heading = (TextView) findViewById(R.id.heading);
         //applying fonts
         heading.setTypeface(SingleTon.robotobold);
 
@@ -233,7 +229,7 @@ public class OrderDetailsPurchased extends AppCompatActivity {
             shippingprice.setText("$" + mspd.getShipping_charge() + "");
             grandtotalprice.setText("$" + mspd.getTotal_amount() + "");
             shippingmethod.setText(mspd.getShipping_method() + "");
-            orderdate.setText(mspd.getOrder_date() + "");
+            orderdate.setText(TimeAgo.getCurrentDate(mspd.getOrder_date()) + "");
             ordernumber.setText(mspd.getOrder_id() + "");
             showtime.setReferenceTime(mspd.getOrder_date());
             SingleTon.imageLoader.displayImage(mspd.getImage_url(), productimage, SingleTon.options4);

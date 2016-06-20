@@ -143,8 +143,8 @@ public class MyPurchasesAdapter extends RecyclerView.Adapter<MyPurchasesAdapter.
             } else if (status.compareToIgnoreCase("claim processing") == 0) {
                 ordetails.putExtra("type", "claim processing");
 
-            } else if (status.compareToIgnoreCase("rating reported") == 0) {
-                ordetails.putExtra("type", "rating reported");
+            } else if (status.compareToIgnoreCase("Rating reported") == 0) {
+                ordetails.putExtra("type", "Rating reported");
 
             } else if (status.compareToIgnoreCase("claim approved") == 0) {
                 ordetails.putExtra("type", "claim approved");
@@ -155,25 +155,7 @@ public class MyPurchasesAdapter extends RecyclerView.Adapter<MyPurchasesAdapter.
             } else if (status.compareToIgnoreCase("Report rating") == 0) {
                 ordetails.putExtra("type", "Report rating");
 
-            } else if (status.compareToIgnoreCase("Report rating") == 0) {
-                ordetails.putExtra("type", "Report rating");
-
-            } else if (status.compareToIgnoreCase("Report rating") == 0) {
-                ordetails.putExtra("type", "Report rating");
-
-            } else if (status.compareToIgnoreCase("Report rating") == 0) {
-                ordetails.putExtra("type", "Report rating");
-
-            } else if (status.compareToIgnoreCase("Report rating") == 0) {
-                ordetails.putExtra("type", "Report rating");
-
-            } else if (status.compareToIgnoreCase("Report rating") == 0) {
-                ordetails.putExtra("type", "Report rating");
-
-            } else if (status.compareToIgnoreCase("Report rating") == 0) {
-                ordetails.putExtra("type", "Report rating");
-
-            } else if (status.compareToIgnoreCase("Item accepted") == 0) {
+            }  else if (status.compareToIgnoreCase("Item accepted") == 0) {
                 ordetails.putExtra("type", "Item accepted");
 
             }

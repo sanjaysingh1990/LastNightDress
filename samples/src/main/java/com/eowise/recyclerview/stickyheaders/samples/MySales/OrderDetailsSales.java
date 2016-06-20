@@ -16,10 +16,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.RelativeTimeTextView;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.TimeAgo;
+import com.eowise.recyclerview.stickyheaders.samples.data.MySalesPurchasesData;
 
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener;
@@ -31,11 +35,36 @@ import butterknife.ButterKnife;
 
 public class OrderDetailsSales extends AppCompatActivity {
 
-    TextView heading;
     TextView shippinglabel;
 
-    @Bind({R.id.brandname, R.id.buyername, R.id.listprice, R.id.yourearning, R.id.orderdate, R.id.ordernumber, R.id.statustext, R.id.courier, R.id.shipppingmethod})
-    List<TextView> inprocess;
+    @Bind({R.id.buyertext, R.id.pricetext, R.id.yourearningtext ,R.id.couriertext, R.id.orderdatetext, R.id.ordernumbertext, R.id.shippingmethodtext})
+     List<TextView> inprocess;
+    @Bind(R.id.heading)
+    TextView heading;
+    @Bind(R.id.brandname)
+    TextView brandname;
+    @Bind(R.id.buyername)
+    TextView buyername;
+   /* @Bind(R.id.showtime)
+    RelativeTimeTextView showtime;*/
+    @Bind(R.id.price)
+    TextView price;
+    @Bind(R.id.yourearning)
+    TextView yourearning;
+    @Bind(R.id.courier)
+    TextView courier;
+    /* @Bind(R.id.shippingprice)
+    TextView shippingprice;
+    @Bind(R.id.grandtotalprice)
+    TextView grandtotalprice;*/
+    @Bind(R.id.orderdate)
+    TextView orderdate;
+    @Bind(R.id.ordernumber)
+    TextView ordernumber;
+    @Bind(R.id.productimage)
+    ImageView productimage;
+    @Bind(R.id.shipppingmethod)
+    TextView shippingmethod;
 
     private void updateKeyboardStatusText(boolean isOpen)
     {
@@ -109,9 +138,14 @@ public class OrderDetailsSales extends AppCompatActivity {
                 reportrating.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                       Intent reportrating=new Intent(OrderDetailsSales.this,MySalesReportRatingActivity.class);
-                       startActivity(reportrating);
 
+                        Bundle extra = getIntent().getExtras();
+                        if (extra != null) {
+                            MySalesPurchasesData mspd = (MySalesPurchasesData) extra.getSerializable("data");
+                            Intent reportrating = new Intent(OrderDetailsSales.this, MySalesReportRatingActivity.class);
+                            reportrating.putExtra("data",mspd);
+                            startActivity(reportrating);
+                        }
                     }
                 });
             }
@@ -144,10 +178,45 @@ public class OrderDetailsSales extends AppCompatActivity {
 
 
         //applying custom fonts
-        inprocess.get(0).setTypeface(SingleTon.robotobold);
-        inprocess.get(1).setTypeface(SingleTon.robotoregular);
-        for (int i = 2; i < inprocess.size(); i++) {
+        for (int i = 0; i < inprocess.size(); i++) {
             inprocess.get(i).setTypeface(SingleTon.robotomedium);
+
+        }
+        //applying custom font
+        brandname.setTypeface(SingleTon.robotobold);
+        buyername.setTypeface(SingleTon.robotobold);
+        //showtime.setTypeface(SingleTon.robotobold);
+        price.setTypeface(SingleTon.robotobold);
+        yourearning.setTypeface(SingleTon.robotobold);
+        courier.setTypeface(SingleTon.robotobold);
+        shippingmethod.setTypeface(SingleTon.robotobold);
+        orderdate.setTypeface(SingleTon.robotobold);
+        ordernumber.setTypeface(SingleTon.robotobold);
+        Bundle extra = getIntent().getExtras();
+        if (extra != null) {
+            MySalesPurchasesData mspd = (MySalesPurchasesData) extra.getSerializable("data");
+            brandname.setText(mspd.getBrand_name() + "");
+            buyername.setText(mspd.getSeller_name() + "");
+            price.setText("$" + mspd.getPrice_now() + "");
+           // shippingprice.setText("$" + mspd.getShipping_charge() + "");
+            //grandtotalprice.setText("$" + mspd.getTotal_amount() + "");
+            courier.setText("");
+            shippingmethod.setText(mspd.getShipping_method() + "");
+            orderdate.setText(TimeAgo.getCurrentDate(mspd.getOrder_date()) + "");
+            ordernumber.setText(mspd.getOrder_id() + "");
+            //showtime.setReferenceTime(mspd.getOrder_date());
+            SingleTon.imageLoader.displayImage(mspd.getImage_url(), productimage, SingleTon.options4);
+            //to calculate seller income
+            try
+            {
+                double val=Double.parseDouble(mspd.getPrice_now());
+                double earning=val-((val*20)/100);
+                yourearning.setText("$"+earning);
+            }
+            catch (Exception ex)
+            {
+               Log.e("error",ex.getMessage());
+            }
 
         }
 

@@ -89,7 +89,7 @@
                     android:orientation="horizontal">
 
                     <ImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                        android:id="@+id/notipropic"
+                        android:id="@+id/productimage"
                         android:layout_width="90dp"
                         android:layout_height="90dp"
                         android:layout_marginTop="2dp"
@@ -127,12 +127,11 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-
-                            >
+                            android:layout_marginTop="0dp"
+                            android:orientation="horizontal">
 
                             <TextView
-                                android:id="@+id/sellertext"
+                                android:id="@+id/buyertext"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
 
@@ -141,7 +140,7 @@
                                 android:lineSpacingMultiplier="1.1"
                                 android:singleLine="true"
                                 android:text="Buyer:"
-                                android:textColor="#757575"
+                                android:textColor="@color/sale_purchase_lable_color"
 
                                 android:textSize="14sp" />
 
@@ -164,25 +163,26 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:id="@+id/grandtotaltext"
+                                android:id="@+id/pricetext"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_toRightOf="@+id/image"
                                 android:layout_weight="0"
                                 android:lineSpacingMultiplier="1.1"
                                 android:text="List Price:"
+                                android:textColor="@color/sale_purchase_lable_color"
                                 android:textSize="14sp"
 
 
                                 />
 
                             <TextView
-                                android:id="@+id/listprice"
+                                android:id="@+id/price"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
                                 android:layout_weight="1"
-                                android:text="$104.99"
+                                android:text="$00.00"
                                 android:textColor="#000"
                                 android:textSize="14sp" />
                         </LinearLayout>
@@ -197,10 +197,10 @@
                                 android:id="@+id/yourearningtext"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_toRightOf="@+id/image"
                                 android:layout_weight="0"
                                 android:lineSpacingMultiplier="1.1"
                                 android:text="Your earnings:"
+                                android:textColor="@color/sale_purchase_lable_color"
                                 android:textSize="14sp"
 
 
@@ -212,7 +212,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="3dp"
                                 android:layout_weight="1"
-                                android:text="$87.99"
+                                android:text="$00.00"
                                 android:textColor="#000"
                                 android:textSize="14sp" />
                         </LinearLayout>
@@ -227,10 +227,9 @@
                                 android:id="@+id/couriertext"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-
                                 android:layout_weight="0"
-
                                 android:text="Courier:"
+                                android:textColor="@color/sale_purchase_lable_color"
                                 android:textSize="14sp"
 
 
@@ -242,7 +241,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
                                 android:layout_weight="1"
-                                android:text="FedEx"
                                 android:textColor="#000"
                                 android:textSize="14sp" />
                         </LinearLayout>
@@ -257,10 +255,9 @@
                                 android:id="@+id/shippingmethodtext"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-
                                 android:layout_weight="0"
-
                                 android:text="Shipping method:"
+                                android:textColor="@color/sale_purchase_lable_color"
                                 android:textSize="14sp"
 
 
@@ -272,7 +269,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
                                 android:layout_weight="1"
-                                android:text="Express"
                                 android:textColor="#000"
                                 android:textSize="14sp" />
                         </LinearLayout>
@@ -284,29 +280,31 @@
                             android:orientation="horizontal">
 
                             <TextView
+                                android:id="@+id/orderdatetext"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_toRightOf="@+id/image"
-
                                 android:layout_weight="0"
                                 android:lineSpacingMultiplier="1.1"
                                 android:text="Order date:"
+                                android:textColor="@color/sale_purchase_lable_color"
                                 android:textSize="14sp"
 
 
                                 />
 
                             <TextView
+                                android:id="@+id/orderdate"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
                                 android:layout_weight="1"
-                                android:text="14-Feb-2016"
+                                android:text="00-Jan-0000"
                                 android:textColor="#000"
-                                android:textSize="14sp"
-                                android:id="@+id/orderdate"
-                                />
+                                android:textSize="14sp" />
                         </LinearLayout>
+                        <!-- shipping method -->
+
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -315,13 +313,13 @@
                             android:orientation="horizontal">
 
                             <TextView
+                                android:id="@+id/ordernumbertext"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_toRightOf="@+id/image"
-
                                 android:layout_weight="0"
                                 android:lineSpacingMultiplier="1.1"
                                 android:text="Order Number:"
+                                android:textColor="@color/sale_purchase_lable_color"
                                 android:textSize="14sp"
 
 
@@ -333,10 +331,11 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
                                 android:layout_weight="1"
-                                android:text="000123498734"
+                                android:text="LND000000"
                                 android:textColor="#000"
                                 android:textSize="14sp" />
                         </LinearLayout>
+
                     </LinearLayout>
                     <!-- END HERE -->
 
@@ -388,15 +387,14 @@
                     android:textSize="13sp" />
 
                 <EditText
+                    android:id="@+id/cancelinfoeditext"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:layout_marginTop="5dp"
                     android:background="@drawable/rounded"
                     android:gravity="top"
                     android:maxLines="5"
-                    android:textColor="@color/black"
-                    android:id="@+id/cancelinfoeditext"
-                    />
+                    android:textColor="@color/black" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
@@ -411,34 +409,34 @@
         >
 
         <TextView
+            android:id="@+id/submit"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="#e8e9eb"
+            android:clickable="false"
             android:gravity="center"
             android:padding="10dp"
             android:text="Submit"
             android:textColor="#b4b4b4"
-            android:id="@+id/submit"
             android:textSize="16sp"
-            android:clickable="false"
 
             />
 
 
         <TextView
+            android:id="@+id/cancel"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="1dp"
             android:layout_weight="1"
-            android:background="#e8e9eb"
 
+            android:background="#e8e9eb"
             android:gravity="center"
             android:padding="10dp"
             android:text="Cancel"
             android:textColor="#be4d66"
             android:textSize="16sp"
-            android:id="@+id/cancel"
 
             />
 

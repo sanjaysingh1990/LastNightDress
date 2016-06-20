@@ -51,60 +51,7 @@ public class MySalesAdapter extends RecyclerView.Adapter<MySalesAdapter.ViewHold
         return vh;
 
     }
-class MyEvents implements View.OnClickListener
-{
-    String status;
 
-    public MyEvents(String str)
-    {
-
-        status=str;
-
-    }
-    @Override
-    public void onClick(View v) {
-        Intent ordetails=new Intent(activity, OrderDetailsSales.class);
-
-        if(status.compareToIgnoreCase("in process")==0)
-        {
-           ordetails.putExtra("type","in process");
-
-        }
-       else if(status.compareToIgnoreCase("Shipped")==0)
-        {
-            ordetails.putExtra("type","Shipped");
-
-        }
-        else if(status.compareToIgnoreCase("delivered")==0)
-        {
-            ordetails.putExtra("type","delivered");
-
-        }
-
-        else if(status.compareToIgnoreCase("claim processing")==0)
-        {
-            ordetails.putExtra("type","claim processing");
-
-        }
-        else if(status.compareToIgnoreCase("claim approved")==0)
-        {
-            ordetails.putExtra("type","claim approved");
-
-        }
-
-        else if(status.compareToIgnoreCase("claim declined")==0)
-        {
-            ordetails.putExtra("type","claim declined");
-
-        }
-        else if(status.compareToIgnoreCase("Report rating")==0)
-        {
-            ordetails.putExtra("type","Report rating");
-
-        }
-        activity.startActivity(ordetails);
-    }
-}
     @Override
     public long getItemId(int position) {
         return items.get(position).hashCode();
@@ -113,7 +60,6 @@ class MyEvents implements View.OnClickListener
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
      MySalesPurchasesData msd=items.get(position);
-        viewHolder.orderdetails.setOnClickListener(new MyEvents(msd.getOrder_purchase_status()));
         viewHolder.status.setText(msd.getOrder_purchase_status());
         viewHolder.brandname.setText(msd.getBrand_name());
         viewHolder.time.setReferenceTime(msd.getOrder_date());
@@ -122,10 +68,7 @@ class MyEvents implements View.OnClickListener
         SingleTon.imageLoader.displayImage(msd.getProfile_pic(), viewHolder.profilepic, SingleTon.options3);
 
     }
-private String UpperName(String uname)
-{
-   return Character.toUpperCase(uname.charAt(0)) + uname.substring(1);
-}
+
     @Override
     public int getItemCount() {
         return items.size();
@@ -151,7 +94,7 @@ private String UpperName(String uname)
             productimage= (ImageView) itemView.findViewById(R.id.productimage);
             time= (RelativeTimeTextView) itemView.findViewById(R.id.showtime);
             orderdetails.setClickable(true);
-         //   orderdetails.setOnClickListener(this);
+            orderdetails.setOnClickListener(this);
 //appyling font
 
             buyeruname.setTypeface(SingleTon.robotobold);
@@ -163,6 +106,58 @@ private String UpperName(String uname)
 
         @Override
         public void onClick(View v) {
+            String status=items.get(getAdapterPosition()).getOrder_purchase_status();
+            Intent ordetails=new Intent(activity, OrderDetailsSales.class);
+
+            if(status.compareToIgnoreCase("in process")==0)
+            {
+                ordetails.putExtra("type","in process");
+
+            }
+            else if(status.compareToIgnoreCase("Order cancelled1")==0)
+            {
+                ordetails.putExtra("type","cancelled2");
+
+            }
+            else if(status.compareToIgnoreCase("Order cancelled2")==0)
+            {
+                ordetails.putExtra("type","cancelled");
+
+            }
+            else if(status.compareToIgnoreCase("Shipped")==0)
+            {
+                ordetails.putExtra("type","Shipped");
+
+            }
+            else if(status.compareToIgnoreCase("delivered")==0)
+            {
+                ordetails.putExtra("type","delivered");
+
+            }
+
+            else if(status.compareToIgnoreCase("claim processing")==0)
+            {
+                ordetails.putExtra("type","claim processing");
+
+            }
+            else if(status.compareToIgnoreCase("claim approved")==0)
+            {
+                ordetails.putExtra("type","claim approved");
+
+            }
+
+            else if(status.compareToIgnoreCase("claim declined")==0)
+            {
+                ordetails.putExtra("type","claim declined");
+
+            }
+            else if(status.compareToIgnoreCase("Report rating")==0)
+            {
+                ordetails.putExtra("type","Report rating");
+
+            }
+            ordetails.putExtra("data",items.get(getAdapterPosition()));
+            activity.startActivity(ordetails);
          }
     }
 

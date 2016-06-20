@@ -243,7 +243,7 @@
             android:name=".MyPurchases.RateUserActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:windowSoftInputMode="stateHidden|adjustPan|stateAlwaysHidden" />
         <activity
             android:name=".PostDataShop.HandBagsEditPost"
             android:screenOrientation="portrait"
@@ -320,7 +320,7 @@
             android:name=".PrivatePost.ShoesPostPrivate"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateHidden|adjustPan|stateAlwaysHidden"/>
+            android:windowSoftInputMode="stateHidden|adjustPan|stateAlwaysHidden" />
         <activity
             android:name=".UserProfile.LndLoginSignup"
             android:screenOrientation="portrait"
@@ -372,27 +372,27 @@
             android:name=".HashTagsFullView.HashTagStickyActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-<!--
-        <service
-            android:name="com.paypal.android.sdk.payments.PayPalService"
-            android:exported="false" />
+        <!--
+                <service
+                    android:name="com.paypal.android.sdk.payments.PayPalService"
+                    android:exported="false" />
 
-        <activity android:name="com.paypal.android.sdk.payments.PaymentActivity" />
-        <activity android:name="com.paypal.android.sdk.payments.LoginActivity" />
-        <activity android:name="com.paypal.android.sdk.payments.PaymentMethodActivity" />
-        <activity android:name="com.paypal.android.sdk.payments.PaymentConfirmActivity" />
-        <activity android:name="com.paypal.android.sdk.payments.PayPalFuturePaymentActivity" />
-        <activity android:name="com.paypal.android.sdk.payments.FuturePaymentConsentActivity" />
-        <activity android:name="com.paypal.android.sdk.payments.FuturePaymentInfoActivity" />
-        <activity
-            android:name="io.card.payment.CardIOActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait" />
+                <activity android:name="com.paypal.android.sdk.payments.PaymentActivity" />
+                <activity android:name="com.paypal.android.sdk.payments.LoginActivity" />
+                <activity android:name="com.paypal.android.sdk.payments.PaymentMethodActivity" />
+                <activity android:name="com.paypal.android.sdk.payments.PaymentConfirmActivity" />
+                <activity android:name="com.paypal.android.sdk.payments.PayPalFuturePaymentActivity" />
+                <activity android:name="com.paypal.android.sdk.payments.FuturePaymentConsentActivity" />
+                <activity android:name="com.paypal.android.sdk.payments.FuturePaymentInfoActivity" />
+                <activity
+                    android:name="io.card.payment.CardIOActivity"
+                    android:configChanges="keyboardHidden|orientation"
+                    android:screenOrientation="portrait" />
 
-        <activity
-            android:name="io.card.payment.DataEntryActivity"
-            android:screenOrientation="portrait" />
-              -->
+                <activity
+                    android:name="io.card.payment.DataEntryActivity"
+                    android:screenOrientation="portrait" />
+                      -->
         <activity
             android:name=".HashTagsFullView.LndBrandHashTagGridViewActivity"
             android:label="@string/title_activity_lnd_brand_hash_tag_grid_view"
@@ -429,9 +429,9 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing|adjustResize" />
         <activity
-        android:name=".MySales.MySalesReportRatingActivity"
-        android:screenOrientation="portrait"
-        android:windowSoftInputMode="adjustResize" />
+            android:name=".MySales.MySalesReportRatingActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan|stateAlwaysHidden" />
         <activity
             android:name=".PurchaseAndSwap.Swap_Checkout_Cancel_Activity"
             android:screenOrientation="portrait"

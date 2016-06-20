@@ -132,4 +132,10 @@ public class TimeAgo {
 		String formattedDate = df.format(currdate.getTime());
 		return  formattedDate;
 	}
+	public static String getCurrentDate(long milliseconds) {
+		SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+		Date currdate = new Date(milliseconds);
+		String formattedDate = df.format(currdate.getTime());
+		return  formattedDate;
+	}
 }

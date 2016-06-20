@@ -98,11 +98,22 @@ public class SalesActivity extends AppCompatActivity {
                         mysales.setPrice_now(jsonObject.getString("price_now"));
                         mysales.setTotal_amount(jsonObject.getString("total_amount"));
                         mysales.setProfile_pic(jsonObject.getString("profile_pic"));
+                        mysales.setShipping_charge(jsonObject.getString("shipping_charge"));
 
-                        String[] status={"In Process","Shipped","Delivered","Order cancelled","Report rating","Order cancelled"};
+                        String[] status={"In Process","Shipped","Delivered","Order cancelled1","Report rating","Order cancelled2"};
 
                         if(jsonObject.getString("order_sale_status").compareToIgnoreCase("1")==0)
                             mysales.setOrder_purchase_status("In Process");
+                        else if(jsonObject.getString("order_sale_status").compareToIgnoreCase("2")==0)
+                            mysales.setOrder_purchase_status("Shipped");
+                        else if(jsonObject.getString("order_sale_status").compareToIgnoreCase("3")==0)
+                            mysales.setOrder_purchase_status("Delivered");
+                        else if(jsonObject.getString("order_sale_status").compareToIgnoreCase("4")==0)
+                            mysales.setOrder_purchase_status("Order cancelled1");
+                        else if(jsonObject.getString("order_sale_status").compareToIgnoreCase("5")==0)
+                            mysales.setOrder_purchase_status("Report Rating");
+                        else if(jsonObject.getString("order_sale_status").compareToIgnoreCase("6")==0)
+                            mysales.setOrder_purchase_status("Order cancelled2");
 
                         items.add(mysales);
 
