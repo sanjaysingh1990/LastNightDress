@@ -1,5 +1,6 @@
 package com.eowise.recyclerview.stickyheaders.samples.MySales;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -21,6 +23,7 @@ import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ApplicationConstants;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.LndUtils;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.TimeAgo;
 import com.eowise.recyclerview.stickyheaders.samples.adapters.MySalesAdapter;
 import com.eowise.recyclerview.stickyheaders.samples.data.MySalesPurchasesData;
@@ -38,11 +41,14 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class SalesActivity extends AppCompatActivity {
-    private List<MySalesPurchasesData> items=new ArrayList<MySalesPurchasesData>();
-    @Bind(R.id.recyclerView) RecyclerView recyclerView;
-    @Bind(R.id.heading) TextView heading;
+    private List<MySalesPurchasesData> items = new ArrayList<MySalesPurchasesData>();
+    @Bind(R.id.recyclerView)
+    RecyclerView recyclerView;
+    @Bind(R.id.heading)
+    TextView heading;
     private MySalesAdapter adapter;
-    @Bind(R.id.loader) AVLoadingIndicatorView loader;
+    @Bind(R.id.loader)
+    AVLoadingIndicatorView loader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,15 +59,15 @@ public class SalesActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new MySalesAdapter(this,items);
+        adapter = new MySalesAdapter(this, items);
         recyclerView.setAdapter(adapter);
         getSales();
         //appyling custom fonts
         heading.setTypeface(SingleTon.robotobold);
     }
-    public void back(View v)
-    {
-     onBackPressed();
+
+    public void back(View v) {
+        onBackPressed();
     }
 
     @Override
@@ -70,23 +76,20 @@ public class SalesActivity extends AppCompatActivity {
     }
 
 
-
-
     private void getSales() {
 
         RequestQueue queue = Volley.newRequestQueue(this);
         StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_SHIPPINGINFO, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.e("json",response);
+                Log.e("json", response);
                 try {
                     loader.setVisibility(View.GONE);
-                    JSONObject jobj=new JSONObject(response);
-                    JSONArray jsonArray=jobj.getJSONArray("data");
-                    for(int i=0;i<jsonArray.length();i++)
-                    {
-                        JSONObject jsonObject=jsonArray.getJSONObject(i);
-                        MySalesPurchasesData mysales=new MySalesPurchasesData();
+                    JSONObject jobj = new JSONObject(response);
+                    JSONArray jsonArray = jobj.getJSONArray("data");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        MySalesPurchasesData mysales = new MySalesPurchasesData();
                         mysales.setOrder_id(jsonObject.getString("order_id"));
                         mysales.setCourier_type(jsonObject.getString("courier_type"));
                         mysales.setImage_url(jsonObject.getString("image_url"));
@@ -100,19 +103,19 @@ public class SalesActivity extends AppCompatActivity {
                         mysales.setProfile_pic(jsonObject.getString("profile_pic"));
                         mysales.setShipping_charge(jsonObject.getString("shipping_charge"));
 
-                        String[] status={"In Process","Shipped","Delivered","Order cancelled1","Report rating","Order cancelled2"};
+                        String[] status = {"In Process", "Shipped", "Delivered", "Order cancelled1", "Report rating", "Order cancelled2"};
 
-                        if(jsonObject.getString("order_sale_status").compareToIgnoreCase("1")==0)
+                        if (jsonObject.getString("order_sale_status").compareToIgnoreCase("1") == 0)
                             mysales.setOrder_purchase_status("In Process");
-                        else if(jsonObject.getString("order_sale_status").compareToIgnoreCase("2")==0)
+                        else if (jsonObject.getString("order_sale_status").compareToIgnoreCase("2") == 0)
                             mysales.setOrder_purchase_status("Shipped");
-                        else if(jsonObject.getString("order_sale_status").compareToIgnoreCase("3")==0)
+                        else if (jsonObject.getString("order_sale_status").compareToIgnoreCase("3") == 0)
                             mysales.setOrder_purchase_status("Delivered");
-                        else if(jsonObject.getString("order_sale_status").compareToIgnoreCase("4")==0)
+                        else if (jsonObject.getString("order_sale_status").compareToIgnoreCase("4") == 0)
                             mysales.setOrder_purchase_status("Order cancelled1");
-                        else if(jsonObject.getString("order_sale_status").compareToIgnoreCase("5")==0)
+                        else if (jsonObject.getString("order_sale_status").compareToIgnoreCase("5") == 0)
                             mysales.setOrder_purchase_status("Report Rating");
-                        else if(jsonObject.getString("order_sale_status").compareToIgnoreCase("6")==0)
+                        else if (jsonObject.getString("order_sale_status").compareToIgnoreCase("6") == 0)
                             mysales.setOrder_purchase_status("Order cancelled2");
 
                         items.add(mysales);
@@ -127,7 +130,7 @@ public class SalesActivity extends AppCompatActivity {
                     } catch (Exception ex) {
 
                     }
-                    Log.e("jsonerror",e.getMessage()+"");
+                    Log.e("jsonerror", e.getMessage() + "");
                 }
 
             }
@@ -142,7 +145,7 @@ public class SalesActivity extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("rqid", "6");
-                params.put("user_id","84");
+                params.put("user_id", "84");
                 return params;
             }
 
@@ -155,5 +158,25 @@ public class SalesActivity extends AppCompatActivity {
         };
         queue.add(sr);
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+         if (requestCode == 200 && data != null) {
+            String msg = data.getStringExtra("MESSAGE");
+            if (LndUtils.mysalepos > -1) {
+                if (msg.compareToIgnoreCase("CANCELLEDSALE") == 0) {
+                    items.get(LndUtils.mysalepos).setOrder_purchase_status("Order cancelled2");
+                    adapter.notifyDataSetChanged();
+                } else {
+                    items.get(LndUtils.mysalepos).setOrder_purchase_status("Shipped");
+                    adapter.notifyDataSetChanged();
+
+                }
+            }
+            LndUtils.mysalepos = -1;
+
+        }
     }
 }

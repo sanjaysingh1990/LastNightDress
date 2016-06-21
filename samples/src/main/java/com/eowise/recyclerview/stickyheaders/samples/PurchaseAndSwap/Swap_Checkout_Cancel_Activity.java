@@ -144,14 +144,16 @@ public class Swap_Checkout_Cancel_Activity extends LndBaseActivity {
         });
     }
 
-    private void enable() {
+    @Override
+    public void enable() {
         submit.setClickable(true);
         submit.setBackgroundColor(getColorfromResource(this, R.color.lndcolor));
         submit.setTextColor(getColorfromResource(this, R.color.white));
 
     }
 
-    private void disable() {
+    @Override
+    public void disable() {
         submit.setClickable(false);
         submit.setBackgroundColor(getColorfromResource(this, R.color.gray));
         submit.setTextColor(getColorfromResource(this, R.color.sale_purchase_lable_color));

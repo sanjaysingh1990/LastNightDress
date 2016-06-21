@@ -103,7 +103,10 @@
                         android:layout_height="150px"
                         android:layout_centerInParent="true"
                         android:background="#222427"
-                        android:scaleType="centerCrop" />
+                        android:scaleType="centerCrop"
+                        android:clickable="true"
+
+                        />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -119,7 +122,10 @@
                         android:layout_height="150px"
                         android:layout_centerInParent="true"
                         android:background="#222427"
-                        android:scaleType="centerCrop" />
+                        android:scaleType="centerCrop"
+                        android:clickable="true"
+
+                        />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -135,7 +141,9 @@
                         android:layout_height="150px"
                         android:layout_centerInParent="true"
                         android:background="#222427"
-                        android:scaleType="centerCrop" />
+                        android:scaleType="centerCrop"
+                        android:clickable="true"
+                        />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -151,7 +159,7 @@
                         android:layout_height="150px"
                         android:layout_centerInParent="true"
                         android:background="#222427"
-
+                        android:clickable="true"
                         android:scaleType="centerCrop" />
                 </RelativeLayout>
 

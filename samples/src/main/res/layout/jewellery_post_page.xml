@@ -104,7 +104,10 @@
                         android:layout_height="150px"
                         android:layout_centerInParent="true"
                         android:background="#222427"
-                        android:scaleType="centerCrop" />
+                        android:clickable="true"
+                        android:scaleType="centerCrop"
+
+                        />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -120,6 +123,7 @@
                         android:layout_height="150px"
                         android:layout_centerInParent="true"
                         android:background="#222427"
+                        android:clickable="true"
                         android:scaleType="centerCrop"
 
                         />
@@ -138,7 +142,10 @@
                         android:layout_height="150px"
                         android:layout_centerInParent="true"
                         android:background="#222427"
-                        android:scaleType="centerCrop" />
+                        android:clickable="true"
+                        android:scaleType="centerCrop"
+
+                        />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -154,7 +161,7 @@
                         android:layout_height="150px"
                         android:layout_centerInParent="true"
                         android:background="#222427"
-
+                        android:clickable="true"
                         android:scaleType="centerCrop" />
                 </RelativeLayout>
 
@@ -868,6 +875,7 @@
                         android:textColor="#fff" />
 
                 </LinearLayout>
+
                 <TextView
                     android:id="@+id/lndconditontext"
                     android:layout_width="match_parent"
@@ -875,6 +883,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:textColor="@color/heading" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -1089,10 +1098,11 @@
             </LinearLayout>
 
             <include
-                android:layout_marginTop="10dp"
                 layout="@layout/lnd_item_shipping"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

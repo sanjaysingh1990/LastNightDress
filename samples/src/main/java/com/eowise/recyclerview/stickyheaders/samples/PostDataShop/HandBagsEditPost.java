@@ -2,6 +2,7 @@ package com.eowise.recyclerview.stickyheaders.samples.PostDataShop;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -43,6 +44,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost.CameraReviewFragment;
 import com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost.CompressImage;
+import com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost.CustomCamera;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.Home_List_Data;
@@ -68,6 +70,7 @@ import java.util.regex.Pattern;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import github.ankushsachdeva.emojicon.EmojiconGridView;
 import github.ankushsachdeva.emojicon.EmojiconsPopup;
 import github.ankushsachdeva.emojicon.emoji.Emojicon;
@@ -1191,5 +1194,29 @@ public class HandBagsEditPost extends AppCompatActivity implements View.OnClickL
         }
         return -1;
     }
+    @OnClick(R.id.image1)
+    public void image1() {
+        startCameraView();
+    }
 
+    @OnClick(R.id.image2)
+    public void image2() {
+        startCameraView();
+    }
+
+    @OnClick(R.id.image3)
+    public void image3() {
+        startCameraView();
+    }
+
+    @OnClick(R.id.image4)
+    public void image4() {
+        startCameraView();
+    }
+
+    private void startCameraView() {
+        Intent cap = new Intent(this, CustomCamera.class);
+        startActivity(cap);
+
+    }
 }

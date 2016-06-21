@@ -414,14 +414,12 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="#e8e9eb"
-            android:clickable="false"
             android:gravity="center"
+            android:onClick="submit"
             android:padding="10dp"
             android:text="Submit"
-            android:textColor="#b4b4b4"
-            android:textSize="16sp"
-
-            />
+            android:textColor="@color/sale_purchase_lable_color"
+            android:textSize="16sp" />
 
 
         <TextView
@@ -430,9 +428,10 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="1dp"
             android:layout_weight="1"
-
             android:background="#e8e9eb"
+            android:clickable="true"
             android:gravity="center"
+            android:onClick="cancel"
             android:padding="10dp"
             android:text="Cancel"
             android:textColor="#be4d66"

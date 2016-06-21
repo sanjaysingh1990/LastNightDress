@@ -144,7 +144,7 @@ public class CustomCameraPreview extends SurfaceView implements SurfaceHolder.Ca
                 }
             }
 
-            parameters.setExposureCompensation(parameters.getMaxExposureCompensation()-5);
+            parameters.setExposureCompensation(parameters.getMaxExposureCompensation()-10);
             if(parameters.isAutoExposureLockSupported()) {
                 parameters.setAutoExposureLock(false);
 

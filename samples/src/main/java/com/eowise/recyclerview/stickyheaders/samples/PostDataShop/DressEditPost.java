@@ -44,6 +44,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost.CustomCamera;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost.CameraReviewFragment;
 import com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost.CompressImage;
@@ -75,6 +76,7 @@ import java.util.regex.Pattern;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import github.ankushsachdeva.emojicon.EmojiconGridView;
 import github.ankushsachdeva.emojicon.EmojiconsPopup;
 import github.ankushsachdeva.emojicon.emoji.Emojicon;
@@ -220,7 +222,7 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       setContentView(R.layout.dress_post_page);
+        setContentView(R.layout.dress_post_page);
         //intialiaing dialog
 
 
@@ -464,6 +466,8 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
 
     }
 
+    private boolean editModeenable = false;
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -473,6 +477,7 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
 
         if (extra != null) {
             Home_List_Data hld = (Home_List_Data) extra.getSerializable("data");
+            editModeenable = true;
             setValues(hld);
         }
 
@@ -494,7 +499,10 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        CameraReviewFragment.urls.clear();
+        finish();
+
+
     }
 
     @Override
@@ -798,8 +806,8 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
             }
             //end query here
 
-             // Log.e("json", mainObj.toString());
-             // Log.e("json2", querypart1 + querypart2);
+            // Log.e("json", mainObj.toString());
+            // Log.e("json2", querypart1 + querypart2);
         } catch (Exception ex) {
             Log.e("json error", ex.getMessage() + "");
         }
@@ -877,9 +885,8 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
     public void callbackReturn(String data) {
 
 
-    EditShpping(data);
+        EditShpping(data);
     }
-
 
 
     private class AsyncTaskLoadImage extends AsyncTask<String, Bitmap, Bitmap> {
@@ -1231,6 +1238,7 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
 //Log.e("query",querypart1+querypart2);
         return true;
     }
+
     public void unselectactualPrice() {
         ActualCost1.setChecked(false);
         FixedCost1.setChecked(false);
@@ -1246,8 +1254,8 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
         ActualCost2.setTextColor(Color.parseColor("#ffffff"));
 
     }
-    public void EditShpping(String data)
-    {
+
+    public void EditShpping(String data) {
         //first make all shipping label unchecked
         ActualCost1.setChecked(false);
         FixedCost1.setChecked(false);
@@ -1311,6 +1319,7 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
             Log.e("error", ex.getMessage() + "");
         }
     }
+
     public static int useLoop(String[] arr, String targetValue) {
         for (int i = 0; i < arr.length; i++) {
             if (arr[i].compareToIgnoreCase(targetValue) == 0) {
@@ -1321,6 +1330,30 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
         return -1;
     }
 
+    @OnClick(R.id.image1)
+    public void image1() {
+        startCameraView();
+    }
+
+    @OnClick(R.id.image2)
+    public void image2() {
+        startCameraView();
+    }
+
+    @OnClick(R.id.image3)
+    public void image3() {
+        startCameraView();
+    }
+
+    @OnClick(R.id.image4)
+    public void image4() {
+        startCameraView();
+    }
+
+    private void startCameraView() {
+        Intent cap = new Intent(this, CustomCamera.class);
+        startActivity(cap);
+    }
 
 }
 

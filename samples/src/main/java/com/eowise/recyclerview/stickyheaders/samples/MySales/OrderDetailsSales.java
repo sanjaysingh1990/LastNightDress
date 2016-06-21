@@ -18,9 +18,21 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.eowise.recyclerview.stickyheaders.samples.LndBaseActivity;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.ApplicationConstants;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.RelativeTimeTextView;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.TimeAgo;
 import com.eowise.recyclerview.stickyheaders.samples.data.MySalesPurchasesData;
@@ -28,25 +40,29 @@ import com.eowise.recyclerview.stickyheaders.samples.data.MySalesPurchasesData;
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener;
 
+import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class OrderDetailsSales extends AppCompatActivity {
+public class OrderDetailsSales extends LndBaseActivity {
 
     TextView shippinglabel;
 
-    @Bind({R.id.buyertext, R.id.pricetext, R.id.yourearningtext ,R.id.couriertext, R.id.orderdatetext, R.id.ordernumbertext, R.id.shippingmethodtext})
-     List<TextView> inprocess;
+    @Bind({R.id.buyertext, R.id.pricetext, R.id.yourearningtext, R.id.couriertext, R.id.orderdatetext, R.id.ordernumbertext, R.id.shippingmethodtext})
+    List<TextView> inprocess;
     @Bind(R.id.heading)
     TextView heading;
     @Bind(R.id.brandname)
     TextView brandname;
     @Bind(R.id.buyername)
     TextView buyername;
-   /* @Bind(R.id.showtime)
-    RelativeTimeTextView showtime;*/
+    /* @Bind(R.id.showtime)
+     RelativeTimeTextView showtime;*/
     @Bind(R.id.price)
     TextView price;
     @Bind(R.id.yourearning)
@@ -65,17 +81,18 @@ public class OrderDetailsSales extends AppCompatActivity {
     ImageView productimage;
     @Bind(R.id.shipppingmethod)
     TextView shippingmethod;
+    private TextView couriercompany, trackingnumber;
+    Bundle extra;
 
-    private void updateKeyboardStatusText(boolean isOpen)
-    {
-   // Toast.makeText(this,String.format("keyboard is %s", (isOpen ? "visible" : "hidden")),Toast.LENGTH_SHORT).show();
+    private void updateKeyboardStatusText(boolean isOpen) {
+        // Toast.makeText(this,String.format("keyboard is %s", (isOpen ? "visible" : "hidden")),Toast.LENGTH_SHORT).show();
     }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
-
 
 
         Bundle extra = getIntent().getExtras();
@@ -104,7 +121,7 @@ public class OrderDetailsSales extends AppCompatActivity {
                 ButterKnife.bind(this);
                 getReference();
 
-            } else if (status.compareToIgnoreCase("cancelled") == 0) {
+            } else if (status.compareToIgnoreCase("cancelled1") == 0) {
                 setContentView(R.layout.sales_cancelled_layout);
                 ButterKnife.bind(this);
                 getReference();
@@ -143,7 +160,7 @@ public class OrderDetailsSales extends AppCompatActivity {
                         if (extra != null) {
                             MySalesPurchasesData mspd = (MySalesPurchasesData) extra.getSerializable("data");
                             Intent reportrating = new Intent(OrderDetailsSales.this, MySalesReportRatingActivity.class);
-                            reportrating.putExtra("data",mspd);
+                            reportrating.putExtra("data", mspd);
                             startActivity(reportrating);
                         }
                     }
@@ -174,6 +191,8 @@ public class OrderDetailsSales extends AppCompatActivity {
 
     private void getReference() {
 
+        couriercompany = (TextView) findViewById(R.id.couriercompany);
+        trackingnumber = (TextView) findViewById(R.id.edittexttrackingno);
         shippinglabel = (TextView) findViewById(R.id.shippingstatus);
 
 
@@ -192,13 +211,13 @@ public class OrderDetailsSales extends AppCompatActivity {
         shippingmethod.setTypeface(SingleTon.robotobold);
         orderdate.setTypeface(SingleTon.robotobold);
         ordernumber.setTypeface(SingleTon.robotobold);
-        Bundle extra = getIntent().getExtras();
+        extra = getIntent().getExtras();
         if (extra != null) {
             MySalesPurchasesData mspd = (MySalesPurchasesData) extra.getSerializable("data");
             brandname.setText(mspd.getBrand_name() + "");
             buyername.setText(mspd.getSeller_name() + "");
             price.setText("$" + mspd.getPrice_now() + "");
-           // shippingprice.setText("$" + mspd.getShipping_charge() + "");
+            // shippingprice.setText("$" + mspd.getShipping_charge() + "");
             //grandtotalprice.setText("$" + mspd.getTotal_amount() + "");
             courier.setText("");
             shippingmethod.setText(mspd.getShipping_method() + "");
@@ -207,15 +226,12 @@ public class OrderDetailsSales extends AppCompatActivity {
             //showtime.setReferenceTime(mspd.getOrder_date());
             SingleTon.imageLoader.displayImage(mspd.getImage_url(), productimage, SingleTon.options4);
             //to calculate seller income
-            try
-            {
-                double val=Double.parseDouble(mspd.getPrice_now());
-                double earning=val-((val*20)/100);
-                yourearning.setText("$"+earning);
-            }
-            catch (Exception ex)
-            {
-               Log.e("error",ex.getMessage());
+            try {
+                double val = Double.parseDouble(mspd.getPrice_now());
+                double earning = val - ((val * 20) / 100);
+                yourearning.setText("$" + earning);
+            } catch (Exception ex) {
+                Log.e("error", ex.getMessage());
             }
 
         }
@@ -288,9 +304,8 @@ public class OrderDetailsSales extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 2) {
-            if (data == null)
-                return;
+        if (requestCode == 2 && data != null) {
+
 
             String postids = data.getStringExtra("shipprice");
 
@@ -302,13 +317,26 @@ public class OrderDetailsSales extends AppCompatActivity {
             shippinglabel.setText(ssb, TextView.BufferType.SPANNABLE);
 
             shippinglabel.setVisibility(View.VISIBLE);
+        } else if (requestCode == 100 && data != null) {
+            Intent preact = new Intent();
+            preact.putExtra("MESSAGE", "TASKDONE");
+            setResult(200, preact);
+            finish();
         }
     }
 
     public void cancleOrder(View v) {
-        setContentView(R.layout.sales_cancelling_layout);
+      /*  setContentView(R.layout.sales_cancelling_layout);
         ButterKnife.bind(this);
-        getReference2();
+        getReference2();*/
+        if (extra != null) {
+            MySalesPurchasesData mspd = (MySalesPurchasesData) extra.getSerializable("data");
+
+            Intent cancelorder = new Intent(this, Cancel_Sale_Activity.class);
+            //  cancelorder.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            cancelorder.putExtra("data", mspd);
+            startActivityForResult(cancelorder, 100);
+        }
     }
 
     public void check() {
@@ -327,8 +355,83 @@ public class OrderDetailsSales extends AppCompatActivity {
         });
 
     }
-public void itemshipped(View v)
-{
-    check();
-}
+
+    public void itemshipped(View v) {
+        if (couriercompany.getText().length() == 0) {
+            couriercompany.requestFocus();
+            couriercompany.setError("field empty");
+            check();
+            return;
+        } else {
+            couriercompany.setError(null);
+        }
+        if (trackingnumber.getText().length() == 0) {
+            trackingnumber.requestFocus();
+            trackingnumber.setError("field empty");
+            check();
+            return;
+        } else {
+            trackingnumber.setError(null);
+        }
+        shippedItem(ordernumber.getText().toString());
+    }
+
+    private void shippedItem(final String orderid) {
+        showProgress("wait Shipping Item");
+        RequestQueue queue = Volley.newRequestQueue(this);
+        StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_SHIPPINGINFO, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.e("json", response + "");
+                dismissProgress();
+                try {
+                    JSONObject jobj = new JSONObject(response);
+                    if (jobj.getBoolean("status")) {
+                        Intent preact = new Intent();
+                        preact.putExtra("MESSAGE", "ITEMSHIPPED");
+                        setResult(200, preact);
+                        finish();
+                    } else
+                        showToast(jobj.getString("message"));
+                } catch (Exception ex) {
+                    dismissProgress();
+
+                    Log.e("jsonerror", ex.getMessage() + "");
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                dismissProgress();
+                Log.e("response", error.getMessage() + "");
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+
+                params.put("order_id", orderid);
+                params.put("rqid", "13");
+                params.put("date_time", SingleTon.getCurrentTimeStamp());
+                params.put("courier_type", trackingnumber.getText().toString());
+
+
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                return params;
+            }
+        };
+        int socketTimeout = 60000;
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        sr.setRetryPolicy(policy);
+
+        queue.add(sr);
+
+    }
 }

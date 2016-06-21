@@ -68,4 +68,12 @@ public abstract class LndBaseActivity extends AppCompatActivity {
             return context.getResources().getColor(id);
         }
     }
+    public void disable()
+    {
+
+    }
+    public void enable()
+    {
+
+    }
 }

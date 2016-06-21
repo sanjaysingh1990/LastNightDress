@@ -338,8 +338,10 @@ private void showFinal()
             shippingrequest.put("toState", "ON");
             shippingrequest.put("toCode", "M1B5K7");
             shippingrequest.put("toCountry", "CA");
+            shippingrequest.put("width", "5");
+            shippingrequest.put("height", "5");
             shippingrequest.put("weight", "5");
-            shippingrequest.put("length", "5");
+
         } catch (JSONException ex) {
             Log.e("error", ex.getMessage());
         }
