@@ -23,9 +23,11 @@ import android.widget.Toast;
 
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -356,16 +358,15 @@ public class StickyActivity extends AppCompatActivity {
                         hld.setIssold(jo.getInt("issold"));
                         hld.setSwapstatus(jo.getInt("swap_status"));
                         hld.setTotalcomments(jo.getInt("post_total_comment"));
-                        JSONArray commnets=jo.getJSONArray("postcoments");
-                        if(commnets.length()>0)
-                        {
+                        JSONArray commnets = jo.getJSONArray("postcoments");
+                        if (commnets.length() > 0) {
 
-                             ArrayList<CommentBean> post_cont = new ArrayList<>();
+                            ArrayList<CommentBean> post_cont = new ArrayList<>();
                             for (int i = 0; i < commnets.length(); i++) {
-                                JSONObject jsonObject=commnets.getJSONObject(i);
+                                JSONObject jsonObject = commnets.getJSONObject(i);
                                 String uname = jsonObject.getString("uname");
                                 String comment = jsonObject.getString("comment");
-                                CommentBean cb=new CommentBean();
+                                CommentBean cb = new CommentBean();
                                 cb.setUname(uname);
                                 cb.setComment(comment);
                                 post_cont.add(cb);
@@ -514,6 +515,10 @@ public class StickyActivity extends AppCompatActivity {
                 return params;
             }
         };
+        int socketTimeout = 60000;
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        sr.setRetryPolicy(policy);
+
         queue.add(sr);
     }
 

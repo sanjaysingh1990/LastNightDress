@@ -186,6 +186,7 @@ public class OrderDetailsSales extends LndBaseActivity {
 
     public void shipping(View v) {
         Intent shippingtest = new Intent(this, ShippingLabelActivity.class);
+        shippingtest.putExtra("orderid",ordernumber.getText().toString());
         startActivityForResult(shippingtest, 2);
     }
 
@@ -317,6 +318,9 @@ public class OrderDetailsSales extends LndBaseActivity {
             shippinglabel.setText(ssb, TextView.BufferType.SPANNABLE);
 
             shippinglabel.setVisibility(View.VISIBLE);
+            trackingnumber.setText(data.getStringExtra("trackingno") + "");
+            couriercompany.setText(data.getStringExtra("couriercompany") + "");
+
         } else if (requestCode == 100 && data != null) {
             Intent preact = new Intent();
             preact.putExtra("MESSAGE", "TASKDONE");

@@ -83,21 +83,20 @@ public class ShippingLabelActivity extends LndBaseActivity {
     @Bind(R.id.total)
     TextView total;
 
-    private String shipvalue = "";
+    private String shipvalue = "", trackingno = "", couriercompany = "", orderid = "";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lnd_purchase_newshipping_level);
         ButterKnife.bind(this);
-       /* recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerAdapter = new ShippingLabelAdapter(this,data);
-        recyclerView.setAdapter(recyclerAdapter);*/
-        // processmyorder.setClickable(false);
-        //applying custom font
-        heading.setTypeface(SingleTon.robotobold);
-//initialize();
 
+        heading.setTypeface(SingleTon.robotobold);
+        //read order number from previous activity
+        Bundle extra = getIntent().getExtras();
+        if (extra != null) {
+            orderid = extra.getString("orderid");
+        }
     }
 
     private void initialize() {
@@ -119,15 +118,18 @@ public class ShippingLabelActivity extends LndBaseActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        Intent intent = new Intent();
+        intent.putExtra("shipprice", shipvalue);
+        intent.putExtra("trackingno", trackingno);
+        intent.putExtra("couriercompany", couriercompany);
+
+        setResult(2, intent);
+        finish();
     }
 
     public void shippingChange(View v) {
 
-       /* Intent intent = new Intent();
-        intent.putExtra("shipprice", shipvalue);
-        setResult(2, intent);
-        finish();//finishing activity*/
+       /* //finishing activity*/
     }
 
     public void changeColor(String value) {
@@ -203,46 +205,26 @@ public class ShippingLabelActivity extends LndBaseActivity {
         wordTwo.setSpan(new ForegroundColorSpan(Color.parseColor("#222427")), 0, wordTwo.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         info.append(wordTwo);
     }
-private void showFinal()
-{
-    new Thread(new Runnable() {
-        @Override
-        public void run()
-        {
-            try {
-                Thread.sleep(6000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                shippmentDone();
-            }
-        });
-        }
-    }).start();
-}
+
     private void PurchaseShippingLable(final String data) {
         showProgress("wait processing");
         RequestQueue queue = Volley.newRequestQueue(this);
-        StringRequest sr = new StringRequest(Request.Method.POST,ApplicationConstants.APP_SERVER_URL_LND_FADEX_PURCHASE_SHIPPING_LABLE, new Response.Listener<String>() {
+        StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_FADEX_PURCHASE_SHIPPING_LABLE, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.e("json", response + "");
+                 Log.e("json", response + "");
                 dismissProgress();
-                try
-                {
-                    JSONObject jobj=new JSONObject(response);
-                    JSONObject metajsonobj=jobj.getJSONObject("Meta");
-                    int responsecode=metajsonobj.getInt("Code");
-                    if(responsecode==200) {
+                try {
+                    JSONObject jobj = new JSONObject(response);
+                    JSONObject metajsonobj = jobj.getJSONObject("Meta");
+                    int responsecode = metajsonobj.getInt("Code");
+                    if (responsecode == 200) {
                         JSONObject datajsonobj = jobj.getJSONObject("Data");
                         shippinglable.setText("$" + datajsonobj.getString("Charges"));
                         total.setText("$" + datajsonobj.getString("Charges"));
 
                         JSONArray jarray = datajsonobj.getJSONArray("Packages");
-                        JSONObject jsonpackageinfo=jarray.getJSONObject(0);
+                        JSONObject jsonpackageinfo = jarray.getJSONObject(0);
 
 
                         //create jsonobject to save to database
@@ -250,24 +232,26 @@ private void showFinal()
                         requestobject.put("post_id", 116);
                         requestobject.put("order_id", 116123);
                         requestobject.put("date_time", SingleTon.getCurrentTimeStamp());
-                        requestobject.put("shipping_label_image",jsonpackageinfo.getString("Label") );
-                        requestobject.put("weight",weightspinner.getSelectedItem().toString());
-                        requestobject.put("length",length.getText().toString());
-                        requestobject.put("width",width.getText().toString());
-                        requestobject.put("height",height.getText().toString());
-                        requestobject.put("service_type",servicespinner.getSelectedItem().toString());
-                        requestobject.put("total_charges",total.getText().toString().replace("$","").trim());
-                        requestobject.put("shipping_id",datajsonobj.getInt("TrackingNumber"));
+                        requestobject.put("shipping_label_image", jsonpackageinfo.getString("Label"));
+                        requestobject.put("weight", weightspinner.getSelectedItem().toString());
+                        requestobject.put("length", length.getText().toString());
+                        requestobject.put("width", width.getText().toString());
+                        requestobject.put("height", height.getText().toString());
+                        requestobject.put("service_type", servicespinner.getSelectedItem().toString());
+                        requestobject.put("total_charges", datajsonobj.getString("Charges"));
+                        requestobject.put("shipping_id", datajsonobj.getInt("TrackingNumber"));
                         requestobject.put("tracking_no", datajsonobj.getInt("ShipmentId"));
-                        requestobject.put("user_id", SingleTon.pref.getString("user_id",""));
+                        requestobject.put("user_id", SingleTon.pref.getString("user_id", ""));
+                        requestobject.put("order_id", orderid);
+                        shipvalue = datajsonobj.getString("Charges");
+                        trackingno = datajsonobj.getInt("TrackingNumber") + "";
+                        couriercompany = servicespinner.getSelectedItem().toString();
 
-                        Log.e("json",requestobject.toString());
+                        // Log.e("json",requestobject.toString());
                         saveShippingLable(requestobject.toString());
                     }
-                }
-                catch(Exception ex)
-                {
-                    Log.e("jsonerror",ex.getMessage()+"");
+                } catch (Exception ex) {
+                    Log.e("jsonerror", ex.getMessage() + "");
                 }
 
             }
@@ -356,13 +340,10 @@ private void showFinal()
             public void onResponse(String response) {
                 Log.e("json", response + "");
                 dismissProgress();
-                try
-                {
+                try {
 
-                    showFinal();
-                }
-                catch(Exception ex)
-                {
+                    shippmentDone();
+                } catch (Exception ex) {
 
                 }
 
@@ -379,7 +360,7 @@ private void showFinal()
                 Map<String, String> params = new HashMap<String, String>();
 
                 params.put("data", data);
-                params.put("rqid",2+"");
+                params.put("rqid", 2 + "");
 
                 return params;
             }
