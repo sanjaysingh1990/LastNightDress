@@ -13,6 +13,8 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -33,7 +35,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class Swap_Checkout_Step__First_Activity extends LndBaseActivity {
+public class Swap_Checkout_Step__First_Activity extends LndBaseActivity implements Animation.AnimationListener {
 
     TextView actioninfo;
     EditText cancelreason;
@@ -63,6 +65,10 @@ public class Swap_Checkout_Step__First_Activity extends LndBaseActivity {
     TextView msgtext;
     @Bind(R.id.heading)
     TextView heading;
+    @Bind(R.id.swapstatus)
+    ImageView swapstatus;
+    Animation animFadein,animFadeout;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -104,23 +110,33 @@ public class Swap_Checkout_Step__First_Activity extends LndBaseActivity {
             }
 
         }
+        swapstatus.setImageResource(R.drawable.swap_checkout_not_complete);
+        //load animation
+        animFadein = AnimationUtils.loadAnimation(getApplicationContext(),
+                R.anim.fade_in);
+        animFadeout = AnimationUtils.loadAnimation(getApplicationContext(),
+                R.anim.fade_out);
+        // set animation listener
+        animFadein.setAnimationListener(this);
+        animFadeout.setAnimationListener(this);
+       swapstatus.startAnimation(animFadeout);
     }
-private void spannableText()
-{
-    Spannable word = new SpannableString(getResources().getString(R.string.first_step_heading));
 
-    word.setSpan(new ForegroundColorSpan(getColorfromResource(this,R.color.lndcolor)), 0, 9, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+    private void spannableText() {
+        Spannable word = new SpannableString(getResources().getString(R.string.first_step_heading));
 
-    msgtext.setText(word);
+        word.setSpan(new ForegroundColorSpan(getColorfromResource(this, R.color.lndcolor)), 0, 9, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        msgtext.setText(word);
 
 
+    }
 
-}
     public void cancleOrder(View v) {
         Bundle extra = getIntent().getExtras();
         if (extra != null) {
             Intent canceswap = new Intent(this, Swap_Checkout_Cancel_Activity.class);
-            canceswap.putExtra("data",extra.getString("data"));
+            canceswap.putExtra("data", extra.getString("data"));
             startActivityForResult(canceswap, 2);
 
         }
@@ -148,11 +164,30 @@ private void spannableText()
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 //        Toast.makeText(this,requestCode,Toast.LENGTH_SHORT).show();
-        if(requestCode==2&&data!=null) {
+        if (requestCode == 2 && data != null) {
             Intent intent = new Intent();
             intent.putExtra("MESSAGE", "cancelled");
             setResult(11, intent);
             finish();
         }
+    }
+
+    @Override
+    public void onAnimationStart(Animation animation) {
+
+    }
+
+    @Override
+    public void onAnimationEnd(Animation animation) {
+        if(animation==animFadeout) {
+            swapstatus.setImageResource(R.drawable.swap_checkout_first_step_1);
+
+            swapstatus.startAnimation(animFadein);
         }
+        }
+
+    @Override
+    public void onAnimationRepeat(Animation animation) {
+
+    }
 }

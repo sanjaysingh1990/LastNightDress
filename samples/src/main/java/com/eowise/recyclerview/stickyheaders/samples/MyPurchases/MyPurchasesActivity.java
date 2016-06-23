@@ -91,7 +91,9 @@ public class MyPurchasesActivity extends AppCompatActivity {
                         mysales.setPrice_now(jsonObject.getString("price_now"));
                         mysales.setTotal_amount(jsonObject.getString("total_amount"));
                         mysales.setShipping_charge(jsonObject.getString("shipping_charge"));
-
+                        mysales.setService_type(jsonObject.getString("service_type"));
+                        mysales.setTracking_no(jsonObject.getString("tracking_no"));
+                        mysales.setCancel_description(jsonObject.getString("cancel_description"));
                         if (jsonObject.getString("order_purchase_status").compareToIgnoreCase("1") == 0)
                             mysales.setOrder_purchase_status("In Process");
                         else if (jsonObject.getString("order_purchase_status").compareToIgnoreCase("2") == 0)
@@ -134,6 +136,7 @@ public class MyPurchasesActivity extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("rqid", "5");
+                params.put("skipdata", "0");
                 params.put("user_id", SingleTon.pref.getString("user_id", ""));
                 return params;
             }

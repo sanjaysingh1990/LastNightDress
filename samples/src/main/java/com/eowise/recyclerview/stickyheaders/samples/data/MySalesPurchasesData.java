@@ -11,6 +11,35 @@ public class MySalesPurchasesData implements Serializable {
     private String image_url;
     private String shipping_method;
 
+    public String getCancel_description() {
+        return cancel_description;
+    }
+
+    public void setCancel_description(String cancel_description) {
+        this.cancel_description = cancel_description;
+    }
+
+    private String cancel_description;
+
+    public String getService_type() {
+        return service_type;
+    }
+
+    public void setService_type(String service_type) {
+        this.service_type = service_type;
+    }
+
+    public String getTracking_no() {
+        return tracking_no;
+    }
+
+    public void setTracking_no(String tracking_no) {
+        this.tracking_no = tracking_no;
+    }
+
+    private String service_type;
+    private String tracking_no;
+
     public String getProfile_pic() {
         return profile_pic;
     }

@@ -388,6 +388,7 @@
                 android:layout_marginTop="10dp"
                 android:lineSpacingMultiplier="1.1"
                 android:gravity="left"
+                android:id="@+id/cancelreasontextview"
 
                 />
         </LinearLayout>

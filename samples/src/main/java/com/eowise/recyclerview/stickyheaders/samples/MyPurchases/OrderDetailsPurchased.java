@@ -23,6 +23,9 @@ import com.eowise.recyclerview.stickyheaders.samples.Utils.RelativeTimeTextView;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.TimeAgo;
 import com.eowise.recyclerview.stickyheaders.samples.data.MySalesPurchasesData;
 
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
@@ -52,6 +55,11 @@ public class OrderDetailsPurchased extends AppCompatActivity {
     ImageView productimage;
     @Bind(R.id.shipppingmethod)
     TextView shippingmethod;
+
+    TextView shippeddatetime;
+    TextView trackingno;
+    TextView shippingvia;
+    TextView cancelreasontextview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,12 +97,16 @@ public class OrderDetailsPurchased extends AppCompatActivity {
                 cancelled.setText(ssb, TextView.BufferType.SPANNABLE);
             } else if (status.compareToIgnoreCase("cancelled2") == 0) {
                 setContentView(R.layout.purchases_cancelled_layout);
+                cancelreasontextview= (TextView) findViewById(R.id.cancelreasontextview);
                 ButterKnife.bind(this);
                 getReference();
 
             } else if (status.compareToIgnoreCase("shipped") == 0) {
                 setContentView(R.layout.purchase_item_shipped_layout);
                 ButterKnife.bind(this);
+                shippeddatetime = (TextView) findViewById(R.id.shippeddatetime);
+                trackingno = (TextView) findViewById(R.id.trackingno);
+                shippingvia = (TextView) findViewById(R.id.shippingvia);
                 getReference();
 
             } else if (status.compareToIgnoreCase("claim processing") == 0) {
@@ -233,7 +245,25 @@ public class OrderDetailsPurchased extends AppCompatActivity {
             ordernumber.setText(mspd.getOrder_id() + "");
             showtime.setReferenceTime(mspd.getOrder_date());
             SingleTon.imageLoader.displayImage(mspd.getImage_url(), productimage, SingleTon.options4);
+            if (shippeddatetime != null && trackingno != null && shippingvia != null) {
+                trackingno.setText(mspd.getTracking_no());
+                shippingvia.setText(mspd.getService_type());
+                //format the date
+                try
+                {
+                    Date date=new Date(mspd.getOrder_date());
+                    Format formatter= new SimpleDateFormat("EEEE, MMMM dd yyyy");
+                    String orderdate=formatter.format(date);
+                    shippeddatetime.setText(orderdate);
 
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+            if(cancelreasontextview!=null)
+                cancelreasontextview.setText(mspd.getCancel_description());
 
         }
     }
