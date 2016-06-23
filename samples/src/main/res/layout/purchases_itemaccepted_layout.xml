@@ -86,7 +86,7 @@
                     android:orientation="horizontal">
 
                     <ImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                        android:id="@+id/notipropic"
+                        android:id="@+id/productimage"
                         android:layout_width="90dp"
                         android:layout_height="90dp"
                         android:layout_marginTop="2dp"
@@ -132,11 +132,9 @@
                                 android:id="@+id/sellertext"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-
-
                                 android:singleLine="true"
                                 android:text="Seller:"
-                                android:textColor="#757575"
+                                android:textColor="@color/sale_purchase_lable_color"
 
                                 android:textSize="14sp" />
 
@@ -147,12 +145,11 @@
                                 android:layout_marginLeft="3dp"
 
                                 android:singleLine="true"
-                                android:text="Olivia Newton Wilde"
                                 android:textColor="#be4d66"
                                 android:textSize="14sp" />
 
                             <com.eowise.recyclerview.stickyheaders.samples.Utils.RelativeTimeTextView
-                                android:id="@+id/time"
+                                android:id="@+id/showtime"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentRight="true"
@@ -172,25 +169,25 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:id="@+id/grandtotaltext"
+                                android:id="@+id/pricetext"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_toRightOf="@+id/image"
-                                android:layout_weight="0"
-                                android:lineSpacingMultiplier="1.1"
-                                android:text="List Price:"
-                                android:textSize="14sp"
 
+                                android:layout_weight="0"
+
+                                android:text="List Price:"
+                                android:textColor="@color/sale_purchase_lable_color"
+                                android:textSize="14sp"
 
                                 />
 
                             <TextView
-                                android:id="@+id/listprice"
+                                android:id="@+id/price"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
                                 android:layout_weight="1"
-                                android:text="$100"
+                                android:text="$00:00"
                                 android:textColor="#000"
                                 android:textSize="14sp" />
                         </LinearLayout>
@@ -202,24 +199,23 @@
                             android:orientation="horizontal">
 
                             <TextView
+                                android:id="@+id/shippingtext"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_toRightOf="@+id/image"
                                 android:layout_weight="0"
                                 android:lineSpacingMultiplier="1.1"
                                 android:text="Shipping:"
-                                android:textSize="14sp"
-
-
-                                />
+                                android:textColor="@color/sale_purchase_lable_color"
+                                android:textSize="14sp" />
 
                             <TextView
-                                android:id="@+id/shipping"
+                                android:id="@+id/shippingprice"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="3dp"
                                 android:layout_weight="1"
-                                android:text="$4.99"
+                                android:text="$00:00"
                                 android:textColor="#000"
                                 android:textSize="14sp"
 
@@ -233,16 +229,15 @@
                             android:orientation="horizontal">
 
                             <TextView
+                                android:id="@+id/grandtotaltext"
                                 android:layout_width="wrap_content"
+
                                 android:layout_height="wrap_content"
-                                android:layout_toRightOf="@+id/image"
+
                                 android:layout_weight="0"
-                                android:lineSpacingMultiplier="1.1"
                                 android:text="Grand Total:"
-                                android:textSize="14sp"
-
-
-                                />
+                                android:textColor="@color/sale_purchase_lable_color"
+                                android:textSize="14sp" />
 
                             <TextView
                                 android:id="@+id/grandtotalprice"
@@ -250,7 +245,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="3dp"
                                 android:layout_weight="1"
-                                android:text="$104.99"
+                                android:text="$00:00"
                                 android:textColor="#000"
                                 android:textSize="14sp"
 
@@ -268,11 +263,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="0"
-
-
                                 android:text="Shipping method:"
-
-                                android:textColor="#757575"
+                                android:textColor="@color/sale_purchase_lable_color"
                                 android:textSize="14sp"
 
 
@@ -284,9 +276,10 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
                                 android:layout_weight="1"
-                                android:text="Express"
                                 android:textColor="#000"
-                                android:textSize="14sp" />
+                                android:textSize="14sp"
+
+                                />
                         </LinearLayout>
 
                         <LinearLayout
@@ -296,15 +289,13 @@
                             android:orientation="horizontal">
 
                             <TextView
+                                android:id="@+id/orderdatetext"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_toRightOf="@+id/image"
-
                                 android:layout_weight="0"
-                                android:lineSpacingMultiplier="1.1"
                                 android:text="Order date:"
+                                android:textColor="@color/sale_purchase_lable_color"
                                 android:textSize="14sp"
-
 
                                 />
 
@@ -314,10 +305,9 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
                                 android:layout_weight="1"
-                                android:text="14-Feb-2016"
+                                android:text="00-Jan-0000"
                                 android:textColor="#000"
                                 android:textSize="14sp"
-
 
                                 />
                         </LinearLayout>
@@ -329,15 +319,13 @@
                             android:orientation="horizontal">
 
                             <TextView
+                                android:id="@+id/ordernumbertext"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_toRightOf="@+id/image"
-
                                 android:layout_weight="0"
-                                android:lineSpacingMultiplier="1.1"
                                 android:text="Order Number:"
+                                android:textColor="@color/sale_purchase_lable_color"
                                 android:textSize="14sp"
-
 
                                 />
 
@@ -347,12 +335,12 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
                                 android:layout_weight="1"
-                                android:text="000123498734"
                                 android:textColor="#000"
                                 android:textSize="14sp"
 
                                 />
                         </LinearLayout>
+
                     </LinearLayout>
                     <!-- END HERE -->
 

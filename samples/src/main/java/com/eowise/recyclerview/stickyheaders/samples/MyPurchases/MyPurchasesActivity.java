@@ -90,6 +90,8 @@ public class MyPurchasesActivity extends AppCompatActivity {
                         mysales.setBrand_name(Capitalize.capitalizeFirstLetter(jsonObject.getString("brand_name")));
                         mysales.setPrice_now(jsonObject.getString("price_now"));
                         mysales.setTotal_amount(jsonObject.getString("total_amount"));
+                        mysales.setSeller_id(jsonObject.getString("seller_id"));
+                        mysales.setSeller_profile_pic(jsonObject.getString("seller_profile_pic"));
                         mysales.setShipping_charge(jsonObject.getString("shipping_charge"));
                         mysales.setService_type(jsonObject.getString("service_type"));
                         mysales.setTracking_no(jsonObject.getString("tracking_no"));

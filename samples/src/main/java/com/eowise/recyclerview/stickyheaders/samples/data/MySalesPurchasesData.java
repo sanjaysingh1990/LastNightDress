@@ -11,6 +11,25 @@ public class MySalesPurchasesData implements Serializable {
     private String image_url;
     private String shipping_method;
 
+    public String getSeller_profile_pic() {
+        return seller_profile_pic;
+    }
+
+    public void setSeller_profile_pic(String seller_profile_pic) {
+        this.seller_profile_pic = seller_profile_pic;
+    }
+
+    private String seller_profile_pic;
+    public String getSeller_id() {
+        return seller_id;
+    }
+
+    public void setSeller_id(String seller_id) {
+        this.seller_id = seller_id;
+    }
+
+    private String seller_id;
+
     public String getCancel_description() {
         return cancel_description;
     }
