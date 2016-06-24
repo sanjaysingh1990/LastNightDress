@@ -106,6 +106,7 @@
                         android:paddingLeft="18dp"
 
                         >
+
                         <TextView
                             android:id="@+id/brandname"
                             android:layout_width="wrap_content"
@@ -147,16 +148,17 @@
                                 android:singleLine="true"
                                 android:textColor="#be4d66"
                                 android:textSize="14sp" />
+
                             <com.eowise.recyclerview.stickyheaders.samples.Utils.RelativeTimeTextView
                                 android:id="@+id/showtime"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentRight="true"
+                                android:layout_marginLeft="3dp"
                                 android:text="4m"
                                 android:textAppearance="?android:textAppearanceMedium"
                                 android:textColor="#b4b4b4"
                                 android:textSize="14sp"
-                                android:layout_marginLeft="3dp"
 
                                 />
                         </LinearLayout>
@@ -198,6 +200,7 @@
                             android:orientation="horizontal">
 
                             <TextView
+                                android:id="@+id/shippingtext"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_toRightOf="@+id/image"
@@ -205,11 +208,10 @@
                                 android:lineSpacingMultiplier="1.1"
                                 android:text="Shipping:"
                                 android:textColor="@color/sale_purchase_lable_color"
-                                android:textSize="14sp"
-                                android:id="@+id/shippingtext"
-                                />
+                                android:textSize="14sp" />
 
                             <TextView
+                                android:id="@+id/shippingprice"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="3dp"
@@ -217,7 +219,6 @@
                                 android:text="$00:00"
                                 android:textColor="#000"
                                 android:textSize="14sp"
-                                android:id="@+id/shippingprice"
 
                                 />
                         </LinearLayout>
@@ -229,18 +230,18 @@
                             android:orientation="horizontal">
 
                             <TextView
+                                android:id="@+id/grandtotaltext"
                                 android:layout_width="wrap_content"
+
                                 android:layout_height="wrap_content"
 
                                 android:layout_weight="0"
-
                                 android:text="Grand Total:"
                                 android:textColor="@color/sale_purchase_lable_color"
-                                android:textSize="14sp"
-                                android:id="@+id/grandtotaltext"
-                                />
+                                android:textSize="14sp" />
 
                             <TextView
+                                android:id="@+id/grandtotalprice"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="3dp"
@@ -248,7 +249,6 @@
                                 android:text="$00:00"
                                 android:textColor="#000"
                                 android:textSize="14sp"
-                                android:id="@+id/grandtotalprice"
 
                                 />
                         </LinearLayout>
@@ -290,17 +290,18 @@
                             android:orientation="horizontal">
 
                             <TextView
+                                android:id="@+id/orderdatetext"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="0"
                                 android:text="Order date:"
                                 android:textColor="@color/sale_purchase_lable_color"
                                 android:textSize="14sp"
-                                android:id="@+id/orderdatetext"
 
                                 />
 
                             <TextView
+                                android:id="@+id/orderdate"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
@@ -308,7 +309,6 @@
                                 android:text="00-Jan-0000"
                                 android:textColor="#000"
                                 android:textSize="14sp"
-                                android:id="@+id/orderdate"
 
                                 />
                         </LinearLayout>
@@ -320,13 +320,13 @@
                             android:orientation="horizontal">
 
                             <TextView
+                                android:id="@+id/ordernumbertext"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="0"
                                 android:text="Order Number:"
                                 android:textColor="@color/sale_purchase_lable_color"
                                 android:textSize="14sp"
-                                android:id="@+id/ordernumbertext"
 
                                 />
 
@@ -440,12 +440,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                     rb:rating="3.8"
+                    rb:rating="3.8"
 
                     />
             </LinearLayout>
 
             <TextView
+                android:id="@+id/ratingcomment"
                 android:layout_width="220dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -453,16 +454,15 @@
                 android:layout_marginTop="8dp"
                 android:gravity="center_horizontal"
                 android:lineSpacingMultiplier="1.1"
-                android:text="Terrible service, I will never buy anything from this user again."
                 android:textColor="#8b8b8b"
                 android:textSize="15sp" />
 
             <TextView
+                android:id="@+id/timeleft"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:gravity="center_horizontal"
-                android:text="You have 24hrs to edit your rating"
                 android:textColor="#8b8b8b" />
 
         </LinearLayout>
@@ -486,13 +486,14 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="1dp"
             android:layout_weight="1"
-            android:background="#e8e9eb"
+            android:background="@color/bottom_control_background_color"
             android:clickable="true"
             android:gravity="center"
             android:padding="10dp"
             android:text="Edit Rating"
             android:textColor="#be4d66"
             android:textSize="16sp"
+            android:onClick="editRating"
 
             />
 

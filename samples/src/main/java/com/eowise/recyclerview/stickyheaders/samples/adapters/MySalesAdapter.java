@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.eowise.recyclerview.stickyheaders.samples.MySales.ReportRating;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.MySales.OrderDetailsSales;
 import com.eowise.recyclerview.stickyheaders.samples.R;
@@ -137,8 +138,10 @@ public class MySalesAdapter extends RecyclerView.Adapter<MySalesAdapter.ViewHold
                 ordetails.putExtra("type", "claim declined");
 
             } else if (status.compareToIgnoreCase("Report rating") == 0) {
-                ordetails.putExtra("type", "Report rating");
-
+                Intent reportrating = new Intent(activity, ReportRating.class);
+                reportrating.putExtra("data", items.get(getAdapterPosition()));
+                activity.startActivityForResult(reportrating, 204);
+                return;
             }
             ordetails.putExtra("data", items.get(getAdapterPosition()));
             activity.startActivityForResult(ordetails, 200);

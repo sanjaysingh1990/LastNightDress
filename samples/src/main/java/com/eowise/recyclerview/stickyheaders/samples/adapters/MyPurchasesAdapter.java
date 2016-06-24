@@ -11,9 +11,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.eowise.recyclerview.stickyheaders.samples.MyPurchases.ItemAccepted;
+import com.eowise.recyclerview.stickyheaders.samples.MyPurchases.RatingReported;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.MyPurchases.OrderDetailsPurchased;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.LndUtils;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.RelativeTimeTextView;
 import com.eowise.recyclerview.stickyheaders.samples.data.MySalesPurchasesData;
 import com.eowise.recyclerview.stickyheaders.samples.data.NotificationData;
@@ -60,20 +63,17 @@ public class MyPurchasesAdapter extends RecyclerView.Adapter<MyPurchasesAdapter.
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
         MySalesPurchasesData msd = items.get(position);
-        if(msd.getOrder_purchase_status().contains("cancelled"))
-            viewHolder.status.setText(msd.getOrder_purchase_status().substring(0,msd.getOrder_purchase_status().length()-1));
+        if (msd.getOrder_purchase_status().contains("cancelled"))
+            viewHolder.status.setText(msd.getOrder_purchase_status().substring(0, msd.getOrder_purchase_status().length() - 1));
         else
             viewHolder.status.setText(msd.getOrder_purchase_status());
         viewHolder.brandname.setText(msd.getBrand_name());
         viewHolder.time.setReferenceTime(msd.getOrder_date());
         viewHolder.selleruname.setText(msd.getSeller_name());
         viewHolder.price.setText("$" + msd.getTotal_amount());
-        SingleTon.imageLoader.displayImage(msd.getImage_url(),viewHolder.productimage, SingleTon.options4);
+        SingleTon.imageLoader.displayImage(msd.getImage_url(), viewHolder.productimage, SingleTon.options4);
 
     }
-
-
-
 
 
     @Override
@@ -116,7 +116,7 @@ public class MyPurchasesAdapter extends RecyclerView.Adapter<MyPurchasesAdapter.
 
         @Override
         public void onClick(View v) {
-            String status=items.get(getAdapterPosition()).getOrder_purchase_status();
+            String status = items.get(getAdapterPosition()).getOrder_purchase_status();
             Intent ordetails = new Intent(activity, OrderDetailsPurchased.class);
 
             if (status.compareToIgnoreCase("in process") == 0) {
@@ -124,27 +124,24 @@ public class MyPurchasesAdapter extends RecyclerView.Adapter<MyPurchasesAdapter.
 
             } else if (status.compareToIgnoreCase("delivered") == 0) {
                 ordetails.putExtra("type", "delivered");
+                LndUtils.mysalepos = getAdapterPosition();
+            } else if (status.compareToIgnoreCase("Order cancelled1") == 0) {
+                ordetails.putExtra("type", "cancelled2");
 
-            }
-            else if(status.compareToIgnoreCase("Order cancelled1")==0)
-            {
-                ordetails.putExtra("type","cancelled2");
+            } else if (status.compareToIgnoreCase("Order cancelled2") == 0) {
+                ordetails.putExtra("type", "cancelled");
 
-            }
-            else if(status.compareToIgnoreCase("Order cancelled2")==0)
-            {
-                 ordetails.putExtra("type","cancelled");
-
-            }
-
-            else if (status.compareToIgnoreCase("shipped") == 0) {
+            } else if (status.compareToIgnoreCase("shipped") == 0) {
                 ordetails.putExtra("type", "shipped");
 
             } else if (status.compareToIgnoreCase("claim processing") == 0) {
                 ordetails.putExtra("type", "claim processing");
 
             } else if (status.compareToIgnoreCase("Rating reported") == 0) {
-                ordetails.putExtra("type", "Rating reported");
+                Intent ratingreported = new Intent(activity, RatingReported.class);
+                ratingreported.putExtra("data", items.get(getAdapterPosition()));
+                activity.startActivityForResult(ratingreported, 204);
+                return;
 
             } else if (status.compareToIgnoreCase("claim approved") == 0) {
                 ordetails.putExtra("type", "claim approved");
@@ -155,12 +152,19 @@ public class MyPurchasesAdapter extends RecyclerView.Adapter<MyPurchasesAdapter.
             } else if (status.compareToIgnoreCase("Report rating") == 0) {
                 ordetails.putExtra("type", "Report rating");
 
-            }  else if (status.compareToIgnoreCase("Item accepted") == 0) {
+            } else if (status.compareToIgnoreCase("Item accepted") == 0) {
                 ordetails.putExtra("type", "Item accepted");
 
             }
-            ordetails.putExtra("data",items.get(getAdapterPosition()));
-            activity.startActivity(ordetails);
+            if (status.compareToIgnoreCase("Item accepted") == 0) {
+                Intent editrating = new Intent(activity, ItemAccepted.class);
+                editrating.putExtra("data", items.get(getAdapterPosition()));
+                activity.startActivityForResult(editrating, 203);
+                return;
+            } else {
+                ordetails.putExtra("data", items.get(getAdapterPosition()));
+                activity.startActivityForResult(ordetails, 202);
+            }
         }
     }
 

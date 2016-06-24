@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -20,6 +21,7 @@ import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ApplicationConstants;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.LndUtils;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.TimeAgo;
 import com.eowise.recyclerview.stickyheaders.samples.adapters.MyPurchasesAdapter;
 import com.eowise.recyclerview.stickyheaders.samples.data.MySalesPurchasesData;
@@ -152,5 +154,18 @@ public class MyPurchasesActivity extends AppCompatActivity {
         };
         queue.add(sr);
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 202 && data != null) {
+            if (LndUtils.mysalepos > -1) {
+                MySalesPurchasesData mspd = items.get(LndUtils.mysalepos);
+                mspd.setOrder_purchase_status("Item accepted");
+                adapter.notifyItemChanged(LndUtils.mysalepos);
+                LndUtils.mysalepos = -1;
+            }
+        }
     }
 }

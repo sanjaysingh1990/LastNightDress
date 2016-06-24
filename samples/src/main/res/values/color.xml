@@ -19,5 +19,6 @@
     <color name="disable_button">#b4b4b4</color>
     <color name="disable_button_back">#e8e9eb</color>
     <color name="sale_purchase_lable_color">#757575</color>
+    <color name="bottom_control_background_color">#e8e9eb</color>
 
 </resources>

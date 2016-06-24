@@ -11,6 +11,34 @@ public class MySalesPurchasesData implements Serializable {
     private String image_url;
     private String shipping_method;
 
+    public String getForwhat() {
+        return forwhat;
+    }
+
+    public void setForwhat(String forwhat) {
+        this.forwhat = forwhat;
+    }
+
+    private String forwhat="";
+    public String getReview_msg() {
+        return review_msg;
+    }
+
+    public void setReview_msg(String review_msg) {
+        this.review_msg = review_msg;
+    }
+
+    public int getRated_val() {
+        return rated_val;
+    }
+
+    public void setRated_val(int rated_val) {
+        this.rated_val = rated_val;
+    }
+
+    private String review_msg;
+    private int rated_val;
+
     public String getSeller_profile_pic() {
         return seller_profile_pic;
     }
@@ -20,6 +48,7 @@ public class MySalesPurchasesData implements Serializable {
     }
 
     private String seller_profile_pic;
+
     public String getSeller_id() {
         return seller_id;
     }

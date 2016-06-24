@@ -396,6 +396,7 @@
 
 
             <TextView
+                android:id="@+id/reviewmessage"
                 android:layout_width="230dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"

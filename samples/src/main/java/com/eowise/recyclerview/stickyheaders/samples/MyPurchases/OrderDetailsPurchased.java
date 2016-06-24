@@ -156,8 +156,10 @@ public class OrderDetailsPurchased extends AppCompatActivity {
 
     public void itemAccepted(View v) {
        Bundle extra=getIntent().getExtras();
-        if (extra != null) {
-            MySalesPurchasesData mspd = (MySalesPurchasesData) extra.getSerializable("data");
+        if (extra != null)
+        {
+            MySalesPurchasesData mspd = (MySalesPurchasesData)extra.getSerializable("data");
+            mspd.setForwhat("rating");
             Intent rateuser = new Intent(this, RateUserActivity.class);
             rateuser.putExtra("data",mspd);
             startActivityForResult(rateuser, 202);
@@ -275,6 +277,13 @@ public class OrderDetailsPurchased extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-       Toast.makeText(this,requestCode+"",Toast.LENGTH_SHORT).show();
+         if(requestCode==202&&data!=null)
+        {
+
+            Intent backcall=new Intent();
+            backcall.putExtra("MESSAGE","ITEMACCEPTED");
+            setResult(202,backcall);
+            finish();
+        }
     }
 }

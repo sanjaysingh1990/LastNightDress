@@ -434,6 +434,21 @@
             android:name=".PurchaseAndSwap.Swap_Checkout_Cancel_Activity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan|stateAlwaysHidden" />
+
+        <activity
+            android:name=".MyPurchases.ItemAccepted"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan|stateAlwaysHidden" />
+
+        <activity
+            android:name=".MySales.ReportRating"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan|stateAlwaysHidden" />
+        <activity
+            android:name=".MyPurchases.RatingReported"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan|stateAlwaysHidden" />
+
         <!-- Register Broadcast receiver -->
 
         <receiver

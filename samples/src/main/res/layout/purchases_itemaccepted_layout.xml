@@ -410,11 +410,12 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="30dp"
-                rb:rating="2"
+
 
                 />
 
             <TextView
+                android:id="@+id/ratingcomment"
                 android:layout_width="220dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -422,16 +423,15 @@
                 android:layout_marginTop="8dp"
                 android:gravity="center_horizontal"
                 android:lineSpacingMultiplier="1.1"
-                android:text="Terrible service, I will never buy anything from this user again."
                 android:textColor="#8b8b8b"
                 android:textSize="15sp" />
 
             <TextView
+                android:id="@+id/timeleft"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:gravity="center_horizontal"
-                android:text="You have 24hrs to edit your rating"
                 android:textColor="#8b8b8b" />
         </LinearLayout>
 
@@ -454,14 +454,15 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="1dp"
             android:layout_weight="1"
-            android:background="#e8e9eb"
+            android:background="@color/bottom_control_background_color"
             android:clickable="true"
             android:gravity="center"
             android:onClick="editRating"
             android:padding="10dp"
             android:text="Edit Rating"
-            android:textColor="@color/lndcolor"
+            android:textColor="@color/sale_purchase_lable_color"
             android:textSize="16sp"
+            android:contextClickable="false"
 
             />
 
