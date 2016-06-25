@@ -223,7 +223,7 @@
             android:label="@string/title_activity_order_details_sales"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
         <activity
             android:name=".MyPurchases.OrderDetailsPurchased"
             android:label="@string/title_activity_order_details_sales"

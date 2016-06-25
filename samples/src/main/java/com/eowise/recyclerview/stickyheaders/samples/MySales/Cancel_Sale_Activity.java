@@ -138,6 +138,7 @@ public class Cancel_Sale_Activity extends LndBaseActivity {
             MySalesPurchasesData mspd = (MySalesPurchasesData) extra.getSerializable("data");
             brandname.setText(mspd.getBrand_name() + "");
             buyername.setText(mspd.getSeller_name() + "");
+            buyername.setTag(mspd.getBuyer_id());
             price.setText("$" + mspd.getPrice_now() + "");
             // shippingprice.setText("$" + mspd.getShipping_charge() + "");
             //grandtotalprice.setText("$" + mspd.getTotal_amount() + "");
@@ -221,7 +222,11 @@ public class Cancel_Sale_Activity extends LndBaseActivity {
                 params.put("order_id", orderid);
                 params.put("rqid", "12");
                 params.put("cancel_reason", canceledittext.getText().toString());
-                params.put("date_time",SingleTon.getCurrentTimeStamp() );
+                params.put("date_time",SingleTon.getCurrentTimeStamp());
+                params.put("seller_name",SingleTon.pref.getString("uname",""));
+                params.put("buyer_id",buyername.getTag().toString());
+
+
 
 
                 return params;

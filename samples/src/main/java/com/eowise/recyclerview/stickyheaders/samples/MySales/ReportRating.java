@@ -182,8 +182,6 @@ public class ReportRating extends LndBaseActivity {
                         reviewmessage.setText(jobj.getString("review_msg"));
                         ratingBar.setRating(jobj.getInt("rated_val"));
 
-                    } else {
-                        Toast.makeText(ReportRating.this, "some thing went wrong", Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (JSONException e) {

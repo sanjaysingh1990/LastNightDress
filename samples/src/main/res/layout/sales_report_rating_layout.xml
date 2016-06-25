@@ -389,8 +389,7 @@
                     style="@style/coloredRatingBarStylenormalIndicator2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    rb:rating="3.8" />
+                    android:layout_gravity="center_horizontal" />
 
             </LinearLayout>
 
@@ -403,8 +402,7 @@
                 android:layout_marginBottom="25dp"
                 android:layout_marginTop="25dp"
                 android:gravity="center_horizontal"
-                android:text="Thank you, it was perfect! I love the dress. And there was no delay in delivery. Thank you, I’m looking forward in seeing your new items 
-"
+
                 android:textColor="#000"
                 android:textSize="13sp"
 

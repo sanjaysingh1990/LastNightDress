@@ -49,7 +49,10 @@ public class SalesActivity extends AppCompatActivity {
     private MySalesAdapter adapter;
     @Bind(R.id.loader)
     AVLoadingIndicatorView loader;
-
+    int pastVisiblesItems, visibleItemCount, totalItemCount;
+    private LinearLayoutManager layoutManager;
+    private boolean loading = true;
+    private int skipdata=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,12 +61,37 @@ public class SalesActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        layoutManager=new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
         adapter = new MySalesAdapter(this, items);
         recyclerView.setAdapter(adapter);
         getSales();
         //appyling custom fonts
         heading.setTypeface(SingleTon.robotobold);
+
+        //load more
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0) //check for scroll down
+                {
+                    visibleItemCount = layoutManager.getChildCount();
+                    totalItemCount = layoutManager.getItemCount();
+                    pastVisiblesItems = layoutManager.findFirstVisibleItemPosition();
+
+                    if (loading) {
+                        if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                            loading = false;
+                            getSales();
+
+
+                        }
+                    }
+                }
+            }
+        });
+
+
     }
 
     public void back(View v) {
@@ -82,7 +110,7 @@ public class SalesActivity extends AppCompatActivity {
         StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_SHIPPINGINFO, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.e("json", response);
+            //    Log.e("json", response);
                 try {
                     loader.setVisibility(View.GONE);
                     JSONObject jobj = new JSONObject(response);
@@ -102,7 +130,7 @@ public class SalesActivity extends AppCompatActivity {
                         mysales.setTotal_amount(jsonObject.getString("total_amount"));
                         mysales.setProfile_pic(jsonObject.getString("profile_pic"));
                         mysales.setShipping_charge(jsonObject.getString("shipping_charge"));
-
+                        mysales.setBuyer_id(jsonObject.getString("buyer_id"));
                         String[] status = {"In Process", "Shipped", "Delivered", "Order cancelled1", "Report rating", "Order cancelled2"};
 
                         if (jsonObject.getString("order_sale_status").compareToIgnoreCase("1") == 0)
@@ -121,8 +149,13 @@ public class SalesActivity extends AppCompatActivity {
                         items.add(mysales);
 
                     }
-                    adapter.notifyDataSetChanged();
 
+                    adapter.notifyDataSetChanged();
+                    skipdata=items.size();
+                    if(jsonArray.length()<25)
+                        loading=false;
+                    else
+                        loading=true;
                 } catch (JSONException e) {
                     loader.setVisibility(View.GONE);
                     try {
@@ -146,6 +179,7 @@ public class SalesActivity extends AppCompatActivity {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("rqid", "6");
                 params.put("user_id", "84");
+                params.put("skipdata",skipdata+"");
                 return params;
             }
 

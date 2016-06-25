@@ -11,6 +11,16 @@ public class MySalesPurchasesData implements Serializable {
     private String image_url;
     private String shipping_method;
 
+    public String getBuyer_id() {
+        return buyer_id;
+    }
+
+    public void setBuyer_id(String buyer_id) {
+        this.buyer_id = buyer_id;
+    }
+
+    private String buyer_id;
+
     public String getForwhat() {
         return forwhat;
     }

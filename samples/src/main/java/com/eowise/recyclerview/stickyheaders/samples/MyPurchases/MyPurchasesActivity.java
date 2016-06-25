@@ -40,6 +40,10 @@ public class MyPurchasesActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private MyPurchasesAdapter adapter;
     private AVLoadingIndicatorView loader;
+    int pastVisiblesItems, visibleItemCount, totalItemCount;
+    private LinearLayoutManager layoutManager;
+    private boolean loading = true;
+    private int skipdata=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +51,34 @@ public class MyPurchasesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_my_purchases);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         loader = (AVLoadingIndicatorView) findViewById(R.id.loader);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        layoutManager=new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
         adapter = new MyPurchasesAdapter(this, items);
         recyclerView.setAdapter(adapter);
         getPurchases();
+
+        //load more
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0) //check for scroll down
+                {
+                    visibleItemCount = layoutManager.getChildCount();
+                    totalItemCount = layoutManager.getItemCount();
+                    pastVisiblesItems = layoutManager.findFirstVisibleItemPosition();
+
+                    if (loading) {
+                        if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                            loading = false;
+                           getPurchases();
+
+                        }
+                    }
+                }
+            }
+        });
+
+
 
     }
 
@@ -117,7 +145,11 @@ public class MyPurchasesActivity extends AppCompatActivity {
 
                     }
                     adapter.notifyDataSetChanged();
-
+                    skipdata=items.size();
+                    if(jsonArray.length()<25)
+                        loading=false;
+                    else
+                        loading=true;
                 } catch (JSONException e) {
                     loader.setVisibility(View.GONE);
                     try {
@@ -140,7 +172,7 @@ public class MyPurchasesActivity extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("rqid", "5");
-                params.put("skipdata", "0");
+                params.put("skipdata",skipdata+"");
                 params.put("user_id", SingleTon.pref.getString("user_id", ""));
                 return params;
             }
