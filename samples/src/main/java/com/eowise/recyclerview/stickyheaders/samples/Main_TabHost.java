@@ -105,7 +105,7 @@ public class Main_TabHost extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
-        Fabric.with(this, new Crashlytics());
+        //Fabric.with(this, new Crashlytics());
         Fabric.with(this, new Twitter(authConfig));
 
         setContentView(R.layout.tabhost_main);

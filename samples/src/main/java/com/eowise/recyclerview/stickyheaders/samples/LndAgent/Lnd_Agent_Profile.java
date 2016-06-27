@@ -69,8 +69,8 @@ public class Lnd_Agent_Profile extends AppCompatActivity {
 
         adapter.notifyDataSetChanged();
     }
-private void addUser(JSONObject jsonObject) throws Exception
-{
+
+    private void addUser(JSONObject jsonObject) throws Exception {
 
         LndAgentBean agent = new LndAgentBean();
         if (jsonObject.getString("user_type").equals("private"))
@@ -88,8 +88,7 @@ private void addUser(JSONObject jsonObject) throws Exception
     }
 
 
-    private void addHeader(int headertype,String totalcount) throws Exception
-    {
+    private void addHeader(int headertype, String totalcount) throws Exception {
 
         LndAgentBean regionaldirectorheader = new LndAgentBean();
         regionaldirectorheader.setType(1);
@@ -98,6 +97,16 @@ private void addUser(JSONObject jsonObject) throws Exception
 
         data.add(regionaldirectorheader);
     }
+
+    private void addMoreUserHeader(int headertype) throws Exception {
+
+        LndAgentBean regionaldirectorheader = new LndAgentBean();
+        regionaldirectorheader.setType(5);
+        regionaldirectorheader.setHeaderType(headertype);
+
+        data.add(regionaldirectorheader);
+    }
+
     public void getData() {
 
 
@@ -108,67 +117,63 @@ private void addUser(JSONObject jsonObject) throws Exception
 
                 try {
                     JSONObject jobj = new JSONObject(response.toString());
-                     boolean status=jobj.getBoolean("status");
-                    if(status)
-                    {
+                    boolean status = jobj.getBoolean("status");
+                    if (status) {
 
                         //for user
-                      LndAgentBean agentbean=  data.get(0);
-                      int totalagents=jobj.getInt("total_agent")+jobj.getInt("total_basicuser")+jobj.getInt("total_agency")+jobj.getInt("total_areamanager") +jobj.getInt("total_regionaldirector");
-                      agentbean.setUsertotalagents(totalagents+"");
-                      agentbean.setUsertotalshops(jobj.getInt("total_shops")+"");
-                       //for regiional director
-                        JSONArray regionaldirector=jobj.getJSONArray("regionaldirector");
-                        if(regionaldirector.length()>0)
-                        {
-                            addHeader(5,jobj.getString("total_regionaldirector"));
+                        LndAgentBean agentbean = data.get(0);
+                        int totalagents = jobj.getInt("total_agent") + jobj.getInt("total_basicuser") + jobj.getInt("total_agency") + jobj.getInt("total_areamanager") + jobj.getInt("total_regionaldirector");
+                        agentbean.setUsertotalagents(totalagents + "");
+                        agentbean.setUsertotalshops(jobj.getInt("total_shops") + "");
+                        //for regiional director
+                        JSONArray regionaldirector = jobj.getJSONArray("regionaldirector");
+                        if (regionaldirector.length() > 0) {
+                            addHeader(5, jobj.getString("total_regionaldirector"));
                         }
-                        for(int i=0;i<regionaldirector.length();i++)
-                        {
-                           addUser(regionaldirector.getJSONObject(i));
+                        for (int i = 0; i < regionaldirector.length(); i++) {
+                            addUser(regionaldirector.getJSONObject(i));
                         }
+                        if (regionaldirector.length() == 10)
+                            addMoreUserHeader(5);
                         //for area manager
-                        JSONArray areamanager=jobj.getJSONArray("areamanager");
-                        if(areamanager.length()>0)
-                        {
-                            addHeader(4,jobj.getString("total_areamanager"));
+                        JSONArray areamanager = jobj.getJSONArray("areamanager");
+                        if (areamanager.length() > 0) {
+                            addHeader(4, jobj.getString("total_areamanager"));
                         }
-                        for(int i=0;i<areamanager.length();i++)
-                        {
+                        for (int i = 0; i < areamanager.length(); i++) {
                             addUser(areamanager.getJSONObject(i));
                         }
-
+                        if (areamanager.length() == 10)
+                            addMoreUserHeader(5);
                         //for agency
-                        JSONArray agency=jobj.getJSONArray("agency");
-                        if(agency.length()>0)
-                        {
-                            addHeader(3,jobj.getString("total_agency"));
+                        JSONArray agency = jobj.getJSONArray("agency");
+                        if (agency.length() > 0) {
+                            addHeader(3, jobj.getString("total_agency"));
                         }
-                        for(int i=0;i<agency.length();i++)
-                        {
+                        for (int i = 0; i < agency.length(); i++) {
                             addUser(agency.getJSONObject(i));
                         }
-
+                        if (agency.length() == 10)
+                            addMoreUserHeader(5);
                         //for agent
-                        JSONArray agent=jobj.getJSONArray("agents");
-                        if(agent.length()>0)
-                        {
-                            addHeader(2,jobj.getString("total_agent"));
+                        JSONArray agent = jobj.getJSONArray("agents");
+                        if (agent.length() > 0) {
+                            addHeader(2, jobj.getString("total_agent"));
                         }
-                        for(int i=0;i<agent.length();i++)
-                        {
+                        for (int i = 0; i < agent.length(); i++) {
                             addUser(agent.getJSONObject(i));
                         }
                         //for agent
-                        JSONArray basicuser=jobj.getJSONArray("basicuser");
-                        if(agent.length()>0)
-                        {
-                            addHeader(1,jobj.getString("total_basicuser"));
+                        JSONArray basicuser = jobj.getJSONArray("basicuser");
+                        if (agent.length() > 0) {
+                            addHeader(1, jobj.getString("total_basicuser"));
                         }
-                        for(int i=0;i<basicuser.length();i++)
-                        {
+                        for (int i = 0; i < basicuser.length(); i++) {
                             addUser(basicuser.getJSONObject(i));
                         }
+
+                        if (basicuser.length() == 3)
+                            addMoreUserHeader(5);
                     }
 
 
@@ -189,7 +194,7 @@ private void addUser(JSONObject jsonObject) throws Exception
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("rqid", "20");
-                params.put("ref_code", 233+"");
+                params.put("ref_code", 233 + "");
 
                 return params;
             }

@@ -74,8 +74,8 @@
 
     </android.support.design.widget.AppBarLayout>
     <com.eowise.recyclerview.stickyheaders.samples.Loading.AVLoadingIndicatorView
-        android:layout_width="45dp"
-        android:layout_height="45dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         app:indicator="LineSpinFadeLoader"
         android:layout_centerInParent="true"
         app:indicator_color="#be4d66"

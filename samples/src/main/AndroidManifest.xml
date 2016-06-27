@@ -434,12 +434,10 @@
             android:name=".PurchaseAndSwap.Swap_Checkout_Cancel_Activity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan|stateAlwaysHidden" />
-
         <activity
             android:name=".MyPurchases.ItemAccepted"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan|stateAlwaysHidden" />
-
         <activity
             android:name=".MySales.ReportRating"
             android:screenOrientation="portrait"
@@ -470,7 +468,14 @@
             android:name="io.fabric.ApiKey"
             android:value="b0ac7ea1dfea7bf5490049b7fb8935df519695f6" />
 
-        <activity android:name=".MySales.Cancel_Sale_Activity"></activity>
+        <activity android:name=".MySales.Cancel_Sale_Activity" />
+
+        <provider
+            android:name="com.facebook.FacebookContentProvider"
+            android:authorities="com.facebook.app.FacebookContentProvider1260994363926935"
+            android:exported="true" />
+
+        <activity android:name=".LndAgent.Load_more_agent_users"></activity>
     </application>
 
 </manifest>

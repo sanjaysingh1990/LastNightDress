@@ -55,7 +55,7 @@ import java.util.ArrayList;
 
 
 class AgentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    public static final int USERHEADER = 0, HEADER = 1, NORMALUSER = 2, SHOPUSER = 3, SURPASSEDYOU = 4;
+    public static final int USERHEADER = 0, HEADER = 1, NORMALUSER = 2, SHOPUSER = 3, SURPASSEDYOU = 4, MORE = 5;
     ArrayList<LndAgentBean> items;
     Context con;
 
@@ -78,6 +78,27 @@ class AgentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
 
 
+    }
+
+    public class MoreHeader extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        public TextView total;
+
+        public MoreHeader(View v) {
+            super(v);
+
+            total = (TextView) v.findViewById(R.id.total);
+            total.setOnClickListener(this);
+
+        }
+
+
+        @Override
+        public void onClick(View v) {
+            Intent loadmore = new Intent(con, Load_more_agent_users.class);
+            loadmore.putExtra("usertype", 1);
+            con.startActivity(loadmore);
+        }
     }
 
     public class NormalUser extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -150,6 +171,7 @@ class AgentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     }
 
+
     public class UserHeader extends RecyclerView.ViewHolder {
         public TextView totalagents, totalshops, totalcommision;
         public ImageView profileimg;
@@ -179,6 +201,9 @@ class AgentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         } else if (items.get(position).getType() == USERHEADER) {
             return USERHEADER;
+
+        } else if (items.get(position).getType() == MORE) {
+            return MORE;
 
         }
         return -1;
@@ -210,6 +235,10 @@ class AgentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             case USERHEADER:
                 final View userheader = inflater.inflate(R.layout.agent_user_header, parent, false);
                 viewHolder = new UserHeader(userheader);
+                break;
+            case MORE:
+                final View moreuserheader = inflater.inflate(R.layout.agent_more_user_bottom, parent, false);
+                viewHolder = new MoreHeader(moreuserheader);
                 break;
         }
         return viewHolder;
