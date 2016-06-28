@@ -31,6 +31,7 @@ public class Splash extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
+        Fabric.with(this, new Crashlytics());
 
         setContentView(R.layout.activity_splash);
 

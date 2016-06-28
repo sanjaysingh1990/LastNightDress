@@ -218,6 +218,7 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
     int condition = 0;
     private Bundle extra;
     InstructionDialogs lndcommistiondialog;
+    Home_List_Data hld;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -268,23 +269,33 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long l) {
 
                 if (pos > 0) {
+                    try {
+                        ((TextView) parent.getChildAt(0)).setTextColor(Color.parseColor("#ffffff"));
+                        ((TextView) parent.getChildAt(0)).setBackgroundColor(Color.parseColor("#be4d66"));
+                    } catch (Exception ex) {
 
-                    ((TextView) parent.getChildAt(0)).setTextColor(Color.parseColor("#ffffff"));
-                    ((TextView) parent.getChildAt(0)).setBackgroundColor(Color.parseColor("#be4d66"));
+                    }
                     conditionspinner.setBackgroundColor(Color.parseColor("#be4d66"));
                     condition = pos;
                     lnditemcondition.setText(ConstantValues.conditiondesciptions[pos]);
                     condition();
                 } else {
                     lnditemcondition.setText(ConstantValues.conditiondesciptions[pos]);
-                    ((TextView) parent.getChildAt(0)).setTextColor(Color.parseColor("#ffffff"));
-                    ((TextView) parent.getChildAt(0)).setBackgroundColor(Color.parseColor("#1d1f21"));
+                    try {
+                        ((TextView) parent.getChildAt(0)).setTextColor(Color.parseColor("#ffffff"));
+                        ((TextView) parent.getChildAt(0)).setBackgroundColor(Color.parseColor("#1d1f21"));
+                    } catch (Exception ex) {
+
+                    }
                     conditionspinner.setBackgroundColor(Color.parseColor("#1d1f21"));
                     if (condition != 11 || condition != 12)
                         condition = pos;
                 }
-                ((TextView) parent.getChildAt(0)).setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow, 0);
+                try {
+                    ((TextView) parent.getChildAt(0)).setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow, 0);
+                } catch (Exception ex) {
 
+                }
 
             }
 
@@ -372,8 +383,11 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
     private void setValues(Home_List_Data hld) {
         //set images
         for (int i = 0; i < hld.getImageurls().size(); i++) {
-            if (hld.getImageurls().get(i).length() > 0)
-                SingleTon.imageLoader.displayImage(hld.getImageurls().get(i), images.get(i), SingleTon.options);
+            if (hld.getImageurls().get(i).length() > 0) {
+                String url = hld.getImageurls().get(i);
+                SingleTon.imageLoader.displayImage(url, images.get(i), SingleTon.options);
+                filename[i] = url.substring(url.lastIndexOf("/"));
+            }
         }
         //set brand
         brand.setText(hld.getBrandname());
@@ -395,6 +409,7 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
                 lastnightdress.setChecked(true);
             else
                 conditionnew.setChecked(true);
+            Toast.makeText(this,condition+"",Toast.LENGTH_SHORT).show();
 
         } catch (Exception ex) {
 
@@ -476,7 +491,7 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
         extra = getIntent().getExtras();
 
         if (extra != null) {
-            Home_List_Data hld = (Home_List_Data) extra.getSerializable("data");
+            hld = (Home_List_Data) extra.getSerializable("data");
             editModeenable = true;
             setValues(hld);
         }
@@ -801,13 +816,22 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
 
 
             if (extra == null) {
+                mainObj.put("query_type", 1);
+                mainObj.put("post_id", 0);
+
+                uploadDress(mainObj.toString());
+            }
+            {
+                mainObj.put("query_type", 2);
+                mainObj.put("post_id", hld.getPost_id());
+
                 uploadDress(mainObj.toString());
 
             }
             //end query here
 
-            // Log.e("json", mainObj.toString());
-            // Log.e("json2", querypart1 + querypart2);
+            Log.e("json", mainObj.toString());
+            Log.e("json2", querypart1 + querypart2);
         } catch (Exception ex) {
             Log.e("json error", ex.getMessage() + "");
         }
@@ -826,7 +850,7 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
             @Override
             public void onResponse(String response) {
                 pDialog.dismiss();
-                Log.e("responsedata", response.toString());
+                Log.e("json", response.toString());
                 try {
                     JSONObject jobj = new JSONObject(response);
                     if (jobj.getBoolean("status")) {
@@ -1094,7 +1118,7 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
                 nationalfixedcostinputbox.setError("enter charge fixed cost");
                 return false;
             } else {
-                querypart1 = querypart1 + ",charge_cost_national=" + nationalfixedcostinputbox.getText();
+                querypart1 = querypart1 + ",cost_national=" + nationalfixedcostinputbox.getText();
             }
         }
         //for shipping national actual cost
@@ -1156,7 +1180,7 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
                 internationalfixedcostedittext.setError("enter charge fixed cost");
                 return false;
             } else {
-                querypart1 = querypart1 + ",charge_cost_international=" + nationalfixedcostinputbox.getText();
+                querypart1 = querypart1 + ",cost_international=" + nationalfixedcostinputbox.getText();
             }
         }
         //for shipping international actual cost
@@ -1276,20 +1300,41 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
                     ActualCost1.setChecked(true);
                     if (jobj.getInt("isfree_shipping_national") == 1)
                         nationalactualcostfressshipping.setChecked(true);
+                    else {
+
+                        nationalactualcostheight.setText(jobj.getString("height_national"));
+                        nationalactualcostwidth.setText(jobj.getString("width_national"));
+                        nationalactualcostlength.setText(jobj.getString("length_national"));
+                        int val = useLoop(service, jobj.getString("service_type_national"));
+
+                        if (val > -1)
+                            nationalactualcostservicespinner.setSelection(val);
+                        val = useLoop(weight, jobj.getString("package_weight_national"));
+
+                        if (val > -1)
+                            nationalactualweightpackagespinner.setSelection(val);
+                    }
+                    chargeactualcost.setVisibility(View.VISIBLE);
+                    chargefixedcost.setVisibility(View.GONE);
 
                 } else if (jobj.getInt("charge_cost_national") == 2) {
                     FixedCost1.setChecked(true);
                     nationalfixedcostinputbox.setText(jobj.getString("cost_national"));
                     if (jobj.getInt("isfree_shipping_national") == 1)
                         nationalfixedcostfreeshipping.setChecked(true);
+                    else {
+                        int val = useLoop(service, jobj.getString("service_type_national"));
 
+                        if (val > -1)
+                            nationalfixedcostservicespinner.setSelection(val);
+                    }
                 }
                 //for international for actul
                 if (jobj.getInt("charge_cost_international") == 1) {
                     ActualCost2.setChecked(true);
                     if (jobj.getInt("isfree_shipping_international") == 1)
                         internationalactualcostfreeshipping.setChecked(true);
-                    else if (jobj.getInt("isno_shipping_international") == 1)
+                    if (jobj.getInt("isno_shipping_international") == 1)
                         internationalactualcostnointernationshipping.setChecked(true);
                     int val = useLoop(service, jobj.getString("service_type_international"));
 

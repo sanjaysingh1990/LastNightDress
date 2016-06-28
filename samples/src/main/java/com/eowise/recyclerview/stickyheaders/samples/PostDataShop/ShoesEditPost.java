@@ -77,7 +77,7 @@ import github.ankushsachdeva.emojicon.EmojiconGridView;
 import github.ankushsachdeva.emojicon.EmojiconsPopup;
 import github.ankushsachdeva.emojicon.emoji.Emojicon;
 
-public class ShoesEditPost extends AppCompatActivity implements View.OnClickListener,LndShippingCallback {
+public class ShoesEditPost extends AppCompatActivity implements View.OnClickListener, LndShippingCallback {
     @Bind({R.id.size1, R.id.size2, R.id.size3, R.id.size4, R.id.size5, R.id.size6, R.id.size7, R.id.size8, R.id.size9, R.id.size10, R.id.size11, R.id.size12, R.id.size13, R.id.size14, R.id.size15})
     List<CheckBox> shoesize;
     @Bind({R.id.color1, R.id.color2, R.id.color3, R.id.color4, R.id.color5, R.id.color6, R.id.color7, R.id.color8, R.id.color9, R.id.color10, R.id.color11, R.id.color12, R.id.color13, R.id.color14, R.id.color15})
@@ -325,6 +325,8 @@ public class ShoesEditPost extends AppCompatActivity implements View.OnClickList
         setupEmoji();
     }
 
+    Home_List_Data hld;
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -332,7 +334,7 @@ public class ShoesEditPost extends AppCompatActivity implements View.OnClickList
         //read data
         extra = getIntent().getExtras();
         if (extra != null) {
-            Home_List_Data hld = (Home_List_Data) extra.getSerializable("data");
+            hld = (Home_List_Data) extra.getSerializable("data");
             setValues(hld);
         }
 
@@ -351,8 +353,11 @@ public class ShoesEditPost extends AppCompatActivity implements View.OnClickList
     private void setValues(Home_List_Data hld) {
         //set images
         for (int i = 0; i < hld.getImageurls().size(); i++) {
-            if (hld.getImageurls().get(i).length() > 0)
-                SingleTon.imageLoader.displayImage(hld.getImageurls().get(i), images.get(i), SingleTon.options);
+            if (hld.getImageurls().get(i).length() > 0) {
+                String url = hld.getImageurls().get(i);
+                SingleTon.imageLoader.displayImage(url, images.get(i), SingleTon.options);
+                filename[i] = url.substring(url.lastIndexOf("/"));
+            }
         }
         //set brand
         brand.setText(hld.getBrandname());
@@ -434,16 +439,19 @@ public class ShoesEditPost extends AppCompatActivity implements View.OnClickList
         } else
             finish();
     }
+
     private void getShippingLabel(String postid) {
         GetLndShippingInfo lndshipping = new GetLndShippingInfo(this);
         lndshipping.registerCallback(this);
         lndshipping.getData(postid);
 
     }
+
     @Override
     public void callbackReturn(String data) {
 
     }
+
     @Override
     public void onClick(View v) {
 
@@ -748,10 +756,21 @@ public class ShoesEditPost extends AppCompatActivity implements View.OnClickList
             JSONArray usermentionArray = new JSONArray(usermentions);
             mainObj.put("usermentions", usermentionArray);
 
-            if (extra == null)
+
+            if (extra == null) {
+                mainObj.put("query_type", 1);
+                mainObj.put("post_id", 0);
+
+                postShoe(mainObj.toString());
+            }
+            {
+                mainObj.put("query_type", 2);
+                mainObj.put("post_id", hld.getPost_id());
+
                 postShoe(mainObj.toString());
 
-            Log.e("json", mainObj.toString());
+            }
+            // Log.e("json", mainObj.toString());
         } catch (Exception ex) {
             Log.e("json error", ex.getMessage() + "");
         }
@@ -958,7 +977,7 @@ public class ShoesEditPost extends AppCompatActivity implements View.OnClickList
                 nationalfixedcostinputbox.setError("enter charge fixed cost");
                 return false;
             } else {
-                querypart1 = querypart1 + ",charge_cost_national=" + nationalfixedcostinputbox.getText();
+                querypart1 = querypart1 + ",cost_national=" + nationalfixedcostinputbox.getText();
             }
         }
         //for shipping national actual cost
@@ -1020,7 +1039,7 @@ public class ShoesEditPost extends AppCompatActivity implements View.OnClickList
                 internationalfixedcostedittext.setError("enter charge fixed cost");
                 return false;
             } else {
-                querypart1 = querypart1 + ",charge_cost_international=" + nationalfixedcostinputbox.getText();
+                querypart1 = querypart1 + ",cost_international=" + nationalfixedcostinputbox.getText();
             }
         }
         //for shipping international actual cost
@@ -1102,6 +1121,7 @@ public class ShoesEditPost extends AppCompatActivity implements View.OnClickList
 //Log.e("query",querypart1+querypart2);
         return true;
     }
+
     public void unselectactualPrice() {
         ActualCost1.setChecked(false);
         FixedCost1.setChecked(false);
@@ -1117,8 +1137,8 @@ public class ShoesEditPost extends AppCompatActivity implements View.OnClickList
         ActualCost2.setTextColor(Color.parseColor("#ffffff"));
 
     }
-    public void EditShpping(String data)
-    {
+
+    public void EditShpping(String data) {
         //first make all shipping label unchecked
         ActualCost1.setChecked(false);
         FixedCost1.setChecked(false);
@@ -1182,6 +1202,7 @@ public class ShoesEditPost extends AppCompatActivity implements View.OnClickList
             Log.e("error", ex.getMessage() + "");
         }
     }
+
     public static int useLoop(String[] arr, String targetValue) {
         for (int i = 0; i < arr.length; i++) {
             if (arr[i].compareToIgnoreCase(targetValue) == 0) {

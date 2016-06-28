@@ -77,7 +77,7 @@ import github.ankushsachdeva.emojicon.EmojiconGridView;
 import github.ankushsachdeva.emojicon.EmojiconsPopup;
 import github.ankushsachdeva.emojicon.emoji.Emojicon;
 
-public class JewelleryEditPost extends AppCompatActivity implements View.OnClickListener,LndShippingCallback {
+public class JewelleryEditPost extends AppCompatActivity implements View.OnClickListener, LndShippingCallback {
     @Bind({R.id.image1, R.id.image2, R.id.image3, R.id.image4})
     List<ImageView> images;
 
@@ -211,7 +211,7 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
     ValueAnimator mAnimator;
     private boolean sizeopen = true;
     String[] links = new String[4];
-    String filename[] = {"","","",""};
+    String filename[] = {"", "", "", ""};
     private Bundle extra;
     InstructionDialogs lndcommistiondialog;
 
@@ -276,7 +276,6 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
         });
 
 
-
         //text change listener
         pricenow.addTextChangedListener(new TextWatcher() {
             @Override
@@ -326,16 +325,21 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
 
         setupEmoji();
     }
+
     private void getShippingLabel(String postid) {
         GetLndShippingInfo lndshipping = new GetLndShippingInfo(this);
         lndshipping.registerCallback(this);
         lndshipping.getData(postid);
 
     }
+
     @Override
     public void callbackReturn(String data) {
 
     }
+
+    Home_List_Data hld;
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -343,7 +347,7 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
         //read data
         extra = getIntent().getExtras();
         if (extra != null) {
-            Home_List_Data hld = (Home_List_Data) extra.getSerializable("data");
+            hld = (Home_List_Data) extra.getSerializable("data");
             setValues(hld);
         }
 
@@ -352,7 +356,7 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
             //    System.out.println(entry.getKey());
             CameraData cd = entry.getValue();
             int value = Integer.parseInt(entry.getKey()) - 1;
-            filename[value]= cd.getFilename();
+            filename[value] = cd.getFilename();
 
             new AsyncTaskLoadImage(images.get(value), value).execute(cd.getImageurl());
 
@@ -364,8 +368,11 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
     private void setValues(Home_List_Data hld) {
         //set images
         for (int i = 0; i < hld.getImageurls().size(); i++) {
-            if (hld.getImageurls().get(i).length() > 0)
-                SingleTon.imageLoader.displayImage(hld.getImageurls().get(i), images.get(i), SingleTon.options);
+            if (hld.getImageurls().get(i).length() > 0) {
+                String url = hld.getImageurls().get(i);
+                SingleTon.imageLoader.displayImage(url, images.get(i), SingleTon.options);
+                filename[i] = url.substring(url.lastIndexOf("/"));
+            }
         }
         //set brand
         brand.setText(hld.getBrandname());
@@ -848,10 +855,21 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
             JSONArray usermentionArray = new JSONArray(usermentions);
             mainObj.put("usermentions", usermentionArray);
 
-            if (extra == null)
+
+            if (extra == null) {
+                mainObj.put("query_type", 1);
+                mainObj.put("post_id", 0);
+
+                jewelleryPost(mainObj.toString());
+            }
+            {
+                mainObj.put("query_type", 2);
+                mainObj.put("post_id", hld.getPost_id());
+
                 jewelleryPost(mainObj.toString());
 
-           // Log.e("json", mainObj.toString());
+            }
+            // Log.e("json", mainObj.toString());
         } catch (Exception ex) {
             Log.e("json error", ex.getMessage() + "");
         }
@@ -1053,7 +1071,7 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
                 nationalfixedcostinputbox.setError("enter charge fixed cost");
                 return false;
             } else {
-                querypart1 = querypart1 + ",charge_cost_national=" + nationalfixedcostinputbox.getText();
+                querypart1 = querypart1 + ",cost_national=" + nationalfixedcostinputbox.getText();
             }
         }
         //for shipping national actual cost
@@ -1115,7 +1133,7 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
                 internationalfixedcostedittext.setError("enter charge fixed cost");
                 return false;
             } else {
-                querypart1 = querypart1 + ",charge_cost_international=" + nationalfixedcostinputbox.getText();
+                querypart1 = querypart1 + ",cost_international=" + nationalfixedcostinputbox.getText();
             }
         }
         //for shipping international actual cost
@@ -1197,6 +1215,7 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
 //Log.e("query",querypart1+querypart2);
         return true;
     }
+
     public void unselectactualPrice() {
         ActualCost1.setChecked(false);
         FixedCost1.setChecked(false);
@@ -1212,8 +1231,8 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
         ActualCost2.setTextColor(Color.parseColor("#ffffff"));
 
     }
-    public void EditShpping(String data)
-    {
+
+    public void EditShpping(String data) {
         //first make all shipping label unchecked
         ActualCost1.setChecked(false);
         FixedCost1.setChecked(false);
@@ -1277,6 +1296,7 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
             Log.e("error", ex.getMessage() + "");
         }
     }
+
     public static int useLoop(String[] arr, String targetValue) {
         for (int i = 0; i < arr.length; i++) {
             if (arr[i].compareToIgnoreCase(targetValue) == 0) {
@@ -1286,6 +1306,7 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
         }
         return -1;
     }
+
     @OnClick(R.id.image1)
     public void image1() {
         startCameraView();

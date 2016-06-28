@@ -75,7 +75,7 @@ import github.ankushsachdeva.emojicon.EmojiconGridView;
 import github.ankushsachdeva.emojicon.EmojiconsPopup;
 import github.ankushsachdeva.emojicon.emoji.Emojicon;
 
-public class HandBagsEditPost extends AppCompatActivity implements View.OnClickListener,LndShippingCallback {
+public class HandBagsEditPost extends AppCompatActivity implements View.OnClickListener, LndShippingCallback {
     @Bind({R.id.image1, R.id.image2, R.id.image3, R.id.image4})
     List<ImageView> images;
 
@@ -312,13 +312,15 @@ public class HandBagsEditPost extends AppCompatActivity implements View.OnClickL
 
     }
 
+    Home_List_Data hld;
+
     @Override
     protected void onResume() {
         super.onResume();
         //read data
         extra = getIntent().getExtras();
         if (extra != null) {
-            Home_List_Data hld = (Home_List_Data) extra.getSerializable("data");
+            hld = (Home_List_Data) extra.getSerializable("data");
             setValues(hld);
         }
         for (Map.Entry<String, CameraData> entry : CameraReviewFragment.urls.entrySet()) {
@@ -338,8 +340,11 @@ public class HandBagsEditPost extends AppCompatActivity implements View.OnClickL
     private void setValues(Home_List_Data hld) {
         //set images
         for (int i = 0; i < hld.getImageurls().size(); i++) {
-            if (hld.getImageurls().get(i).length() > 0)
-                SingleTon.imageLoader.displayImage(hld.getImageurls().get(i), images.get(i), SingleTon.options);
+            if (hld.getImageurls().get(i).length() > 0) {
+                String url = hld.getImageurls().get(i);
+                SingleTon.imageLoader.displayImage(url, images.get(i), SingleTon.options);
+                filename[i] = url.substring(url.lastIndexOf("/"));
+            }
         }
         //set brand
         brand.setText(hld.getBrandname());
@@ -533,12 +538,14 @@ public class HandBagsEditPost extends AppCompatActivity implements View.OnClickL
         }
 
     }
+
     private void getShippingLabel(String postid) {
         GetLndShippingInfo lndshipping = new GetLndShippingInfo(this);
         lndshipping.registerCallback(this);
         lndshipping.getData(postid);
 
     }
+
     @Override
     public void callbackReturn(String data) {
 
@@ -756,11 +763,21 @@ public class HandBagsEditPost extends AppCompatActivity implements View.OnClickL
             mainObj.put("usermentions", usermentionArray);
 
 
-            if (extra == null)
+            if (extra == null) {
+                mainObj.put("query_type", 1);
+                mainObj.put("post_id", 0);
 
-                 postPurse(mainObj.toString());
+                postPurse(mainObj.toString());
+            }
+            {
+                mainObj.put("query_type", 2);
+                mainObj.put("post_id", hld.getPost_id());
 
-              //  Log.e("json", mainObj.toString());
+                postPurse(mainObj.toString());
+
+            }
+
+            //  Log.e("json", mainObj.toString());
         } catch (Exception ex) {
             Log.e("json error", ex.getMessage() + "");
         }
@@ -961,7 +978,7 @@ public class HandBagsEditPost extends AppCompatActivity implements View.OnClickL
                 nationalfixedcostinputbox.setError("enter charge fixed cost");
                 return false;
             } else {
-                querypart1 = querypart1 + ",charge_cost_national=" + nationalfixedcostinputbox.getText();
+                querypart1 = querypart1 + ",cost_national=" + nationalfixedcostinputbox.getText();
             }
         }
         //for shipping national actual cost
@@ -1023,7 +1040,7 @@ public class HandBagsEditPost extends AppCompatActivity implements View.OnClickL
                 internationalfixedcostedittext.setError("enter charge fixed cost");
                 return false;
             } else {
-                querypart1 = querypart1 + ",charge_cost_international=" + nationalfixedcostinputbox.getText();
+                querypart1 = querypart1 + ",cost_international=" + nationalfixedcostinputbox.getText();
             }
         }
         //for shipping international actual cost
@@ -1105,6 +1122,7 @@ public class HandBagsEditPost extends AppCompatActivity implements View.OnClickL
 //Log.e("query",querypart1+querypart2);
         return true;
     }
+
     public void unselectactualPrice() {
         ActualCost1.setChecked(false);
         FixedCost1.setChecked(false);
@@ -1120,8 +1138,8 @@ public class HandBagsEditPost extends AppCompatActivity implements View.OnClickL
         ActualCost2.setTextColor(Color.parseColor("#ffffff"));
 
     }
-    public void EditShpping(String data)
-    {
+
+    public void EditShpping(String data) {
         //first make all shipping label unchecked
         ActualCost1.setChecked(false);
         FixedCost1.setChecked(false);
@@ -1185,6 +1203,7 @@ public class HandBagsEditPost extends AppCompatActivity implements View.OnClickL
             Log.e("error", ex.getMessage() + "");
         }
     }
+
     public static int useLoop(String[] arr, String targetValue) {
         for (int i = 0; i < arr.length; i++) {
             if (arr[i].compareToIgnoreCase(targetValue) == 0) {
@@ -1194,6 +1213,7 @@ public class HandBagsEditPost extends AppCompatActivity implements View.OnClickL
         }
         return -1;
     }
+
     @OnClick(R.id.image1)
     public void image1() {
         startCameraView();
