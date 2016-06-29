@@ -33,11 +33,11 @@ public class GetLndShippingInfo {
     {
         context=con;
     }
-    void registerCallback(LndShippingCallback callbackClass){
+   public void registerCallback(LndShippingCallback callbackClass){
         myCallbackClass = callbackClass;
     }
 
-    void getData(final String postid){
+  public  void getData(final String postid){
         RequestQueue queue = Volley.newRequestQueue(context);
         StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_SHIPPINGINFO, new Response.Listener<String>() {
             @Override

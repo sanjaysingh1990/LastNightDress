@@ -15,9 +15,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
@@ -43,10 +41,12 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost.CameraReviewFragment;
 import com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost.CompressImage;
-
-import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
+import com.eowise.recyclerview.stickyheaders.samples.PostDataShop.GetLndShippingInfo;
+import com.eowise.recyclerview.stickyheaders.samples.PostDataShop.LndShippingCallback;
 import com.eowise.recyclerview.stickyheaders.samples.PostDataShop.Lnd_Post_Instruction;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
+import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.Home_List_Data;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ConstantValues;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.HashTagandMention;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.InstructionDialogs;
@@ -60,6 +60,7 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,17 +73,15 @@ import github.ankushsachdeva.emojicon.EmojiconGridView;
 import github.ankushsachdeva.emojicon.EmojiconsPopup;
 import github.ankushsachdeva.emojicon.emoji.Emojicon;
 
-public class DressPostPrivate extends AppCompatActivity implements View.OnClickListener {
-    @Bind({R.id.size1, R.id.size2, R.id.size3, R.id.size4, R.id.size5, R.id.size6, R.id.size7, R.id.numsize1, R.id.numsize2, R.id.numsize3, R.id.numsize4, R.id.numsize5, R.id.numsize6, R.id.numsize7, R.id.numsize8, R.id.numsize9, R.id.numsize10, R.id.numsize11, R.id.numsize12})
-    List<TextView> dresssize;
-    @Bind(R.id.dresstype1)
-    TextView dresstype1;
-    @Bind(R.id.dresstype2)
-    TextView dresstype2;
-    @Bind(R.id.dresstype3)
-    TextView dresstype3;
-    @Bind(R.id.dresstype4)
-    TextView dresstype4;
+public class DressPostPrivate extends AppCompatActivity implements View.OnClickListener, LndShippingCallback {
+    @Bind({R.id.size1, R.id.size2, R.id.size3, R.id.size4, R.id.size5, R.id.size6, R.id.size7})
+    List<CheckBox> lnddresssize1;
+
+    @Bind({R.id.numsize1, R.id.numsize2, R.id.numsize3, R.id.numsize4, R.id.numsize5, R.id.numsize6, R.id.numsize7, R.id.numsize8, R.id.numsize9, R.id.numsize10, R.id.numsize11, R.id.numsize12})
+    List<CheckBox> lnddresssize2;
+
+    @Bind({R.id.dresstype1, R.id.dresstype2, R.id.dresstype3, R.id.dresstype4})
+    List<CheckBox> lnddresstype;
 
 
     String sizetype = "";
@@ -93,14 +92,14 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
 
 
     @Bind(R.id.conditionnew)
-    TextView conditionnew;
+    CheckBox conditionnew;
 
     @Bind(R.id.lastnightdress)
-    TextView lastnightdress;
+    CheckBox lastnightdress;
 
 
     @Bind({R.id.color1, R.id.color2, R.id.color3, R.id.color4, R.id.color5, R.id.color6, R.id.color7, R.id.color8, R.id.color9, R.id.color10, R.id.color11, R.id.color12, R.id.color13, R.id.color14, R.id.color15})
-    List<TextView> color;
+    List<CheckBox> color;
 
 
     private TextView heading;
@@ -206,9 +205,12 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
 
 
     String[] links = {"", "", "", ""};
-    String filename[] = {"","","",""};
+    String filename[] = {"", "", "", ""};
     PopupWindow popupWindow;
     InstructionDialogs lndcommistiondialog;
+    Home_List_Data hld;
+    private Bundle extra;
+    private boolean editModeenable = false;
 
 
     @Override
@@ -237,17 +239,19 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
 
 
         //size listener
-        for (int i = 0; i < dresssize.size(); i++) {
-            dresssize.get(i).setOnClickListener(this);
+        for (int i = 0; i < lnddresssize1.size(); i++) {
+            lnddresssize1.get(i).setOnClickListener(this);
+        }
+        //size2 listener
+        for (int i = 0; i < lnddresssize2.size(); i++) {
+            lnddresssize2.get(i).setOnClickListener(this);
         }
 //hide size all for private user
 
 
         //dress type listener
-        dresstype1.setOnClickListener(this);
-        dresstype2.setOnClickListener(this);
-        dresstype3.setOnClickListener(this);
-        dresstype4.setOnClickListener(this);
+        for (int i = 0; i < lnddresstype.size(); i++)
+            lnddresstype.get(i).setOnClickListener(this);
 
 
         //color listener
@@ -314,8 +318,6 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
         });
 
 
-
-
         //username selected from list
         desc.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int index, long position) {
@@ -341,14 +343,125 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
 
     }
 
+    private void setValues(Home_List_Data hld) {
+        //set images
+        for (int i = 0; i < hld.getImageurls().size(); i++) {
+            if (hld.getImageurls().get(i).length() > 0) {
+                String url = hld.getImageurls().get(i);
+                SingleTon.imageLoader.displayImage(url, images.get(i), SingleTon.options);
+                filename[i] = url.substring(url.lastIndexOf("/"));
+            }
+        }
+        //set brand
+        brand.setText(hld.getBrandname());
+        //set description
+        desc.setText(new HashTagandMention().addClickablePart(hld.getDescription(), "#be4d66"));
+
+        //pricewas
+        pricewas.setText(hld.getPricewas());
+        //pricenow
+        pricenow.setText(hld.getPricenow());
+
+        // condition
+        try {
+            int val = Integer.parseInt(hld.getConditon());
+            if (val >= 1 && val <= 10)
+                conditionspinner.setSelection(val);
+            else if (val == 12)
+                lastnightdress.setChecked(true);
+            else
+                conditionnew.setChecked(true);
+            condition = val;
+
+
+        } catch (Exception ex) {
+
+        }
+
+        //dress type
+        try {
+
+
+            int val = Integer.parseInt(hld.getProdtype());
+            lnddresstype.get(val - 1).setChecked(true);
+
+        } catch (Exception ex) {
+
+        }
+        try {
+            //color
+
+            String[] color = hld.getColors().split(",");
+
+            for (int i = 0; i < color.length; i++) {
+                // Arrays.sort(ConstantValues.color);
+                int index = Arrays.asList(ConstantValues.color).indexOf(color[i].toLowerCase());
+
+                this.color.get(index - 1).setChecked(true);
+
+            }
+        } catch (Exception ex)
+
+        {
+
+        }
+        //size1
+
+
+        String[] size1 = hld.getSize().split(",");
+
+        for (int i = 0; i < size1.length; i++) {
+            try {
+                int index = Arrays.asList(ConstantValues.size1).indexOf(size1[i].toLowerCase());
+                this.lnddresssize1.get(index - 1).setChecked(true);
+            } catch (Exception ex) {
+
+            }
+
+        }
+
+
+        //size2
+
+        String[] size2 = hld.getSize().split(",");
+
+        for (int i = 0; i < size2.length; i++) {
+            try {
+                int index = Arrays.asList(ConstantValues.size2).indexOf(size2[i].toLowerCase());
+                this.lnddresssize2.get(index).setChecked(true);
+            } catch (Exception ex) {
+
+            }
+        }
+        getShippingLabel(hld.getPost_id());
+
+    }
+
+    private void getShippingLabel(String postid) {
+        GetLndShippingInfo lndshipping = new GetLndShippingInfo(this);
+        lndshipping.registerCallback(this);
+        lndshipping.getData(postid);
+
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
+
+        //read data
+        extra = getIntent().getExtras();
+
+        if (extra != null) {
+            hld = (Home_List_Data) extra.getSerializable("data");
+            editModeenable = true;
+            setValues(hld);
+        }
+
         for (Map.Entry<String, CameraData> entry : CameraReviewFragment.urls.entrySet()) {
             //    System.out.println(entry.getKey());
             CameraData cd = entry.getValue();
             int value = Integer.parseInt(entry.getKey()) - 1;
-            filename[value]=cd.getFilename();
+            filename[value] = cd.getFilename();
             new AsyncTaskLoadImage(images.get(value), value).execute(cd.getImageurl());
 
 
@@ -375,179 +488,7 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
 
         switch (v.getId()) {
 
-            //events for size
-            case R.id.size1:
-                sizetype = "2XS";
-                changeDressSizetype1((TextView) v);
-                break;
-            case R.id.size2:
-                sizetype = "XS";
-                changeDressSizetype1((TextView) v);
-                break;
-            case R.id.size3:
-                sizetype = "S";
-                changeDressSizetype1((TextView) v);
-                break;
-            case R.id.size4:
-                sizetype = "M";
-                changeDressSizetype1((TextView) v);
-                break;
-            case R.id.size5:
-                sizetype = "L";
-                changeDressSizetype1((TextView) v);
-                break;
-            case R.id.size6:
-                sizetype = "XL";
-                changeDressSizetype1((TextView) v);
-                break;
-            case R.id.size7:
-                sizetype = "2XL";
-                changeDressSizetype1((TextView) v);
-            case R.id.numsize1:
-                sizetype = "00";
-                changeDressSizetype2((TextView) v);
-                break;
-            case R.id.numsize2:
-                sizetype = "0";
-                changeDressSizetype2((TextView) v);
 
-
-                break;
-            case R.id.numsize3:
-                sizetype = "2";
-                changeDressSizetype2((TextView) v);
-                break;
-            case R.id.numsize4:
-                sizetype = "4";
-                changeDressSizetype2((TextView) v);
-                break;
-            case R.id.numsize5:
-                sizetype = "6";
-                changeDressSizetype2((TextView) v);
-                break;
-            case R.id.numsize6:
-                sizetype = "8";
-                changeDressSizetype2((TextView) v);
-                break;
-            case R.id.numsize7:
-                sizetype = "10";
-                changeDressSizetype2((TextView) v);
-
-                break;
-            case R.id.numsize8:
-                sizetype = "12";
-                changeDressSizetype2((TextView) v);
-                break;
-            case R.id.numsize9:
-                sizetype = "14";
-                changeDressSizetype2((TextView) v);
-                break;
-            case R.id.numsize10:
-                sizetype = "16";
-                changeDressSizetype2((TextView) v);
-                break;
-            case R.id.numsize11:
-                sizetype = "18";
-                changeDressSizetype2((TextView) v);
-                break;
-            case R.id.numsize12:
-                sizetype = "20";
-                changeDressSizetype2((TextView) v);
-                break;
-
-            //for length events
-            case R.id.dresstype1:
-                dresstype = 1;
-                changeDressType((TextView) v);
-                break;
-            case R.id.dresstype2:
-                dresstype = 2;
-                changeDressType((TextView) v);
-                break;
-            case R.id.dresstype3:
-                dresstype = 3;
-                changeDressType((TextView) v);
-                break;
-            case R.id.dresstype4:
-                dresstype = 4;
-                changeDressType((TextView) v);
-                break;
-
-
-            //color events
-            case R.id.color1:
-                colortype = "black";
-                changeDressColor((TextView) v);
-                break;
-            case R.id.color2:
-                colortype = "silver";
-                changeDressColor((TextView) v);
-
-                break;
-            case R.id.color3:
-                colortype = "orange";
-                changeDressColor((TextView) v);
-
-                break;
-            case R.id.color4:
-                colortype = "white";
-                changeDressColor((TextView) v);
-                break;
-            case R.id.color5:
-                colortype = "gold";
-                changeDressColor((TextView) v);
-
-                break;
-            case R.id.color6:
-                colortype = "brown";
-                changeDressColor((TextView) v);
-
-
-                break;
-            case R.id.color7:
-                colortype = "red";
-                changeDressColor((TextView) v);
-
-                break;
-            case R.id.color8:
-                colortype = "purple";
-                changeDressColor((TextView) v);
-                break;
-            case R.id.color9:
-                colortype = "nude";
-                changeDressColor((TextView) v);
-                break;
-            case R.id.color10:
-                colortype = "blue";
-                changeDressColor((TextView) v);
-                break;
-            case R.id.color11:
-                colortype = "yellow";
-                changeDressColor((TextView) v);
-
-                break;
-            case R.id.color12:
-                colortype = "gray";
-                changeDressColor((TextView) v);
-                break;
-            case R.id.color13:
-                colortype = "green";
-                changeDressColor((TextView) v);
-
-                break;
-            case R.id.color14:
-                colortype = "pink";
-                changeDressColor((TextView) v);
-                break;
-            case R.id.color15:
-                colortype = "pattern";
-                changeDressColor((TextView) v);
-                break;
-
-            case R.id.color16:
-                colortype = "all";
-                changeDressColor((TextView) v);
-                break;
             case R.id.conditionnew:
                 condition = 11;
                 conditionspinner.setSelection(0);
@@ -604,6 +545,7 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
 
 
     public void done(View v) {
+        boolean size = true, color = true;
 
         ArrayList<String> dresssize = new ArrayList<>();
         ArrayList<String> dresscolor = new ArrayList<>();
@@ -620,7 +562,37 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
 
         } catch (Exception ex) {
         }
+        //to check atleast one size selected
+        for (int i = 0; i < lnddresssize1.size(); i++) {
+            if (lnddresssize1.get(i).isChecked()) {
+                dresssize.add(lnddresssize1.get(i).getTag().toString());
+                size = false;
+            }
+        }
+        if (size) {
+            for (int i = 0; i < lnddresssize2.size(); i++) {
+                if (lnddresssize2.get(i).isChecked()) {
+                    dresssize.add(lnddresssize2.get(i).getTag().toString());
+                    size = false;
+                }
+            }
+        }
 
+//to check atleast one color selected
+        for (int i = 0; i < this.color.size(); i++) {
+            if (this.color.get(i).isChecked()) {
+                color = false;
+                dresscolor.add(this.color.get(i).getTag().toString());
+
+            }
+        }
+
+        //to for lnd dress type
+        for (int i = 0; i < lnddresstype.size(); i++) {
+            if (lnddresstype.get(i).isChecked()) {
+                dresstype = i + 1;
+            }
+        }
 
         if (brand.getText().length() == 0) {
             brand.setError("field is empty");
@@ -646,17 +618,21 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
             pricewas.setError("pricewas must be greater than pricenow");
             pricewas.requestFocus();
             return;
-        } else if (sizetype.length() == 0) {
+        } else if (size) {
             Toast.makeText(this, "select  size", Toast.LENGTH_SHORT).show();
             return;
         } else if (dresstype == 0) {
             Toast.makeText(this, "select dress type", Toast.LENGTH_SHORT).show();
             return;
-        } else if (colortype.length() == 0) {
+        } else if (color) {
             Toast.makeText(this, "select color", Toast.LENGTH_SHORT).show();
             return;
+        } else if (condition == 0) {
+            Toast.makeText(this, "select condition" + condition, Toast.LENGTH_SHORT).show();
+            return;
+
         }
-        if(!validateShipping())
+        if (!validateShipping())
             return;
 
         dresssize.add(sizetype);
@@ -717,7 +693,7 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
             mainObj.put("datetime", SingleTon.getCurrentTimeStamp());
             //end of shipping query here
 
-            mainObj.put("shippingquery",querypart1+querypart2);
+            mainObj.put("shippingquery", querypart1 + querypart2);
 
             //get hashtag and user mentions
             String text = desc.getText().toString();
@@ -743,15 +719,26 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
 
             JSONArray usermentionArray = new JSONArray(usermentions);
             mainObj.put("usermentions", usermentionArray);
-           // uploadImage(mainObj.toString());
+            if (extra == null) {
+                mainObj.put("query_type", 1);
+                mainObj.put("post_id", 0);
 
+                uploadDress(mainObj.toString());
+            }
+            {
+                mainObj.put("query_type", 2);
+                mainObj.put("post_id", hld.getPost_id());
+
+                uploadDress(mainObj.toString());
+
+            }
             Log.e("json", mainObj.toString());
         } catch (Exception ex) {
 
         }
     }
 
-    public void uploadImage(final String data) {
+    public void uploadDress(final String data) {
 
         final ProgressDialog pDialog = new ProgressDialog(this);
         pDialog.setMessage("wait posting dress...");
@@ -820,10 +807,8 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
     }
 
     private void changeDressType(TextView txtview) {
-        dresstype1.setBackgroundColor(Color.parseColor("#1d1f21"));
-        dresstype2.setBackgroundColor(Color.parseColor("#1d1f21"));
-        dresstype3.setBackgroundColor(Color.parseColor("#1d1f21"));
-        dresstype4.setBackgroundColor(Color.parseColor("#1d1f21"));
+        for (int i = 0; i < lnddresstype.size(); i++)
+            lnddresstype.get(i).setBackgroundColor(Color.parseColor("#1d1f21"));
 
         txtview.setBackgroundColor(Color.parseColor("#be4d66"));
 
@@ -838,16 +823,16 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
     }
 
     private void changeDressSizetype1(TextView txtview) {
-        for (int i = 0; i < 7; i++)
-            dresssize.get(i).setBackgroundColor(Color.parseColor("#1d1f21"));
+        for (int i = 0; i < lnddresssize1.size(); i++)
+            lnddresssize1.get(i).setBackgroundColor(Color.parseColor("#1d1f21"));
 
         txtview.setBackgroundColor(Color.parseColor("#be4d66"));
 
     }
 
     private void changeDressSizetype2(TextView txtview) {
-        for (int i = 7; i < dresssize.size(); i++)
-            dresssize.get(i).setBackgroundColor(Color.parseColor("#1d1f21"));
+        for (int i = 7; i < lnddresssize2.size(); i++)
+            lnddresssize2.get(i).setBackgroundColor(Color.parseColor("#1d1f21"));
 
         txtview.setBackgroundColor(Color.parseColor("#be4d66"));
 
@@ -861,6 +846,107 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
 
     }
 
+
+    public void EditShpping(String data) {
+        //first make all shipping label unchecked
+        ActualCost1.setChecked(false);
+        FixedCost1.setChecked(false);
+        ActualCost2.setChecked(false);
+        FixedCost2.setChecked(false);
+
+
+        Log.e("json", data + "");
+        try {
+            JSONObject jobj = new JSONObject(data);
+
+            if (jobj.getBoolean("status")) {
+                String[] weight = getResources().getStringArray(R.array.weight);
+                String[] service = getResources().getStringArray(R.array.service);
+
+                //for national shipping
+                if (jobj.getInt("charge_cost_national") == 1) {
+                    ActualCost1.setChecked(true);
+                    if (jobj.getInt("isfree_shipping_national") == 1)
+                        nationalactualcostfressshipping.setChecked(true);
+                    else {
+
+                        nationalactualcostheight.setText(jobj.getString("height_national"));
+                        nationalactualcostwidth.setText(jobj.getString("width_national"));
+                        nationalactualcostlength.setText(jobj.getString("length_national"));
+                        int val = useLoop(service, jobj.getString("service_type_national"));
+
+                        if (val > -1)
+                            nationalactualcostservicespinner.setSelection(val);
+                        val = useLoop(weight, jobj.getString("package_weight_national"));
+
+                        if (val > -1)
+                            nationalactualweightpackagespinner.setSelection(val);
+                    }
+                    chargeactualcost.setVisibility(View.VISIBLE);
+                    chargefixedcost.setVisibility(View.GONE);
+
+                } else if (jobj.getInt("charge_cost_national") == 2) {
+                    FixedCost1.setChecked(true);
+                    nationalfixedcostinputbox.setText(jobj.getString("cost_national"));
+                    if (jobj.getInt("isfree_shipping_national") == 1)
+                        nationalfixedcostfreeshipping.setChecked(true);
+                    else {
+                        int val = useLoop(service, jobj.getString("service_type_national"));
+
+                        if (val > -1)
+                            nationalfixedcostservicespinner.setSelection(val);
+                    }
+                }
+                //for international for actul
+                if (jobj.getInt("charge_cost_international") == 1) {
+                    ActualCost2.setChecked(true);
+                    if (jobj.getInt("isfree_shipping_international") == 1)
+                        internationalactualcostfreeshipping.setChecked(true);
+                    if (jobj.getInt("isno_shipping_international") == 1)
+                        internationalactualcostnointernationshipping.setChecked(true);
+                    int val = useLoop(service, jobj.getString("service_type_international"));
+
+                    if (val > -1)
+                        internationalactualcostservicespinner.setSelection(val);
+                    val = useLoop(weight, jobj.getString("package_weight_international"));
+
+                    if (val > -1)
+                        internationalweightpackagespinner.setSelection(val);
+                    //for width height and length
+                    internationalactualcostwidth.setText(jobj.getString("width_international"));
+                    internationalactualcostlength.setText(jobj.getString("length_international"));
+                    internationalactualcostheight.setText(jobj.getString("height_international"));
+
+                }//for fixed
+                else if (jobj.getInt("charge_cost_national") == 2) {
+                    FixedCost2.setChecked(true);
+                    internationalfixedcostedittext.setText(jobj.getString("cost_international"));
+                    if (jobj.getInt("isfree_shipping_international") == 1)
+                        internationalfixedcostfreeshipping.setChecked(true);
+                    else if (jobj.getInt("isno_shipping_international") == 1)
+                        internationalfixedcostnointernationshipping.setChecked(true);
+                }
+
+            }
+        } catch (Exception ex) {
+            Log.e("error", ex.getMessage() + "");
+        }
+    }
+
+    public static int useLoop(String[] arr, String targetValue) {
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i].compareToIgnoreCase(targetValue) == 0) {
+                return i;
+
+            }
+        }
+        return -1;
+    }
+
+    @Override
+    public void callbackReturn(String data) {
+        EditShpping(data);
+    }
 
     private class AsyncTaskLoadImage extends AsyncTask<String, Bitmap, Bitmap> {
 
@@ -904,16 +990,16 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
     }
 
     private void clearSizetype1() {
-        for (int i = 0; i < 7; i++) {
-            dresssize.get(i).setBackgroundColor(Color.parseColor("#1d1f21"));
+        for (int i = 0; i < lnddresssize1.size(); i++) {
+            lnddresssize1.get(i).setBackgroundColor(Color.parseColor("#1d1f21"));
 
         }
         sizetype = "";
     }
 
     private void clearSizetype2() {
-        for (int i = 7; i < dresssize.size(); i++) {
-            dresssize.get(i).setBackgroundColor(Color.parseColor("#1d1f21"));
+        for (int i = 0; i < lnddresssize2.size(); i++) {
+            lnddresssize2.get(i).setBackgroundColor(Color.parseColor("#1d1f21"));
 
         }
         sizetype = "";
@@ -1031,6 +1117,7 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
     private void changeEmojiKeyboardIcon(ImageView iconToBeChanged, int drawableResourceId) {
         iconToBeChanged.setImageResource(drawableResourceId);
     }
+
     public void unselectactualPrice() {
         ActualCost1.setChecked(false);
         FixedCost1.setChecked(false);
@@ -1057,14 +1144,14 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
                 Toast.makeText(this, "select national shipping service", Toast.LENGTH_SHORT).show();
                 return false;
             } else {
-                querypart1 = querypart1 + "service_type_national=\"" + nationalfixedcostservicespinner.getSelectedItem() + "\"";
+                querypart1 = querypart1 + ",service_type_national=\"" + nationalfixedcostservicespinner.getSelectedItem() + "\"";
             }
             if (nationalfixedcostinputbox.getText().length() == 0) {
                 nationalfixedcostinputbox.requestFocus();
                 nationalfixedcostinputbox.setError("enter charge fixed cost");
                 return false;
             } else {
-                querypart1 = querypart1 + ",charge_cost_national=" + nationalfixedcostinputbox.getText();
+                querypart1 = querypart1 + ",cost_national=" + nationalfixedcostinputbox.getText();
             }
         }
         //for shipping national actual cost
@@ -1072,7 +1159,7 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
             querypart1 = querypart1 + "charge_cost_national=1";
 
             if (nationalactualweightpackagespinner.getSelectedItemPosition() == 0) {
-                Toast.makeText(this, "select weight of packaged item", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, ",select weight of packaged item", Toast.LENGTH_SHORT).show();
                 return false;
             } else {
                 querypart1 = querypart1 + ",package_weight_national=" + "\"" + nationalactualweightpackagespinner.getSelectedItem() + "\"";
@@ -1126,7 +1213,7 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
                 internationalfixedcostedittext.setError("enter charge fixed cost");
                 return false;
             } else {
-                querypart1 = querypart1 + ",charge_cost_international=" + nationalfixedcostinputbox.getText();
+                querypart1 = querypart1 + ",cost_international=" + nationalfixedcostinputbox.getText();
             }
         }
         //for shipping international actual cost
@@ -1134,7 +1221,7 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
             querypart1 = querypart1 + ",charge_cost_national=1";
 
             if (internationalweightpackagespinner.getSelectedItemPosition() == 0) {
-                Toast.makeText(this, "select weight of packaged item", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, ",select weight of packaged item", Toast.LENGTH_SHORT).show();
                 return false;
             } else {
                 querypart1 = querypart1 + ",package_weight_international=" + "\"" + internationalweightpackagespinner.getSelectedItem() + "\"";
@@ -1172,7 +1259,7 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
         }
         //national free shipping for fixed cost and actual cost
         if (nationalactualcostfressshipping.isChecked()) {
-            querypart1 = querypart1 + "isfree_shipping_national="+ "1";
+            querypart1 = querypart1 + "isfree_shipping_national=" + "1";
         } else if (nationalfixedcostfreeshipping.isChecked()) {
             querypart1 = querypart1 + "isfree_shipping_national=" + "1";
 
@@ -1188,7 +1275,7 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
 
             }
             if (internationalfixedcostnointernationshipping.isChecked()) {
-                querypart1 = querypart1 + ",isno_shipping_international="+ "1";
+                querypart1 = querypart1 + ",isno_shipping_international=" + "1";
             } else if (internationalactualcostnointernationshipping.isChecked()) {
                 querypart1 = querypart1 + ",isno_shipping_international=" + "1";
 

@@ -1,5 +1,5 @@
 package com.eowise.recyclerview.stickyheaders.samples.PostDataShop;
 
-interface LndShippingCallback{
+public interface LndShippingCallback{
     void callbackReturn(String data);
 }

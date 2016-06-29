@@ -335,7 +335,7 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
 
     @Override
     public void callbackReturn(String data) {
-
+         EditShpping(data);
     }
 
     Home_List_Data hld;
@@ -392,7 +392,7 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
 
             else
                 conditionnew.setChecked(true);
-
+           condition=val;
         } catch (Exception ex) {
 
         }

@@ -2,6 +2,7 @@ package com.eowise.recyclerview.stickyheaders.samples.PrivatePost;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -43,9 +44,13 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost.CameraReviewFragment;
 import com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost.CompressImage;
+import com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost.CustomCamera;
+import com.eowise.recyclerview.stickyheaders.samples.PostDataShop.GetLndShippingInfo;
+import com.eowise.recyclerview.stickyheaders.samples.PostDataShop.LndShippingCallback;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.PostDataShop.Lnd_Post_Instruction;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.Home_List_Data;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ConstantValues;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.HashTagandMention;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.InstructionDialogs;
@@ -60,6 +65,7 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -69,23 +75,24 @@ import java.util.regex.Pattern;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import github.ankushsachdeva.emojicon.EmojiconGridView;
 import github.ankushsachdeva.emojicon.EmojiconsPopup;
 import github.ankushsachdeva.emojicon.emoji.Emojicon;
 
-public class ShoesPostPrivate extends AppCompatActivity implements View.OnClickListener {
+public class ShoesPostPrivate extends AppCompatActivity implements View.OnClickListener, LndShippingCallback {
 
     @Bind({R.id.size1, R.id.size2, R.id.size3, R.id.size4, R.id.size5, R.id.size6, R.id.size7, R.id.size8, R.id.size9, R.id.size10, R.id.size11, R.id.size12, R.id.size13, R.id.size14, R.id.size15})
-    List<TextView> shoesize;
+    List<CheckBox> shoesize;
     @Bind({R.id.color1, R.id.color2, R.id.color3, R.id.color4, R.id.color5, R.id.color6, R.id.color7, R.id.color8, R.id.color9, R.id.color10, R.id.color11, R.id.color12, R.id.color13, R.id.color14, R.id.color15})
-    List<TextView> color;
+    List<CheckBox> color;
     @Bind({R.id.flats, R.id.pumps, R.id.platforms, R.id.boots, R.id.wedges, R.id.bridal, R.id.sandals})
-    List<TextView> shoestype;
+    List<CheckBox> shoestype;
     @Bind({R.id.image1, R.id.image2, R.id.image3, R.id.image4})
     List<ImageView> images;
 
     @Bind(R.id.conditionnew)
-    TextView conditionnew;
+    CheckBox conditionnew;
 
 
     @Bind(R.id.heading)
@@ -200,7 +207,8 @@ public class ShoesPostPrivate extends AppCompatActivity implements View.OnClickL
     int condition = 0;
     String[] links = {"", "", "", ""};
     String filename[] = {"", "", "", ""};
-
+    Home_List_Data hld;
+    Bundle extra;
     PopupWindow popupWindow;
     InstructionDialogs lndcommistiondialog;
 
@@ -325,6 +333,12 @@ public class ShoesPostPrivate extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onResume() {
         super.onResume();
+        //read data
+        extra = getIntent().getExtras();
+        if (extra != null) {
+            hld = (Home_List_Data) extra.getSerializable("data");
+            setValues(hld);
+        }
         for (Map.Entry<String, CameraData> entry : CameraReviewFragment.urls.entrySet()) {
             //    System.out.println(entry.getKey());
             CameraData cd = entry.getValue();
@@ -337,6 +351,89 @@ public class ShoesPostPrivate extends AppCompatActivity implements View.OnClickL
 
     }
 
+    private void setValues(Home_List_Data hld) {
+        //set images
+        for (int i = 0; i < hld.getImageurls().size(); i++) {
+            if (hld.getImageurls().get(i).length() > 0) {
+                String url = hld.getImageurls().get(i);
+                SingleTon.imageLoader.displayImage(url, images.get(i), SingleTon.options);
+                filename[i] = url.substring(url.lastIndexOf("/"));
+            }
+        }
+        //set brand
+        brand.setText(hld.getBrandname());
+        //set description
+        desc.setText(new HashTagandMention().addClickablePart(hld.getDescription(), "#be4d66"));
+
+        //pricewas
+        pricewas.setText(hld.getPricewas());
+        //pricenow
+        pricenow.setText(hld.getPricenow());
+
+        // condition
+        try {
+            int val = Integer.parseInt(hld.getConditon());
+            condition = val;
+            if (val >= 1 && val <= 10)
+                conditionspinner.setSelection(val);
+
+            else
+                conditionnew.setChecked(true);
+
+        } catch (Exception ex) {
+
+        }
+
+        //shoe type
+        try {
+
+            int val = Integer.parseInt(hld.getProdtype());
+            shoestype.get(val - 1).setChecked(true);
+
+        } catch (Exception ex) {
+
+        }
+        try {
+            //color
+
+            String[] color = hld.getColors().split(",");
+            for (int i = 0; i < color.length; i++) {
+                Arrays.sort(ConstantValues.color);
+                int index = Arrays.binarySearch(ConstantValues.color, color[i]);
+                this.color.get(index).setChecked(true);
+
+            }
+        } catch (Exception ex)
+
+        {
+
+        }
+        //shoe size
+        try {
+
+            String[] size1 = hld.getSize().split(",");
+            for (int i = 0; i < size1.length; i++) {
+                Arrays.sort(ConstantValues.shoesize);
+                int index = Arrays.binarySearch(ConstantValues.shoesize, size1[i]);
+
+                shoesize.get(index).setChecked(true);
+
+            }
+
+        } catch (Exception ex) {
+
+        }
+
+        getShippingLabel(hld.getPost_id());
+
+    }
+
+    private void getShippingLabel(String postid) {
+        GetLndShippingInfo lndshipping = new GetLndShippingInfo(this);
+        lndshipping.registerCallback(this);
+        lndshipping.getData(postid);
+
+    }
 
     public void back(View v) {
         onBackPressed();
@@ -803,6 +900,11 @@ public class ShoesPostPrivate extends AppCompatActivity implements View.OnClickL
 
     }
 
+    @Override
+    public void callbackReturn(String data) {
+        EditShpping(data);
+    }
+
     private class AsyncTaskLoadImage extends AsyncTask<String, Bitmap, Bitmap> {
 
         ImageView img;
@@ -984,14 +1086,14 @@ public class ShoesPostPrivate extends AppCompatActivity implements View.OnClickL
                 Toast.makeText(this, "select national shipping service", Toast.LENGTH_SHORT).show();
                 return false;
             } else {
-                querypart1 = querypart1 + "service_type_national=\"" + nationalfixedcostservicespinner.getSelectedItem() + "\"";
+                querypart1 = querypart1 + ",service_type_national=\"" + nationalfixedcostservicespinner.getSelectedItem() + "\"";
             }
             if (nationalfixedcostinputbox.getText().length() == 0) {
                 nationalfixedcostinputbox.requestFocus();
                 nationalfixedcostinputbox.setError("enter charge fixed cost");
                 return false;
             } else {
-                querypart1 = querypart1 + ",charge_cost_national=" + nationalfixedcostinputbox.getText();
+                querypart1 = querypart1 + ",cost_national=" + nationalfixedcostinputbox.getText();
             }
         }
         //for shipping national actual cost
@@ -999,7 +1101,7 @@ public class ShoesPostPrivate extends AppCompatActivity implements View.OnClickL
             querypart1 = querypart1 + "charge_cost_national=1";
 
             if (nationalactualweightpackagespinner.getSelectedItemPosition() == 0) {
-                Toast.makeText(this, "select weight of packaged item", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, ",select weight of packaged item", Toast.LENGTH_SHORT).show();
                 return false;
             } else {
                 querypart1 = querypart1 + ",package_weight_national=" + "\"" + nationalactualweightpackagespinner.getSelectedItem() + "\"";
@@ -1053,7 +1155,7 @@ public class ShoesPostPrivate extends AppCompatActivity implements View.OnClickL
                 internationalfixedcostedittext.setError("enter charge fixed cost");
                 return false;
             } else {
-                querypart1 = querypart1 + ",charge_cost_international=" + nationalfixedcostinputbox.getText();
+                querypart1 = querypart1 + ",cost_international=" + nationalfixedcostinputbox.getText();
             }
         }
         //for shipping international actual cost
@@ -1061,7 +1163,7 @@ public class ShoesPostPrivate extends AppCompatActivity implements View.OnClickL
             querypart1 = querypart1 + ",charge_cost_national=1";
 
             if (internationalweightpackagespinner.getSelectedItemPosition() == 0) {
-                Toast.makeText(this, "select weight of packaged item", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, ",select weight of packaged item", Toast.LENGTH_SHORT).show();
                 return false;
             } else {
                 querypart1 = querypart1 + ",package_weight_international=" + "\"" + internationalweightpackagespinner.getSelectedItem() + "\"";
@@ -1099,7 +1201,7 @@ public class ShoesPostPrivate extends AppCompatActivity implements View.OnClickL
         }
         //national free shipping for fixed cost and actual cost
         if (nationalactualcostfressshipping.isChecked()) {
-            querypart1 = querypart1 + "isfree_shipping_national="+ "1";
+            querypart1 = querypart1 + "isfree_shipping_national=" + "1";
         } else if (nationalfixedcostfreeshipping.isChecked()) {
             querypart1 = querypart1 + "isfree_shipping_national=" + "1";
 
@@ -1115,7 +1217,7 @@ public class ShoesPostPrivate extends AppCompatActivity implements View.OnClickL
 
             }
             if (internationalfixedcostnointernationshipping.isChecked()) {
-                querypart1 = querypart1 + ",isno_shipping_international="+ "1";
+                querypart1 = querypart1 + ",isno_shipping_international=" + "1";
             } else if (internationalactualcostnointernationshipping.isChecked()) {
                 querypart1 = querypart1 + ",isno_shipping_international=" + "1";
 
@@ -1134,6 +1236,108 @@ public class ShoesPostPrivate extends AppCompatActivity implements View.OnClickL
             querypart1 = querypart1 + ",charge_cost_international=1";
 //Log.e("query",querypart1+querypart2);
         return true;
+    }
+
+
+    public void EditShpping(String data) {
+        //first make all shipping label unchecked
+        ActualCost1.setChecked(false);
+        FixedCost1.setChecked(false);
+        ActualCost2.setChecked(false);
+        FixedCost2.setChecked(false);
+
+
+        Log.e("json", data + "");
+        try {
+            JSONObject jobj = new JSONObject(data);
+
+            if (jobj.getBoolean("status")) {
+                String[] weight = getResources().getStringArray(R.array.weight);
+                String[] service = getResources().getStringArray(R.array.service);
+
+                //for national shipping
+                if (jobj.getInt("charge_cost_national") == 1) {
+                    ActualCost1.setChecked(true);
+                    if (jobj.getInt("isfree_shipping_national") == 1)
+                        nationalactualcostfressshipping.setChecked(true);
+
+                } else if (jobj.getInt("charge_cost_national") == 2) {
+                    FixedCost1.setChecked(true);
+                    nationalfixedcostinputbox.setText(jobj.getString("cost_national"));
+                    if (jobj.getInt("isfree_shipping_national") == 1)
+                        nationalfixedcostfreeshipping.setChecked(true);
+
+                }
+                //for international for actul
+                if (jobj.getInt("charge_cost_international") == 1) {
+                    ActualCost2.setChecked(true);
+                    if (jobj.getInt("isfree_shipping_international") == 1)
+                        internationalactualcostfreeshipping.setChecked(true);
+                    else if (jobj.getInt("isno_shipping_international") == 1)
+                        internationalactualcostnointernationshipping.setChecked(true);
+                    int val = useLoop(service, jobj.getString("service_type_international"));
+
+                    if (val > -1)
+                        internationalactualcostservicespinner.setSelection(val);
+                    val = useLoop(weight, jobj.getString("package_weight_international"));
+
+                    if (val > -1)
+                        internationalweightpackagespinner.setSelection(val);
+                    //for width height and length
+                    internationalactualcostwidth.setText(jobj.getString("width_international"));
+                    internationalactualcostlength.setText(jobj.getString("length_international"));
+                    internationalactualcostheight.setText(jobj.getString("height_international"));
+
+                }//for fixed
+                else if (jobj.getInt("charge_cost_national") == 2) {
+                    FixedCost2.setChecked(true);
+                    internationalfixedcostedittext.setText(jobj.getString("cost_international"));
+                    if (jobj.getInt("isfree_shipping_international") == 1)
+                        internationalfixedcostfreeshipping.setChecked(true);
+                    else if (jobj.getInt("isno_shipping_international") == 1)
+                        internationalfixedcostnointernationshipping.setChecked(true);
+                }
+
+            }
+        } catch (Exception ex) {
+            Log.e("error", ex.getMessage() + "");
+        }
+    }
+
+    public static int useLoop(String[] arr, String targetValue) {
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i].compareToIgnoreCase(targetValue) == 0) {
+                return i;
+
+            }
+        }
+        return -1;
+    }
+
+    @OnClick(R.id.image1)
+    public void image1() {
+        startCameraView();
+    }
+
+    @OnClick(R.id.image2)
+    public void image2() {
+        startCameraView();
+    }
+
+    @OnClick(R.id.image3)
+    public void image3() {
+        startCameraView();
+    }
+
+    @OnClick(R.id.image4)
+    public void image4() {
+        startCameraView();
+    }
+
+    private void startCameraView() {
+        Intent cap = new Intent(this, CustomCamera.class);
+        startActivity(cap);
+
     }
 
 }

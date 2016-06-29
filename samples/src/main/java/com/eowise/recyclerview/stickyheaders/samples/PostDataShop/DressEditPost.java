@@ -216,9 +216,9 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
     PopupWindow popupWindow;
     int dresstype = 0;
     int condition = 0;
-    private Bundle extra;
-    InstructionDialogs lndcommistiondialog;
+   InstructionDialogs lndcommistiondialog;
     Home_List_Data hld;
+    private Bundle extra;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -267,37 +267,34 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
         conditionspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long l) {
+                try {
+                    if (pos > 0) {
 
-                if (pos > 0) {
-                    try {
                         ((TextView) parent.getChildAt(0)).setTextColor(Color.parseColor("#ffffff"));
                         ((TextView) parent.getChildAt(0)).setBackgroundColor(Color.parseColor("#be4d66"));
-                    } catch (Exception ex) {
 
-                    }
+
                     conditionspinner.setBackgroundColor(Color.parseColor("#be4d66"));
                     condition = pos;
                     lnditemcondition.setText(ConstantValues.conditiondesciptions[pos]);
                     condition();
-                } else {
+                }else{
                     lnditemcondition.setText(ConstantValues.conditiondesciptions[pos]);
-                    try {
-                        ((TextView) parent.getChildAt(0)).setTextColor(Color.parseColor("#ffffff"));
-                        ((TextView) parent.getChildAt(0)).setBackgroundColor(Color.parseColor("#1d1f21"));
-                    } catch (Exception ex) {
 
-                    }
+                    ((TextView) parent.getChildAt(0)).setTextColor(Color.parseColor("#ffffff"));
+                    ((TextView) parent.getChildAt(0)).setBackgroundColor(Color.parseColor("#1d1f21"));
+
                     conditionspinner.setBackgroundColor(Color.parseColor("#1d1f21"));
-                    if (condition != 11 || condition != 12)
+                    if (condition != 11 || condition != 12&&pos!=0)
                         condition = pos;
                 }
-                try {
-                    ((TextView) parent.getChildAt(0)).setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow, 0);
-                } catch (Exception ex) {
+
+                ((TextView) parent.getChildAt(0)).setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow, 0);
+            }
+                catch (Exception ex) {
 
                 }
-
-            }
+             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
@@ -402,14 +399,14 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
         // condition
         try {
             int val = Integer.parseInt(hld.getConditon());
-            condition = val;
-            if (val >= 1 && val <= 10)
+             if (val >= 1 && val <= 10)
                 conditionspinner.setSelection(val);
             else if (val == 12)
                 lastnightdress.setChecked(true);
             else
                 conditionnew.setChecked(true);
-            Toast.makeText(this,condition+"",Toast.LENGTH_SHORT).show();
+            condition = val;
+
 
         } catch (Exception ex) {
 
@@ -724,7 +721,7 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
             Toast.makeText(this, "select color", Toast.LENGTH_SHORT).show();
             return;
         } else if (condition == 0) {
-            Toast.makeText(this, "select condition", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "select condition" + condition, Toast.LENGTH_SHORT).show();
             return;
 
         }
@@ -770,8 +767,6 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
             mainObj.put("condition", condition);
             mainObj.put("brand", brand.getText().toString());
             mainObj.put("categorytype", 1);
-
-            mainObj.put("condition", condition);
 
 
             mainObj.put("size1", dressArray);
@@ -830,8 +825,8 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
             }
             //end query here
 
-            Log.e("json", mainObj.toString());
-            Log.e("json2", querypart1 + querypart2);
+          //  Log.e("json", mainObj.toString());
+           // Log.e("json2", querypart1 + querypart2);
         } catch (Exception ex) {
             Log.e("json error", ex.getMessage() + "");
         }

@@ -2,6 +2,7 @@ package com.eowise.recyclerview.stickyheaders.samples.PrivatePost;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -39,11 +40,15 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost.CustomCamera;
+import com.eowise.recyclerview.stickyheaders.samples.PostDataShop.GetLndShippingInfo;
+import com.eowise.recyclerview.stickyheaders.samples.PostDataShop.LndShippingCallback;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost.CameraReviewFragment;
 import com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost.CompressImage;
 import com.eowise.recyclerview.stickyheaders.samples.PostDataShop.Lnd_Post_Instruction;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.Home_List_Data;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ConstantValues;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.HashTagandMention;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.InstructionDialogs;
@@ -58,6 +63,7 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -67,19 +73,20 @@ import java.util.regex.Pattern;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import github.ankushsachdeva.emojicon.EmojiconGridView;
 import github.ankushsachdeva.emojicon.EmojiconsPopup;
 import github.ankushsachdeva.emojicon.emoji.Emojicon;
 
-public class HandBagsPostPrivate extends AppCompatActivity implements View.OnClickListener {
+public class HandBagsPostPrivate extends AppCompatActivity implements View.OnClickListener,LndShippingCallback {
     @Bind({R.id.image1, R.id.image2, R.id.image3, R.id.image4})
     List<ImageView> images;
 
     @Bind({R.id.size1, R.id.size2, R.id.size3})
-    List<TextView> handbagsize;
+    List<CheckBox> handbagsize;
 
     @Bind({R.id.color1, R.id.color2, R.id.color3, R.id.color4, R.id.color5, R.id.color6, R.id.color7, R.id.color8, R.id.color9, R.id.color10, R.id.color11, R.id.color12, R.id.color13, R.id.color14, R.id.color15})
-    List<TextView> color;
+    List<CheckBox> color;
     @Bind(R.id.earnings)
     TextView earnings;
     @Bind(R.id.infoview)
@@ -90,7 +97,7 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
     View rootView;
 
     @Bind({R.id.purses, R.id.clutches,})
-    List<TextView> handbagtype;
+    List<CheckBox> handbagtype;
     @Bind(R.id.conditionspinner)
     Spinner conditionspinner;
     @Bind(R.id.autocomplete)
@@ -105,7 +112,7 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
     TextView lnditemcondition;
     //condition reference
     @Bind(R.id.conditionnew)
-    TextView conditionnew;
+    CheckBox conditionnew;
 
     //included layout shipping
     @Bind(R.id.actualcost1)
@@ -186,7 +193,7 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
 
 
 
-    int typehandbag = 0;
+    String typehandbag = "";
     int condition = 0;
     String sizetype = "";
     String colortype = "";
@@ -194,7 +201,8 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
     PopupWindow popupWindow;
     String filename[] = {"","","",""};
     InstructionDialogs lndcommistiondialog;
-
+ private   Home_List_Data hld;
+ private Bundle extra;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -321,6 +329,11 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
     @Override
     protected void onResume() {
         super.onResume();
+        extra = getIntent().getExtras();
+        if (extra != null) {
+            hld = (Home_List_Data) extra.getSerializable("data");
+            setValues(hld);
+        }
         for (Map.Entry<String, CameraData> entry : CameraReviewFragment.urls.entrySet()) {
             //    System.out.println(entry.getKey());
             CameraData cd = entry.getValue();
@@ -331,6 +344,106 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
 
         }
 
+
+    }
+
+    private void setValues(Home_List_Data hld) {
+        //set images
+        for (int i = 0; i < hld.getImageurls().size(); i++) {
+            if (hld.getImageurls().get(i).length() > 0) {
+                String url = hld.getImageurls().get(i);
+                SingleTon.imageLoader.displayImage(url, images.get(i), SingleTon.options);
+                filename[i] = url.substring(url.lastIndexOf("/"));
+            }
+        }
+        //set brand
+        brand.setText(hld.getBrandname());
+        //set description
+        desc.setText(new HashTagandMention().addClickablePart(hld.getDescription(), "#be4d66"));
+
+        //pricewas
+        pricewas.setText(hld.getPricewas());
+        //pricenow
+        pricenow.setText(hld.getPricenow());
+
+        // condition
+        try {
+            int val = Integer.parseInt(hld.getConditon());
+            condition = val;
+            if (val >= 1 && val <= 10)
+                conditionspinner.setSelection(val);
+
+            else
+                conditionnew.setBackgroundColor(Color.parseColor("#be4d66"));
+
+        } catch (Exception ex) {
+
+        }
+
+        //dress type
+
+
+        String[] color = hld.getColors().split(",");
+        //color
+        for (int i = 0; i < color.length; i++) {
+            try {
+                int index = Arrays.asList(ConstantValues.color).indexOf(color[i].toLowerCase());
+                this.color.get(index - 1).setChecked(true);
+            } catch (Exception ex)
+
+            {
+
+            }
+
+        }
+
+        //bag size
+
+
+        String[] size1 = hld.getSize().split(",");
+        for (int i = 0; i < size1.length; i++) {
+
+            try {
+                int index = Arrays.asList(ConstantValues.bagsize).indexOf(size1[i].toUpperCase());
+
+                if (index >= 0)
+                    this.handbagsize.get(index - 1).setChecked(true);
+            } catch (Exception ex) {
+                // Log.e("error",ex.getMessage()+"");
+            }
+
+
+        }
+
+
+        //purse type
+
+        try {
+
+            String[] prodtype = hld.getProdtype().split(",");
+            Log.e("", hld.getProdtype() + "");
+
+            if (prodtype[0].compareTo("1") == 0) {
+                this.handbagtype.get(0).setChecked(true);
+
+            } else {
+                this.handbagtype.get(1).setChecked(true);
+
+            }
+
+
+        } catch (Exception ex) {
+            Log.e("error", ex.getMessage() + "");
+        }
+        getShippingLabel(hld.getPost_id());
+
+
+    }
+
+    private void getShippingLabel(String postid) {
+        GetLndShippingInfo lndshipping = new GetLndShippingInfo(this);
+        lndshipping.registerCallback(this);
+        lndshipping.getData(postid);
 
     }
 
@@ -348,104 +461,7 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
 
         switch (v.getId()) {
 
-            //events for size
-            case R.id.size1:
-                sizetype = "s";
-                changeHandbagSize((TextView) v);
-                break;
-            case R.id.size2:
-                sizetype = "m";
-                changeHandbagSize((TextView) v);
-                break;
-            case R.id.size3:
-                sizetype = "l";
-                changeHandbagSize((TextView) v);
-                break;
 
-//for handbag type events
-            case R.id.purses:
-                typehandbag = 1;
-                changeHandbagType((TextView) v);
-                break;
-            case R.id.clutches:
-                typehandbag = 2;
-                changeHandbagType((TextView) v);
-
-                break;
-//color events
-            case R.id.color1:
-                colortype = "black";
-                changeHandbagColor((TextView) v);
-                break;
-            case R.id.color2:
-                colortype = "silver";
-                changeHandbagColor((TextView) v);
-
-                break;
-            case R.id.color3:
-                colortype = "orange";
-                changeHandbagColor((TextView) v);
-
-                break;
-            case R.id.color4:
-                colortype = "white";
-                changeHandbagColor((TextView) v);
-                break;
-            case R.id.color5:
-                colortype = "gold";
-                changeHandbagColor((TextView) v);
-
-                break;
-            case R.id.color6:
-                colortype = "brown";
-                changeHandbagColor((TextView) v);
-
-
-                break;
-            case R.id.color7:
-                colortype = "red";
-                changeHandbagColor((TextView) v);
-
-                break;
-            case R.id.color8:
-                colortype = "purple";
-                changeHandbagColor((TextView) v);
-                break;
-            case R.id.color9:
-                colortype = "nude";
-                changeHandbagColor((TextView) v);
-                break;
-            case R.id.color10:
-                colortype = "blue";
-                changeHandbagColor((TextView) v);
-                break;
-            case R.id.color11:
-                colortype = "yellow";
-                changeHandbagColor((TextView) v);
-
-                break;
-            case R.id.color12:
-                colortype = "gray";
-                changeHandbagColor((TextView) v);
-                break;
-            case R.id.color13:
-                colortype = "green";
-                changeHandbagColor((TextView) v);
-
-                break;
-            case R.id.color14:
-                colortype = "pink";
-                changeHandbagColor((TextView) v);
-                break;
-            case R.id.color15:
-                colortype = "pattern";
-                changeHandbagColor((TextView) v);
-                break;
-
-            case R.id.color16:
-                colortype = "all";
-                changeHandbagColor((TextView) v);
-                break;
             // condition events
             case R.id.conditionnew:
                 conditionnew.setBackgroundColor(Color.parseColor("#be4d66"));
@@ -513,6 +529,11 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
 
         txtview.setBackgroundColor(Color.parseColor("#be4d66"));
 
+    }
+
+    @Override
+    public void callbackReturn(String data) {
+        EditShpping(data);
     }
 
     private class AsyncTaskLoadImage extends AsyncTask<String, Bitmap, Bitmap> {
@@ -668,7 +689,7 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
     }
 
     public void done(View v) {
-
+        boolean size = true, type = true, color = true;
         ArrayList<String> hashtags = new ArrayList<>();
         ArrayList<Integer> usermentions = new ArrayList<>();
         querypart1 = "update lnd_table_how_to_ship set ";
@@ -681,7 +702,29 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
 
         } catch (Exception ex) {
         }
+        //to check atleast one size selected
+        for (int i = 0; i < handbagtype.size(); i++) {
+            if (handbagtype.get(i).isChecked()) {
+                type = false;
+               typehandbag =handbagtype.get(i).getTag().toString();
+            }
+        }
 
+        //to check atleast one length selected
+        for (int i = 0; i < handbagsize.size(); i++) {
+            if (handbagsize.get(i).isChecked()) {
+                size = false;
+                sizetype=handbagsize.get(i).getTag().toString();
+            }
+        }
+
+//to check atleast one color selected
+        for (int i = 0; i < this.color.size(); i++) {
+            if (this.color.get(i).isChecked()) {
+                color = false;
+                colortype=this.color.get(i).getTag().toString();
+            }
+        }
 
         if (brand.getText().length() == 0) {
             brand.setError("field is empty");
@@ -709,18 +752,18 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
             pricewas.setError("pricewas must be greater than pricenow");
             pricewas.requestFocus();
             return;
-        } else if (typehandbag == 0) {
-            Toast.makeText(this, "select purse type", Toast.LENGTH_SHORT).show();
+        }  else if (type) {
+            Toast.makeText(this, "select type", Toast.LENGTH_SHORT).show();
 
             return;
-        } else if (sizetype.length() == 0) {
-            Toast.makeText(this, "select  purse size", Toast.LENGTH_SHORT).show();
+        } else if (size) {
+            Toast.makeText(this, "select  size", Toast.LENGTH_SHORT).show();
             return;
-        } else if (colortype.length() == 0) {
-            Toast.makeText(this, "select purse color", Toast.LENGTH_SHORT).show();
+        } else if (color) {
+            Toast.makeText(this, "select color", Toast.LENGTH_SHORT).show();
             return;
         } else if (condition == 0) {
-            Toast.makeText(this, "select purse condition", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "select condition", Toast.LENGTH_SHORT).show();
             return;
 
         }
@@ -899,14 +942,14 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
                 Toast.makeText(this, "select national shipping service", Toast.LENGTH_SHORT).show();
                 return false;
             } else {
-                querypart1 = querypart1 + "service_type_national=\"" + nationalfixedcostservicespinner.getSelectedItem() + "\"";
+                querypart1 = querypart1 + ",service_type_national=\"" + nationalfixedcostservicespinner.getSelectedItem() + "\"";
             }
             if (nationalfixedcostinputbox.getText().length() == 0) {
                 nationalfixedcostinputbox.requestFocus();
                 nationalfixedcostinputbox.setError("enter charge fixed cost");
                 return false;
             } else {
-                querypart1 = querypart1 + ",charge_cost_national=" + nationalfixedcostinputbox.getText();
+                querypart1 = querypart1 + ",cost_national=" + nationalfixedcostinputbox.getText();
             }
         }
         //for shipping national actual cost
@@ -914,7 +957,7 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
             querypart1 = querypart1 + "charge_cost_national=1";
 
             if (nationalactualweightpackagespinner.getSelectedItemPosition() == 0) {
-                Toast.makeText(this, "select weight of packaged item", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, ",select weight of packaged item", Toast.LENGTH_SHORT).show();
                 return false;
             } else {
                 querypart1 = querypart1 + ",package_weight_national=" + "\"" + nationalactualweightpackagespinner.getSelectedItem() + "\"";
@@ -968,7 +1011,7 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
                 internationalfixedcostedittext.setError("enter charge fixed cost");
                 return false;
             } else {
-                querypart1 = querypart1 + ",charge_cost_international=" + nationalfixedcostinputbox.getText();
+                querypart1 = querypart1 + ",cost_international=" + nationalfixedcostinputbox.getText();
             }
         }
         //for shipping international actual cost
@@ -976,7 +1019,7 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
             querypart1 = querypart1 + ",charge_cost_national=1";
 
             if (internationalweightpackagespinner.getSelectedItemPosition() == 0) {
-                Toast.makeText(this, "select weight of packaged item", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, ",select weight of packaged item", Toast.LENGTH_SHORT).show();
                 return false;
             } else {
                 querypart1 = querypart1 + ",package_weight_international=" + "\"" + internationalweightpackagespinner.getSelectedItem() + "\"";
@@ -1014,7 +1057,7 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
         }
         //national free shipping for fixed cost and actual cost
         if (nationalactualcostfressshipping.isChecked()) {
-            querypart1 = querypart1 + "isfree_shipping_national="+ "1";
+            querypart1 = querypart1 + "isfree_shipping_national=" + "1";
         } else if (nationalfixedcostfreeshipping.isChecked()) {
             querypart1 = querypart1 + "isfree_shipping_national=" + "1";
 
@@ -1030,7 +1073,7 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
 
             }
             if (internationalfixedcostnointernationshipping.isChecked()) {
-                querypart1 = querypart1 + ",isno_shipping_international="+ "1";
+                querypart1 = querypart1 + ",isno_shipping_international=" + "1";
             } else if (internationalactualcostnointernationshipping.isChecked()) {
                 querypart1 = querypart1 + ",isno_shipping_international=" + "1";
 
@@ -1049,6 +1092,108 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
             querypart1 = querypart1 + ",charge_cost_international=1";
 //Log.e("query",querypart1+querypart2);
         return true;
+    }
+
+
+    public void EditShpping(String data) {
+        //first make all shipping label unchecked
+        ActualCost1.setChecked(false);
+        FixedCost1.setChecked(false);
+        ActualCost2.setChecked(false);
+        FixedCost2.setChecked(false);
+
+
+        Log.e("json", data + "");
+        try {
+            JSONObject jobj = new JSONObject(data);
+
+            if (jobj.getBoolean("status")) {
+                String[] weight = getResources().getStringArray(R.array.weight);
+                String[] service = getResources().getStringArray(R.array.service);
+
+                //for national shipping
+                if (jobj.getInt("charge_cost_national") == 1) {
+                    ActualCost1.setChecked(true);
+                    if (jobj.getInt("isfree_shipping_national") == 1)
+                        nationalactualcostfressshipping.setChecked(true);
+
+                } else if (jobj.getInt("charge_cost_national") == 2) {
+                    FixedCost1.setChecked(true);
+                    nationalfixedcostinputbox.setText(jobj.getString("cost_national"));
+                    if (jobj.getInt("isfree_shipping_national") == 1)
+                        nationalfixedcostfreeshipping.setChecked(true);
+
+                }
+                //for international for actul
+                if (jobj.getInt("charge_cost_international") == 1) {
+                    ActualCost2.setChecked(true);
+                    if (jobj.getInt("isfree_shipping_international") == 1)
+                        internationalactualcostfreeshipping.setChecked(true);
+                    else if (jobj.getInt("isno_shipping_international") == 1)
+                        internationalactualcostnointernationshipping.setChecked(true);
+                    int val = useLoop(service, jobj.getString("service_type_international"));
+
+                    if (val > -1)
+                        internationalactualcostservicespinner.setSelection(val);
+                    val = useLoop(weight, jobj.getString("package_weight_international"));
+
+                    if (val > -1)
+                        internationalweightpackagespinner.setSelection(val);
+                    //for width height and length
+                    internationalactualcostwidth.setText(jobj.getString("width_international"));
+                    internationalactualcostlength.setText(jobj.getString("length_international"));
+                    internationalactualcostheight.setText(jobj.getString("height_international"));
+
+                }//for fixed
+                else if (jobj.getInt("charge_cost_national") == 2) {
+                    FixedCost2.setChecked(true);
+                    internationalfixedcostedittext.setText(jobj.getString("cost_international"));
+                    if (jobj.getInt("isfree_shipping_international") == 1)
+                        internationalfixedcostfreeshipping.setChecked(true);
+                    else if (jobj.getInt("isno_shipping_international") == 1)
+                        internationalfixedcostnointernationshipping.setChecked(true);
+                }
+
+            }
+        } catch (Exception ex) {
+            Log.e("error", ex.getMessage() + "");
+        }
+    }
+
+    public static int useLoop(String[] arr, String targetValue) {
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i].compareToIgnoreCase(targetValue) == 0) {
+                return i;
+
+            }
+        }
+        return -1;
+    }
+
+    @OnClick(R.id.image1)
+    public void image1() {
+        startCameraView();
+    }
+
+    @OnClick(R.id.image2)
+    public void image2() {
+        startCameraView();
+    }
+
+    @OnClick(R.id.image3)
+    public void image3() {
+        startCameraView();
+    }
+
+    @OnClick(R.id.image4)
+    public void image4() {
+        startCameraView();
+    }
+
+    private void startCameraView() {
+        Intent cap = new Intent(this, CustomCamera.class);
+        startActivity(cap);
+
     }
 
 }
