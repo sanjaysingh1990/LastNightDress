@@ -30,6 +30,7 @@ import com.android.volley.toolbox.Volley;
 import com.eowise.recyclerview.stickyheaders.samples.Main_TabHost;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
+import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.Home_List_Data;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ApplicationConstants;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
 import com.eowise.recyclerview.stickyheaders.samples.adapters.SendMsgListAdapter;
@@ -71,19 +72,19 @@ public class SendMessageActivity extends AppCompatActivity {
     @Bind(R.id.commentbox)
     EmojiconEditText cmntbox;
     private Bundle extra;
-    String sendername = "";
-    String senderid = "";
+
     int pos = -1;
     private static final int CAMERA_PIC_REQUEST = 1337;
-    public static Chat_Banner_Data chatbanner;
-    private boolean istop=false;
-    private boolean firsttime=true;
-     private int skipcount=0;
-    int  visibleItemCount, totalItemCount,firstVisibleItemIndex,previousTotal;
+    public static Home_List_Data chatbanner;
+    private boolean istop = false;
+    private boolean firsttime = true;
+    private int skipcount = 0;
+    int visibleItemCount, totalItemCount, firstVisibleItemIndex, previousTotal;
     boolean loading = true;
-    private boolean loadmore=false;
-    private boolean isrunning=false;
-    private int lastscrollposition=0;
+    private boolean loadmore = false;
+    private boolean isrunning = false;
+    private int lastscrollposition = 0;
+    private boolean once = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,18 +101,13 @@ public class SendMessageActivity extends AppCompatActivity {
         //data from previous page
         extra = getIntent().getExtras();
         if (extra != null) {
-            sendername = extra.getString("uname");
-            senderid = extra.getString("user_id");
-            pos = extra.getInt("pos");
-            chatbanner = (Chat_Banner_Data) extra.get("bannerdata");
-            if (chatbanner != null)
-                chatbanner.setSellerid(senderid);
-           /* if (extra.getInt("msgstatus") == 0)
-                changeStatus(extra.getInt("msgid"));*/
-        }
-        // Toast.makeText(this,"called"+extra.getString("user_id"),Toast.LENGTH_SHORT).show();
+            chatbanner = (Home_List_Data) extra.get("bannerdata");
 
-        heading.setText(Capitalize.capitalize(sendername));
+            pos = extra.getInt("pos");
+
+
+            heading.setText(Capitalize.capitalize(chatbanner.getUname()));
+        }
         final View rootView = findViewById(R.id.rootview);
 
         // Give the topmost view of your activity layout hierarchy. This will be used to measure soft keyboard height
@@ -236,15 +232,15 @@ public class SendMessageActivity extends AppCompatActivity {
                         //Toast.makeText(LndComments.this,"bottom",Toast.LENGTH_SHORT).show();
 
                         //loading = true;
-                    } else if (firstVisibleItemIndex == 0){
+                    } else if (firstVisibleItemIndex == 0) {
                         // top of list reached
                         // if you start loading
-                        loadmore=true;
+                        loadmore = true;
                         loading = true;
-                        if(!isrunning) {
-                            isrunning=true;
-                            lastscrollposition=data.size();
-                            getData(senderid);
+                        if (!isrunning) {
+                            isrunning = true;
+                            lastscrollposition = data.size();
+                            getData(chatbanner.getUserid());
 
                         }
                     }
@@ -252,8 +248,7 @@ public class SendMessageActivity extends AppCompatActivity {
         });
 
 
-
-        getData(senderid);
+        getData(chatbanner.getUserid());
 
     }
 
@@ -280,7 +275,7 @@ public class SendMessageActivity extends AppCompatActivity {
     public void getData(final String senderid) {
         final ProgressDialog pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");
-       // pDialog.show();
+        // pDialog.show();
 
 
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -294,7 +289,7 @@ public class SendMessageActivity extends AppCompatActivity {
 
                 }
                 String uname = SingleTon.pref.getString("uname", "");
-                // Log.e("msg", response.toString());
+                Log.e("json", response.toString());
                 try {
                     JSONObject jobj = new JSONObject(response.toString());
                     JSONArray jarray = jobj.getJSONArray("data");
@@ -306,13 +301,22 @@ public class SendMessageActivity extends AppCompatActivity {
                         md.setTime(jo.getString("date_time"));
                         md.setProfilepic(jo.getString("profile_pic"));
                         md.setCurrenttimestamp(jo.getString("date_time"));
-
-                        if (jo.getString("uname").compareTo(uname) == 0) {
-                            md.setUserType(UserType.SELF);
+                        if (jo.isNull("brand_name")) {
+                            if (jo.getString("uname").compareTo(uname) == 0) {
+                                md.setUserType(UserType.SELF);
+                            } else {
+                                md.setUserType(UserType.OTHER);
+                            }
                         } else {
-                            md.setUserType(UserType.OTHER);
+                            if (jo.getString("uname").compareTo(uname) == 0)
+                            md.setSellername(chatbanner.getUname());
+                            md.setBrandname(jo.getString("brand_name"));
+                            md.setImageurl(jo.getString("image_url"));
+                            md.setSize(jo.getString("size"));
+                            md.setPrice(jo.getString("price_now"));
+                            md.setUserType(UserType.BANNER);
                         }
-                        //formatting date and time
+                            //formatting date and time
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date testDate = null;
                         try {
@@ -340,24 +344,23 @@ public class SendMessageActivity extends AppCompatActivity {
                             String datestring = formatter.format(testDate.getTime());
                             md.setTime(datestring);
                         }
-                        if(loadmore)
-                            data.add(0,md);
-                           else
-                          data.add(md);
+                        if (loadmore)
+                            data.add(0, md);
+                        else
+                            data.add(md);
                     }
-                    if (data.size() == 0&&firsttime) {
+                    if (data.size() == 0 && firsttime) {
                         Toast.makeText(SendMessageActivity.this, "No conversation yet !", Toast.LENGTH_LONG).show();
-                        istop=false;
-                    }
-                    else if(data.size()==0)
-                        istop=false;
+                        istop = false;
+                    } else if (data.size() == 0)
+                        istop = false;
                     else {
                         firsttime = false;
 
                     }
-                   skipcount=data.size();
+                    skipcount = data.size();
 
-                    if (extra != null) {
+                    if (extra != null && !loadmore) {
 //banner message
                         //check
                         if (extra.getBoolean("fromhome", false)) {
@@ -368,23 +371,20 @@ public class SendMessageActivity extends AppCompatActivity {
                     }
 
                     recyclerAdapter.notifyDataSetChanged();
-                    if(!loadmore) {
+                    if (!loadmore) {
                         chatRecyclerView.scrollToPosition(data.size() - 1);
 
-                    }
-                    else
-                    {
+                    } else {
                         chatRecyclerView.scrollToPosition(data.size() - lastscrollposition);
 
                     }
 
                     if (jarray.length() < 25) {
                         loading = true;
-                        isrunning=true;
-                    }
-                    else {
+                        isrunning = true;
+                    } else {
                         loading = false;
-                        isrunning=false;
+                        isrunning = false;
                     }
 
 
@@ -406,7 +406,7 @@ public class SendMessageActivity extends AppCompatActivity {
                 params.put("rqid", "3");
                 params.put("receiver_id", SingleTon.pref.getString("user_id", ""));
                 params.put("sender_id", senderid);
-                params.put("skipdata",skipcount+"");
+                params.put("skipdata", skipcount + "");
 
                 return params;
             }
@@ -423,7 +423,7 @@ public class SendMessageActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(data.size()!=0) {
+        if (data.size() != 0) {
             Intent intent = new Intent();
             MessageData md = data.get(data.size() - 1);
             intent.putExtra("message", md.getMessage());
@@ -433,7 +433,7 @@ public class SendMessageActivity extends AppCompatActivity {
             finish();//finishing activity
         }
         finish();
-        }
+    }
 
     public void back(View v) {
         onBackPressed();
@@ -472,7 +472,14 @@ public class SendMessageActivity extends AppCompatActivity {
             msg.put("message", message);
             msg.put("date_time", SingleTon.getCurrentTimeStamp());
             msg.put("sender_id", SingleTon.pref.getString("user_id", ""));
-            msg.put("receiver_id", senderid);
+            msg.put("receiver_id", chatbanner.getUserid());
+            if (extra != null && once) {
+                once = false;
+                msg.put("banner", 1);
+                msg.put("post_id", chatbanner.getPost_id());
+
+            } else
+                msg.put("banner", 0);
 
 
             sendMessage(msg.toString());
@@ -486,10 +493,10 @@ public class SendMessageActivity extends AppCompatActivity {
 
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/inboxope.php", new Response.Listener<String>() {
+        StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_INBOXOPERATION, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
+                //   Log.e("json",response+"");
                 try {
                     JSONObject jobj = new JSONObject(response.toString());
                     //  Toast.makeText(SendMessageActivity.this,response,Toast.LENGTH_LONG).show();

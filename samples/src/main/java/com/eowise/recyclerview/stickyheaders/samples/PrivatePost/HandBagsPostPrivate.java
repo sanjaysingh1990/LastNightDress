@@ -78,7 +78,7 @@ import github.ankushsachdeva.emojicon.EmojiconGridView;
 import github.ankushsachdeva.emojicon.EmojiconsPopup;
 import github.ankushsachdeva.emojicon.emoji.Emojicon;
 
-public class HandBagsPostPrivate extends AppCompatActivity implements View.OnClickListener,LndShippingCallback {
+public class HandBagsPostPrivate extends AppCompatActivity implements View.OnClickListener, LndShippingCallback {
     @Bind({R.id.image1, R.id.image2, R.id.image3, R.id.image4})
     List<ImageView> images;
 
@@ -192,23 +192,23 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
     CheckBox internationalfixedcostfreeshipping;
 
 
-
     String typehandbag = "";
     int condition = 0;
     String sizetype = "";
     String colortype = "";
     String[] links = {"", "", "", ""};
     PopupWindow popupWindow;
-    String filename[] = {"","","",""};
+    String filename[] = {"", "", "", ""};
     InstructionDialogs lndcommistiondialog;
- private   Home_List_Data hld;
- private Bundle extra;
+    private Home_List_Data hld;
+    private Bundle extra;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.handbags_post_page);
         //intialiaing dialog
-        lndcommistiondialog= new InstructionDialogs(this);
+        lndcommistiondialog = new InstructionDialogs(this);
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -227,17 +227,17 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
 
 //handbagtype listener
         for (int i = 0; i < handbagtype.size(); i++) {
-            handbagtype.get(i).setOnClickListener(this);
+            handbagtype.get(i).setOnClickListener(new HandbagTypeEvent());
         }
 
         //handbag size listener
         for (int i = 0; i < handbagsize.size(); i++) {
-            handbagsize.get(i).setOnClickListener(this);
+            handbagsize.get(i).setOnClickListener(new HandbagSizeEvent());
         }
 
         //color listener
         for (int i = 0; i < color.size(); i++) {
-            color.get(i).setOnClickListener(this);
+            color.get(i).setOnClickListener(new ColorEvent());
         }
 
         //condtion  events
@@ -338,7 +338,7 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
             //    System.out.println(entry.getKey());
             CameraData cd = entry.getValue();
             int value = Integer.parseInt(entry.getKey()) - 1;
-            filename[value]= cd.getFilename();
+            filename[value] = cd.getFilename();
             new AsyncTaskLoadImage(images.get(value), value).execute(cd.getImageurl());
 
 
@@ -464,7 +464,7 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
 
             // condition events
             case R.id.conditionnew:
-                conditionnew.setBackgroundColor(Color.parseColor("#be4d66"));
+                conditionnew.setChecked(true);
                 condition = 11;
                 conditionspinner.setSelection(0);
                 lnditemcondition.setText(ConstantValues.conditiondesciptions[11]);
@@ -507,30 +507,6 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
     }
 
 
-    private void changeHandbagType(TextView txtview) {
-        handbagtype.get(0).setBackgroundColor(Color.parseColor("#1d1f21"));
-        handbagtype.get(1).setBackgroundColor(Color.parseColor("#1d1f21"));
-
-        txtview.setBackgroundColor(Color.parseColor("#be4d66"));
-
-    }
-
-    private void changeHandbagColor(TextView txtview) {
-        for (int i = 0; i < color.size() - 1; i++)
-            color.get(i).setBackgroundColor(Color.parseColor("#1d1f21"));
-        txtview.setBackgroundColor(Color.parseColor("#be4d66"));
-
-    }
-
-    private void changeHandbagSize(TextView txtview) {
-        handbagsize.get(0).setBackgroundColor(Color.parseColor("#1d1f21"));
-        handbagsize.get(1).setBackgroundColor(Color.parseColor("#1d1f21"));
-        handbagsize.get(2).setBackgroundColor(Color.parseColor("#1d1f21"));
-
-        txtview.setBackgroundColor(Color.parseColor("#be4d66"));
-
-    }
-
     @Override
     public void callbackReturn(String data) {
         EditShpping(data);
@@ -554,7 +530,7 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
             myImg.compress(Bitmap.CompressFormat.JPEG, 100, stream);
             byte[] byte_arr = stream.toByteArray();
             // Encode Image to String
-            links[1] = Base64.encodeToString(byte_arr, 0);
+            links[pos] = Base64.encodeToString(byte_arr, 0);
 
             return myImg;
         }
@@ -576,10 +552,12 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
          */
 
     }
+
     public void priceins(View v) {
-        if(!lndcommistiondialog.popupWindow.isShowing())
+        if (!lndcommistiondialog.popupWindow.isShowing())
             lndcommistiondialog.show(v);
     }
+
     public void instruction(View v) {
         //popup window reference
         popupWindow = new Lnd_Post_Instruction(this).instruction();
@@ -706,7 +684,7 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
         for (int i = 0; i < handbagtype.size(); i++) {
             if (handbagtype.get(i).isChecked()) {
                 type = false;
-               typehandbag =handbagtype.get(i).getTag().toString();
+                typehandbag = handbagtype.get(i).getTag().toString();
             }
         }
 
@@ -714,7 +692,7 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
         for (int i = 0; i < handbagsize.size(); i++) {
             if (handbagsize.get(i).isChecked()) {
                 size = false;
-                sizetype=handbagsize.get(i).getTag().toString();
+                sizetype = handbagsize.get(i).getTag().toString();
             }
         }
 
@@ -722,7 +700,7 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
         for (int i = 0; i < this.color.size(); i++) {
             if (this.color.get(i).isChecked()) {
                 color = false;
-                colortype=this.color.get(i).getTag().toString();
+                colortype = this.color.get(i).getTag().toString();
             }
         }
 
@@ -752,7 +730,7 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
             pricewas.setError("pricewas must be greater than pricenow");
             pricewas.requestFocus();
             return;
-        }  else if (type) {
+        } else if (type) {
             Toast.makeText(this, "select type", Toast.LENGTH_SHORT).show();
 
             return;
@@ -767,7 +745,7 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
             return;
 
         }
-        if(!validateShipping())
+        if (!validateShipping())
             return;
 
 
@@ -775,22 +753,22 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
             //image1 json
             JSONObject image1 = new JSONObject();
             image1.put("imagename", filename[0]);
-            image1.put("imageurl", links[0]);
+            // image1.put("imageurl", links[0]);
 
             //image2 json
             JSONObject image2 = new JSONObject();
             image2.put("imagename", filename[1]);
-            image2.put("imageurl", links[1]);
+            // image2.put("imageurl", links[1]);
 
             //image3 json
             JSONObject image3 = new JSONObject();
             image3.put("imagename", filename[2]);
-            image3.put("imageurl", links[2]);
+            //  image3.put("imageurl", links[2]);
 
             //image4 json
             JSONObject image4 = new JSONObject();
             image4.put("imagename", filename[3]);
-            image4.put("imageurl", links[3]);
+            // image4.put("imageurl", links[3]);
 
 
             //images array
@@ -815,10 +793,10 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
             mainObj.put("description", desc.getText().toString());
             mainObj.put("pricenow", pricenow.getText().toString());
             mainObj.put("pricewas", pricewas.getText().toString());
-            mainObj.put("datetime",SingleTon.getCurrentTimeStamp());
+            mainObj.put("datetime", SingleTon.getCurrentTimeStamp());
             //end of shipping query here
 
-            mainObj.put("shippingquery",querypart1+querypart2);
+            mainObj.put("shippingquery", querypart1 + querypart2);
 
             //get hashtag and user mentions
             String text = desc.getText().toString();
@@ -844,9 +822,21 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
 
             JSONArray usermentionArray = new JSONArray(usermentions);
             mainObj.put("usermentions", usermentionArray);
-            //postPurse(mainObj.toString());
+            if (extra == null) {
+                mainObj.put("query_type", 1);
+                mainObj.put("post_id", 0);
 
-               Log.e("json", mainObj.toString());
+                //postPurse(mainObj.toString());
+
+            } else {
+                mainObj.put("query_type", 2);
+                mainObj.put("post_id", hld.getPost_id());
+
+                //postPurse(mainObj.toString());
+
+
+            }
+            Log.e("json", mainObj.toString());
         } catch (Exception ex) {
             Log.e("json error", ex.getMessage() + "");
         }
@@ -916,6 +906,7 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
 
         queue.add(sr);
     }
+
     public void unselectactualPrice() {
         ActualCost1.setChecked(false);
         FixedCost1.setChecked(false);
@@ -1194,6 +1185,36 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
         Intent cap = new Intent(this, CustomCamera.class);
         startActivity(cap);
 
+    }
+
+    class ColorEvent implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            for (int i = 0; i < color.size(); i++)
+                color.get(i).setChecked(false);
+            ((CheckBox) v).setChecked(true);
+        }
+    }
+
+    class HandbagTypeEvent implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            for (int i = 0; i < handbagtype.size(); i++)
+                handbagtype.get(i).setChecked(false);
+            ((CheckBox) v).setChecked(true);
+        }
+    }
+
+    class HandbagSizeEvent implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            for (int i = 0; i < handbagsize.size(); i++)
+                handbagsize.get(i).setChecked(false);
+            ((CheckBox) v).setChecked(true);
+        }
     }
 
 }

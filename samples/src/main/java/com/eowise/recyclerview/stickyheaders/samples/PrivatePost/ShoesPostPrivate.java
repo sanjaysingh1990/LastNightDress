@@ -237,18 +237,18 @@ public class ShoesPostPrivate extends AppCompatActivity implements View.OnClickL
 
         //shoetype listener
         for (int i = 0; i < shoestype.size(); i++) {
-            shoestype.get(i).setOnClickListener(this);
+            shoestype.get(i).setOnClickListener(new ShoeTypeEvent());
         }
 
         //shoe size listener
         for (int i = 0; i < shoesize.size(); i++) {
-            shoesize.get(i).setOnClickListener(this);
+            shoesize.get(i).setOnClickListener(new ShoeSizeEvent());
         }
 
 
         //color listener
         for (int i = 0; i < color.size(); i++) {
-            color.get(i).setOnClickListener(this);
+            color.get(i).setOnClickListener(new ShoeColorEvent());
         }
 
         //condtion  events
@@ -448,172 +448,7 @@ public class ShoesPostPrivate extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
 
-            //events for size
-            case R.id.size1:
-                sizelist = "5";
-                changeShoeSize((TextView) v);
-                break;
-            case R.id.size2:
-                sizelist = "5.5";
-                changeShoeSize((TextView) v);
-                break;
-            case R.id.size3:
-                sizelist = "6";
-                changeShoeSize((TextView) v);
-                break;
-            case R.id.size4:
-                sizelist = "6.5";
-                changeShoeSize((TextView) v);
-                break;
-            case R.id.size5:
-                sizelist = "7";
-                changeShoeSize((TextView) v);
-                break;
-            case R.id.size6:
-                sizelist = "7.5";
-                changeShoeSize((TextView) v);
-                break;
-            case R.id.size7:
-                sizelist = "8";
-                changeShoeSize((TextView) v);
-                break;
-            case R.id.size8:
-                sizelist = "8.5";
-                changeShoeSize((TextView) v);
-                break;
-            case R.id.size9:
-                sizelist = "9";
-                changeShoeSize((TextView) v);
-                break;
-            case R.id.size10:
-                sizelist = "9.5";
-                changeShoeSize((TextView) v);
 
-                break;
-            case R.id.size11:
-                sizelist = "10";
-                changeShoeSize((TextView) v);
-                break;
-            case R.id.size12:
-                sizelist = "10.5";
-                changeShoeSize((TextView) v);
-                break;
-            case R.id.size13:
-                sizelist = "11";
-                changeShoeSize((TextView) v);
-                break;
-            case R.id.size14:
-                sizelist = "11.5";
-                changeShoeSize((TextView) v);
-
-                break;
-            case R.id.size15:
-                sizelist = "12";
-                changeShoeSize((TextView) v);
-                break;
-
-
-            //for shoetype events
-            case R.id.flats:
-                shoetype = 1;
-                changeShoeType((TextView) v);
-                break;
-            case R.id.pumps:
-                shoetype = 2;
-                changeShoeType((TextView) v);
-                break;
-            case R.id.platforms:
-                shoetype = 3;
-                changeShoeType((TextView) v);
-                break;
-            case R.id.boots:
-                shoetype = 4;
-                changeShoeType((TextView) v);
-                break;
-            case R.id.wedges:
-                shoetype = 5;
-                changeShoeType((TextView) v);
-                break;
-            case R.id.bridal:
-                shoetype = 6;
-                changeShoeType((TextView) v);
-                break;
-
-            case R.id.sandals:
-                shoetype = 7;
-                changeShoeType((TextView) v);
-                break;
-
-
-            //color events
-            case R.id.color1:
-                colortype = "black";
-                changeShoeColor((TextView) v);
-                break;
-            case R.id.color2:
-                colortype = "silver";
-                changeShoeColor((TextView) v);
-
-                break;
-            case R.id.color3:
-                colortype = "orange";
-                changeShoeColor((TextView) v);
-
-                break;
-            case R.id.color4:
-                colortype = "white";
-                changeShoeColor((TextView) v);
-                break;
-            case R.id.color5:
-                colortype = "gold";
-                changeShoeColor((TextView) v);
-
-                break;
-            case R.id.color6:
-                colortype = "brown";
-                changeShoeColor((TextView) v);
-
-
-                break;
-            case R.id.color7:
-                colortype = "red";
-                changeShoeColor((TextView) v);
-
-                break;
-            case R.id.color8:
-                colortype = "purple";
-                changeShoeColor((TextView) v);
-                break;
-            case R.id.color9:
-                colortype = "nude";
-                changeShoeColor((TextView) v);
-                break;
-            case R.id.color10:
-                colortype = "blue";
-                changeShoeColor((TextView) v);
-                break;
-            case R.id.color11:
-                colortype = "yellow";
-                changeShoeColor((TextView) v);
-
-                break;
-            case R.id.color12:
-                colortype = "gray";
-                changeShoeColor((TextView) v);
-                break;
-            case R.id.color13:
-                colortype = "green";
-                changeShoeColor((TextView) v);
-
-                break;
-            case R.id.color14:
-                colortype = "pink";
-                changeShoeColor((TextView) v);
-                break;
-            case R.id.color15:
-                colortype = "pattern";
-                changeShoeColor((TextView) v);
-                break;
 
             case R.id.conditionnew:
                 conditionnew.setBackgroundColor(Color.parseColor("#be4d66"));
@@ -657,6 +492,10 @@ public class ShoesPostPrivate extends AppCompatActivity implements View.OnClickL
     }
 
     public void done(View v) {
+        boolean size = true, type = true, color = true;
+        ArrayList<String> shoetype = new ArrayList<>();
+        ArrayList<String> shoesize = new ArrayList<>();
+        ArrayList<String> shoecolor = new ArrayList<>();
         ArrayList<String> hashtags = new ArrayList<>();
         ArrayList<Integer> usermentions = new ArrayList<>();
         querypart1 = "update lnd_table_how_to_ship set ";
@@ -671,7 +510,31 @@ public class ShoesPostPrivate extends AppCompatActivity implements View.OnClickL
 
         } catch (Exception ex) {
         }
+        //to check atleast one size selected
+        for (int i = 0; i < shoestype.size(); i++) {
+            if (shoestype.get(i).isChecked()) {
+                type = false;
+                shoetype.add(shoestype.get(i).getTag().toString());
+            }
+        }
 
+        //to check atleast one length selected
+        for (int i = 0; i < this.shoesize.size(); i++) {
+            if (this.shoesize.get(i).isChecked()) {
+                size = false;
+                shoesize.add(this.shoesize.get(i).getTag().toString());
+            }
+        }
+
+//to check atleast one color selected
+        for (int i = 0; i < this.color.size(); i++) {
+            if (this.color.get(i).isChecked()) {
+                color = false;
+                shoecolor.add(this.color.get(i).getTag().toString());
+
+
+            }
+        }
         if (brand.getText().length() == 0) {
             brand.setError("field is empty");
             brand.requestFocus();
@@ -698,13 +561,13 @@ public class ShoesPostPrivate extends AppCompatActivity implements View.OnClickL
             pricewas.setError("pricewas must be greater than pricenow");
             pricewas.requestFocus();
             return;
-        } else if (shoetype == 0) {
+        } else if (type) {
             Toast.makeText(this, "select shoe type", Toast.LENGTH_SHORT).show();
             return;
-        } else if (sizelist.length() == 0) {
+        } else if (size) {
             Toast.makeText(this, "select dress size", Toast.LENGTH_SHORT).show();
             return;
-        } else if (colortype.length() == 0) {
+        } else if (color) {
             Toast.makeText(this, "select shoe color", Toast.LENGTH_SHORT).show();
             return;
         } else if (condition == 0) {
@@ -715,31 +578,32 @@ public class ShoesPostPrivate extends AppCompatActivity implements View.OnClickL
 
         if (!validateShipping())
             return;
+
+        JSONArray typeArray = new JSONArray(shoetype);
+        JSONArray sizeArray = new JSONArray(shoesize);
+        JSONArray colorArray = new JSONArray(shoecolor);
+
         try {
             //image1 json
             JSONObject image1 = new JSONObject();
             image1.put("imagename", filename[0]);
-            image1.put("imageurl", links[0]);
+           // image1.put("imageurl", links[0]);
 
             //image2 json
             JSONObject image2 = new JSONObject();
             image2.put("imagename", filename[1]);
-            image2.put("imageurl", links[1]);
+           // image2.put("imageurl", links[1]);
 
             //image3 json
             JSONObject image3 = new JSONObject();
             image3.put("imagename", filename[2]);
-            image3.put("imageurl", links[2]);
+           // image3.put("imageurl", links[2]);
 
             //image4 json
             JSONObject image4 = new JSONObject();
             image4.put("imagename", filename[3]);
-            image4.put("imageurl", links[3]);
+            //image4.put("imageurl", links[3]);
 
-            //taking date time
-            Calendar cal = Calendar.getInstance();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
-            String strDate = sdf.format(cal.getTime());
 
 
             //images array
@@ -758,16 +622,14 @@ public class ShoesPostPrivate extends AppCompatActivity implements View.OnClickL
             mainObj.put("brand", brand.getText().toString());
             mainObj.put("categorytype", 3);
 
-            mainObj.put("shoesize", sizelist);
-            mainObj.put("shoetype", shoetype);
-
-
-            mainObj.put("color", colortype);
+            mainObj.put("shoesize", sizeArray);
+            mainObj.put("shoetype", typeArray);
+            mainObj.put("datetime", SingleTon.getCurrentTimeStamp());
+            mainObj.put("color", colorArray);
             mainObj.put("images", imagesarray);
             mainObj.put("description", desc.getText().toString());
             mainObj.put("pricenow", pricenow.getText().toString());
             mainObj.put("pricewas", pricewas.getText().toString());
-            mainObj.put("datetime", strDate);
             //end of shipping query here
             querypart1 = querypart1 + ") ";
             querypart2 = querypart2 + ") ";
@@ -802,7 +664,20 @@ public class ShoesPostPrivate extends AppCompatActivity implements View.OnClickL
             mainObj.put("usermentions", usermentionArray);
 
             // postShoe(mainObj.toString());
+            if (extra == null) {
+                mainObj.put("query_type", 1);
+                mainObj.put("post_id", 0);
 
+                // postShoe(mainObj.toString());
+            }
+            else
+            {
+                mainObj.put("query_type", 2);
+                mainObj.put("post_id", hld.getPost_id());
+
+                // postShoe(mainObj.toString());
+
+            }
             Log.e("json", mainObj.toString());
         } catch (Exception ex) {
             Log.e("jsonex", ex.getMessage() + "");
@@ -1340,4 +1215,34 @@ public class ShoesPostPrivate extends AppCompatActivity implements View.OnClickL
 
     }
 
+    class ShoeTypeEvent implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            for (int i = 0; i < shoestype.size(); i++)
+                shoestype.get(i).setChecked(false);
+            ((CheckBox) v).setChecked(true);
+        }
+    }
+
+    class ShoeColorEvent implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            for (int i = 0; i < color.size(); i++)
+                color.get(i).setChecked(false);
+            ((CheckBox) v).setChecked(true);
+        }
+    }
+
+    class ShoeSizeEvent implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            for (int i = 0; i < shoesize.size(); i++)
+                shoesize.get(i).setChecked(false);
+            ((CheckBox) v).setChecked(true);
+
+        }
+    }
 }

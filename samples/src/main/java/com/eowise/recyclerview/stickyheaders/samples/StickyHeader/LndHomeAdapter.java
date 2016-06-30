@@ -2293,7 +2293,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 hld = mItems.get(pos);
                 Intent msgtofrnd = new Intent(mContext, SendMessageActivity.class);
                 msgtofrnd.putExtra("fromhome", true);
-                msgtofrnd.putExtra("uname", hld.getUname());
+               /* msgtofrnd.putExtra("uname", hld.getUname());
                 msgtofrnd.putExtra("user_id", hld.getUserid());
 
                 //chat banner data
@@ -2303,8 +2303,9 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 cbd.setBrand(hld.getBrandname());
                 cbd.setSize(hld.getSize());
                 cbd.setPricenow(hld.getPricenow());
-                cbd.setSellername(hld.getUname());
-                msgtofrnd.putExtra("bannerdata", cbd);
+                cbd.setSellername(hld.getUname());*/
+
+                msgtofrnd.putExtra("bannerdata",hld);
 
                 mContext.startActivity(msgtofrnd);
 

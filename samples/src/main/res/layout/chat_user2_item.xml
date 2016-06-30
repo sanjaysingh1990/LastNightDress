@@ -60,7 +60,7 @@
         </RelativeLayout>
 
         <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/chatpicsender"
+            android:id="@+id/chatpic"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="bottom"

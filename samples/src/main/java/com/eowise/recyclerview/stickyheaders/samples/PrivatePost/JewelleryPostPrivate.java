@@ -238,7 +238,7 @@ public class JewelleryPostPrivate extends AppCompatActivity implements View.OnCl
 
         //jewellerytype listener
         for (int i = 0; i < jewellerytype.size(); i++) {
-            jewellerytype.get(i).setOnClickListener(this);
+            jewellerytype.get(i).setOnClickListener(new JewelleryTypeEvent());
         }
 
         //condtion  events
@@ -247,12 +247,12 @@ public class JewelleryPostPrivate extends AppCompatActivity implements View.OnCl
 
         //metaltype listener
         for (int i = 0; i < metaltype.size(); i++) {
-            metaltype.get(i).setOnClickListener(this);
+            metaltype.get(i).setOnClickListener(new MetalTypeEvent());
         }
 
 //ring size listener
         for (int i = 0; i < ringsize.size(); i++) {
-            ringsize.get(i).setOnClickListener(this);
+            ringsize.get(i).setOnClickListener(new RingSizeEvent());
         }
 
         //condition spinner selection events
@@ -267,7 +267,7 @@ public class JewelleryPostPrivate extends AppCompatActivity implements View.OnCl
 
                     ((TextView) parent.getChildAt(0)).setTextColor(Color.parseColor("#be4d66"));
                     condition_selected = pos;
-
+                    conditionnew.setChecked(false);
 
                 } else {
                     ((TextView) parent.getChildAt(0)).setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow, 0);
@@ -362,7 +362,7 @@ public class JewelleryPostPrivate extends AppCompatActivity implements View.OnCl
 
             else
                 conditionnew.setChecked(true);
-            condition_selected=val;
+            condition_selected = val;
         } catch (Exception ex) {
 
         }
@@ -456,49 +456,16 @@ public class JewelleryPostPrivate extends AppCompatActivity implements View.OnCl
     public void onClick(View v) {
 
         switch (v.getId()) {
-            //for jewellery type events
-            case R.id.type1:
-                jewellerytype_selected = 1;
-                changeJewelleryType((TextView) v);
-                sizeopen = true;
-                collapse();
-                break;
-            case R.id.type2:
-                jewellerytype_selected = 2;
-                changeJewelleryType((TextView) v);
-                if (sizeopen) {
-                    sizeopen = false;
-                    expand();
-                }
-                break;
-            case R.id.type3:
-                jewellerytype_selected = 3;
-                changeJewelleryType((TextView) v);
-                sizeopen = true;
-                collapse();
-                break;
-            case R.id.type4:
-                jewellerytype_selected = 4;
-                changeJewelleryType((TextView) v);
-                sizeopen = true;
-                collapse();
-                break;
-            case R.id.type5:
-                jewellerytype_selected = 5;
-                changeJewelleryType((TextView) v);
-                sizeopen = true;
-                collapse();
-                break;
+
 
             // condition events
             case R.id.conditionnew:
-                changeCondition((TextView) v);
+                conditionspinner.setSelection(0);
+                conditionnew.setChecked(true);
                 condition_selected = 11;
                 lnditemcondition.setText(ConstantValues.conditiondesciptions[11]);
 
                 break;
-
-
 
 
             case R.id.actualcost1:
@@ -537,34 +504,6 @@ public class JewelleryPostPrivate extends AppCompatActivity implements View.OnCl
 
     }
 
-    private void changeJewelleryType(TextView txtview) {
-        for (int i = 0; i < jewellerytype.size(); i++)
-            jewellerytype.get(i).setBackgroundColor(Color.parseColor("#1d1f21"));
-        txtview.setBackgroundColor(Color.parseColor("#be4d66"));
-
-    }
-
-    private void changeMetalType(TextView txtview) {
-        for (int i = 0; i < metaltype.size() - 1; i++)
-            metaltype.get(i).setBackgroundColor(Color.parseColor("#1d1f21"));
-        txtview.setBackgroundColor(Color.parseColor("#be4d66"));
-
-    }
-
-    private void changeRingsize(TextView txtview) {
-        for (int i = 0; i < ringsize.size() - 1; i++)
-            ringsize.get(i).setBackgroundColor(Color.parseColor("#1d1f21"));
-        txtview.setBackgroundColor(Color.parseColor("#be4d66"));
-
-    }
-
-    private void changeCondition(TextView txtview) {
-
-        conditionnew.setBackgroundColor(Color.parseColor("#1d1f21"));
-
-        txtview.setBackgroundColor(Color.parseColor("#be4d66"));
-
-    }
 
     private void collapse() {
         int finalHeight = ringsizelayout.getHeight();
@@ -787,8 +726,11 @@ public class JewelleryPostPrivate extends AppCompatActivity implements View.OnCl
     public void done(View v) {
         boolean rsize = true, mtype = true;
 
+        ArrayList<String> ringsize = new ArrayList<>();
+        ArrayList<String> metaltype = new ArrayList<>();
         ArrayList<String> hashtags = new ArrayList<>();
         ArrayList<Integer> usermentions = new ArrayList<>();
+
         querypart1 = "update lnd_table_how_to_ship set ";
         querypart2 = " where post_id=";
 
@@ -808,16 +750,16 @@ public class JewelleryPostPrivate extends AppCompatActivity implements View.OnCl
             for (int i = 0; i < this.ringsize.size(); i++) {
                 if (this.ringsize.get(i).isChecked()) {
                     rsize = false;
-                    ringsizeselected=this.ringsize.get(i).getTag().toString();
+                    ringsize.add(this.ringsize.get(i).getTag().toString());
                 }
             }
         } else
-            ringsizeselected="os";
+            ringsize.add("os");
         //to check atleast one metaltype selected
         for (int i = 0; i < this.metaltype.size(); i++) {
             if (this.metaltype.get(i).isChecked()) {
                 mtype = false;
-                metaltype_selected=(this.metaltype.get(i).getTag().toString());
+                metaltype.add(this.metaltype.get(i).getTag().toString());
             }
         }
 
@@ -916,12 +858,12 @@ public class JewelleryPostPrivate extends AppCompatActivity implements View.OnCl
             mainObj.put("condition", condition_selected);
 
 
-            mainObj.put("jewellerysize", ringsizeselected);
+            mainObj.put("jewellerysize", sizeArray);
             mainObj.put("datetime", SingleTon.getCurrentTimeStamp());
             mainObj.put("description", desc.getText().toString());
             mainObj.put("pricenow", pricenow.getText().toString());
             mainObj.put("pricewas", pricewas.getText().toString());
-            mainObj.put("metaltype", metaltype_selected);
+            mainObj.put("metaltype", metalArray);
             mainObj.put("images", imagesarray);
             //end of shipping query here
 
@@ -956,13 +898,12 @@ public class JewelleryPostPrivate extends AppCompatActivity implements View.OnCl
                 mainObj.put("query_type", 1);
                 mainObj.put("post_id", 0);
 
-                jewelleryPost(mainObj.toString());
-            }
-            {
+                // jewelleryPost(mainObj.toString());
+            } else {
                 mainObj.put("query_type", 2);
                 mainObj.put("post_id", hld.getPost_id());
 
-                jewelleryPost(mainObj.toString());
+                //jewelleryPost(mainObj.toString());
 
             }
 
@@ -1321,4 +1262,38 @@ public class JewelleryPostPrivate extends AppCompatActivity implements View.OnCl
 
     }
 
+    class MetalTypeEvent implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            for (int i = 0; i < metaltype.size(); i++)
+                metaltype.get(i).setChecked(false);
+            ((CheckBox) v).setChecked(true);
+        }
+    }
+
+    class JewelleryTypeEvent implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            for (int i = 0; i < jewellerytype.size(); i++)
+                jewellerytype.get(i).setChecked(false);
+            ((CheckBox) v).setChecked(true);
+            if (v.getId() == R.id.type2)
+                expand();
+            else
+                collapse();
+        }
+    }
+
+    class RingSizeEvent implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            for (int i = 0; i < ringsize.size(); i++)
+                ringsize.get(i).setChecked(false);
+            ((CheckBox) v).setChecked(true);
+
+        }
+    }
 }

@@ -84,11 +84,9 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
     List<CheckBox> lnddresstype;
 
 
-    String sizetype = "";
     int dresstype = 0;
 
     int condition = 0;
-    String colortype = "";
 
 
     @Bind(R.id.conditionnew)
@@ -240,23 +238,23 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
 
         //size listener
         for (int i = 0; i < lnddresssize1.size(); i++) {
-            lnddresssize1.get(i).setOnClickListener(this);
+            lnddresssize1.get(i).setOnClickListener(new Size1Event());
         }
         //size2 listener
         for (int i = 0; i < lnddresssize2.size(); i++) {
-            lnddresssize2.get(i).setOnClickListener(this);
+            lnddresssize2.get(i).setOnClickListener(new Size2Event());
         }
 //hide size all for private user
 
 
         //dress type listener
         for (int i = 0; i < lnddresstype.size(); i++)
-            lnddresstype.get(i).setOnClickListener(this);
+            lnddresstype.get(i).setOnClickListener(new DressTypeEvent());
 
 
         //color listener
         for (int i = 0; i < color.size(); i++) {
-            color.get(i).setOnClickListener(this);
+            color.get(i).setOnClickListener(new ColorEvent());
         }
 
 //condtion  events
@@ -472,6 +470,10 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
         onBackPressed();
     }
 
+    private void oneColor(CheckBox chk) {
+
+    }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -479,21 +481,14 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onClick(View v) {
-        //check to select either size in text or in  number
-        if (v.getId() == R.id.size1 || v.getId() == R.id.size2 || v.getId() == R.id.size3 || v.getId() == R.id.size4 || v.getId() == R.id.size5 || v.getId() == R.id.size6 || v.getId() == R.id.size7)
-            clearSizetype2();
-        else if (v.getId() == R.id.numsize1 || v.getId() == R.id.numsize2 || v.getId() == R.id.numsize3 || v.getId() == R.id.numsize4 || v.getId() == R.id.numsize5 || v.getId() == R.id.numsize6 || v.getId() == R.id.numsize7 || v.getId() == R.id.numsize8 || v.getId() == R.id.numsize9 || v.getId() == R.id.numsize10 || v.getId() == R.id.numsize11 || v.getId() == R.id.numsize12)
-
-            clearSizetype1();
 
         switch (v.getId()) {
-
 
             case R.id.conditionnew:
                 condition = 11;
                 conditionspinner.setSelection(0);
                 changeCondition();
-                ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
+                conditionnew.setChecked(true);
                 lnditemcondition.setText(ConstantValues.conditiondesciptions[11]);
 
                 break;
@@ -502,7 +497,7 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
                 condition = 12;
                 conditionspinner.setSelection(0);
                 changeCondition();
-                ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
+                lastnightdress.setChecked(true);
                 lnditemcondition.setText(ConstantValues.conditiondesciptions[12]);
 
                 break;
@@ -545,6 +540,7 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
 
 
     public void done(View v) {
+
         boolean size = true, color = true;
 
         ArrayList<String> dresssize = new ArrayList<>();
@@ -635,8 +631,7 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
         if (!validateShipping())
             return;
 
-        dresssize.add(sizetype);
-        dresscolor.add(colortype);
+
         JSONArray dressArray = new JSONArray(dresssize);
         JSONArray colorArray = new JSONArray(dresscolor);
 
@@ -723,18 +718,18 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
                 mainObj.put("query_type", 1);
                 mainObj.put("post_id", 0);
 
-                uploadDress(mainObj.toString());
-            }
-            {
+                // uploadDress(mainObj.toString());
+            } else {
                 mainObj.put("query_type", 2);
                 mainObj.put("post_id", hld.getPost_id());
 
-                uploadDress(mainObj.toString());
+                //  uploadDress(mainObj.toString());
 
             }
+
             Log.e("json", mainObj.toString());
         } catch (Exception ex) {
-
+            Log.e("jsonerror", ex.getMessage() + "" + extra);
         }
     }
 
@@ -840,8 +835,8 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
 
     private void changeCondition() {
 
-        conditionnew.setBackgroundColor(Color.parseColor("#1d1f21"));
-        lastnightdress.setBackgroundColor(Color.parseColor("#1d1f21"));
+        conditionnew.setChecked(false);
+        lastnightdress.setChecked(false);
 
 
     }
@@ -989,21 +984,6 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
 
     }
 
-    private void clearSizetype1() {
-        for (int i = 0; i < lnddresssize1.size(); i++) {
-            lnddresssize1.get(i).setBackgroundColor(Color.parseColor("#1d1f21"));
-
-        }
-        sizetype = "";
-    }
-
-    private void clearSizetype2() {
-        for (int i = 0; i < lnddresssize2.size(); i++) {
-            lnddresssize2.get(i).setBackgroundColor(Color.parseColor("#1d1f21"));
-
-        }
-        sizetype = "";
-    }
 
     public void priceins(View v) {
         if (!lndcommistiondialog.popupWindow.isShowing())
@@ -1296,4 +1276,47 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
         return true;
     }
 
+    class ColorEvent implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            for (int i = 0; i < color.size(); i++)
+                color.get(i).setChecked(false);
+            ((CheckBox) v).setChecked(true);
+        }
+    }
+
+    class Size1Event implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            for (int i = 0; i < lnddresssize2.size(); i++)
+                lnddresssize2.get(i).setChecked(false);
+            for (int i = 0; i < lnddresssize1.size(); i++)
+                lnddresssize1.get(i).setChecked(false);
+            ((CheckBox) v).setChecked(true);
+        }
+    }
+
+    class Size2Event implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            for (int i = 0; i < lnddresssize1.size(); i++)
+                lnddresssize1.get(i).setChecked(false);
+            for (int i = 0; i < lnddresssize2.size(); i++)
+                lnddresssize2.get(i).setChecked(false);
+            ((CheckBox) v).setChecked(true);
+        }
+    }
+
+    class DressTypeEvent implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            for (int i = 0; i < lnddresstype.size(); i++)
+                lnddresstype.get(i).setChecked(false);
+            ((CheckBox) v).setChecked(true);
+        }
+    }
 }

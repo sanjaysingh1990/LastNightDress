@@ -3,11 +3,73 @@ package com.eowise.recyclerview.stickyheaders.samples.data;
 /**
  * Created by sanjay on 12/8/2015.
  */
-public class MessageData
-{
-private String uname;
+public class MessageData {
+    private String uname;
     private String message;
     private int type;
+
+    public String getBrandname() {
+        return brandname;
+    }
+
+    public void setBrandname(String brandname) {
+        this.brandname = brandname;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public String getSellername() {
+        return Sellername;
+    }
+
+    public void setSellername(String sellername) {
+        Sellername = sellername;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public String getImageurl() {
+        return imageurl;
+    }
+
+    public void setImageurl(String imageurl) {
+        this.imageurl = imageurl;
+    }
+
+    private String brandname;
+    private String Sellername;
+    private String size;
+    private String color;
+    private String price;
+    private String imageurl;
 
     public String getCurrenttimestamp() {
         return currenttimestamp;
@@ -18,6 +80,7 @@ private String uname;
     }
 
     private String currenttimestamp;
+
     public String getBase64_imgage_url() {
         return base64_imgage_url;
     }
@@ -27,6 +90,7 @@ private String uname;
     }
 
     private String base64_imgage_url;
+
     public long getTimeago() {
         return timeago;
     }
@@ -36,6 +100,7 @@ private String uname;
     }
 
     private long timeago;
+
     public int getMsgid() {
         return msgid;
     }

@@ -73,62 +73,58 @@ public class SendMsgListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             ViewGroup.LayoutParams params = view.getLayoutParams();
 
             vh = new MsgSelfOther(view);
-        }else  if (viewType == VIEW_ITEM_OTHER) {
+        } else if (viewType == VIEW_ITEM_OTHER) {
             View v = LayoutInflater.from(parent.getContext()).inflate(
                     R.layout.chat_user1_item, parent, false);
 
             vh = new MsgSelfOther(v);
-        }
-        else  if (viewType == VIEW_ITEM_BANNER)
-        {
+        } else if (viewType == VIEW_ITEM_BANNER) {
             View v = LayoutInflater.from(parent.getContext()).inflate(
                     R.layout.banner_layout, parent, false);
 
             vh = new Banner(v);
-        }
-        else
-        {
+        } else {
             View v = LayoutInflater.from(parent.getContext()).inflate(
                     R.layout.chat_user2_item_image, parent, false);
 
             vh = new ImageMsg(v);
         }
-            return vh;
+        return vh;
 
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         MessageData cd = items.get(position);
-        switch(holder.getItemViewType())
-        {
+        switch (holder.getItemViewType()) {
             case VIEW_ITEM_SELF:
-                MsgSelfOther holder1= (MsgSelfOther) holder;
+                MsgSelfOther holder1 = (MsgSelfOther) holder;
                 holder1.timeTextView.setText(cd.getTime());
-                holder1.messageTextView.setText(cd.getMessage());
+                holder1.messageTextView.setText(cd.getMessage() + "");
                 SingleTon.imageLoader.displayImage(cd.getProfilepic(), holder1.profpic, SingleTon.options3);
                 break;
 
             case VIEW_ITEM_OTHER:
-                holder1= (MsgSelfOther) holder;
+                holder1 = (MsgSelfOther) holder;
                 holder1.timeTextView.setText(cd.getTime());
-                holder1.messageTextView.setText(cd.getMessage());
+                holder1.messageTextView.setText(cd.getMessage() + "");
                 SingleTon.imageLoader.displayImage(cd.getProfilepic(), holder1.profpic, SingleTon.options3);
 
                 break;
             case VIEW_ITEM_BANNER:
-           Banner  holder3= (Banner) holder;
+                Banner holder3 = (Banner) holder;
 
-                holder3.brandname.setText(Capitalize.capitalizeFirstLetter(SendMessageActivity.chatbanner.getBrand()));
-                holder3.sellername.setText(Capitalize.capitalizeFirstLetter(SendMessageActivity.chatbanner.getSellername()));
-                holder3.size.setText(SendMessageActivity.chatbanner.getSize().split(",").length + "");
-                holder3.price.setText("$" + SendMessageActivity.chatbanner.getPricenow());
-                SingleTon.imageLoader2.displayImage(SendMessageActivity.chatbanner.getImage_url(), holder3.bannerimage, SingleTon.options);
+                holder3.brandname.setText(Capitalize.capitalizeFirstLetter(cd.getBrandname()));
+                holder3.sellername.setText(Capitalize.capitalizeFirstLetter(cd.getSellername()));
+                holder3.size.setText(cd.getSize() + "");
+
+                holder3.price.setText("$" + cd.getPrice());
+                SingleTon.imageLoader2.displayImage(cd.getImageurl(), holder3.bannerimage, SingleTon.options);
 
 
                 break;
             case VIEW_ITEM_IMAGE:
-                ImageMsg  holder4= (ImageMsg) holder;
+                ImageMsg holder4 = (ImageMsg) holder;
 
                 try {
                     byte[] decodedString = Base64.decode(cd.getBase64_imgage_url(), Base64.DEFAULT);
@@ -153,20 +149,13 @@ public class SendMsgListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public int getItemViewType(int position) {
-        if(items.get(position).getUserType()== UserType.SELF)
-          {
-         return VIEW_ITEM_SELF;
-        }
-        else if(items.get(position).getUserType()== UserType.OTHER)
-        {
+        if (items.get(position).getUserType() == UserType.SELF) {
             return VIEW_ITEM_SELF;
-        }
-        else if(items.get(position).getUserType()== UserType.BANNER)
-        {
-            return VIEW_ITEM_SELF;
-        }
-        else if(items.get(position).getUserType()== UserType.SELF_IMAGE)
-        {
+        } else if (items.get(position).getUserType() == UserType.OTHER) {
+            return VIEW_ITEM_OTHER;
+        } else if (items.get(position).getUserType() == UserType.BANNER) {
+            return VIEW_ITEM_BANNER;
+        } else if (items.get(position).getUserType() == UserType.SELF_IMAGE) {
             return VIEW_ITEM_IMAGE;
         }
         return 0;
@@ -200,7 +189,7 @@ public class SendMsgListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         public MsgSelfOther(View v) {
             super(v);
-            profpic = (ImageView) v.findViewById(R.id.chatpicsender);
+            profpic = (ImageView) v.findViewById(R.id.chatpic);
             messageTextView = (EmojiconTextView) v.findViewById(R.id.message_text);
             timeTextView = (TextView) v.findViewById(R.id.time_text);
         }
