@@ -434,22 +434,22 @@ public class StickyActivity extends AppCompatActivity {
                             }
                         }
 
-
+                         String uname=SingleTon.pref.getString("uname","");
                         //for header
                         if (jo.getInt("noti_type_home") == 1) {
                             hld2.setHeadertype(1);
                             hld2.setNotitotallikers(jo.getInt("noti_total"));
-                            hld2.setNotilikedby(jo.getString("noti_users"));
+                            hld2.setNotilikedby(jo.getString("noti_users").replace(uname,"You"));
 
                         } else if (jo.getInt("noti_type_home") == 2) {
                             hld2.setHeadertype(2);
                             hld2.setNotitotallikers(jo.getInt("noti_total"));
-                            hld2.setNotilikedby(jo.getString("noti_users"));
+                            hld2.setNotilikedby(jo.getString("noti_users").replace(uname,"You"));
 
                         } else if (jo.getInt("noti_type_home") == 3) {
                             hld2.setHeadertype(3);
                             hld2.setNotitotallikers(jo.getInt("noti_total"));
-                            hld2.setNotilikedby(jo.getString("noti_users"));
+                            hld2.setNotilikedby(jo.getString("noti_users").replace(uname,"You"));
 
                         } else
                             hld2.setHeadertype(0);

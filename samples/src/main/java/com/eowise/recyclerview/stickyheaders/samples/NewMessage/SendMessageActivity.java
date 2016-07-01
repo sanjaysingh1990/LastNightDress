@@ -309,14 +309,14 @@ public class SendMessageActivity extends AppCompatActivity {
                             }
                         } else {
                             if (jo.getString("uname").compareTo(uname) == 0)
-                            md.setSellername(chatbanner.getUname());
+                                md.setSellername(chatbanner.getUname());
                             md.setBrandname(jo.getString("brand_name"));
                             md.setImageurl(jo.getString("image_url"));
                             md.setSize(jo.getString("size"));
                             md.setPrice(jo.getString("price_now"));
                             md.setUserType(UserType.BANNER);
                         }
-                            //formatting date and time
+                        //formatting date and time
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date testDate = null;
                         try {
@@ -344,10 +344,11 @@ public class SendMessageActivity extends AppCompatActivity {
                             String datestring = formatter.format(testDate.getTime());
                             md.setTime(datestring);
                         }
-                        if (loadmore)
+                       /* if (loadmore)
                             data.add(0, md);
                         else
-                            data.add(md);
+                            data.add(md);*/
+                        data.add(0, md);
                     }
                     if (data.size() == 0 && firsttime) {
                         Toast.makeText(SendMessageActivity.this, "No conversation yet !", Toast.LENGTH_LONG).show();
@@ -465,6 +466,8 @@ public class SendMessageActivity extends AppCompatActivity {
         md.setCurrenttimestamp(SingleTon.getCurrentTimeStamp());
         data.add(md);
         recyclerAdapter.notifyDataSetChanged();
+        chatRecyclerView.scrollToPosition(data.size() - 1);
+
         cmntbox.setText("");
 
         try {

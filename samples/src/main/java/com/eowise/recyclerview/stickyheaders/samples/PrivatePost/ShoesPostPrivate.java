@@ -327,6 +327,7 @@ public class ShoesPostPrivate extends AppCompatActivity implements View.OnClickL
         ActualCost2.setOnClickListener(this);
         FixedCost2.setOnClickListener(this);
         FixedCost1.setOnClickListener(this);
+        FixedCost1.setChecked(true);
         setupEmoji();
     }
 
@@ -447,7 +448,6 @@ public class ShoesPostPrivate extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-
 
 
             case R.id.conditionnew:
@@ -587,23 +587,22 @@ public class ShoesPostPrivate extends AppCompatActivity implements View.OnClickL
             //image1 json
             JSONObject image1 = new JSONObject();
             image1.put("imagename", filename[0]);
-           // image1.put("imageurl", links[0]);
+            image1.put("imageurl", links[0]);
 
             //image2 json
             JSONObject image2 = new JSONObject();
             image2.put("imagename", filename[1]);
-           // image2.put("imageurl", links[1]);
+            image2.put("imageurl", links[1]);
 
             //image3 json
             JSONObject image3 = new JSONObject();
             image3.put("imagename", filename[2]);
-           // image3.put("imageurl", links[2]);
+            image3.put("imageurl", links[2]);
 
             //image4 json
             JSONObject image4 = new JSONObject();
             image4.put("imagename", filename[3]);
-            //image4.put("imageurl", links[3]);
-
+            image4.put("imageurl", links[3]);
 
 
             //images array
@@ -668,17 +667,15 @@ public class ShoesPostPrivate extends AppCompatActivity implements View.OnClickL
                 mainObj.put("query_type", 1);
                 mainObj.put("post_id", 0);
 
-                // postShoe(mainObj.toString());
-            }
-            else
-            {
+                postShoe(mainObj.toString());
+            } else {
                 mainObj.put("query_type", 2);
                 mainObj.put("post_id", hld.getPost_id());
 
-                // postShoe(mainObj.toString());
+                 postShoe(mainObj.toString());
 
             }
-            Log.e("json", mainObj.toString());
+            //Log.e("json", mainObj.toString());
         } catch (Exception ex) {
             Log.e("jsonex", ex.getMessage() + "");
         }

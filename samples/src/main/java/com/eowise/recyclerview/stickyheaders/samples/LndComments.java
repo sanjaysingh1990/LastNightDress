@@ -1,6 +1,7 @@
 package com.eowise.recyclerview.stickyheaders.samples;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +12,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +23,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.eowise.recyclerview.stickyheaders.samples.LndAgent.Agent_Signup;
 import com.eowise.recyclerview.stickyheaders.samples.Loading.AVLoadingIndicatorView;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
@@ -54,6 +57,12 @@ public class LndComments extends AppCompatActivity {
     AVLoadingIndicatorView loader;
     @Bind(R.id.commentbox)
     EmojiconEditText commentbox;
+    @Bind(R.id.commentcontrols)
+    LinearLayout commentcontrols;
+    @Bind(R.id.noagent)
+    TextView noagent;
+
+
     private List<CommentData> data = new ArrayList<CommentData>();
     private LndCommentsAdapter recyclerAdapter;
     private TextView heading;
@@ -141,7 +150,19 @@ public class LndComments extends AppCompatActivity {
                         }
             }
         });
+//to check user position
+        int pos=SingleTon.pref.getInt("user_position",0);
+        if(pos>0)
+        {
+            commentcontrols.setVisibility(View.VISIBLE);
+            noagent.setVisibility(View.GONE);
+        }
+        else
+        {
+            commentcontrols.setVisibility(View.INVISIBLE);
+            noagent.setVisibility(View.VISIBLE);
 
+        }
     }
 int count=0;
     public void getData(final String postid) {
@@ -307,6 +328,13 @@ int count=0;
         recyclerView.scrollToPosition(data.size()-1);
 
         PostComment();
+    }
+    public void becomeAgent(View v)
+    {
+        Intent agent=new Intent(this, Agent_Signup.class);
+        startActivity(agent);
+        finish();
+
     }
 }
 

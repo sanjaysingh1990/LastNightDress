@@ -41,6 +41,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.eowise.recyclerview.stickyheaders.samples.ChangePassword.ChangePassword;
 import com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost.CompressImage;
+import com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost.CustomCamera;
 import com.eowise.recyclerview.stickyheaders.samples.Loading.AVLoadingIndicatorView;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
@@ -339,12 +340,9 @@ public class EditProfileShop extends AppCompatActivity implements TextWatcher {
             public void onClick(View v) {
                 // handle me
                 dialog.dismiss();
-               /* Intent intent2 = new Intent(EditProfileShop.this, CustomCameraActivity.class);
-                intent2.putExtra(FILENAME, "actress2.jpg");
-                intent2.putExtra(IS_PORTRAIT, true);
-                intent2.putExtra(QUALITY, 100);
-
-                startActivityForResult(intent2, 0);*/
+                Intent intent2 = new Intent(EditProfileShop.this, CustomCamera.class);
+                intent2.putExtra("QUALITY", 100);
+                startActivityForResult(intent2, 300);
             }
         });
 

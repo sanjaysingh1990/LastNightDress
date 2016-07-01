@@ -173,7 +173,8 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             likers.putExtra("type", 2);
             mContext.startActivity(likers);
         } else {
-
+            if (tag.toString().equalsIgnoreCase("you"))
+                return;
             Intent profile;
             if (SingleTon.pref.getString("uname", "").compareToIgnoreCase(tag.toString()) == 0) {
                 profile = new Intent(mContext, LndProfile.class);
@@ -361,6 +362,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                     } else {
                         String[] users = item.getNotilikedby().split(",");
+
                         vh1.activitydoneby.setText(mTagSelectingTextview.addClickablePart(Capitalize.capitalizeFirstLetter(users[0]) + " and " + users[1] + " liked this.",
                                 this, hashTagHyperLinkDisabled, hastTagColorBlue, users[0].length(), users[1].length(), ""),
                                 TextView.BufferType.SPANNABLE);
@@ -2305,7 +2307,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 cbd.setPricenow(hld.getPricenow());
                 cbd.setSellername(hld.getUname());*/
 
-                msgtofrnd.putExtra("bannerdata",hld);
+                msgtofrnd.putExtra("bannerdata", hld);
 
                 mContext.startActivity(msgtofrnd);
 

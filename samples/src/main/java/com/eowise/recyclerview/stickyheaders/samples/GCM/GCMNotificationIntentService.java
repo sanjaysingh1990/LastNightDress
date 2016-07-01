@@ -108,6 +108,7 @@ public class GCMNotificationIntentService extends IntentService {
 			// write your code to build a notification.
 			// return the notification you built here
 			mNotificationManager.notify(notifyID, mNotifyBuilder.build());
+			Log.e("json","called");
 		}
 
 	}

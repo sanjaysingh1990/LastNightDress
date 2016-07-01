@@ -70,6 +70,11 @@
 
 
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -81,7 +86,7 @@
             android:paddingRight="3dp"
             android:paddingTop="2dp"
             android:paddingBottom="6dp"
-
+            android:id="@+id/commentcontrols"
             >
 
             <LinearLayout
@@ -142,7 +147,27 @@
 
                 />
         </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/agent_button_background"
+                android:clickable="true"
+                android:contextClickable="true"
+                android:onClick="becomeAgent"
+                android:text="Become an Agent"
+                android:textColor="#ffffff"
+                android:textSize="18sp"
+                android:paddingLeft="40dp"
+                android:paddingRight="40dp"
+                android:id="@+id/noagent"
+                android:visibility="gone"
+                />
+
+        </FrameLayout>
     </LinearLayout>
+
     <com.eowise.recyclerview.stickyheaders.samples.Loading.AVLoadingIndicatorView
         android:id="@+id/loader"
         android:layout_width="45dp"

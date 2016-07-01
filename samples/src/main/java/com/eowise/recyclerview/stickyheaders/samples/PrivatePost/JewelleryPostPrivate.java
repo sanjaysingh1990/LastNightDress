@@ -898,16 +898,16 @@ public class JewelleryPostPrivate extends AppCompatActivity implements View.OnCl
                 mainObj.put("query_type", 1);
                 mainObj.put("post_id", 0);
 
-                // jewelleryPost(mainObj.toString());
+                jewelleryPost(mainObj.toString());
             } else {
                 mainObj.put("query_type", 2);
                 mainObj.put("post_id", hld.getPost_id());
 
-                //jewelleryPost(mainObj.toString());
+                jewelleryPost(mainObj.toString());
 
             }
 
-            Log.e("json", mainObj.toString());
+            //  Log.e("json", mainObj.toString());
         } catch (Exception ex) {
             Log.e("json error", ex.getMessage() + "");
         }

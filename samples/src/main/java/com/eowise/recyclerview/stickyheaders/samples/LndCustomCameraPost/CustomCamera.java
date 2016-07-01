@@ -103,10 +103,21 @@ act=this;
 
         mCamera = null;
         initialCamera();
-   getSupportFragmentManager().beginTransaction().replace(
-                R.id.fl_custom_camera, CameraPreviewFragment.newInstance())
-                .commitAllowingStateLoss();
-    }
+        Bundle extra=getIntent().getExtras();
+
+        if(extra==null) {
+            getSupportFragmentManager().beginTransaction().replace(
+                    R.id.fl_custom_camera, CameraPreviewFragment.newInstance())
+                    .commitAllowingStateLoss();
+        }
+        else
+        {
+            getSupportFragmentManager().beginTransaction().replace(
+                    R.id.fl_custom_camera, CameraPreviewProfilePicFragment.newInstance())
+                    .commitAllowingStateLoss();
+
+        }
+        }
 
     @Override
     protected void onDestroy() {
@@ -151,15 +162,19 @@ act=this;
         /**
          * Photo mode
          */
-        if (mCamera == null || CameraPreviewFragment.IS_RECORDING_VIDEO) {
-            // Initialize camera again
-            initialCamera();
 
-            getSupportFragmentManager().beginTransaction().replace(
-                    R.id.fl_custom_camera, CameraPreviewFragment.newInstance())
-                    .commitAllowingStateLoss();
+            if (mCamera == null || CameraPreviewFragment.IS_RECORDING_VIDEO) {
+                // Initialize camera again
+                initialCamera();
+
+                getSupportFragmentManager().beginTransaction().replace(
+                        R.id.fl_custom_camera, CameraPreviewFragment.newInstance())
+                        .commitAllowingStateLoss();
+            }
         }
-    }
+
+
+
 
     /**
      * Initial methods

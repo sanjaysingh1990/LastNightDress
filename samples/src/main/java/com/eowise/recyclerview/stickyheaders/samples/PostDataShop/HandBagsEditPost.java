@@ -48,6 +48,7 @@ import com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost.CustomC
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.Home_List_Data;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.ApplicationConstants;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ConstantValues;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.HashTagandMention;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.InstructionDialogs;
@@ -548,7 +549,7 @@ public class HandBagsEditPost extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void callbackReturn(String data) {
-           EditShpping(data);
+        EditShpping(data);
     }
 
 
@@ -777,7 +778,7 @@ public class HandBagsEditPost extends AppCompatActivity implements View.OnClickL
 
             }
 
-            //  Log.e("json", mainObj.toString());
+           // Log.e("json", mainObj.toString());
         } catch (Exception ex) {
             Log.e("json error", ex.getMessage() + "");
         }
@@ -792,7 +793,7 @@ public class HandBagsEditPost extends AppCompatActivity implements View.OnClickL
 
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/lndpost.php", new Response.Listener<String>() {
+        StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_LNDPOST, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 pDialog.dismiss();

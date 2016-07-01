@@ -47,6 +47,7 @@ import com.eowise.recyclerview.stickyheaders.samples.PostDataShop.Lnd_Post_Instr
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.Home_List_Data;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.ApplicationConstants;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ConstantValues;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.HashTagandMention;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.InstructionDialogs;
@@ -639,7 +640,7 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
             //image1 json
             JSONObject image1 = new JSONObject();
             image1.put("imagename", filename[0]);
-            image1.put("imageurl", links[0]);
+             image1.put("imageurl", links[0]);
 
             //image2 json
             JSONObject image2 = new JSONObject();
@@ -718,12 +719,12 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
                 mainObj.put("query_type", 1);
                 mainObj.put("post_id", 0);
 
-                // uploadDress(mainObj.toString());
+                 uploadDress(mainObj.toString());
             } else {
                 mainObj.put("query_type", 2);
                 mainObj.put("post_id", hld.getPost_id());
 
-                //  uploadDress(mainObj.toString());
+                 uploadDress(mainObj.toString());
 
             }
 
@@ -741,7 +742,7 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
 
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/lndpost.php", new Response.Listener<String>() {
+        StringRequest sr = new StringRequest(Request.Method.POST,  ApplicationConstants.APP_SERVER_URL_LND_LNDPOST, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {

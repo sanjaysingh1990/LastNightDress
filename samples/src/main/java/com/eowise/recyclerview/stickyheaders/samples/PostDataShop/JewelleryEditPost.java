@@ -781,7 +781,7 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
             //image1 json
             JSONObject image1 = new JSONObject();
             image1.put("imagename", filename[0]);
-            image1.put("imageurl", links[0]);
+           image1.put("imageurl", links[0]);
 
             //image2 json
             JSONObject image2 = new JSONObject();
@@ -860,16 +860,16 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
                 mainObj.put("query_type", 1);
                 mainObj.put("post_id", 0);
 
-                jewelleryPost(mainObj.toString());
+              //  jewelleryPost(mainObj.toString());
             }
             {
                 mainObj.put("query_type", 2);
                 mainObj.put("post_id", hld.getPost_id());
 
-                jewelleryPost(mainObj.toString());
+                //jewelleryPost(mainObj.toString());
 
             }
-            // Log.e("json", mainObj.toString());
+             Log.e("json", mainObj.toString());
         } catch (Exception ex) {
             Log.e("json error", ex.getMessage() + "");
         }
