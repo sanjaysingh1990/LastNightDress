@@ -46,6 +46,7 @@ import com.eowise.recyclerview.stickyheaders.samples.Loading.AVLoadingIndicatorV
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 
+import com.eowise.recyclerview.stickyheaders.samples.Utils.CamUtils;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -73,6 +74,7 @@ public class EditProfileShop extends AppCompatActivity implements TextWatcher {
     TextView heading;
     public static int CAMERA_INTENT_CALLED = 100;
     public static int GALLERY_INTENT_CALLED = 200;
+    private static final int CAMERA = 300;
     private ImageView profilepic;
     @Bind(R.id.fullname)
     EditText fullname;
@@ -102,7 +104,7 @@ public class EditProfileShop extends AppCompatActivity implements TextWatcher {
     static String imageurl = "";
     static String filename = "";
     int picfrom = 0;
-    private static final int CAMERA = 0;
+
     private CallbackManager callbackManager;
     private boolean once = false;
     private boolean isprofileupdated = false;
@@ -389,26 +391,33 @@ public class EditProfileShop extends AppCompatActivity implements TextWatcher {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //   super.onActivityResult(requestCode, resultCode, data);
-
+           super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAMERA) {
             // If image available
-            if (resultCode == Activity.RESULT_OK) {
+            if (data!=null) {
                 try {
+
 
                     // Log.e("url", data.getExtras().getString(IMAGE_URI));
                     String path = data.getExtras().getString("url");
+                    int camid=data.getExtras().getInt("camid");
 
                     // bitmap = Bitmap.createScaledBitmap(bitmap,40);
                     Bitmap selectedImage = CompressImage.compressImage(path);
+                    Bitmap mBitmapRotated = null;
+                    // Rotate Back photo only once in here
+                     mBitmapRotated = CamUtils.rotateBackImage(selectedImage);
+                     if(camid==1)
+                     mBitmapRotated = CamUtils.rotateFrontImage(this, mBitmapRotated);
+
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                     // Must compress the Image to reduce image size to make upload easy
-                    selectedImage.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                    mBitmapRotated.compress(Bitmap.CompressFormat.JPEG, 100, stream);
                     byte[] byte_arr = stream.toByteArray();
                     // Encode Image to String
                     imageurl = Base64.encodeToString(byte_arr, 0);
-                    profilepic.setImageBitmap(selectedImage);
+                    profilepic.setImageBitmap(mBitmapRotated);
                     picfrom = 3;
                     updateinfo.setVisibility(View.VISIBLE);
 
@@ -431,6 +440,8 @@ public class EditProfileShop extends AppCompatActivity implements TextWatcher {
                 String imgDecodableString = cursor.getString(columnIndex);
                 cursor.close();
                 Bitmap selectedImage = CompressImage.compressImage(imgDecodableString);//BitmapFactory.decodeStream(imageStream);
+
+
                 profilepic.setImageBitmap(selectedImage);
                 picfrom = 2;
                 //first image

@@ -1,23 +1,27 @@
 package com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.hardware.Camera;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.OrientationEventListener;
 import android.view.View;
+import android.widget.Toast;
 
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.define.Receiver;
+import com.eowise.recyclerview.stickyheaders.samples.interfaces.Communicator;
 
 
 /**
  * Created by trek2000 on 25/2/2015.
  */
 public class CustomCamera extends FragmentActivity
-        implements View.OnClickListener {
+        implements View.OnClickListener,Communicator {
 public static Activity act;
     /**
      * Single ton section
@@ -226,5 +230,15 @@ act=this;
         this.current_orientation = orientation % 360;
 
         return 90;//current_orientation;
+    }
+
+    @Override
+    public void respond(String data,int cameraid) {
+        Intent profilepic=new Intent();
+        profilepic.putExtra("url",data);
+        profilepic.putExtra("camid",cameraid);
+
+        setResult(300,profilepic);
+        finish();
     }
 }

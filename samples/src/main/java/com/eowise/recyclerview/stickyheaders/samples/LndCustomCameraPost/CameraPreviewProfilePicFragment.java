@@ -139,8 +139,20 @@ public class CameraPreviewProfilePicFragment extends Fragment
                 Log.i("", "Error creating media file, check storage permissions: ");
                 return;
             }
+            try {
+                CustomCamera cam = (CustomCamera) getActivity();
+                 FileOutputStream fos = new FileOutputStream(pictureFile);
+                fos.write(imgdata);
+                fos.close();
+                cam.respond(pictureFile.getAbsolutePath(),current_camera_id);
 
-//            try {
+            }
+            catch (Exception ex)
+            {
+                Log.e("error",ex.getMessage());
+            }
+//
+// try {
 
             // After take picture successfully,
             //      - Need refresh Gallery to see new image
@@ -150,7 +162,7 @@ public class CameraPreviewProfilePicFragment extends Fragment
             //   CamUtils.addPictureToGallery(getActivity(), pictureFile.getAbsolutePath());
 
             // Go to Review page
-            FragmentTransaction ft = ((FragmentActivity) getActivity())
+           /* FragmentTransaction ft = ((FragmentActivity) getActivity())
                     .getSupportFragmentManager().beginTransaction();
             ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_from_left);
 
@@ -542,8 +554,7 @@ public class CameraPreviewProfilePicFragment extends Fragment
 
             // Switch between Front Camera & Back Camera
             current_camera_id = switchCurrentCameraID();
-
-            refreshCameraPreview(getActivity(), current_camera_id);
+             refreshCameraPreview(getActivity(), current_camera_id);
 
             // Should remove view parent before add child
             CamUtils.removeViewParent(mCameraPreview);
