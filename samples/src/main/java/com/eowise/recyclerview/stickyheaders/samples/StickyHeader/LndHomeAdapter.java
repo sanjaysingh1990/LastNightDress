@@ -2313,21 +2313,19 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                 break;
             case R.id.favorate:
-                FavoriteData fav = SingleTon.db.getContact(mItems.get(pos).getPost_id());
-                if (fav == null) {
-                    FavoriteData favdata = new FavoriteData();
-                    Home_List_Data lndhome = mItems.get(pos);
-                    favdata.setPostid(lndhome.getPost_id());
-                    favdata.setCost(lndhome.getPricenow());
-                    favdata.setImageurl(lndhome.getImageurls().get(0));
-                    SingleTon.db.addContact(favdata);
-                    ((ImageButton) v).setImageResource(R.drawable.filled_favorate_icon);
-                } else {
-                    Log.e("postid", fav.getPostid() + "");
-                    SingleTon.db.deleteContact(fav.getPostid());
+                Home_List_Data home_list_data=mItems.get(pos);
+                boolean fav = home_list_data.isfavorate();
+
+                if (fav) {
                     ((ImageButton) v).setImageResource(R.drawable.favorite_icon);
+                    home_list_data.setIsfavorate(false);
+                } else {
+                    ((ImageButton) v).setImageResource(R.drawable.filled_favorate_icon);
+                    home_list_data.setIsfavorate(true);
 
                 }
+                addordelFav(SingleTon.pref.getString("user_id",""),home_list_data.getPost_id());
+               // notifyItemChanged(pos);
                 break;
 
 
@@ -2580,6 +2578,59 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         queue.add(sr);
 
 
+    }
+
+    private void  addordelFav(final String userid,final String postid)
+    {
+
+        RequestQueue queue = Volley.newRequestQueue(mContext);
+        StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_NOTIFICATION_SETTING, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+               //  Log.e("json", response.toString());
+                try {
+                    JSONObject jobj = new JSONObject(response.toString());
+                    if (jobj.getBoolean("status")) {
+
+                        Toast.makeText(mContext, jobj.getString("message"), Toast.LENGTH_LONG).show();
+
+
+                    } else {
+                        Toast.makeText(mContext, jobj.getString("message"), Toast.LENGTH_LONG).show();
+                    }
+
+                } catch (Exception ex) {
+                    Log.e("json parsing error", ex.getMessage());
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                //  Log.e("response",error.getMessage()+"");
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("user_id",userid);
+                params.put("rqid", "5");
+                params.put("post_id",postid);
+
+
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                return params;
+            }
+        };
+        queue.add(sr);
     }
 
     private void delete(int pos) {

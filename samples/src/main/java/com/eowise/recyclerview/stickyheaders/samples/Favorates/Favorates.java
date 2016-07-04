@@ -22,6 +22,7 @@ import com.android.volley.toolbox.Volley;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.SQLDB.FavoriteData;
+import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.CommentBean;
 import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.Home_List_Data;
 import com.eowise.recyclerview.stickyheaders.samples.TabDemo.LndShopActivity;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ConstantValues;
@@ -76,33 +77,19 @@ public class Favorates extends AppCompatActivity {
         recyclerv = (RecyclerView) findViewById(R.id.recycler_view);
 
         recyclerv.setLayoutManager(new GridLayoutManager(this, 3));
-        intialize();
+
         adapter = new FavoratesAdapter(favitems, this);
         recyclerv.setAdapter(adapter);
         //custom fonts
         heading.setTypeface(SingleTon.hfont);
-
+        mItems.clear();
+        intialize();
     }
 
     private void intialize() {
-        List<FavoriteData> favorates = SingleTon.db.getAllContacts();
 
-        // Toast.makeText(this,"size"+contacts.size(),Toast.LENGTH_LONG).show();
-        for (FavoriteData cn : favorates) {
-        /*String log = "Id: "+cn.getPostid()+" ,Name: " + cn.getImageurl() + " ,Phone: " +
-                cn.getCost();
-        // Writing Contacts to log
-        Log.e("Name: ", log);*/
-            FavoriteData favdata = new FavoriteData();
-            favdata.setPostid(cn.getPostid());
-            favdata.setCost(cn.getCost());
-            favdata.setImageurl(cn.getImageurl());
-            favitems.add(favdata);
-        }
-        if (favorates.size() == 0) {
 
-            getFavorates();
-        }
+        getFavorates();
     }
 
     @Override
@@ -139,7 +126,7 @@ public class Favorates extends AppCompatActivity {
                         fd.setCost(jo.getString("price_now"));
                         fd.setImageurl(jo.getString("imageurl1"));
                         fd.setPostid(jo.getString("post_id"));
-                        addFavorite(fd);
+
                         favitems.add(fd);
 
 //for full view
@@ -200,7 +187,30 @@ public class Favorates extends AppCompatActivity {
                         hld.setBrandname(jo.getString("brand_name"));
                         hld.setTime(TimeAgo.getMilliseconds(jo.getString("date_time")));
                         hld.setProdtype(jo.getString("prod_type"));
+                        JSONArray commnets = jo.getJSONArray("postcoments");
+                        hld.setSwapstatus(jo.getInt("swap_status"));
+                        hld.setIssold(jo.getInt("issold"));
 
+                        hld.setIsfavorate(true);
+                        if (commnets.length() > 0) {
+
+                            ArrayList<CommentBean> post_cont = new ArrayList<>();
+                            for (int j = 0; j < commnets.length(); j++) {
+                                JSONObject jsonObject = commnets.getJSONObject(j);
+                                String uname = jsonObject.getString("uname");
+                                String comment = jsonObject.getString("comment");
+                                CommentBean cb = new CommentBean();
+                                cb.setUname(uname);
+                                cb.setComment(comment);
+                                post_cont.add(cb);
+                            }
+                            hld.setUserpostcomments(post_cont);
+
+                        } else {
+                            ArrayList<CommentBean> post_cont = new ArrayList<>();
+                            hld.setUserpostcomments(post_cont);
+
+                        }
                         if (hld.getCategory() == 2) {
                             String size = "";
 
@@ -245,7 +255,6 @@ public class Favorates extends AppCompatActivity {
                         hld2.setLikedvalue(jo.getString("isliked"));
                         hld2.setUserid(jo.getString("user_id"));
                         hld2.setBrandname(jo.getString("brand_name"));
-                        checkFavorate2(hld);
                         mItems.add(hld);
                         count++;
                     }
@@ -305,15 +314,5 @@ public class Favorates extends AppCompatActivity {
         }
     }
 
-    private void addFavorite(FavoriteData fav) {
-
-
-        FavoriteData favdata = new FavoriteData();
-        favdata.setPostid(fav.getPostid());
-        favdata.setCost(fav.getCost());
-        favdata.setImageurl(fav.getImageurl());
-        SingleTon.db.addContact(favdata);
-
-    }
 
 }

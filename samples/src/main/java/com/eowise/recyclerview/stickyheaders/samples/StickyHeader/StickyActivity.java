@@ -359,6 +359,11 @@ public class StickyActivity extends AppCompatActivity {
                         hld.setSwapstatus(jo.getInt("swap_status"));
                         hld.setTotalcomments(jo.getInt("post_total_comment"));
                         JSONArray commnets = jo.getJSONArray("postcoments");
+                        if (jo.getInt("isfav") == 0)
+                            hld.setIsfavorate(false);
+                        else
+                            hld.setIsfavorate(true);
+
                         if (commnets.length() > 0) {
 
                             ArrayList<CommentBean> post_cont = new ArrayList<>();
@@ -434,22 +439,22 @@ public class StickyActivity extends AppCompatActivity {
                             }
                         }
 
-                         String uname=SingleTon.pref.getString("uname","");
+                        String uname = SingleTon.pref.getString("uname", "");
                         //for header
                         if (jo.getInt("noti_type_home") == 1) {
                             hld2.setHeadertype(1);
                             hld2.setNotitotallikers(jo.getInt("noti_total"));
-                            hld2.setNotilikedby(jo.getString("noti_users").replace(uname,"You"));
+                            hld2.setNotilikedby(jo.getString("noti_users").replace(uname, "You"));
 
                         } else if (jo.getInt("noti_type_home") == 2) {
                             hld2.setHeadertype(2);
                             hld2.setNotitotallikers(jo.getInt("noti_total"));
-                            hld2.setNotilikedby(jo.getString("noti_users").replace(uname,"You"));
+                            hld2.setNotilikedby(jo.getString("noti_users").replace(uname, "You"));
 
                         } else if (jo.getInt("noti_type_home") == 3) {
                             hld2.setHeadertype(3);
                             hld2.setNotitotallikers(jo.getInt("noti_total"));
-                            hld2.setNotilikedby(jo.getString("noti_users").replace(uname,"You"));
+                            hld2.setNotilikedby(jo.getString("noti_users").replace(uname, "You"));
 
                         } else
                             hld2.setHeadertype(0);
@@ -468,7 +473,6 @@ public class StickyActivity extends AppCompatActivity {
                         hld2.setSwapstatus(jo.getInt("swap_status"));
 
 
-                        checkFavorate(hld);
                         mItems.add(hld);
                         i++;
                     }

@@ -37,6 +37,7 @@ import com.android.volley.toolbox.Volley;
 import com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost.CompressImage;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.ApplicationConstants;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.nostra13.universalimageloader.core.assist.FailReason;
@@ -67,7 +68,8 @@ public class PrivateFragment extends Fragment {
     Spinner country;
     @Bind(R.id.imgoptions)
     TextView imgoptions;
-
+    @Bind(R.id.refcode)
+    EditText refcodeedittext;
     private static ImageView profileimage;
     @Bind(R.id.next)
     TextView next;
@@ -197,6 +199,56 @@ public class PrivateFragment extends Fragment {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("rqid", "7");
                 params.put("uname", uname);
+
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                return params;
+            }
+        };
+        queue.add(sr);
+    }
+
+    public void checkingrefcode(final String refcode) {
+
+
+        RequestQueue queue = Volley.newRequestQueue(getActivity());
+        StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_NOTIFICATION_SETTING, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                 Log.e("json", response);
+                try {
+                    JSONObject jobj = new JSONObject(response.toString());
+
+                    if (jobj.getBoolean("status")) {
+                        goNext();
+                    } else {
+                        refcodeedittext.requestFocus();
+                        refcodeedittext.setError(jobj.getString("message"));
+
+                    }
+
+                } catch (Exception ex) {
+                    Log.e("json parsing error", ex.getMessage());
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                Log.e("response", error.getMessage() + "");
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("rqid", "2");
+                params.put("refcode", refcode);
 
                 return params;
             }
@@ -437,8 +489,16 @@ public class PrivateFragment extends Fragment {
         } else {
             this.password.setError(null);
         }
+        //to check refcode entered or not
+        if (refcodeedittext.getText().length() > 0)
+            checkingrefcode(refcodeedittext.getText().toString());
+        else
+            goNext();
 
 
+    }
+
+    private void goNext() {
         try
 
         {
@@ -450,6 +510,7 @@ public class PrivateFragment extends Fragment {
             LndUserDescriptionFragment.jsonprivate.put("email", email);
             LndUserDescriptionFragment.jsonprivate.put("password", password);
             LndUserDescriptionFragment.jsonprivate.put("country", this.country.getSelectedItemPosition());
+            LndUserDescriptionFragment.jsonprivate.put("refcode", this.refcodeedittext.getText());
 
 
             if (picfrom == 2 || picfrom == 3 || picfrom == 1) {

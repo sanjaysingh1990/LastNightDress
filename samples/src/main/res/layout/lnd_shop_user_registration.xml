@@ -260,6 +260,29 @@
                 android:background="#dadada"
                 android:layout_marginTop="10dp"
                 />
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="Reference code (optional)"
+                android:imeOptions="actionDone"
+                android:layout_marginTop="15dp"
+                android:id="@+id/refcode"
+                android:background="@null"
+                android:backgroundTint="@color/white"
+                android:drawablePadding="6dp"
+                android:textColorHint="@color/user_registration_hint_color"
+                android:textColor="@color/white"
+                android:paddingLeft="10dp"
+                android:textSize="16sp"
+                android:inputType="number"
+
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#dadada"
+                android:layout_marginTop="10dp"
+                />
 <TextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"

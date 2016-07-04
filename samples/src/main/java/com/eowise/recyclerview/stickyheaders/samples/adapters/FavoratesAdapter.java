@@ -1,6 +1,7 @@
 package com.eowise.recyclerview.stickyheaders.samples.adapters;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Point;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -11,17 +12,33 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.eowise.recyclerview.stickyheaders.samples.Favorates.Favorates;
+import com.eowise.recyclerview.stickyheaders.samples.LndPostFullView.LndFullFavorateStickyActivity;
+import com.eowise.recyclerview.stickyheaders.samples.LndPostFullView.LndFullStickyActivity;
+import com.eowise.recyclerview.stickyheaders.samples.Main_TabHost;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.SQLDB.FavoriteData;
 import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.Home_List_Data;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.ApplicationConstants;
 
 
+import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class FavoratesAdapter extends RecyclerView.Adapter<FavoratesAdapter.TextViewHolder> {
     private static List<FavoriteData> labels;
@@ -81,18 +98,82 @@ public class FavoratesAdapter extends RecyclerView.Adapter<FavoratesAdapter.Text
             delfav = (ImageButton) itemView.findViewById(R.id.delefav);
             separator = itemView.findViewById(R.id.separator);
             delfav.setOnClickListener(this);
+            img.setOnClickListener(this);
         }
 
 
         @Override
         public void onClick(View v) {
-            Favorates fav = (Favorates) activity;
-            // Log.e("position", getAdapterPosition() + "");
+           switch (v.getId()) {
 
-            SingleTon.db.deleteContact(labels.get(getAdapterPosition()).getPostid());
-            fav.delFavorite(getAdapterPosition());
-            notifyDataSetChanged();
-        }
+               case R.id.delefav:
+               Favorates fav = (Favorates) activity;
+               delFav(SingleTon.pref.getString("uname",""),labels.get(getAdapterPosition()).getPostid());
+
+                   fav.delFavorite(getAdapterPosition());
+                   notifyDataSetChanged();
+               break;
+               case R.id.image:
+                   Intent fullfav = new Intent(activity, LndFullFavorateStickyActivity.class);
+                   fullfav.putExtra("post_location", getAdapterPosition());
+
+                   activity.startActivityForResult(fullfav,9);
+                   break;
+
+           }
+           }
+    }
+    public void  delFav(final String userid,final String postid)
+    {
+
+        RequestQueue queue = Volley.newRequestQueue(activity);
+        StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_NOTIFICATION_SETTING, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                //  Log.e("json", response.toString());
+                try {
+                    JSONObject jobj = new JSONObject(response.toString());
+                    if (jobj.getBoolean("status")) {
+
+                        Toast.makeText(activity, jobj.getString("message"), Toast.LENGTH_LONG).show();
+
+
+                    } else {
+                        Toast.makeText(activity, jobj.getString("message"), Toast.LENGTH_LONG).show();
+                    }
+
+                } catch (Exception ex) {
+                    Log.e("json parsing error", ex.getMessage());
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                //  Log.e("response",error.getMessage()+"");
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("user_id",userid);
+                params.put("rqid", "6");
+                params.put("post_id",postid);
+
+
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                return params;
+            }
+        };
+        queue.add(sr);
     }
 
 
