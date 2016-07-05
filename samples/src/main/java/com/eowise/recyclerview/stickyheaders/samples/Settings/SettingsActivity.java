@@ -29,6 +29,7 @@ import com.eowise.recyclerview.stickyheaders.samples.Currency.LndCurrency;
 import com.eowise.recyclerview.stickyheaders.samples.EditProfile.EditProfilePrivate;
 import com.eowise.recyclerview.stickyheaders.samples.EditProfile.EditProfileShop;
 import com.eowise.recyclerview.stickyheaders.samples.LndAgent.Agent_Signup;
+import com.eowise.recyclerview.stickyheaders.samples.LndAgent.Lnd_Agent_Profile;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.MyPurchases.MyPurchasesActivity;
 import com.eowise.recyclerview.stickyheaders.samples.MySales.SalesActivity;
@@ -160,8 +161,15 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // handle me
-                Intent agent_signup = new Intent(SettingsActivity.this, Agent_Signup.class);
-                startActivity(agent_signup);
+                int user_pos = SingleTon.pref.getInt("user_position", 0);
+                if (user_pos == 1) {
+                    Intent agent_signup = new Intent(SettingsActivity.this, Agent_Signup.class);
+                    startActivity(agent_signup);
+                } else {
+                    Intent agent_profile = new Intent(SettingsActivity.this, Lnd_Agent_Profile.class);
+                    startActivity(agent_profile);
+
+                }
             }
         });
         //notification

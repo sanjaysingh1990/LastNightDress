@@ -194,7 +194,7 @@ public class Lnd_Agent_Profile extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("rqid", "20");
-                params.put("ref_code", 233 + "");
+                params.put("ref_code",SingleTon.pref.getString("ref_code","")+"");
 
                 return params;
             }

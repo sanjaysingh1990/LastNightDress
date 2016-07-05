@@ -479,7 +479,8 @@
             android:authorities="com.facebook.app.FacebookContentProvider1260994363926935"
             android:exported="true" />
 
-        <activity android:name=".LndAgent.Load_more_agent_users"></activity>
+        <activity android:name=".LndAgent.Load_more_agent_users" />
+        <activity android:name=".UserProfile.ForgetPasswordReset"></activity>
     </application>
 
 </manifest>

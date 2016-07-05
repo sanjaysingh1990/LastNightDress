@@ -54,19 +54,20 @@ public class LndNotificationMessageActivity extends AppCompatActivity {
     public static AVLoadingIndicatorView loader;
     public LinearLayout instructionview;
     private FrameLayout container;
-    private TextView insheading,inssubheading;
+    private TextView insheading, inssubheading;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_demo_viewpager);
-         display = getWindowManager().getDefaultDisplay();
+        display = getWindowManager().getDefaultDisplay();
         mTabLayout = (TabLayout) findViewById(R.id.tabs);
         mViewPager = (ViewPager) findViewById(R.id.pager);
         heading = (TextView) findViewById(R.id.heading);
         newmessage = (ImageButton) findViewById(R.id.newmessage);
         loader = (AVLoadingIndicatorView) findViewById(R.id.loader);
         instructionview = (LinearLayout) findViewById(R.id.instructionview);
-        container= (FrameLayout) findViewById(R.id.container);
+        container = (FrameLayout) findViewById(R.id.container);
 //        Typeface tf=Typeface.createFromAsset(getAssets(),"Mural_Script.ttf");
         // heading.setTypeface(tf);
         mViewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
@@ -92,8 +93,8 @@ public class LndNotificationMessageActivity extends AppCompatActivity {
                     newmessage.setVisibility(View.VISIBLE);
                 else
                     newmessage.setVisibility(View.GONE);
-             if(isnotification||ismessage)
-                 showinfo(position);
+                if (isnotification || ismessage)
+                    showinfo(position);
             }
 
             @Override
@@ -102,8 +103,8 @@ public class LndNotificationMessageActivity extends AppCompatActivity {
             }
         });
 
-         insheading= (TextView) findViewById(R.id.insheading);
-         inssubheading= (TextView) findViewById(R.id.inssubheading);
+        insheading = (TextView) findViewById(R.id.insheading);
+        inssubheading = (TextView) findViewById(R.id.inssubheading);
         insheading.setTypeface(SingleTon.robotomedium);
         CoordinatorLayout.LayoutParams params =
                 (CoordinatorLayout.LayoutParams) container.getLayoutParams();
@@ -208,14 +209,15 @@ public class LndNotificationMessageActivity extends AppCompatActivity {
     }
 
     public void showInstruction(int from) {
-        if(from==1)
-            isnotification=true;
-        else if(from==2)
-        ismessage=true;
-      disable();
+        if (from == 1)
+            isnotification = true;
+        else if (from == 2)
+
+            ismessage = true;
+
     }
-    private void enable()
-    {
+
+    public void enable() {
         CoordinatorLayout.LayoutParams params =
                 (CoordinatorLayout.LayoutParams) container.getLayoutParams();
         params.setBehavior(new AppBarLayout.ScrollingViewBehavior());
@@ -225,8 +227,8 @@ public class LndNotificationMessageActivity extends AppCompatActivity {
         params2.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS);
         instructionview.setVisibility(View.GONE);
     }
-    private void disable()
-    {
+
+    private void disable() {
         CoordinatorLayout.LayoutParams params =
                 (CoordinatorLayout.LayoutParams) container.getLayoutParams();
         params.setBehavior(null);
@@ -237,26 +239,22 @@ public class LndNotificationMessageActivity extends AppCompatActivity {
         instructionview.setVisibility(View.VISIBLE);
 
     }
-private boolean isnotification=false,ismessage=false;
 
-    private void showinfo(int pos)
-    {
+    private boolean isnotification = false, ismessage = false;
 
+    private void showinfo(int pos) {
 
-        if(pos==0)
-        {
-            if(!isnotification)
+        if (pos == 0) {
+            if (!isnotification)
                 enable();
             else
-               disable();
+                disable();
 
             insheading.setText(getResources().getString(R.string.noti_heading));
-                inssubheading.setText(getResources().getString(R.string.noti_ins_subheading));
-        }
-        else
-        {
-            if(!ismessage)
-               enable();
+            inssubheading.setText(getResources().getString(R.string.noti_ins_subheading));
+        } else {
+            if (!ismessage)
+                enable();
             else
                 disable();
 

@@ -96,7 +96,8 @@ public class LndUserDescriptionFragment extends Fragment implements View.OnClick
            {
                jsonshop.put("description", descText.getText().toString());
               registerprivateUser(jsonshop.toString());
-              // Log.e("shopdata", jsonshop.toString());
+               //Log.e("json", jsonshop.toString());
+
            }
            } catch (JSONException ex) {
             Log.e("error", ex.getMessage() + "");
@@ -132,8 +133,8 @@ public class LndUserDescriptionFragment extends Fragment implements View.OnClick
                         LndUserReferalCodeFragment.ref_code.setText(jobj.getString("ref_code"));
                         LndLoginSignup.currentpage = 6;
                         //current page value on stack;
-                        LndLoginSignup.currenttab.push(6);
-                        LndLoginSignup.mViewPager.setCurrentItem(7);
+                        LndLoginSignup.currenttab.push(5);
+                        LndLoginSignup.mViewPager.setCurrentItem(6);
 
                     }
                     else

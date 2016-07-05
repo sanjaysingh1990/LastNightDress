@@ -221,7 +221,7 @@ public class PrivateFragment extends Fragment {
             @Override
             public void onResponse(String response) {
 
-                 Log.e("json", response);
+                Log.e("json", response);
                 try {
                     JSONObject jobj = new JSONObject(response.toString());
 
@@ -505,12 +505,15 @@ public class PrivateFragment extends Fragment {
             LndUserDescriptionFragment.profiletype = 1;
             LndUserDescriptionFragment.jsonprivate.put("usertype", "private");
 
-            LndUserDescriptionFragment.jsonprivate.put("fullname", fullname);
-            LndUserDescriptionFragment.jsonprivate.put("username", username);
-            LndUserDescriptionFragment.jsonprivate.put("email", email);
-            LndUserDescriptionFragment.jsonprivate.put("password", password);
+            LndUserDescriptionFragment.jsonprivate.put("fullname", fullname.getText().toString());
+            LndUserDescriptionFragment.jsonprivate.put("username", username.getText().toString());
+            LndUserDescriptionFragment.jsonprivate.put("email", email.getText().toString());
+            LndUserDescriptionFragment.jsonprivate.put("password", password.getText().toString());
             LndUserDescriptionFragment.jsonprivate.put("country", this.country.getSelectedItemPosition());
-            LndUserDescriptionFragment.jsonprivate.put("refcode", this.refcodeedittext.getText());
+            if (this.refcodeedittext.getText().length() == 0)
+                LndUserDescriptionFragment.jsonprivate.put("refcode",0);
+            else
+                LndUserDescriptionFragment.jsonprivate.put("refcode", this.refcodeedittext.getText());
 
 
             if (picfrom == 2 || picfrom == 3 || picfrom == 1) {
@@ -523,8 +526,8 @@ public class PrivateFragment extends Fragment {
                 LndUserDescriptionFragment.jsonprivate.put("filename", "");
             }
             //current page value on stack;
-            LndLoginSignup.currenttab.push(4);
-            LndLoginSignup.mViewPager.setCurrentItem(6);
+            LndLoginSignup.currenttab.push(3);
+            LndLoginSignup.mViewPager.setCurrentItem(5);
 
         } catch (JSONException ex) {
             Log.e("error", ex.getMessage() + "");

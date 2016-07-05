@@ -528,23 +528,28 @@ public class ShopFragment extends Fragment {
             LndUserDescriptionFragment.jsonshop.put("city", city.getText().toString());
             LndUserDescriptionFragment.jsonshop.put("zipcode", posttalzip.getText().toString());
             LndUserDescriptionFragment.jsonshop.put("country", this.country.getSelectedItemPosition());
-            LndUserDescriptionFragment.jsonprivate.put("refcode", this.refcodeedittext.getText());
+            if (this.refcodeedittext.getText().length() == 0)
+                LndUserDescriptionFragment.jsonshop.put("refcode",0);
+            else
+                LndUserDescriptionFragment.jsonshop.put("refcode", this.refcodeedittext.getText());
 
 
-            if (picfrom == 2 || picfrom == 3 || picfrom == 1) {
+            if (picfrom == 2 || picfrom == 3 || picfrom == 1)
+            {
 
                 LndUserDescriptionFragment.jsonshop.put("imageurl", imageurl);
                 LndUserDescriptionFragment.jsonshop.put("filename", "lnd" + System.currentTimeMillis() + ".jpg");
 
-            } else {
+            } else
+            {
 
                 LndUserDescriptionFragment.jsonshop.put("imageurl", "");
 
                 LndUserDescriptionFragment.jsonshop.put("filename", "");
             }
             //current page value on stack;
-            LndLoginSignup.currenttab.push(5);
-            LndLoginSignup.mViewPager.setCurrentItem(6);
+            LndLoginSignup.currenttab.push(4);
+            LndLoginSignup.mViewPager.setCurrentItem(5);
         } catch (Exception ex) {
             Log.e("error", ex.getMessage() + "");
         }

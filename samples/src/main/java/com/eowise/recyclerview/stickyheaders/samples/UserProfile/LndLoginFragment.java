@@ -94,8 +94,8 @@ public class LndLoginFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.resetpassword:
                 //current page value on stack;
-                LndLoginSignup.currenttab.push(1);
-                LndLoginSignup.mViewPager.setCurrentItem(5);
+                Intent resetpass = new Intent(getActivity(), ForgetPasswordReset.class);
+                startActivity(resetpass);
 
                 break;
         }
@@ -137,6 +137,7 @@ public class LndLoginFragment extends Fragment implements View.OnClickListener {
                         edit.putString("imageurl", jobj.getString("imageurl"));
                         edit.putInt("swap_status", jobj.getInt("swap_status"));
                         edit.putInt("user_position", jobj.getInt("user_position"));
+                        edit.putString("ref_code", jobj.getString("ref_code"));
 
                         edit.commit();
 

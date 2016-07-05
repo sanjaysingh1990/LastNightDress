@@ -799,10 +799,18 @@ delivery.setTextColor(Color.parseColor("#dbdbdb"));
                     orderdata.setPaymentmethod(cardspinner.getSelectedItem().toString());
                     JSONObject jobj = new JSONObject(response);
                     if (jobj.getBoolean("status")) {
-                        Intent swapstepone = new Intent(SwapCheckOutActivity.this, Swap_Checkout_Step__First_Activity.class);
-                        swapstepone.putExtra("data", response);
-                        Main_TabHost.activity.startActivityForResult(swapstepone,11);
-                        finish();
+                        String orderid1=jobj.getString("order_id1");
+                        String orderid2=jobj.getString("order_id2");
+                        if(orderid1.length()>0&&orderid2.length()>0)
+                        {
+
+                        }
+                        else {
+                            Intent swapstepone = new Intent(SwapCheckOutActivity.this, Swap_Checkout_Step__First_Activity.class);
+                            swapstepone.putExtra("data", response);
+                            Main_TabHost.activity.startActivityForResult(swapstepone, 11);
+                        }
+                            finish();
                     } else {
                         dialog.dismiss();
                         getInfo();

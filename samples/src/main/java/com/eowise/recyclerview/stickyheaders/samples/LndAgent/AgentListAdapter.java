@@ -44,6 +44,7 @@ import com.eowise.recyclerview.stickyheaders.samples.LndUserProfile.LndProfile;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.UserProfile.OtherUserProfileActivity;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.ApplicationConstants;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.TimeAgo;
 import com.eowise.recyclerview.stickyheaders.samples.data.LndAgentBean;
@@ -173,7 +174,7 @@ class AgentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
     public class UserHeader extends RecyclerView.ViewHolder {
-        public TextView totalagents, totalshops, totalcommision;
+        public TextView totalagents, totalshops, totalcommision, refcode, agenttype;
         public ImageView profileimg;
 
         public UserHeader(View v) {
@@ -182,6 +183,8 @@ class AgentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             totalshops = (TextView) v.findViewById(R.id.totalshops);
             totalcommision = (TextView) v.findViewById(R.id.totalcommision);
             profileimg = (ImageView) v.findViewById(R.id.mainprofilepic);
+            refcode = (TextView) v.findViewById(R.id.ref_code);
+            agenttype = (TextView) v.findViewById(R.id.agenttype);
 
         }
 
@@ -344,6 +347,8 @@ class AgentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 SingleTon.imageLoader.displayImage(imgurl, userHeader.profileimg, SingleTon.options2);
                 userHeader.totalagents.setText(item.getUsertotalagents());
                 userHeader.totalshops.setText(item.getUsertotalshops());
+                userHeader.refcode.setText(SingleTon.pref.getString("ref_code", ""));
+                userHeader.agenttype.setText(ApplicationConstants.user_position[SingleTon.pref.getInt("user_position", 0)]);
                 break;
 
         }

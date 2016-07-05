@@ -18,5 +18,5 @@ public interface ApplicationConstants {
 	static final String GOOGLE_PROJ_ID = "834036612270";
 	// Message Key
 	static final String MSG_KEY = "m";
-
+    public static final String[] user_position={"","Basic User","Agent","Agency","Area Manager","Regional Director"};
 }

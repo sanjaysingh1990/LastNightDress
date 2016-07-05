@@ -195,7 +195,7 @@ public class NotificationFragment extends Fragment {
                         if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
                             loading = false;
 
-                            getData();
+                           getData();
                             // Toast.makeText(getActivity(), "called", Toast.LENGTH_LONG).show();
                         }
                     }
@@ -280,14 +280,17 @@ public class NotificationFragment extends Fragment {
 
                     //to show instruction page
                     if (jarray.length() == 0) {
+
                         if (firsttime) {
                             firsttime = false;
                             ((LndNotificationMessageActivity) getActivity()).showInstruction(1);
                             showInstruction();
                         }
+
                         return;
 
                     }
+
                     for (int i = 0; i < jarray.length(); i++) {
                         JSONObject jo = jarray.getJSONObject(i);
                         NotificationData nd = new NotificationData();

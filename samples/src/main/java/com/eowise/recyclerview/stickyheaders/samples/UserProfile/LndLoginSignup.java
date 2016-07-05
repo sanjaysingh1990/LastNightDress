@@ -77,11 +77,12 @@ public class LndLoginSignup extends AppCompatActivity {
             else if (position == 4)
                 return new ShopFragment();
             else if (position == 5)
-                return new ResetPasswordFragment();
-            else if (position == 6)
                 return new LndUserDescriptionFragment();
-            else if (position == 7)
+            else if (position == 6)
                 return new LndUserReferalCodeFragment();
+            else if (position == 7)
+                return new ResetPasswordFragment();
+
             else
 
                 return new ResetPasswordEmailSentFragment();
