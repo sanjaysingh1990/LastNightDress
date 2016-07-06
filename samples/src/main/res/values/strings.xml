@@ -189,8 +189,14 @@
 </string>
 
     <!-- swap checkout -->
-<string name="first_step_heading">Thank you, your step is completed
-</string>
+<string name="first_step_heading">Thank you, your step is completed</string>
+<string name="final_step_heading">Thank you, your order is confirmed</string>
+<string name="payment_details">Payment details:\n Paid by:</string>
+    <string name="swap_completed">Transaction Completed</string>
+
+<string name="what_next_text">You will soon receive your tracking details from the seller. Once the seller ships your item the tracking details will appear on your my purchases page.
+You are in safe hands when shopping on Last Night’s Dress. If there is any issue with your purchase you can easily start a claim by </string>
+
 <string name="swap_checkout_stepone_text1">Your payment will not be processed until your swap partner completes their transaction.
 </string>
     <string name="swap_checkout_stepone_text2">waiting on swap partner to complete their transaction...

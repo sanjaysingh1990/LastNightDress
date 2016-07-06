@@ -736,17 +736,17 @@ delivery.setTextColor(Color.parseColor("#dbdbdb"));
                         Intent swapstepone = new Intent(SwapCheckOutActivity.this, Swap_Checkout_Step__First_Activity.class);
                         swapstepone.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-                        JSONObject data=new JSONObject();
-                        data.put("status",true);
-                        data.put("image_url",orderdata.getImageurl());
-                        data.put("brand_name",orderdata.getBrand());
-                        data.put("order_id",orderdata.getOrderid());
-                        data.put("order_date",orderdata.getOrderdate());
-                        data.put("total_amount",orderdata.getTotal());
-                        data.put("price",orderdata.getPrice());
-                        data.put("uname",orderdata.getSellername());
+                        JSONObject data = new JSONObject();
+                        data.put("status", true);
+                        data.put("image_url", orderdata.getImageurl());
+                        data.put("brand_name", orderdata.getBrand());
+                        data.put("order_id", orderdata.getOrderid());
+                        data.put("order_date", orderdata.getOrderdate());
+                        data.put("total_amount", orderdata.getTotal());
+                        data.put("price", orderdata.getPrice());
+                        data.put("uname", orderdata.getSellername());
 
-                        swapstepone.putExtra("data",data.toString());
+                        swapstepone.putExtra("data", data.toString());
                         startActivity(swapstepone);
                         finish();
                     }
@@ -788,7 +788,7 @@ delivery.setTextColor(Color.parseColor("#dbdbdb"));
     }
 
     private void checkBeforeDone(final String swaporderid) {
-            showProgress("loading");
+        showProgress("loading");
         RequestQueue queue = Volley.newRequestQueue(this);
         StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_SHIPPINGINFO, new Response.Listener<String>() {
             @Override
@@ -799,18 +799,18 @@ delivery.setTextColor(Color.parseColor("#dbdbdb"));
                     orderdata.setPaymentmethod(cardspinner.getSelectedItem().toString());
                     JSONObject jobj = new JSONObject(response);
                     if (jobj.getBoolean("status")) {
-                        String orderid1=jobj.getString("order_id1");
-                        String orderid2=jobj.getString("order_id2");
-                        if(orderid1.length()>0&&orderid2.length()>0)
-                        {
-
-                        }
-                        else {
+                        String orderid1 = jobj.getString("order_id1");
+                        String orderid2 = jobj.getString("order_id2");
+                        if (orderid1.length() > 0 && orderid2.length() > 0) {
+                            Intent swapstepone = new Intent(SwapCheckOutActivity.this, Swap_Checkout_Final_Step_Activity.class);
+                            swapstepone.putExtra("data", response);
+                            Main_TabHost.activity.startActivityForResult(swapstepone, 1000);
+                        } else {
                             Intent swapstepone = new Intent(SwapCheckOutActivity.this, Swap_Checkout_Step__First_Activity.class);
                             swapstepone.putExtra("data", response);
                             Main_TabHost.activity.startActivityForResult(swapstepone, 11);
                         }
-                            finish();
+                        finish();
                     } else {
                         dialog.dismiss();
                         getInfo();
