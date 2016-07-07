@@ -37,6 +37,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.eowise.recyclerview.stickyheaders.samples.LndBaseActivity;
 import com.eowise.recyclerview.stickyheaders.samples.LndMore.LndLuxuryandDesignerAuthentication;
+import com.eowise.recyclerview.stickyheaders.samples.LndSwapRequestResponse.SendSwapRequestActivity;
 import com.eowise.recyclerview.stickyheaders.samples.Main_TabHost;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
@@ -196,7 +197,6 @@ public class SwapCheckOutActivity extends LndBaseActivity {
     private void getInfo() {
         Bundle extra = getIntent().getExtras();
         if (extra != null) {
-            Toast.makeText(this, extra.getString("swap_order_id") + "", Toast.LENGTH_SHORT).show();
             try {
                 shipto.put("post_id", extra.getString("post_id"));
                 shipto.put("sellerid", extra.getString("seller_id"));
@@ -745,6 +745,7 @@ delivery.setTextColor(Color.parseColor("#dbdbdb"));
                         data.put("total_amount", orderdata.getTotal());
                         data.put("price", orderdata.getPrice());
                         data.put("uname", orderdata.getSellername());
+                        data.put("shipping_price", orderdata.getShipping());
 
                         swapstepone.putExtra("data", data.toString());
                         startActivity(swapstepone);
@@ -922,4 +923,76 @@ delivery.setTextColor(Color.parseColor("#dbdbdb"));
         return true;
     }
 
+    @Override
+    public void onBackPressed() {
+
+        showConfirmationDialog();
+    }
+
+    private void showConfirmationDialog() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        View view = LayoutInflater.from(this).inflate(R.layout.swap_cancel_confirmation_dialog_layout, null);
+
+        dialog.setView(view);
+        final AlertDialog alert = dialog.create();
+        alert.show();
+        view.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alert.dismiss();
+            }
+        });
+        view.findViewById(R.id.swapcontinue).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alert.dismiss();
+                cancelOrder(ordernumber.getText().toString());
+            }
+        });
+    }
+
+    private void cancelOrder(final String orderid) {
+
+        showProgress("wait cancelling order");
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_SHIPPINGINFO, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                dismissProgress();
+                finish();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                dismissProgress();
+                Log.e("response", error.getMessage() + "");
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+
+                params.put("order_id", orderid);
+                params.put("rqid", "17");
+
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                return params;
+            }
+        };
+        int socketTimeout = 60000;
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        sr.setRetryPolicy(policy);
+
+        queue.add(sr);
+
+    }
+
 }
+

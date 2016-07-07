@@ -193,6 +193,7 @@
 <string name="final_step_heading">Thank you, your order is confirmed</string>
 <string name="payment_details">Payment details:\n Paid by:</string>
     <string name="swap_completed">Transaction Completed</string>
+    <string name="cancel_swap_transaction_confirmation">Do you want to exit?</string>
 
 <string name="what_next_text">You will soon receive your tracking details from the seller. Once the seller ships your item the tracking details will appear on your my purchases page.
 You are in safe hands when shopping on Last Night’s Dress. If there is any issue with your purchase you can easily start a claim by </string>

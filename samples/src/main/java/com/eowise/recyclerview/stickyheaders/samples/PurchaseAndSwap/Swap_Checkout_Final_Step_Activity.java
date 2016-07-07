@@ -201,4 +201,8 @@ public class Swap_Checkout_Final_Step_Activity extends LndBaseActivity implement
     public void onAnimationRepeat(Animation animation) {
 
     }
+
+    public void finishactivity(View v) {
+        finish();
+    }
 }

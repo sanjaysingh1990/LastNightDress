@@ -67,7 +67,7 @@ public class Swap_Checkout_Step__First_Activity extends LndBaseActivity implemen
     TextView heading;
     @Bind(R.id.swapstatus)
     ImageView swapstatus;
-    Animation animFadein,animFadeout;
+    Animation animFadein, animFadeout;
 
 
     @Override
@@ -103,6 +103,9 @@ public class Swap_Checkout_Step__First_Activity extends LndBaseActivity implemen
                 ordernumber.setText(jobj.getString("order_id"));
                 brandname.setText(Capitalize.capitalizeFirstLetter(jobj.getString("brand_name")));
                 showtime.setReferenceTime(TimeAgo.getMilliseconds(jobj.getString("order_date")));
+                shippingprice.setText(Capitalize.capitalizeFirstLetter(jobj.getString("shipping_charge")));
+                orderdate.setText(TimeAgo.getCurrentDate(TimeAgo.getMilliseconds(jobj.getString("order_date"))));
+
                 SingleTon.imageLoader.displayImage(jobj.getString("image_url"), productimage, SingleTon.options4);
                 spannableText();
             } catch (Exception e) {
@@ -119,7 +122,7 @@ public class Swap_Checkout_Step__First_Activity extends LndBaseActivity implemen
         // set animation listener
         animFadein.setAnimationListener(this);
         animFadeout.setAnimationListener(this);
-       swapstatus.startAnimation(animFadeout);
+        swapstatus.startAnimation(animFadeout);
     }
 
     private void spannableText() {
@@ -179,12 +182,12 @@ public class Swap_Checkout_Step__First_Activity extends LndBaseActivity implemen
 
     @Override
     public void onAnimationEnd(Animation animation) {
-        if(animation==animFadeout) {
+        if (animation == animFadeout) {
             swapstatus.setImageResource(R.drawable.swap_checkout_first_step_1);
 
             swapstatus.startAnimation(animFadein);
         }
-        }
+    }
 
     @Override
     public void onAnimationRepeat(Animation animation) {
