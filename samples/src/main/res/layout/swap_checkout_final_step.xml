@@ -429,9 +429,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="25dp"
-                android:src="@drawable/swap_checkout_not_complete" />
+                android:src="@drawable/swap_checkout_final_step" />
 
             <TextView
+                android:id="@+id/transactioncompleted"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"

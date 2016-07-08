@@ -3,10 +3,15 @@ package com.eowise.recyclerview.stickyheaders.samples.PurchaseAndSwap;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.ImageSpan;
 import android.util.Log;
@@ -31,7 +36,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class Swap_Checkout_Final_Step_Activity extends LndBaseActivity implements Animation.AnimationListener {
+public class Swap_Checkout_Final_Step_Activity extends LndBaseActivity {
 
     TextView actioninfo;
     EditText cancelreason;
@@ -63,10 +68,12 @@ public class Swap_Checkout_Final_Step_Activity extends LndBaseActivity implement
     TextView heading;
     @Bind(R.id.shiptoadd)
     TextView shippingadd;
-    @Bind(R.id.swapstatus)
-    ImageView swapstatus;
-    Animation animFadein, animFadeout;
-
+    @Bind(R.id.whatsnexttext)
+    TextView whatsnexttext;
+    @Bind(R.id.paymentmethod)
+    TextView paymentmethod;
+    @Bind(R.id.transactioncompleted)
+    TextView transactioncompleted;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -101,7 +108,7 @@ public class Swap_Checkout_Final_Step_Activity extends LndBaseActivity implement
                 ordernumber.setText(jobj.getString("order_id"));
                 brandname.setText(Capitalize.capitalizeFirstLetter(jobj.getString("brand_name")));
                 shippingprice.setText(Capitalize.capitalizeFirstLetter(jobj.getString("shipping_charge")));
-
+                paymentmethod.setText(Capitalize.capitalizeFirstLetter(jobj.getString("payment_method")));
                 showtime.setReferenceTime(TimeAgo.getMilliseconds(jobj.getString("order_date")));
                 orderdate.setText(TimeAgo.getCurrentDate(TimeAgo.getMilliseconds(jobj.getString("order_date"))));
                 SingleTon.imageLoader.displayImage(jobj.getString("image_url"), productimage, SingleTon.options4);
@@ -121,16 +128,21 @@ public class Swap_Checkout_Final_Step_Activity extends LndBaseActivity implement
             }
 
         }
-        swapstatus.setImageResource(R.drawable.swap_checkout_not_complete);
-        //load animation
-        animFadein = AnimationUtils.loadAnimation(getApplicationContext(),
-                R.anim.fade_in);
-        animFadeout = AnimationUtils.loadAnimation(getApplicationContext(),
-                R.anim.fade_out);
-        // set animation listener
-        animFadein.setAnimationListener(this);
-        animFadeout.setAnimationListener(this);
-        swapstatus.startAnimation(animFadeout);
+
+        Spannable word = new SpannableString(getResources().getString(R.string.regular_checkout_instruction));
+        word.setSpan(new ForegroundColorSpan(Color.BLACK), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        whatsnexttext.setText(word);
+        Spannable wordTwo = new SpannableString(" clicking here.");
+        wordTwo.setSpan(new ForegroundColorSpan(Color.parseColor("#30beff")), 0, wordTwo.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        //text.append(wordTwo);
+        wordTwo.setSpan(new MyClickableSpan(wordTwo.toString()), 0,
+                wordTwo.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        whatsnexttext.append(wordTwo);
+        whatsnexttext.setMovementMethod(LinkMovementMethod.getInstance());
+        whatsnexttext.setHighlightColor(Color.TRANSPARENT);
+
+        showInfo("Transaction Completed     ",transactioncompleted);
+
     }
 
     private void spannableText() {
@@ -183,26 +195,32 @@ public class Swap_Checkout_Final_Step_Activity extends LndBaseActivity implement
         }
     }
 
-    @Override
-    public void onAnimationStart(Animation animation) {
+    class MyClickableSpan extends ClickableSpan {
 
-    }
+        public MyClickableSpan(String string) {
+            super();
+        }
 
-    @Override
-    public void onAnimationEnd(Animation animation) {
-        if (animation == animFadeout) {
-            swapstatus.setImageResource(R.drawable.swap_checkout_first_step_1);
+        public void onClick(View tv) {
+            String url = "https://www.paypal.com/us/webapps/mpp/security/buyer-protection-resolution";
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(url));
+            startActivity(i);
+        }
 
-            swapstatus.startAnimation(animFadein);
+        public void updateDrawState(TextPaint ds) {
+
+            ds.setColor(Color.parseColor("#30beff"));
+
+            ds.setUnderlineText(false); // set to false to remove underline
         }
     }
 
-    @Override
-    public void onAnimationRepeat(Animation animation) {
-
-    }
 
     public void finishactivity(View v) {
         finish();
     }
+
+
+
 }
