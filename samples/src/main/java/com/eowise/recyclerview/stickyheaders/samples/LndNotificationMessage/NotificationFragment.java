@@ -17,6 +17,8 @@
 package com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage;
 
 import android.graphics.Color;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -195,7 +197,7 @@ public class NotificationFragment extends Fragment {
                         if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
                             loading = false;
 
-                           getData();
+                            getData();
                             // Toast.makeText(getActivity(), "called", Toast.LENGTH_LONG).show();
                         }
                     }
@@ -316,7 +318,7 @@ public class NotificationFragment extends Fragment {
                     nd.setNotitype("8");
                     mProvider.addItem(nd);
                     mAdapter.notifyDataSetChanged();
-
+                    LndUtils.lastnotificationid = mProvider.getItem(0).getNotificationdata().getNotification_id();
                     firsttime = false;
                     if (notificationids.size() > 0) {
                         JSONObject data = new JSONObject();
@@ -418,8 +420,8 @@ public class NotificationFragment extends Fragment {
         nd.setTime(nd.getTime());
         nd.setUname(nd.getUname());
         nd.setNotitype("9");
-        nd.setPostid(nd.getPostid());
-        nd.setImgurl(nd.getImgurl());
+        nd.setPostid(nd3.getPostid());
+        nd.setImgurl(nd3.getImgurl());
         nd.setSwap_order_id(nd3.getSwap_order_id());
         mProvider.removeItem(pos);
         mAdapter.notifyDataSetChanged();
@@ -429,14 +431,14 @@ public class NotificationFragment extends Fragment {
     }
 
     public void cancelSwap(int pos) {
-         if (pos >= 0) {
+        if (pos >= 0) {
 
             mProvider.removeItem(pos);
             mAdapter.notifyDataSetChanged();
             //LndUtils.pos = -1;
-             Toast.makeText(getActivity(), pos + "rquest completed", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), pos + "rquest completed", Toast.LENGTH_SHORT).show();
 
-         }
+        }
     }
 
     static long getMilliseconds(String datetime) {
@@ -483,5 +485,78 @@ public class NotificationFragment extends Fragment {
         }).start();
     }
 
+    public void refreshlist(final String lastnotiid) {
+
+
+        RequestQueue queue = Volley.newRequestQueue(getActivity());
+        StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_INBOXOPERATION, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jobj = new JSONObject(response.toString());
+                    JSONArray jarray = jobj.getJSONArray("data");
+                    LndUtils.lastnotificationid="";
+                   // Log.e("json",response);
+                    for (int i = 0; i < jarray.length(); i++) {
+                        JSONObject jo = jarray.getJSONObject(i);
+                        NotificationData nd = new NotificationData();
+                        nd.setNotification_id(jo.getString("notification_id"));
+                        nd.setProfilepicimg(jo.getString("profile_pic"));
+                        nd.setMessage(jo.getString("message"));
+                        nd.setTime(getMilliseconds(jo.getString("date_time")));
+                        nd.setUname(jo.getString("sender_uname"));
+                        nd.setNotitype(jo.getString("notification_type"));
+                        nd.setPostid(jo.getString("post_id"));
+                        nd.setImgurl(jo.getString("image_url"));
+                        nd.setSwappostids(jo.getString("swappost_id"));
+                        nd.setSenderid(jo.getString("sender_id"));
+                        nd.setSwap_order_id(jo.getString("swap_order_id"));
+                        notificationids.add(jo.getString("notification_id"));
+
+                        mProvider.addItematFirst(nd);
+                        mAdapter.notifyDataSetChanged();
+                        playSound();
+                    }
+                       LndUtils.lastnotificationid = mProvider.getItem(0).getNotificationdata().getNotification_id();
+
+                } catch (Exception ex) {
+                    Log.e("json parsing error", ex.getMessage() + "");
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                  Log.e("json error",error.getMessage()+"");
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("rqid", "16");
+                params.put("user_id", SingleTon.pref.getString("user_id", ""));
+                params.put("last_noti_id", lastnotiid);
+
+
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                return params;
+            }
+        };
+        queue.add(sr);
+    }
+private void playSound()
+{
+    SoundPool soundPool;
+    int shutterSound;
+    //play sound
+    soundPool = new SoundPool(1, AudioManager.STREAM_NOTIFICATION, 0);
+    shutterSound = soundPool.load(getActivity(), R.raw.notification_sound, 0);
+}
 }
 

@@ -107,7 +107,7 @@ public class Swap_Checkout_Final_Step_Activity extends LndBaseActivity {
                 // orderdate.setText(jobj.getString("uname"));
                 ordernumber.setText(jobj.getString("order_id"));
                 brandname.setText(Capitalize.capitalizeFirstLetter(jobj.getString("brand_name")));
-                shippingprice.setText(Capitalize.capitalizeFirstLetter(jobj.getString("shipping_charge")));
+                shippingprice.setText("$"+jobj.getString("shipping_charge"));
                 paymentmethod.setText(Capitalize.capitalizeFirstLetter(jobj.getString("payment_method")));
                 showtime.setReferenceTime(TimeAgo.getMilliseconds(jobj.getString("order_date")));
                 orderdate.setText(TimeAgo.getCurrentDate(TimeAgo.getMilliseconds(jobj.getString("order_date"))));

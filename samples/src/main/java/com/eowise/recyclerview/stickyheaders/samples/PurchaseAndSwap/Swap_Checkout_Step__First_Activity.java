@@ -95,6 +95,7 @@ public class Swap_Checkout_Step__First_Activity extends LndBaseActivity implemen
         if (extra != null) {
             try {
                 JSONObject jobj = new JSONObject(extra.getString("data"));
+                Log.e("json", jobj.toString());
                 sellername.setText(Capitalize.capitalize(jobj.getString("uname")));
                 price.setText("$" + jobj.getString("price"));
                 //shippingprice.setText(jobj.getString("uname"));
@@ -103,7 +104,7 @@ public class Swap_Checkout_Step__First_Activity extends LndBaseActivity implemen
                 ordernumber.setText(jobj.getString("order_id"));
                 brandname.setText(Capitalize.capitalizeFirstLetter(jobj.getString("brand_name")));
                 showtime.setReferenceTime(TimeAgo.getMilliseconds(jobj.getString("order_date")));
-                shippingprice.setText(Capitalize.capitalizeFirstLetter(jobj.getString("shipping_charge")));
+                shippingprice.setText("$" + jobj.getString("shipping_charge"));
                 orderdate.setText(TimeAgo.getCurrentDate(TimeAgo.getMilliseconds(jobj.getString("order_date"))));
 
                 SingleTon.imageLoader.displayImage(jobj.getString("image_url"), productimage, SingleTon.options4);

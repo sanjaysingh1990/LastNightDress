@@ -11,4 +11,6 @@ public class LndUtils {
     public static final int IMAGE_JPEG_COMPRESSION_QUALITY = 75;
     public static int pos=-1;
     public static int mysalepos=-1;
+    public static String lastnotificationid="";
+
 }

@@ -55,7 +55,9 @@ public class SwapRequestActivity extends AppCompatActivity {
 
     private boolean dataleft = true;
 
-    public static String swapingpostid = "";
+    public  String swapingpostid = "";
+    public  String imageurl = "";
+
     int pos=-1, skipdata = 0;
     @Bind(R.id.swap)
     TextView sendswap;
@@ -349,6 +351,8 @@ public class SwapRequestActivity extends AppCompatActivity {
                         Intent intent = new Intent();
                         intent.putExtra("isswapok",true);
                         nd.setSwap_order_id(jobj.getString("swap_order_id"));
+                        nd.setImgurl(imageurl);
+                        nd.setPostid(swapingpostid);
                         intent.putExtra("data",nd);
                         intent.putExtra("pos",pos);
 

@@ -175,10 +175,11 @@ public class SwapRequestAcceptdAdapter extends RecyclerView.Adapter {
         @Override
         public void onClick(View v) {
 
+            SwapRequestActivity ssr = (SwapRequestActivity) context;
 
             ShopData sd = shopdata.get(pos);
-            SwapRequestActivity.swapingpostid=sd.getPostid();
-
+            ssr.swapingpostid=sd.getPostid();
+            ssr.imageurl=sd.getImageurl();
             for(ShopData sd2:shopdata)
             {
                 sd2.setItemchecked(false);
@@ -205,7 +206,7 @@ public class SwapRequestAcceptdAdapter extends RecyclerView.Adapter {
         private void check() {
             try {
                 SwapRequestActivity ssr = (SwapRequestActivity) context;
-                if(SwapRequestActivity.swapingpostid.length()>0)
+                if(ssr.swapingpostid.length()>0)
                 ssr.changeColor(1);
                 else
                     ssr.changeColor(0);

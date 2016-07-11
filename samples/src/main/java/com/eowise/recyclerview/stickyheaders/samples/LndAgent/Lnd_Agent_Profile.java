@@ -172,7 +172,7 @@ public class Lnd_Agent_Profile extends AppCompatActivity {
                             addUser(basicuser.getJSONObject(i));
                         }
 
-                        if (basicuser.length() == 3)
+                        if (basicuser.length() == 6)
                             addMoreUserHeader(5);
                     }
 

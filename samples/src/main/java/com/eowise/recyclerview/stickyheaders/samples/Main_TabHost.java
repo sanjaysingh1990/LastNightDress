@@ -212,10 +212,10 @@ public class Main_TabHost extends AppCompatActivity {
                 session = result.data;
 
                 String username = session.getUserName();
-                Long  userid = session.getUserId();
+                Long userid = session.getUserId();
 
 
-                Toast.makeText(Main_TabHost.this,username+"",Toast.LENGTH_LONG).show();
+                Toast.makeText(Main_TabHost.this, username + "", Toast.LENGTH_LONG).show();
                 setUpViewsForTweetComposer();
             }
 
@@ -225,11 +225,13 @@ public class Main_TabHost extends AppCompatActivity {
             }
         });
     }
+
     private void setUpViewsForTweetComposer() {
         TweetComposer.Builder builder = new TweetComposer.Builder(this)
                 .text("Hey friends check this out cool app. and use my referal code 0233 while login. https://play.google.com/store/apps/details?id=com.init.sikhdiary&hl=en ");
         builder.show();
     }
+
     private void setupTab(final View view, final Intent intent, int iconid) {
         View tabview = createTabView(getApplicationContext(), iconid);
         TabHost.TabSpec setContent = tabHost.newTabSpec("").setIndicator(tabview).setContent(intent);
@@ -291,15 +293,13 @@ public class Main_TabHost extends AppCompatActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-      //  Toast.makeText(this, requestCode + "", Toast.LENGTH_SHORT).show();
+        //  Toast.makeText(this, requestCode + "", Toast.LENGTH_SHORT).show();
         super.onActivityResult(requestCode, resultCode, data);
-     try {
-         loginButton.onActivityResult(requestCode, resultCode, data);
-     }
-     catch (Exception ex)
-     {
+        try {
+            loginButton.onActivityResult(requestCode, resultCode, data);
+        } catch (Exception ex) {
 
-     }
+        }
         sCallbackManager.onActivityResult(requestCode, resultCode, data);
         int pos = 0;
         switch (requestCode) {
@@ -338,9 +338,7 @@ public class Main_TabHost extends AppCompatActivity {
                         pos = data.getIntExtra("pos", 0);
                         NotificationData nd = (NotificationData) data.getExtras().get("data");
                         NotificationFragment.notification.setCheckout(pos, nd);
-                    }
-                    else
-                    {
+                    } else {
                         pos = data.getIntExtra("pos", -1);
                         NotificationFragment.notification.cancelSwap(pos);
                     }
@@ -368,8 +366,8 @@ public class Main_TabHost extends AppCompatActivity {
             case 10:
                 break;
             case 11:
-                if(data!=null)
-                NotificationFragment.notification.cancelSwap(LndUtils.pos);
+                if (data != null)
+                    NotificationFragment.notification.cancelSwap(LndUtils.pos);
 
                 break;
             case 200:
@@ -554,7 +552,10 @@ public class Main_TabHost extends AppCompatActivity {
 
     public void getNotification() {
 
-
+        if (tabHost.getCurrentTab() == 3) {
+            NotificationFragment.notification.refreshlist(LndUtils.lastnotificationid);
+            return;
+        }
         RequestQueue queue = Volley.newRequestQueue(this);
         StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/inboxope.php", new Response.Listener<String>() {
             @Override
@@ -657,8 +658,7 @@ public class Main_TabHost extends AppCompatActivity {
         }.execute(null, null, null);
     }
 
-    private void storeRegIdinSharedPref(String regId)
-     {
+    private void storeRegIdinSharedPref(String regId) {
         SharedPreferences.Editor editor = SingleTon.pref.edit();
         editor.putString(REG_ID, regId);
 
@@ -668,14 +668,14 @@ public class Main_TabHost extends AppCompatActivity {
     }
 
     private void storeRegIdinServer() {
-     final   String android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(),
+        final String android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(),
                 Settings.Secure.ANDROID_ID);
 
         RequestQueue queue = Volley.newRequestQueue(this);
         StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_NOTIFICATION_SETTING, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                      }
+            }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
@@ -690,7 +690,7 @@ public class Main_TabHost extends AppCompatActivity {
                 params.put("user_id", SingleTon.pref.getString("user_id", "'"));
                 params.put("devicetype", "android");
                 params.put("datetime", SingleTon.getCurrentTimeStamp());
-                params.put("physical_device_id",android_id);
+                params.put("physical_device_id", android_id);
                 params.put("rqid", "1");
                 return params;
             }
@@ -705,20 +705,18 @@ public class Main_TabHost extends AppCompatActivity {
         queue.add(sr);
 
     }
-    public void twitter()
-    {
+
+    public void twitter() {
         loginButton.performClick();
     }
 
     //to invite facebook friends
     CallbackManager sCallbackManager;
 
-    public void inviteFriends()
-    {
+    public void inviteFriends() {
         String AppURl = "https://fb.me/1290239177669120";  //Generated from //fb developers
 
         String previewImageUrl = "https://lh3.googleusercontent.com/YxCdiUIkiV88w6N1NvTqKsLZtCpBB7VX6VxBEHVZbwZrhiKoiFbkOctm-_sdJCSnacki=h900";
-
 
 
         if (AppInviteDialog.canShow()) {

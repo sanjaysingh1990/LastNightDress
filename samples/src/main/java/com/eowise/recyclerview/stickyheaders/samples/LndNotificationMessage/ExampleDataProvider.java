@@ -25,7 +25,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ExampleDataProvider extends AbstractDataProvider {
-    private List<ConcreteData2> mData;
+    public List<ConcreteData2> mData;
     private ConcreteData2 mLastRemovedData;
     private int mLastRemovedPosition = -1;
 
@@ -159,6 +159,54 @@ public class ExampleDataProvider extends AbstractDataProvider {
         }
 
 
+    }
+
+    @Override
+    public void addItematFirst(NotificationData nd) {
+        final long id = mData.size();
+        final int viewType = 0;
+        final int swipeReaction = RecyclerViewSwipeManager.REACTION_CAN_SWIPE_UP | RecyclerViewSwipeManager.REACTION_CAN_SWIPE_DOWN;
+        switch (nd.getNotitype()) {
+            case "1":
+                mData.add(0,new ConcreteData2(id, viewType, nd, swipeReaction, NotificationType.FOLLOWING));
+
+                break;
+            case "2":
+                mData.add(0,new ConcreteData2(id, viewType, nd, swipeReaction, NotificationType.SWAPREQUEST));
+                break;
+            case "3":
+                mData.add(0,new ConcreteData2(id, viewType,nd, swipeReaction, NotificationType.CHECKOUT));
+
+                break;
+            case "4":
+                mData.add(0,new ConcreteData2(id, viewType,nd, swipeReaction, NotificationType.DECNIED));
+
+                break;
+
+            case "5":
+                mData.add(0,new ConcreteData2(id, viewType, nd, swipeReaction, NotificationType.USERMENTION));
+
+            case "6":
+                mData.add(0,new ConcreteData2(id, viewType, nd, swipeReaction, NotificationType.PURCHASEDITEM));
+
+            case "7":
+                mData.add(0,new ConcreteData2(id, viewType, nd, swipeReaction, NotificationType.POSTLIKED));
+
+                break;
+            case "8":
+                mData.add(0,new ConcreteData2(id, viewType, nd, swipeReaction, NotificationType.BLANK));
+
+                break;
+            case "9":
+                mData.add(0,new ConcreteData2(id, viewType, nd, swipeReaction, NotificationType.USERACCEPTEDCHECKOUT));
+
+                break;
+
+            case "10":
+                mData.add(0,new ConcreteData2(id, viewType, nd, swipeReaction, NotificationType.POSTSHARED));
+
+                break;
+        }
     }
 
     @Override

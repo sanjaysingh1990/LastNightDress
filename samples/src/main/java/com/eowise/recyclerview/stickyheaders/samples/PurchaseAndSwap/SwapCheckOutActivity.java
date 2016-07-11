@@ -745,7 +745,7 @@ delivery.setTextColor(Color.parseColor("#dbdbdb"));
                         data.put("total_amount", orderdata.getTotal());
                         data.put("price", orderdata.getPrice());
                         data.put("uname", orderdata.getSellername());
-                        data.put("shipping_price", orderdata.getShipping());
+                        data.put("shipping_charge", orderdata.getShipping());
 
                         swapstepone.putExtra("data", data.toString());
                         startActivity(swapstepone);
@@ -794,7 +794,7 @@ delivery.setTextColor(Color.parseColor("#dbdbdb"));
         StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_SHIPPINGINFO, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.e("json", response + "");
+             //   Log.e("json", response + "");
                 dismissProgress();
                 try {
                     orderdata.setPaymentmethod(cardspinner.getSelectedItem().toString());
