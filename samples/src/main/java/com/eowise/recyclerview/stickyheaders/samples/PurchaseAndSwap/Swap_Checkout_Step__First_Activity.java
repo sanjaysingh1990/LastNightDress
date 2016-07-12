@@ -167,11 +167,11 @@ public class Swap_Checkout_Step__First_Activity extends LndBaseActivity implemen
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        Toast.makeText(this,requestCode,Toast.LENGTH_SHORT).show();
-        if (requestCode == 2 && data != null) {
+      Log.e("requestcdoe",requestCode+"");
+         if (requestCode == 2 && data != null) {
             Intent intent = new Intent();
             intent.putExtra("MESSAGE", "cancelled");
-            setResult(11, intent);
+            setResult(300, intent);
             finish();
         }
     }

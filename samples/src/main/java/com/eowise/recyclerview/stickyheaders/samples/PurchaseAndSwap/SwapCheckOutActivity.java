@@ -741,7 +741,7 @@ delivery.setTextColor(Color.parseColor("#dbdbdb"));
                         data.put("image_url", orderdata.getImageurl());
                         data.put("brand_name", orderdata.getBrand());
                         data.put("order_id", orderdata.getOrderid());
-                        data.put("order_date", orderdata.getOrderdate());
+                        data.put("order_date", SingleTon.getCurrentTimeStamp());
                         data.put("total_amount", orderdata.getTotal());
                         data.put("price", orderdata.getPrice());
                         data.put("uname", orderdata.getSellername());
@@ -809,9 +809,9 @@ delivery.setTextColor(Color.parseColor("#dbdbdb"));
                         } else {
                             Intent swapstepone = new Intent(SwapCheckOutActivity.this, Swap_Checkout_Step__First_Activity.class);
                             swapstepone.putExtra("data", response);
-                            Main_TabHost.activity.startActivityForResult(swapstepone, 11);
+                           startActivityForResult(swapstepone, 300);
                         }
-                        finish();
+
                     } else {
                         dialog.dismiss();
                         getInfo();
@@ -994,5 +994,17 @@ delivery.setTextColor(Color.parseColor("#dbdbdb"));
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.e("requestcdoe",requestCode+"");
+
+        if (requestCode == 300 && data != null) {
+            Intent intent = new Intent();
+            intent.putExtra("MESSAGE", "cancelled");
+            setResult(11, intent);
+           // finish();
+        }
+    }
 }
 

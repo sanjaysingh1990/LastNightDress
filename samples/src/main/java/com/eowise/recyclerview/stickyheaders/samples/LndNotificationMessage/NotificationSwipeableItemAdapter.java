@@ -354,7 +354,7 @@ class NotificationSwipeableItemAdapter
                     checkout.putExtra("seller_id",mProvider.getItem(getAdapterPosition()).getNotificationdata().getSenderid());
                     checkout.putExtra("swap_order_id",mProvider.getItem(getAdapterPosition()).getNotificationdata().getSwap_order_id());
                     LndUtils.pos=getAdapterPosition();
-                    activity.startActivity(checkout);
+                    Main_TabHost.activity.startActivity(checkout);
                     break;
                 case R.id.notiimage:
                     Intent fullpost = new Intent(activity, NotificationFullPost.class);
