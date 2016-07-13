@@ -1,6 +1,7 @@
 package com.eowise.recyclerview.stickyheaders.samples.TabDemo;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,7 +10,10 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Toast;
@@ -143,6 +147,8 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
 
             }
         });
+
+        showTutorial();
     }
 
     @Override
@@ -742,5 +748,20 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
         queue.add(sr);*/
         LndFragment.lndshopactivity.reset(query);
     }
+private void showTutorial()
+    {
+      Dialog dialog = new Dialog(this,android.R.style.Theme_Translucent_NoTitleBar);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.main_tutorial_page);
+        Window window = dialog.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
 
+        wlp.gravity = Gravity.CENTER;
+        wlp.flags &= ~WindowManager.LayoutParams.FLAG_BLUR_BEHIND;
+        window.setAttributes(wlp);
+        dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+        dialog.show();
+        ViewPager viewPager = (ViewPager)dialog.findViewById(R.id.viewpager);
+        viewPager.setAdapter(new CustomPagerAdapter(this));
+    }
 }

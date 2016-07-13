@@ -280,6 +280,12 @@ you will see it here
 </string>
     <string name="noti_ins_subheading">When someone likes, buys or requests a swap for\n
 any of your posts, you will see it here
-
+<!-- tutorial page strings -->
 </string>
+
+   <string name="tutorial_heading">QUICK\nTUTORIAL</string>
+    <string name="tutorial_sub_heading">Tap here to close</string>
+    <string name="tutorial_info">This is your shopping page</string>
+    <string name="tutorial_page2_heading">SELECT A CATEGORY</string>
+
 </resources>

@@ -655,7 +655,7 @@ delivery.setTextColor(Color.parseColor("#dbdbdb"));
                     }
                 } catch (Exception ex) {
                     dismissProgress();
-
+                    Toast.makeText(SwapCheckOutActivity.this,"Shipping service unavailable please try again later",Toast.LENGTH_SHORT).show();
                     Log.e("jsonerror", ex.getMessage() + "");
                 }
 
@@ -809,7 +809,7 @@ delivery.setTextColor(Color.parseColor("#dbdbdb"));
                         } else {
                             Intent swapstepone = new Intent(SwapCheckOutActivity.this, Swap_Checkout_Step__First_Activity.class);
                             swapstepone.putExtra("data", response);
-                           startActivityForResult(swapstepone, 300);
+                            Main_TabHost.activity.startActivityForResult(swapstepone,300);
                         }
 
                     } else {
