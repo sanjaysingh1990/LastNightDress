@@ -161,7 +161,7 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // handle me
-                int user_pos = SingleTon.pref.getInt("user_position", 0);
+              /*  int user_pos = SingleTon.pref.getInt("user_position", 0);
                 if (user_pos == 1) {
                     Intent agent_signup = new Intent(SettingsActivity.this, Agent_Signup.class);
                     startActivity(agent_signup);
@@ -169,7 +169,9 @@ public class SettingsActivity extends AppCompatActivity {
                     Intent agent_profile = new Intent(SettingsActivity.this, Lnd_Agent_Profile.class);
                     startActivity(agent_profile);
 
-                }
+                }*/
+                Intent agent_signup = new Intent(SettingsActivity.this, Agent_Signup.class);
+                startActivity(agent_signup);
             }
         });
         //notification

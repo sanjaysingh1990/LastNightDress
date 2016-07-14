@@ -189,9 +189,9 @@
 </string>
 
     <!-- swap checkout -->
-<string name="first_step_heading">Thank you, your step is completed</string>
-<string name="final_step_heading">Thank you, your order is confirmed</string>
-<string name="payment_details">Payment details:\n Paid by:</string>
+    <string name="first_step_heading">Thank you, your step is completed</string>
+    <string name="final_step_heading">Thank you, your order is confirmed</string>
+    <string name="payment_details">Payment details:\n Paid by:</string>
     <string name="swap_completed">Transaction Completed</string>
     <string name="cancel_swap_transaction_confirmation">Do you want to exit?</string>
 
@@ -280,12 +280,41 @@ you will see it here
 </string>
     <string name="noti_ins_subheading">When someone likes, buys or requests a swap for\n
 any of your posts, you will see it here
-<!-- tutorial page strings -->
+        <!-- tutorial page strings -->
 </string>
 
-   <string name="tutorial_heading">QUICK\nTUTORIAL</string>
+    <string name="tutorial_heading">QUICK\nTUTORIAL</string>
     <string name="tutorial_sub_heading">Tap here to close</string>
     <string name="tutorial_info">This is your shopping page</string>
     <string name="tutorial_page2_heading">SELECT A CATEGORY</string>
+  <string name="agent_style_text">\"Agent style is social, stylish and loves to shop. She carries her business in the palm of her hands. She has used last night\'s dress to buy and sell and now is encouraging  her friends to join so she and them can make more money\".\n
 
+\n\nRegister for Agent Style and enjoy the benefits and rewards of an exciting opportunity. Remember,  the sooner you join the sooner you reap the rewards.
+Last Night\'s Dress provides a spectacular mobile operating platform with an awesome administrative and sales support system.
+</string>
+
+
+    <!-- agent welcome heading text-->
+    <string name="agent_welcome_subheading">Your are now part of our agent network</string>
+    <string name="agent_welcome_heading">Congratulations!</string>
+    <string name="agent_welcome_subheading2">Share your code today\n to reap rewards tomorrow
+</string>
+    <string name="agent_welcome_subheading3">Why do I need a code?
+</string>
+    <string name="agent_welcome_subheading4">Your personal code is used to identify\n
+you within the agent network. Whether you actively recruit\n or not, this code tracks sales of you and the people you\n share the code with which can provide you a passive\n commission. It is simple, secure and free to use.
+</string>
+
+    <!-- Agent level-->
+<string name="agent_level_commission_text">
+    Benefits: All the features of being an agent will unlock. Plus you get 1.5\%% rebate on all your sales along with 1.5\%% on every sale from your team.
+
+    </string>
+    <string name="agent_how_to_achieve">How to achieve Agent level</string>
+    <string name="agent_sub_heading">To qualify someone as your team member the user must use your code upon registering.\n\nMin requirement to become an Agent:</string>
+<string name="become_agent_condition">1) Min 10 posts of your own\n2) Get 5 team member to register using your code\n3) Each team member needs min 3 post each
+</string>
+    <string name="agent_shop_user_text">Register 1 shop user with min 20 posts </string>
+    <string name="get_agent_style">Go get\'em Agent Style!
+</string>
 </resources>

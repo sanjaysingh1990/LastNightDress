@@ -1,12 +1,19 @@
 package com.eowise.recyclerview.stickyheaders.samples.LndAgent;
 
+import android.app.Dialog;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -175,6 +182,10 @@ public class Lnd_Agent_Profile extends AppCompatActivity {
                         if (basicuser.length() == 6)
                             addMoreUserHeader(5);
                     }
+                    else
+                    {
+                        showinfo();
+                    }
 
 
                     adapter.notifyDataSetChanged();
@@ -194,7 +205,7 @@ public class Lnd_Agent_Profile extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("rqid", "20");
-                params.put("ref_code",SingleTon.pref.getString("ref_code","")+"");
+                params.put("ref_code", SingleTon.pref.getString("ref_code", "") + "");
 
                 return params;
             }
@@ -216,5 +227,45 @@ public class Lnd_Agent_Profile extends AppCompatActivity {
 
     public void back(View v) {
         onBackPressed();
+    }
+
+    public void info(View v) {
+        final Dialog dialog = new Dialog(this, android.R.style.Theme_Translucent_NoTitleBar);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.agent_feautre_showinfo_layout);
+        Window window = dialog.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+
+        wlp.gravity = Gravity.CENTER;
+        wlp.flags &= ~WindowManager.LayoutParams.FLAG_BLUR_BEHIND;
+        window.setAttributes(wlp);
+        dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+        dialog.show();
+        ImageButton back = (ImageButton) dialog.findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        dialog.dismiss();
+                                    }
+                                }
+
+        );
+        TextView heading = (TextView) dialog.findViewById(R.id.heading);
+        header.setTypeface(SingleTon.robotobold);
+        header.setText(Capitalize.capitalize(SingleTon.pref.getString("uname", "")));
+        Toolbar toolbar= (Toolbar) dialog.findViewById(R.id.toolbar);
+        toolbar.setVisibility(View.VISIBLE);
+
+    }
+    private void showinfo()
+    {
+
+
+        LndAgentBean header = new LndAgentBean();
+        header.setType(6);
+        data.add(header);
+
+        adapter.notifyDataSetChanged();
+
     }
 }

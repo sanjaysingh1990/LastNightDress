@@ -56,7 +56,7 @@ import java.util.ArrayList;
 
 
 class AgentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    public static final int USERHEADER = 0, HEADER = 1, NORMALUSER = 2, SHOPUSER = 3, SURPASSEDYOU = 4, MORE = 5;
+    public static final int USERHEADER = 0, HEADER = 1, NORMALUSER = 2, SHOPUSER = 3, SURPASSEDYOU = 4, MORE = 5,SHOWINFO=6;
     ArrayList<LndAgentBean> items;
     Context con;
 
@@ -102,6 +102,23 @@ class AgentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
+    public class ShowInfo extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        public TextView total;
+
+        public ShowInfo(View v) {
+            super(v);
+
+
+
+        }
+
+
+        @Override
+        public void onClick(View v) {
+
+        }
+    }
     public class NormalUser extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView uname, totalpost, totalsales, totalrefuser, totalrefusertext;
         public ImageView profileimg;
@@ -209,6 +226,10 @@ class AgentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             return MORE;
 
         }
+        else if (items.get(position).getType() == SHOWINFO) {
+            return SHOWINFO;
+
+        }
         return -1;
 
     }
@@ -242,6 +263,10 @@ class AgentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             case MORE:
                 final View moreuserheader = inflater.inflate(R.layout.agent_more_user_bottom, parent, false);
                 viewHolder = new MoreHeader(moreuserheader);
+                break;
+            case SHOWINFO:
+                final View showinfo = inflater.inflate(R.layout.agent_feautre_showinfo_layout, parent, false);
+                viewHolder = new ShowInfo(showinfo);
                 break;
         }
         return viewHolder;

@@ -28,20 +28,18 @@ import com.facebook.share.widget.ShareDialog;
 
 public class Agent_Signup extends AppCompatActivity {
     private int curr_pos = 1;
-    private CallbackManager callbackManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        facebookSDKInitialize();
+
 
         setContentView(R.layout.activity_agent__signup);
-        LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
-        loginButton.setReadPermissions("email,publish_actions");
+
     }
 
     public void signup(View view) {
-        if (curr_pos == 1) {
+     /*   if (curr_pos == 1) {
             curr_pos++;
             shareDialog();
 
@@ -49,15 +47,13 @@ public class Agent_Signup extends AppCompatActivity {
             Intent agentproile = new Intent(this, Lnd_Agent_Profile.class);
             startActivity(agentproile);
             finish();
-        }
+        }*/
+        Intent agentproile = new Intent(this, AgentCongratulation.class);
+        startActivity(agentproile);
+        finish();
     }
 
-    protected void facebookSDKInitialize() {
 
-        FacebookSdk.sdkInitialize(getApplicationContext());
-
-        callbackManager = CallbackManager.Factory.create();
-    }
 
     public void close(View v) {
         finish();
@@ -76,137 +72,7 @@ public class Agent_Signup extends AppCompatActivity {
         startActivity(Intent.createChooser(share, "Share link!"));
     }
 
-    private void shareDialog() {
-        TextView fb, twitter, whatsapp, email;
-
-        final Dialog dialog = new Dialog(this, android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
-        // dialog.getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#2c6290")));
-        dialog.setContentView(R.layout.lnd_agent_share_dialog);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#30ffffff")));
-        dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
-        dialog.show();
-        //gettting dialog reference
-        fb = (TextView) dialog.findViewById(R.id.facebook);
-        twitter = (TextView) dialog.findViewById(R.id.twitter);
-        whatsapp = (TextView) dialog.findViewById(R.id.whatsapp);
-        email = (TextView) dialog.findViewById(R.id.email);
-        //custom font
-        //applying custom fonts
-        fb.setTypeface(SingleTon.robotomedium);
-        twitter.setTypeface(SingleTon.robotomedium);
-        whatsapp.setTypeface(SingleTon.robotomedium);
-        email.setTypeface(SingleTon.robotomedium);
 
 
-        //setting events
-        fb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // handle me
-                dialog.dismiss();
-                fbSharing();
-            }
-        });
 
-
-        twitter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // handle me
-                dialog.dismiss();
-                Main_TabHost.main.twitter();
-
-            }
-        });
-
-        whatsapp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // handle me
-                dialog.dismiss();
-                whatsappShare();
-
-            }
-        });
-        email.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // handle me
-                dialog.dismiss();
-            }
-        });
-    }
-
-    ShareDialog shareDialog;
-
-    private void fbSharing() {
-        shareDialog = new ShareDialog(this);  // intialize facebook shareDialog.
-
-        if (ShareDialog.canShow(ShareLinkContent.class)) {
-            ShareLinkContent linkContent = new ShareLinkContent.Builder()
-                    .setContentTitle("Last Night Dress")
-                    .setImageUrl(Uri.parse("http://52.76.68.122/lnd/images/lndlogo.png"))
-                    .setContentDescription(
-                            "Please use following code 0233")
-                    .setContentUrl(Uri.parse("http://sikhdiary.com/lnd-landing/"))
-                    .build();
-
-            shareDialog.show(linkContent, ShareDialog.Mode.AUTOMATIC);  // Show facebook ShareDialog
-            shareDialog.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() {
-                @Override
-                public void onSuccess(Sharer.Result result) {
-                   // Toast.makeText(Agent_Signup.this, "Shared Successfully", Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onCancel() {
-                    Toast.makeText(Agent_Signup.this, "Share Cancelled", Toast.LENGTH_SHORT).show();
-
-                }
-
-                @Override
-                public void onError(FacebookException error) {
-                    Toast.makeText(Agent_Signup.this, "Not Shared", Toast.LENGTH_SHORT).show();
-
-                }
-            });
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        // Logs 'install' and 'app activate' App Events.
-        AppEventsLogger.activateApp(this);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        // Logs 'app deactivate' App Event.
-        AppEventsLogger.deactivateApp(this);
-    }
-
-    @Override
-    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode, resultCode, data);
-    }
-
-    private void whatsappShare() {
-        Intent whatsappIntent = new Intent(Intent.ACTION_SEND);
-        whatsappIntent.setType("text/plain");
-        whatsappIntent.setPackage("com.whatsapp");
-        whatsappIntent.putExtra(Intent.EXTRA_SUBJECT, "Title Of The Post");
-        whatsappIntent.putExtra(Intent.EXTRA_TEXT, "http://www.codeofaninja.com");
-        try {
-            startActivity(whatsappIntent);
-        } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(this, "Whatsapp have not been installed.", Toast.LENGTH_SHORT).show();
-        }
-    }
 }

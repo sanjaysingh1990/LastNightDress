@@ -30,42 +30,23 @@
             android:layout_marginTop="20dp"
             android:src="@drawable/lnd_agent_login_logo" />
     </LinearLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1">
 
-        <LinearLayout
+
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:layout_margin="10dp"
-            android:orientation="vertical">
+            android:layout_gravity="center_horizontal"
+            android:padding="12dp"
+            android:text="@string/agent_style_text"
+            android:textColor="#4c4c4c" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="Agent Style saves by buying on Last Night’s Dress"
-                android:textColor="#4c4c4c" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
-                android:text="Agent Style earns cash by selling her wardrobe"
-                android:textColor="#4c4c4c" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
-                android:text="Agent Style refers her friends and earns a commission on every sale"
-                android:textColor="#4c4c4c" />
-
-        </LinearLayout>
     </RelativeLayout>
 
     <LinearLayout
@@ -80,7 +61,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Be like Agent Style"
+            android:text="It’s free to join!"
             android:textColor="#666666"
             android:textStyle="bold" />
 
@@ -93,30 +74,22 @@
             android:clickable="true"
             android:contextClickable="true"
             android:onClick="signup"
-            android:text="Become an Agent"
-            android:textColor="#ffffff"
-            android:textSize="18sp"
             android:paddingLeft="40dp"
             android:paddingRight="40dp"
-            />
+            android:text="Become an Agent"
+            android:textColor="#ffffff"
+            android:textSize="18sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="5dp"
+            android:onClick="close"
             android:text="Close"
             android:textColor="#dadada"
-            android:onClick="close"
             android:textStyle="bold" />
-        <com.facebook.login.widget.LoginButton
-            android:id="@+id/login_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="30dp"
-            android:visibility="gone"
-            />
+
+
     </LinearLayout>
 </LinearLayout>
