@@ -56,7 +56,7 @@ import java.util.ArrayList;
 
 
 class AgentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    public static final int USERHEADER = 0, HEADER = 1, NORMALUSER = 2, SHOPUSER = 3, SURPASSEDYOU = 4, MORE = 5,SHOWINFO=6;
+    public static final int USERHEADER = 0, HEADER = 1, NORMALUSER = 2, SHOPUSER = 3, SURPASSEDYOU = 4, MORE = 5, SHOWINFO = 6, LNDSHARECODE = 7;
     ArrayList<LndAgentBean> items;
     Context con;
 
@@ -102,13 +102,29 @@ class AgentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
+    public class LndShareCode extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        public TextView total;
+
+        public LndShareCode(View v) {
+            super(v);
+
+
+        }
+
+
+        @Override
+        public void onClick(View v) {
+        }
+    }
+
+
     public class ShowInfo extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public TextView total;
 
         public ShowInfo(View v) {
             super(v);
-
 
 
         }
@@ -119,6 +135,7 @@ class AgentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         }
     }
+
     public class NormalUser extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView uname, totalpost, totalsales, totalrefuser, totalrefusertext;
         public ImageView profileimg;
@@ -225,9 +242,11 @@ class AgentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         } else if (items.get(position).getType() == MORE) {
             return MORE;
 
-        }
-        else if (items.get(position).getType() == SHOWINFO) {
+        } else if (items.get(position).getType() == SHOWINFO) {
             return SHOWINFO;
+
+        } else if (items.get(position).getType() == LNDSHARECODE) {
+            return LNDSHARECODE;
 
         }
         return -1;
@@ -268,6 +287,11 @@ class AgentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 final View showinfo = inflater.inflate(R.layout.agent_feautre_showinfo_layout, parent, false);
                 viewHolder = new ShowInfo(showinfo);
                 break;
+            case LNDSHARECODE:
+                final View sharecode = inflater.inflate(R.layout.lnd_share_your_code_layout, parent, false);
+                viewHolder = new LndShareCode(sharecode);
+                break;
+
         }
         return viewHolder;
 

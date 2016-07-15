@@ -1,106 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
-        android:text="Share your code"
-        android:textColor="@color/sale_purchase_lable_color" />
+      >
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp"
+        android:layout_centerInParent="true"
+        android:layout_gravity=""
+        android:orientation="vertical"
+        android:paddingBottom="10dp"
         >
 
-        <RelativeLayout
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/mail_gradient_button"
-            android:clickable="true"
-            >
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:text="Share your code"
+            android:textColor="@color/sale_purchase_lable_color" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:src="@drawable/email_code_icon" />
-        </RelativeLayout>
-
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/whatsapp_gradient_button"
-            android:layout_marginLeft="10dp"
-            android:clickable="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
 
-            >
-
-            <ImageView
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:src="@drawable/whatsapp_code_share" />
-        </RelativeLayout>
+                android:background="@drawable/mail_gradient_button"
+                android:clickable="true">
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/facebook_gradient_button"
-            android:layout_marginLeft="10dp"
-            android:clickable="true"
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/email_code_icon" />
+            </RelativeLayout>
 
-            >
-
-            <TextView
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="f"
-                android:textColor="@color/white"
-                android:textSize="25sp"
-                android:textStyle="bold" />
-        </RelativeLayout>
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/whatsapp_gradient_button"
+                android:clickable="true"
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/twitter_gradient_button"
-            android:layout_marginLeft="10dp"
-            android:clickable="true"
+                >
 
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/whatsapp_code_share" />
+            </RelativeLayout>
 
-            >
-
-            <ImageView
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:src="@drawable/twitter_share_code" />
-        </RelativeLayout>
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/facebook_gradient_button"
+                android:clickable="true"
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/message_gradient_button"
-            android:layout_marginLeft="10dp"
-            android:clickable="true"
+                >
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="f"
+                    android:textColor="@color/white"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
 
-            >
-
-            <ImageView
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:src="@drawable/message_code_share" />
-        </RelativeLayout>
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/twitter_gradient_button"
+                android:clickable="true"
+
+
+                >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/twitter_share_code" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/message_gradient_button"
+                android:clickable="true"
+
+
+                >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/message_code_share" />
+            </RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</RelativeLayout>

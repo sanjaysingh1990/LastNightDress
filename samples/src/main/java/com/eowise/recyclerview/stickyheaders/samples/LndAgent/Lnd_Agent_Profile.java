@@ -114,6 +114,15 @@ public class Lnd_Agent_Profile extends AppCompatActivity {
         data.add(regionaldirectorheader);
     }
 
+    private void sharecode(int headertype) throws Exception {
+
+        LndAgentBean regionaldirectorheader = new LndAgentBean();
+        regionaldirectorheader.setType(7);
+        regionaldirectorheader.setHeaderType(headertype);
+
+        data.add(regionaldirectorheader);
+    }
+
     public void getData() {
 
 
@@ -181,9 +190,10 @@ public class Lnd_Agent_Profile extends AppCompatActivity {
 
                         if (basicuser.length() == 6)
                             addMoreUserHeader(5);
-                    }
-                    else
-                    {
+
+                        sharecode(7);
+
+                    } else {
                         showinfo();
                     }
 
@@ -253,12 +263,12 @@ public class Lnd_Agent_Profile extends AppCompatActivity {
         TextView heading = (TextView) dialog.findViewById(R.id.heading);
         header.setTypeface(SingleTon.robotobold);
         header.setText(Capitalize.capitalize(SingleTon.pref.getString("uname", "")));
-        Toolbar toolbar= (Toolbar) dialog.findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) dialog.findViewById(R.id.toolbar);
         toolbar.setVisibility(View.VISIBLE);
 
     }
-    private void showinfo()
-    {
+
+    private void showinfo() {
 
 
         LndAgentBean header = new LndAgentBean();
