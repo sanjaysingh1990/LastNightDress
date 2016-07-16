@@ -34,6 +34,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -104,34 +105,88 @@ class AgentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public class LndShareCode extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public TextView total;
+        public RelativeLayout emailshare, whatsappshare, fbshare, twittershare, messageshare;
 
         public LndShareCode(View v) {
             super(v);
 
+            emailshare = (RelativeLayout) v.findViewById(R.id.shareonmail);
+            whatsappshare = (RelativeLayout) v.findViewById(R.id.shareonwhatsapp);
+            fbshare = (RelativeLayout) v.findViewById(R.id.shareonfb);
+            twittershare = (RelativeLayout) v.findViewById(R.id.shareontwitter);
+            messageshare = (RelativeLayout) v.findViewById(R.id.shareonsms);
+
+            emailshare.setOnClickListener(this);
+            whatsappshare.setOnClickListener(this);
+            fbshare.setOnClickListener(this);
+            twittershare.setOnClickListener(this);
+            messageshare.setOnClickListener(this);
 
         }
 
 
         @Override
         public void onClick(View v) {
+          Lnd_Agent_Profile lndagent= (Lnd_Agent_Profile) con;
+           switch (v.getId())
+           {
+               case R.id.shareonmail:
+                   lndagent.sendEmail();
+                   break;
+               case R.id.shareonwhatsapp:
+                   lndagent.whatsappShare();
+                   break;
+               case R.id.shareonfb:
+                   break;
+               case R.id.shareonsms:
+                   lndagent.sendsms();
+                   break;
+
+           }
         }
     }
 
 
     public class ShowInfo extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public TextView total;
+        public RelativeLayout emailshare, whatsappshare, fbshare, twittershare, messageshare;
 
         public ShowInfo(View v) {
             super(v);
 
+            emailshare = (RelativeLayout) v.findViewById(R.id.shareonmail);
+            whatsappshare = (RelativeLayout) v.findViewById(R.id.shareonwhatsapp);
+            fbshare = (RelativeLayout) v.findViewById(R.id.shareonfb);
+            twittershare = (RelativeLayout) v.findViewById(R.id.shareontwitter);
+            messageshare = (RelativeLayout) v.findViewById(R.id.shareonsms);
+
+            emailshare.setOnClickListener(this);
+            whatsappshare.setOnClickListener(this);
+            fbshare.setOnClickListener(this);
+            twittershare.setOnClickListener(this);
+            messageshare.setOnClickListener(this);
 
         }
 
 
         @Override
         public void onClick(View v) {
+            Lnd_Agent_Profile lndagent= (Lnd_Agent_Profile) con;
+            switch (v.getId())
+            {
+                case R.id.shareonmail:
+                    break;
+                case R.id.shareonwhatsapp:
+                     lndagent.whatsappShare();
+                    break;
+                case R.id.shareonfb:
+                    lndagent.fbSharing();
+                    break;
+                case R.id.shareonsms:
+                    lndagent.sendsms();
+                    break;
+
+            }
 
         }
     }

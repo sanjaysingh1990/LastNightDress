@@ -32,13 +32,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/mail_gradient_button"
-                android:clickable="true">
+                android:clickable="true"
+                android:id="@+id/shareonmail"
+                >
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/email_code_icon" />
+                    android:src="@drawable/email_code_icon"
+
+                    />
             </RelativeLayout>
 
             <RelativeLayout
@@ -47,7 +51,7 @@
                 android:layout_marginLeft="10dp"
                 android:background="@drawable/whatsapp_gradient_button"
                 android:clickable="true"
-
+                android:id="@+id/shareonwhatsapp"
                 >
 
                 <ImageView
@@ -63,6 +67,7 @@
                 android:layout_marginLeft="10dp"
                 android:background="@drawable/facebook_gradient_button"
                 android:clickable="true"
+                android:id="@+id/shareonfb"
 
                 >
 
@@ -82,7 +87,7 @@
                 android:layout_marginLeft="10dp"
                 android:background="@drawable/twitter_gradient_button"
                 android:clickable="true"
-
+                android:id="@+id/shareontwitter"
 
                 >
 
@@ -99,7 +104,7 @@
                 android:layout_marginLeft="10dp"
                 android:background="@drawable/message_gradient_button"
                 android:clickable="true"
-
+                android:id="@+id/shareonsms"
 
                 >
 

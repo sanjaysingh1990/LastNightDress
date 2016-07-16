@@ -29,6 +29,7 @@ import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ApplicationConstants;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
 import com.eowise.recyclerview.stickyheaders.samples.data.LndAgentBean;
+import com.facebook.login.widget.LoginButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,7 +42,7 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class Lnd_Agent_Profile extends AppCompatActivity {
+public class Lnd_Agent_Profile extends LndShareActivity {
     @Bind(R.id.recycler)
     RecyclerView recyclerView;
     @Bind(R.id.header)
@@ -51,7 +52,7 @@ public class Lnd_Agent_Profile extends AppCompatActivity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lnd__agent__profile);
         ButterKnife.bind(this);
@@ -65,7 +66,8 @@ public class Lnd_Agent_Profile extends AppCompatActivity {
         header.setText(Capitalize.capitalize(SingleTon.pref.getString("uname", "")));
         setHeader();
         getData();
-
+        LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
+        loginButton.setReadPermissions("email,publish_actions");
     }
 
     private void setHeader() {

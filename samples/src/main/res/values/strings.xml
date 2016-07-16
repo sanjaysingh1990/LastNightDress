@@ -317,4 +317,6 @@ you within the agent network. Whether you actively recruit\n or not, this code t
     <string name="agent_shop_user_text">Register 1 shop user with min 20 posts </string>
     <string name="get_agent_style">Go get\'em Agent Style!
 </string>
+   <string name="mail_subject">your mail subject</string>
+    <string name="mail_to">Mail To</string>
 </resources>

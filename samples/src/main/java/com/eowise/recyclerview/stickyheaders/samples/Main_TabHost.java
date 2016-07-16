@@ -127,7 +127,7 @@ public class Main_TabHost extends AppCompatActivity {
         setupTab(new ImageView(this), new Intent().setClass(this, StickyActivity.class), R.drawable.home_gray);
         setupTab(new ImageView(this), new Intent().setClass(this, LndShopActivity.class), R.drawable.shopping_gray);
         setupTab(new ImageView(this), new Intent().setClass(this, BlankActivity.class), R.drawable.camera);
-        setupTab(new ImageView(this), new Intent().setClass(this, LndNotificationMessageActivity.class), R.drawable.message_icon_gray);
+        setupTab(new ImageView(this), new Intent().setClass(this, LndNotificationMessageActivity.class), R.drawable.message_gray);
         setupTab(new ImageView(this), new Intent().setClass(this, LndProfile.class), R.drawable.profile_gray);
         tabHost.setCurrentTab(1);
 
