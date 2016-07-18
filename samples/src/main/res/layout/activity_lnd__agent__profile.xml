@@ -60,6 +60,7 @@
                     android:background="?attr/selectableItemBackground"
                     android:onClick="info"
                     android:src="@drawable/info_icon"
+                    android:visibility="gone"
 
                     />
             </FrameLayout>

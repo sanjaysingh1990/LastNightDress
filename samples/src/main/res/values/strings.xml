@@ -317,6 +317,18 @@ you within the agent network. Whether you actively recruit\n or not, this code t
     <string name="agent_shop_user_text">Register 1 shop user with min 20 posts </string>
     <string name="get_agent_style">Go get\'em Agent Style!
 </string>
-   <string name="mail_subject">your mail subject</string>
+    <string name="mail_subject">your mail subject</string>
     <string name="mail_to">Mail To</string>
+
+    <!-- tutorial complete view-->
+    <string name="lnd_tututorial_complete">TUTORIAL\n COMPLETED</string>
+    <string name="lnd_tutorial_complte_search_result">Here are your search results.\nLet’s start shopping!</string>
+        <!-- search filter done view  -->
+    <string name="search_filter_done_swipe">Swipe right to\ncomplete your search
+</string>
+
+    <!-- tutorial filter page -->
+    <string name="lnd_tutorial_filter">This is your dress filter
+</string>
+<string name=""></string>
 </resources>

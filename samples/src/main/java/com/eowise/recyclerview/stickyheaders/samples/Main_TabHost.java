@@ -226,7 +226,8 @@ public class Main_TabHost extends AppCompatActivity {
         });
     }
 
-    private void setUpViewsForTweetComposer() {
+    private void setUpViewsForTweetComposer()
+    {
         TweetComposer.Builder builder = new TweetComposer.Builder(this)
                 .text("Hey friends check this out cool app. and use my referal code 0233 while login. https://play.google.com/store/apps/details?id=com.init.sikhdiary&hl=en ");
         builder.show();

@@ -29,13 +29,13 @@ import com.facebook.share.widget.ShareDialog;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class AgentCongratulation extends AppCompatActivity {
+public class AgentCongratulation extends LndShareActivity {
     private CallbackManager callbackManager;
 
     @Bind(R.id.refcode)
     TextView refcode;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         facebookSDKInitialize();
         setContentView(R.layout.activity_agent_congratulation);
@@ -51,12 +51,7 @@ public class AgentCongratulation extends AppCompatActivity {
         startActivity(agentproile);
         finish();
     }
-    protected void facebookSDKInitialize() {
 
-        FacebookSdk.sdkInitialize(getApplicationContext());
-
-        callbackManager = CallbackManager.Factory.create();
-    }
     private void shareDialog() {
         TextView fb, twitter, whatsapp, email;
 
@@ -97,7 +92,7 @@ public class AgentCongratulation extends AppCompatActivity {
             public void onClick(View v) {
                 // handle me
                 dialog.dismiss();
-                Main_TabHost.main.twitter();
+                setUpViewsForTweetComposer();
 
             }
         });
@@ -119,76 +114,7 @@ public class AgentCongratulation extends AppCompatActivity {
             }
         });
     }
-    ShareDialog shareDialog;
 
-    private void fbSharing() {
-        shareDialog = new ShareDialog(this);  // intialize facebook shareDialog.
-
-        if (ShareDialog.canShow(ShareLinkContent.class)) {
-            ShareLinkContent linkContent = new ShareLinkContent.Builder()
-                    .setContentTitle("Last Night Dress")
-                    .setImageUrl(Uri.parse("http://52.76.68.122/lnd/images/lndlogo.png"))
-                    .setContentDescription(
-                            "Please use following code 0233")
-                    .setContentUrl(Uri.parse("http://sikhdiary.com/lnd-landing/"))
-                    .build();
-
-            shareDialog.show(linkContent, ShareDialog.Mode.AUTOMATIC);  // Show facebook ShareDialog
-            shareDialog.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() {
-                @Override
-                public void onSuccess(Sharer.Result result) {
-                    // Toast.makeText(Agent_Signup.this, "Shared Successfully", Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onCancel() {
-                    Toast.makeText(AgentCongratulation.this, "Share Cancelled", Toast.LENGTH_SHORT).show();
-
-                }
-
-                @Override
-                public void onError(FacebookException error) {
-                    Toast.makeText(AgentCongratulation.this, "Not Shared", Toast.LENGTH_SHORT).show();
-
-                }
-            });
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        // Logs 'install' and 'app activate' App Events.
-        AppEventsLogger.activateApp(this);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        // Logs 'app deactivate' App Event.
-        AppEventsLogger.deactivateApp(this);
-    }
-
-    @Override
-    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode, resultCode, data);
-    }
-
-    private void whatsappShare() {
-        Intent whatsappIntent = new Intent(Intent.ACTION_SEND);
-        whatsappIntent.setType("text/plain");
-        whatsappIntent.setPackage("com.whatsapp");
-        whatsappIntent.putExtra(Intent.EXTRA_SUBJECT, "Title Of The Post");
-        whatsappIntent.putExtra(Intent.EXTRA_TEXT, "http://www.codeofaninja.com");
-        try {
-            startActivity(whatsappIntent);
-        } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(this, "Whatsapp have not been installed.", Toast.LENGTH_SHORT).show();
-        }
-    }
     public void share(View v)
     {
         shareDialog();

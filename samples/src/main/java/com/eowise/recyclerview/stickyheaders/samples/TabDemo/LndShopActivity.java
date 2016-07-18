@@ -162,7 +162,7 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
             Main_TabHost.tabWidget.setVisibility(View.GONE);
 
 
-            if (Main_TabHost.popupWindow.isShowing()) {
+            if (Main_TabHost.popupWindow!=null&&Main_TabHost.popupWindow.isShowing()) {
                 isvisible = true;
                 Main_TabHost.popupWindow.dismiss();
             }
@@ -763,5 +763,22 @@ private void showTutorial()
         dialog.show();
         ViewPager viewPager = (ViewPager)dialog.findViewById(R.id.viewpager);
         viewPager.setAdapter(new CustomPagerAdapter(this));
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                 if(position==1)
+                     mPager.setCurrentItem(1);
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 }

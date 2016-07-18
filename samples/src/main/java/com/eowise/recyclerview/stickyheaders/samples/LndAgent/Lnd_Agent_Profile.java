@@ -1,6 +1,8 @@
 package com.eowise.recyclerview.stickyheaders.samples.LndAgent;
 
 import android.app.Dialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +16,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +32,15 @@ import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ApplicationConstants;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
 import com.eowise.recyclerview.stickyheaders.samples.data.LndAgentBean;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.widget.LoginButton;
+import com.facebook.share.Sharer;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,11 +53,13 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class Lnd_Agent_Profile extends LndShareActivity {
+public class Lnd_Agent_Profile extends LndShareActivity implements View.OnClickListener {
     @Bind(R.id.recycler)
     RecyclerView recyclerView;
     @Bind(R.id.header)
     TextView header;
+    @Bind(R.id.info)
+    ImageButton info;
     ArrayList<LndAgentBean> data = new ArrayList<>();
     AgentListAdapter adapter;
 
@@ -54,6 +67,8 @@ public class Lnd_Agent_Profile extends LndShareActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        facebookSDKInitialize();
+
         setContentView(R.layout.activity_lnd__agent__profile);
         ButterKnife.bind(this);
         adapter = new AgentListAdapter(this, data);
@@ -78,6 +93,7 @@ public class Lnd_Agent_Profile extends LndShareActivity {
 
         adapter.notifyDataSetChanged();
     }
+
 
     private void addUser(JSONObject jsonObject) throws Exception {
 
@@ -137,7 +153,7 @@ public class Lnd_Agent_Profile extends LndShareActivity {
                     JSONObject jobj = new JSONObject(response.toString());
                     boolean status = jobj.getBoolean("status");
                     if (status) {
-
+                        info.setVisibility(View.VISIBLE);
                         //for user
                         LndAgentBean agentbean = data.get(0);
                         int totalagents = jobj.getInt("total_agent") + jobj.getInt("total_basicuser") + jobj.getInt("total_agency") + jobj.getInt("total_areamanager") + jobj.getInt("total_regionaldirector");
@@ -197,6 +213,7 @@ public class Lnd_Agent_Profile extends LndShareActivity {
 
                     } else {
                         showinfo();
+                        info.setVisibility(View.GONE);
                     }
 
 
@@ -242,6 +259,8 @@ public class Lnd_Agent_Profile extends LndShareActivity {
     }
 
     public void info(View v) {
+        RelativeLayout emailshare, whatsappshare, fbshare, twittershare, messageshare;
+
         final Dialog dialog = new Dialog(this, android.R.style.Theme_Translucent_NoTitleBar);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.agent_feautre_showinfo_layout);
@@ -262,11 +281,23 @@ public class Lnd_Agent_Profile extends LndShareActivity {
                                 }
 
         );
-        TextView heading = (TextView) dialog.findViewById(R.id.heading);
+        TextView header = (TextView) dialog.findViewById(R.id.header);
         header.setTypeface(SingleTon.robotobold);
         header.setText(Capitalize.capitalize(SingleTon.pref.getString("uname", "")));
         Toolbar toolbar = (Toolbar) dialog.findViewById(R.id.toolbar);
         toolbar.setVisibility(View.VISIBLE);
+
+        emailshare = (RelativeLayout) dialog.findViewById(R.id.shareonmail);
+        whatsappshare = (RelativeLayout) dialog.findViewById(R.id.shareonwhatsapp);
+        fbshare = (RelativeLayout) dialog.findViewById(R.id.shareonfb);
+        twittershare = (RelativeLayout) dialog.findViewById(R.id.shareontwitter);
+        messageshare = (RelativeLayout) dialog.findViewById(R.id.shareonsms);
+
+        emailshare.setOnClickListener(this);
+        whatsappshare.setOnClickListener(this);
+        fbshare.setOnClickListener(this);
+        twittershare.setOnClickListener(this);
+        messageshare.setOnClickListener(this);
 
     }
 
@@ -279,5 +310,28 @@ public class Lnd_Agent_Profile extends LndShareActivity {
 
         adapter.notifyDataSetChanged();
 
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.shareonmail:
+                sendEmail();
+                break;
+            case R.id.shareonwhatsapp:
+                whatsappShare();
+                break;
+            case R.id.shareonfb:
+                fbSharing();
+                break;
+            case R.id.shareonsms:
+                sendsms();
+                break;
+            case R.id.shareontwitter:
+                setUpViewsForTweetComposer();
+                break;
+
+        }
     }
 }

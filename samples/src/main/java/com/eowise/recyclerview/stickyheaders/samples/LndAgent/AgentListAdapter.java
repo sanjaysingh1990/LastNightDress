@@ -127,22 +127,26 @@ class AgentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         @Override
         public void onClick(View v) {
-          Lnd_Agent_Profile lndagent= (Lnd_Agent_Profile) con;
-           switch (v.getId())
-           {
-               case R.id.shareonmail:
-                   lndagent.sendEmail();
-                   break;
-               case R.id.shareonwhatsapp:
-                   lndagent.whatsappShare();
-                   break;
-               case R.id.shareonfb:
-                   break;
-               case R.id.shareonsms:
-                   lndagent.sendsms();
-                   break;
+            Lnd_Agent_Profile lndagent = (Lnd_Agent_Profile) con;
+            switch (v.getId()) {
+                case R.id.shareonmail:
+                    lndagent.sendEmail();
+                    break;
+                case R.id.shareonwhatsapp:
+                    lndagent.whatsappShare();
+                    break;
+                case R.id.shareonfb:
+                    lndagent.fbSharing();
 
-           }
+                    break;
+                case R.id.shareonsms:
+                    lndagent.sendsms();
+                    break;
+                case R.id.shareontwitter:
+                    lndagent.setUpViewsForTweetComposer();
+                    break;
+
+            }
         }
     }
 
@@ -171,19 +175,24 @@ class AgentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         @Override
         public void onClick(View v) {
-            Lnd_Agent_Profile lndagent= (Lnd_Agent_Profile) con;
-            switch (v.getId())
-            {
+            Lnd_Agent_Profile lndagent = (Lnd_Agent_Profile) con;
+            switch (v.getId()) {
                 case R.id.shareonmail:
+                    lndagent.sendEmail();
+
                     break;
                 case R.id.shareonwhatsapp:
-                     lndagent.whatsappShare();
+                    lndagent.whatsappShare();
                     break;
                 case R.id.shareonfb:
+                    Toast.makeText(con, "fbshareing", Toast.LENGTH_SHORT).show();
                     lndagent.fbSharing();
                     break;
                 case R.id.shareonsms:
                     lndagent.sendsms();
+                    break;
+                case R.id.shareontwitter:
+                    lndagent.setUpViewsForTweetComposer();
                     break;
 
             }
