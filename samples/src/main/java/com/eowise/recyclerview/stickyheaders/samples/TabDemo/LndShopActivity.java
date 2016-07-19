@@ -11,11 +11,13 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -59,6 +61,7 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
     static String prequery = "";
     private String previousurl = " ";
     private boolean isvisible = false;
+    private int[] layoutids = {R.layout.lnd_tutorial_layout, R.layout.lnd_tutorial_layout2, R.layout.lnd_tutorial_dresspage_layout};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +91,6 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
 
             @Override
             public void onPageSelected(int position) {
-
                 String query = "";
                 if (LndShopActivity.selectedcategory == 1 && position == 0) {
                     query = dressfilterquery();
@@ -97,6 +99,7 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
                         prequery = query;
                         getData(query);
                     }
+                    showTutorial(layoutids[2], "Dress PAGE");
                 } else if (LndShopActivity.selectedcategory == 2 && position == 0) {
                     query = handbagsfilterquery();
                     Log.e("query", query);
@@ -104,12 +107,14 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
                         prequery = query;
                         getData(query);
                     }
+                    showTutorial(layoutids[2], "Handbags PAGE");
                 } else if (LndShopActivity.selectedcategory == 3 && position == 0) {
                     query = shoefilterquery();
                     Log.e("query", query);
                     if (prequery.compareToIgnoreCase(query) != 0) {
                         prequery = query;
                         getData(query);
+                        showTutorial(layoutids[2], "Shoes PAGE");
                     }
                 } else if (LndShopActivity.selectedcategory == 4 && position == 0) {
                     query = jewelleryfilterquery();
@@ -118,6 +123,7 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
                         prequery = query;
                         getData(query);
                     }
+                    showTutorial(layoutids[2], "Jewellery PAGE");
                 } else if (LndShopActivity.selectedcategory == 0 && position == 0) {
                     query = " ";
 
@@ -148,7 +154,7 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
             }
         });
 
-        showTutorial();
+        showTutorial(layoutids[0], "This is your shopping page");
     }
 
     @Override
@@ -162,14 +168,14 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
             Main_TabHost.tabWidget.setVisibility(View.GONE);
 
 
-            if (Main_TabHost.popupWindow!=null&&Main_TabHost.popupWindow.isShowing()) {
+            if (Main_TabHost.popupWindow != null && Main_TabHost.popupWindow.isShowing()) {
                 isvisible = true;
                 Main_TabHost.popupWindow.dismiss();
             }
         } else {
             Main_TabHost.tabWidget.setVisibility(View.VISIBLE);
             if (isvisible) {
-               Main_TabHost.main.showPopup();
+                Main_TabHost.main.showPopup();
             }
 
         }
@@ -748,11 +754,15 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
         queue.add(sr);*/
         LndFragment.lndshopactivity.reset(query);
     }
-private void showTutorial()
-    {
-      Dialog dialog = new Dialog(this,android.R.style.Theme_Translucent_NoTitleBar);
+
+    Dialog dialog;
+
+    private void showTutorial(int id, String currentcategory) {
+        dialog = new Dialog(this, android.R.style.Theme_Translucent_NoTitleBar);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.main_tutorial_page);
+        View view = getLayoutInflater().inflate(id, null);
+        dialog.setContentView(view);
+
         Window window = dialog.getWindow();
         WindowManager.LayoutParams wlp = window.getAttributes();
 
@@ -761,7 +771,8 @@ private void showTutorial()
         window.setAttributes(wlp);
         dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
         dialog.show();
-        ViewPager viewPager = (ViewPager)dialog.findViewById(R.id.viewpager);
+        TextView categoryselected = (TextView) view.findViewById(R.id.central_heading);
+        /*ViewPager viewPager = (ViewPager)dialog.findViewById(R.id.viewpager);
         viewPager.setAdapter(new CustomPagerAdapter(this));
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -779,6 +790,12 @@ private void showTutorial()
             public void onPageScrollStateChanged(int state) {
 
             }
-        });
+        });*/
+        if (categoryselected != null && !currentcategory.contains("shopping"))
+            categoryselected.setText(currentcategory.toUpperCase());
+        else
+            categoryselected.setText(currentcategory);
+
+        view.setOnTouchListener(new SwipeListener(mPager, this));
     }
 }

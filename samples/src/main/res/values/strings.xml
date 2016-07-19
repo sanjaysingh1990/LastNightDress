@@ -330,5 +330,22 @@ you within the agent network. Whether you actively recruit\n or not, this code t
     <!-- tutorial filter page -->
     <string name="lnd_tutorial_filter">This is your dress filter
 </string>
-<string name=""></string>
+<!-- user level text -->
+ <string name="agent_level">All the features of being an agent is now available to you.\n You now get 1.5\%% rebate on all your sales plus,\n
+1.5\%% on every sale from your team.
+</string>
+<string name="agency_level">You now get 3.5\%% rebate on all your sales plus,\n
+2\%% on every sale from your team.
+</string>
+    <string name="area_manager_level">You now get 4.5\%% rebate on all your sales plus,\n
+1.5\%% on every sale from your team.
+</string>
+    <string name="religional_manager_level">You now get 5.5\%% rebate on all your sales plus,\n
+1\%% on every sale from your team.
+</string>
+    <string name="sales_director_level">You now get 6.5\%% rebate on all your sales plus,\n
+1\%% on every sale from your team.
+</string>
+    <string name="user_levle_heading">You have achieved:
+</string>
 </resources>
