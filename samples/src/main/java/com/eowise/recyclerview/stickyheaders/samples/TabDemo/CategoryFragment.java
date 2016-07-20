@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -19,6 +21,9 @@ import com.eowise.recyclerview.stickyheaders.samples.R;
 import java.util.List;
 
 import butterknife.Bind;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
+import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 
 /**
  * Example about replacing fragments inside a ViewPager. I'm using
@@ -31,7 +36,7 @@ public class CategoryFragment extends Fragment implements OnClickListener {
     TextView dresstext, handbagstext, shoestext, jewellerytext, mainpage;
     boolean dressstatus = true, handbagsstatus = true, shoesstatus = true, jewellerystatus = true;
     private LinearLayout ll;
-
+    Button  mButtonShow;
     @Bind({R.id.dresstext, R.id.handbagstext, R.id.size3, R.id.size4, R.id.size5, R.id.size6, R.id.size7, R.id.sizeall, R.id.numsize1, R.id.numsize2, R.id.numsize3, R.id.numsize4, R.id.numsize5, R.id.numsize6, R.id.numsize7, R.id.numsize8, R.id.numsize9, R.id.numsize10, R.id.numsize11, R.id.numsize12})
     List<TextView> dresssize;
 
@@ -41,6 +46,7 @@ public class CategoryFragment extends Fragment implements OnClickListener {
         // Inflate the layout for this fragment
         View view = inflater
                 .inflate(R.layout.lnd_categories_page, container, false);
+
 
         setup(view);
         return view;
@@ -57,6 +63,7 @@ public class CategoryFragment extends Fragment implements OnClickListener {
         shoestext = (TextView) v.findViewById(R.id.shoestext);
         jewellerytext = (TextView) v.findViewById(R.id.jewellerytext);
         mainpage = (TextView) v.findViewById(R.id.post);
+        mButtonShow = (Button)v.findViewById(R.id.btn_show);
 //text
         dresstext.setText("Dresses");
         handbagstext.setText("Handbags");
@@ -318,6 +325,8 @@ public class CategoryFragment extends Fragment implements OnClickListener {
 
 
         }
+
+        presentShowcaseView(1000);
     }
 
     private void adjust(int margin, int imgheight, int imgwidth) {
@@ -435,5 +444,17 @@ public class CategoryFragment extends Fragment implements OnClickListener {
             trans.commit();
         }
 
+    }
+    String SHOWCASE_ID="123";
+    private void presentShowcaseView(int withDelay) {
+        Log.e("status","called");
+        new MaterialShowcaseView.Builder(getActivity())
+                .setTarget(mButtonShow)
+                .setTitleText("Hello")
+                .setDismissText("GOT IT")
+                .setContentText("This is some amazing feature you should know about")
+                .setDelay(withDelay) // optional but starting animations immediately in onCreate can make them choppy
+                .singleUse(SHOWCASE_ID) // provide a unique ID used to ensure it is only shown once
+                .show();
     }
 }
