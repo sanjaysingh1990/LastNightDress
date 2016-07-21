@@ -24,6 +24,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import io.fabric.sdk.android.Fabric;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
 
 public class Splash extends AppCompatActivity {
 
@@ -52,7 +53,7 @@ public class Splash extends AppCompatActivity {
         } catch (NoSuchAlgorithmException e) {
             Log.e("error",e.getMessage());
         }*/
-
+        MaterialShowcaseView.resetAll(this);
        new Thread(new Runnable() {
             @Override
             public void run() {

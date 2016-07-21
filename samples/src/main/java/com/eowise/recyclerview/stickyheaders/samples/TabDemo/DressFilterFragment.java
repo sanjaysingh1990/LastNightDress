@@ -20,6 +20,8 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
+import uk.co.deanwild.materialshowcaseview.shape.RectangleShape;
 
 /**
  * Example about replacing fragments inside a ViewPager. I'm using
@@ -65,11 +67,13 @@ public class DressFilterFragment extends Fragment implements OnClickListener {
     static int price1=0;
     static int price2=1000;
     int condition[] = {0, 0, 0, 0};
+    public static DressFilterFragment dff;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        dff=this;
         // Inflate the layout for this fragment
         LndShopActivity.filterselected = 1;
         View view = inflater.inflate(R.layout.dress_filter_page, container, false);
@@ -909,6 +913,7 @@ public class DressFilterFragment extends Fragment implements OnClickListener {
             sizetypelist2[i] = "";
         }
     }
+
 }
 
 

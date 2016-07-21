@@ -24,6 +24,7 @@ import butterknife.Bind;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
 import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
+import uk.co.deanwild.materialshowcaseview.shape.RectangleShape;
 
 /**
  * Example about replacing fragments inside a ViewPager. I'm using
@@ -35,11 +36,10 @@ public class CategoryFragment extends Fragment implements OnClickListener {
     ImageView dress, handbags, shoes, jewellery;
     TextView dresstext, handbagstext, shoestext, jewellerytext, mainpage;
     boolean dressstatus = true, handbagsstatus = true, shoesstatus = true, jewellerystatus = true;
-    private LinearLayout ll;
-    Button  mButtonShow;
-    @Bind({R.id.dresstext, R.id.handbagstext, R.id.size3, R.id.size4, R.id.size5, R.id.size6, R.id.size7, R.id.sizeall, R.id.numsize1, R.id.numsize2, R.id.numsize3, R.id.numsize4, R.id.numsize5, R.id.numsize6, R.id.numsize7, R.id.numsize8, R.id.numsize9, R.id.numsize10, R.id.numsize11, R.id.numsize12})
+    private View ll;
+   @Bind({R.id.dresstext, R.id.handbagstext, R.id.size3, R.id.size4, R.id.size5, R.id.size6, R.id.size7, R.id.sizeall, R.id.numsize1, R.id.numsize2, R.id.numsize3, R.id.numsize4, R.id.numsize5, R.id.numsize6, R.id.numsize7, R.id.numsize8, R.id.numsize9, R.id.numsize10, R.id.numsize11, R.id.numsize12})
     List<TextView> dresssize;
-
+    public static CategoryFragment cf;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -47,7 +47,7 @@ public class CategoryFragment extends Fragment implements OnClickListener {
         View view = inflater
                 .inflate(R.layout.lnd_categories_page, container, false);
 
-
+        cf=this;
         setup(view);
         return view;
     }
@@ -63,7 +63,6 @@ public class CategoryFragment extends Fragment implements OnClickListener {
         shoestext = (TextView) v.findViewById(R.id.shoestext);
         jewellerytext = (TextView) v.findViewById(R.id.jewellerytext);
         mainpage = (TextView) v.findViewById(R.id.post);
-        mButtonShow = (Button)v.findViewById(R.id.btn_show);
 //text
         dresstext.setText("Dresses");
         handbagstext.setText("Handbags");
@@ -77,7 +76,7 @@ public class CategoryFragment extends Fragment implements OnClickListener {
         mainpage.setTypeface(SingleTon.robotoregular);
         mainpage.setText("MAIN PAGE");
 //reference more
-        ll = (LinearLayout) v.findViewById(R.id.ll);
+        ll = v.findViewById(R.id.ll);
 
 //checking user selected
         String value = LndShopActivity.currentcategory;
@@ -326,7 +325,7 @@ public class CategoryFragment extends Fragment implements OnClickListener {
 
         }
 
-        presentShowcaseView(1000);
+
     }
 
     private void adjust(int margin, int imgheight, int imgwidth) {
@@ -445,16 +444,22 @@ public class CategoryFragment extends Fragment implements OnClickListener {
         }
 
     }
-    String SHOWCASE_ID="123";
-    private void presentShowcaseView(int withDelay) {
-        Log.e("status","called");
-        new MaterialShowcaseView.Builder(getActivity())
-                .setTarget(mButtonShow)
-                .setTitleText("Hello")
-                .setDismissText("GOT IT")
-                .setContentText("This is some amazing feature you should know about")
+    private static final String SHOWCASE_ID = "custom example";
+
+    public void presentShowcaseView(int withDelay) throws Exception {
+
+
+        new MaterialShowcaseView.Builder(LndShopActivity.act)
+                .setTarget(ll)
+                .setShapePadding(0)
+                 .setContentText("Select Category")
+                .setDismissOnTouch(true)
+                .setContentTextColor(getResources().getColor(android.R.color.white))
+                .setMaskColour(getResources().getColor(android.R.color.black))
+
                 .setDelay(withDelay) // optional but starting animations immediately in onCreate can make them choppy
                 .singleUse(SHOWCASE_ID) // provide a unique ID used to ensure it is only shown once
                 .show();
+
     }
 }

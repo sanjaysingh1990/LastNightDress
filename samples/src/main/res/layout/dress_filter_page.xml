@@ -177,6 +177,7 @@
                 android:orientation="vertical"
                 android:background="#1d1f21"
                 android:layout_marginTop="10dp"
+                android:id="@+id/sizecontainer"
                 >
                 <LinearLayout
                     android:layout_width="match_parent"

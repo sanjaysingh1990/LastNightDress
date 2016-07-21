@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -17,27 +16,12 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.eowise.recyclerview.stickyheaders.samples.Loading.AVLoadingIndicatorView;
 import com.eowise.recyclerview.stickyheaders.samples.Main_TabHost;
 import com.eowise.recyclerview.stickyheaders.samples.R;
-import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
-import com.eowise.recyclerview.stickyheaders.samples.data.ShopData;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Example about replacing fragments inside a ViewPager. I'm using
@@ -91,6 +75,14 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
 
             @Override
             public void onPageSelected(int position) {
+                if (position == 1) {
+                    try {
+                        CategoryFragment.cf.presentShowcaseView(1000);
+                    } catch (Exception ex) {
+
+                    }
+
+                }
                 String query = "";
                 if (LndShopActivity.selectedcategory == 1 && position == 0) {
                     query = dressfilterquery();
@@ -791,6 +783,7 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
 
             }
         });*/
+
         if (categoryselected != null && !currentcategory.contains("shopping"))
             categoryselected.setText(currentcategory.toUpperCase());
         else
