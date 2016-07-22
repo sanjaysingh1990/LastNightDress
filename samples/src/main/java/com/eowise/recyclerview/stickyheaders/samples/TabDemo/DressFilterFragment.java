@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -15,6 +17,7 @@ import com.appyvet.rangebar.RangeBar;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -67,18 +70,24 @@ public class DressFilterFragment extends Fragment implements OnClickListener {
     static int price1=0;
     static int price2=1000;
     int condition[] = {0, 0, 0, 0};
-    public static DressFilterFragment dff;
-
+//for tutorial page
+    @Bind(R.id.swipe_instruction) View swiperight;
+    @Bind(R.id.dress_tutorial_heading) View turorialheaidng;
+    @Bind(R.id.dress_tutorial_subheading) View turorialsubheaidng;
+    @Bind(R.id.choosecate)TextView btn;
+    Animation anim1,anim2;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        dff=this;
         // Inflate the layout for this fragment
         LndShopActivity.filterselected = 1;
         View view = inflater.inflate(R.layout.dress_filter_page, container, false);
         ButterKnife.bind(this, view);
-        TextView btn = (TextView) view.findViewById(R.id.choosecate);
+
+        //initialize animations
+        anim1= AnimationUtils.loadAnimation(getActivity(),R.anim.fade_out);
+
 
         //size1 listener
         for (int i = 0; i < dresssize1.size(); i++) {

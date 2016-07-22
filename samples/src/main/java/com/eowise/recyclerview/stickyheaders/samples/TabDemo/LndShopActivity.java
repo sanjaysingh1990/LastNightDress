@@ -146,7 +146,7 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
             }
         });
 
-        showTutorial(layoutids[0], "This is your shopping page");
+     //   showTutorial(layoutids[0], "This is your shopping page");
     }
 
     @Override

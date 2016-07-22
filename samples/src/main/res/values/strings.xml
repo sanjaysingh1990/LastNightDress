@@ -348,4 +348,11 @@ you within the agent network. Whether you actively recruit\n or not, this code t
 </string>
     <string name="user_levle_heading">You have achieved:
 </string>
+    <string name="dress_filter_tutorial_heading">This is your dress filter
+</string>
+    <string name="dress_filter_tutorial_info">For this tutorial,\n
+please select a siz</string>
+    <string name="dress_filter_complete_your_search">Swipe right to\n
+complete your search
+</string>
 </resources>
