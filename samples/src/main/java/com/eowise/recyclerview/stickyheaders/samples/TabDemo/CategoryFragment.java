@@ -1,30 +1,25 @@
 package com.eowise.recyclerview.stickyheaders.samples.TabDemo;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 
 import java.util.List;
 
 import butterknife.Bind;
-import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
-import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
-import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
-import uk.co.deanwild.materialshowcaseview.shape.RectangleShape;
 
 /**
  * Example about replacing fragments inside a ViewPager. I'm using
@@ -40,6 +35,7 @@ public class CategoryFragment extends Fragment implements OnClickListener {
    @Bind({R.id.dresstext, R.id.handbagstext, R.id.size3, R.id.size4, R.id.size5, R.id.size6, R.id.size7, R.id.sizeall, R.id.numsize1, R.id.numsize2, R.id.numsize3, R.id.numsize4, R.id.numsize5, R.id.numsize6, R.id.numsize7, R.id.numsize8, R.id.numsize9, R.id.numsize10, R.id.numsize11, R.id.numsize12})
     List<TextView> dresssize;
     public static CategoryFragment cf;
+    View categorytutorial;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -53,6 +49,9 @@ public class CategoryFragment extends Fragment implements OnClickListener {
     }
 
     private void setup(View v) {
+        categorytutorial=v.findViewById(R.id.categorytutorial);
+        if(SingleTon.pref.getBoolean("category_tutorial",false))
+            hidetutorail();
         dress = (ImageView) v.findViewById(R.id.dress);
         handbags = (ImageView) v.findViewById(R.id.handbags);
         shoes = (ImageView) v.findViewById(R.id.shoes);
@@ -123,6 +122,10 @@ public class CategoryFragment extends Fragment implements OnClickListener {
                 LndShopActivity.isselected = true;
                 LndShopActivity.currentcategory = "dress";
                 if (dressstatus) {
+                    //tutorial done
+                    SharedPreferences.Editor edit=SingleTon.pref.edit();
+                    edit.putBoolean("category_tutorial",true);
+                    edit.commit();
                     clearAll2();
                     dress.setBackgroundResource(R.drawable.category_rounded_corner_selected);
                     dress.setImageResource(R.drawable.category_dress_selected);
@@ -444,22 +447,9 @@ public class CategoryFragment extends Fragment implements OnClickListener {
         }
 
     }
-    private static final String SHOWCASE_ID = "custom example";
-
-    public void presentShowcaseView(int withDelay) throws Exception {
-
-
-        new MaterialShowcaseView.Builder(LndShopActivity.act)
-                .setTarget(ll)
-                .setShapePadding(0)
-                 .setContentText("Select Category")
-                .setDismissOnTouch(true)
-                .setContentTextColor(getResources().getColor(android.R.color.white))
-                .setMaskColour(getResources().getColor(android.R.color.black))
-
-                .setDelay(withDelay) // optional but starting animations immediately in onCreate can make them choppy
-                .singleUse(SHOWCASE_ID) // provide a unique ID used to ensure it is only shown once
-                .show();
-
+    public void hidetutorail()
+    {
+        categorytutorial.setVisibility(View.GONE);
     }
+
 }

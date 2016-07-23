@@ -968,7 +968,6 @@
        android:layout_width="match_parent"
        android:layout_height="match_parent"
 
-       android:id="@+id/dresstutorial"
        layout="@layout/dress_filter_page_tutorial"
 
        />

@@ -1,30 +1,11 @@
 package com.eowise.recyclerview.stickyheaders.samples;
 
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.os.Bundle;
-
-import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Base64;
-import android.util.Log;
-import android.view.View;
 
-
-import com.crashlytics.android.Crashlytics;
 import com.eowise.recyclerview.stickyheaders.samples.UserProfile.LndLoginSignup;
 import com.facebook.FacebookSdk;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
-import io.fabric.sdk.android.Fabric;
-import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
 
 public class Splash extends AppCompatActivity {
 
@@ -53,7 +34,7 @@ public class Splash extends AppCompatActivity {
         } catch (NoSuchAlgorithmException e) {
             Log.e("error",e.getMessage());
         }*/
-        MaterialShowcaseView.resetAll(this);
+
        new Thread(new Runnable() {
             @Override
             public void run() {

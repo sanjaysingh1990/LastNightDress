@@ -1,5 +1,6 @@
 package com.eowise.recyclerview.stickyheaders.samples.TabDemo;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,16 +16,12 @@ import android.widget.TextView;
 
 import com.appyvet.rangebar.RangeBar;
 import com.eowise.recyclerview.stickyheaders.samples.R;
-
-import org.json.JSONObject;
-import org.w3c.dom.Text;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
-import uk.co.deanwild.materialshowcaseview.shape.RectangleShape;
 
 /**
  * Example about replacing fragments inside a ViewPager. I'm using
@@ -54,7 +51,7 @@ public class DressFilterFragment extends Fragment implements OnClickListener {
     TextView price;
     @Bind({R.id.color1, R.id.color2, R.id.color3, R.id.color4, R.id.color5, R.id.color6, R.id.color7, R.id.color8, R.id.color9, R.id.color10, R.id.color11, R.id.color12, R.id.color13, R.id.color14, R.id.color15, R.id.color16})
     List<TextView> color;
-
+    private boolean sizeselected = false;
     static String[] sizetypelist1 = new String[]{"", "", "", "", "", "", ""};
     static String[] sizetypelist2 = new String[]{"", "", "", "", "", "", "", "", "", "", "", ""};
     static String[] dresstypelist = new String[]{"", "", "", ""};
@@ -67,15 +64,23 @@ public class DressFilterFragment extends Fragment implements OnClickListener {
     int sizetype2[] = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     int dresssize[] = new int[]{0, 0, 0, 0, 0};
 
-    static int price1=0;
-    static int price2=1000;
+    static int price1 = 0;
+    static int price2 = 1000;
     int condition[] = {0, 0, 0, 0};
-//for tutorial page
-    @Bind(R.id.swipe_instruction) View swiperight;
-    @Bind(R.id.dress_tutorial_heading) View turorialheaidng;
-    @Bind(R.id.dress_tutorial_subheading) View turorialsubheaidng;
-    @Bind(R.id.choosecate)TextView btn;
-    Animation anim1,anim2;
+    //for tutorial page
+    @Bind(R.id.swipe_instruction)
+    View swiperight;
+    @Bind(R.id.dress_tutorial_heading)
+    View turorialheaidng;
+    @Bind(R.id.dress_tutorial_subheading)
+    View turorialsubheaidng;
+    @Bind(R.id.choosecate)
+    TextView btn;
+    @Bind(R.id.dresstutorial)
+    View dresstutorial;
+
+    Animation anim1;
+    public static DressFilterFragment dff;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -84,10 +89,8 @@ public class DressFilterFragment extends Fragment implements OnClickListener {
         LndShopActivity.filterselected = 1;
         View view = inflater.inflate(R.layout.dress_filter_page, container, false);
         ButterKnife.bind(this, view);
-
         //initialize animations
-        anim1= AnimationUtils.loadAnimation(getActivity(),R.anim.fade_out);
-
+        anim1 = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_out);
 
         //size1 listener
         for (int i = 0; i < dresssize1.size(); i++) {
@@ -150,8 +153,8 @@ public class DressFilterFragment extends Fragment implements OnClickListener {
                     price.setText("$" + value2 + " - " + "$" + value1);
                 else
                     price.setText("$" + value2 + " - " + "$" + value1 + "+");
-               price1=value2;
-               price2=value1;
+                price1 = value2;
+                price2 = value1;
             }
         });
 
@@ -163,6 +166,12 @@ public class DressFilterFragment extends Fragment implements OnClickListener {
                 reset();
             }
         });
+
+        if (SingleTon.pref.getBoolean("dress_page_tutorial", false))
+            hideTutorial();
+
+        dff = this;
+
         return view;
     }
 
@@ -206,6 +215,21 @@ public class DressFilterFragment extends Fragment implements OnClickListener {
 
     }
 
+    private void fadeoutandshow() {
+        turorialheaidng.startAnimation(anim1);
+        turorialsubheaidng.startAnimation(anim1);
+        swiperight.setVisibility(View.VISIBLE);
+
+        SharedPreferences.Editor edit = SingleTon.pref.edit();
+        edit.putBoolean("dress_page_tutorial", true);
+        edit.commit();
+
+    }
+
+    public void hideTutorial() {
+        dresstutorial.setVisibility(View.GONE);
+    }
+
     @Override
     public void onClick(View v) {
 
@@ -224,11 +248,15 @@ public class DressFilterFragment extends Fragment implements OnClickListener {
                     ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
                     sizetype1[0] = 1;
                     sizetypelist1[0] = "2xs";
-
+                    if (!sizeselected) {
+                        fadeoutandshow();
+                        sizeselected = true;
+                    }
                 } else {
                     ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
                     sizetype1[0] = 0;
                     sizetypelist1[0] = "";
+
                 }
                 break;
             case R.id.size2:
@@ -236,7 +264,10 @@ public class DressFilterFragment extends Fragment implements OnClickListener {
                     ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
                     sizetype1[1] = 1;
                     sizetypelist1[1] = "xs";
-
+                    if (!sizeselected) {
+                        fadeoutandshow();
+                        sizeselected = true;
+                    }
                 } else {
                     ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
                     sizetype1[1] = 0;
@@ -248,6 +279,10 @@ public class DressFilterFragment extends Fragment implements OnClickListener {
                     ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
                     sizetype1[2] = 1;
                     sizetypelist1[2] = "s";
+                    if (!sizeselected) {
+                        fadeoutandshow();
+                        sizeselected = true;
+                    }
 
                 } else {
                     ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
@@ -260,7 +295,10 @@ public class DressFilterFragment extends Fragment implements OnClickListener {
                     ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
                     sizetype1[3] = 1;
                     sizetypelist1[3] = "m";
-
+                    if (!sizeselected) {
+                        fadeoutandshow();
+                        sizeselected = true;
+                    }
                 } else {
                     ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
                     sizetype1[3] = 0;
@@ -273,6 +311,10 @@ public class DressFilterFragment extends Fragment implements OnClickListener {
                     ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
                     sizetype1[4] = 1;
                     sizetypelist1[4] = "l";
+                    if (!sizeselected) {
+                        fadeoutandshow();
+                        sizeselected = true;
+                    }
 
                 } else {
                     ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
@@ -286,6 +328,10 @@ public class DressFilterFragment extends Fragment implements OnClickListener {
                     ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
                     sizetype1[5] = 1;
                     sizetypelist1[5] = "xl";
+                    if (!sizeselected) {
+                        fadeoutandshow();
+                        sizeselected = true;
+                    }
 
                 } else {
                     ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
@@ -298,7 +344,10 @@ public class DressFilterFragment extends Fragment implements OnClickListener {
                     ((TextView) v).setBackgroundColor(Color.parseColor("#be4d66"));
                     sizetype1[6] = 1;
                     sizetypelist1[6] = "2xl";
-
+                    if (!sizeselected) {
+                        fadeoutandshow();
+                        sizeselected = true;
+                    }
                 } else {
                     ((TextView) v).setBackgroundColor(Color.parseColor("#1d1f21"));
                     sizetype1[6] = 0;
@@ -602,7 +651,7 @@ public class DressFilterFragment extends Fragment implements OnClickListener {
                     dresssize[4] = 1;
                     for (int i = 0; i < dresstype.size() - 1; i++) {
                         dresstype.get(i).setBackgroundColor(Color.parseColor("#be4d66"));
-                        dresstypelist[i] =(i+1)+"";
+                        dresstypelist[i] = (i + 1) + "";
 
                     }
 
@@ -612,7 +661,7 @@ public class DressFilterFragment extends Fragment implements OnClickListener {
                     dresssize[4] = 0;
                     for (int i = 0; i < dresstype.size() - 1; i++) {
                         dresstype.get(i).setBackgroundColor(Color.parseColor("#1d1f21"));
-                        dresstypelist[i] ="";
+                        dresstypelist[i] = "";
 
                     }
 

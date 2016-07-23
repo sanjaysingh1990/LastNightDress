@@ -54,7 +54,10 @@
             android:layout_gravity="center_horizontal"
             android:text="FINISH"
             android:textColor="@color/white"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:id="@+id/finish"
+            android:clickable="true"
+            />
     </LinearLayout>
 
 </RelativeLayout>

@@ -2,6 +2,7 @@ package com.eowise.recyclerview.stickyheaders.samples.TabDemo;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -22,6 +23,7 @@ import android.widget.TextView;
 import com.eowise.recyclerview.stickyheaders.samples.Loading.AVLoadingIndicatorView;
 import com.eowise.recyclerview.stickyheaders.samples.Main_TabHost;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 
 /**
  * Example about replacing fragments inside a ViewPager. I'm using
@@ -45,7 +47,7 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
     static String prequery = "";
     private String previousurl = " ";
     private boolean isvisible = false;
-    private int[] layoutids = {R.layout.lnd_tutorial_layout, R.layout.lnd_tutorial_layout2, R.layout.lnd_tutorial_dresspage_layout};
+    private int[] layoutids = {R.layout.lnd_tutorial_layout, R.layout.lnd_tutorial_layout2, R.layout.lnd_tutorial_dresspage_layout, R.layout.lnd_tutorial_complete_layout};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,13 +77,30 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
 
             @Override
             public void onPageSelected(int position) {
-                if (position == 1) {
+                /*if (position == 1) {
                     try {
                         CategoryFragment.cf.presentShowcaseView(1000);
                     } catch (Exception ex) {
 
                     }
 
+                }*/
+                if (position == 1 && SingleTon.pref.getBoolean("dress_page_tutorial", false)) {
+                    try {
+                        DressFilterFragment.dff.hideTutorial();
+                    } catch (Exception ex) {
+
+                    }
+                } else if (position == 0 && SingleTon.pref.getBoolean("dress_page_tutorial", false)) {
+                    showTutorial(layoutids[3], getResources().getString(R.string.lnd_tutorial_complte_search_result));
+                }
+                else if(position == 1 && SingleTon.pref.getBoolean("category_tutorial", false))
+                {
+                    try {
+                        CategoryFragment.cf.hidetutorail();
+                    } catch (Exception ex) {
+
+                    }
                 }
                 String query = "";
                 if (LndShopActivity.selectedcategory == 1 && position == 0) {
@@ -91,7 +110,7 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
                         prequery = query;
                         getData(query);
                     }
-                    showTutorial(layoutids[2], "Dress PAGE");
+                    //showTutorial(layoutids[2], "Dress PAGE");
                 } else if (LndShopActivity.selectedcategory == 2 && position == 0) {
                     query = handbagsfilterquery();
                     Log.e("query", query);
@@ -99,14 +118,14 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
                         prequery = query;
                         getData(query);
                     }
-                    showTutorial(layoutids[2], "Handbags PAGE");
+                    //showTutorial(layoutids[2], "Handbags PAGE");
                 } else if (LndShopActivity.selectedcategory == 3 && position == 0) {
                     query = shoefilterquery();
                     Log.e("query", query);
                     if (prequery.compareToIgnoreCase(query) != 0) {
                         prequery = query;
                         getData(query);
-                        showTutorial(layoutids[2], "Shoes PAGE");
+                        //  showTutorial(layoutids[2], "Shoes PAGE");
                     }
                 } else if (LndShopActivity.selectedcategory == 4 && position == 0) {
                     query = jewelleryfilterquery();
@@ -115,7 +134,7 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
                         prequery = query;
                         getData(query);
                     }
-                    showTutorial(layoutids[2], "Jewellery PAGE");
+                    // showTutorial(layoutids[2], "Jewellery PAGE");
                 } else if (LndShopActivity.selectedcategory == 0 && position == 0) {
                     query = " ";
 
@@ -146,7 +165,7 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
             }
         });
 
-     //   showTutorial(layoutids[0], "This is your shopping page");
+        showTutorial(layoutids[0], "This is your shopping page");
     }
 
     @Override
@@ -750,6 +769,8 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
     Dialog dialog;
 
     private void showTutorial(int id, String currentcategory) {
+        if (SingleTon.pref.getBoolean("tutorial_page", false))
+            return;
         dialog = new Dialog(this, android.R.style.Theme_Translucent_NoTitleBar);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         View view = getLayoutInflater().inflate(id, null);
@@ -764,6 +785,8 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
         dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
         dialog.show();
         TextView categoryselected = (TextView) view.findViewById(R.id.central_heading);
+        TextView finish = (TextView) view.findViewById(R.id.finish);
+
         /*ViewPager viewPager = (ViewPager)dialog.findViewById(R.id.viewpager);
         viewPager.setAdapter(new CustomPagerAdapter(this));
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -786,8 +809,18 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
 
         if (categoryselected != null && !currentcategory.contains("shopping"))
             categoryselected.setText(currentcategory.toUpperCase());
-        else
+        else if (categoryselected != null)
             categoryselected.setText(currentcategory);
+        if (finish != null)
+            finish.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                    SharedPreferences.Editor edit = SingleTon.pref.edit();
+                    edit.putBoolean("tutorial_page", true);
+                    edit.commit();
+                }
+            });
 
         view.setOnTouchListener(new SwipeListener(mPager, this));
     }

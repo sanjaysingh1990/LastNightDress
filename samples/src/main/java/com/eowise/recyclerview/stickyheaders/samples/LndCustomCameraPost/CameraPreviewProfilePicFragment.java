@@ -138,10 +138,9 @@ public class CameraPreviewProfilePicFragment extends Fragment
             if (pictureFile == null) {
                 Log.i("", "Error creating media file, check storage permissions: ");
                 return;
-            }
-            try {
+            } try {
                 CustomCamera cam = (CustomCamera) getActivity();
-                 FileOutputStream fos = new FileOutputStream(pictureFile);
+                FileOutputStream fos = new FileOutputStream(pictureFile);
                 fos.write(imgdata);
                 fos.close();
                 cam.respond(pictureFile.getAbsolutePath(),current_camera_id);
@@ -152,6 +151,7 @@ public class CameraPreviewProfilePicFragment extends Fragment
                 Log.e("error",ex.getMessage());
             }
 //
+
 // try {
 
             // After take picture successfully,

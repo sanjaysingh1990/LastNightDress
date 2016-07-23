@@ -1,230 +1,246 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_below="@+id/linearLayout"
-    android:background="#222427"
-
-    >
-<RelativeLayout
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_weight="1"
-    >
-<TextView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="SELECT A CATEGORY"
-    android:textColor="#828282"
-   android:layout_centerInParent="true"
-    android:textSize="20sp"
-    android:id="@+id/category"
-    android:visibility="visible"
-    android:gravity="center_horizontal"
+    android:layout_height="match_parent">
 
-    />
-</RelativeLayout>
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/linearLayout"
+        android:background="#222427"
         android:orientation="vertical"
-        android:id="@+id/ll"
-       android:layout_centerInParent="true"
-       android:layout_marginLeft="40dp"
-       android:layout_marginRight="40dp"
-        android:layout_weight="0"
-        android:layout_gravity="center_horizontal"
-           >
-        <LinearLayout
+
+        >
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
-            >
-         <LinearLayout
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:orientation="vertical"
-             android:layout_weight="1"
-
-             >
-             <LinearLayout
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:orientation="vertical"
-                 android:layout_gravity="right"
-                 >
-            <ImageView
-
-                android:layout_width="200px"
-                android:layout_height="210px"
-                android:layout_gravity="right"
-                android:src="@drawable/category_dress"
-                android:clickable="true"
-                android:background="@drawable/category_rounded_corner"
-                android:id="@+id/dress"
-
-                />
             <TextView
+                android:id="@+id/category"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Dresses"
-                android:textColor="#828282"
+                android:layout_centerInParent="true"
                 android:gravity="center_horizontal"
-                android:layout_marginTop="3dp"
-                android:id="@+id/dresstext"
+                android:text="SELECT A CATEGORY"
+                android:textColor="#828282"
+                android:textSize="20sp"
+                android:visibility="visible"
+
                 />
-             </LinearLayout>
-         </LinearLayout>
-<View
-    android:layout_width="18dp"
-    android:layout_height="match_parent"
-    android:layout_weight="0"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1"
-                >
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_gravity="left"
-                    >
-                <ImageView
-                    android:layout_width="200px"
-                    android:layout_height="210px"
-                    android:layout_gravity="left"
-                    android:src="@drawable/category_handbags"
-                    android:clickable="true"
-                    android:background="@drawable/category_rounded_corner"
-                    android:id="@+id/handbags"
+        </RelativeLayout>
 
-                    />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Handbags"
-                    android:textColor="#828282"
-                    android:gravity="center_horizontal"
-                    android:layout_marginTop="3dp"
-                    android:id="@+id/handbagstext"
-                    />
-</LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
-
+        <LinearLayout
+            android:id="@+id/ll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_weight="0"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="15dp"
 
                 >
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:layout_weight="1"
+                    android:orientation="vertical"
+
                     >
+
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
                         android:layout_gravity="right"
-                        >
-                    <ImageView
-                        android:layout_width="200px"
-                        android:layout_height="210px"
-                        android:layout_gravity="right"
-                        android:src="@drawable/category_shoes"
-                        android:clickable="true"
-                        android:background="@drawable/category_rounded_corner"
-                        android:id="@+id/shoes"
+                        android:orientation="vertical">
 
-                        />
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Shoes"
-                        android:textColor="#828282"
-                        android:gravity="center_horizontal"
-                        android:layout_marginTop="3dp"
-                        android:id="@+id/shoestext"
-                        />
-</LinearLayout>
+                        <ImageView
+
+                            android:id="@+id/dress"
+                            android:layout_width="200px"
+                            android:layout_height="210px"
+                            android:layout_gravity="right"
+                            android:background="@drawable/category_rounded_corner"
+                            android:clickable="true"
+                            android:src="@drawable/category_dress"
+
+                            />
+
+                        <TextView
+                            android:id="@+id/dresstext"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:gravity="center_horizontal"
+                            android:text="Dresses"
+                            android:textColor="#828282" />
+                    </LinearLayout>
                 </LinearLayout>
+
                 <View
                     android:layout_width="18dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0"/>
+                    android:layout_weight="0" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:layout_weight="1"
-                    >
+                    android:orientation="vertical">
+
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
                         android:layout_gravity="left"
-                        >
-                    <ImageView
-                        android:layout_width="200px"
-                        android:layout_height="210px"
-                        android:layout_gravity="left"
-                        android:src="@drawable/category_jewellery"
-                        android:clickable="true"
-                        android:background="@drawable/category_rounded_corner"
-                        android:id="@+id/jewellery"
+                        android:orientation="vertical">
 
-                        />
-                    <TextView
+                        <ImageView
+                            android:id="@+id/handbags"
+                            android:layout_width="200px"
+                            android:layout_height="210px"
+                            android:layout_gravity="left"
+                            android:background="@drawable/category_rounded_corner"
+                            android:clickable="true"
+                            android:src="@drawable/category_handbags"
+
+                            />
+
+                        <TextView
+                            android:id="@+id/handbagstext"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:gravity="center_horizontal"
+                            android:text="Handbags"
+                            android:textColor="#828282" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal"
+
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Jewellery"
-                        android:textColor="#828282"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="3dp"
-                        android:id="@+id/jewellerytext"
-                        />
-</LinearLayout>
+                        android:layout_gravity="right"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/shoes"
+                            android:layout_width="200px"
+                            android:layout_height="210px"
+                            android:layout_gravity="right"
+                            android:background="@drawable/category_rounded_corner"
+                            android:clickable="true"
+                            android:src="@drawable/category_shoes"
+
+                            />
+
+                        <TextView
+                            android:id="@+id/shoestext"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:gravity="center_horizontal"
+                            android:text="Shoes"
+                            android:textColor="#828282" />
+                    </LinearLayout>
                 </LinearLayout>
+
+                <View
+                    android:layout_width="18dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/jewellery"
+                            android:layout_width="200px"
+                            android:layout_height="210px"
+                            android:layout_gravity="left"
+                            android:background="@drawable/category_rounded_corner"
+                            android:clickable="true"
+                            android:src="@drawable/category_jewellery"
+
+                            />
+
+                        <TextView
+                            android:id="@+id/jewellerytext"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="3dp"
+                            android:text="Jewellery"
+                            android:textColor="#828282" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
 
         </LinearLayout>
 
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:layout_weight="1"
+
+            >
+
+            <TextView
+                android:id="@+id/post"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/category_buttonselected_corner"
+                android:clickable="true"
+
+                android:gravity="bottom|center_horizontal"
+                android:text="POST DRESS"
+                android:textColor="#be4d66"
+                android:textSize="13sp"></TextView>
+
+        </FrameLayout>
+
+
     </LinearLayout>
-
-
-
-
-<FrameLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-
-    android:layout_weight="1"
-
-    >    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="POST DRESS"
-        android:textColor="#be4d66"
-        android:gravity="bottom|center_horizontal"
-        android:textSize="13sp"
-        android:clickable="true"
-
-        android:id="@+id/post"
-        android:layout_gravity="bottom|center_horizontal"
-        android:background="@drawable/category_buttonselected_corner"
-        android:layout_marginBottom="15dp"
-        ></TextView>
-
+    <include
+        layout="@layout/lnd_category_page_tutorial"
+        />
 </FrameLayout>
-
-
-
-</LinearLayout>

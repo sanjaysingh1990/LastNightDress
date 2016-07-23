@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:id="@+id/dresstutorial"
 
     >
 
@@ -36,7 +37,9 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_weight="0"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:background="@android:color/transparent"
+            >
 
             <View
                 android:layout_width="12dp"
