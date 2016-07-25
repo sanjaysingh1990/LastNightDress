@@ -11,13 +11,11 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.eowise.recyclerview.stickyheaders.samples.Loading.AVLoadingIndicatorView;
@@ -47,7 +45,7 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
     static String prequery = "";
     private String previousurl = " ";
     private boolean isvisible = false;
-    private int[] layoutids = {R.layout.lnd_tutorial_layout, R.layout.lnd_tutorial_layout2, R.layout.lnd_tutorial_dresspage_layout, R.layout.lnd_tutorial_complete_layout};
+    private int[] layoutids = {R.layout.lnd_tutorial_layout, R.layout.lnd_shipping_info_page1, R.layout.lnd_tutorial_dresspage_layout, R.layout.lnd_tutorial_complete_layout};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

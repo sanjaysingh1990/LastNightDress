@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="20dp"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/InfoHeadingTextView"
+            android:text="There are 2 ways you can be charged for shipping" />
+
+        <TextView
+            style="@style/InfoTextView"
+            android:layout_marginTop="2dp"
+            android:text="@string/shipping_actual_weight" />
+        <TextView
+            style="@style/InfoTextView"
+            android:layout_marginTop="6dp"
+            android:text="@string/shipping_dimentional_weight" />
+        <TextView
+            style="@style/InfoHeadingTextView"
+            android:layout_marginTop="10dp"
+            android:text="What is dimensional weight" />
+
+        <TextView
+            style="@style/InfoTextView"
+            android:layout_marginTop="2dp"
+            android:text="@string/product_dimention_weight" />
+    </LinearLayout>
+</ScrollView>

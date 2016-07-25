@@ -323,14 +323,14 @@ you within the agent network. Whether you actively recruit\n or not, this code t
     <!-- tutorial complete view-->
     <string name="lnd_tututorial_complete">TUTORIAL\n COMPLETED</string>
     <string name="lnd_tutorial_complte_search_result">Here are your search results.\nLet’s start shopping!</string>
-        <!-- search filter done view  -->
+    <!-- search filter done view  -->
     <string name="search_filter_done_swipe">Swipe right to\ncomplete your search
 </string>
 
     <!-- tutorial filter page -->
     <string name="lnd_tutorial_filter">This is your dress filter
 </string>
-<!-- user level text -->
+    <!-- user level text -->
  <string name="agent_level">All the features of being an agent is now available to you.\n You now get 1.5\%% rebate on all your sales plus,\n
 1.5\%% on every sale from your team.
 </string>
@@ -356,4 +356,60 @@ please select a siz</string>
 complete your search
 </string>
     <string name="select_category">SELECT A CATEGORY</string>
+
+    <!-- tips and strategy text -->
+
+    <string name="shipping_text">Learn more about shipping and best practices </string>
+    <string name="returns_text">Avoid returns while offering the best customer experience </string>
+    <string name="photos_text">How to take effective photos to help maximize sales
+ </string>
+    <string name="swap_text">Everything you need to know about this feature
+ </string>
+    <string name="social_text">Learn how to maximize exposure for your posts
+ </string>
+    <string name="luxury_and_designer_authentication_text">Be confident when purchasing luxury and designer products
+ </string>
+<!-- shipping info page text-->
+
+    <string name="shipping_info_page1_text1">When you list an item, you can offer buyers one of three possible shipping options: free shipping, fixed price shipping, and actual price shipping.
+</string>
+    <string name="shipping_info_page1_text2">Free shipping: Offering free shipping is a great way to attract more buyers. Buyers love free shipping; many will only purchase items that ship for free. In fact, buyers are more likely to choose an item with free shipping over an item with a shipping charge, even if the total cost is the same. Free shipping can pay for itself in many ways.
+</string>
+    <string name="shipping_info_page1_text3">Fixed price shipping: Buyers can purchase your item immediately at the price you set. By selecting fixed price you can create your own shipping price. Depending on how much you charge your customers for shipping, this option can used to achieve higher sale volumes.
+If you choose fixed price shipping, it’s a good idea to research average shipping costs for similar items or use the Shipping Calculator to determine a fair rate. If you’re listing internationally, you can enter a separate flat fee for destinations outside your region.
+</string>
+    <string name="shipping_info_page1_text4">Actual price shipping: Buyers would have to pay every cost associated with shipping. When you select actual price for shipping your posts will not have a shipping cost, reason being, we need to have the final destination to calculate the actual shipping cost. By choosing actual price shipping, the shipping costs are automatically calculated for your buyers in checkout. Costs are calculated based on the size and weight of the packaged item, as well as both your location and the buyer’s location.
+</string>
+    <string name="shipping_info_page1_text5">First, sellers need to decided how much they want to charge their buyers for shipping. Again, there are three options: free, fixed price or actual price. The amount that you charge for shipping will be added to the total bill in checkout. This is extra funds deposited into your account, those funds now need to be used to purchase a shipping label.
+
+\n\nOnce you made a sale, You have the option to purchase a shipping label directly for the app or from a third party. If you purchase a shipping label from the app then a tracking number will automatically be sent to the buyer. Alternatively, if you decide to purchase a shipping label from a third party then you need to provide the tracking number to your customers from your “Order Details” page.
+</string>
+    <string name="shipping_info_page2_text6">Domestic shipping is mandatory to complete. If you decide to only sell domestically your products will only be visible to users within your region.
+</string>
+    <string name="shipping_info_page2_text7">International shipping is optional. By completeing this option you are offering your item to the word. This option showcases your item to every user within the app and the chances of selling your item increases.
+</string>
+
+    <string name="shipping_step1_text">Once you made a sale pack your clean item in the smallest box/package possible this way you avoid dimensional weight charges.
+</string>
+    <string name="shipping_step2_text">Once you packed your item you can purchase a shipping label directly from the app or from any carrier website. Make sure you enter the exact dimensions along with the correct weight of the packaged item. Any discrepancies in these two measurements and you’ll have yourself an inaccurate shipping label which can lead to your package being returned or you will be billed for the difference.
+</string>
+<string name="shipping_step3_text">Once you printed your shipping label tape it directly to the package. For security reasons, make sure you cover the entire shipping label with clear tape.
+</string>
+<string name="shipping_step4_text">Once the shipping label has been taped to the package it is ready for the post office. If you do not have time to drop it off, don’t sweat it, most carrier companies allows you to arrange a pick up time.
+</string>
+<string name="shipping_step5_text">When purchasing a shipping label directly from the app the tracking information will instantly be sent to your customer. If you decide to purchase a shipping label from a third party, then it is very important to provide you customer with the tracking information. By providing your customers with a tracking number your giving buyers a better experience when they shop from your page.
+</string>
+    <string name="sale_step1">Step 1: Pack your item</string>
+    <string name="sale_step2">Step 2: Purchase a shipping label</string>
+    <string name="sale_step3">Step 3: Tape the shipping label to the box</string>
+    <string name="sale_step4">Step 4: Drop package off at post office</string>
+    <string name="sale_step5">Step 5: Send tracking information to your customer</string>
+
+    
+    <string name="shipping_actual_weight">1) Actual weight: Actual weight is the package weight rounded up to the next whole pound. Use a scale to determine the weight of the package. Round any fraction of a pound to the next whole pound (ex: 1.1 pound = 2 pounds). make sure you weigh your item only after its packed. It is very important to use a scale that is accurate, an inaccurate scale can weigh you package incorrectly. If the weight on the shipping label is inaccurate, you will be billed for the difference.
+</string>
+    <string name="shipping_dimentional_weight">2) Dimensional weight: Dimensional weight reflects package density, which is the amount of the space a package occupies in relation to its actual weight.
+</string>
+    <string name="product_dimention_weight">Let’s look at DW (dimensional weight) from the perspective of a carrier since they are the ones who came up with it.  Basically, carriers have a limited amount of space in their trucks, planes, and distribution centers.  But they bill by weight.  Let’s imagine that you wanted to ship a 1 pound box that was so big a carrier truck could only carry 5 of these boxes.  Well, all carriers bills by weight, so 1 pound should come out to about $12.  So this carrier truck’s entire route will only make $60 in revenue.  As you probably know, this won’t be profitable for any carrier company, so they needed a way to account for this scenario.  So they say “Look, no matter what that box weighs, if it’s absolutely massive, we’re going to assume it’s pretty heavy and bill you accordingly.”  This is the birth of “dimensional weight”.  To make the system fair and predicable they came up with formulas to calculate DW.
+</string>
 </resources>

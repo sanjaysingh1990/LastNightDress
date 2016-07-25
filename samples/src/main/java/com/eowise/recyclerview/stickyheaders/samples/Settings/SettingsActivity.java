@@ -58,7 +58,7 @@ import butterknife.ButterKnife;
 public class SettingsActivity extends AppCompatActivity {
     @Bind(R.id.heading)
     TextView heading;
-    @Bind({R.id.fbfrnds, R.id.contactsfrnds, R.id.editprofiletext, R.id.changepasstext, R.id.allowswaps, R.id.privacypolicytext, R.id.mysales, R.id.mypurchases, R.id.logout, R.id.notificationtext, R.id.currencytext, R.id.clear, R.id.agenttext, R.id.sellworldwietext})
+    @Bind({R.id.fbfrnds, R.id.contactsfrnds, R.id.editprofiletext, R.id.changepasstext, R.id.allowswaps, R.id.privacypolicytext, R.id.mysales, R.id.mypurchases, R.id.logout, R.id.notificationtext, R.id.currencytext, R.id.clear, R.id.agenttext, R.id.sellworldwietext,R.id.tipsandstrategytext})
     List<TextView> settingstext;
     CallbackManager sCallbackManager;
     @Bind(R.id.swapstatus)
@@ -122,6 +122,16 @@ public class SettingsActivity extends AppCompatActivity {
                 // handle me
                 Intent i = new Intent(SettingsActivity.this, ChangePassword.class);
                 startActivity(i);
+            }
+        });
+
+        //tip and strategy
+        findViewById(R.id.tipsandstrategy).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // handle me
+                Intent tipsandstrategy = new Intent(SettingsActivity.this, TipsandStrategy.class);
+                startActivity(tipsandstrategy);
             }
         });
 

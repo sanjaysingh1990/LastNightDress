@@ -4,394 +4,441 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-   android:orientation="vertical"
-    tools:context="com.eowise.recyclerview.stickyheaders.samples.Settings.SettingsActivity"
     android:background="@color/white"
-    >
+    android:orientation="vertical"
+    tools:context="com.eowise.recyclerview.stickyheaders.samples.Settings.SettingsActivity">
 
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            style="@style/header"
-            android:background="@color/white"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:contentInsetLeft="0dp"
-            app:contentInsetStart="0dp"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/header"
+        android:background="@color/white"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        app:popupTheme="@style/AppTheme.PopupOverlay"
 
-            >
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
-                >
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/heading"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Settings"
-                    android:textColor="#000"
-                    android:textSize="18sp"
-
                     android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
                     android:gravity="center_horizontal"
-                    />
+                    android:text="Settings"
+
+                    android:textColor="#000"
+                    android:textSize="18sp" />
+
                 <ImageButton
+                    android:id="@+id/back"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/back_arrow"
-                    android:layout_weight="0"
                     android:layout_gravity="center_vertical|left"
-                    android:background="?attr/selectableItemBackground"
                     android:layout_marginLeft="10dp"
-                    android:id="@+id/back"
+                    android:layout_weight="0"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="back"
+                    android:src="@drawable/back_arrow"
 
                     />
 
             </FrameLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#dadada"
-                    android:layout_alignParentBottom="true"
-                    />
-            </RelativeLayout>
-            </android.support.v7.widget.Toolbar>
 
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:scrollbars="none"
-    >
-    <LinearLayout
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentBottom="true"
+                android:background="#dadada" />
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="13dp"
-            android:gravity="center_horizontal"
-            android:text="Find people to follow"
-            android:textColor="@color/setting_header_textcolor"
-            android:background="@color/setting_header_back"
+        android:scrollbars="none">
 
-            />
-        <com.balysv.materialripple.MaterialRippleLayout
-            android:id="@+id/findfbfriend"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/fbfrnds"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="15dp"
-           android:paddingLeft="15dp"
-            android:text="Invite Facebook Friends"
-            android:textColor="#3c4653"
-            android:drawableRight="@drawable/settings_forward"
-            />
-        </com.balysv.materialripple.MaterialRippleLayout>
-<View
-    android:layout_width="match_parent"
-    android:layout_height="0.5dp"
-    android:background="#dadada"/>
-        <com.balysv.materialripple.MaterialRippleLayout
-            android:id="@+id/findcontacts"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/contactsfrnds"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:paddingLeft="15dp"
-            android:text="Invite Contacts"
-            android:textColor="#3c4653"
-            android:drawableRight="@drawable/settings_forward"
-            />
-        </com.balysv.materialripple.MaterialRippleLayout>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="13dp"
-            android:gravity="center_horizontal"
-            android:text="Sales and Purchases"
-            android:textColor="@color/setting_header_textcolor"
-            android:background="@color/setting_header_back"
-
-            />
-        <com.balysv.materialripple.MaterialRippleLayout
-            android:id="@+id/mysalesparent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/mysales"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="15dp"
-                android:paddingLeft="15dp"
-                android:text="My Sales"
-                android:textColor="#3c4653"
-                android:drawableRight="@drawable/settings_forward"
-                />
-        </com.balysv.materialripple.MaterialRippleLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="#dadada"/>
-        <com.balysv.materialripple.MaterialRippleLayout
-            android:id="@+id/mypurchasesparent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/mypurchases"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="15dp"
-                android:paddingLeft="15dp"
-                android:text="My purchases"
-                android:textColor="#3c4653"
-                android:drawableRight="@drawable/settings_forward"
-                />
-        </com.balysv.materialripple.MaterialRippleLayout>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="13dp"
-            android:gravity="center_horizontal"
-            android:text="Settings"
-            android:textColor="@color/setting_header_textcolor"
-            android:background="@color/setting_header_back"
-            />
-        <com.balysv.materialripple.MaterialRippleLayout
-            android:id="@+id/editprofile"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/editprofiletext"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:paddingLeft="15dp"
-            android:text="Edit Profile"
-            android:textColor="#3c4653"
-            android:drawableRight="@drawable/settings_forward"
-            />
-        </com.balysv.materialripple.MaterialRippleLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="#dadada"/>
-        <com.balysv.materialripple.MaterialRippleLayout
-            android:id="@+id/currency"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/currencytext"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="15dp"
-                android:paddingLeft="15dp"
-                android:text="Currency"
-                android:textColor="#3c4653"
-                android:drawableRight="@drawable/settings_forward"
-                />
-        </com.balysv.materialripple.MaterialRippleLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="#dadada"/>
-        <com.balysv.materialripple.MaterialRippleLayout
-            android:id="@+id/agent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/agenttext"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="15dp"
-                android:paddingLeft="15dp"
-                android:text="Agent"
-                android:textColor="#3c4653"
-                android:drawableRight="@drawable/settings_forward"
-                />
-        </com.balysv.materialripple.MaterialRippleLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="#dadada"/>
-
-
-
-        <com.balysv.materialripple.MaterialRippleLayout
-            android:id="@+id/changepass"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/changepasstext"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="15dp"
-
-                android:text="Change Password"
-                android:textColor="#3c4653"
-                android:drawableRight="@drawable/settings_forward"
-                />
-        </com.balysv.materialripple.MaterialRippleLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="#dadada"/>
-
-        <com.balysv.materialripple.MaterialRippleLayout
-            android:id="@+id/notification"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/notificationtext"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="15dp"
-
-                android:text="Notification"
-                android:textColor="#3c4653"
-                android:drawableRight="@drawable/settings_forward"
-                />
-        </com.balysv.materialripple.MaterialRippleLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="#dadada"
-            android:id="@+id/line"
-            />
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="15dp"
-            android:padding="10dp"
-            android:paddingBottom="10dp"
-            android:paddingRight="8dp"
-            android:id="@+id/postswaps"
-            >
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
             <TextView
-                android:id="@+id/allowswaps"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/setting_header_back"
+                android:gravity="center_horizontal"
+                android:padding="13dp"
+                android:text="Find people to follow"
+                android:textColor="@color/setting_header_textcolor"
 
-                android:text="Allow Swaps"
-                android:textColor="#3c4653"
-                android:paddingLeft="5dp"
-                android:layout_weight="1"
                 />
-            <android.support.v7.widget.SwitchCompat
-                android:id="@+id/swapstatus"
-                android:layout_width="wrap_content"
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/findfbfriend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/fbfrnds"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/settings_forward"
+                    android:padding="15dp"
+                    android:paddingLeft="15dp"
+                    android:text="Invite Facebook Friends"
+                    android:textColor="#3c4653" />
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#dadada" />
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/findcontacts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/contactsfrnds"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/settings_forward"
+                    android:padding="15dp"
+                    android:paddingLeft="15dp"
+                    android:text="Invite Contacts"
+                    android:textColor="#3c4653" />
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+            <TextView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
-
-                android:checked="true"
-
+                android:background="@color/setting_header_back"
+                android:gravity="center_horizontal"
+                android:padding="13dp"
+                android:text="Sales and Purchases"
+                android:textColor="@color/setting_header_textcolor"
 
                 />
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/mysalesparent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/mysales"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/settings_forward"
+                    android:padding="15dp"
+                    android:paddingLeft="15dp"
+                    android:text="My Sales"
+                    android:textColor="#3c4653" />
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#dadada" />
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/mypurchasesparent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/mypurchases"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/settings_forward"
+                    android:padding="15dp"
+                    android:paddingLeft="15dp"
+                    android:text="My purchases"
+                    android:textColor="#3c4653" />
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+            <!-- specaility bloack -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/setting_header_back"
+                android:gravity="center_horizontal"
+                android:padding="13dp"
+                android:text="Speciality"
+                android:textColor="@color/setting_header_textcolor"
+
+                />
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/tipsandstrategy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tipsandstrategytext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/settings_forward"
+                    android:padding="15dp"
+                    android:paddingLeft="15dp"
+                    android:text="Tips and Strategy"
+                    android:textColor="#3c4653" />
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#dadada" />
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/agent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/agenttext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/settings_forward"
+                    android:padding="15dp"
+                    android:paddingLeft="15dp"
+                    android:text="Agent"
+                    android:textColor="#3c4653" />
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/setting_header_back"
+                android:gravity="center_horizontal"
+                android:padding="13dp"
+                android:text="Settings"
+                android:textColor="@color/setting_header_textcolor" />
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/editprofile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/editprofiletext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/settings_forward"
+                    android:padding="15dp"
+                    android:paddingLeft="15dp"
+                    android:text="Edit Profile"
+                    android:textColor="#3c4653" />
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#dadada" />
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/currency"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/currencytext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/settings_forward"
+                    android:padding="15dp"
+                    android:paddingLeft="15dp"
+                    android:text="Currency"
+                    android:textColor="#3c4653" />
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#dadada" />
+
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/changepass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/changepasstext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/settings_forward"
+
+                    android:padding="15dp"
+                    android:text="Change Password"
+                    android:textColor="#3c4653" />
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#dadada" />
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/notification"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/notificationtext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/settings_forward"
+
+                    android:padding="15dp"
+                    android:text="Notification"
+                    android:textColor="#3c4653" />
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+            <View
+                android:id="@+id/line"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#dadada" />
+
+            <LinearLayout
+                android:id="@+id/postswaps"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:paddingBottom="10dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="8dp">
+
+                <TextView
+                    android:id="@+id/allowswaps"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_weight="1"
+                    android:paddingLeft="5dp"
+                    android:text="Allow Swaps"
+                    android:textColor="#3c4653" />
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/swapstatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+
+                    android:checked="true"
+
+
+                    />
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/setting_header_back"
+                android:gravity="center_horizontal"
+                android:padding="13dp"
+                android:text="About"
+                android:textColor="@color/setting_header_textcolor" />
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/privacypolicy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/privacypolicytext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/settings_forward"
+                    android:padding="15dp"
+                    android:paddingLeft="15dp"
+                    android:text="Privacy Policy"
+                    android:textColor="#3c4653" />
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#dadada" />
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/sellworldwie"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/sellworldwietext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/settings_forward"
+                    android:padding="15dp"
+                    android:paddingLeft="15dp"
+                    android:text="Sell World Wide"
+                    android:textColor="#3c4653" />
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#dadada" />
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/clearhistory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/clear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/settings_forward"
+                    android:padding="15dp"
+                    android:paddingLeft="15dp"
+                    android:text="Clear History"
+                    android:textColor="#3c4653" />
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#dadada" />
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/logoutuser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/logout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/settings_forward"
+                    android:padding="15dp"
+                    android:paddingLeft="15dp"
+                    android:text="Logout"
+                    android:textColor="#3c4653" />
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#dadada" />
         </LinearLayout>
 
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="13dp"
-            android:gravity="center_horizontal"
-            android:text="About"
-            android:textColor="@color/setting_header_textcolor"
-            android:background="@color/setting_header_back"
-            />
-        <com.balysv.materialripple.MaterialRippleLayout
-            android:id="@+id/privacypolicy"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/privacypolicytext"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:paddingLeft="15dp"
-            android:text="Privacy Policy"
-            android:textColor="#3c4653"
-            android:drawableRight="@drawable/settings_forward"
-            />
-        </com.balysv.materialripple.MaterialRippleLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#dadada"/>
-        <com.balysv.materialripple.MaterialRippleLayout
-            android:id="@+id/sellworldwie"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/sellworldwietext"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:paddingLeft="15dp"
-            android:text="Sell World Wide"
-            android:textColor="#3c4653"
-            android:drawableRight="@drawable/settings_forward"
-            />
-        </com.balysv.materialripple.MaterialRippleLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#dadada"/>
-        <com.balysv.materialripple.MaterialRippleLayout
-            android:id="@+id/clearhistory"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/clear"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="15dp"
-                android:paddingLeft="15dp"
-                android:text="Clear History"
-                android:textColor="#3c4653"
-                android:drawableRight="@drawable/settings_forward"
-                />
-        </com.balysv.materialripple.MaterialRippleLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#dadada"/>
-        <com.balysv.materialripple.MaterialRippleLayout
-            android:id="@+id/logoutuser"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/logout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="15dp"
-                android:paddingLeft="15dp"
-                android:text="Logout"
-                android:textColor="#3c4653"
-                android:drawableRight="@drawable/settings_forward"
-                />
-        </com.balysv.materialripple.MaterialRippleLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#dadada"/>
-    </LinearLayout>
-
-</ScrollView>
+    </ScrollView>
 </LinearLayout>
