@@ -369,7 +369,7 @@ complete your search
  </string>
     <string name="luxury_and_designer_authentication_text">Be confident when purchasing luxury and designer products
  </string>
-<!-- shipping info page text-->
+    <!-- shipping info page text-->
 
     <string name="shipping_info_page1_text1">When you list an item, you can offer buyers one of three possible shipping options: free shipping, fixed price shipping, and actual price shipping.
 </string>
@@ -412,4 +412,70 @@ If you choose fixed price shipping, it’s a good idea to research average shipp
 </string>
     <string name="product_dimention_weight">Let’s look at DW (dimensional weight) from the perspective of a carrier since they are the ones who came up with it.  Basically, carriers have a limited amount of space in their trucks, planes, and distribution centers.  But they bill by weight.  Let’s imagine that you wanted to ship a 1 pound box that was so big a carrier truck could only carry 5 of these boxes.  Well, all carriers bills by weight, so 1 pound should come out to about $12.  So this carrier truck’s entire route will only make $60 in revenue.  As you probably know, this won’t be profitable for any carrier company, so they needed a way to account for this scenario.  So they say “Look, no matter what that box weighs, if it’s absolutely massive, we’re going to assume it’s pretty heavy and bill you accordingly.”  This is the birth of “dimensional weight”.  To make the system fair and predicable they came up with formulas to calculate DW.
 </string>
+
+    <string name="shipping_page4_text1">Currently, as an ecommerce seller, you only have to worry about dimensional weight when you’re shipping large packages, or when shipping via air or internationally.</string>
+
+    <string name="shipping_page4_text2">For any package that\'s staying on the ground, dimensional weight is only triggered if the package is over 3 cubic feet, or 5,184 cubic inches. For example, let’s say you have a box that measures width 24 inches x length 24 inches x height 20 inches. Multiplying those dimensions together gives you 11,520 cubic inches. Because that box is larger than 5,184 cubic inches, dimensional weight is triggered.</string>
+
+<string name="shipping_page4_text3">To determine the dimensional weight, you simply divide the total cubic dimensions by 166. So in this case, the dimensional weight is….11,520 / 166 = 69.4 lbs.
+</string>
+
+   <string name="shipping_page4_text4">What this means is that, when shipping this box, you\'ll be billed at a minimum of 70 lbs (the carriers round up to the nearest pound). If the package happens to weigh more than 70 lbs., then you’ll be billed for shipping at the actual weight. If the actual weight is less than 70 lbs….for example, let’s say it’s 39.6 lbs….then the dimensional weight will apply and you’ll be billed at 70 lbs.
+</string>
+    <string name="shipping_page4_text5">I know, it\'s a little confusing at first. To add to the complexity, if your package is being shipped via air or internationally, then the divisor is 139 instead of 166, which basically means that the dimensional weight is greater when shipping via air.
+</string>
+    <string name="shipping_page4_text6">Now for the good part, how you can actually save money on your shipping bill by cutting your dimensional weight costs.  The good news is that it’s a simple fix!  There’s really only two ways to save money when it comes to dimensional weight:  1) Decrease the size of your shipping box, and 2) Always tell the carrier company the exact dimensions of the packages you are shipping.  
+</string>
+    <string name="shipping_page4_text7">Decrease box size example: if I am shipping a 12 x 12 x 12" box overnight to California, do you think it\'d make a big difference if I changed the dimensions by only 1 inch, to 12 x 12 x 11"?  The answer is a resounding Yes. You\'d save 5.2\%% per package, or $2.48.  If you ship 1 of these a day you\'re already at over $600 savings and all you did was shave 1 inch off 1 package.  If you really take time to overhaul your packaging and shave the dimensions down by 2 or 3 inches you\'re going to save 10 – 15\%% across the board.
+</string>
+
+    <!-- for return tips -->
+    <string name="return_page_text1">You should describe the item so well that your customers can practically feel it through the screen. Be clear about the fit, the size, the material, etc. If you have a model wearing your products make sure to share his/her height, weight and other dimensions so that customers can understand how the product will fit them. Try to underestimate the condition, all damages and missing pieces needs to be stated.
+</string>
+    <string name="return_page_text2">The visual display of your product speaks volumes but you don\'t want to mislead your customers. Make sure that your photos aren’t overly edited or inaccurately represent your product. Learn more on how to take effective photos by selecting the Photo option located in the Tips and strategy page.
+</string>
+    <string name="return_page_text3">Use this app as if your running a business. Your customers should be able to get in touch with you immediately during their check out process or if they have any questions or concerns. This will allow customers to ask questions before they make the decision to purchase. Reply to all your messages as soon as possible and treat every customer they way you would want to be treated. Follow these simple rules and you will maintain a high rating while giving users more confidence in your service.
+</string>
+    <string name="return_page_text4">Customer satisfaction plays a major role in the reason for product returns. By delivering customer orders on time with tracking capabilities, you\'ll reduce disappointment not related to the product received. If a customer has to wait too long to receive their order they\'ll ask, “I waited all this time for this?"
+</string>
+    <string name="return_page_text5">By checking your customers orders for damages and accuracy before delivery, you\'ll decrease any returns due to internal mistakes.
+</string>
+    <string name="return_page_text6">Take the time to package your items carefully. If you are getting too many returns, you need to ask yourself, are dresses and clothing arriving wrinkled? Are you sending clothing that are not dry cleaned? Are the conditions of the items properly described? Re-evaluate your packaging to see if there is anything you can do to make the order received more attractive. Packaging speaks volumes about a seller on LND and you should show customers that you spent time carefully packing their item with a little bit of TLC.
+</string>
+
+    <!-- for photo tips -->
+    <string name="photo_page_text1">First impressions count when selling online. Images are an essential component when trying to stand out from the crowd and attract customers. Clearly, images drive consumer confidence, but with the rise of what industry analysts are calling "visually-driven commerce," these are no longer just a nice addition, they\'re a requisite for success.
+</string>
+    <string name="photo_page_text2">If you can find a way to use natural light, do it. Set up your shot near a window (or near a white wall if it reflects enough window light). This is particularly important if you’re trying to show the color of your item. Also, keep in mind that using a flash may work for larger items, but won\'t work for small items like jewelry.
+</string>
+    <string name="photo_page_text3">Keep your backgrounds as simple as possible. If your worktable is not presentable but it’s the only place you can set up, cover the surface with some nice paper from the art supply store. Tablecloths work fine if they\'re well-ironed; wrinkles will distract the eye.
+</string>
+
+    <string name="photo_page_text4">For small items such as jewelry, you can use more interesting backgrounds. Some LND sellers use vintage books and industrial surfaces to show off their goods, and it works great. Wood, paper, cloth and metal can all add a little something to your images.
+</string>
+    <string name="photo_page_text5">For larger items like clothing, you’ll have to pull back to get everything in the shot. Make sure the rest of your studio/ apartment/ mobile command unit isn\'t visible in </string>
+    <string name="photo_page_text6">By modeling your outfits user will have a better visual on how the outfit and its features look when its worn. If you\'re not interested in modeling, Ask one of your cute friends to model for you. Having someone modeling the item is important if you want to be successful on LND</string>
+<string name="photo_page_text7">Also, be creative when posting handbags, shoes or jewellery, the more creative the post is the more clicks you will get. Make sure all your posts are clear and crisp, follow these simple instructions and you will have an advantage over posts that are plane and boring.
+</string>
+<string name="photo_page_text8">The first photo you take on LND will be your showcase photo, this is the photo users will see first when shopping. This is the most important photo, if its not appealing users will not want to click on it. Take a look at the dress example below, the image is showing the back of the dress, which is the hottest feature of the dress. Users would click on it because the image is appealing and users will be curious to know how the rest of the dress looks.
+</string>
+<!-- swapping text-->
+    <string name="swap_page_text1">A swap is two sales that happen simultaneously between users. Both users will pay for each others items. The payments are not processed until both parties complete their transaction. Once both payments are completed successfully, each user will receive their funds directly into their account hence, completeing a swap. If one user fails to complete their transaction then swap will be cancelled.
+</string>
+    <string name="swap_page_text2">By purchasing each others items both parties are then eligible for PayPal’s purchase protection service. If, for any reason, the item your swapping with did not match the description or you did not receive your item, PayPal will return the full price including shipping.
+</string>
+    <string name="swap_page_text3">First off, relax, when shopping on LND you are protected by PayPal, the worlds largest mobile payment platform. For each purchase made, in your “My Purchases” page you can find a list of items you’ve purchased. Tap on the item that you are having issues with, on the bottom of the “order details” page you will find the “start claim” tab, click on the tab and follow the instructions.
+</string>
+    <string name="swap_page_text4">Once you have locked the swap feature, you are not able to request or receive a swap.
+</string>
+<!-- social tips-->
+    <string name="social_page_text1">Users employ various strategies for increasing exposure, the most common channel for distributing posts on LND is the  use of the share feature. If you see an item you like but it\'s not the right size or it just doesn\'t suite your needs, then share it with the friends who you think might be interested. By helping other LND sellers gain exposure through the share feature then conversely you should receive the same in return. There are hundreds of share strategies but the thing to remember is that share equals exposure.
+</string>
+    <string name="social_page_text2">Liking is like a compliment on an online social setting. It is likely if you pay someone a compliment th</string>
+    <string name="social_page_text3">A hashtag is a symbol that creates personalized search characteristics. The best hashtag describes exactly what the potential buyer is searching for. Users often use a combination of hashtags to create subcategories to describe their product.
+</string>
+    <string name="social_page_text4">The use of the "@" sign followed by the username will direct that post to that users home and notification page. User’s that receives this message on their home page will also have their followers exposed to your post. Please keep in mind, the use of the "@" is not a private message.
+</string>
+    <string name="social_page_text5">Why is comment locked? This is to add an additional layer of protection on your posts. Having the comment feature widely available will give buyers more opportunity to bargain. Now, if one buyer starts to bargain on  your post other buyers will also feel enticed to bargain. The comment feature is strictly for LND Agents. We work with our Agents training them to use the comment feature as a tool to increase exposure for their team members posts. </string>
+
 </resources>

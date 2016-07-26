@@ -25,8 +25,10 @@ public class CustomPagerAdapter extends PagerAdapter {
         else if (position == 1) {
             layout = (ViewGroup) inflater.inflate(R.layout.lnd_shipping_info_page2, collection, false);
 
-    } else
-            layout = (ViewGroup) inflater.inflate(R.layout.lnd_tutorial_layout, collection, false);
+        } else if(position==2)
+            layout = (ViewGroup) inflater.inflate(R.layout.lnd_shipping_info_page3, collection, false);
+         else
+            layout = (ViewGroup) inflater.inflate(R.layout.lnd_shipping_info_page4, collection, false);
 
         collection.addView(layout);
         return layout;
@@ -39,7 +41,7 @@ public class CustomPagerAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return 3;
+        return 4;
     }
 
     @Override

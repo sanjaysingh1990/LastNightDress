@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/header"
+        android:background="@color/white"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        app:popupTheme="@style/AppTheme.PopupOverlay"
+
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/heading"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:text="Returns"
+
+                    android:textColor="#000"
+                    android:textSize="18sp" />
+
+                <ImageButton
+                    android:id="@+id/back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|left"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="0"
+                    android:background="?attr/selectableItemBackground"
+                    android:onClick="back"
+                    android:src="@drawable/back_arrow"
+
+                    />
+
+            </FrameLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentBottom="true"
+                android:background="#dadada" />
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="20dp"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/InfoHeadingTextView"
+                android:text="Share posts" />
+
+            <TextView
+                style="@style/InfoTextView"
+                android:layout_marginTop="2dp"
+                android:text="@string/social_page_text1" />
+
+            <TextView
+                style="@style/InfoHeadingTextView"
+                android:layout_marginTop="10dp"
+                android:text="Like posts" />
+
+            <TextView
+                style="@style/InfoTextView"
+                android:layout_marginTop="2dp"
+                android:text="@string/social_page_text2" />
+
+            <TextView
+                style="@style/InfoHeadingTextView"
+                android:layout_marginTop="10dp"
+                android:text="hashtags" />
+
+            <TextView
+                style="@style/InfoTextView"
+                android:layout_marginTop="2dp"
+                android:text="@string/social_page_text3" />
+
+            <TextView
+                style="@style/InfoHeadingTextView"
+                android:layout_marginTop="10dp"
+                android:text="Mention people" />
+
+            <TextView
+                style="@style/InfoTextView"
+                android:layout_marginTop="2dp"
+                android:text="@string/social_page_text4" />
+
+            <TextView
+                style="@style/InfoHeadingTextView"
+                android:layout_marginTop="10dp"
+                android:text="Comment" />
+
+            <TextView
+                style="@style/InfoTextView"
+                android:layout_marginTop="2dp"
+                android:text="@string/social_page_text4" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -486,7 +486,8 @@
         <activity android:name=".UserProfile.ForgetPasswordReset" />
         <activity android:name=".LndAgent.AgentCongratulation" />
         <activity android:name=".Settings.TipsandStrategy" />
-        <activity android:name=".Settings.TipsandStrategyShipping"></activity>
+        <activity android:name=".Settings.TipsandStrategyShipping" />
+        <activity android:name=".Settings.TipsActivity"></activity>
     </application>
 
 </manifest>

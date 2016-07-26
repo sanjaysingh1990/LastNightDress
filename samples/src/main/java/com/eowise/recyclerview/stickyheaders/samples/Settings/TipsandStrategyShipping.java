@@ -3,6 +3,7 @@ package com.eowise.recyclerview.stickyheaders.samples.Settings;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
 import com.eowise.recyclerview.stickyheaders.samples.R;
 
@@ -21,7 +22,11 @@ public class TipsandStrategyShipping extends AppCompatActivity {
         setContentView(R.layout.activity_tipsand_strategy_shipping);
         ButterKnife.bind(this);
         CustomPagerAdapter cuspageradapt = new CustomPagerAdapter(this);
-       viewpager.setAdapter(cuspageradapt);
+        viewpager.setAdapter(cuspageradapt);
 
+    }
+
+    public void back(View v) {
+        finish();
     }
 }

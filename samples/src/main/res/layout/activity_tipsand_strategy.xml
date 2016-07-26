@@ -74,34 +74,37 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
             <!-- shipping block -->
-            <LinearLayout
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/shippingmore"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="20dp"
-                android:paddingTop="20dp">
+                android:layout_height="wrap_content">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:text="Shipping"
-                    android:textColor="@color/lndcolor"
-                    android:textSize="18sp" />
+                    android:orientation="vertical"
+                    android:paddingBottom="20dp"
+                    android:paddingTop="20dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="5dp"
-                    android:text="@string/shipping_text"
-                    android:textColor="@color/black"
-                    android:textSize="12sp"
-                    android:clickable="true"
-                    android:id="@+id/shippingmore"
-                    />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Shipping"
+                        android:textColor="@color/lndcolor"
+                        android:textSize="18sp" />
 
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/shipping_text"
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+            </com.balysv.materialripple.MaterialRippleLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -109,33 +112,40 @@
                 android:layout_alignParentBottom="true"
                 android:background="#dadada" />
 
-
-            <!-- shipping block -->
-            <LinearLayout
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/returntips"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="20dp"
-                android:paddingTop="20dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <!-- shipping block -->
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:text="Returns"
-                    android:textColor="@color/lndcolor"
-                    android:textSize="18sp" />
+                    android:orientation="vertical"
+                    android:paddingBottom="20dp"
+                    android:paddingTop="20dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="5dp"
-                    android:text="@string/returns_text"
-                    android:textColor="@color/black"
-                    android:textSize="12sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Returns"
+                        android:textColor="@color/lndcolor"
+                        android:textSize="18sp" />
 
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/returns_text"
+                        android:textColor="@color/black"
+                        android:textSize="12sp"
+
+
+                        />
+
+                </LinearLayout>
+            </com.balysv.materialripple.MaterialRippleLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -143,128 +153,153 @@
                 android:layout_alignParentBottom="true"
                 android:background="#dadada" />
 
-            <!-- shipping block -->
-            <LinearLayout
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/photos"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="20dp"
-                android:paddingTop="20dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <!-- shipping block -->
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:text="Photos"
-                    android:textColor="@color/lndcolor"
-                    android:textSize="18sp" />
+                    android:orientation="vertical"
+                    android:paddingBottom="20dp"
+                    android:paddingTop="20dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="5dp"
-                    android:text="@string/photos_text"
-                    android:textColor="@color/black"
-                    android:textSize="12sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Photos"
+                        android:textColor="@color/lndcolor"
+                        android:textSize="18sp" />
 
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/photos_text"
+                        android:textColor="@color/black"
+                        android:textSize="12sp"
+
+                        />
+
+                </LinearLayout>
+            </com.balysv.materialripple.MaterialRippleLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_alignParentBottom="true"
                 android:background="#dadada" />
-            <!-- shipping block -->
-            <LinearLayout
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/swap"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="20dp"
-                android:paddingTop="20dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <!-- shipping block -->
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:text="Swap"
-                    android:textColor="@color/lndcolor"
-                    android:textSize="18sp" />
+                    android:orientation="vertical"
+                    android:paddingBottom="20dp"
+                    android:paddingTop="20dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="5dp"
-                    android:text="@string/swap_text"
-                    android:textColor="@color/black"
-                    android:textSize="12sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Swap"
+                        android:textColor="@color/lndcolor"
+                        android:textSize="18sp" />
 
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/swap_text"
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+            </com.balysv.materialripple.MaterialRippleLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_alignParentBottom="true"
                 android:background="#dadada" />
-            <!-- shipping block -->
-            <LinearLayout
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/social"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="20dp"
-                android:paddingTop="20dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <!-- shipping block -->
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:text="Social"
-                    android:textColor="@color/lndcolor"
-                    android:textSize="18sp" />
+                    android:orientation="vertical"
+                    android:paddingBottom="20dp"
+                    android:paddingTop="20dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="5dp"
-                    android:text="@string/social_text"
-                    android:textColor="@color/black"
-                    android:textSize="12sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Social"
+                        android:textColor="@color/lndcolor"
+                        android:textSize="18sp" />
 
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/social_text"
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+            </com.balysv.materialripple.MaterialRippleLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_alignParentBottom="true"
                 android:background="#dadada" />
-            <!-- shipping block -->
-            <LinearLayout
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/authentication"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="20dp"
-                android:paddingTop="20dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <!-- shipping block -->
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:text="Luxury and Designer Authentication"
-                    android:textColor="@color/lndcolor"
-                    android:textSize="18sp" />
+                    android:orientation="vertical"
+                    android:paddingBottom="20dp"
+                    android:paddingTop="20dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="5dp"
-                    android:text="@string/luxury_and_designer_authentication_text"
-                    android:textColor="@color/black"
-                    android:textSize="12sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Luxury and Designer Authentication"
+                        android:textColor="@color/lndcolor"
+                        android:textSize="18sp" />
 
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/luxury_and_designer_authentication_text"
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+            </com.balysv.materialripple.MaterialRippleLayout>
 
             <View
                 android:layout_width="match_parent"
