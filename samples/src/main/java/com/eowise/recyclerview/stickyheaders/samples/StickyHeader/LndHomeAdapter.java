@@ -979,7 +979,9 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 vh5.likescount.setText(item.getLikestotal() + " likes");
                 vh5.time.setReferenceTime(item.getTime());
                 vh5.showComments.setText("");
-                for (int i = 0; i < item.getUserpostcomments().size(); i++) {
+                for (int i = 0; i < item.getUserpostcomments().size(); i++)
+                {
+                    vh5.showComments.setVisibility(View.VISIBLE);
                     CommentBean cb = item.getUserpostcomments().get(i);
                     SpannableString word = new SpannableString(Capitalize.capitalizeFirstLetter(cb.getUname() + " " + cb.getComment()));
 
@@ -988,6 +990,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     vh5.showComments.append(word);
                     vh5.showComments.append("\n");
                 }
+
 
                 if (item.getTotalcomments() > 5) {
                     vh5.viewallComments.setVisibility(View.VISIBLE);
