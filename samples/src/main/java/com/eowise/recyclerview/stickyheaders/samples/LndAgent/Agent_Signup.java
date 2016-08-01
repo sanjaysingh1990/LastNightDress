@@ -2,6 +2,7 @@ package com.eowise.recyclerview.stickyheaders.samples.LndAgent;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -48,11 +49,14 @@ public class Agent_Signup extends AppCompatActivity {
             startActivity(agentproile);
             finish();
         }*/
+        //to enable check
+        SharedPreferences.Editor edit = SingleTon.pref.edit();
+        edit.putBoolean("agent_signup", true);
+        edit.commit();
         Intent agentproile = new Intent(this, AgentCongratulation.class);
         startActivity(agentproile);
         finish();
     }
-
 
 
     public void close(View v) {
@@ -71,8 +75,6 @@ public class Agent_Signup extends AppCompatActivity {
 
         startActivity(Intent.createChooser(share, "Share link!"));
     }
-
-
 
 
 }

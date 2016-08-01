@@ -2,6 +2,7 @@ package com.eowise.recyclerview.stickyheaders.samples.LndAgent;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -10,6 +11,9 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -258,6 +262,8 @@ public class Lnd_Agent_Profile extends LndShareActivity implements View.OnClickL
         onBackPressed();
     }
 
+    TextView goal, benefits, heading1, heading2, steps;
+
     public void info(View v) {
         RelativeLayout emailshare, whatsappshare, fbshare, twittershare, messageshare;
 
@@ -298,6 +304,72 @@ public class Lnd_Agent_Profile extends LndShareActivity implements View.OnClickL
         fbshare.setOnClickListener(this);
         twittershare.setOnClickListener(this);
         messageshare.setOnClickListener(this);
+        goal = (TextView) dialog.findViewById(R.id.goal_text);
+        benefits = (TextView) dialog.findViewById(R.id.benefit_text);
+        heading1 = (TextView) dialog.findViewById(R.id.heading1);
+        heading2 = (TextView) dialog.findViewById(R.id.heading2);
+        steps = (TextView) dialog.findViewById(R.id.steps);
+        showInfo();
+        //for goal and beneifts
+    }
+
+    private void showInfo() {
+        int user_position = 5;//SingleTon.pref.getInt("user_position",0);
+        String goaltext = "", benefitstext = "";
+        switch (user_position) {
+            case 1:
+                goaltext = getResources().getString(R.string.agent_goal);
+                benefitstext = getResources().getString(R.string.agent_level_commission_text);
+                heading1.setText(getResources().getString(R.string.agent_how_to_achieve));
+                heading2.setText(getResources().getString(R.string.agent_sub_heading));
+                steps.setText(getResources().getString(R.string.become_agent_condition));
+                break;
+            case 2:
+                goaltext = getResources().getString(R.string.agency_goal);
+                benefitstext = getResources().getString(R.string.agency_benifits);
+                heading1.setText(getResources().getString(R.string.to_become_agency_heading1));
+                heading2.setText(getResources().getString(R.string.to_become_agecny_heading2));
+                steps.setText(getResources().getString(R.string.steps_to_become_agency));
+                break;
+            case 3:
+                goaltext = getResources().getString(R.string.area_manager_goal);
+                benefitstext = getResources().getString(R.string.area_manager_benifits);
+                heading1.setText(getResources().getString(R.string.to_become_area_manager_heading1));
+                heading2.setText(getResources().getString(R.string.to_become_area_manager_heading2));
+                steps.setText(getResources().getString(R.string.steps_to_become_area_manager));
+                break;
+            case 4:
+                goaltext = getResources().getString(R.string.regional_manager_goal);
+                benefitstext = getResources().getString(R.string.regional_manager_benifits);
+                heading1.setText(getResources().getString(R.string.to_become_regional_manager_heading1));
+                heading2.setText(getResources().getString(R.string.to_become_regional_heading2));
+                steps.setText(getResources().getString(R.string.steps_to_become_regional_manager));
+                break;
+            case 5:
+                goaltext = getResources().getString(R.string.sales_director_goal);
+                benefitstext = getResources().getString(R.string.sales_director_benifits);
+                heading1.setText(getResources().getString(R.string.to_become_salse_director_heading1));
+                heading2.setText(getResources().getString(R.string.to_become_sales_director_heading2));
+                steps.setText(getResources().getString(R.string.steps_to_become_sales_director));
+                break;
+        }
+
+        //for goal
+        Spannable word = new SpannableString(goaltext.substring(0, 10));
+        word.setSpan(new ForegroundColorSpan(Color.parseColor("#be4d66")), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        word.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, 10, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        goal.setText(word);
+        Spannable wordTwo = new SpannableString(goaltext.substring(10));
+        wordTwo.setSpan(new ForegroundColorSpan(Color.parseColor("#222427")), 0, wordTwo.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        goal.append(wordTwo);
+//for beneifts
+        Spannable word1 = new SpannableString(benefitstext.substring(0, 9));
+        word1.setSpan(new ForegroundColorSpan(Color.parseColor("#be4d66")), 0, word1.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        word1.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, 9, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        benefits.setText(word1);
+        Spannable wordTwo1 = new SpannableString(benefitstext.substring(9));
+        wordTwo1.setSpan(new ForegroundColorSpan(Color.parseColor("#222427")), 0, wordTwo1.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        benefits.append(wordTwo1);
 
     }
 

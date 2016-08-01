@@ -488,6 +488,11 @@
         <activity android:name=".Settings.TipsandStrategy" />
         <activity android:name=".Settings.TipsandStrategyShipping" />
         <activity android:name=".Settings.TipsActivity"></activity>
+        <activity
+            android:name=".LndAgent.UserLevelUpCongratulation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan|stateAlwaysHidden" />
+
     </application>
 
 </manifest>

@@ -38,11 +38,11 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/refcode"
+                android:id="@+id/user_level_logo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/agent_icon" />
+                android:src="@drawable/agent_level" />
 
             <TextView
                 android:id="@+id/textView2"
@@ -60,6 +60,7 @@
 
 
             <TextView
+                android:id="@+id/agent_level_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
@@ -68,7 +69,7 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
             <TextView
-
+                android:id="@+id/user_level_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clickable="true"

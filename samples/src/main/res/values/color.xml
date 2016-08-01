@@ -21,5 +21,6 @@
     <color name="sale_purchase_lable_color">#757575</color>
     <color name="bottom_control_background_color">#e8e9eb</color>
     <color name="black_transparent">#80000000</color>
+    <color name="lnd_home_gray">#b4b4b4</color>
 
 </resources>

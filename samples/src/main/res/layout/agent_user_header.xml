@@ -54,12 +54,12 @@
             />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
-            android:src="@drawable/areamanager_profile"
-
+            android:src="@drawable/agent_level"
+            android:id="@+id/user_level_icon"
             />
 
         <LinearLayout

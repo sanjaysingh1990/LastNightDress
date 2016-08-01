@@ -340,7 +340,7 @@ you within the agent network. Whether you actively recruit\n or not, this code t
     <string name="area_manager_level">You now get 4.5\%% rebate on all your sales plus,\n
 1.5\%% on every sale from your team.
 </string>
-    <string name="religional_manager_level">You now get 5.5\%% rebate on all your sales plus,\n
+    <string name="regional_manager_level">You now get 5.5\%% rebate on all your sales plus,\n
 1\%% on every sale from your team.
 </string>
     <string name="sales_director_level">You now get 6.5\%% rebate on all your sales plus,\n
@@ -477,5 +477,70 @@ If you choose fixed price shipping, it’s a good idea to research average shipp
     <string name="social_page_text4">The use of the "@" sign followed by the username will direct that post to that users home and notification page. User’s that receives this message on their home page will also have their followers exposed to your post. Please keep in mind, the use of the "@" is not a private message.
 </string>
     <string name="social_page_text5">Why is comment locked? This is to add an additional layer of protection on your posts. Having the comment feature widely available will give buyers more opportunity to bargain. Now, if one buyer starts to bargain on  your post other buyers will also feel enticed to bargain. The comment feature is strictly for LND Agents. We work with our Agents training them to use the comment feature as a tool to increase exposure for their team members posts. </string>
+<!--info for to become agency -->
+    <string name="agency_goal">Your goal: Achieve Agency Level </string>
+    <string name="agency_benifits">Benefits: You now get 3.5\%% rebate on all your sales plus, 2\%% on every sale from your team.
+    </string>
+    <string name="to_become_agency_heading1">How to achieve Agency level
+    </string>
+    <string name="to_become_agecny_heading2">Min requirement to become an Agency:
+    </string>
+    <string name="steps_to_become_agency">1) Secure 25 agents\n
+                                        ------OR-----\n
+                            1) 5 online stores\n
+                            2) 10 agents\n
 
+    </string>
+
+    <!--info for to become Area Manger -->
+    <string name="area_manager_goal">Your goal: Achieve Area Manager Level
+    </string>
+    <string name="area_manager_benifits">Benefits: You now get 4.5\%% rebate on all your sales plus, 1.5\%% on every sale from your team.
+    </string>
+    <string name="to_become_area_manager_heading1">How to achieve Area Manager level
+    </string>
+    <string name="to_become_area_manager_heading2">Min requirement to become an Area Manager:
+    </string>
+    <string name="steps_to_become_area_manager">1) Secure 10 agencies
+    </string>
+
+    <!--info for to become Religional Manger -->
+    <string name="regional_manager_goal">Your goal: Achieve Regional Manager Level
+
+    </string>
+    <string name="regional_manager_benifits">Benefits: You now get 5.5\%% rebate on all your sales plus, 1\%% on every sale from your team.
+    </string>
+    <string name="to_become_regional_manager_heading1">How to achieve Regional Manager level
+
+
+    </string>
+    <string name="to_become_regional_heading2">Min requirement to become a regional manager:
+    </string>
+    <string name="steps_to_become_regional_manager">1) Secure 3 area managers
+    </string>
+
+    <!--info for to become sales director -->
+    <string name="sales_director_goal">Your goal: Achieve Sales Director Level
+    </string>
+   <string name="sales_director_benifits">Benefits: You now get 6.5\%% rebate on all your sales plus, 1\%% on every sale from your team.
+    </string>
+    <string name="to_become_salse_director_heading1">How to achieve Agent level
+    </string>
+    <string name="to_become_sales_director_heading2">Min requirement to become a sales director:
+    </string>
+    <string name="steps_to_become_sales_director">1) Secure 7 area managers total.
+    </string>
+
+    <!--top level -->
+    <string name="top_goal">Your have successfully achieved the highest level
+
+   </string>
+    <string name="top_benifits">Benefits: You now get 7.5\%% rebate on all your sales plus, 1\%% on every sale from your team.
+    </string>
+
+    <!--info for to become agent -->
+    <string name="agent_goal">Your goal: Achieve Agent Level</string>
+
+
+  <string name="to_become_agent_or"> Register 1 shop user with min 20 posts  </string>
 </resources>

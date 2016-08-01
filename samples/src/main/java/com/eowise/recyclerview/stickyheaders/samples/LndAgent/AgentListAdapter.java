@@ -273,7 +273,7 @@ class AgentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public class UserHeader extends RecyclerView.ViewHolder {
         public TextView totalagents, totalshops, totalcommision, refcode, agenttype;
-        public ImageView profileimg;
+        public ImageView profileimg,user_level_icon;
 
         public UserHeader(View v) {
             super(v);
@@ -281,6 +281,7 @@ class AgentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             totalshops = (TextView) v.findViewById(R.id.totalshops);
             totalcommision = (TextView) v.findViewById(R.id.totalcommision);
             profileimg = (ImageView) v.findViewById(R.id.mainprofilepic);
+            user_level_icon = (ImageView) v.findViewById(R.id.user_level_icon);
             refcode = (TextView) v.findViewById(R.id.ref_code);
             agenttype = (TextView) v.findViewById(R.id.agenttype);
 
@@ -462,6 +463,7 @@ class AgentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 userHeader.totalshops.setText(item.getUsertotalshops());
                 userHeader.refcode.setText(SingleTon.pref.getString("ref_code", ""));
                 userHeader.agenttype.setText(ApplicationConstants.user_position[SingleTon.pref.getInt("user_position", 0)]);
+               userHeader.user_level_icon.setImageResource(ApplicationConstants.icons[SingleTon.pref.getInt("user_position", 0)]);
                 break;
 
         }

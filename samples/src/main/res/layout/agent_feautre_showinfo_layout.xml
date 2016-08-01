@@ -87,15 +87,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Your goal: "
-                    android:textColor="@color/lndcolor"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Achieve Agent Level"
-                    android:textColor="@color/black" />
+                    android:text="@string/agent_goal"
+                    android:textColor="@color/black"
+                    android:id="@+id/goal_text"
+                    />
 
             </LinearLayout>
 
@@ -106,6 +101,7 @@
                 android:layout_marginTop="6dp"
                 android:text="@string/agent_level_commission_text"
                 android:textColor="@color/light_black"
+                android:id="@+id/benefit_text"
 
                 />
 
@@ -114,7 +110,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="@string/agent_how_to_achieve"
-                android:textColor="@color/lndcolor" />
+                android:textColor="@color/lndcolor"
+                android:textStyle="bold"
+                android:id="@+id/heading1"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -122,7 +121,8 @@
                 android:layout_marginTop="6dp"
                 android:text="@string/agent_sub_heading"
                 android:textColor="@color/black"
-
+                android:textStyle="bold"
+                android:id="@+id/heading2"
                 />
 
             <TextView
@@ -131,7 +131,7 @@
                 android:layout_marginTop="3dp"
                 android:text="@string/become_agent_condition"
                 android:textColor="@color/light_black"
-
+                android:id="@+id/steps"
                 />
 
             <LinearLayout

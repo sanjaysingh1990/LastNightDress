@@ -23,7 +23,7 @@
             <com.eowise.recyclerview.stickyheaders.samples.StickyHeader.HomeImageSliderLayout
                 android:id="@+id/switcher"
                 android:layout_width="match_parent"
-                android:layout_height="350dp"
+                android:layout_height="200dp"
                 android:scrollbars="none">
 
             </com.eowise.recyclerview.stickyheaders.samples.StickyHeader.HomeImageSliderLayout>
@@ -345,7 +345,7 @@
                 android:layout_alignParentRight="true"
                 android:text="4m"
                 android:textAppearance="?android:textAppearanceMedium"
-                android:textColor="#b4b4b4"
+                android:textColor="@color/lnd_home_gray"
                 android:textSize="14sp" />
         </RelativeLayout>
 
@@ -360,10 +360,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Shipping :"
-                android:textColor="@color/light_black"
-                android:textStyle="bold"
-
-                />
+                android:textColor="@color/light_black" />
 
             <TextView
                 android:id="@+id/shipping"

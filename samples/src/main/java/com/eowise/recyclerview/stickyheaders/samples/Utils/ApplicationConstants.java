@@ -1,5 +1,7 @@
 package com.eowise.recyclerview.stickyheaders.samples.Utils;
 
+import com.eowise.recyclerview.stickyheaders.samples.R;
+
 public interface ApplicationConstants {
 
 	// Php Application URL to store Reg ID created
@@ -19,4 +21,6 @@ public interface ApplicationConstants {
 	// Message Key
 	static final String MSG_KEY = "m";
     public static final String[] user_position={"","Basic User","Agent","Agency","Area Manager","Regional Director"};
+	int[] icons = {0, 0, R.drawable.agent_level, R.drawable.agency_level, R.drawable.area_manager_level, R.drawable.regional_manager_level, R.drawable.sales_director_level};
+
 }

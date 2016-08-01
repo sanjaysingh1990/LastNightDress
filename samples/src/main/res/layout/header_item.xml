@@ -99,7 +99,7 @@
                     android:clickable="true"
 
                     android:textAppearance="?android:textAppearanceMedium"
-                    android:textColor="#000"
+                    android:textColor="@color/light_black"
                     android:textSize="12sp" />
 
 

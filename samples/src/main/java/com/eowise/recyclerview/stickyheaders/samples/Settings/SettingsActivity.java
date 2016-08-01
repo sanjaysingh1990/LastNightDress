@@ -28,8 +28,10 @@ import com.eowise.recyclerview.stickyheaders.samples.ChangePassword.ChangePasswo
 import com.eowise.recyclerview.stickyheaders.samples.Currency.LndCurrency;
 import com.eowise.recyclerview.stickyheaders.samples.EditProfile.EditProfilePrivate;
 import com.eowise.recyclerview.stickyheaders.samples.EditProfile.EditProfileShop;
+import com.eowise.recyclerview.stickyheaders.samples.LndAgent.AgentCongratulation;
 import com.eowise.recyclerview.stickyheaders.samples.LndAgent.Agent_Signup;
 import com.eowise.recyclerview.stickyheaders.samples.LndAgent.Lnd_Agent_Profile;
+import com.eowise.recyclerview.stickyheaders.samples.LndAgent.UserLevelUpCongratulation;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.MyPurchases.MyPurchasesActivity;
 import com.eowise.recyclerview.stickyheaders.samples.MySales.SalesActivity;
@@ -58,7 +60,7 @@ import butterknife.ButterKnife;
 public class SettingsActivity extends AppCompatActivity {
     @Bind(R.id.heading)
     TextView heading;
-    @Bind({R.id.fbfrnds, R.id.contactsfrnds, R.id.editprofiletext, R.id.changepasstext, R.id.allowswaps, R.id.privacypolicytext, R.id.mysales, R.id.mypurchases, R.id.logout, R.id.notificationtext, R.id.currencytext, R.id.clear, R.id.agenttext, R.id.sellworldwietext,R.id.tipsandstrategytext})
+    @Bind({R.id.fbfrnds, R.id.contactsfrnds, R.id.editprofiletext, R.id.changepasstext, R.id.allowswaps, R.id.privacypolicytext, R.id.mysales, R.id.mypurchases, R.id.logout, R.id.notificationtext, R.id.currencytext, R.id.clear, R.id.agenttext, R.id.sellworldwietext, R.id.tipsandstrategytext})
     List<TextView> settingstext;
     CallbackManager sCallbackManager;
     @Bind(R.id.swapstatus)
@@ -180,8 +182,25 @@ public class SettingsActivity extends AppCompatActivity {
                     startActivity(agent_profile);
 
                 }*/
-                Intent agent_signup = new Intent(SettingsActivity.this, Agent_Signup.class);
-                startActivity(agent_signup);
+                boolean status1=SingleTon.pref.getBoolean("agent_signup", false);
+                boolean status2=SingleTon.pref.getBoolean("agent_welcome", false);
+
+                if (status1 && status2)
+                {
+                    Intent agent_signup = new Intent(SettingsActivity.this,Lnd_Agent_Profile.class);
+                    startActivity(agent_signup);
+                }
+                else if(!status1)
+                {
+                    Intent agent_signup = new Intent(SettingsActivity.this,Agent_Signup.class);
+                    startActivity(agent_signup);
+                }
+                else
+                {
+                    Intent agent_signup = new Intent(SettingsActivity.this,AgentCongratulation.class);
+                    startActivity(agent_signup);
+
+                }
             }
         });
         //notification
