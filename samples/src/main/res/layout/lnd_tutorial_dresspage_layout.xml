@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:foo="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#85000000"
@@ -13,20 +14,17 @@
         android:orientation="vertical">
 
         >
-
-
-
         ></LinearLayout>
 
-    <TextView
+    <com.eowise.recyclerview.stickyheaders.samples.CustomFontTextView
+        android:id="@+id/central_heading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="DRESS PAGE"
         android:textColor="@color/white"
         android:textSize="18sp"
-        android:id="@+id/central_heading"
-        />
+        foo:customFont="arial_rounded_mt_bold.ttf" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -41,14 +39,14 @@
             android:layout_height="wrap_content"
             android:src="@drawable/tutorial_swipe_left" />
 
-        <TextView
+        <com.eowise.recyclerview.stickyheaders.samples.CustomFontTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="Swipe Left"
             android:textColor="@color/white"
             android:textSize="18sp"
-            />
+            foo:customFont="arial_rounded_mt_bold.ttf" />
     </LinearLayout>
 
 </RelativeLayout>

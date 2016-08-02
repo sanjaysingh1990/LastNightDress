@@ -32,10 +32,10 @@ public class CategoryFragment extends Fragment implements OnClickListener {
     TextView dresstext, handbagstext, shoestext, jewellerytext, mainpage;
     boolean dressstatus = true, handbagsstatus = true, shoesstatus = true, jewellerystatus = true;
     private View ll;
-   @Bind({R.id.dresstext, R.id.handbagstext, R.id.size3, R.id.size4, R.id.size5, R.id.size6, R.id.size7, R.id.sizeall, R.id.numsize1, R.id.numsize2, R.id.numsize3, R.id.numsize4, R.id.numsize5, R.id.numsize6, R.id.numsize7, R.id.numsize8, R.id.numsize9, R.id.numsize10, R.id.numsize11, R.id.numsize12})
-    List<TextView> dresssize;
+
     public static CategoryFragment cf;
     View categorytutorial;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -43,14 +43,14 @@ public class CategoryFragment extends Fragment implements OnClickListener {
         View view = inflater
                 .inflate(R.layout.lnd_categories_page, container, false);
 
-        cf=this;
+        cf = this;
         setup(view);
         return view;
     }
 
     private void setup(View v) {
-        categorytutorial=v.findViewById(R.id.categorytutorial);
-        if(SingleTon.pref.getBoolean("category_tutorial",false))
+        categorytutorial = v.findViewById(R.id.categorytutorial);
+        if (SingleTon.pref.getBoolean("category_tutorial", false))
             hidetutorail();
         dress = (ImageView) v.findViewById(R.id.dress);
         handbags = (ImageView) v.findViewById(R.id.handbags);
@@ -123,8 +123,8 @@ public class CategoryFragment extends Fragment implements OnClickListener {
                 LndShopActivity.currentcategory = "dress";
                 if (dressstatus) {
                     //tutorial done
-                    SharedPreferences.Editor edit=SingleTon.pref.edit();
-                    edit.putBoolean("category_tutorial",true);
+                    SharedPreferences.Editor edit = SingleTon.pref.edit();
+                    edit.putBoolean("category_tutorial", true);
                     edit.commit();
                     clearAll2();
                     dress.setBackgroundResource(R.drawable.category_rounded_corner_selected);
@@ -140,12 +140,15 @@ public class CategoryFragment extends Fragment implements OnClickListener {
                                 getActivity().runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
+
                                         LndShopActivity.mPager.setCurrentItem(0, true);
+                                        if (!SingleTon.pref.getBoolean("cate", false))
+                                            categorySelected(1);
 
                                     }
                                 });
                                 Thread.sleep(700);
-                                 deSelect(1);
+                                deSelect(1);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -183,8 +186,10 @@ public class CategoryFragment extends Fragment implements OnClickListener {
                                 getActivity().runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        LndShopActivity.mPager.setCurrentItem(0, true);
 
+                                        LndShopActivity.mPager.setCurrentItem(0, true);
+                                        if (!SingleTon.pref.getBoolean("cate", false))
+                                            categorySelected(2);
                                     }
                                 });
                                 Thread.sleep(700);
@@ -229,8 +234,10 @@ public class CategoryFragment extends Fragment implements OnClickListener {
                                 getActivity().runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        LndShopActivity.mPager.setCurrentItem(0, true);
 
+                                        LndShopActivity.mPager.setCurrentItem(0, true);
+                                        if (!SingleTon.pref.getBoolean("cate", false))
+                                            categorySelected(3);
                                     }
                                 });
                                 Thread.sleep(700);
@@ -273,8 +280,10 @@ public class CategoryFragment extends Fragment implements OnClickListener {
                                 getActivity().runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        LndShopActivity.mPager.setCurrentItem(0, true);
 
+                                        LndShopActivity.mPager.setCurrentItem(0, true);
+                                        if (!SingleTon.pref.getBoolean("cate", false))
+                                            categorySelected(4);
                                     }
                                 });
                                 Thread.sleep(700);
@@ -419,7 +428,7 @@ public class CategoryFragment extends Fragment implements OnClickListener {
 
 
         //saving
-        if (cate== 1) {
+        if (cate == 1) {
 
 
             trans.replace(R.id.root_frame, new RootFragment());
@@ -432,7 +441,7 @@ public class CategoryFragment extends Fragment implements OnClickListener {
             trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
             //trans.addToBackStack(null);
             trans.commit();
-        } else if (cate== 3) {
+        } else if (cate == 3) {
 
             trans.replace(R.id.root_frame, new ShoesFilterFragment());
             trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
@@ -446,9 +455,19 @@ public class CategoryFragment extends Fragment implements OnClickListener {
             trans.commit();
         }
 
+
     }
-    public void hidetutorail()
-    {
+
+    private void categorySelected(int pos) {
+        SharedPreferences.Editor edit = SingleTon.pref.edit();
+        edit.putBoolean("cate", true);
+        edit.commit();
+        LndShopActivity.lndshop.changeTutorial(pos);
+
+
+    }
+
+    public void hidetutorail() {
         categorytutorial.setVisibility(View.GONE);
     }
 

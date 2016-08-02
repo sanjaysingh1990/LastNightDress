@@ -17,6 +17,7 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.eowise.recyclerview.stickyheaders.samples.Loading.AVLoadingIndicatorView;
 import com.eowise.recyclerview.stickyheaders.samples.Main_TabHost;
@@ -45,6 +46,7 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
     static String prequery = "";
     private String previousurl = " ";
     private boolean isvisible = false;
+    public static LndShopActivity lndshop;
     private int[] layoutids = {R.layout.lnd_tutorial_layout, R.layout.lnd_shipping_info_page1, R.layout.lnd_tutorial_dresspage_layout, R.layout.lnd_tutorial_complete_layout};
 
     @Override
@@ -59,6 +61,7 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
         mPagerAdapter = new SlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
         act = this;
+        lndshop=this;
         //initializing animation
         anim1 = AnimationUtils.loadAnimation(this, R.anim.slide_out_left);
         anim2 = AnimationUtils.loadAnimation(this, R.anim.slide_in_left);
@@ -91,9 +94,7 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
                     }
                 } else if (position == 0 && SingleTon.pref.getBoolean("dress_page_tutorial", false)) {
                     showTutorial(layoutids[3], getResources().getString(R.string.lnd_tutorial_complte_search_result));
-                }
-                else if(position == 1 && SingleTon.pref.getBoolean("category_tutorial", false))
-                {
+                } else if (position == 1 && SingleTon.pref.getBoolean("category_tutorial", false)) {
                     try {
                         CategoryFragment.cf.hidetutorail();
                     } catch (Exception ex) {
@@ -162,6 +163,7 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
 
             }
         });
+        if (!SingleTon.pref.getBoolean("tutorial_page", false))
 
         showTutorial(layoutids[0], "This is your shopping page");
     }
@@ -767,8 +769,7 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
     Dialog dialog;
 
     private void showTutorial(int id, String currentcategory) {
-        if (SingleTon.pref.getBoolean("tutorial_page", false))
-            return;
+
         dialog = new Dialog(this, android.R.style.Theme_Translucent_NoTitleBar);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         View view = getLayoutInflater().inflate(id, null);
@@ -822,4 +823,24 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
 
         view.setOnTouchListener(new SwipeListener(mPager, this));
     }
+
+    public void changeTutorial(int pos) {
+
+        switch (pos) {
+            case 1:
+                showTutorial(layoutids[2], "DRESS PAGE");
+                break;
+            case 2:
+                showTutorial(layoutids[2], "HANDBAG PAGE");
+                break;
+            case 3:
+                showTutorial(layoutids[2], "SHOES PAGE");
+                break;
+            case 4:
+                showTutorial(layoutids[2], "JEWLLERY PAGE");
+                break;
+
+        }
+    }
+
 }

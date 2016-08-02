@@ -351,7 +351,7 @@ you within the agent network. Whether you actively recruit\n or not, this code t
     <string name="dress_filter_tutorial_heading">This is your dress filter
 </string>
     <string name="dress_filter_tutorial_info">For this tutorial,\n
-please select a siz</string>
+please select a size</string>
     <string name="dress_filter_complete_your_search">Swipe right to\n
 complete your search
 </string>
@@ -543,4 +543,7 @@ If you choose fixed price shipping, it’s a good idea to research average shipp
 
 
   <string name="to_become_agent_or"> Register 1 shop user with min 20 posts  </string>
+    <declare-styleable name="TextViewPlus">
+        <attr name="customFont" format="string"/>
+    </declare-styleable>
 </resources>
