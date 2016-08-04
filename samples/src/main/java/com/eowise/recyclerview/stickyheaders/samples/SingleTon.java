@@ -11,11 +11,23 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.crashlytics.android.Crashlytics;
 import com.eowise.recyclerview.stickyheaders.samples.SQLDB.DatabaseHandler;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.ApplicationConstants;
+import com.eowise.recyclerview.stickyheaders.samples.data.LndAgentBean;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -24,12 +36,17 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import io.fabric.sdk.android.Fabric;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public class SingleTon extends Application {
 
@@ -124,6 +141,8 @@ public class SingleTon extends Application {
 
         imageLoader=ImageLoader.getInstance();
         this.imageLoader.init(ImageLoaderConfiguration.createDefault(this));
+       if(SingleTon.pref.getInt("user_position",0)<6)
+        checkUserposition();
     }
     public static double getExchangeRate(String currency) {
         switch (currency) {
@@ -334,4 +353,110 @@ public static void showValue(String country, TextView pricewas,TextView pricenow
     public static String getCurrentTimeStamp() {
         return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
     }
+
+
+    public void checkUserposition() {
+
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_USER, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                try {
+
+                    JSONObject jobj = new JSONObject(response.toString());
+                    boolean status = jobj.getBoolean("status");
+                    if (status) {
+                        if(jobj.getInt("count")>=5)
+                          //  Toast.makeText(SingleTon.this,"level changed",Toast.LENGTH_SHORT).show();
+                           updateUserposition();
+                    }
+
+
+                } catch (Exception ex) {
+                    Log.e("json parsing error", ex.getMessage() + "");
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                Log.e("response", error.getMessage() + "");
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("rqid", "17");
+
+
+
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                return params;
+            }
+        };
+        queue.add(sr);
+    }
+
+    public void updateUserposition() {
+
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_USER, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                try {
+
+                    JSONObject jobj = new JSONObject(response.toString());
+                    boolean status = jobj.getBoolean("status");
+                    if (status) {
+
+                        //    Toast.makeText(SingleTon.this,"user_position updated",Toast.LENGTH_SHORT).show();
+                    }
+
+
+                } catch (Exception ex) {
+                    Log.e("json parsing error", ex.getMessage() + "");
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                Log.e("response", error.getMessage() + "");
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("rqid", "18");
+                params.put("user_id",  SingleTon.pref.getString("user_id", ""));
+
+
+
+
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                return params;
+            }
+        };
+        queue.add(sr);
+    }
+
+
+
+
 }

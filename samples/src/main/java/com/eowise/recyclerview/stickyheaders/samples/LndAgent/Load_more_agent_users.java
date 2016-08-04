@@ -146,8 +146,8 @@ public class Load_more_agent_users extends AppCompatActivity {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("rqid", "21");
                 params.put("user_type", usertype + "");
-                params.put("ref_code", 233 + "");
-                params.put("skipdata", "0");
+                params.put("ref_code", SingleTon.pref.getString("ref_code", ""));
+                params.put("skipdata", skipdata + "");
 
 
                 return params;
@@ -175,7 +175,10 @@ public class Load_more_agent_users extends AppCompatActivity {
     private void addUser(JSONObject jsonObject) throws Exception {
 
         LndAgentBean agent = new LndAgentBean();
-        agent.setType(2);
+        if (jsonObject.getString("user_type").compareToIgnoreCase("shop") == 0)
+            agent.setType(3);
+        else
+            agent.setType(2);
 
         agent.setUname(jsonObject.getString("uname"));
         agent.setTotalpost(jsonObject.getString("total_posts"));
