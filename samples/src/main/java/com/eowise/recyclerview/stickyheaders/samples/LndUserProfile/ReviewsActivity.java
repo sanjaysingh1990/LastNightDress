@@ -18,6 +18,7 @@ import com.android.volley.toolbox.Volley;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.Loading.AVLoadingIndicatorView;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.ApplicationConstants;
 import com.eowise.recyclerview.stickyheaders.samples.adapters.ReviewsAdapter;
 import com.eowise.recyclerview.stickyheaders.samples.data.ReviewsData;
 
@@ -74,7 +75,7 @@ public class ReviewsActivity extends AppCompatActivity {
 
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        StringRequest sr = new StringRequest(Request.Method.POST,"http://52.76.68.122/lnd/androidiosphpfiles/lndusers.php", new Response.Listener<String>() {
+        StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_USER, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 prog.setVisibility(View.GONE);
@@ -131,7 +132,7 @@ public class ReviewsActivity extends AppCompatActivity {
             protected Map<String,String> getParams(){
                 Map<String,String> params = new HashMap<String, String>();
                 params.put("rqid","15");
-                params.put("skipdata","0");
+                params.put("skipdata",skipdata+"'");
                 params.put("user_id",userid);
 
                 return params;

@@ -13,7 +13,7 @@ import butterknife.ButterKnife;
 
 public class TipsActivity extends AppCompatActivity {
 
-    @Bind(R.id.heading)
+
     TextView headertext;
 
     @Override
@@ -34,18 +34,20 @@ public class TipsActivity extends AppCompatActivity {
                 setContentView(R.layout.lnd_luxury_designer_authentication);
             }
             ButterKnife.bind(this);
-            headertext.setTypeface(SingleTon.robotobold);
-            if (type == 1)
-                headertext.setText("Returns");
-            else if (type == 2)
-                headertext.setText("Taking Photos");
-            else if (type == 3)
-                headertext.setText("Swap");
-            else if (type == 4)
-                headertext.setText("Social");
-            else if (type == 5)
-                headertext.setText("Luxury and Designer Authentication");
-
+            headertext = (TextView) findViewById(R.id.heading);
+            if (headertext != null) {
+                headertext.setTypeface(SingleTon.robotobold);
+                if (type == 1)
+                    headertext.setText("Returns");
+                else if (type == 2)
+                    headertext.setText("Taking Photos");
+                else if (type == 3)
+                    headertext.setText("Swap");
+                else if (type == 4)
+                    headertext.setText("Social");
+                else if (type == 5)
+                    headertext.setText("Luxury and Designer Authentication");
+            }
 
         }
     }
