@@ -86,7 +86,7 @@ public class StickyActivity extends AppCompatActivity {
     int i = 0;
     private boolean firsttime = true;
     // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
-
+    public static StickyActivity stickyActivity;
     private Button twitter, facebook;
 
     @Override
@@ -98,7 +98,7 @@ public class StickyActivity extends AppCompatActivity {
         instructiontextview = (TextView) findViewById(R.id.instructiontextview);
         indicator = (LinearLayout) findViewById(R.id.indicator);
         instructionview = (LinearLayout) findViewById(R.id.instructionview);
-
+        stickyActivity = this;
         //for twitter
         twitter = (Button) findViewById(R.id.twitter);
         twitter.setOnClickListener(new View.OnClickListener() {
@@ -549,5 +549,15 @@ public class StickyActivity extends AppCompatActivity {
         return 0;
     }
 
+    public void updateComent(int pos, CommentBean cmnt) {
+        Home_List_Data hld = mItems.get(pos);
+
+        ArrayList<CommentBean> post_cont = hld.getUserpostcomments();
+
+
+        post_cont.add(0, cmnt);
+
+        mAdapter.notifyDataSetChanged();
+    }
 
 }

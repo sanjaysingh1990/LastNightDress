@@ -52,6 +52,8 @@ public class CategoryFragment extends Fragment implements OnClickListener {
         categorytutorial = v.findViewById(R.id.categorytutorial);
         if (SingleTon.pref.getBoolean("category_tutorial", false))
             hidetutorail();
+        else
+        categorytutorial.setVisibility(View.VISIBLE);
         dress = (ImageView) v.findViewById(R.id.dress);
         handbags = (ImageView) v.findViewById(R.id.handbags);
         shoes = (ImageView) v.findViewById(R.id.shoes);

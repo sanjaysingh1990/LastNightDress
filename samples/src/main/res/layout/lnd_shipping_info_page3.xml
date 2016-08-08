@@ -6,7 +6,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
         android:background="@color/white"
         android:orientation="vertical">
 
@@ -15,10 +17,12 @@
             android:text="There are 2 ways you can be charged for shipping" />
 
         <TextView
+            android:id="@+id/page3heading1"
             style="@style/InfoTextView"
             android:layout_marginTop="2dp"
             android:text="@string/shipping_actual_weight" />
         <TextView
+            android:id="@+id/page3heading2"
             style="@style/InfoTextView"
             android:layout_marginTop="6dp"
             android:text="@string/shipping_dimentional_weight" />
@@ -31,5 +35,9 @@
             style="@style/InfoTextView"
             android:layout_marginTop="2dp"
             android:text="@string/product_dimention_weight" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="20dp" />
     </LinearLayout>
 </ScrollView>

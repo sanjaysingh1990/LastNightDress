@@ -22,16 +22,19 @@
             android:text="Definitions" />
 
         <TextView
+            android:id="@+id/page1heading1"
             style="@style/InfoTextView"
             android:layout_marginTop="2dp"
             android:text="@string/shipping_info_page1_text2" />
 
         <TextView
+            android:id="@+id/page1heading2"
             style="@style/InfoTextView"
             android:layout_marginTop="10dp"
             android:text="@string/shipping_info_page1_text3" />
 
         <TextView
+            android:id="@+id/page1heading3"
             style="@style/InfoTextView"
             android:layout_marginTop="10dp"
             android:text="@string/shipping_info_page1_text4" />

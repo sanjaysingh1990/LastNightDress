@@ -5,6 +5,7 @@
     android:background="@android:color/transparent"
     android:orientation="vertical"
     android:id="@+id/categorytutorial"
+    android:visibility="gone"
 
     >
 

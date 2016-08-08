@@ -770,6 +770,8 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
 
     private void showTutorial(int id, String currentcategory) {
 
+        if(SingleTon.pref.getBoolean("tutorial_page",false))
+            return;
         dialog = new Dialog(this, android.R.style.Theme_Translucent_NoTitleBar);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         View view = getLayoutInflater().inflate(id, null);

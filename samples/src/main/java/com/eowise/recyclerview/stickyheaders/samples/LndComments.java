@@ -27,6 +27,8 @@ import com.eowise.recyclerview.stickyheaders.samples.LndAgent.Agent_Signup;
 import com.eowise.recyclerview.stickyheaders.samples.Loading.AVLoadingIndicatorView;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.CommentBean;
+import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.StickyActivity;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ApplicationConstants;
 import com.eowise.recyclerview.stickyheaders.samples.adapters.LndCommentsAdapter;
 import com.eowise.recyclerview.stickyheaders.samples.adapters.NewMessageAdapter;
@@ -72,6 +74,7 @@ public class LndComments extends AppCompatActivity {
     private String postid="";
     private boolean loadmore=false;
     private boolean isrunning=false;
+    private int pos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +93,7 @@ public class LndComments extends AppCompatActivity {
        Bundle extras=getIntent().getExtras();
       if(extras!=null) {
           postid=extras.getString("post_id","");
+          pos=extras.getInt("pos",-1);
           getData(postid);
       }
         /*recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -326,7 +330,10 @@ int count=0;
         data.add(cmntdata);
         recyclerAdapter.notifyDataSetChanged();
         recyclerView.scrollToPosition(data.size()-1);
-
+        CommentBean cb=new CommentBean();
+        cb.setUname(SingleTon.pref.getString("uname", ""));
+        cb.setComment(cmnttext);
+        StickyActivity.stickyActivity.updateComent(pos,cb);
         PostComment();
     }
     public void becomeAgent(View v)

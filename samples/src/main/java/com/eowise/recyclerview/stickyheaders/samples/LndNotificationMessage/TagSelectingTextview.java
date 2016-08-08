@@ -236,7 +236,7 @@ public class TagSelectingTextview {
 
                     // color for the hash tag
                     ds.setColor(Color.parseColor(mhastTagColor));
-                    ds.setTextSize(6);
+                    ds.setTextSize(16);
 
                     if (mHypeLinkEnabled == 0) {
                         ds.setUnderlineText(false);// Disable the
