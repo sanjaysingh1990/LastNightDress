@@ -750,7 +750,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
                 if (item.getTotalcomments() > 5) {
                     vh3.viewallComments.setVisibility(View.VISIBLE);
-                    vh3.viewallComments.setText("view all " + item.getTotalcomments() + " comments");
+                    vh3.viewallComments.setText("View all " + item.getTotalcomments() + " comments");
 
                 } else {
 
@@ -890,7 +890,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
                 if (item.getTotalcomments() > 5) {
                     vh2.viewallComments.setVisibility(View.VISIBLE);
-                    vh2.viewallComments.setText("view all " + item.getTotalcomments() + " comments");
+                    vh2.viewallComments.setText("View all " + item.getTotalcomments() + " comments");
 
                 } else {
 
@@ -985,7 +985,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
                 if (item.getTotalcomments() > 5) {
                     vh4.viewallComments.setVisibility(View.VISIBLE);
-                    vh4.viewallComments.setText("view all " + item.getTotalcomments() + " comments");
+                    vh4.viewallComments.setText("View all " + item.getTotalcomments() + " comments");
                 } else {
                     vh4.viewallComments.setVisibility(View.GONE);
                 }
@@ -1365,7 +1365,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                 if (item.getTotalcomments() > 5) {
                     vh7.viewallComments.setVisibility(View.VISIBLE);
-                    vh7.viewallComments.setText("view all " + item.getTotalcomments() + " comments");
+                    vh7.viewallComments.setText("View all " + item.getTotalcomments() + " comments");
 
                 } else {
 

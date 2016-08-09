@@ -294,7 +294,7 @@ public class Main_TabHost extends AppCompatActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-          Toast.makeText(this, requestCode + "", Toast.LENGTH_SHORT).show();
+       //   Toast.makeText(this, requestCode + "", Toast.LENGTH_SHORT).show();
         super.onActivityResult(requestCode, resultCode, data);
         try {
             loginButton.onActivityResult(requestCode, resultCode, data);

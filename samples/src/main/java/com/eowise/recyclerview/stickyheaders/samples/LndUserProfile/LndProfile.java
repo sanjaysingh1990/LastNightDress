@@ -99,7 +99,7 @@ public class LndProfile extends AppCompatActivity {
     private int skipdata = 0;
     private AVLoadingIndicatorView prog;
     private Dialog dialog;
-    public  int check = 0;
+    public int check = 0;
     private boolean dataleft = true;
     public static Context con;
     public static ArrayList<Home_List_Data> mItems = new ArrayList<>();
@@ -160,7 +160,10 @@ public class LndProfile extends AppCompatActivity {
             SharedPreferences.Editor edit = SingleTon.pref.edit();
             edit.putString("country", jobj.getString("country").toLowerCase() + "");
             edit.commit();
-            usertype.setText(jobj.getString("type"));
+            if (jobj.getString("type").compareToIgnoreCase("private") == 0)
+                usertype.setText("");
+            else
+                usertype.setText(jobj.getString("type"));
             SingleTon.imageLoader.displayImage(jobj.getString("imageurl"), profilepic, SingleTon.options2);
             String des = jobj.getString("desc");
             if (des.length() == 0)
@@ -199,30 +202,29 @@ public class LndProfile extends AppCompatActivity {
                         ((MyPost) viewHolder).price1.setVisibility(View.VISIBLE);
 
 
+                        ImageLoader.getInstance()
+                                .displayImage(items.get(0).getImageurl(), ((MyPost) viewHolder).image1, SingleTon.options4, new SimpleImageLoadingListener() {
+                                    @Override
+                                    public void onLoadingStarted(String imageUri, View view) {
 
-                            ImageLoader.getInstance()
-                                    .displayImage(items.get(0).getImageurl(), ((MyPost) viewHolder).image1, SingleTon.options4, new SimpleImageLoadingListener() {
-                                        @Override
-                                        public void onLoadingStarted(String imageUri, View view) {
+                                        ((MyPost) viewHolder).prog1.setVisibility(View.VISIBLE);
+                                    }
 
-                                            ((MyPost)viewHolder).prog1.setVisibility(View.VISIBLE);
-                                        }
+                                    @Override
+                                    public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                                        ((MyPost) viewHolder).prog1.setVisibility(View.GONE);
+                                    }
 
-                                        @Override
-                                        public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                                            ((MyPost)viewHolder).prog1.setVisibility(View.GONE);
-                                        }
+                                    @Override
+                                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                                        ((MyPost) viewHolder).prog1.setVisibility(View.GONE);
+                                    }
+                                }, new ImageLoadingProgressListener() {
+                                    @Override
+                                    public void onProgressUpdate(String imageUri, View view, int current, int total) {
 
-                                        @Override
-                                        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                                            ((MyPost)viewHolder).prog1.setVisibility(View.GONE);
-                                        }
-                                    }, new ImageLoadingProgressListener() {
-                                        @Override
-                                        public void onProgressUpdate(String imageUri, View view, int current, int total) {
-
-                                        }
-                                    });
+                                    }
+                                });
 
                         ((MyPost) viewHolder).price1.setText("$" + items.get(0).getPrice());
                         ((MyPost) viewHolder).image1.setOnClickListener(new MyClass(0));
@@ -252,17 +254,17 @@ public class LndProfile extends AppCompatActivity {
                                     @Override
                                     public void onLoadingStarted(String imageUri, View view) {
 
-                                        ((MyPost)viewHolder).prog2.setVisibility(View.VISIBLE);
+                                        ((MyPost) viewHolder).prog2.setVisibility(View.VISIBLE);
                                     }
 
                                     @Override
                                     public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                                        ((MyPost)viewHolder).prog2.setVisibility(View.GONE);
+                                        ((MyPost) viewHolder).prog2.setVisibility(View.GONE);
                                     }
 
                                     @Override
                                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                                        ((MyPost)viewHolder).prog2.setVisibility(View.GONE);
+                                        ((MyPost) viewHolder).prog2.setVisibility(View.GONE);
                                     }
                                 }, new ImageLoadingProgressListener() {
                                     @Override
@@ -270,7 +272,6 @@ public class LndProfile extends AppCompatActivity {
 
                                     }
                                 });
-
 
 
                         ((MyPost) viewHolder).price2.setText("$" + items.get(1).getPrice());
@@ -300,17 +301,17 @@ public class LndProfile extends AppCompatActivity {
                                     @Override
                                     public void onLoadingStarted(String imageUri, View view) {
 
-                                        ((MyPost)viewHolder).prog3.setVisibility(View.VISIBLE);
+                                        ((MyPost) viewHolder).prog3.setVisibility(View.VISIBLE);
                                     }
 
                                     @Override
                                     public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                                        ((MyPost)viewHolder).prog3.setVisibility(View.GONE);
+                                        ((MyPost) viewHolder).prog3.setVisibility(View.GONE);
                                     }
 
                                     @Override
                                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                                        ((MyPost)viewHolder).prog3.setVisibility(View.GONE);
+                                        ((MyPost) viewHolder).prog3.setVisibility(View.GONE);
                                     }
                                 }, new ImageLoadingProgressListener() {
                                     @Override
@@ -341,7 +342,7 @@ public class LndProfile extends AppCompatActivity {
                 } else {
                     //image1
                     try {
-                        ShopData sd=items.get((2 * i + 1 + i) - 1);
+                        ShopData sd = items.get((2 * i + 1 + i) - 1);
                         ((MyPost) viewHolder).price1.setVisibility(View.VISIBLE);
 
                         ((MyPost) viewHolder).image1.setVisibility(View.VISIBLE);
@@ -350,17 +351,17 @@ public class LndProfile extends AppCompatActivity {
                                     @Override
                                     public void onLoadingStarted(String imageUri, View view) {
 
-                                        ((MyPost)viewHolder).prog1.setVisibility(View.VISIBLE);
+                                        ((MyPost) viewHolder).prog1.setVisibility(View.VISIBLE);
                                     }
 
                                     @Override
                                     public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                                        ((MyPost)viewHolder).prog1.setVisibility(View.GONE);
+                                        ((MyPost) viewHolder).prog1.setVisibility(View.GONE);
                                     }
 
                                     @Override
                                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                                        ((MyPost)viewHolder).prog1.setVisibility(View.GONE);
+                                        ((MyPost) viewHolder).prog1.setVisibility(View.GONE);
                                     }
                                 }, new ImageLoadingProgressListener() {
                                     @Override
@@ -388,26 +389,26 @@ public class LndProfile extends AppCompatActivity {
 
                     //image2
                     try {
-                        ShopData sd=items.get((2 * i + 2 + i) - 1);
+                        ShopData sd = items.get((2 * i + 2 + i) - 1);
                         ((MyPost) viewHolder).price2.setVisibility(View.VISIBLE);
 
                         ((MyPost) viewHolder).image2.setVisibility(View.VISIBLE);
-                         ImageLoader.getInstance()
+                        ImageLoader.getInstance()
                                 .displayImage(sd.getImageurl(), ((MyPost) viewHolder).image2, SingleTon.options4, new SimpleImageLoadingListener() {
                                     @Override
                                     public void onLoadingStarted(String imageUri, View view) {
 
-                                        ((MyPost)viewHolder).prog2.setVisibility(View.VISIBLE);
+                                        ((MyPost) viewHolder).prog2.setVisibility(View.VISIBLE);
                                     }
 
                                     @Override
                                     public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                                        ((MyPost)viewHolder).prog2.setVisibility(View.GONE);
+                                        ((MyPost) viewHolder).prog2.setVisibility(View.GONE);
                                     }
 
                                     @Override
                                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                                        ((MyPost)viewHolder).prog2.setVisibility(View.GONE);
+                                        ((MyPost) viewHolder).prog2.setVisibility(View.GONE);
                                     }
                                 }, new ImageLoadingProgressListener() {
                                     @Override
@@ -436,23 +437,23 @@ public class LndProfile extends AppCompatActivity {
                     //image3
                     try {
 
-                        ShopData sd= items.get((2 * i + 3 + i) - 1);
+                        ShopData sd = items.get((2 * i + 3 + i) - 1);
                         ImageLoader.getInstance()
                                 .displayImage(sd.getImageurl(), ((MyPost) viewHolder).image3, SingleTon.options4, new SimpleImageLoadingListener() {
                                     @Override
                                     public void onLoadingStarted(String imageUri, View view) {
 
-                                        ((MyPost)viewHolder).prog3.setVisibility(View.VISIBLE);
+                                        ((MyPost) viewHolder).prog3.setVisibility(View.VISIBLE);
                                     }
 
                                     @Override
                                     public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                                        ((MyPost)viewHolder).prog3.setVisibility(View.GONE);
+                                        ((MyPost) viewHolder).prog3.setVisibility(View.GONE);
                                     }
 
                                     @Override
                                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                                        ((MyPost)viewHolder).prog3.setVisibility(View.GONE);
+                                        ((MyPost) viewHolder).prog3.setVisibility(View.GONE);
                                     }
                                 }, new ImageLoadingProgressListener() {
                                     @Override
@@ -847,7 +848,6 @@ public class LndProfile extends AppCompatActivity {
     }
 
 
-
     public void updateList(ArrayList<String> pos) {
 
         for (String position : pos) {
@@ -911,7 +911,7 @@ public class LndProfile extends AppCompatActivity {
                         if (imgurl.length() > 0)
                             imgurls.add(imgurl);
 
-                         //adding for headers
+                        //adding for headers
                         String header = jo.getString("uname") + "";
 
                         sectionManager = (sectionManager + 1) % 1;
@@ -945,17 +945,16 @@ public class LndProfile extends AppCompatActivity {
                         hld.setUserid(jo.getString("user_id"));
                         hld.setProdtype(jo.getString("prod_type"));
                         hld.setTime(getMilliseconds(jo.getString("date_time")));
-                        JSONArray commnets=jo.getJSONArray("postcoments");
+                        JSONArray commnets = jo.getJSONArray("postcoments");
 
-                        if(commnets.length()>0)
-                        {
+                        if (commnets.length() > 0) {
 
                             ArrayList<CommentBean> post_cont = new ArrayList<>();
                             for (int j = 0; j < commnets.length(); j++) {
-                                JSONObject jsonObject=commnets.getJSONObject(j);
+                                JSONObject jsonObject = commnets.getJSONObject(j);
                                 String uname = jsonObject.getString("uname");
                                 String comment = jsonObject.getString("comment");
-                                CommentBean cb=new CommentBean();
+                                CommentBean cb = new CommentBean();
                                 cb.setUname(uname);
                                 cb.setComment(comment);
                                 post_cont.add(cb);

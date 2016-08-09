@@ -23,7 +23,7 @@
             <com.eowise.recyclerview.stickyheaders.samples.StickyHeader.HomeImageSliderLayout
                 android:id="@+id/switcher"
                 android:layout_width="match_parent"
-                android:layout_height="350dp"
+                android:layout_height="200dp"
                 android:scrollbars="none">
 
             </com.eowise.recyclerview.stickyheaders.samples.StickyHeader.HomeImageSliderLayout>
@@ -320,7 +320,7 @@
                 android:layout_alignParentRight="true"
                 android:text="4m"
                 android:textAppearance="?android:textAppearanceMedium"
-                android:textColor="#b4b4b4"
+                android:textColor="@color/lnd_home_gray"
                 android:textSize="14sp" />
         </RelativeLayout>
 
@@ -362,7 +362,29 @@
 
             />
 
+        <TextView
+            android:id="@+id/viewallcomments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:clickable="true"
+            android:gravity="left"
+            android:text="View all 0 comments"
+            android:textColor="@color/lnd_home_gray" />
+
+        <TextView
+            android:id="@+id/commenttextview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:gravity="left"
+            android:lineSpacingMultiplier="1.3"
+
+            />
+
         <LinearLayout
+            android:id="@+id/commentactionview"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
@@ -377,8 +399,8 @@
                 android:clickable="true"
 
                 android:gravity="center_vertical"
-                android:text="Comment"
-                android:textColor="#b4b4b4" />
+                android:text="Add a Comment"
+                android:textColor="@color/lnd_home_gray" />
 
             <ImageView
                 android:id="@+id/islocked"
@@ -392,24 +414,6 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/commenttextview"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:layout_marginLeft="15dp"
-        android:gravity="left"
-        android:lineSpacingMultiplier="1.3"
-
-        />
-
-    <TextView
-        android:id="@+id/viewallcomments"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="-10dp"
-        android:clickable="true"
-        android:gravity="left" />
 
     <View
         android:id="@+id/space"
