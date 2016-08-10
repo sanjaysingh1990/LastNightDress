@@ -621,21 +621,8 @@ public class CameraPreviewFragment extends Fragment
         else
             // Hide switch camera button
             mIbtnSwitchFrontOrBackCamera.setVisibility(View.INVISIBLE);
-        //to check flash availabe or not
-        Camera.Parameters parameters = CustomCamera.mCamera.getParameters();
-        List<String> flashModes = parameters.getSupportedFlashModes();
-        if (flashModes != null && flashModes.contains(mFlashMode)) {
-            parameters.setFlashMode(mFlashMode);
-            camera_flash.setVisibility(View.VISIBLE);
-        } else {
-            camera_flash.setVisibility(View.INVISIBLE);
-        }
-       /* if (parameters.getSupportedFocusModes().contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)) {
-            parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
-        }*/
-        // Lock in the changes
-        CustomCamera.mCamera.setParameters(parameters);
-        return v;
+
+            return v;
     }
 
     @Override
@@ -966,6 +953,26 @@ public class CameraPreviewFragment extends Fragment
     @Override
     public void onResume() {
         super.onResume();
+        //to check flash availabe or not
+        try {
+            Camera.Parameters parameters = CustomCamera.mCamera.getParameters();
+            List<String> flashModes = parameters.getSupportedFlashModes();
+            if (flashModes != null && flashModes.size() > 0) {
+
+                camera_flash.setVisibility(View.VISIBLE);
+            } else {
+                camera_flash.setVisibility(View.INVISIBLE);
+            }
+           /* if (parameters.getSupportedFocusModes().contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)) {
+                parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+            }*/
+            // Lock in the changes
+            CustomCamera.mCamera.setParameters(parameters);
+        }
+        catch (Exception ex)
+        {
+
+        }
         updateImages();
 
     }

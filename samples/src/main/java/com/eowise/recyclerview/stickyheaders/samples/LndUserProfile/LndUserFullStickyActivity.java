@@ -19,6 +19,7 @@ import com.android.volley.toolbox.Volley;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.Loading.AVLoadingIndicatorView;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.CommentBean;
 import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.Home_List_Data;
 import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.LndHomeAdapter;
 import com.eowise.recyclerview.stickyheaders.samples.UserProfile.OtherUserProfileActivity;
@@ -158,6 +159,18 @@ public class LndUserFullStickyActivity extends AppCompatActivity {
         }
         finish();
 
+    }
+    public void updateComent(int pos, CommentBean cmnt) {
+        Home_List_Data hld = OtherUserProfileActivity.mItems.get(pos);
+
+        ArrayList<CommentBean> post_cont = hld.getUserpostcomments();
+        if(post_cont.size()==5)
+            post_cont.remove(4);
+
+
+        post_cont.add(0, cmnt);
+
+        mAdapter.notifyDataSetChanged();
     }
 
 }
