@@ -75,6 +75,7 @@ public class LndComments extends AppCompatActivity {
     private boolean loadmore=false;
     private boolean isrunning=false;
     private int pos;
+    private int fromact=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +95,7 @@ public class LndComments extends AppCompatActivity {
       if(extras!=null) {
           postid=extras.getString("post_id","");
           pos=extras.getInt("pos",-1);
+          fromact=extras.getInt("from",-1);
           getData(postid);
       }
         /*recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -171,7 +173,7 @@ public class LndComments extends AppCompatActivity {
 int count=0;
     public void getData(final String postid) {
      count++;
-      Log.e("called",count+"'");
+
         RequestQueue queue = Volley.newRequestQueue(this);
         StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_COMMENTS, new Response.Listener<String>() {
             @Override
@@ -330,11 +332,17 @@ int count=0;
         data.add(cmntdata);
         recyclerAdapter.notifyDataSetChanged();
         recyclerView.scrollToPosition(data.size()-1);
-        CommentBean cb=new CommentBean();
-        cb.setUname(SingleTon.pref.getString("uname", ""));
-        cb.setComment(cmnttext);
-        StickyActivity.stickyActivity.updateComent(pos,cb);
-        PostComment();
+        if(fromact==100)
+        {
+
+        }
+        else {
+            CommentBean cb = new CommentBean();
+            cb.setUname(SingleTon.pref.getString("uname", ""));
+            cb.setComment(cmnttext);
+            StickyActivity.stickyActivity.updateComent(pos, cb);
+        }
+            PostComment();
     }
     public void becomeAgent(View v)
     {

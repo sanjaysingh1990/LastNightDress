@@ -410,7 +410,7 @@
             android:clickable="true"
 
             android:gravity="center_vertical"
-            android:text="Add a Comment"
+            android:text="@string/add_a_comment"
             android:textColor="#b4b4b4" />
 
         <ImageView

@@ -546,4 +546,5 @@ If you choose fixed price shipping, it’s a good idea to research average shipp
     <declare-styleable name="TextViewPlus">
         <attr name="customFont" format="string"/>
     </declare-styleable>
+    <string name="add_a_comment">Add a comment</string>
 </resources>

@@ -165,10 +165,14 @@ class MessageSwipeableItemAdapter2
                 ((MyViewHolder) holder).message.setText(md.getMessage());
                 ((MyViewHolder) holder).time.setReferenceTime(md.getTimeago());
                 SingleTon.imageLoader.displayImage(md.getProfilepic(), ((MyViewHolder) holder).profilepic, SingleTon.options3);
-                if (md.getMsgindicator() == 0)
+                if (md.getMsgindicator() == 0) {
+                    ((MyViewHolder) holder).messindicator.setVisibility(View.VISIBLE);
+
                     ((MyViewHolder) holder).messindicator.setImageResource(R.drawable.color_icon);
-                else
-                    ((MyViewHolder) holder).messindicator.setVisibility(View.INVISIBLE);
+
+                }
+                    else
+                    ((MyViewHolder) holder).messindicator.setVisibility(View.GONE);
 
 
                 break;

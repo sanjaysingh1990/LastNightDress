@@ -61,7 +61,7 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
         mPagerAdapter = new SlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
         act = this;
-        lndshop=this;
+        lndshop = this;
         //initializing animation
         anim1 = AnimationUtils.loadAnimation(this, R.anim.slide_out_left);
         anim2 = AnimationUtils.loadAnimation(this, R.anim.slide_in_left);
@@ -165,7 +165,7 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
         });
         if (!SingleTon.pref.getBoolean("tutorial_page", false))
 
-        showTutorial(layoutids[0], "This is your shopping page");
+            showTutorial(layoutids[0], "This is your shopping page");
     }
 
     @Override
@@ -770,7 +770,7 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
 
     private void showTutorial(int id, String currentcategory) {
 
-        if(SingleTon.pref.getBoolean("tutorial_page",false))
+        if (SingleTon.pref.getBoolean("tutorial_page", false))
             return;
         dialog = new Dialog(this, android.R.style.Theme_Translucent_NoTitleBar);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -787,6 +787,7 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
         dialog.show();
         TextView categoryselected = (TextView) view.findViewById(R.id.central_heading);
         TextView finish = (TextView) view.findViewById(R.id.finish);
+        TextView taptoclose = (TextView) view.findViewById(R.id.taptoclose);
 
         /*ViewPager viewPager = (ViewPager)dialog.findViewById(R.id.viewpager);
         viewPager.setAdapter(new CustomPagerAdapter(this));
@@ -822,8 +823,35 @@ public class LndShopActivity extends AppCompatActivity implements Animation.Anim
                     edit.commit();
                 }
             });
+        if (taptoclose != null)
+            taptoclose.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                    endTutorial();
+                }
+            });
+
 
         view.setOnTouchListener(new SwipeListener(mPager, this));
+    }
+
+    private void endTutorial() {
+        SharedPreferences.Editor edit = SingleTon.pref.edit();
+        edit.putBoolean("tutorial_page", true);
+        edit.putBoolean("dress_page_tutorial", true);
+        edit.putBoolean("category_tutorial", true);
+        edit.commit();
+        try {
+            CategoryFragment.cf.hidetutorail();
+        } catch (Exception ex) {
+
+        }
+        try {
+            DressFilterFragment.dff.hideTutorial();
+        } catch (Exception ex) {
+
+        }
     }
 
     public void changeTutorial(int pos) {

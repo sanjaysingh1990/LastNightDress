@@ -419,7 +419,7 @@
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 android:gravity="center_vertical"
-                android:text="Add a Comment"
+                android:text="@string/add_a_comment"
                 android:textColor="@color/lnd_home_gray"
 
 

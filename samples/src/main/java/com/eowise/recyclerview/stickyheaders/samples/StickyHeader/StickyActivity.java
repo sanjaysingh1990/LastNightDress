@@ -374,7 +374,7 @@ public class StickyActivity extends AppCompatActivity {
                                 CommentBean cb = new CommentBean();
                                 cb.setUname(uname);
                                 cb.setComment(comment);
-                                post_cont.add(cb);
+                                post_cont.add(0, cb);
                             }
                             hld.setUserpostcomments(post_cont);
 
@@ -553,12 +553,12 @@ public class StickyActivity extends AppCompatActivity {
         Home_List_Data hld = mItems.get(pos);
 
         ArrayList<CommentBean> post_cont = hld.getUserpostcomments();
-        if(post_cont.size()==5)
+        hld.setTotalcomments(hld.getTotalcomments()+1);
+        if (post_cont.size() == 5) {
             post_cont.remove(4);
-
-
-        post_cont.add(0, cmnt);
-
+            post_cont.add(4, cmnt);
+        } else
+            post_cont.add(cmnt);
         mAdapter.notifyDataSetChanged();
     }
 

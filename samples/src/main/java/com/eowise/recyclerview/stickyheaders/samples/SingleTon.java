@@ -69,6 +69,7 @@ public class SingleTon extends Application {
     public void onCreate()
     {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
 
 
                displayMetrics = getResources().getDisplayMetrics();

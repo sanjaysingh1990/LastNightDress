@@ -10,7 +10,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
+import android.text.style.ForegroundColorSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -51,9 +54,11 @@ import com.eowise.recyclerview.stickyheaders.samples.PostDataShop.JewelleryEditP
 import com.eowise.recyclerview.stickyheaders.samples.PostDataShop.ShoesEditPost;
 import com.eowise.recyclerview.stickyheaders.samples.PurchaseAndSwap.ShippingAddressActivity;
 import com.eowise.recyclerview.stickyheaders.samples.SQLDB.FavoriteData;
+import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.CommentBean;
 import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.HomeImageSliderLayout;
 import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.Home_List_Data;
 import com.eowise.recyclerview.stickyheaders.samples.UserProfile.OtherUserProfileActivity;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.ApplicationConstants;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ConstantValues;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.RelativeTimeTextView;
@@ -133,17 +138,25 @@ public class NotificationFullPost extends AppCompatActivity implements View.OnCl
     TextView edit;
     @Bind(R.id.delete)
     TextView delete;
+    @Bind(R.id.commenttextview)
+    TextView commenttext;
+    @Bind(R.id.viewallcomments)
+    TextView viewallcomments;
+
+    @Bind(R.id.islocked)
+    ImageView islocked;
 
     Home_List_Data hld;
 
     AlertDialog alert = null;
-    String data="";
+    String data = "";
     List<FollowersFollowingData> users = new ArrayList<>();
     public static EditText usermessage;
     public static TextView sendcancel;
     private SendToAdapter mAdapter;
     private ProgressBar prog;
     private TextView showtext;
+    String post_id = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,7 +165,7 @@ public class NotificationFullPost extends AppCompatActivity implements View.OnCl
         ButterKnife.bind(this);
         Bundle extra = getIntent().getExtras();
         if (extra != null) {
-            String post_id = extra.getString("post_id", "");
+            post_id = extra.getString("post_id", "");
             getData(post_id);
         }
 
@@ -214,30 +227,17 @@ public class NotificationFullPost extends AppCompatActivity implements View.OnCl
                 });
                 break;
             case R.id.comment:
-                dialog = new android.app.AlertDialog.Builder(this);
-                view = LayoutInflater.from(this).inflate(R.layout.agent_comment_popup, null);
-
-                dialog.setView(view);
-                alert = dialog.create();
-                alert.show();
-                view.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        alert.dismiss();
-                    }
-                });
-                    /*view2.findViewById(R.id.swapcontinue).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            alert2.dismiss();
-                            Intent sendswaprequest = new Intent(mContext, SendSwapRequestActivity.class);
-                            sendswaprequest.putExtra("data", mItems.get(getAdapterPosition()));
-                            Main_TabHost.activity.startActivityForResult(sendswaprequest, 4);
-                            // Log.e("uname", mItems.get(pos).getUname());
-                        }
-                    });*/
+                Intent comment = new Intent(this, LndComments.class);
+                comment.putExtra("post_id", post_id);
+                comment.putExtra("from", 100);
+                startActivity(comment);
                 break;
-
+            case R.id.viewallcomments:
+                comment = new Intent(this, LndComments.class);
+                comment.putExtra("post_id", post_id);
+                comment.putExtra("from", 100);
+                startActivity(comment);
+                break;
             case R.id.sendto:
 
                 users.clear();
@@ -338,13 +338,13 @@ public class NotificationFullPost extends AppCompatActivity implements View.OnCl
 
 
             case R.id.edit:
-               if (hld.getCategory() == 1) {
+                if (hld.getCategory() == 1) {
                     Intent i = new Intent(this, DressEditPost.class);
-                   // i.putExtra("data", mItems.get(pos));
+                    // i.putExtra("data", mItems.get(pos));
                     startActivity(i);
                 } else if (hld.getCategory() == 2) {
                     Intent i = new Intent(this, HandBagsEditPost.class);
-                   // i.putExtra("data", mItems.get(pos));
+                    // i.putExtra("data", mItems.get(pos));
                     startActivity(i);
 
                 } else if (hld.getCategory() == 3) {
@@ -354,8 +354,8 @@ public class NotificationFullPost extends AppCompatActivity implements View.OnCl
 
                 } else if (hld.getCategory() == 4) {
                     Intent i = new Intent(this, JewelleryEditPost.class);
-                 //   i.putExtra("data", mItems.get(pos));
-                   startActivity(i);
+                    //   i.putExtra("data", mItems.get(pos));
+                    startActivity(i);
 
                 }
                 break;
@@ -379,7 +379,7 @@ public class NotificationFullPost extends AppCompatActivity implements View.OnCl
                         alert.dismiss();
                         //   Log.e("uname", items.get(getAdapterPosition()).getUname());
 
-                       // List<String> imageurls = lhd.getImageurls();
+                        // List<String> imageurls = lhd.getImageurls();
                         JSONObject delobj = new JSONObject();
                         try {
                            /* delobj.put("image1", fileName(imageurls.get(0)));
@@ -406,7 +406,7 @@ public class NotificationFullPost extends AppCompatActivity implements View.OnCl
 
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/postdata.php", new Response.Listener<String>() {
+        StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_POST_DATA, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
@@ -415,6 +415,7 @@ public class NotificationFullPost extends AppCompatActivity implements View.OnCl
                     JSONObject jobj = new JSONObject(response.toString());
                     JSONArray jsonArray = jobj.getJSONArray("data");
                     if (jsonArray.length() == 0) {
+
                         hfl.setVisibility(View.INVISIBLE);
                         Toast.makeText(NotificationFullPost.this, "Post not available", Toast.LENGTH_SHORT).show();
                         return;
@@ -429,6 +430,8 @@ public class NotificationFullPost extends AppCompatActivity implements View.OnCl
                         likebutton.setOnClickListener(NotificationFullPost.this);
                         edit.setOnClickListener(NotificationFullPost.this);
                         delete.setOnClickListener(NotificationFullPost.this);
+                        viewallcomments.setOnClickListener(NotificationFullPost.this);
+
 
                     }
                     JSONObject data = jsonArray.getJSONObject(0);
@@ -449,7 +452,9 @@ public class NotificationFullPost extends AppCompatActivity implements View.OnCl
                     price_now.setText("$" + data.getString("price_now"));
 
 
-                    likescount.setText(data.getString("likes") + " likes");
+                    likescount.setText(data.getInt("post_total_likes") + " likes");
+                    viewallcomments.setText("View all " + data.getInt("post_total_comments") + " comments");
+
                     //for condition
                     String con = data.getString("condition");
                     if (con != null && con.length() > 0) {
@@ -513,7 +518,7 @@ public class NotificationFullPost extends AppCompatActivity implements View.OnCl
                     String desc = data.getString("description");
                     TagSelectingTextview mTagSelectingTextview = new TagSelectingTextview();
                     int hashTagHyperLinkDisabled = 0;
-                    String username=Capitalize.capitalizeFirstLetter(data.getString("uname"));
+                    String username = Capitalize.capitalizeFirstLetter(data.getString("uname"));
 
 
                     //checking description for hashtag and usermention
@@ -598,6 +603,41 @@ public class NotificationFullPost extends AppCompatActivity implements View.OnCl
                             startActivity(likers);
                         }
                     });
+
+                    //to read comments
+                    JSONArray comments = data.getJSONArray("postcoments");
+
+
+                    if (comments.length() > 0) {
+
+                        for (int i = comments.length() - 1; i >= 0; i--) {
+                            JSONObject jsonObject = comments.getJSONObject(i);
+                            String uname = jsonObject.getString("uname");
+                            String comment = jsonObject.getString("comment");
+
+                            SpannableString word = new SpannableString(Capitalize.capitalizeFirstLetter(uname + " " + comment));
+
+                            word.setSpan(new ForegroundColorSpan(Color.parseColor("#be4d66")), 0, uname.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            word.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, uname.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            commenttext.append(word);
+                            if (i > 0)
+                                commenttext.append("\n");
+                        }
+
+
+                    } else {
+                        viewallcomments.setVisibility(View.GONE);
+                        commenttext.setVisibility(View.GONE);
+                    }
+                    if (data.getInt("post_total_comments") <= 5)
+                        viewallcomments.setVisibility(View.GONE);
+
+
+                    if (SingleTon.pref.getInt("user_position", -1) > 1)
+                        islocked.setVisibility(View.GONE);
+                    else
+                        islocked.setVisibility(View.VISIBLE);
+
 
                 } catch (Exception ex) {
                     Log.e("json parsing error", ex.getMessage());

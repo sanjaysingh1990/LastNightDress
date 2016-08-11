@@ -433,7 +433,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 LndProductPrivateHolder vh2 = (LndProductPrivateHolder) holder;
 
                 //TO CHECK COMMENT LOCKED OR NOT
-                if (SingleTon.pref.getInt("user_position", -1) > 0)
+                if (SingleTon.pref.getInt("user_position", -1) > 1)
                     vh2.islocked.setVisibility(View.GONE);
                 else
                     vh2.islocked.setVisibility(View.VISIBLE);
@@ -547,7 +547,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 LndProductShopHolder vh3 = (LndProductShopHolder) holder;
 
                 //TO CHECK COMMENT LOCKED OR NOT
-                if (SingleTon.pref.getInt("user_position", -1) > 0)
+                if (SingleTon.pref.getInt("user_position", -1) > 1)
                     vh3.islocked.setVisibility(View.GONE);
                 else
                     vh3.islocked.setVisibility(View.VISIBLE);
@@ -692,10 +692,10 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 vh3 = (LndProductShopHolder) holder;
 
                 //TO CHECK COMMENT LOCKED OR NOT
-                if (SingleTon.pref.getInt("user_position", -1) > 0)
-                    vh3.islocked.setVisibility(View.GONE);
-                else
-                    vh3.islocked.setVisibility(View.VISIBLE);
+                if (SingleTon.pref.getInt("user_position", -1) > 1)
+                vh3.islocked.setVisibility(View.GONE);
+            else
+                vh3.islocked.setVisibility(View.VISIBLE);
                 uname = Capitalize.capitalizeFirstLetter(item.getUname());
                 //end here
                 vh3.description.setMovementMethod(LinkMovementMethod.getInstance());
@@ -834,7 +834,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 vh2 = (LndProductPrivateHolder) holder;
 
                 //TO CHECK COMMENT LOCKED OR NOT
-                if (SingleTon.pref.getInt("user_position", -1) > 0)
+                if (SingleTon.pref.getInt("user_position", -1) > 1)
                     vh2.islocked.setVisibility(View.GONE);
                 else
                     vh2.islocked.setVisibility(View.VISIBLE);
@@ -944,7 +944,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 LndProductPrivateUserHolder vh4 = (LndProductPrivateUserHolder) holder;
                 uname = Capitalize.capitalizeFirstLetter(item.getUname());
                 //TO CHECK COMMENT LOCKED OR NOT
-                if (SingleTon.pref.getInt("user_position", -1) > 0)
+                if (SingleTon.pref.getInt("user_position", -1) > 1)
                     vh4.islocked.setVisibility(View.GONE);
                 else
                     vh4.islocked.setVisibility(View.VISIBLE);
@@ -1051,7 +1051,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         this, hashTagHyperLinkDisabled, hastTagColorBlue, uname.length()),
                         TextView.BufferType.SPANNABLE);
                 //TO CHECK COMMENT LOCKED OR NOT
-                if (SingleTon.pref.getInt("user_position", -1) > 0)
+                if (SingleTon.pref.getInt("user_position", -1) > 1)
                     vh5.islocked.setVisibility(View.GONE);
                 else
                     vh5.islocked.setVisibility(View.VISIBLE);
@@ -1187,7 +1187,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             case VIEW_TYPE_CONTENT_PRIVATE_USER_ITEM_SOLD:
                 LndProductPrivateHolderSold vh6 = (LndProductPrivateHolderSold) holder;
                 //TO CHECK COMMENT LOCKED OR NOT
-                if (SingleTon.pref.getInt("user_position", -1) > 0)
+                if (SingleTon.pref.getInt("user_position", -1) > 1)
                     vh6.islocked.setVisibility(View.GONE);
                 else
                     vh6.islocked.setVisibility(View.VISIBLE);
@@ -1304,7 +1304,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 final LndProductShopHolderSold vh7 = (LndProductShopHolderSold) holder;
 
                 //TO CHECK COMMENT LOCKED OR NOT
-                if (SingleTon.pref.getInt("user_position", -1) > 0)
+                if (SingleTon.pref.getInt("user_position", -1) > 1)
                     vh7.islocked.setVisibility(View.GONE);
                 else
                     vh7.islocked.setVisibility(View.VISIBLE);
@@ -2320,7 +2320,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 view = LayoutInflater.from(mContext).inflate(R.layout.agent_comment_popup, null);
                 dialog.setView(view);
                 alert = dialog.create();
-                if (SingleTon.pref.getInt("user_position", -1) > 0) {
+                if (SingleTon.pref.getInt("user_position", -1) > 1) {
                     Intent i = new Intent(mContext, LndComments.class);
                     i.putExtra("post_id", mItems.get(pos).getPost_id());
                     i.putExtra("pos",pos);

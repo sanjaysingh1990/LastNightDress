@@ -299,7 +299,7 @@
                         android:textColor="#000"
                         android:layout_marginLeft="5dp"
                         android:layout_weight="1"
-                        android:id="@+id/price"
+                        android:id="@+id/price2"
                         />
                 </LinearLayout>
             </LinearLayout>
