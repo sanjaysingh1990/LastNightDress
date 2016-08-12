@@ -69,13 +69,14 @@ public class LndComments extends AppCompatActivity {
     private LndCommentsAdapter recyclerAdapter;
     private TextView heading;
     boolean loading = true;
-    int pastVisiblesItems, visibleItemCount, totalItemCount,firstVisibleItemIndex,previousTotal;
+    int pastVisiblesItems, visibleItemCount, totalItemCount, firstVisibleItemIndex, previousTotal;
     private int skipdata = 0;
-    private String postid="";
-    private boolean loadmore=false;
-    private boolean isrunning=false;
+    private String postid = "";
+    private boolean loadmore = false;
+    private boolean isrunning = false;
     private int pos;
-    private int fromact=0;
+    private int fromact = 0;
+    private String post_userid = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,13 +92,15 @@ public class LndComments extends AppCompatActivity {
         //applying custom font
         heading.setTypeface(SingleTon.hfont);
         //get data from previous activity
-       Bundle extras=getIntent().getExtras();
-      if(extras!=null) {
-          postid=extras.getString("post_id","");
-          pos=extras.getInt("pos",-1);
-          fromact=extras.getInt("from",-1);
-          getData(postid);
-      }
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            postid = extras.getString("post_id", "");
+            pos = extras.getInt("pos", -1);
+            fromact = extras.getInt("from", -1);
+            post_userid = extras.getString("post_user_id", "");
+
+            getData(postid);
+        }
         /*recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -143,43 +146,42 @@ public class LndComments extends AppCompatActivity {
                         //Toast.makeText(LndComments.this,"bottom",Toast.LENGTH_SHORT).show();
 
                         //loading = true;
-                    } else if (firstVisibleItemIndex == 0){
+                    } else if (firstVisibleItemIndex == 0) {
                         // top of list reached
                         // if you start loading
-                        loadmore=true;
+                        loadmore = true;
                         loading = true;
-                        if(!isrunning) {
-                            isrunning=true;
+                        if (!isrunning) {
+                            isrunning = true;
                             getData(postid);
 
                         }
-                        }
+                    }
             }
         });
 //to check user position
-        int pos=SingleTon.pref.getInt("user_position",0);
-        if(pos>0)
-        {
+        int pos = SingleTon.pref.getInt("user_position", 0);
+        if (pos > 0) {
             commentcontrols.setVisibility(View.VISIBLE);
             noagent.setVisibility(View.GONE);
-        }
-        else
-        {
+        } else {
             commentcontrols.setVisibility(View.INVISIBLE);
             noagent.setVisibility(View.VISIBLE);
 
         }
     }
-int count=0;
+
+    int count = 0;
+
     public void getData(final String postid) {
-     count++;
+        count++;
 
         RequestQueue queue = Volley.newRequestQueue(this);
         StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_COMMENTS, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
-                 try {
+                try {
                     loader.setVisibility(View.GONE);
                     JSONObject jobj = new JSONObject(response.toString());
                     JSONArray jarray = jobj.getJSONArray("data");
@@ -191,27 +193,26 @@ int count=0;
                         cmntdata.setCommenttxxt(jo.getString("comment_text"));
                         cmntdata.setTime(getMilliseconds(jo.getString("date_time")));
 
-                        data.add(0,cmntdata);
+                        data.add(0, cmntdata);
                     }
 
 
                     recyclerAdapter.notifyDataSetChanged();
-                    if(!loadmore) {
+                    if (!loadmore) {
                         recyclerView.scrollToPosition(data.size() - 1);
 
                     }
-                     //else
-                     //   Collections.reverse(data);
-                        skipdata = data.size();
+                    //else
+                    //   Collections.reverse(data);
+                    skipdata = data.size();
                     if (jarray.length() < 25) {
                         loading = true;
-                        isrunning=true;
-                    }
-                        else {
+                        isrunning = true;
+                    } else {
                         loading = false;
-                        isrunning=false;
+                        isrunning = false;
                     }
-                    } catch (Exception ex) {
+                } catch (Exception ex) {
                     Log.e("json parsing error", ex.getMessage());
                 }
             }
@@ -226,7 +227,7 @@ int count=0;
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("rqid", "0");
-                params.put("postid",postid);
+                params.put("postid", postid);
                 params.put("skipdata", skipdata + "");
 
 
@@ -242,7 +243,8 @@ int count=0;
         };
         queue.add(sr);
     }
-    public void PostComment() {
+
+    public void PostComment(final String data) {
 
         RequestQueue queue = Volley.newRequestQueue(this);
         StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_COMMENTS, new Response.Listener<String>() {
@@ -253,13 +255,10 @@ int count=0;
                 try {
                     loader.setVisibility(View.GONE);
                     JSONObject jobj = new JSONObject(response.toString());
-                    if(jobj.getBoolean("status"))
-                    {
+                    if (jobj.getBoolean("status")) {
                         commentbox.setText("");
                     }
-                    }
-                catch (Exception ex)
-                {
+                } catch (Exception ex) {
 
                 }
 
@@ -276,10 +275,7 @@ int count=0;
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("rqid", "2");
-                params.put("postid",postid);
-                params.put("datetime",SingleTon.getCurrentTimeStamp());
-                params.put("user_id", SingleTon.pref.getString("user_id",""));
-                params.put("comment_text",commentbox.getText().toString());
+                params.put("data", data);
 
 
                 return params;
@@ -294,6 +290,7 @@ int count=0;
         };
         queue.add(sr);
     }
+
     public void back(View v) {
         onBackPressed();
     }
@@ -331,22 +328,36 @@ int count=0;
 
         data.add(cmntdata);
         recyclerAdapter.notifyDataSetChanged();
-        recyclerView.scrollToPosition(data.size()-1);
-        if(fromact==100)
-        {
+        recyclerView.scrollToPosition(data.size() - 1);
+        if (fromact == 100) {
 
-        }
-        else {
+        } else {
             CommentBean cb = new CommentBean();
             cb.setUname(SingleTon.pref.getString("uname", ""));
             cb.setComment(cmnttext);
             StickyActivity.stickyActivity.updateComent(pos, cb);
         }
-            PostComment();
-    }
-    public void becomeAgent(View v)
-    {
-        Intent agent=new Intent(this, Agent_Signup.class);
+        try {
+             JSONObject jsonObject=new JSONObject();
+
+            jsonObject.put("postid", postid);
+            jsonObject.put("datetime", SingleTon.getCurrentTimeStamp());
+            jsonObject.put("user_id", SingleTon.pref.getString("user_id", ""));
+            jsonObject.put("whos_post", post_userid);
+            jsonObject.put("comment_text", commentbox.getText().toString());
+
+
+            PostComment(jsonObject.toString());
+
+        }
+        catch(Exception ex)
+        {
+
+        }
+        }
+
+    public void becomeAgent(View v) {
+        Intent agent = new Intent(this, Agent_Signup.class);
         startActivity(agent);
         finish();
 

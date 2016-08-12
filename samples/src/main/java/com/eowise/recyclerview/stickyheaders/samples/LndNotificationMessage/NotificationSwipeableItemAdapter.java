@@ -79,7 +79,7 @@ class NotificationSwipeableItemAdapter
     private static EventListener mEventListener;
     static Activity activity;
     // NOTE: Make accessible with short name
-    public static final int FOLLOWER = 1, SWAPREQUEST = 2, CHECKOUT = 3, DECLINED = 4, USERMETION = 5, PURCHASEDITEM = 6, POSTSHARED = 7, BLANK = 8, USERACCEPTEDCHECKOUT = 9, POSTLIKED = 10;
+    public static final int FOLLOWER = 1, SWAPREQUEST = 2, CHECKOUT = 3, DECLINED = 4, USERMETION = 5, PURCHASEDITEM = 6, POSTSHARED = 7, BLANK = 11, USERACCEPTEDCHECKOUT = 9, POSTLIKED = 10,COMMENTED=8;
     TagSelectingTextview mTagSelectingTextview;
     public static int hashTagHyperLinkEnabled = 1;
     public static int hashTagHyperLinkDisabled = 0;
@@ -373,7 +373,8 @@ class NotificationSwipeableItemAdapter
         activity = act;
         // SwipeableItemAdapter requires stable ID, and also
         // have to implement the getItemId() method appropriately.
-        setHasStableIds(true);
+       // setHasStableIds(true);
+
         mTagSelectingTextview = new TagSelectingTextview();
     }
 
@@ -410,6 +411,10 @@ class NotificationSwipeableItemAdapter
         } else if (mProvider.getItem(position).getnotiType() == NotificationType.PURCHASEDITEM) {
             return PURCHASEDITEM;
         }
+        else if (mProvider.getItem(position).getnotiType() == NotificationType.COMMENTED) {
+            return COMMENTED;
+        }
+        Log.e("json",mProvider.getItem(position).getnotiType()+"");
         return -1;
 
     }
@@ -460,6 +465,10 @@ class NotificationSwipeableItemAdapter
             case POSTLIKED:
                 final View postliked = inflater.inflate(R.layout.list_item_common_view, parent, false);
                 viewHolder = new MyViewHolder(postliked);
+                break;
+            case COMMENTED:
+                final View commented = inflater.inflate(R.layout.list_item_common_view, parent, false);
+                viewHolder = new MyViewHolder(commented);
                 break;
 
         }
@@ -574,6 +583,14 @@ class NotificationSwipeableItemAdapter
                 break;
             case POSTLIKED:
                 setSpannableText(Capitalize.capitalizeFirstLetter(item.getUname()), " liked your post.", " " + new TimeAgo(activity).timeAgo(item.getNotificationdata().getTime()), ((MyViewHolder) holder).notiTextView);
+                SingleTon.imageLoader.displayImage(item.getImageurl(), ((MyViewHolder) holder).notiimage, SingleTon.options);
+                SingleTon.imageLoader.displayImage(item.getProfilepic(), ((MyViewHolder) holder).notiprofile, SingleTon.options2);
+
+                ((MyViewHolder) holder).mContainer.setCanSwipeLeft(mCanSwipeLeft);
+                ((MyViewHolder) holder).mContainer.setCanSwipeRight(!mCanSwipeLeft);
+                break;
+            case COMMENTED:
+                setSpannableText(Capitalize.capitalizeFirstLetter(item.getUname()), " commented on your post.", " " + new TimeAgo(activity).timeAgo(item.getNotificationdata().getTime()), ((MyViewHolder) holder).notiTextView);
                 SingleTon.imageLoader.displayImage(item.getImageurl(), ((MyViewHolder) holder).notiimage, SingleTon.options);
                 SingleTon.imageLoader.displayImage(item.getProfilepic(), ((MyViewHolder) holder).notiprofile, SingleTon.options2);
 

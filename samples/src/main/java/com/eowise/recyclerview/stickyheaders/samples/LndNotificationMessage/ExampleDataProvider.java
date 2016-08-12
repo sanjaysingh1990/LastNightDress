@@ -135,16 +135,16 @@ public class ExampleDataProvider extends AbstractDataProvider {
 
             case "5":
                 mData.add(new ConcreteData2(id, viewType, nd, swipeReaction, NotificationType.USERMENTION));
-
+                break;
             case "6":
                 mData.add(new ConcreteData2(id, viewType, nd, swipeReaction, NotificationType.PURCHASEDITEM));
-
+                  break;
             case "7":
                 mData.add(new ConcreteData2(id, viewType, nd, swipeReaction, NotificationType.POSTLIKED));
 
                 break;
             case "8":
-                mData.add(new ConcreteData2(id, viewType, nd, swipeReaction, NotificationType.BLANK));
+                mData.add(new ConcreteData2(id, viewType, nd, swipeReaction, NotificationType.COMMENTED));
 
                 break;
             case "9":
@@ -154,6 +154,10 @@ public class ExampleDataProvider extends AbstractDataProvider {
 
             case "10":
                 mData.add(new ConcreteData2(id, viewType, nd, swipeReaction, NotificationType.POSTSHARED));
+
+                break;
+            case "11":
+                mData.add(new ConcreteData2(id, viewType, nd, swipeReaction, NotificationType.BLANK));
 
                 break;
         }
@@ -185,16 +189,16 @@ public class ExampleDataProvider extends AbstractDataProvider {
 
             case "5":
                 mData.add(0,new ConcreteData2(id, viewType, nd, swipeReaction, NotificationType.USERMENTION));
-
+               break;
             case "6":
                 mData.add(0,new ConcreteData2(id, viewType, nd, swipeReaction, NotificationType.PURCHASEDITEM));
-
+               break;
             case "7":
                 mData.add(0,new ConcreteData2(id, viewType, nd, swipeReaction, NotificationType.POSTLIKED));
 
                 break;
             case "8":
-                mData.add(0,new ConcreteData2(id, viewType, nd, swipeReaction, NotificationType.BLANK));
+                mData.add(0,new ConcreteData2(id, viewType, nd, swipeReaction, NotificationType.COMMENTED));
 
                 break;
             case "9":
@@ -204,6 +208,9 @@ public class ExampleDataProvider extends AbstractDataProvider {
 
             case "10":
                 mData.add(0,new ConcreteData2(id, viewType, nd, swipeReaction, NotificationType.POSTSHARED));
+                break;
+            case "11":
+                mData.add(0,new ConcreteData2(id, viewType, nd, swipeReaction, NotificationType.BLANK));
 
                 break;
         }

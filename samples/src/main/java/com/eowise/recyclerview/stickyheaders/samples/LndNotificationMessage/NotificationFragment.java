@@ -315,7 +315,7 @@ public class NotificationFragment extends Fragment {
                     }
                     //adding blank at bottom of notification
                     NotificationData nd = new NotificationData();
-                    nd.setNotitype("8");
+                    nd.setNotitype("11");
                     mProvider.addItem(nd);
                     mAdapter.notifyDataSetChanged();
                     LndUtils.lastnotificationid = mProvider.getItem(0).getNotificationdata().getNotification_id();

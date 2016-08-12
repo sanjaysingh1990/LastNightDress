@@ -2282,6 +2282,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             case R.id.viewallcomments:
                 Intent comment = new Intent(mContext, LndComments.class);
                 comment.putExtra("post_id", mItems.get(pos).getPost_id());
+                comment.putExtra("post_user_id", mItems.get(pos).getUserid());
                 comment.putExtra("pos",pos);
                 mContext.startActivity(comment);
                 break;
@@ -2323,6 +2324,8 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 if (SingleTon.pref.getInt("user_position", -1) > 1) {
                     Intent i = new Intent(mContext, LndComments.class);
                     i.putExtra("post_id", mItems.get(pos).getPost_id());
+                    i.putExtra("post_user_id", mItems.get(pos).getUserid());
+
                     i.putExtra("pos",pos);
 
                     mContext.startActivity(i);
