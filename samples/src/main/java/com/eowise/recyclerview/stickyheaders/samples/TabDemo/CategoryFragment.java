@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
+import com.eowise.recyclerview.stickyheaders.samples.tutorial.CircleOverlayView;
 
 import java.util.List;
 
@@ -32,10 +33,10 @@ public class CategoryFragment extends Fragment implements OnClickListener {
     TextView dresstext, handbagstext, shoestext, jewellerytext, mainpage;
     boolean dressstatus = true, handbagsstatus = true, shoesstatus = true, jewellerystatus = true;
     private View ll;
-
+    CircleOverlayView circleOverlayView;
     public static CategoryFragment cf;
     View categorytutorial;
-
+    TextView categorytext;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -49,11 +50,9 @@ public class CategoryFragment extends Fragment implements OnClickListener {
     }
 
     private void setup(View v) {
+
         categorytutorial = v.findViewById(R.id.categorytutorial);
-        if (SingleTon.pref.getBoolean("category_tutorial", false))
-            hidetutorail();
-        else
-        categorytutorial.setVisibility(View.VISIBLE);
+
         dress = (ImageView) v.findViewById(R.id.dress);
         handbags = (ImageView) v.findViewById(R.id.handbags);
         shoes = (ImageView) v.findViewById(R.id.shoes);
@@ -64,6 +63,8 @@ public class CategoryFragment extends Fragment implements OnClickListener {
         shoestext = (TextView) v.findViewById(R.id.shoestext);
         jewellerytext = (TextView) v.findViewById(R.id.jewellerytext);
         mainpage = (TextView) v.findViewById(R.id.post);
+        circleOverlayView= (CircleOverlayView) v.findViewById(R.id.cicleOverlay);
+        categorytext= (TextView) v.findViewById(R.id.category);
 //text
         dresstext.setText("Dresses");
         handbagstext.setText("Handbags");
@@ -76,8 +77,20 @@ public class CategoryFragment extends Fragment implements OnClickListener {
         jewellerytext.setTypeface(SingleTon.robotoregular);
         mainpage.setTypeface(SingleTon.robotoregular);
         mainpage.setText("MAIN PAGE");
+
+        if (SingleTon.pref.getBoolean("category_tutorial", false)) {
+            hidetutorail();
+            categorytext.setVisibility(View.VISIBLE);
+            mainpage.setVisibility(View.VISIBLE);
+        }
+        else {
+            categorytutorial.setVisibility(View.VISIBLE);
+            categorytext.setVisibility(View.INVISIBLE);
+            mainpage.setVisibility(View.INVISIBLE);
+        }
 //reference more
         ll = v.findViewById(R.id.ll);
+
 
 //checking user selected
         String value = LndShopActivity.currentcategory;
@@ -324,6 +337,8 @@ public class CategoryFragment extends Fragment implements OnClickListener {
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
 
         int width = displayMetrics.widthPixels;
+
+
         //Toast.makeText(getActivity(), "width" + width, Toast.LENGTH_SHORT).show();
         if (width <= 480)
             adjust(30, 170, 190);
@@ -343,6 +358,9 @@ public class CategoryFragment extends Fragment implements OnClickListener {
     }
 
     private void adjust(int margin, int imgheight, int imgwidth) {
+        circleOverlayView.radius=imgwidth+(imgwidth*40)/100;
+        circleOverlayView.invalidate();
+        circleOverlayView.devicewith=SingleTon.displayMetrics.widthPixels;
         dress.getLayoutParams().height = imgheight;
         dress.getLayoutParams().width = imgwidth;
         handbags.getLayoutParams().height = imgheight;

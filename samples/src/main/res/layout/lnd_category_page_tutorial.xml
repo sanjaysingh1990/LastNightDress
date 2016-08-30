@@ -5,73 +5,14 @@
     android:background="@android:color/transparent"
     android:orientation="vertical"
     android:id="@+id/categorytutorial"
-    android:visibility="gone"
 
     >
-
-    <LinearLayout
+    <com.eowise.recyclerview.stickyheaders.samples.tutorial.CircleOverlayView
+        android:id="@+id/cicleOverlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/light_black"
-            android:clickable="true"
+        >
 
-            >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_alignParentBottom="true"
-                android:text="@string/select_category"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                 />
-        </RelativeLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:orientation="horizontal">
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/light_black" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="0"
-                android:src="@drawable/circle" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/light_black"
-
-                />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="#90222427"
-            android:clickable="true">
-
-
-        </View>
-
-
-    </LinearLayout>
+  </com.eowise.recyclerview.stickyheaders.samples.tutorial.CircleOverlayView>
 </LinearLayout>
