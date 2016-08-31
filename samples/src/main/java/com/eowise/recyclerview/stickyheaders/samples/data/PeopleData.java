@@ -1,5 +1,7 @@
 package com.eowise.recyclerview.stickyheaders.samples.data;
 
+import android.net.Uri;
+
 /**
  * Created by sanjay on 12/11/2015.
  */
@@ -9,6 +11,15 @@ public class PeopleData {
     private String imageurl;
     private String hasttag,total;
 
+    public Uri getContactImage() {
+        return contactImage;
+    }
+
+    public void setContactImage(Uri contactImage) {
+        this.contactImage = contactImage;
+    }
+
+    private Uri contactImage;
     public String getBrandname() {
         return brandname;
     }

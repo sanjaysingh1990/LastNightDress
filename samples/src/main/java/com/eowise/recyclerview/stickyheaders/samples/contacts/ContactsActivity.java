@@ -1,14 +1,18 @@
 package com.eowise.recyclerview.stickyheaders.samples.contacts;
 
 import android.app.ProgressDialog;
+import android.content.ContentUris;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
@@ -75,7 +79,9 @@ public class ContactsActivity extends AppCompatActivity
                 peopleData.setUname(phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)));
                 peopleData.setNumber(phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)));
                 peopleData.setContactid(Long.parseLong(phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone._ID))));
+                getPhotoUri(peopleData);
                 data.add(peopleData);
+
             }
             phones.close();
 return null;
@@ -102,4 +108,30 @@ return null;
     {
         onBackPressed();
     }
+
+    public void getPhotoUri(PeopleData data) {
+        try {
+            Cursor cur = this.getContentResolver().query(
+                    ContactsContract.Data.CONTENT_URI,
+                    null,
+                    ContactsContract.Data.CONTACT_ID + "=" + data.getContactid() + " AND "
+                            + ContactsContract.Data.MIMETYPE + "='"
+                            + ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE + "'", null,
+                    null);
+            if (cur != null) {
+                if (!cur.moveToFirst()) {
+                    return ; // no photo
+
+                }
+            } else {
+                return ; // error in cursor process
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ;
+        }
+        Uri person = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI,data.getContactid());
+        data.setContactImage(Uri.withAppendedPath(person, ContactsContract.Contacts.Photo.CONTENT_DIRECTORY));
+    }
+
 }
