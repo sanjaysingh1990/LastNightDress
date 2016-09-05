@@ -15,7 +15,8 @@ public interface ApplicationConstants {
 	public static final String APP_SERVER_URL_LND_SHIPPINGINFO="http://52.76.68.122/lnd/androidiosphpfiles/lndshippinginfodata.php";
 	public static final String APP_SERVER_URL_LND_LNDPOST="http://52.76.68.122/lnd/androidiosphpfiles/lndpost.php";
 	public static final String APP_SERVER_URL_LND_FADEX_PURCHASE_SHIPPING_LABLE="http://sikhdiary.com/lnd/track/fedex/createLabel";
-
+    public static final String CHAT_SERVER_URL="http://52.42.103.84:3000";
+	public static final int MSG_SELF = 1, MSG_OTHER = 2, MSG_IMAGE_UPLOAD_SELF = 3, MSG_IMAGE_SELF_FROM_SERVER = 4, MSG_IMAGE_OTHER_FROM_SERVER = 5,MSG_IMAGE_LOCAL_DONE=6;
 	// Google Project Number
 	static final String GOOGLE_PROJ_ID = "834036612270";
 	// Message Key

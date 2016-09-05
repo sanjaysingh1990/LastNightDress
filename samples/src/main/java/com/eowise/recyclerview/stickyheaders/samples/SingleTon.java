@@ -5,17 +5,14 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.graphics.Typeface;
+
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
-import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -27,26 +24,25 @@ import com.android.volley.toolbox.Volley;
 import com.crashlytics.android.Crashlytics;
 import com.eowise.recyclerview.stickyheaders.samples.SQLDB.DatabaseHandler;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ApplicationConstants;
-import com.eowise.recyclerview.stickyheaders.samples.data.LndAgentBean;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
-import com.twitter.sdk.android.Twitter;
-import com.twitter.sdk.android.core.TwitterAuthConfig;
-
-import org.json.JSONArray;
 import org.json.JSONObject;
 
-import io.fabric.sdk.android.Fabric;
+
+import java.net.URISyntaxException;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import io.socket.client.IO;
+import io.socket.client.Socket;
+import io.fabric.sdk.android.Fabric;
 
 public class SingleTon extends Application {
 
@@ -54,7 +50,20 @@ public class SingleTon extends Application {
 
 
     // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
+    private Socket mSocket;
 
+    {
+        try {
+            mSocket = IO.socket(ApplicationConstants.CHAT_SERVER_URL);
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public Socket getSocket() {
+        return mSocket;
+    }
 
 
     public static SharedPreferences pref;

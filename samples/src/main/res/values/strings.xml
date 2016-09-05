@@ -459,7 +459,7 @@ If you choose fixed price shipping, it’s a good idea to research average shipp
 </string>
 <string name="photo_page_text8">The first photo you take on LND will be your showcase photo, this is the photo users will see first when shopping. This is the most important photo, if its not appealing users will not want to click on it. Take a look at the dress example below, the image is showing the back of the dress, which is the hottest feature of the dress. Users would click on it because the image is appealing and users will be curious to know how the rest of the dress looks.
 </string>
-<!-- swapping text-->
+    <!-- swapping text-->
     <string name="swap_page_text1">A swap is two sales that happen simultaneously between users. Both users will pay for each others items. The payments are not processed until both parties complete their transaction. Once both payments are completed successfully, each user will receive their funds directly into their account hence, completeing a swap. If one user fails to complete their transaction then swap will be cancelled.
 </string>
     <string name="swap_page_text2">By purchasing each others items both parties are then eligible for PayPal’s purchase protection service. If, for any reason, the item your swapping with did not match the description or you did not receive your item, PayPal will return the full price including shipping.
@@ -468,7 +468,7 @@ If you choose fixed price shipping, it’s a good idea to research average shipp
 </string>
     <string name="swap_page_text4">Once you have locked the swap feature, you are not able to request or receive a swap.
 </string>
-<!-- social tips-->
+    <!-- social tips-->
     <string name="social_page_text1">Users employ various strategies for increasing exposure, the most common channel for distributing posts on LND is the  use of the share feature. If you see an item you like but it\'s not the right size or it just doesn\'t suite your needs, then share it with the friends who you think might be interested. By helping other LND sellers gain exposure through the share feature then conversely you should receive the same in return. There are hundreds of share strategies but the thing to remember is that share equals exposure.
 </string>
     <string name="social_page_text2">Liking is like a compliment on an online social setting. It is likely if you pay someone a compliment th</string>
@@ -477,7 +477,7 @@ If you choose fixed price shipping, it’s a good idea to research average shipp
     <string name="social_page_text4">The use of the "@" sign followed by the username will direct that post to that users home and notification page. User’s that receives this message on their home page will also have their followers exposed to your post. Please keep in mind, the use of the "@" is not a private message.
 </string>
     <string name="social_page_text5">Why is comment locked? This is to add an additional layer of protection on your posts. Having the comment feature widely available will give buyers more opportunity to bargain. Now, if one buyer starts to bargain on  your post other buyers will also feel enticed to bargain. The comment feature is strictly for LND Agents. We work with our Agents training them to use the comment feature as a tool to increase exposure for their team members posts. </string>
-<!--info for to become agency -->
+    <!--info for to become agency -->
     <string name="agency_goal">Your goal: Achieve Agency Level </string>
     <string name="agency_benifits">Benefits: You now get 3.5\%% rebate on all your sales plus, 2\%% on every sale from your team.
     </string>
@@ -542,9 +542,9 @@ If you choose fixed price shipping, it’s a good idea to research average shipp
     <string name="agent_goal">Your goal: Achieve Agent Level</string>
 
 
-  <string name="to_become_agent_or"> Register 1 shop user with min 20 posts  </string>
+    <string name="to_become_agent_or"> Register 1 shop user with min 20 posts  </string>
     <declare-styleable name="TextViewPlus">
-        <attr name="customFont" format="string"/>
+        <attr name="customFont" format="string" />
     </declare-styleable>
     <string name="add_a_comment">Add a comment</string>
 </resources>

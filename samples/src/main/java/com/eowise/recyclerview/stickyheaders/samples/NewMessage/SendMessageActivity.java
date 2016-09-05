@@ -5,10 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -43,6 +47,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+
+import java.text.DateFormat;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -50,6 +56,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
@@ -58,19 +65,23 @@ import github.ankushsachdeva.emojicon.EmojiconEditText;
 import github.ankushsachdeva.emojicon.EmojiconGridView;
 import github.ankushsachdeva.emojicon.EmojiconsPopup;
 import github.ankushsachdeva.emojicon.emoji.Emojicon;
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 
 public class SendMessageActivity extends AppCompatActivity {
     @Bind(R.id.list)
     RecyclerView chatRecyclerView;
     @Bind(R.id.smiley)
     ImageButton emojiButton;
-
-    @Bind(R.id.uname)
-    TextView heading;
-    private List<MessageData> data = new ArrayList<MessageData>();
-    private SendMsgListAdapter recyclerAdapter;
     @Bind(R.id.commentbox)
     EmojiconEditText cmntbox;
+    @Bind(R.id.uname)
+    TextView heading;
+    @Bind(R.id.typinglastseen)
+    TextView mUsertype;
+    private List<MessageData> data = new ArrayList<MessageData>();
+    private SendMsgListAdapter recyclerAdapter;
+
     private Bundle extra;
 
     int pos = -1;
@@ -85,7 +96,12 @@ public class SendMessageActivity extends AppCompatActivity {
     private boolean isrunning = false;
     private int lastscrollposition = 0;
     private boolean once = true;
-
+    private Socket mSocket;
+    private String msg_from = "", msg_to = "", u_name = "", image_url = "http://";
+    private boolean mTyping = false;
+    private Handler mTypingHandler = new Handler();
+    private Boolean isConnected = true;
+    private static final int TYPING_TIMER_LENGTH = 600;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -248,6 +264,61 @@ public class SendMessageActivity extends AppCompatActivity {
         });
 
 
+        cmntbox.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if (!mSocket.connected()) return;
+
+                if (!mTyping) {
+                    mTyping = true;
+
+                    try {
+                        JSONObject json = new JSONObject();
+                        json.put("mobile_no", msg_to);
+                        json.put("uname", msg_from);
+                        mSocket.emit("typing", json.toString());
+
+                    } catch (Exception ex) {
+
+                    }
+                }
+
+                mTypingHandler.removeCallbacks(onTypingTimeout);
+                mTypingHandler.postDelayed(onTypingTimeout, TYPING_TIMER_LENGTH);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+
+
+        //setting up socket
+        SingleTon app = (SingleTon) getApplication();
+        mSocket = app.getSocket();
+        mSocket.on(Socket.EVENT_CONNECT, onConnect);
+        mSocket.on(Socket.EVENT_DISCONNECT, onDisconnect);
+        mSocket.on(Socket.EVENT_CONNECT_ERROR, onConnectError);
+        mSocket.on(Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
+        mSocket.on("new message", chatMessage);
+        mSocket.on("user joined", onUserJoined);
+        mSocket.on("user left", onUserLeft);
+        mSocket.on("typing", onTyping);
+        mSocket.on("stop typing", onStopTyping);
+        mSocket.on("set online", onOnline);
+        mSocket.on("message read", msgread);
+        mSocket.on("last seen",lastseen);
+
+        mSocket.connect();
+
+
+
         getData(chatbanner.getUserid());
 
     }
@@ -271,7 +342,10 @@ public class SendMessageActivity extends AppCompatActivity {
         else
             return 3;
     }
-
+private void scrollToBottom()
+{
+    chatRecyclerView.scrollToPosition(data.size() - 1);
+}
     public void getData(final String senderid) {
         final ProgressDialog pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");
@@ -649,6 +723,453 @@ public class SendMessageActivity extends AppCompatActivity {
             }
         };
         queue.add(sr);
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        try {
+            JSONObject json = new JSONObject();
+            json.put("user_mobile_no", msg_from);
+            json.put("friend_mobile_no", msg_to);
+            mSocket.emit("set login", msg_from);
+            mSocket.emit("set friend", json.toString());
+            mSocket.emit("set online", msg_from);
+            mSocket.emit("check online", msg_to);
+
+            //addLog(getResources().getString(R.string.message_welcome));
+            // addParticipantsLog(numUsers);
+        } catch (Exception ex) {
+
+        }
+    }
+
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mSocket.emit("user gone", msg_to);
+
+        mSocket.disconnect();
+
+        mSocket.off(Socket.EVENT_CONNECT, onConnect);
+        mSocket.off(Socket.EVENT_DISCONNECT, onDisconnect);
+        mSocket.off(Socket.EVENT_CONNECT_ERROR, onConnectError);
+        mSocket.off(Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
+        mSocket.off("chat message", chatMessage);
+        mSocket.off("set nickname", onUserJoined);
+        mSocket.off("user left", onUserLeft);
+        mSocket.off("typing", onTyping);
+        mSocket.off("stop typing", onStopTyping);
+        mSocket.off("set online", onOnline);
+        mSocket.off("message read", msgread);
+        mSocket.off("last seen",lastseen);
+
+
+    }
+
+
+
+    private void addTyping(String username) {
+        /*mMessages.add(new Message.Builder(Message.TYPE_ACTION)
+                .username(username).build());
+        mAdapter.notifyItemInserted(mMessages.size() - 1);
+        scrollToBottom();*/
+        mUsertype.setText("is typing.....");
+    }
+
+    private void removeTyping(String username) {
+   /*     for (int i = mMessages.size() - 1; i >= 0; i--) {
+            Message message = mMessages.get(i);
+            if (message.getType() == Message.TYPE_ACTION && message.getUsername().equals(username)) {
+                mMessages.remove(i);
+                mAdapter.notifyItemRemoved(i);
+            }
+        }*/
+        mUsertype.setText("Online");
+
+    }
+
+    private void attemptSend() {
+
+        if (!mSocket.connected()) return;
+
+        mTyping = false;
+
+        String message = cmntbox.getText().toString().trim();
+        if (TextUtils.isEmpty(message)) {
+            cmntbox.requestFocus();
+            return;
+        }
+
+        cmntbox.setText("");
+        //addMessage(mUsername, message);
+        try {
+            DateFormat format = new SimpleDateFormat("dd MMM hh:mm a");
+            String curr_date_time_format = format.format(new Date());
+
+            MessageData chatResponse = new MessageData();
+
+            chatResponse.setProfilepic(SingleTon.pref.getString("imageurl",""));
+
+
+            chatResponse.setMessage(message);
+            chatResponse.setUserType(UserType.SELF);
+            data.add(chatResponse);
+
+            recyclerAdapter.notifyDataSetChanged();
+            scrollToBottom();
+
+            JSONObject jobj = new JSONObject();
+            jobj.put("msg_from", msg_from);
+            jobj.put("msg_to", msg_to);
+            jobj.put("u_name", u_name);
+            jobj.put("image_url", image_url);
+            jobj.put("msg", message);
+            jobj.put("shared_image_url", "");
+            String msg_id = "chizo" + System.currentTimeMillis();
+            jobj.put("user_unqiue_msg_id", msg_id);
+
+            mSocket.emit("new message", jobj.toString());
+
+
+        } catch (Exception ex) {
+
+        }
+
+        // perform the sending message attempt.
+    }
+
+    public void sendImageMessage(String url, String msg_id) {
+
+        try {
+
+
+            JSONObject jobj = new JSONObject();
+            jobj.put("msg_from", msg_from);
+            jobj.put("msg_to", msg_to);
+            jobj.put("u_name", u_name);
+            jobj.put("image_url", image_url);
+            jobj.put("msg", "");
+            jobj.put("shared_image_url", url);
+            jobj.put("user_unqiue_msg_id", msg_id);
+
+            mSocket.emit("new message", jobj.toString());
+
+        } catch (Exception ex) {
+
+        }
+
+    }
+
+    private void leave() {
+
+        mSocket.disconnect();
+        mSocket.connect();
+
+    }
+
+
+
+
+    private Emitter.Listener onConnect = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (!isConnected) {
+
+
+                        isConnected = true;
+                    }
+                }
+            });
+        }
+    };
+
+
+    private Emitter.Listener lastseen = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            final JSONObject data = (JSONObject) args[0];
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run()
+                {
+                    try
+                    {
+                        String lastseenat=getTime(data.getString("last_seen"));
+                        mUsertype.setText("Last seen "+lastseenat);
+                    }
+                    catch (JSONException ex)
+                    {
+                        Log.e("error",ex.getMessage());
+                    }
+
+                }
+
+            });
+        }
+    };
+
+    private Emitter.Listener onDisconnect = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    isConnected = false;
+                    mUsertype.setText("");
+                }
+            });
+        }
+    };
+
+    private Emitter.Listener onConnectError = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getApplicationContext(),
+                            "Error on connection", Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+    };
+
+    private Emitter.Listener onOnline = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            final String user = args[0].toString();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    /*Toast.makeText(getApplicationContext(),
+                            user.toString() + " Online", Toast.LENGTH_LONG).show();*/
+                    mUsertype.setText("Online");
+
+
+                }
+            });
+        }
+    };
+
+    private Emitter.Listener chatMessage = new Emitter.Listener() {
+        @Override
+        public void call(final Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    JSONObject jsondata = (JSONObject) args[0];
+                    // Log.e("json", data + "");
+                    String username = "";
+                    String message;
+                    String from;
+                    String messageto;
+                    String url;
+                    String shared_image_url;
+                    String msg_id;
+                    String unqiue_msg_id;
+                    String created_at;
+                    try {
+                        username = jsondata.getString("username");
+                        message = jsondata.getString("message");
+                        from = jsondata.getString("msg_from");
+                        messageto = jsondata.getString("msg_to");
+                        url = jsondata.getString("image_url");
+                        shared_image_url = jsondata.getString("shared_image_url");
+                        msg_id = jsondata.getString("msg_id");
+                        unqiue_msg_id = jsondata.getString("user_unqiue_msg_id");
+                        created_at = jsondata.getString("created_at");
+
+                        MessageData chatResponse = new MessageData();
+                        if (shared_image_url.length() == 0)
+                            chatResponse.setUserType(UserType.OTHER);
+                        else
+                            chatResponse.setUserType(UserType.OTHER_IMAGE);
+
+                        chatResponse.setImageurl(url);
+                        chatResponse.setMessage(message);
+                        chatResponse.setUname(from);
+                        data.add(chatResponse);
+                        recyclerAdapter.notifyDataSetChanged();
+                        scrollToBottom();
+                        JSONObject jobj = new JSONObject();
+                        jobj.put("msg_to", msg_to);
+                        jobj.put("msg_id", msg_id);
+                        jobj.put("user_unqiue_msg_id", unqiue_msg_id);
+
+                        //read back to inform message read
+                        mSocket.emit("message read", jobj.toString());
+                       // backupdata.put(msg_id, chatResponse);
+                        //  Log.e("msg_to",msg_to);
+                    } catch (JSONException e) {
+                        Log.e("error", e.getMessage() + "");
+                    }
+
+                    removeTyping(username);
+                    // addMessage(username, message);
+                }
+            });
+        }
+    };
+
+
+    private Emitter.Listener onUserJoined = new Emitter.Listener() {
+        @Override
+        public void call(final Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    JSONObject data = (JSONObject) args[0];
+                    String username;
+                    int numUsers;
+                    try {
+                        username = data.getString("username");
+                        numUsers = data.getInt("numUsers");
+                    } catch (JSONException e) {
+                        return;
+                    }
+
+                    // addLog(getResources().getString(R.string.message_user_joined, username));
+                    // addParticipantsLog(numUsers);
+                }
+            });
+        }
+    };
+
+
+    private Emitter.Listener msgread = new Emitter.Listener() {
+        @Override
+        public void call(final Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                   // Toast.makeText(ChatActivity.this, "message read", Toast.LENGTH_SHORT).show();
+                    try {
+                        JSONObject data = (JSONObject) args[0];
+                      //  Log.e("size", backupdata.size() + "");
+                        //backupdata.get(data.getString("user_unqiue_msg_id")).setIsread(1);
+                        recyclerAdapter.notifyDataSetChanged();
+                        scrollToBottom();
+                    } catch (Exception ex) {
+                        Log.e("error", ex.getMessage());
+                    }
+                    // addLog(getResources().getString(R.string.message_user_joined, username));
+                    // addParticipantsLog(numUsers);
+                }
+            });
+        }
+    };
+
+    private Emitter.Listener onUserLeft = new Emitter.Listener() {
+        @Override
+        public void call(final Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        mUsertype.setText("");
+                    } catch (Exception e) {
+                        return;
+                    }
+
+                    // addLog(getResources().getString(R.string.message_user_left, username));
+                    // addParticipantsLog(numUsers);
+                    // removeTyping(username);
+                }
+            });
+        }
+    };
+
+    private Emitter.Listener onTyping = new Emitter.Listener() {
+        @Override
+        public void call(final Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    JSONObject data = (JSONObject) args[0];
+                    String username;
+                    try {
+                        username = data.getString("username");
+                    } catch (JSONException e) {
+                        return;
+                    }
+                    addTyping(username);
+                }
+            });
+        }
+    };
+
+    private Emitter.Listener onStopTyping = new Emitter.Listener() {
+        @Override
+        public void call(final Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    JSONObject data = (JSONObject) args[0];
+                    String username;
+                    try {
+                        username = data.getString("username");
+                    } catch (JSONException e) {
+                        return;
+                    }
+                    removeTyping(username);
+                }
+            });
+        }
+    };
+
+    private Runnable onTypingTimeout = new Runnable() {
+        @Override
+        public void run() {
+            if (!mTyping) return;
+
+            mTyping = false;
+            try {
+                JSONObject json = new JSONObject();
+                json.put("mobile_no", msg_to);
+                json.put("uname", msg_from);
+                mSocket.emit("stop typing", json.toString());
+
+                //mSocket.emit("typing", json.toString());
+
+            } catch (Exception ex) {
+
+            }
+        }
+    };
+
+    private String getTime(String datetimestring) {
+        String chattime = "00 Jan 00:00 AM";
+        try {
+
+            String input_date = datetimestring.split("\\s")[0];
+            SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+            Date dt1 = format1.parse(input_date);
+            DateFormat format2 = new SimpleDateFormat("dd MMM");
+
+            String ddmonth = format2.format(dt1);
+
+
+            String time = datetimestring.split("\\s")[1].split("\\.")[0];
+            String _24HourTime = time;
+            SimpleDateFormat _24HourSDF = new SimpleDateFormat("HH:mm");
+            SimpleDateFormat _12HourSDF = new SimpleDateFormat("hh:mm a");
+            _24HourSDF.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+            Date _24HourDt = _24HourSDF.parse(_24HourTime);
+            return ddmonth + " " + _12HourSDF.format(_24HourDt).toUpperCase();
+
+        } catch (Exception ex) {
+
+        }
+        return chattime.toUpperCase();
     }
 
 }

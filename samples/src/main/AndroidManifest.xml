@@ -487,12 +487,12 @@
         <activity android:name=".LndAgent.AgentCongratulation" />
         <activity android:name=".Settings.TipsandStrategy" />
         <activity android:name=".Settings.TipsandStrategyShipping" />
-        <activity android:name=".Settings.TipsActivity"></activity>
+        <activity android:name=".Settings.TipsActivity" />
         <activity
             android:name=".LndAgent.UserLevelUpCongratulation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan|stateAlwaysHidden" />
-
+        <activity android:name=".LndShare.LndShareToContacts"></activity>
     </application>
 
 </manifest>

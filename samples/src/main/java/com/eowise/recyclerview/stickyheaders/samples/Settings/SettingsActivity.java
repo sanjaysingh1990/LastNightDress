@@ -1,10 +1,12 @@
 package com.eowise.recyclerview.stickyheaders.samples.Settings;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
@@ -30,16 +32,16 @@ import com.eowise.recyclerview.stickyheaders.samples.EditProfile.EditProfilePriv
 import com.eowise.recyclerview.stickyheaders.samples.EditProfile.EditProfileShop;
 import com.eowise.recyclerview.stickyheaders.samples.LndAgent.AgentCongratulation;
 import com.eowise.recyclerview.stickyheaders.samples.LndAgent.Agent_Signup;
+import com.eowise.recyclerview.stickyheaders.samples.LndAgent.LndShareActivity;
 import com.eowise.recyclerview.stickyheaders.samples.LndAgent.Lnd_Agent_Profile;
-import com.eowise.recyclerview.stickyheaders.samples.LndAgent.UserLevelUpCongratulation;
-import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
+import com.eowise.recyclerview.stickyheaders.samples.LndShare.LndShareToContacts;
+import com.eowise.recyclerview.stickyheaders.samples.LndUserProfile.LndProfile;
 import com.eowise.recyclerview.stickyheaders.samples.MyPurchases.MyPurchasesActivity;
 import com.eowise.recyclerview.stickyheaders.samples.MySales.SalesActivity;
 import com.eowise.recyclerview.stickyheaders.samples.Notification.NotificationActivity;
-import com.eowise.recyclerview.stickyheaders.samples.LndUserProfile.LndProfile;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.UserProfile.LndLoginSignup;
-import com.eowise.recyclerview.stickyheaders.samples.contacts.ContactsActivity;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -69,6 +71,7 @@ public class SettingsActivity extends AppCompatActivity {
     LinearLayout swaps;
     @Bind(R.id.line)
     View line;
+
     private boolean status = false;
 
     @Override
@@ -92,8 +95,9 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // handle me
-                Intent contact = new Intent(SettingsActivity.this, ContactsActivity.class);
-                startActivity(contact);
+               Intent sharetocontact=new Intent(SettingsActivity.this,LndShareToContacts.class);
+               startActivity(sharetocontact);
+
             }
         });
         //privacy policy
@@ -182,22 +186,17 @@ public class SettingsActivity extends AppCompatActivity {
                     startActivity(agent_profile);
 
                 }*/
-                boolean status1=SingleTon.pref.getBoolean("agent_signup", false);
-                boolean status2=SingleTon.pref.getBoolean("agent_welcome", false);
+                boolean status1 = SingleTon.pref.getBoolean("agent_signup", false);
+                boolean status2 = SingleTon.pref.getBoolean("agent_welcome", false);
 
-                if (status1 && status2)
-                {
-                    Intent agent_signup = new Intent(SettingsActivity.this,Lnd_Agent_Profile.class);
+                if (status1 && status2) {
+                    Intent agent_signup = new Intent(SettingsActivity.this, Lnd_Agent_Profile.class);
                     startActivity(agent_signup);
-                }
-                else if(!status1)
-                {
-                    Intent agent_signup = new Intent(SettingsActivity.this,Agent_Signup.class);
+                } else if (!status1) {
+                    Intent agent_signup = new Intent(SettingsActivity.this, Agent_Signup.class);
                     startActivity(agent_signup);
-                }
-                else
-                {
-                    Intent agent_signup = new Intent(SettingsActivity.this,AgentCongratulation.class);
+                } else {
+                    Intent agent_signup = new Intent(SettingsActivity.this, AgentCongratulation.class);
                     startActivity(agent_signup);
 
                 }
@@ -346,8 +345,14 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        sCallbackManager.onActivityResult(requestCode, resultCode, data);
+        if (sCallbackManager != null)
+            sCallbackManager.onActivityResult(requestCode, resultCode, data);
+
+
+
     }
+
+
 
     @Override
     public void onBackPressed() {
@@ -445,5 +450,6 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
     }
+
 
 }

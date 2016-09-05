@@ -1,33 +1,23 @@
 package com.eowise.recyclerview.stickyheaders.samples.LndAgent;
 
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.Contacts;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
-import com.eowise.recyclerview.stickyheaders.samples.PostDataShop.LndShippingCallback;
+import com.eowise.recyclerview.stickyheaders.samples.LndShare.LndShareToContacts;
 import com.eowise.recyclerview.stickyheaders.samples.R;
-import com.eowise.recyclerview.stickyheaders.samples.contacts.ContactsActivity;
+
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
-import com.facebook.login.widget.LoginButton;
 import com.facebook.share.Sharer;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;
-
-import butterknife.ButterKnife;
 
 public abstract class LndShareActivity extends AppCompatActivity {
 
@@ -77,7 +67,7 @@ public abstract class LndShareActivity extends AppCompatActivity {
 
 
     public void sendsms() {
-        Intent contact = new Intent(LndShareActivity.this, ContactsActivity.class);
+        Intent contact = new Intent(LndShareActivity.this, LndShareToContacts.class);
         startActivity(contact);
     }
 

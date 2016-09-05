@@ -83,14 +83,14 @@ public class Favorates extends AppCompatActivity {
         //custom fonts
         heading.setTypeface(SingleTon.hfont);
         mItems.clear();
-        intialize();
-    }
-
-    private void intialize() {
-
-
         getFavorates();
     }
+
+
+
+
+
+
 
     @Override
     public void onBackPressed() {
