@@ -356,14 +356,14 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     } else if (item.getNotitotallikers() == 1) {
                         String[] users = item.getNotilikedby().split(",");
 
-                        vh1.activitydoneby.setText(mTagSelectingTextview.addClickablePart(Capitalize.capitalizeFirstLetter(users[0] + " liked this."),
+                        vh1.activitydoneby.setText(mTagSelectingTextview.addClickablePart(users[0] + " liked this.",
                                 this, hashTagHyperLinkDisabled, hastTagColorBlue, users[0].length()),
                                 TextView.BufferType.SPANNABLE);
 
                     } else {
                         String[] users = item.getNotilikedby().split(",");
 
-                        vh1.activitydoneby.setText(mTagSelectingTextview.addClickablePart(Capitalize.capitalizeFirstLetter(users[0]) + " and " + users[1] + " liked this.",
+                        vh1.activitydoneby.setText(mTagSelectingTextview.addClickablePart(users[0] + " and " + users[1] + " liked this.",
                                 this, hashTagHyperLinkDisabled, hastTagColorBlue, users[0].length(), users[1].length(), ""),
                                 TextView.BufferType.SPANNABLE);
 
@@ -376,7 +376,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                     {
                         String[] users = item.getNotilikedby().split(",");
-                        vh1.activitydoneby.setText(mTagSelectingTextview.addClickablePart(Capitalize.capitalizeFirstLetter(users[0]) + " and " + (item.getNotitotallikers() - 1) + " more commented on this",
+                        vh1.activitydoneby.setText(mTagSelectingTextview.addClickablePart(users[0] + " and " + (item.getNotitotallikers() - 1) + " more commented on this",
                                 this, hashTagHyperLinkDisabled, hastTagColorBlue, users[0].length(), ((item.getNotitotallikers() - 1) + " more").length(), item.getPost_id()),
                                 TextView.BufferType.SPANNABLE);
 
@@ -384,13 +384,13 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     } else if (item.getNotitotallikers() == 1) {
                         String[] users = item.getNotilikedby().split(",");
 
-                        vh1.activitydoneby.setText(mTagSelectingTextview.addClickablePart(Capitalize.capitalizeFirstLetter(users[0] + " commented on this."),
+                        vh1.activitydoneby.setText(mTagSelectingTextview.addClickablePart(users[0] + " commented on this.",
                                 this, hashTagHyperLinkDisabled, hastTagColorBlue, users[0].length()),
                                 TextView.BufferType.SPANNABLE);
 
                     } else {
                         String[] users = item.getNotilikedby().split(",");
-                        vh1.activitydoneby.setText(mTagSelectingTextview.addClickablePart(Capitalize.capitalizeFirstLetter(users[0]) + " and " + users[1] + " commented on this.",
+                        vh1.activitydoneby.setText(mTagSelectingTextview.addClickablePart(users[0] + " and " + users[1] + " commented on this.",
                                 this, hashTagHyperLinkDisabled, hastTagColorBlue, users[0].length(), users[1].length(), ""),
                                 TextView.BufferType.SPANNABLE);
 
@@ -411,13 +411,13 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     } else if (item.getNotitotallikers() == 1) {
                         String[] users = item.getNotilikedby().split(",");
 
-                        vh1.activitydoneby.setText(mTagSelectingTextview.addClickablePart(Capitalize.capitalizeFirstLetter(users[0] + " mentioned you on this."),
+                        vh1.activitydoneby.setText(mTagSelectingTextview.addClickablePart(users[0] + " mentioned you on this.",
                                 this, hashTagHyperLinkDisabled, hastTagColorBlue, users[0].length()),
                                 TextView.BufferType.SPANNABLE);
 
                     } else {
                         String[] users = item.getNotilikedby().split(",");
-                        vh1.activitydoneby.setText(mTagSelectingTextview.addClickablePart(Capitalize.capitalizeFirstLetter(users[0]) + " and " + users[1] + " mentioned you on this.",
+                        vh1.activitydoneby.setText(mTagSelectingTextview.addClickablePart(users[0] + " and " + users[1] + " mentioned you on this.",
                                 this, hashTagHyperLinkDisabled, hastTagColorBlue, users[0].length(), users[1].length(), ""),
                                 TextView.BufferType.SPANNABLE);
 

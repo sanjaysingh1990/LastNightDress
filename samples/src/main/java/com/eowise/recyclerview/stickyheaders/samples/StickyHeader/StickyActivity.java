@@ -37,6 +37,7 @@ import com.eowise.recyclerview.stickyheaders.samples.Loading.AVLoadingIndicatorV
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.SQLDB.FavoriteData;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ApplicationConstants;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ConstantValues;
 import com.init.superslim.LayoutManager;
 
@@ -441,24 +442,29 @@ public class StickyActivity extends AppCompatActivity {
 
                         String uname = SingleTon.pref.getString("uname", "");
                         //for header
-                        if (jo.getInt("noti_type_home") == 1) {
-                            hld2.setHeadertype(1);
-                            hld2.setNotitotallikers(jo.getInt("noti_total"));
-                            hld2.setNotilikedby(jo.getString("noti_users").replace(uname, "You"));
-
-                        } else if (jo.getInt("noti_type_home") == 2) {
-                            hld2.setHeadertype(2);
-                            hld2.setNotitotallikers(jo.getInt("noti_total"));
-                            hld2.setNotilikedby(jo.getString("noti_users").replace(uname, "You"));
-
-                        } else if (jo.getInt("noti_type_home") == 3) {
-                            hld2.setHeadertype(3);
-                            hld2.setNotitotallikers(jo.getInt("noti_total"));
-                            hld2.setNotilikedby(jo.getString("noti_users").replace(uname, "You"));
-
-                        } else
+                        if (jo.isNull("noti_users"))
                             hld2.setHeadertype(0);
+                        else {
+                            String notiusers = jo.getString("noti_users");
+                            String users = capitalize(notiusers.replaceAll("[0-9;]", ""));
+                             if (notiusers.contains("11")) {
 
+                                hld2.setHeadertype(1);
+                                hld2.setNotitotallikers(jo.getInt("noti_total"));
+                                hld2.setNotilikedby(users.replace(uname, "You"));
+
+                            } else if (notiusers.contains("12")) {
+                                hld2.setHeadertype(2);
+                                hld2.setNotitotallikers(jo.getInt("noti_total"));
+                                hld2.setNotilikedby(users.replace(uname, "You"));
+
+                            } else if (notiusers.contains("12")) {
+                                hld2.setHeadertype(3);
+                                hld2.setNotitotallikers(jo.getInt("noti_total"));
+                                hld2.setNotilikedby(users.replace(uname, "You"));
+
+                            }
+                        }
                         hld2.setProfilepicurl(jo.getString("profile_pic"));
                         hld2.setIssold(jo.getInt("issold"));
 
@@ -553,13 +559,28 @@ public class StickyActivity extends AppCompatActivity {
         Home_List_Data hld = mItems.get(pos);
 
         ArrayList<CommentBean> post_cont = hld.getUserpostcomments();
-        hld.setTotalcomments(hld.getTotalcomments()+1);
+        hld.setTotalcomments(hld.getTotalcomments() + 1);
         if (post_cont.size() == 5) {
             post_cont.remove(4);
             post_cont.add(4, cmnt);
         } else
             post_cont.add(cmnt);
         mAdapter.notifyDataSetChanged();
+    }
+
+    private String capitalize(String data) {
+        String names = "";
+
+        try {
+            String[] str = data.split(",");
+            for (int i = 0; i < str.length - 1; i++)
+                names = Capitalize.capitalizeFirstLetter(str[i]) + ",";
+            names = names + Capitalize.capitalizeFirstLetter(str[str.length - 1]);
+            return names;
+        } catch (Exception ex) {
+            Log.e("error", ex.getMessage() + "");
+        }
+        return data;
     }
 
 }
