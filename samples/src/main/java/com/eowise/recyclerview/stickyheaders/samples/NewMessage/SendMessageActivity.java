@@ -102,6 +102,7 @@ public class SendMessageActivity extends AppCompatActivity {
     private Handler mTypingHandler = new Handler();
     private Boolean isConnected = true;
     private static final int TYPING_TIMER_LENGTH = 600;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,7 +119,10 @@ public class SendMessageActivity extends AppCompatActivity {
         extra = getIntent().getExtras();
         if (extra != null) {
             chatbanner = (Home_List_Data) extra.get("bannerdata");
-
+            msg_to = chatbanner.getUserid();
+            msg_from = SingleTon.pref.getString("user_id", "");
+            u_name = SingleTon.pref.getString("uname", "");
+            image_url = SingleTon.pref.getString("imageurl", "");
             pos = extra.getInt("pos");
 
 
@@ -277,15 +281,9 @@ public class SendMessageActivity extends AppCompatActivity {
                 if (!mTyping) {
                     mTyping = true;
 
-                    try {
-                        JSONObject json = new JSONObject();
-                        json.put("mobile_no", msg_to);
-                        json.put("uname", msg_from);
-                        mSocket.emit("typing", json.toString());
+                    mSocket.emit("typing", msg_to);
 
-                    } catch (Exception ex) {
 
-                    }
                 }
 
                 mTypingHandler.removeCallbacks(onTypingTimeout);
@@ -296,7 +294,6 @@ public class SendMessageActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
             }
         });
-
 
 
         //setting up socket
@@ -313,10 +310,9 @@ public class SendMessageActivity extends AppCompatActivity {
         mSocket.on("stop typing", onStopTyping);
         mSocket.on("set online", onOnline);
         mSocket.on("message read", msgread);
-        mSocket.on("last seen",lastseen);
+        mSocket.on("last seen", lastseen);
 
         mSocket.connect();
-
 
 
         getData(chatbanner.getUserid());
@@ -342,10 +338,11 @@ public class SendMessageActivity extends AppCompatActivity {
         else
             return 3;
     }
-private void scrollToBottom()
-{
-    chatRecyclerView.scrollToPosition(data.size() - 1);
-}
+
+    private void scrollToBottom() {
+        chatRecyclerView.scrollToPosition(data.size() - 1);
+    }
+
     public void getData(final String senderid) {
         final ProgressDialog pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");
@@ -390,22 +387,12 @@ private void scrollToBottom()
                             md.setPrice(jo.getString("price_now"));
                             md.setUserType(UserType.BANNER);
                         }
-                        //formatting date and time
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                        Date testDate = null;
-                        try {
-                            testDate = sdf.parse(md.getTime());
-                        } catch (Exception ex) {
-                            Log.e("error", ex.getMessage());
-                        }
-                        //           SimpleDateFormat formatter = new SimpleDateFormat("MMM dd,yyyy hh:mm a");
 
-
+                        Date testDate = getDate(md.getTime());
                         int val = yesterdayMsg(testDate);
                         if (val == 1) {
-                            SimpleDateFormat formatter = new SimpleDateFormat("hh:mm a");
 
-                            String newFormat = formatter.format(testDate);
+                            String newFormat = getTime(md.getTime());
                             if (newFormat.startsWith("0")) {
                                 md.setTime(newFormat.toUpperCase().substring(1));
                             } else
@@ -515,24 +502,29 @@ private void scrollToBottom()
     }
 
     public void send(View v) {
-        String message = "";
+        //start sending message to socket
+        if (!mSocket.connected()) return;
+
+        mTyping = false;
+
+        String message = cmntbox.getText().toString().trim();
+        if (TextUtils.isEmpty(message)) {
+            cmntbox.requestFocus();
+            return;
+        }
+
+
         message = cmntbox.getText().toString();
         Date dt = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa");
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
         String time1 = sdf.format(dt);
-
-
         String uname = SingleTon.pref.getString("uname", "uname");
-        //Log.e("check",cmntxt+","+uname);
-        if (message.length() == 0)
-            return;
         MessageData md = new MessageData();
         md.setMessage(message);
         md.setUname(uname);
         md.setProfilepic(SingleTon.pref.getString("imageurl", ""));
         md.setUserType(UserType.SELF);
         //check for start with zero
-
         if (time1.startsWith("0")) {
             md.setTime(time1.toUpperCase().substring(1));
         } else
@@ -559,10 +551,30 @@ private void scrollToBottom()
                 msg.put("banner", 0);
 
 
-            sendMessage(msg.toString());
+            //  sendMessage(msg.toString());
         } catch (JSONException ex) {
 
         }
+
+        try {
+
+            JSONObject jobj = new JSONObject();
+            jobj.put("msg_from", msg_from);
+            jobj.put("msg_to", msg_to);
+            jobj.put("u_name", u_name);
+            jobj.put("image_url", image_url);
+            jobj.put("msg", message);
+            jobj.put("shared_image_url", "");
+            String msg_id = "chizo" + System.currentTimeMillis();
+            jobj.put("user_unqiue_msg_id", msg_id);
+
+            mSocket.emit("new message", jobj.toString());
+
+
+        } catch (Exception ex) {
+
+        }
+
 
     }
 
@@ -731,8 +743,8 @@ private void scrollToBottom()
         super.onResume();
         try {
             JSONObject json = new JSONObject();
-            json.put("user_mobile_no", msg_from);
-            json.put("friend_mobile_no", msg_to);
+            json.put("user_id", msg_from);
+            json.put("friend_id", msg_to);
             mSocket.emit("set login", msg_from);
             mSocket.emit("set friend", json.toString());
             mSocket.emit("set online", msg_from);
@@ -744,7 +756,6 @@ private void scrollToBottom()
 
         }
     }
-
 
 
     @Override
@@ -765,11 +776,10 @@ private void scrollToBottom()
         mSocket.off("stop typing", onStopTyping);
         mSocket.off("set online", onOnline);
         mSocket.off("message read", msgread);
-        mSocket.off("last seen",lastseen);
+        mSocket.off("last seen", lastseen);
 
 
     }
-
 
 
     private void addTyping(String username) {
@@ -794,50 +804,6 @@ private void scrollToBottom()
 
     private void attemptSend() {
 
-        if (!mSocket.connected()) return;
-
-        mTyping = false;
-
-        String message = cmntbox.getText().toString().trim();
-        if (TextUtils.isEmpty(message)) {
-            cmntbox.requestFocus();
-            return;
-        }
-
-        cmntbox.setText("");
-        //addMessage(mUsername, message);
-        try {
-            DateFormat format = new SimpleDateFormat("dd MMM hh:mm a");
-            String curr_date_time_format = format.format(new Date());
-
-            MessageData chatResponse = new MessageData();
-
-            chatResponse.setProfilepic(SingleTon.pref.getString("imageurl",""));
-
-
-            chatResponse.setMessage(message);
-            chatResponse.setUserType(UserType.SELF);
-            data.add(chatResponse);
-
-            recyclerAdapter.notifyDataSetChanged();
-            scrollToBottom();
-
-            JSONObject jobj = new JSONObject();
-            jobj.put("msg_from", msg_from);
-            jobj.put("msg_to", msg_to);
-            jobj.put("u_name", u_name);
-            jobj.put("image_url", image_url);
-            jobj.put("msg", message);
-            jobj.put("shared_image_url", "");
-            String msg_id = "chizo" + System.currentTimeMillis();
-            jobj.put("user_unqiue_msg_id", msg_id);
-
-            mSocket.emit("new message", jobj.toString());
-
-
-        } catch (Exception ex) {
-
-        }
 
         // perform the sending message attempt.
     }
@@ -872,8 +838,6 @@ private void scrollToBottom()
     }
 
 
-
-
     private Emitter.Listener onConnect = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
@@ -898,16 +862,12 @@ private void scrollToBottom()
 
             runOnUiThread(new Runnable() {
                 @Override
-                public void run()
-                {
-                    try
-                    {
-                        String lastseenat=getTime(data.getString("last_seen"));
-                        mUsertype.setText("Last seen "+lastseenat);
-                    }
-                    catch (JSONException ex)
-                    {
-                        Log.e("error",ex.getMessage());
+                public void run() {
+                    try {
+                        String lastseenat = getTime(data.getString("last_seen"));
+                        mUsertype.setText("Last seen " + lastseenat);
+                    } catch (JSONException ex) {
+                        Log.e("error", ex.getMessage());
                     }
 
                 }
@@ -985,7 +945,7 @@ private void scrollToBottom()
                         shared_image_url = jsondata.getString("shared_image_url");
                         msg_id = jsondata.getString("msg_id");
                         unqiue_msg_id = jsondata.getString("user_unqiue_msg_id");
-                        created_at = jsondata.getString("created_at");
+                        created_at = getTime(jsondata.getString("created_at"));
 
                         MessageData chatResponse = new MessageData();
                         if (shared_image_url.length() == 0)
@@ -996,6 +956,12 @@ private void scrollToBottom()
                         chatResponse.setImageurl(url);
                         chatResponse.setMessage(message);
                         chatResponse.setUname(from);
+                        if (created_at.startsWith("0")) {
+                            chatResponse.setTime(created_at.toUpperCase());
+                        } else
+                            chatResponse.setTime(created_at.toUpperCase());
+                        chatResponse.setCurrenttimestamp(SingleTon.getCurrentTimeStamp());
+
                         data.add(chatResponse);
                         recyclerAdapter.notifyDataSetChanged();
                         scrollToBottom();
@@ -1006,7 +972,7 @@ private void scrollToBottom()
 
                         //read back to inform message read
                         mSocket.emit("message read", jobj.toString());
-                       // backupdata.put(msg_id, chatResponse);
+                        // backupdata.put(msg_id, chatResponse);
                         //  Log.e("msg_to",msg_to);
                     } catch (JSONException e) {
                         Log.e("error", e.getMessage() + "");
@@ -1050,10 +1016,10 @@ private void scrollToBottom()
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                   // Toast.makeText(ChatActivity.this, "message read", Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(ChatActivity.this, "message read", Toast.LENGTH_SHORT).show();
                     try {
                         JSONObject data = (JSONObject) args[0];
-                      //  Log.e("size", backupdata.size() + "");
+                        //  Log.e("size", backupdata.size() + "");
                         //backupdata.get(data.getString("user_unqiue_msg_id")).setIsread(1);
                         recyclerAdapter.notifyDataSetChanged();
                         scrollToBottom();
@@ -1131,30 +1097,27 @@ private void scrollToBottom()
             if (!mTyping) return;
 
             mTyping = false;
-            try {
-                JSONObject json = new JSONObject();
-                json.put("mobile_no", msg_to);
-                json.put("uname", msg_from);
-                mSocket.emit("stop typing", json.toString());
+            mSocket.emit("stop typing", msg_to);
 
-                //mSocket.emit("typing", json.toString());
-
-            } catch (Exception ex) {
-
-            }
         }
     };
 
-    private String getTime(String datetimestring) {
-        String chattime = "00 Jan 00:00 AM";
+    private Date getDate(String datetimestring) {
         try {
 
-            String input_date = datetimestring.split("\\s")[0];
-            SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
-            Date dt1 = format1.parse(input_date);
-            DateFormat format2 = new SimpleDateFormat("dd MMM");
 
-            String ddmonth = format2.format(dt1);
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            return format.parse(datetimestring);
+
+        } catch (Exception ex) {
+
+        }
+        return null;
+    }
+
+    private String getTime(String datetimestring) {
+        String chattime = "00:00 AM";
+        try {
 
 
             String time = datetimestring.split("\\s")[1].split("\\.")[0];
@@ -1164,7 +1127,7 @@ private void scrollToBottom()
             _24HourSDF.setTimeZone(TimeZone.getTimeZone("UTC"));
 
             Date _24HourDt = _24HourSDF.parse(_24HourTime);
-            return ddmonth + " " + _12HourSDF.format(_24HourDt).toUpperCase();
+            return _12HourSDF.format(_24HourDt).toUpperCase();
 
         } catch (Exception ex) {
 

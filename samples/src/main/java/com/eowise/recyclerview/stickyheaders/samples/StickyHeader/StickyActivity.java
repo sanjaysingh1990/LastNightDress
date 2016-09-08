@@ -447,7 +447,7 @@ public class StickyActivity extends AppCompatActivity {
                         else {
                             String notiusers = jo.getString("noti_users");
                             String users = capitalize(notiusers.replaceAll("[0-9;]", ""));
-                             if (notiusers.contains("11")) {
+                            if (notiusers.contains("11")) {
 
                                 hld2.setHeadertype(1);
                                 hld2.setNotitotallikers(jo.getInt("noti_total"));
@@ -574,8 +574,9 @@ public class StickyActivity extends AppCompatActivity {
         try {
             String[] str = data.split(",");
             for (int i = 0; i < str.length - 1; i++)
-                names = Capitalize.capitalizeFirstLetter(str[i]) + ",";
+                names = names + Capitalize.capitalizeFirstLetter(str[i]) + ",";
             names = names + Capitalize.capitalizeFirstLetter(str[str.length - 1]);
+
             return names;
         } catch (Exception ex) {
             Log.e("error", ex.getMessage() + "");
