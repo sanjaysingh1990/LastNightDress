@@ -7,13 +7,44 @@ public class MessageData {
     private String uname;
     private String message;
     private int type;
+    private String brandname;
+    private String Sellername;
+    private String size;
+    private String color;
+    private String price;
 
-    public String getBrandname() {
-        return brandname;
+    public String getPostid() {
+        return postid;
     }
 
-    public void setBrandname(String brandname) {
-        this.brandname = brandname;
+    public void setPostid(String postid) {
+        this.postid = postid;
+    }
+
+    private String postid;
+
+    public UserMessageType getUserMessageType() {
+        return userMessageType;
+    }
+
+    public void setUserMessageType(UserMessageType userMessageType) {
+        this.userMessageType = userMessageType;
+    }
+
+    public String getUname() {
+        return uname;
+    }
+
+    public void setUname(String uname) {
+        this.uname = uname;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public int getType() {
@@ -22,6 +53,14 @@ public class MessageData {
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    public String getBrandname() {
+        return brandname;
+    }
+
+    public void setBrandname(String brandname) {
+        this.brandname = brandname;
     }
 
     public String getSellername() {
@@ -64,32 +103,21 @@ public class MessageData {
         this.imageurl = imageurl;
     }
 
-    private String brandname;
-    private String Sellername;
-    private String size;
-    private String color;
-    private String price;
-    private String imageurl;
-
-    public String getCurrenttimestamp() {
-        return currenttimestamp;
+    public int getMsgid() {
+        return msgid;
     }
 
-    public void setCurrenttimestamp(String currenttimestamp) {
-        this.currenttimestamp = currenttimestamp;
+    public void setMsgid(int msgid) {
+        this.msgid = msgid;
     }
 
-    private String currenttimestamp;
-
-    public String getBase64_imgage_url() {
-        return base64_imgage_url;
+    public String getShared_imgage_url() {
+        return shared_imgage_url;
     }
 
-    public void setBase64_imgage_url(String base64_imgage_url) {
-        this.base64_imgage_url = base64_imgage_url;
+    public void setShared_imgage_url(String shared_imgage_url) {
+        this.shared_imgage_url = shared_imgage_url;
     }
-
-    private String base64_imgage_url;
 
     public long getTimeago() {
         return timeago;
@@ -99,50 +127,12 @@ public class MessageData {
         this.timeago = timeago;
     }
 
-    private long timeago;
-
-    public int getMsgid() {
-        return msgid;
-    }
-
-    public void setMsgid(int msgid) {
-        this.msgid = msgid;
-    }
-
-    private int msgid;
-
-    public UserType getUserType() {
-        return userType;
-    }
-
-    public void setUserType(UserType userType) {
-        this.userType = userType;
-    }
-
-    private UserType userType;
-
     public String getProfilepic() {
         return profilepic;
     }
 
     public void setProfilepic(String profilepic) {
         this.profilepic = profilepic;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public String getUname() {
-        return uname;
-    }
-
-    public void setUname(String uname) {
-        this.uname = uname;
     }
 
     public String getTime() {
@@ -161,10 +151,6 @@ public class MessageData {
         this.msgindicator = msgindicator;
     }
 
-    private String profilepic;
-    private String time;
-    private int msgindicator;
-
     public String getSender_id() {
         return sender_id;
     }
@@ -181,6 +167,14 @@ public class MessageData {
         this.datetime = datetime;
     }
 
+    private String imageurl;
+    private int msgid;
+    private String shared_imgage_url;
+    private long timeago;
+    private UserMessageType userMessageType;
+    private String profilepic;
+    private String time;
+    private int msgindicator;
     private String sender_id;
     private String datetime;
 }

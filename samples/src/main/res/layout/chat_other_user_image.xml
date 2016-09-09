@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="5dp"
+    android:paddingTop="5dp"
+
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="horizontal">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profilepic"
+            android:layout_width="33dp"
+            android:layout_height="33dp"
+            android:layout_gravity="bottom"
+            android:layout_weight="0"
+            android:src="@drawable/image1" />
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/left_bubble"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/shareimg"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="10dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/image1"
+                android:clickable="true"
+
+                />
+
+            <com.github.lzyzsd.circleprogress.DonutProgress
+                android:id="@+id/donut_progress"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_vertical|center_horizontal"
+                custom:donut_finished_color="@color/lndcolor"
+                custom:donut_finished_stroke_width="4dp"
+                custom:donut_progress="0"
+                custom:donut_text_size="16sp"
+                custom:donut_unfinished_color="#5678C2"
+                custom:donut_unfinished_stroke_width="4dp" />
+            </FrameLayout>
+
+
+            <TextView
+                android:id="@+id/time_text"
+                style="@style/chat_timings"
+                android:layout_width="wrap_content"
+
+
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_weight="0"
+                android:paddingBottom="2dp"
+                android:paddingRight="0dp"
+                android:text="12:25"
+                android:textColor="#757575"
+
+                />
+
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

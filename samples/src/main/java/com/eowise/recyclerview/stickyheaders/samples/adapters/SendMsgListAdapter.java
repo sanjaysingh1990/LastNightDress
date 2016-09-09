@@ -1,52 +1,50 @@
 package com.eowise.recyclerview.stickyheaders.samples.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
-import android.text.method.LinkMovementMethod;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage.AbstractDataProvider2;
-import com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage.MessageFragment;
-import com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage.PagerSwipeItemFrameLayout;
 import com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage.TagSelectingTextview;
 import com.eowise.recyclerview.stickyheaders.samples.LndUserProfile.LndProfile;
+import com.eowise.recyclerview.stickyheaders.samples.NewMessage.FullImageViewDialog;
+import com.eowise.recyclerview.stickyheaders.samples.NewMessage.MyCallBack;
 import com.eowise.recyclerview.stickyheaders.samples.NewMessage.SendMessageActivity;
+import com.eowise.recyclerview.stickyheaders.samples.NewMessage.UploadFileToServer;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.UserProfile.OtherUserProfileActivity;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
-import com.eowise.recyclerview.stickyheaders.samples.Utils.RelativeTimeTextView;
-import com.eowise.recyclerview.stickyheaders.samples.data.CommentData;
 import com.eowise.recyclerview.stickyheaders.samples.data.MessageData;
-import com.eowise.recyclerview.stickyheaders.samples.data.MessageToFriendsData;
 import com.eowise.recyclerview.stickyheaders.samples.data.PersonDataProvider;
-import com.eowise.recyclerview.stickyheaders.samples.data.UserType;
+import com.eowise.recyclerview.stickyheaders.samples.data.UserMessageType;
 import com.eowise.recyclerview.stickyheaders.samples.interfaces.TagClick;
+import com.github.lzyzsd.circleprogress.DonutProgress;
+import com.nostra13.universalimageloader.core.download.ImageDownloader;
 
-import java.util.HashMap;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import github.ankushsachdeva.emojicon.EmojiconTextView;
 
 /**
  * Created by aurel on 22/09/14.
  */
-public class SendMsgListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements TagClick {
+public class SendMsgListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements TagClick, MyCallBack {
     private static List<MessageData> items;
     private PersonDataProvider personDataProvider;
-    static Context mContext;
+    static Activity activity;
     static int count = 0;
     TagSelectingTextview mTagSelectingTextview;
     public static int hashTagHyperLinkDisabled = 0;
@@ -54,13 +52,17 @@ public class SendMsgListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private final int VIEW_ITEM_SELF = 1;
     private final int VIEW_ITEM_OTHER = 2;
     private final int VIEW_ITEM_BANNER = 3;
-    private final int VIEW_ITEM_IMAGE = 4;
+    private final int VIEW_ITEM_IMAGE_SELF_SERVER = 4;
+    private final int VIEW_ITEM_IMAGE_OTHER_SERVER = 5;
+    private final int VIEW_ITEM_SELF_LOCAL_IMAGE_UPLOAD = 6;
+    private final int VIEW_ITEM_SELF_LOCAL_IMAGE_UPLOADED = 7;
+    private SingleTon singleTon;
 
-    public SendMsgListAdapter(Context context, List<MessageData> data) {
-        this.mContext = context;
+    public SendMsgListAdapter(Activity activity, List<MessageData> data) {
+        this.activity = activity;
         this.items = data;
         mTagSelectingTextview = new TagSelectingTextview();
-
+        singleTon = (SingleTon) activity.getApplication();
         setHasStableIds(true);
     }
 
@@ -83,12 +85,29 @@ public class SendMsgListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     R.layout.banner_layout, parent, false);
 
             vh = new Banner(v);
-        } else {
+        } else if (viewType == VIEW_ITEM_IMAGE_OTHER_SERVER) {
             View v = LayoutInflater.from(parent.getContext()).inflate(
-                    R.layout.chat_user2_item_image, parent, false);
+                    R.layout.chat_other_user_image, parent, false);
 
-            vh = new ImageMsg(v);
-        }
+            vh = new ChatImage(v);
+        } else if (viewType == VIEW_ITEM_IMAGE_SELF_SERVER) {
+            View v = LayoutInflater.from(parent.getContext()).inflate(
+                    R.layout.chat_self_user_image, parent, false);
+
+            vh = new ChatImage(v);
+        } else if (viewType == VIEW_ITEM_SELF_LOCAL_IMAGE_UPLOAD) {
+            View v = LayoutInflater.from(parent.getContext()).inflate(
+                    R.layout.chat_self_user_image, parent, false);
+
+            vh = new ChatImage(v);
+        } else if (viewType == VIEW_ITEM_SELF_LOCAL_IMAGE_UPLOADED) {
+            View v = LayoutInflater.from(parent.getContext()).inflate(
+                    R.layout.chat_self_user_image, parent, false);
+
+            vh = new ChatImage(v);
+        } else
+
+            return null;
         return vh;
 
     }
@@ -123,20 +142,36 @@ public class SendMsgListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
 
                 break;
-            case VIEW_ITEM_IMAGE:
-                ImageMsg holder4 = (ImageMsg) holder;
-
-                try {
-                    byte[] decodedString = Base64.decode(cd.getBase64_imgage_url(), Base64.DEFAULT);
-                    Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-                    holder4.shareimg.setImageBitmap(decodedByte);
-                } catch (Exception ex) {
-                    Log.e("error", ex.getMessage());
-                }
-                holder4.timeTextView.setText(cd.getTime());
-                SingleTon.imageLoader.displayImage(cd.getProfilepic(), holder4.profpic, SingleTon.options3);
+            case VIEW_ITEM_SELF_LOCAL_IMAGE_UPLOAD:
+                ChatImage localUpload = (ChatImage) holder;
+                new UploadFileToServer(localUpload.donutProgress, cd.getShared_imgage_url(), this, position).execute();
+                SingleTon.imageLoader.displayImage(ImageDownloader.Scheme.FILE.wrap(cd.getShared_imgage_url()), localUpload.shareimg, SingleTon.options3);
+                localUpload.timeTextView.setText(cd.getTime());
+                SingleTon.imageLoader2.displayImage(cd.getProfilepic(), localUpload.profpic, SingleTon.options);
 
                 break;
+            case VIEW_ITEM_SELF_LOCAL_IMAGE_UPLOADED:
+                ChatImage local_uploaded = (ChatImage) holder;
+                local_uploaded.timeTextView.setText(cd.getTime());
+                SingleTon.imageLoader.displayImage(ImageDownloader.Scheme.FILE.wrap(cd.getShared_imgage_url()), local_uploaded.shareimg, SingleTon.options);
+                SingleTon.imageLoader2.displayImage(cd.getProfilepic(), local_uploaded.profpic, SingleTon.options);
+                break;
+
+            case VIEW_ITEM_IMAGE_SELF_SERVER:
+                ChatImage chat_self_image = (ChatImage) holder;
+                chat_self_image.timeTextView.setText(cd.getTime());
+                SingleTon.imageLoader.displayImage(cd.getShared_imgage_url(), chat_self_image.shareimg, SingleTon.options);
+                SingleTon.imageLoader2.displayImage(cd.getProfilepic(), chat_self_image.profpic, SingleTon.options);
+
+                break;
+            case VIEW_ITEM_IMAGE_OTHER_SERVER:
+                ChatImage chat_other_image = (ChatImage) holder;
+                chat_other_image.timeTextView.setText(cd.getTime());
+                SingleTon.imageLoader.displayImage(cd.getShared_imgage_url(), chat_other_image.shareimg, SingleTon.options);
+                SingleTon.imageLoader2.displayImage(cd.getProfilepic(), chat_other_image.profpic, SingleTon.options);
+
+                break;
+
 
         }
     }
@@ -149,15 +184,22 @@ public class SendMsgListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public int getItemViewType(int position) {
-        if (items.get(position).getUserType() == UserType.SELF) {
+        if (items.get(position).getUserMessageType() == UserMessageType.SELF) {
             return VIEW_ITEM_SELF;
-        } else if (items.get(position).getUserType() == UserType.OTHER) {
+        } else if (items.get(position).getUserMessageType() == UserMessageType.OTHER) {
             return VIEW_ITEM_OTHER;
-        } else if (items.get(position).getUserType() == UserType.BANNER) {
+        } else if (items.get(position).getUserMessageType() == UserMessageType.BANNER) {
             return VIEW_ITEM_BANNER;
-        } else if (items.get(position).getUserType() == UserType.SELF_IMAGE) {
-            return VIEW_ITEM_IMAGE;
+        } else if (items.get(position).getUserMessageType() == UserMessageType.SELF_IMAGE_LOCAL_UPLOAD) {
+            return VIEW_ITEM_SELF_LOCAL_IMAGE_UPLOAD;
+        } else if (items.get(position).getUserMessageType() == UserMessageType.SELF_IMAGE_LOCAL_UPLOADED) {
+            return VIEW_ITEM_SELF_LOCAL_IMAGE_UPLOADED;
+        } else if (items.get(position).getUserMessageType() == UserMessageType.SELF_IMAGE_SERVER) {
+            return VIEW_ITEM_IMAGE_SELF_SERVER;
+        } else if (items.get(position).getUserMessageType() == UserMessageType.OTHER_IMAGE_SERVER) {
+            return VIEW_ITEM_IMAGE_OTHER_SERVER;
         }
+
         return 0;
     }
 
@@ -170,15 +212,46 @@ public class SendMsgListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public void clickedTag(CharSequence tag) {
         Intent profile;
         if (SingleTon.pref.getString("uname", "").compareToIgnoreCase(tag.toString()) == 0) {
-            profile = new Intent(mContext, LndProfile.class);
+            profile = new Intent(activity, LndProfile.class);
         } else {
-            profile = new Intent(mContext, OtherUserProfileActivity.class);
+            profile = new Intent(activity, OtherUserProfileActivity.class);
             profile.putExtra("uname", tag.toString().trim());
             profile.putExtra("user_id", "-1");
 
         }
 
-        mContext.startActivity(profile);
+        activity.startActivity(profile);
+    }
+
+    @Override
+    public void callback(int pos, String response) {
+        if (response != null) {
+            SendMessageActivity chatActivity = (SendMessageActivity) activity;
+
+            try {
+
+
+                DateFormat format = new SimpleDateFormat("hh:mm a");
+                String curr_date_time_format = format.format(new Date());
+
+
+                String msg_id = "lnd" + System.currentTimeMillis();
+
+                JSONObject jobj = new JSONObject(response);
+                chatActivity.sendImageMessage(jobj.getString("image_url"), msg_id);
+                MessageData chatres = items.get(pos);
+                chatres.setUserMessageType(UserMessageType.SELF_IMAGE_LOCAL_UPLOADED);
+                chatres.setTime(curr_date_time_format);
+
+                notifyItemChanged(pos);
+                //Log.e("imageurl", jobj.getString("image_url"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+
     }
 
 
@@ -218,19 +291,31 @@ public class SendMsgListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     }
 
-    public static class ImageMsg extends RecyclerView.ViewHolder {
+    public class ChatImage extends RecyclerView.ViewHolder implements View.OnClickListener {
         public ImageView shareimg;
         public TextView timeTextView;
         public ImageView profpic;
+        public DonutProgress donutProgress;
 
-        public ImageMsg(View v) {
+        public ChatImage(View v) {
             super(v);
             timeTextView = (TextView) v.findViewById(R.id.time_text);
-            profpic = (ImageView) v.findViewById(R.id.chatpicsender);
+            profpic = (ImageView) v.findViewById(R.id.profilepic);
             shareimg = (ImageView) v.findViewById(R.id.shareimg);
+            donutProgress = (DonutProgress) v.findViewById(R.id.donut_progress);
+            donutProgress.setVisibility(View.GONE);
+            android.view.ViewGroup.LayoutParams layoutParams = shareimg.getLayoutParams();
+            layoutParams.width = (singleTon.width * 60) / 100;
+            layoutParams.height = (singleTon.width * 63) / 100;
+            shareimg.setLayoutParams(layoutParams);
+            shareimg.setOnClickListener(this);
         }
 
 
+        @Override
+        public void onClick(View v) {
+            new FullImageViewDialog().show(items.get(getAdapterPosition()).getShared_imgage_url(), activity);
+        }
     }
 
 

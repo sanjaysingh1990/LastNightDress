@@ -3,7 +3,9 @@ package com.eowise.recyclerview.stickyheaders.samples.NewMessage;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
@@ -38,9 +40,8 @@ import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.Home_List_Data
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ApplicationConstants;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
 import com.eowise.recyclerview.stickyheaders.samples.adapters.SendMsgListAdapter;
-import com.eowise.recyclerview.stickyheaders.samples.data.Chat_Banner_Data;
 import com.eowise.recyclerview.stickyheaders.samples.data.MessageData;
-import com.eowise.recyclerview.stickyheaders.samples.data.UserType;
+import com.eowise.recyclerview.stickyheaders.samples.data.UserMessageType;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -61,6 +62,7 @@ import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import github.ankushsachdeva.emojicon.EmojiconEditText;
 import github.ankushsachdeva.emojicon.EmojiconGridView;
 import github.ankushsachdeva.emojicon.EmojiconsPopup;
@@ -78,6 +80,8 @@ public class SendMessageActivity extends AppCompatActivity {
     @Bind(R.id.uname)
     TextView heading;
     @Bind(R.id.typinglastseen)
+
+
     TextView mUsertype;
     private List<MessageData> data = new ArrayList<MessageData>();
     private SendMsgListAdapter recyclerAdapter;
@@ -102,9 +106,20 @@ public class SendMessageActivity extends AppCompatActivity {
     private Handler mTypingHandler = new Handler();
     private Boolean isConnected = true;
     private static final int TYPING_TIMER_LENGTH = 600;
+    public static int GALLERY_INTENT_CALLED = 200;
+
+    //to open gallery intent
+    @OnClick(R.id.share_gallery_image)
+    public void gallery() {
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK,
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        // Start the Intent
+        startActivityForResult(galleryIntent, GALLERY_INTENT_CALLED);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_message);
         //initialize butter knife
@@ -309,7 +324,7 @@ public class SendMessageActivity extends AppCompatActivity {
         mSocket.on("typing", onTyping);
         mSocket.on("stop typing", onStopTyping);
         mSocket.on("set online", onOnline);
-        mSocket.on("message read", msgread);
+        // mSocket.on("message read", msgread);
         mSocket.on("last seen", lastseen);
 
         mSocket.connect();
@@ -367,16 +382,31 @@ public class SendMessageActivity extends AppCompatActivity {
                     for (int i = 0; i < jarray.length(); i++) {
                         JSONObject jo = jarray.getJSONObject(i);
                         MessageData md = new MessageData();
-                        md.setMessage(jo.getString("msg"));
                         md.setUname(jo.getString("uname"));
                         md.setTime(jo.getString("date_time"));
                         md.setProfilepic(jo.getString("profile_pic"));
-                        md.setCurrenttimestamp(jo.getString("date_time"));
+                        md.setShared_imgage_url(jo.getString("shared_image_url"));
+                        md.setMessage(jo.getString("msg"));
+
                         if (jo.isNull("brand_name")) {
+
                             if (jo.getString("uname").compareTo(uname) == 0) {
-                                md.setUserType(UserType.SELF);
+                                if (jo.getString("shared_image_url").length() == 0)
+
+                                    md.setUserMessageType(UserMessageType.SELF);
+
+                                else {
+                                    md.setUserMessageType(UserMessageType.SELF_IMAGE_SERVER);
+                                    md.setMessage("image");
+
+                                }
                             } else {
-                                md.setUserType(UserType.OTHER);
+                                if (jo.getString("shared_image_url").length() == 0)
+                                    md.setUserMessageType(UserMessageType.OTHER);
+                                else {
+                                    md.setUserMessageType(UserMessageType.OTHER_IMAGE_SERVER);
+                                    md.setMessage("image");
+                                }
                             }
                         } else {
                             if (jo.getString("uname").compareTo(uname) == 0)
@@ -385,7 +415,7 @@ public class SendMessageActivity extends AppCompatActivity {
                             md.setImageurl(jo.getString("image_url"));
                             md.setSize(jo.getString("size"));
                             md.setPrice(jo.getString("price_now"));
-                            md.setUserType(UserType.BANNER);
+                            md.setUserMessageType(UserMessageType.BANNER);
                         }
 
                         Date testDate = getDate(md.getTime());
@@ -427,7 +457,13 @@ public class SendMessageActivity extends AppCompatActivity {
                         //check
                         if (extra.getBoolean("fromhome", false)) {
                             MessageData md1 = new MessageData();
-                            md1.setUserType(UserType.BANNER);
+                            md1.setUserMessageType(UserMessageType.BANNER);
+                            md1.setImageurl(chatbanner.getImageurls().get(0));
+                            md1.setSellername(chatbanner.getUname());
+                            md1.setSize(chatbanner.getSize());
+                            md1.setPrice(chatbanner.getPricenow());
+                            md1.setPostid(chatbanner.getPost_id());
+                            md1.setBrandname(chatbanner.getBrandname());
                             data.add(md1);
                         }
                     }
@@ -490,7 +526,7 @@ public class SendMessageActivity extends AppCompatActivity {
             MessageData md = data.get(data.size() - 1);
             intent.putExtra("message", md.getMessage());
             intent.putExtra("pos", pos);
-            intent.putExtra("time", md.getCurrenttimestamp());
+            intent.putExtra("time", md.getTime());
             setResult(200, intent);
             finish();//finishing activity
         }
@@ -523,13 +559,13 @@ public class SendMessageActivity extends AppCompatActivity {
         md.setMessage(message);
         md.setUname(uname);
         md.setProfilepic(SingleTon.pref.getString("imageurl", ""));
-        md.setUserType(UserType.SELF);
+        md.setUserMessageType(UserMessageType.SELF);
         //check for start with zero
         if (time1.startsWith("0")) {
             md.setTime(time1.toUpperCase().substring(1));
         } else
             md.setTime(time1.toUpperCase());
-        md.setCurrenttimestamp(SingleTon.getCurrentTimeStamp());
+
         data.add(md);
         recyclerAdapter.notifyDataSetChanged();
         chatRecyclerView.scrollToPosition(data.size() - 1);
@@ -556,6 +592,22 @@ public class SendMessageActivity extends AppCompatActivity {
 
         }
 
+        //send banner message
+        try {
+            if (extra != null && extra.getBoolean("fromhome", false)) {
+                JSONObject jobj = new JSONObject();
+                jobj.put("msg_from", msg_from);
+                jobj.put("msg_to", msg_to);
+                jobj.put("post_id", chatbanner.getPost_id());
+                mSocket.emit("new banner", jobj.toString());
+            }
+
+        } catch (Exception ex) {
+
+        }
+
+
+        //send message
         try {
 
             JSONObject jobj = new JSONObject();
@@ -565,8 +617,6 @@ public class SendMessageActivity extends AppCompatActivity {
             jobj.put("image_url", image_url);
             jobj.put("msg", message);
             jobj.put("shared_image_url", "");
-            String msg_id = "chizo" + System.currentTimeMillis();
-            jobj.put("user_unqiue_msg_id", msg_id);
 
             mSocket.emit("new message", jobj.toString());
 
@@ -625,13 +675,13 @@ public class SendMessageActivity extends AppCompatActivity {
         startActivityForResult(takePictureIntent, CAMERA_PIC_REQUEST);
     }
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 
         if (requestCode == CAMERA_PIC_REQUEST) {
             if (resultCode == RESULT_OK) {
 
-                Bitmap bitmap = (Bitmap) intent.getExtras().get("data");
+               /* Bitmap bitmap = (Bitmap) intent.getExtras().get("data");
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.PNG, 85, byteArrayOutputStream);
                 byte[] byteArray = byteArrayOutputStream.toByteArray();
@@ -652,7 +702,7 @@ public class SendMessageActivity extends AppCompatActivity {
                 md.setUname(uname);
                 md.setBase64_imgage_url(encoded);
                 md.setProfilepic(SingleTon.pref.getString("imageurl", ""));
-                md.setUserType(UserType.SELF_IMAGE);
+                md.setUserMessageType(UserMessageType.SELF_IMAGE);
                 //check for start with zero
                 if (time1.startsWith("0")) {
                     md.setTime(time1.toUpperCase().substring(1));
@@ -678,10 +728,50 @@ public class SendMessageActivity extends AppCompatActivity {
                 }*/
 
 
-            } else if (resultCode == RESULT_CANCELED) {
+            }
+        } else if (requestCode == GALLERY_INTENT_CALLED && resultCode == RESULT_OK) {
+            try {
+                Uri selectedImageuri = data.getData();
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
+                // Get the cursor
+                Cursor cursor = getContentResolver().query(selectedImageuri,
+                        filePathColumn, null, null, null);
+                // Move to first row
+                cursor.moveToFirst();
+
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                String imgDecodableString = cursor.getString(columnIndex);
+                cursor.close();
+                Log.e("path", imgDecodableString);
+
+                //create message
+                Date dt = new Date();
+                SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
+                String time1 = sdf.format(dt);
+                String uname = SingleTon.pref.getString("uname", "uname");
+                MessageData md = new MessageData();
+                md.setUname(uname);
+                md.setProfilepic(image_url);
+                md.setShared_imgage_url(imgDecodableString);
+                md.setUserMessageType(UserMessageType.SELF_IMAGE_LOCAL_UPLOAD);
+                md.setMessage("image");
+                //check for start with zero
+                if (time1.startsWith("0")) {
+                    md.setTime(time1.toUpperCase().substring(1));
+                } else
+                    md.setTime(time1.toUpperCase());
+                this.data.add(md);
+                recyclerAdapter.notifyDataSetChanged();
+                chatRecyclerView.scrollToPosition(this.data.size() - 1);
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
+
+
     }
 
     public void changeStatus(final int id) {
@@ -775,7 +865,7 @@ public class SendMessageActivity extends AppCompatActivity {
         mSocket.off("typing", onTyping);
         mSocket.off("stop typing", onStopTyping);
         mSocket.off("set online", onOnline);
-        mSocket.off("message read", msgread);
+        // mSocket.off("message read", msgread);
         mSocket.off("last seen", lastseen);
 
 
@@ -934,7 +1024,7 @@ public class SendMessageActivity extends AppCompatActivity {
                     String url;
                     String shared_image_url;
                     String msg_id;
-                    String unqiue_msg_id;
+                    // String unqiue_msg_id;
                     String created_at;
                     try {
                         username = jsondata.getString("username");
@@ -944,34 +1034,37 @@ public class SendMessageActivity extends AppCompatActivity {
                         url = jsondata.getString("image_url");
                         shared_image_url = jsondata.getString("shared_image_url");
                         msg_id = jsondata.getString("msg_id");
-                        unqiue_msg_id = jsondata.getString("user_unqiue_msg_id");
+                        /// unqiue_msg_id = jsondata.getString("user_unqiue_msg_id");
                         created_at = getTime(jsondata.getString("created_at"));
 
                         MessageData chatResponse = new MessageData();
-                        if (shared_image_url.length() == 0)
-                            chatResponse.setUserType(UserType.OTHER);
-                        else
-                            chatResponse.setUserType(UserType.OTHER_IMAGE);
-
-                        chatResponse.setImageurl(url);
                         chatResponse.setMessage(message);
+
+                        if (shared_image_url.length() == 0)
+                            chatResponse.setUserMessageType(UserMessageType.OTHER);
+                        else {
+                            chatResponse.setUserMessageType(UserMessageType.OTHER_IMAGE_SERVER);
+                            chatResponse.setMessage("Image");
+
+                        }
+                        chatResponse.setProfilepic(url);
                         chatResponse.setUname(from);
+                        chatResponse.setShared_imgage_url(shared_image_url);
                         if (created_at.startsWith("0")) {
                             chatResponse.setTime(created_at.toUpperCase());
                         } else
                             chatResponse.setTime(created_at.toUpperCase());
-                        chatResponse.setCurrenttimestamp(SingleTon.getCurrentTimeStamp());
 
                         data.add(chatResponse);
                         recyclerAdapter.notifyDataSetChanged();
                         scrollToBottom();
-                        JSONObject jobj = new JSONObject();
+                      /*  JSONObject jobj = new JSONObject();
                         jobj.put("msg_to", msg_to);
                         jobj.put("msg_id", msg_id);
                         jobj.put("user_unqiue_msg_id", unqiue_msg_id);
 
                         //read back to inform message read
-                        mSocket.emit("message read", jobj.toString());
+                        mSocket.emit("message read", jobj.toString());*/
                         // backupdata.put(msg_id, chatResponse);
                         //  Log.e("msg_to",msg_to);
                     } catch (JSONException e) {

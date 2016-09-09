@@ -12,6 +12,8 @@ import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -74,6 +76,7 @@ public class SingleTon extends Application {
     static  int  line=0;
     public static HashMap<String,String> lnduserid=new HashMap<>();
     public static DisplayMetrics displayMetrics;
+    public int width,height;
     @Override
     public void onCreate()
     {
@@ -153,6 +156,14 @@ public class SingleTon extends Application {
         this.imageLoader.init(ImageLoaderConfiguration.createDefault(this));
        if(SingleTon.pref.getInt("user_position",0)<6)
         checkUserposition();
+
+        //getting device with and height
+        WindowManager wm = (WindowManager)getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        DisplayMetrics metrics = new DisplayMetrics();
+        display.getMetrics(metrics);
+        width = metrics.widthPixels;
+        height = metrics.heightPixels;
     }
     public static double getExchangeRate(String currency) {
         switch (currency) {
@@ -464,6 +475,10 @@ public static void showValue(String country, TextView pricewas,TextView pricenow
             }
         };
         queue.add(sr);
+
+
+
+
     }
 
 
