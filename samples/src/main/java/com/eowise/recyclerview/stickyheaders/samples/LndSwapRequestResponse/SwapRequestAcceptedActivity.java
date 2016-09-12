@@ -27,7 +27,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
-import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
 import com.eowise.recyclerview.stickyheaders.samples.adapters.MarginDecoration;
 import com.eowise.recyclerview.stickyheaders.samples.adapters.SwapRequestAcceptdAdapter;
 import com.eowise.recyclerview.stickyheaders.samples.data.NotificationData;
@@ -44,7 +43,7 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class SwapRequestActivity extends AppCompatActivity {
+public class SwapRequestAcceptedActivity extends AppCompatActivity {
 
 
     RecyclerView recyclerv;
@@ -283,9 +282,9 @@ public class SwapRequestActivity extends AppCompatActivity {
                         setResult(6, intent);
                         finish();
 
-                        Toast.makeText(SwapRequestActivity.this, jobj.getString("message"), Toast.LENGTH_LONG).show();
+                        Toast.makeText(SwapRequestAcceptedActivity.this, jobj.getString("message"), Toast.LENGTH_LONG).show();
                     } else {
-                        Toast.makeText(SwapRequestActivity.this, jobj.getString("message"), Toast.LENGTH_LONG).show();
+                        Toast.makeText(SwapRequestAcceptedActivity.this, jobj.getString("message"), Toast.LENGTH_LONG).show();
                     }
                 } catch (Exception ex) {
                     Log.e("json parsing error", ex.getMessage());
@@ -360,9 +359,9 @@ public class SwapRequestActivity extends AppCompatActivity {
 
                         finish();
 
-                        Toast.makeText(SwapRequestActivity.this, jobj.getString("message"), Toast.LENGTH_LONG).show();
+                        Toast.makeText(SwapRequestAcceptedActivity.this, jobj.getString("message"), Toast.LENGTH_LONG).show();
                     } else {
-                        Toast.makeText(SwapRequestActivity.this, jobj.getString("message"), Toast.LENGTH_LONG).show();
+                        Toast.makeText(SwapRequestAcceptedActivity.this, jobj.getString("message"), Toast.LENGTH_LONG).show();
                     }
                 } catch (Exception ex) {
                     Log.e("json parsing error", ex.getMessage() + "");

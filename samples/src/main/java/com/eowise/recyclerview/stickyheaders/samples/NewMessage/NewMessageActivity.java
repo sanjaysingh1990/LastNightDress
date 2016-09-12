@@ -83,6 +83,8 @@ public class NewMessageActivity extends AppCompatActivity {
             }
         });
         addTextListener();
+
+
     }
 
     public void getData() {

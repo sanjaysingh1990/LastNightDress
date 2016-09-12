@@ -382,7 +382,7 @@ public class TagSelectingTextview {
 
 
     public SpannableStringBuilder addClickablePart(String nTagString,
-                                                   TagClick TagClick, int hypeLinkEnabled, String hastTagColor,int len,int len2,String str) {
+                                                   TagClick TagClick, int hypeLinkEnabled, String hastTagColor,int len,int len2,String str,String typeofmore) {
 
         this.mhastTagColor = hastTagColor;
 
@@ -436,7 +436,7 @@ public class TagSelectingTextview {
         CharSequence  spanText2 = nTagString.substring(pos,pos+len2);
         CharSequence text="";
         if(nTagString.contains("more"))
-             text =str+",more";
+             text =str+",more,"+typeofmore;
 
         else
                 text =spanText2;

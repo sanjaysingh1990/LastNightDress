@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.NewMessage.SendMessageActivity;
 import com.eowise.recyclerview.stickyheaders.samples.R;
+import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.Home_List_Data;
 import com.eowise.recyclerview.stickyheaders.samples.data.MessageToFriendsData;
 import com.eowise.recyclerview.stickyheaders.samples.data.PersonDataProvider;
 
@@ -28,7 +29,7 @@ public class NewMessageAdapter extends RecyclerView.Adapter<NewMessageAdapter.Vi
     private static List<MessageToFriendsData> items;
     private PersonDataProvider personDataProvider;
     static Context mContext;
-    static int count=0;
+    static int count = 0;
 
     public NewMessageAdapter(Context context, List<MessageToFriendsData> data) {
         this.mContext = context;
@@ -54,55 +55,55 @@ public class NewMessageAdapter extends RecyclerView.Adapter<NewMessageAdapter.Vi
     }
 
 
-
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
-          MessageToFriendsData msgfrnd=items.get(position);
-           SingleTon.imageLoader.displayImage(msgfrnd.getProfilepic(), viewHolder.img, SingleTon.options3);
+        MessageToFriendsData msgfrnd = items.get(position);
+        SingleTon.imageLoader.displayImage(msgfrnd.getProfilepic(), viewHolder.img, SingleTon.options3);
 
-           viewHolder.uname.setText(capitalize(msgfrnd.getUname()));
+        viewHolder.uname.setText(capitalize(msgfrnd.getUname()));
 
     }
-    private String capitalize(final String line) {
-        String[] split=line.split(" ");
-        String output="";
-        for(String str:split)
-        {
 
-            output+=Character.toUpperCase(str.charAt(0)) + str.substring(1)+" ";
+    private String capitalize(final String line) {
+        String[] split = line.split(" ");
+        String output = "";
+        for (String str : split) {
+
+            output += Character.toUpperCase(str.charAt(0)) + str.substring(1) + " ";
         }
         return output;
     }
+
     @Override
     public int getItemCount() {
         return items.size();
     }
 
 
-
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView uname;
         ImageView img;
+
         public ViewHolder(View itemView) {
-        super(itemView);
-        uname= (TextView) itemView.findViewById(R.id.uname);
-        img= (ImageView) itemView.findViewById(R.id.profilepic);
-        uname.setTypeface(SingleTon.unamefont);
+            super(itemView);
+            uname = (TextView) itemView.findViewById(R.id.uname);
+            img = (ImageView) itemView.findViewById(R.id.profilepic);
+            uname.setTypeface(SingleTon.unamefont);
             itemView.setOnClickListener(this);
         }
 
         @Override
-        public void onClick(View v)
-        {
+        public void onClick(View v) {
 
-            Intent msgtofrnd=new Intent(mContext, SendMessageActivity.class);
-            msgtofrnd.putExtra("uname", items.get(getAdapterPosition()).getUname());
-            msgtofrnd.putExtra("user_id", items.get(getAdapterPosition()).getUserid());
+            Intent msgtofrnd = new Intent(mContext, SendMessageActivity.class);
+            Home_List_Data hld = new Home_List_Data();
+            hld.setUname(items.get(getAdapterPosition()).getUname());
+            hld.setUserid(items.get(getAdapterPosition()).getUserid());
+            msgtofrnd.putExtra("bannerdata", hld);
 
             mContext.startActivity(msgtofrnd);
         }
     }
-
 
 
 }

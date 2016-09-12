@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.LndSwapRequestResponse.SendSwapRequestActivity;
-import com.eowise.recyclerview.stickyheaders.samples.LndSwapRequestResponse.SwapRequestActivity;
+import com.eowise.recyclerview.stickyheaders.samples.LndSwapRequestResponse.SwapRequestAcceptedActivity;
 import com.eowise.recyclerview.stickyheaders.samples.Loading.AVLoadingIndicatorView;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.data.ShopData;
@@ -214,7 +214,7 @@ public class NumberedAdapter2 extends RecyclerView.Adapter {
 
         private void check() {
             try {
-                SwapRequestActivity ssr = (SwapRequestActivity) context;
+                SwapRequestAcceptedActivity ssr = (SwapRequestAcceptedActivity) context;
                 if (SendSwapRequestActivity.selectedpost.size() > 0)
                 ssr.changeColor(1);
                 else

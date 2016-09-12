@@ -99,6 +99,8 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private static final int VIEW_TYPE_CONTENT_PRIVATE_USER_ITEM_SOLD = 0x06;
     private static final int VIEW_TYPE_CONTENT_SHOP_ITEM_UNLOKED = 0x07;
     private static final int VIEW_TYPE_CONTENT_PRIVATE_USER_ITEM_LOCKED = 0x08;
+    private static final int VIEW_TYPE_LOAD_MORE = 0x09;
+
 
     private static final int LINEAR = 0;
 
@@ -146,6 +148,8 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public void clickedTag(CharSequence tag) {
+      //  Toast.makeText(mContext, tag, Toast.LENGTH_SHORT).show();
+
         if (tag.toString().startsWith("#")) {
             Intent hashtag = new Intent(mContext, LndBrandHashTagGridViewActivity.class);
             hashtag.putExtra("hashtag", tag.toString().substring(1));
@@ -166,12 +170,25 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             mContext.startActivity(profile);
 
         } else if (tag.toString().contains("more")) {
+
             String[] id = tag.toString().split(",");
-            // Toast.makeText(mContext,id[0],Toast.LENGTH_SHORT).show();
-            Intent likers = new Intent(mContext, LikersActivity.class);
-            likers.putExtra("postid", id[0]);
-            likers.putExtra("type", 2);
-            mContext.startActivity(likers);
+            if (id[2].compareToIgnoreCase("liked") == 0) {
+                Intent likers = new Intent(mContext, LikersActivity.class);
+                likers.putExtra("postid", id[0]);
+                likers.putExtra("type", 2);
+                mContext.startActivity(likers);
+            } else if (id[2].compareToIgnoreCase("commented") == 0) {
+                Intent comments = new Intent(mContext, LndComments.class);
+                comments.putExtra("post_id", id[0]);
+                comments.putExtra("pos", Integer.parseInt(id[4]));
+                comments.putExtra("from", 10);
+                comments.putExtra("post_user_id", id[3]);
+
+
+                mContext.startActivity(comments);
+
+            }
+
         } else {
             if (tag.toString().equalsIgnoreCase("you"))
                 return;
@@ -313,7 +330,13 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.product_shop_item_sold, parent, false);
             return new LndProductShopHolderSold(view, mContext);
-        } else {
+        }
+        else if(viewType==VIEW_TYPE_LOAD_MORE) {
+            view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.loading_more_home_bottom, parent, false);
+            return new LoadMore(view);
+        }
+        else {
             view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.list_item_user_shop_post, parent, false);
             return new LndProductShopUserHolder(view, mContext);
@@ -349,7 +372,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     {
                         String[] users = item.getNotilikedby().split(",");
                         vh1.activitydoneby.setText(mTagSelectingTextview.addClickablePart(users[0] + " and " + (item.getNotitotallikers() - 1) + " more liked this",
-                                this, hashTagHyperLinkDisabled, hastTagColorBlue, users[0].length(), ((item.getNotitotallikers() - 1) + " more").length(), item.getPost_id()),
+                                this, hashTagHyperLinkDisabled, hastTagColorBlue, users[0].length(), ((item.getNotitotallikers() - 1) + " more").length(), item.getPost_id(), "liked"),
                                 TextView.BufferType.SPANNABLE);
 
 
@@ -364,7 +387,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         String[] users = item.getNotilikedby().split(",");
 
                         vh1.activitydoneby.setText(mTagSelectingTextview.addClickablePart(users[0] + " and " + users[1] + " liked this.",
-                                this, hashTagHyperLinkDisabled, hastTagColorBlue, users[0].length(), users[1].length(), ""),
+                                this, hashTagHyperLinkDisabled, hastTagColorBlue, users[0].length(), users[1].length(), "", ""),
                                 TextView.BufferType.SPANNABLE);
 
                     }
@@ -377,7 +400,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     {
                         String[] users = item.getNotilikedby().split(",");
                         vh1.activitydoneby.setText(mTagSelectingTextview.addClickablePart(users[0] + " and " + (item.getNotitotallikers() - 1) + " more commented on this",
-                                this, hashTagHyperLinkDisabled, hastTagColorBlue, users[0].length(), ((item.getNotitotallikers() - 1) + " more").length(), item.getPost_id()),
+                                this, hashTagHyperLinkDisabled, hastTagColorBlue, users[0].length(), ((item.getNotitotallikers() - 1) + " more").length(), item.getPost_id(), "commented," + item.getUserid() + "," + position),
                                 TextView.BufferType.SPANNABLE);
 
 
@@ -391,7 +414,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     } else {
                         String[] users = item.getNotilikedby().split(",");
                         vh1.activitydoneby.setText(mTagSelectingTextview.addClickablePart(users[0] + " and " + users[1] + " commented on this.",
-                                this, hashTagHyperLinkDisabled, hastTagColorBlue, users[0].length(), users[1].length(), ""),
+                                this, hashTagHyperLinkDisabled, hastTagColorBlue, users[0].length(), users[1].length(), "", ""),
                                 TextView.BufferType.SPANNABLE);
 
                     }
@@ -404,7 +427,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     {
                         String[] users = item.getNotilikedby().split(",");
                         vh1.activitydoneby.setText(mTagSelectingTextview.addClickablePart(users[0] + " and " + (item.getNotitotallikers() - 1) + " more mentioned you on this",
-                                this, hashTagHyperLinkDisabled, hastTagColorBlue, users[0].length(), ((item.getNotitotallikers() - 1) + " more").length(), item.getPost_id()),
+                                this, hashTagHyperLinkDisabled, hastTagColorBlue, users[0].length(), ((item.getNotitotallikers() - 1) + " more").length(), item.getPost_id(), "mentioned"),
                                 TextView.BufferType.SPANNABLE);
 
 
@@ -418,7 +441,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     } else {
                         String[] users = item.getNotilikedby().split(",");
                         vh1.activitydoneby.setText(mTagSelectingTextview.addClickablePart(users[0] + " and " + users[1] + " mentioned you on this.",
-                                this, hashTagHyperLinkDisabled, hastTagColorBlue, users[0].length(), users[1].length(), ""),
+                                this, hashTagHyperLinkDisabled, hastTagColorBlue, users[0].length(), users[1].length(), "", ""),
                                 TextView.BufferType.SPANNABLE);
 
                     }
@@ -693,9 +716,9 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                 //TO CHECK COMMENT LOCKED OR NOT
                 if (SingleTon.pref.getInt("user_position", -1) > 1)
-                vh3.islocked.setVisibility(View.GONE);
-            else
-                vh3.islocked.setVisibility(View.VISIBLE);
+                    vh3.islocked.setVisibility(View.GONE);
+                else
+                    vh3.islocked.setVisibility(View.VISIBLE);
                 uname = Capitalize.capitalizeFirstLetter(item.getUname());
                 //end here
                 vh3.description.setMovementMethod(LinkMovementMethod.getInstance());
@@ -1663,13 +1686,15 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     return VIEW_TYPE_CONTENT_SHOP_ITEM_SOLD;
 
             }
-        } else {
+        } else if(lineItem.sectiontype.compareTo("contentuser") == 0){
 
             if (lineItem.isprivate)
                 return VIEW_TYPE_CONTENT_PRIVATE_USER;
             else
                 return VIEW_TYPE_CONTENT_SHOP_USER;
         }
+       else
+            return VIEW_TYPE_LOAD_MORE;
 
 
     }
@@ -1912,6 +1937,13 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
+    class LoadMore extends RecyclerView.ViewHolder
+    {
+
+        public LoadMore(View itemView) {
+            super(itemView);
+        }
+    }
     class LndProductPrivateHolder extends RecyclerView.ViewHolder implements OnClickListener {
 
         private TextView color;
@@ -2283,7 +2315,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 Intent comment = new Intent(mContext, LndComments.class);
                 comment.putExtra("post_id", mItems.get(pos).getPost_id());
                 comment.putExtra("post_user_id", mItems.get(pos).getUserid());
-                comment.putExtra("pos",pos);
+                comment.putExtra("pos", pos);
                 mContext.startActivity(comment);
                 break;
             case R.id.buy:
@@ -2326,7 +2358,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     i.putExtra("post_id", mItems.get(pos).getPost_id());
                     i.putExtra("post_user_id", mItems.get(pos).getUserid());
 
-                    i.putExtra("pos",pos);
+                    i.putExtra("pos", pos);
 
                     mContext.startActivity(i);
                 } else

@@ -196,7 +196,8 @@ public class NotificationFragment extends Fragment {
                     if (loading) {
                         if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
                             loading = false;
-
+                            mProvider.removeItem(mProvider.getCount()-1);
+                            mAdapter.notifyDataSetChanged();
                             getData();
                             // Toast.makeText(getActivity(), "called", Toast.LENGTH_LONG).show();
                         }
@@ -436,7 +437,7 @@ public class NotificationFragment extends Fragment {
             mProvider.removeItem(pos);
             mAdapter.notifyDataSetChanged();
             //LndUtils.pos = -1;
-            Toast.makeText(getActivity(), pos + "rquest completed", Toast.LENGTH_SHORT).show();
+        //    Toast.makeText(getActivity(), pos + "rquest completed", Toast.LENGTH_SHORT).show();
 
         }
     }

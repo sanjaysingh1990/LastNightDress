@@ -329,12 +329,15 @@ public class LndComments extends AppCompatActivity {
         data.add(cmntdata);
         recyclerAdapter.notifyDataSetChanged();
         recyclerView.scrollToPosition(data.size() - 1);
-        if (fromact == 100) {
-
+        //to update comments
+        CommentBean cb = new CommentBean();
+        cb.setUname(SingleTon.pref.getString("uname", ""));
+        cb.setComment(cmnttext);
+        Log.e("position",pos+"");
+        if (fromact == 10) {
+            StickyActivity.stickyActivity.updateComent(pos+1, cb);
         } else {
-            CommentBean cb = new CommentBean();
-            cb.setUname(SingleTon.pref.getString("uname", ""));
-            cb.setComment(cmnttext);
+
             StickyActivity.stickyActivity.updateComent(pos, cb);
         }
         try {

@@ -47,13 +47,12 @@ import com.android.volley.toolbox.Volley;
 import com.eowise.recyclerview.stickyheaders.samples.HashTagsFullView.LndBrandHashTagGridViewActivity;
 import com.eowise.recyclerview.stickyheaders.samples.PurchaseAndSwap.SwapCheckOutActivity;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
-import com.eowise.recyclerview.stickyheaders.samples.LndSwapRequestResponse.SwapRequestActivity;
+import com.eowise.recyclerview.stickyheaders.samples.LndSwapRequestResponse.SwapRequestAcceptedActivity;
 import com.eowise.recyclerview.stickyheaders.samples.LndUserProfile.LndProfile;
 import com.eowise.recyclerview.stickyheaders.samples.Main_TabHost;
 import com.eowise.recyclerview.stickyheaders.samples.NotificationFullPost;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.UserProfile.OtherUserProfileActivity;
-import com.eowise.recyclerview.stickyheaders.samples.Utils.ApplicationConstants;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.Capitalize;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.LndUtils;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.TimeAgo;
@@ -232,7 +231,7 @@ class NotificationSwipeableItemAdapter
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.swapcontinue:
-                    Intent swaprequestaccept = new Intent(activity, SwapRequestActivity.class);
+                    Intent swaprequestaccept = new Intent(activity, SwapRequestAcceptedActivity.class);
                     swaprequestaccept.putExtra("data", mProvider.getItem(getAdapterPosition()).getNotificationdata());
                     swaprequestaccept.putExtra("pos", getAdapterPosition());
                     Main_TabHost.activity.startActivityForResult(swaprequestaccept, 6);

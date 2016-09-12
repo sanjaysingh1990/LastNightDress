@@ -368,10 +368,12 @@ public class OtherUserProfileActivity extends Activity {
         message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if((profileuname!=null&&profileuname.length()>0)&&(userid!=null&&userid.length()>0)) {
+                if ((profileuname != null && profileuname.length() > 0) && (userid != null && userid.length() > 0)) {
                     Intent sendreceive = new Intent(OtherUserProfileActivity.this, SendMessageActivity.class);
-                    sendreceive.putExtra("uname", profileuname);
-                    sendreceive.putExtra("user_id",userid);
+                    Home_List_Data hld = new Home_List_Data();
+                    hld.setUname(profileuname);
+                    hld.setUserid(userid);
+                    sendreceive.putExtra("bannerdata", hld);
                     startActivity(sendreceive);
                 }
             }
@@ -474,7 +476,7 @@ public class OtherUserProfileActivity extends Activity {
                 try {
 
                     JSONObject jobj = new JSONObject(response.toString());
-                    userid=jobj.getString("user_id");
+                    userid = jobj.getString("user_id");
                     totalsales.setText(jobj.getString("sales"));
                     totalswaps.setText(jobj.getString("swaps") + "");
                     SingleTon.imageLoader.displayImage(jobj.getString("imageurl"), profilepic, SingleTon.options2);
@@ -627,16 +629,15 @@ public class OtherUserProfileActivity extends Activity {
                         hld.setUserid(jo.getString("user_id"));
                         hld.setProdtype(jo.getString("prod_type"));
                         hld.setTime(TimeAgo.getMilliseconds(jo.getString("date_time")));
-                        JSONArray commnets=jo.getJSONArray("postcoments");
-                        if(commnets.length()>0)
-                        {
+                        JSONArray commnets = jo.getJSONArray("postcoments");
+                        if (commnets.length() > 0) {
 
                             ArrayList<CommentBean> post_cont = new ArrayList<>();
-                            for (int j= 0; j < commnets.length(); j++) {
-                                JSONObject jsonObject=commnets.getJSONObject(j);
+                            for (int j = 0; j < commnets.length(); j++) {
+                                JSONObject jsonObject = commnets.getJSONObject(j);
                                 String uname = jsonObject.getString("uname");
                                 String comment = jsonObject.getString("comment");
-                                CommentBean cb=new CommentBean();
+                                CommentBean cb = new CommentBean();
                                 cb.setUname(uname);
                                 cb.setComment(comment);
                                 post_cont.add(cb);

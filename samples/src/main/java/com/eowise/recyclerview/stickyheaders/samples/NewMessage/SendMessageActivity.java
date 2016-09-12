@@ -88,7 +88,7 @@ public class SendMessageActivity extends AppCompatActivity {
 
     private Bundle extra;
 
-    int pos = -1;
+    private int pos = -1;
     private static final int CAMERA_PIC_REQUEST = 1337;
     public static Home_List_Data chatbanner;
     private boolean istop = false;
@@ -138,7 +138,7 @@ public class SendMessageActivity extends AppCompatActivity {
             msg_from = SingleTon.pref.getString("user_id", "");
             u_name = SingleTon.pref.getString("uname", "");
             image_url = SingleTon.pref.getString("imageurl", "");
-            pos = extra.getInt("pos");
+            pos = extra.getInt("pos",-1);
 
 
             heading.setText(Capitalize.capitalize(chatbanner.getUname()));
@@ -408,9 +408,12 @@ public class SendMessageActivity extends AppCompatActivity {
                                     md.setMessage("image");
                                 }
                             }
-                        } else {
+                         }else {
                             if (jo.getString("uname").compareTo(uname) == 0)
                                 md.setSellername(chatbanner.getUname());
+                            else
+                                md.setSellername("You");
+
                             md.setBrandname(jo.getString("brand_name"));
                             md.setImageurl(jo.getString("image_url"));
                             md.setSize(jo.getString("size"));

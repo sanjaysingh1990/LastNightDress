@@ -66,7 +66,7 @@ public class StickyActivity extends AppCompatActivity {
     private static final String KEY_HEADER_POSITIONING = "key_header_mode";
 
     private static final String KEY_MARGINS_FIXED = "key_margins_fixed";
-    private ArrayList<Home_List_Data> mItems = new ArrayList<>();
+     static  ArrayList<Home_List_Data> mItems = new ArrayList<>();
 
     private TextView heading;
     private AVLoadingIndicatorView dialog;
@@ -75,20 +75,23 @@ public class StickyActivity extends AppCompatActivity {
     private LinearLayout indicator;
 
     private LinearLayout instructionview;
-    boolean loading = true;
-    int pastVisiblesItems, visibleItemCount, totalItemCount;
-    int skipdata = 0;
 
-    boolean isprivate = false;
-    String lastHeader = "";
-    int sectionManager = -1;
-    int headerCount = 0;
-    int sectionFirstPosition = 0;
-    int i = 0;
-    private boolean firsttime = true;
+    int pastVisiblesItems, visibleItemCount, totalItemCount;
+    static int skipdata = 0;
+    static boolean loading = true;
+    static boolean isprivate = false;
+    static String lastHeader = "";
+    static int sectionManager = -1;
+    static int headerCount = 0;
+    static int sectionFirstPosition = 0;
+    static int i = 0;
+    static boolean firsttime = true;
+    static boolean applaunched=true;
     // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
     public static StickyActivity stickyActivity;
     private Button twitter, facebook;
+    private boolean pulltorefresh = false;
+    private boolean loadmore = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,28 +157,23 @@ public class StickyActivity extends AppCompatActivity {
         heading.setTypeface(tf);
 //loading spiiner
         dialog = (AVLoadingIndicatorView) findViewById(R.id.loader);
-        dialog.setVisibility(View.VISIBLE);
+
 //pull
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                swipeRefreshLayout.setRefreshing(false);
-                            }
-                        });
-                    }
-                }).start();
+                skipdata = 0;
+                loading = true;
+                isprivate = false;
+                lastHeader = "";
+                sectionManager = -1;
+                headerCount = 0;
+                sectionFirstPosition = 0;
+                i = 0;
+                boolean firsttime = true;
+                pulltorefresh = true;
+                getData();
             }
         });
 
@@ -192,7 +190,11 @@ public class StickyActivity extends AppCompatActivity {
                     if (loading) {
                         if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
                             loading = false;
-
+                            loadmore = true;
+                            Home_List_Data hld=new Home_List_Data();
+                            hld.sectiontype="progress";
+                            mItems.add(hld);
+                            mAdapter.notifyDataSetChanged();
                             getData();
                         }
                     }
@@ -200,8 +202,14 @@ public class StickyActivity extends AppCompatActivity {
             }
         });
         applySpannable();
-        getData();
-    }
+        if(mItems.size()==0&&!applaunched) {
+
+            dialog.setVisibility(View.VISIBLE);
+            getData();
+        }
+        else
+            applaunched=false;
+        }
 
     private void applySpannable() {
 
@@ -275,10 +283,23 @@ public class StickyActivity extends AppCompatActivity {
     public void getData() {
 
 
+        Log.e("called","again");
         RequestQueue queue = Volley.newRequestQueue(this);
         StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_POST_DATA, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                if (pulltorefresh) {
+                    pulltorefresh = false;
+                    swipeRefreshLayout.setRefreshing(false);
+                    mItems.clear();
+                    mAdapter.notifyDataSetChanged();
+
+                }
+                if (loadmore) {
+                    loadmore = false;
+                    mItems.remove(mItems.size() - 1);
+                    mAdapter.notifyDataSetChanged();
+                }
                 dialog.setVisibility(View.GONE);
                 SingleTon.lnduserid.clear();
                 try {
@@ -446,7 +467,9 @@ public class StickyActivity extends AppCompatActivity {
                             hld2.setHeadertype(0);
                         else {
                             String notiusers = jo.getString("noti_users");
-                            String users = capitalize(notiusers.replaceAll("[0-9;]", ""));
+                            //  String users = capitalize(notiusers.replaceAll("[0-9;]", ""));
+                            String users = capitalize(notiusers.replaceAll("[0-9]{2}[;]", ""));
+
                             if (notiusers.contains("11")) {
 
                                 hld2.setHeadertype(1);
@@ -504,6 +527,17 @@ public class StickyActivity extends AppCompatActivity {
                 try {
                     dialog.setVisibility(View.GONE);
                     new com.eowise.recyclerview.stickyheaders.samples.AlertDialog().showAlertDialog(StickyActivity.this);
+                    if (pulltorefresh) {
+                        pulltorefresh = false;
+                        swipeRefreshLayout.setRefreshing(false);
+
+                    }
+                    if (loadmore) {
+                        loadmore = false;
+                        mItems.remove(mItems.size() - 1);
+                        mAdapter.notifyDataSetChanged();
+                    }
+
                 } catch (Exception ex) {
                 }
             }
@@ -570,12 +604,22 @@ public class StickyActivity extends AppCompatActivity {
 
     private String capitalize(String data) {
         String names = "";
+        String curruname = SingleTon.pref.getString("uname", "");
 
         try {
             String[] str = data.split(",");
-            for (int i = 0; i < str.length - 1; i++)
-                names = names + Capitalize.capitalizeFirstLetter(str[i]) + ",";
-            names = names + Capitalize.capitalizeFirstLetter(str[str.length - 1]);
+            for (int i = 0; i < str.length - 1; i++) {
+                String name = str[i];
+                if (name.compareToIgnoreCase(curruname) == 0)
+                    names = names + "You,";
+                else
+                    names = names + Capitalize.capitalizeFirstLetter(str[i]) + ",";
+            }
+            if (str[str.length - 1].compareToIgnoreCase(curruname) == 0)
+                names = names + "You";
+
+            else
+                names = names + Capitalize.capitalizeFirstLetter(str[str.length - 1]);
 
             return names;
         } catch (Exception ex) {
