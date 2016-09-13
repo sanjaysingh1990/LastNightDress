@@ -1,5 +1,6 @@
 package com.eowise.recyclerview.stickyheaders.samples.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Parcelable;
@@ -28,10 +29,10 @@ public class NewMessageAdapter extends RecyclerView.Adapter<NewMessageAdapter.Vi
     private static Map<Integer, Parcelable> scrollStatePositionsMap = new HashMap<>();
     private static List<MessageToFriendsData> items;
     private PersonDataProvider personDataProvider;
-    static Context mContext;
+    static Activity mContext;
     static int count = 0;
 
-    public NewMessageAdapter(Context context, List<MessageToFriendsData> data) {
+    public NewMessageAdapter(Activity context, List<MessageToFriendsData> data) {
         this.mContext = context;
         this.personDataProvider = personDataProvider;
         this.items = data;
@@ -101,7 +102,8 @@ public class NewMessageAdapter extends RecyclerView.Adapter<NewMessageAdapter.Vi
             hld.setUserid(items.get(getAdapterPosition()).getUserid());
             msgtofrnd.putExtra("bannerdata", hld);
 
-            mContext.startActivity(msgtofrnd);
+            mContext.startActivityForResult(msgtofrnd,200);
+
         }
     }
 

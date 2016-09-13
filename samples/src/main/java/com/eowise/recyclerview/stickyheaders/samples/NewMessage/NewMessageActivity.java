@@ -1,6 +1,7 @@
 package com.eowise.recyclerview.stickyheaders.samples.NewMessage;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,6 +25,7 @@ import com.android.volley.toolbox.Volley;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.adapters.NewMessageAdapter;
+import com.eowise.recyclerview.stickyheaders.samples.data.MessageData;
 import com.eowise.recyclerview.stickyheaders.samples.data.MessageToFriendsData;
 
 import org.json.JSONArray;
@@ -50,7 +52,7 @@ public class NewMessageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_message);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        searchbox= (EditText) findViewById(R.id.searchbox);
+        searchbox = (EditText) findViewById(R.id.searchbox);
         setSupportActionBar(toolbar);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         final LinearLayoutManager manager = new LinearLayoutManager(this);
@@ -75,8 +77,8 @@ public class NewMessageActivity extends AppCompatActivity {
                         if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
                             loading = false;
 
-                           // getData();
-                            Toast.makeText(NewMessageActivity.this,"called",Toast.LENGTH_LONG).show();
+                            // getData();
+                            Toast.makeText(NewMessageActivity.this, "called", Toast.LENGTH_LONG).show();
                         }
                     }
                 }
@@ -114,11 +116,11 @@ public class NewMessageActivity extends AppCompatActivity {
 
 
                     recyclerAdapter.notifyDataSetChanged();
-                   skipdata=data.size();
-                   if(jarray.length()<25)
-                       loading=false;
+                    skipdata = data.size();
+                    if (jarray.length() < 25)
+                        loading = false;
                     else
-                       loading=true;
+                        loading = true;
                 } catch (Exception ex) {
                     Log.e("json parsing error", ex.getMessage());
                 }
@@ -135,7 +137,7 @@ public class NewMessageActivity extends AppCompatActivity {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("rqid", "4");
                 params.put("user_id", SingleTon.pref.getString("user_id", ""));
-                params.put("skipdata", skipdata+"");
+                params.put("skipdata", skipdata + "");
 
 
                 return params;
@@ -157,16 +159,19 @@ public class NewMessageActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        setResult(300, intent);
+        finish();//finishing activity
     }
 
-    public void addTextListener(){
+    public void addTextListener() {
 
         searchbox.addTextChangedListener(new TextWatcher() {
 
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+            }
 
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             public void onTextChanged(CharSequence query, int start, int before, int count) {
 
@@ -184,12 +189,32 @@ public class NewMessageActivity extends AppCompatActivity {
                 }
 
                 recyclerView.setLayoutManager(new LinearLayoutManager(NewMessageActivity.this));
-                recyclerAdapter = new NewMessageAdapter(NewMessageActivity.this,filteredList);
+                recyclerAdapter = new NewMessageAdapter(NewMessageActivity.this, filteredList);
 
                 recyclerView.setAdapter(recyclerAdapter);
                 recyclerAdapter.notifyDataSetChanged();  // data set changed
             }
         });
     }
+
+    private Intent intent = null;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+      //  Toast.makeText(this, "code" + requestCode, Toast.LENGTH_SHORT).show();
+        if (requestCode == 200) {
+            Bundle extra = data.getExtras();
+            if (extra != null) {
+                intent = new Intent();
+                intent.putExtra("message", extra.getString("message", ""));
+                intent.putExtra("uname", extra.getString("uname",""));
+                intent.putExtra("time", extra.getString("time"));
+
+            }
+
+        }
+    }
+
 }
 

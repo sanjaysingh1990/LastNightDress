@@ -107,7 +107,7 @@ public class SendMessageActivity extends AppCompatActivity {
     private Boolean isConnected = true;
     private static final int TYPING_TIMER_LENGTH = 600;
     public static int GALLERY_INTENT_CALLED = 200;
-
+    private boolean banneronce=true;
     //to open gallery intent
     @OnClick(R.id.share_gallery_image)
     public void gallery() {
@@ -138,7 +138,7 @@ public class SendMessageActivity extends AppCompatActivity {
             msg_from = SingleTon.pref.getString("user_id", "");
             u_name = SingleTon.pref.getString("uname", "");
             image_url = SingleTon.pref.getString("imageurl", "");
-            pos = extra.getInt("pos",-1);
+            pos = extra.getInt("pos", -1);
 
 
             heading.setText(Capitalize.capitalize(chatbanner.getUname()));
@@ -319,7 +319,7 @@ public class SendMessageActivity extends AppCompatActivity {
         mSocket.on(Socket.EVENT_CONNECT_ERROR, onConnectError);
         mSocket.on(Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
         mSocket.on("new message", chatMessage);
-        mSocket.on("user joined", onUserJoined);
+        mSocket.on("new banner", onBanner);
         mSocket.on("user left", onUserLeft);
         mSocket.on("typing", onTyping);
         mSocket.on("stop typing", onStopTyping);
@@ -387,7 +387,7 @@ public class SendMessageActivity extends AppCompatActivity {
                         md.setProfilepic(jo.getString("profile_pic"));
                         md.setShared_imgage_url(jo.getString("shared_image_url"));
                         md.setMessage(jo.getString("msg"));
-
+                        md.setDatetime(getLocalTime(jo.getString("date_time")));
                         if (jo.isNull("brand_name")) {
 
                             if (jo.getString("uname").compareTo(uname) == 0) {
@@ -408,7 +408,7 @@ public class SendMessageActivity extends AppCompatActivity {
                                     md.setMessage("image");
                                 }
                             }
-                         }else {
+                        } else {
                             if (jo.getString("uname").compareTo(uname) == 0)
                                 md.setSellername(chatbanner.getUname());
                             else
@@ -529,7 +529,8 @@ public class SendMessageActivity extends AppCompatActivity {
             MessageData md = data.get(data.size() - 1);
             intent.putExtra("message", md.getMessage());
             intent.putExtra("pos", pos);
-            intent.putExtra("time", md.getTime());
+            intent.putExtra("time", md.getDatetime());
+            intent.putExtra("uname",chatbanner.getUname());
             setResult(200, intent);
             finish();//finishing activity
         }
@@ -568,7 +569,7 @@ public class SendMessageActivity extends AppCompatActivity {
             md.setTime(time1.toUpperCase().substring(1));
         } else
             md.setTime(time1.toUpperCase());
-
+        md.setDatetime(SingleTon.getCurrentTimeStamp());
         data.add(md);
         recyclerAdapter.notifyDataSetChanged();
         chatRecyclerView.scrollToPosition(data.size() - 1);
@@ -597,7 +598,8 @@ public class SendMessageActivity extends AppCompatActivity {
 
         //send banner message
         try {
-            if (extra != null && extra.getBoolean("fromhome", false)) {
+            if (extra != null && extra.getBoolean("fromhome", false)&&banneronce) {
+                banneronce=false;
                 JSONObject jobj = new JSONObject();
                 jobj.put("msg_from", msg_from);
                 jobj.put("msg_to", msg_to);
@@ -863,7 +865,7 @@ public class SendMessageActivity extends AppCompatActivity {
         mSocket.off(Socket.EVENT_CONNECT_ERROR, onConnectError);
         mSocket.off(Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
         mSocket.off("chat message", chatMessage);
-        mSocket.off("set nickname", onUserJoined);
+        mSocket.off("new banner", onBanner);
         mSocket.off("user left", onUserLeft);
         mSocket.off("typing", onTyping);
         mSocket.off("stop typing", onStopTyping);
@@ -1036,10 +1038,11 @@ public class SendMessageActivity extends AppCompatActivity {
                         messageto = jsondata.getString("msg_to");
                         url = jsondata.getString("image_url");
                         shared_image_url = jsondata.getString("shared_image_url");
-                        msg_id = jsondata.getString("msg_id");
+                      //  msg_id = jsondata.getString("msg_id");
                         /// unqiue_msg_id = jsondata.getString("user_unqiue_msg_id");
                         created_at = getTime(jsondata.getString("created_at"));
-
+                        if(from.compareToIgnoreCase(msg_to)!=0)
+                            return;
                         MessageData chatResponse = new MessageData();
                         chatResponse.setMessage(message);
 
@@ -1057,6 +1060,7 @@ public class SendMessageActivity extends AppCompatActivity {
                             chatResponse.setTime(created_at.toUpperCase());
                         } else
                             chatResponse.setTime(created_at.toUpperCase());
+                        chatResponse.setDatetime(SingleTon.getCurrentTimeStamp());
 
                         data.add(chatResponse);
                         recyclerAdapter.notifyDataSetChanged();
@@ -1082,20 +1086,29 @@ public class SendMessageActivity extends AppCompatActivity {
     };
 
 
-    private Emitter.Listener onUserJoined = new Emitter.Listener() {
+    private Emitter.Listener onBanner= new Emitter.Listener() {
         @Override
         public void call(final Object... args) {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    JSONObject data = (JSONObject) args[0];
-                    String username;
-                    int numUsers;
+                    JSONObject jsondata = (JSONObject) args[0];
+
                     try {
-                        username = data.getString("username");
-                        numUsers = data.getInt("numUsers");
+                        String from=jsondata.getString("msg_from");
+                        if(from.compareToIgnoreCase(msg_to)!=0)
+                            return;
+                        MessageData md1 = new MessageData();
+                        md1.setUserMessageType(UserMessageType.BANNER);
+                        md1.setImageurl(jsondata.getString("post_image_url"));
+                        md1.setSellername(jsondata.getString("user_name"));
+                        md1.setSize(jsondata.getString("size"));
+                        md1.setPrice(jsondata.getString("price"));
+                        md1.setBrandname(jsondata.getString("brand_name"));
+                        data.add(md1);
+                     recyclerAdapter.notifyDataSetChanged();
                     } catch (JSONException e) {
-                        return;
+                        Log.e("error",e.getMessage());
                     }
 
                     // addLog(getResources().getString(R.string.message_user_joined, username));
@@ -1156,13 +1169,15 @@ public class SendMessageActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     JSONObject data = (JSONObject) args[0];
-                    String username;
+                    String userid;
                     try {
-                        username = data.getString("username");
+                        userid = data.getString("user_id");
+                        if(userid.compareToIgnoreCase(msg_to)!=0)
+                            return;
                     } catch (JSONException e) {
                         return;
                     }
-                    addTyping(username);
+                    addTyping(userid);
                 }
             });
         }
@@ -1175,13 +1190,15 @@ public class SendMessageActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     JSONObject data = (JSONObject) args[0];
-                    String username;
+                    String userid;
                     try {
-                        username = data.getString("username");
+                        userid = data.getString("user_id");
+                        if(userid.compareToIgnoreCase(msg_to)!=0)
+                            return;
                     } catch (JSONException e) {
                         return;
                     }
-                    removeTyping(username);
+                    removeTyping(userid);
                 }
             });
         }
@@ -1230,5 +1247,28 @@ public class SendMessageActivity extends AppCompatActivity {
         }
         return chattime.toUpperCase();
     }
+
+    private String getLocalTime(String datetimestring) {
+        String chattime = "0000-00-00 00:00:00 am";
+        try {
+
+
+            String time = datetimestring;
+            String _24HourTime = time;
+            SimpleDateFormat _24HourSDF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            SimpleDateFormat _12HourSDF = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
+            _24HourSDF.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+            Date _24HourDt = _24HourSDF.parse(_24HourTime);
+            // Log.e("datetime", _12HourSDF.format(_24HourDt));
+            return _12HourSDF.format(_24HourDt);
+
+
+        } catch (Exception ex) {
+            // Log.e("timerissue", ex.getMessage());
+        }
+        return chattime.toUpperCase();
+    }
+
 
 }

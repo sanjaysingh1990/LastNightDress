@@ -380,6 +380,15 @@ public class Main_TabHost extends AppCompatActivity {
                     break;
                 }
                 break;
+            case 300:
+                if (data != null) {
+
+
+                    getNotification();
+                    MessageFragment.messageFragment.updateList2(data.getExtras());
+                    break;
+                }
+                break;
 
         }
 

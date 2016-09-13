@@ -20,6 +20,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -70,6 +72,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.concurrent.ExecutionException;
 
 public class MessageFragment extends Fragment {
@@ -127,7 +130,7 @@ public class MessageFragment extends Fragment {
 
 
         mRecyclerView = (RecyclerView) getView().findViewById(R.id.recycler_view);
-        mLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
+        mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
 
         // touch guard manager  (this class is required to suppress scrolling while swipe-dismiss animation is running)
         mRecyclerViewTouchActionGuardManager = new RecyclerViewTouchActionGuardManager();
@@ -209,7 +212,7 @@ public class MessageFragment extends Fragment {
                         if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
                             loading = false;
 
-                             getData();
+                            getData();
                             //Toast.makeText(getActivity(), "called", Toast.LENGTH_LONG).show();
                         }
                     }
@@ -339,19 +342,32 @@ public class MessageFragment extends Fragment {
                         JSONObject jo = jarray.getJSONObject(i);
                         MessageData cd = new MessageData();
                         cd.setProfilepic(jo.getString("profile_pic"));
-                        cd.setMsgindicator(jo.getInt("msg_status"));
+                        int msg_status = jo.getInt("msg_status");
+                        String last_msg_by = jo.getString("last_msg_by_id");
+                        if (msg_status == 0) {
+                            if (last_msg_by.compareToIgnoreCase(SingleTon.pref.getString("user_id", "")) == 0) {
+                                cd.setMsgindicator(1);
+
+                            } else
+                                cd.setMsgindicator(0);
+                        } else
+                            cd.setMsgindicator(jo.getInt("msg_status"));
+
                         cd.setUname(jo.getString("uname"));
                         cd.setMessage(jo.getString("msg"));
                         cd.setMsgid(jo.getInt("msg_id"));
                         cd.setSender_id(jo.getString("sender_id"));
                         cd.setDatetime(jo.getString("time"));
-                        cd.setTimeago(TimeAgo.getMilliseconds(jo.getString("time")));
+                        String localtime = getLocalTime(jo.getString("time"));
+                        cd.setTimeago(TimeAgo.getMilliseconds(localtime));
 
 
                         mProvider.addItem(cd);
-                        mAdapter.notifyDataSetChanged();
+
 
                     }
+                    order(mProvider.getList());
+                    mAdapter.notifyDataSetChanged();
                     skipdata = mProvider.getCount();
                     if (jarray.length() < 25)
                         loading = false;
@@ -402,6 +418,54 @@ public class MessageFragment extends Fragment {
 
     }
 
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+         //   Toast.makeText(getActivity(), "data found", Toast.LENGTH_SHORT).show();
+            Bundle b = msg.getData();
+            updateList(b);
+        }
+    };
+
+    public void updateList2(final Bundle extra) {
+
+        /*
+        MessageData md = mProvider.getItem(extra.getInt("pos")).getMessage();
+        md.setMessage(extra.getString("message"));
+        md.setTimeago(TimeAgo.getMilliseconds(extra.getString("time")));
+        md.setDatetime(extra.getString("time"));
+
+        mAdapter.notifyDataSetChanged();
+        order(mProvider.getList());
+        mAdapter.notifyDataSetChanged();*/
+        final String uname = extra.getString("uname", "");
+       // Log.e("uname",uname);
+        Runnable runnable = new Runnable() {
+            public void run() {
+
+                int pos = -1;
+                for (int i = 0; i < mProvider.getCount(); i++) {
+                  //  Log.e("to match user",mProvider.getItem(i).getMessage().getUname());
+                    if (mProvider.getItem(i).getMessage().getUname().compareToIgnoreCase(uname) == 0) {
+                        pos = i;
+                        break;
+                    }
+                }
+                //create message
+                final Message msg = new Message();
+                extra.putInt("pos", pos);
+                msg.setData(extra);
+                if(pos>=0)
+                handler.sendMessage(msg);
+            }
+        };
+
+        Thread mythread = new Thread(runnable);
+        mythread.start();
+
+    }
+
+
     private void order(List<ConcreteData1> list) {
 
         Collections.sort(list, byDate);
@@ -436,5 +500,28 @@ public class MessageFragment extends Fragment {
             return 0;     //ascending
         }
     };
+
+    private String getLocalTime(String datetimestring) {
+        String chattime = "0000-00-00 00:00:00 am";
+        try {
+
+
+            String time = datetimestring;
+            String _24HourTime = time;
+            SimpleDateFormat _24HourSDF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            SimpleDateFormat _12HourSDF = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
+            _24HourSDF.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+            Date _24HourDt = _24HourSDF.parse(_24HourTime);
+            // Log.e("datetime", _12HourSDF.format(_24HourDt));
+            return _12HourSDF.format(_24HourDt);
+
+
+        } catch (Exception ex) {
+            // Log.e("timerissue", ex.getMessage());
+        }
+        return chattime.toUpperCase();
+    }
+
 }
 

@@ -67,7 +67,7 @@ public class SingleTon extends Application {
         return mSocket;
     }
 
-
+    public static int toltalfollowing=0;
     public static SharedPreferences pref;
     public static DisplayImageOptions options,options2,options3,options4;
     public static ImageLoader imageLoader,imageLoader2;
@@ -372,7 +372,7 @@ public static void showValue(String country, TextView pricewas,TextView pricenow
         }
     }
     public static String getCurrentTimeStamp() {
-        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        return new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a").format(new Date());
     }
 
 

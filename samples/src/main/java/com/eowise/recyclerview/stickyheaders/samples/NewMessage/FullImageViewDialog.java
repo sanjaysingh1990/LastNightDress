@@ -20,7 +20,7 @@ public class FullImageViewDialog {
 //inflating dialog layout
         dialog.setContentView(R.layout.chat_image_full_view_layout);
         ImageView fullview= (ImageView) dialog.findViewById(R.id.fullview);
-        SingleTon.imageLoader.displayImage(url,fullview, SingleTon.options3);
+        SingleTon.imageLoader.displayImage(url,fullview, SingleTon.options);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }

@@ -37,6 +37,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.eowise.recyclerview.stickyheaders.samples.Loading.AVLoadingIndicatorView;
+import com.eowise.recyclerview.stickyheaders.samples.Main_TabHost;
 import com.eowise.recyclerview.stickyheaders.samples.NewMessage.NewMessageActivity;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
@@ -205,7 +206,7 @@ public class LndNotificationMessageActivity extends AppCompatActivity {
 
     public void newmessage(View v) {
         Intent nm = new Intent(this, NewMessageActivity.class);
-        startActivity(nm);
+        Main_TabHost.activity.startActivityForResult(nm, 300);
     }
 
     public void showInstruction(int from) {

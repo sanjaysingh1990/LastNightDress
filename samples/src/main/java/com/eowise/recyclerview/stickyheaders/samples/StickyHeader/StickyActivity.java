@@ -207,9 +207,35 @@ public class StickyActivity extends AppCompatActivity {
             dialog.setVisibility(View.VISIBLE);
             getData();
         }
+        else if(SingleTon.toltalfollowing>0)
+        {
+
+            dialog.setVisibility(View.VISIBLE);
+            getData();
+        }
+        else if(SingleTon.toltalfollowing<=0)
+        {
+            showInstruction();
+            skipdata = 0;
+            loading = true;
+            isprivate = false;
+            lastHeader = "";
+            sectionManager = -1;
+            headerCount = 0;
+            sectionFirstPosition = 0;
+            i = 0;
+            boolean firsttime = true;
+            pulltorefresh = true;
+
+            mItems.clear();
+            mAdapter.notifyDataSetChanged();
+
+        }
+
         else
             applaunched=false;
         }
+
 
     private void applySpannable() {
 
@@ -283,7 +309,7 @@ public class StickyActivity extends AppCompatActivity {
     public void getData() {
 
 
-        Log.e("called","again");
+      //  Log.e("called","again");
         RequestQueue queue = Volley.newRequestQueue(this);
         StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_POST_DATA, new Response.Listener<String>() {
             @Override

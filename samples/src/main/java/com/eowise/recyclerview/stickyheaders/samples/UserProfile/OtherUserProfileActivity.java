@@ -764,7 +764,7 @@ public class OtherUserProfileActivity extends Activity {
                                     0);//bottom
                             int value = Integer.parseInt(totalfollowers.getText().toString());
                             totalfollowers.setText(value + 1 + "");
-
+                            SingleTon.toltalfollowing++;
 
                         } else {
                             followunfollow.setText("+ Follow");
@@ -777,6 +777,7 @@ public class OtherUserProfileActivity extends Activity {
                             int value = Integer.parseInt(totalfollowers.getText().toString());
 
                             totalfollowers.setText(value - 1 + "");
+                            SingleTon.toltalfollowing--;
                         }
                     }
                 } catch (Exception ex) {
