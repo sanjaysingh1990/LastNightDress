@@ -76,7 +76,7 @@
                 android:background="@null"
                 android:layout_marginTop="3dp"
                 android:imeOptions="actionNext"
-                android:textColorHint="@color/user_registration_hint_color"
+                android:textColorHint="@color/white"
                 android:textColor="@color/white"
                 android:textSize="16sp"
 
@@ -84,7 +84,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#dadada"
+                android:background="@color/lnd_home_gray"
                 android:layout_marginTop="10dp"
                 />
 
@@ -99,7 +99,7 @@
                 android:backgroundTint="@color/white"
                 android:drawableLeft="@drawable/lnd_profile_fullname"
                 android:drawablePadding="6dp"
-                android:textColorHint="@color/user_registration_hint_color"
+                android:textColorHint="@color/white"
                 android:textColor="@color/white"
 
                 android:textSize="16sp"
@@ -108,7 +108,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#dadada"
+                android:background="@color/lnd_home_gray"
                 android:layout_marginTop="10dp"
                 />
 
@@ -122,7 +122,7 @@
                 android:backgroundTint="@color/white"
                 android:drawableLeft="@drawable/lnd_profile_user_name"
                 android:drawablePadding="6dp"
-                android:textColorHint="@color/user_registration_hint_color"
+                android:textColorHint="@color/white"
                 android:textColor="@color/white"
                 android:imeOptions="actionNext"
                 android:textSize="16sp"
@@ -131,7 +131,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#dadada"
+                android:background="@color/lnd_home_gray"
                 android:layout_marginTop="10dp"
                 />
 
@@ -147,14 +147,14 @@
                 android:backgroundTint="@color/white"
                 android:drawableLeft="@drawable/lnd_profile_email"
                 android:drawablePadding="6dp"
-                android:textColorHint="@color/user_registration_hint_color"
+                android:textColorHint="@color/white"
                 android:textColor="@color/white"
 
                 />
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#dadada"
+                android:background="@color/lnd_home_gray"
                 android:layout_marginTop="10dp"
                 />
 
@@ -170,14 +170,14 @@
                 android:backgroundTint="@color/white"
                 android:drawableLeft="@drawable/lnd_profile_address_country"
                 android:drawablePadding="6dp"
-                android:textColorHint="@color/user_registration_hint_color"
+                android:textColorHint="@color/white"
                 android:textColor="@color/white"
 
                 />
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#dadada"
+                android:background="@color/lnd_home_gray"
                 android:layout_marginTop="10dp"
                 />
 
@@ -191,14 +191,14 @@
                 android:id="@+id/city"
                 android:background="@null"
                 android:imeOptions="actionNext"
-                android:textColorHint="@color/user_registration_hint_color"
+                android:textColorHint="@color/white"
                 android:textColor="@color/white"
 
                 />
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#dadada"
+                android:background="@color/lnd_home_gray"
                 android:layout_marginTop="10dp"
                 />
             <EditText
@@ -211,7 +211,7 @@
                 android:id="@+id/postalzip"
                 android:background="@null"
 
-                android:textColorHint="@color/user_registration_hint_color"
+                android:textColorHint="@color/white"
                 android:textColor="@color/white"
                 android:imeOptions="actionNext"
 
@@ -219,7 +219,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#dadada"
+                android:background="@color/lnd_home_gray"
                 android:layout_marginTop="10dp"
                 />
             <Spinner
@@ -234,7 +234,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#dadada"
+                android:background="@color/lnd_home_gray"
                 android:layout_marginTop="10dp"
                 />
             <EditText
@@ -248,7 +248,7 @@
                 android:backgroundTint="@color/white"
                 android:drawableLeft="@drawable/lnd_profile_password"
                 android:drawablePadding="6dp"
-                android:textColorHint="@color/user_registration_hint_color"
+                android:textColorHint="@color/white"
                 android:textColor="@color/white"
 
                 android:textSize="16sp"
@@ -257,7 +257,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#dadada"
+                android:background="@color/lnd_home_gray"
                 android:layout_marginTop="10dp"
                 />
             <EditText
@@ -270,7 +270,7 @@
                 android:background="@null"
                 android:backgroundTint="@color/white"
                 android:drawablePadding="6dp"
-                android:textColorHint="@color/user_registration_hint_color"
+                android:textColorHint="@color/white"
                 android:textColor="@color/white"
                 android:paddingLeft="10dp"
                 android:textSize="16sp"
@@ -280,7 +280,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#dadada"
+                android:background="@color/lnd_home_gray"
                 android:layout_marginTop="10dp"
                 />
 <TextView

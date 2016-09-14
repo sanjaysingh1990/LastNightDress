@@ -563,6 +563,7 @@ public class SendMessageActivity extends AppCompatActivity {
         md.setMessage(message);
         md.setUname(uname);
         md.setProfilepic(SingleTon.pref.getString("imageurl", ""));
+        Log.e("image_url",md.getProfilepic());
         md.setUserMessageType(UserMessageType.SELF);
         //check for start with zero
         if (time1.startsWith("0")) {

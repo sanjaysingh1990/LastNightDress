@@ -389,27 +389,27 @@ class AgentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 NormalUser normalUser = (NormalUser) holder;
 
                 if (item.getUserposition() == 1) {
-                    normalUser.totalrefuser.setText(item.getTotalrefuser() + "/5");
+                    normalUser.totalrefuser.setText(item.getTotalrefuser() + "/5min");
                     normalUser.totalrefusertext.setText("Basic Users");
                     normalUser.uname.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
 
                 } else if (item.getUserposition() == 2) {
-                    normalUser.totalrefuser.setText(item.getTotalrefuser() + "/25");
+                    normalUser.totalrefuser.setText(item.getTotalrefuser() + "/25min");
                     normalUser.totalrefusertext.setText("Agents");
                     normalUser.uname.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.agent_icon, 0);
 
                 } else if (item.getUserposition() == 3) {
-                    normalUser.totalrefuser.setText(item.getTotalrefuser() + "/25");
+                    normalUser.totalrefuser.setText(item.getTotalrefuser() + "/25min");
                     normalUser.totalrefusertext.setText("Agency");
                     normalUser.uname.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.agency_icon, 0);
 
                 } else if (item.getUserposition() == 4) {
-                    normalUser.totalrefuser.setText(item.getTotalrefuser() + "/25");
+                    normalUser.totalrefuser.setText(item.getTotalrefuser() + "/25min");
                     normalUser.totalrefusertext.setText("Area Manager");
                     normalUser.uname.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.areamanager_icon, 0);
 
                 } else if (item.getUserposition() == 5) {
-                    normalUser.totalrefuser.setText(item.getTotalrefuser() + "/25");
+                    normalUser.totalrefuser.setText(item.getTotalrefuser() + "/25min");
                     normalUser.totalrefusertext.setText("Regional Director");
                     normalUser.uname.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.regionaldirector_icon, 0);
 

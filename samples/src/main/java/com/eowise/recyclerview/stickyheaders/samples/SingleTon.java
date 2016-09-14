@@ -67,7 +67,7 @@ public class SingleTon extends Application {
         return mSocket;
     }
 
-    public static int toltalfollowing=0;
+    public static int toltalfollowing=5;
     public static SharedPreferences pref;
     public static DisplayImageOptions options,options2,options3,options4;
     public static ImageLoader imageLoader,imageLoader2;

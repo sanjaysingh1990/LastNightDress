@@ -22,5 +22,7 @@
     <color name="bottom_control_background_color">#e8e9eb</color>
     <color name="black_transparent">#80000000</color>
     <color name="lnd_home_gray">#b4b4b4</color>
+    <color name="login_transparent_white_line">#D9FFFFFF</color>
+
 
 </resources>

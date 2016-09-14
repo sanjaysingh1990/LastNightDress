@@ -78,9 +78,9 @@
                     android:drawablePadding="6dp"
                     android:gravity="center_vertical"
                     android:hint="Full name"
+                    android:imeOptions="actionNext"
                     android:textColor="@color/white"
-                     android:imeOptions="actionNext"
-                    android:textColorHint="@color/user_registration_hint_color"
+                    android:textColorHint="@color/white"
 
                     android:textSize="16sp" />
 
@@ -88,7 +88,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="10dp"
-                    android:background="#dadada" />
+                    android:background="@color/lnd_home_gray" />
 
                 <EditText
                     android:id="@+id/uname"
@@ -101,9 +101,9 @@
                     android:drawablePadding="6dp"
                     android:gravity="center_vertical"
                     android:hint="Username"
-                    android:textColor="@color/white"
                     android:imeOptions="actionNext"
-                    android:textColorHint="@color/user_registration_hint_color"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
 
                     android:textSize="16sp"
 
@@ -113,7 +113,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="10dp"
-                    android:background="#dadada" />
+                    android:background="@color/lnd_home_gray" />
 
                 <EditText
                     android:id="@+id/email"
@@ -126,10 +126,10 @@
                     android:drawablePadding="6dp"
                     android:gravity="center_vertical"
                     android:hint="Email"
-                    android:textColor="@color/white"
                     android:imeOptions="actionNext"
+                    android:textColor="@color/white"
 
-                    android:textColorHint="@color/user_registration_hint_color"
+                    android:textColorHint="@color/white"
 
                     android:textSize="16sp"
 
@@ -139,7 +139,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="10dp"
-                    android:background="#dadada" />
+                    android:background="@color/lnd_home_gray" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -163,7 +163,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="10dp"
-                    android:background="#dadada" />
+                    android:background="@color/lnd_home_gray" />
 
                 <EditText
                     android:id="@+id/pass"
@@ -176,10 +176,10 @@
                     android:drawablePadding="6dp"
                     android:gravity="center_vertical"
                     android:hint="Password"
+                    android:imeOptions="actionDone"
                     android:inputType="textPassword"
                     android:textColor="@color/white"
-                    android:imeOptions="actionDone"
-                    android:textColorHint="@color/user_registration_hint_color"
+                    android:textColorHint="@color/white"
 
                     android:textSize="16sp" />
 
@@ -187,30 +187,30 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="10dp"
-                    android:background="#dadada" />
+                    android:background="@color/lnd_home_gray" />
 
                 <EditText
+                    android:id="@+id/refcode"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Reference code (optional)"
-                    android:imeOptions="actionDone"
                     android:layout_marginTop="15dp"
-                    android:id="@+id/refcode"
                     android:background="@null"
                     android:backgroundTint="@color/white"
                     android:drawablePadding="6dp"
-                    android:textColorHint="@color/user_registration_hint_color"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
+                    android:hint="Reference code (optional)"
+                    android:imeOptions="actionDone"
                     android:inputType="number"
                     android:paddingLeft="10dp"
-                    />
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:textSize="16sp" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="10dp"
-                    android:background="#dadada" />
+                    android:background="@color/lnd_home_gray" />
+
                 <TextView
                     android:id="@+id/next"
                     android:layout_width="wrap_content"

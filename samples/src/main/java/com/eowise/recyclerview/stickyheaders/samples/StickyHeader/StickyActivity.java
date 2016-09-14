@@ -205,15 +205,16 @@ public class StickyActivity extends AppCompatActivity {
         if(mItems.size()==0&&!applaunched) {
 
             dialog.setVisibility(View.VISIBLE);
+            firsttime=true;
             getData();
         }
-        else if(SingleTon.toltalfollowing>0)
+       /* else if(SingleTon.toltalfollowing>0&&!applaunched)
         {
 
             dialog.setVisibility(View.VISIBLE);
             getData();
         }
-        else if(SingleTon.toltalfollowing<=0)
+        else if(SingleTon.toltalfollowing<=0&&!applaunched)
         {
             showInstruction();
             skipdata = 0;
@@ -230,7 +231,7 @@ public class StickyActivity extends AppCompatActivity {
             mItems.clear();
             mAdapter.notifyDataSetChanged();
 
-        }
+        }*/
 
         else
             applaunched=false;
@@ -390,7 +391,7 @@ public class StickyActivity extends AppCompatActivity {
                         hld.setPricenow(jo.getString("price_now"));
                         hld.setPricewas(jo.getString("price_was"));
                         hld.setSize(jo.getString("size"));
-                        hld.setLikestotal(jo.getInt("likes"));
+                        hld.setLikestotal(jo.getInt("post_total_likes"));
                         hld.setImageurls(imgurls);
                         hld.setPost_id(jo.getString("post_id"));
                         hld.setDescription(jo.getString("description"));
