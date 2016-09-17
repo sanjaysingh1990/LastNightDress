@@ -753,6 +753,8 @@ public class DressPostPrivate extends AppCompatActivity implements View.OnClickL
                         Toast.makeText(DressPostPrivate.this, jobj.getString("message") + "", Toast.LENGTH_LONG).show();
                         //Intent intent = new Intent(DressPost.this, PayPalAccountCreation.class);
                         //startActivity(intent);
+                        CameraReviewFragment.urls.clear();
+
                         finish();//finishing activity
 
                     } else {

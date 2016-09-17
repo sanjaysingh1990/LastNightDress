@@ -931,6 +931,8 @@ public class JewelleryPostPrivate extends AppCompatActivity implements View.OnCl
                     JSONObject jobj = new JSONObject(response);
                     if (jobj.getBoolean("status")) {
                         Toast.makeText(JewelleryPostPrivate.this, jobj.getString("message") + "", Toast.LENGTH_LONG).show();
+                        CameraReviewFragment.urls.clear();
+
                         finish();
                     } else {
                         Toast.makeText(JewelleryPostPrivate.this, jobj.getString("message") + "", Toast.LENGTH_LONG).show();

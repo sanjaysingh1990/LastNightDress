@@ -860,6 +860,8 @@ public class HandBagsPostPrivate extends AppCompatActivity implements View.OnCli
                     JSONObject jobj = new JSONObject(response);
                     if (jobj.getBoolean("status")) {
                         Toast.makeText(HandBagsPostPrivate.this, jobj.getString("message") + "", Toast.LENGTH_LONG).show();
+                        CameraReviewFragment.urls.clear();
+
                         finish();
                     } else {
                         Toast.makeText(HandBagsPostPrivate.this, jobj.getString("message") + "", Toast.LENGTH_LONG).show();

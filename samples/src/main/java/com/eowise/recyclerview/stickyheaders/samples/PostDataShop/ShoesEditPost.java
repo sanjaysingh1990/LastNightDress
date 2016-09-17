@@ -794,6 +794,7 @@ public class ShoesEditPost extends AppCompatActivity implements View.OnClickList
                     JSONObject jobj = new JSONObject(response);
                     if (jobj.getBoolean("status")) {
                         Toast.makeText(ShoesEditPost.this, jobj.getString("message") + "", Toast.LENGTH_LONG).show();
+                        CameraReviewFragment.urls.clear();
                         finish();
                     } else {
                         Toast.makeText(ShoesEditPost.this, jobj.getString("message") + "", Toast.LENGTH_LONG).show();

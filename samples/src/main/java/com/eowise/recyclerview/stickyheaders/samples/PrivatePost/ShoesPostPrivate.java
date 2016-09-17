@@ -699,6 +699,8 @@ public class ShoesPostPrivate extends AppCompatActivity implements View.OnClickL
                     JSONObject jobj = new JSONObject(response);
                     if (jobj.getBoolean("status")) {
                         Toast.makeText(ShoesPostPrivate.this, jobj.getString("message") + "", Toast.LENGTH_LONG).show();
+                        CameraReviewFragment.urls.clear();
+
                         finish();
                     } else {
                         Toast.makeText(ShoesPostPrivate.this, jobj.getString("message") + "", Toast.LENGTH_LONG).show();

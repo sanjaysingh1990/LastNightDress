@@ -241,6 +241,8 @@
 
     </LinearLayout>
     <include
+
         layout="@layout/lnd_category_page_tutorial"
+
         />
 </FrameLayout>

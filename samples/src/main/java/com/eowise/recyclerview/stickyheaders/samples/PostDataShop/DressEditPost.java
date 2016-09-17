@@ -50,12 +50,14 @@ import com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost.CameraR
 import com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost.CompressImage;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.Home_List_Data;
+import com.eowise.recyclerview.stickyheaders.samples.TabDemo.CategoryFragment;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ApplicationConstants;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ConstantValues;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.HashTagandMention;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.InstructionDialogs;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.LndTextWatcher;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.LndTokenizer;
+import com.eowise.recyclerview.stickyheaders.samples.custom_camera.Camera;
 import com.eowise.recyclerview.stickyheaders.samples.data.CameraData;
 
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
@@ -852,7 +854,9 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
                         Toast.makeText(DressEditPost.this, jobj.getString("message") + "", Toast.LENGTH_LONG).show();
                         //Intent intent = new Intent(DressPost.this, PayPalAccountCreation.class);
                         //startActivity(intent);
+                        CameraReviewFragment.urls.clear();
                         finish();//finishing activity
+
 
                     } else {
                         Toast.makeText(DressEditPost.this, jobj.getString("message") + "", Toast.LENGTH_LONG).show();

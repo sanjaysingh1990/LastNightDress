@@ -860,13 +860,13 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
                 mainObj.put("query_type", 1);
                 mainObj.put("post_id", 0);
 
-              //  jewelleryPost(mainObj.toString());
+                jewelleryPost(mainObj.toString());
             }
             {
                 mainObj.put("query_type", 2);
                 mainObj.put("post_id", hld.getPost_id());
 
-                //jewelleryPost(mainObj.toString());
+                jewelleryPost(mainObj.toString());
 
             }
              Log.e("json", mainObj.toString());
@@ -899,6 +899,8 @@ public class JewelleryEditPost extends AppCompatActivity implements View.OnClick
                     JSONObject jobj = new JSONObject(response);
                     if (jobj.getBoolean("status")) {
                         Toast.makeText(JewelleryEditPost.this, jobj.getString("message") + "", Toast.LENGTH_LONG).show();
+                        CameraReviewFragment.urls.clear();
+
                         finish();
                     } else {
                         Toast.makeText(JewelleryEditPost.this, jobj.getString("message") + "", Toast.LENGTH_LONG).show();
