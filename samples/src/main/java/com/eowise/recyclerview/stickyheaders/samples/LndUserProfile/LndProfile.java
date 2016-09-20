@@ -927,7 +927,7 @@ public class LndProfile extends AppCompatActivity {
                             isprivate = false;
 
                         //content
-                        Home_List_Data hld = new Home_List_Data(jo.getString("uname") + "", isprivate, "content", sectionManager, sectionFirstPosition);
+                        Home_List_Data hld = new Home_List_Data(jo.getString("uname") + "", isprivate, "contentuser", sectionManager, sectionFirstPosition);
                         hld.setProfilepicurl(jo.getString("profile_pic"));
                         hld.setPricenow(jo.getString("price_now"));
                         hld.setPricewas(jo.getString("price_was"));
@@ -1005,7 +1005,7 @@ public class LndProfile extends AppCompatActivity {
                         //for header
                         hld2.setProfilepicurl(jo.getString("profile_pic"));
                         hld2.setIssold(jo.getInt("issold"));
-
+                        hld2.setHeadertype(0);
                         hld2.setPost_id(jo.getString("post_id"));
 
                         hld2.setUname(jo.getString("uname"));

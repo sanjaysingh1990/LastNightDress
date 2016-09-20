@@ -3,9 +3,12 @@ package com.eowise.recyclerview.stickyheaders.samples;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.eowise.recyclerview.stickyheaders.samples.UserProfile.LndLoginSignup;
 import com.facebook.FacebookSdk;
+
+import org.json.JSONObject;
 
 public class Splash extends AppCompatActivity {
 
@@ -15,8 +18,7 @@ public class Splash extends AppCompatActivity {
         FacebookSdk.sdkInitialize(getApplicationContext());
 
         setContentView(R.layout.activity_splash);
-
-        //to generate fab
+               //to generate fab
        /* try {
           String  PACKAGE_NAME = getApplicationContext().getPackageName();
             PackageInfo info = getPackageManager().getPackageInfo(
