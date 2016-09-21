@@ -508,7 +508,7 @@ public class StickyActivity extends AppCompatActivity {
                                 hld2.setNotitotallikers(jo.getInt("noti_total"));
                                 hld2.setNotilikedby(users.replace(uname, "You"));
 
-                            } else if (notiusers.contains("12")) {
+                            } else if (notiusers.contains("13")) {
                                 hld2.setHeadertype(3);
                                 hld2.setNotitotallikers(jo.getInt("noti_total"));
                                 hld2.setNotilikedby(users.replace(uname, "You"));

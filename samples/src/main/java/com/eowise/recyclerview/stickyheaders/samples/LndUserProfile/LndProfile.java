@@ -932,7 +932,7 @@ public class LndProfile extends AppCompatActivity {
                         hld.setPricenow(jo.getString("price_now"));
                         hld.setPricewas(jo.getString("price_was"));
                         hld.setSize(jo.getString("size"));
-                        hld.setLikestotal(jo.getInt("likes"));
+                        hld.setLikestotal(jo.getInt("post_total_likes"));
                         hld.setImageurls(imgurls);
                         hld.setPost_id(jo.getString("post_id"));
                         hld.setDescription(jo.getString("description"));
@@ -945,6 +945,9 @@ public class LndProfile extends AppCompatActivity {
                         hld.setUserid(jo.getString("user_id"));
                         hld.setProdtype(jo.getString("prod_type"));
                         hld.setTime(getMilliseconds(jo.getString("date_time")));
+                        hld.setTotalcomments(jo.getInt("post_total_comment"));
+                        hld.setIssold(jo.getInt("issold"));
+
                         JSONArray commnets = jo.getJSONArray("postcoments");
 
                         if (commnets.length() > 0) {
