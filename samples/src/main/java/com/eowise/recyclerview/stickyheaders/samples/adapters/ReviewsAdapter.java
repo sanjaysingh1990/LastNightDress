@@ -73,6 +73,7 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHold
             viewHolder.replyby.setText(Capitalize.capitalizeFirstLetter(SingleTon.pref.getString("uname", "")));
             viewHolder.replymessage.setText(rd.getReviewreplied());
             viewHolder.reply.setOnClickListener(new MyEvent(viewHolder.repliedview));
+            SingleTon.imageLoader.displayImage(SingleTon.pref.getString("imageurl",""), viewHolder.replierprofilepic, SingleTon.options3);
 
         }
         // viewHolder.reply.setVisibility(View.GONE);
@@ -184,6 +185,8 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHold
         public LinearLayout repliedview;
         public TextView replyby, replymessage;
         public CircleImageView profilepic;
+        public CircleImageView replierprofilepic;
+
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -195,6 +198,7 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHold
             replyby = (TextView) itemView.findViewById(R.id.replyby);
             replymessage = (TextView) itemView.findViewById(R.id.replytext);
             profilepic = (CircleImageView) itemView.findViewById(R.id.profilepic);
+            replierprofilepic = (CircleImageView) itemView.findViewById(R.id.replierprofilepic);
 
         }
 

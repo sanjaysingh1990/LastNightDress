@@ -119,7 +119,6 @@ public class Favorates extends AppCompatActivity {
 
                     JSONObject jobj = new JSONObject(response.toString());
                     JSONArray jarray = jobj.getJSONArray("data");
-
                     for (int i = 0; i < jarray.length(); i++) {
                         JSONObject jo = jarray.getJSONObject(i);
                         FavoriteData fd = new FavoriteData();
@@ -128,6 +127,7 @@ public class Favorates extends AppCompatActivity {
                         fd.setPostid(jo.getString("post_id"));
 
                         favitems.add(fd);
+
 
 //for full view
                         ArrayList<String> imgurls = new ArrayList<String>();
@@ -174,7 +174,7 @@ public class Favorates extends AppCompatActivity {
                         hld.setPricenow(jo.getString("price_now"));
                         hld.setPricewas(jo.getString("price_was"));
                         hld.setSize(jo.getString("size"));
-                        hld.setLikestotal(jo.getInt("likes"));
+                        hld.setLikestotal(jo.getInt("post_total_likes"));
                         hld.setImageurls(imgurls);
                         hld.setPost_id(jo.getString("post_id"));
                         hld.setDescription(jo.getString("description"));
@@ -190,6 +190,7 @@ public class Favorates extends AppCompatActivity {
                         JSONArray commnets = jo.getJSONArray("postcoments");
                         hld.setSwapstatus(jo.getInt("swap_status"));
                         hld.setIssold(jo.getInt("issold"));
+                        hld.setTotalcomments(jo.getInt("post_total_comment"));
 
                         hld.setIsfavorate(true);
                         if (commnets.length() > 0) {

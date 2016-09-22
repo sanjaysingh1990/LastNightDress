@@ -108,7 +108,7 @@ public class FavoratesAdapter extends RecyclerView.Adapter<FavoratesAdapter.Text
 
                case R.id.delefav:
                Favorates fav = (Favorates) activity;
-               delFav(SingleTon.pref.getString("uname",""),labels.get(getAdapterPosition()).getPostid());
+               delFav(SingleTon.pref.getString("user_id",""),labels.get(getAdapterPosition()).getPostid());
 
                    fav.delFavorite(getAdapterPosition());
                    notifyDataSetChanged();

@@ -324,6 +324,7 @@ public class StickyActivity extends AppCompatActivity {
                 }
                 if (loadmore) {
                     loadmore = false;
+                    if(mItems.size()>0)
                     mItems.remove(mItems.size() - 1);
                     mAdapter.notifyDataSetChanged();
                 }
@@ -497,18 +498,18 @@ public class StickyActivity extends AppCompatActivity {
                             //  String users = capitalize(notiusers.replaceAll("[0-9;]", ""));
                             String users = capitalize(notiusers.replaceAll("[0-9]{2}[;]", ""));
 
-                            if (notiusers.contains("11")) {
+                            if (notiusers.contains("11;")) {
 
                                 hld2.setHeadertype(1);
                                 hld2.setNotitotallikers(jo.getInt("noti_total"));
                                 hld2.setNotilikedby(users.replace(uname, "You"));
 
-                            } else if (notiusers.contains("12")) {
+                            } else if (notiusers.contains("12;")) {
                                 hld2.setHeadertype(2);
                                 hld2.setNotitotallikers(jo.getInt("noti_total"));
                                 hld2.setNotilikedby(users.replace(uname, "You"));
 
-                            } else if (notiusers.contains("13")) {
+                            } else if (notiusers.contains("13;")) {
                                 hld2.setHeadertype(3);
                                 hld2.setNotitotallikers(jo.getInt("noti_total"));
                                 hld2.setNotilikedby(users.replace(uname, "You"));

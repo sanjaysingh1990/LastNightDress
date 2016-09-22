@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -57,7 +58,7 @@ public class ReviewsActivity extends AppCompatActivity {
         {
             String userid=extra.getString("user_id","");
             getData(userid);
-        }
+           }
 
     }
 
@@ -80,7 +81,7 @@ public class ReviewsActivity extends AppCompatActivity {
             public void onResponse(String response) {
                 prog.setVisibility(View.GONE);
 
-                // Log.e("reviews", response.toString());
+                 //Log.e("reviews", response.toString());
                 try {
                     JSONObject jobj = new JSONObject(response.toString());
                     JSONArray jarray=jobj.getJSONArray("data");
@@ -117,7 +118,7 @@ public class ReviewsActivity extends AppCompatActivity {
                 }
                 catch(Exception ex)
                 {
-                    //Log.e("json parsing error",ex.getMessage());
+                    Log.e("error",ex.getMessage());
 
                 }
             }
@@ -132,7 +133,7 @@ public class ReviewsActivity extends AppCompatActivity {
             protected Map<String,String> getParams(){
                 Map<String,String> params = new HashMap<String, String>();
                 params.put("rqid","15");
-                params.put("skipdata",skipdata+"'");
+                params.put("skipdata",skipdata+"");
                 params.put("user_id",userid);
 
                 return params;
