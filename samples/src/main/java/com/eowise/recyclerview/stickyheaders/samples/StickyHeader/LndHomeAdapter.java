@@ -1668,7 +1668,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (lineItem.isprivate) {
                 //to check availability
                 if (lineItem.getIssold() == 1) {
-                    if (lineItem.getSwapstatus() == 0)
+                    if (lineItem.getSwapstatus() == 1)
                         return VIEW_TYPE_CONTENT_PRIVATE_OTHER;
                     else
                         return VIEW_TYPE_CONTENT_PRIVATE_USER_ITEM_LOCKED;//layout to show off
@@ -1677,7 +1677,7 @@ public class LndHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             } else {
                 if (lineItem.getIssold() == 1) {
-                    if (lineItem.getSwapstatus() == 0)
+                    if (lineItem.getSwapstatus() == 1)
                         return VIEW_TYPE_CONTENT_SHOP_OTHER;
                     else
                         return VIEW_TYPE_CONTENT_SHOP_ITEM_UNLOKED;

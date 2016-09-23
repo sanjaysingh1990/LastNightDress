@@ -107,7 +107,8 @@ public class SendMessageActivity extends AppCompatActivity {
     private Boolean isConnected = true;
     private static final int TYPING_TIMER_LENGTH = 600;
     public static int GALLERY_INTENT_CALLED = 200;
-    private boolean banneronce=true;
+    private boolean banneronce = true;
+
     //to open gallery intent
     @OnClick(R.id.share_gallery_image)
     public void gallery() {
@@ -353,7 +354,7 @@ public class SendMessageActivity extends AppCompatActivity {
         else
             return 3;
     }
-
+    private String ids="";
     private void scrollToBottom() {
         chatRecyclerView.scrollToPosition(data.size() - 1);
     }
@@ -362,7 +363,7 @@ public class SendMessageActivity extends AppCompatActivity {
         final ProgressDialog pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");
         // pDialog.show();
-
+       ids="";
 
         RequestQueue queue = Volley.newRequestQueue(this);
         StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_INBOXOPERATION, new Response.Listener<String>() {
@@ -388,6 +389,7 @@ public class SendMessageActivity extends AppCompatActivity {
                         md.setShared_imgage_url(jo.getString("shared_image_url"));
                         md.setMessage(jo.getString("msg"));
                         md.setDatetime(getLocalTime(jo.getString("date_time")));
+
                         if (jo.isNull("brand_name")) {
 
                             if (jo.getString("uname").compareTo(uname) == 0) {
@@ -401,12 +403,21 @@ public class SendMessageActivity extends AppCompatActivity {
 
                                 }
                             } else {
-                                if (jo.getString("shared_image_url").length() == 0)
+                                if (jo.getString("shared_image_url").length() == 0) {
                                     md.setUserMessageType(UserMessageType.OTHER);
-                                else {
-                                    md.setUserMessageType(UserMessageType.OTHER_IMAGE_SERVER);
-                                    md.setMessage("image");
+
+                                } else {
+                                    {
+                                        md.setUserMessageType(UserMessageType.OTHER_IMAGE_SERVER);
+                                        md.setMessage("image");
+                                    }
                                 }
+
+                                if (jo.getInt("msg_status") == 0)
+                                {
+                                    ids=ids+jo.getInt("msg_id")+",";
+                                }
+
                             }
                         } else {
                             if (jo.getString("uname").compareTo(uname) == 0)
@@ -487,7 +498,14 @@ public class SendMessageActivity extends AppCompatActivity {
                         loading = false;
                         isrunning = false;
                     }
-
+                   //update message read to server
+                    String msgids="";
+                    if(ids.lastIndexOf(",")>0)
+                    {
+                        msgids=ids.substring(0,ids.lastIndexOf(","));
+                        Log.e("msgids",msgids);
+                        mSocket.emit("msgs read",msgids);
+                    }
 
                 } catch (Exception ex) {
                     Log.e("json parsing error", "" + ex.getMessage() + "");
@@ -530,7 +548,7 @@ public class SendMessageActivity extends AppCompatActivity {
             intent.putExtra("message", md.getMessage());
             intent.putExtra("pos", pos);
             intent.putExtra("time", md.getDatetime());
-            intent.putExtra("uname",chatbanner.getUname());
+            intent.putExtra("uname", chatbanner.getUname());
             setResult(200, intent);
             finish();//finishing activity
         }
@@ -563,7 +581,7 @@ public class SendMessageActivity extends AppCompatActivity {
         md.setMessage(message);
         md.setUname(uname);
         md.setProfilepic(SingleTon.pref.getString("imageurl", ""));
-        Log.e("image_url",md.getProfilepic());
+        Log.e("image_url", md.getProfilepic());
         md.setUserMessageType(UserMessageType.SELF);
         //check for start with zero
         if (time1.startsWith("0")) {
@@ -599,8 +617,8 @@ public class SendMessageActivity extends AppCompatActivity {
 
         //send banner message
         try {
-            if (extra != null && extra.getBoolean("fromhome", false)&&banneronce) {
-                banneronce=false;
+            if (extra != null && extra.getBoolean("fromhome", false) && banneronce) {
+                banneronce = false;
                 JSONObject jobj = new JSONObject();
                 jobj.put("msg_from", msg_from);
                 jobj.put("msg_to", msg_to);
@@ -1039,10 +1057,10 @@ public class SendMessageActivity extends AppCompatActivity {
                         messageto = jsondata.getString("msg_to");
                         url = jsondata.getString("image_url");
                         shared_image_url = jsondata.getString("shared_image_url");
-                      //  msg_id = jsondata.getString("msg_id");
+                        //  msg_id = jsondata.getString("msg_id");
                         /// unqiue_msg_id = jsondata.getString("user_unqiue_msg_id");
                         created_at = getTime(jsondata.getString("created_at"));
-                        if(from.compareToIgnoreCase(msg_to)!=0)
+                        if (from.compareToIgnoreCase(msg_to) != 0)
                             return;
                         MessageData chatResponse = new MessageData();
                         chatResponse.setMessage(message);
@@ -1087,7 +1105,7 @@ public class SendMessageActivity extends AppCompatActivity {
     };
 
 
-    private Emitter.Listener onBanner= new Emitter.Listener() {
+    private Emitter.Listener onBanner = new Emitter.Listener() {
         @Override
         public void call(final Object... args) {
             runOnUiThread(new Runnable() {
@@ -1096,8 +1114,8 @@ public class SendMessageActivity extends AppCompatActivity {
                     JSONObject jsondata = (JSONObject) args[0];
 
                     try {
-                        String from=jsondata.getString("msg_from");
-                        if(from.compareToIgnoreCase(msg_to)!=0)
+                        String from = jsondata.getString("msg_from");
+                        if (from.compareToIgnoreCase(msg_to) != 0)
                             return;
                         MessageData md1 = new MessageData();
                         md1.setUserMessageType(UserMessageType.BANNER);
@@ -1107,9 +1125,9 @@ public class SendMessageActivity extends AppCompatActivity {
                         md1.setPrice(jsondata.getString("price"));
                         md1.setBrandname(jsondata.getString("brand_name"));
                         data.add(md1);
-                     recyclerAdapter.notifyDataSetChanged();
+                        recyclerAdapter.notifyDataSetChanged();
                     } catch (JSONException e) {
-                        Log.e("error",e.getMessage());
+                        Log.e("error", e.getMessage());
                     }
 
                     // addLog(getResources().getString(R.string.message_user_joined, username));
@@ -1173,7 +1191,7 @@ public class SendMessageActivity extends AppCompatActivity {
                     String userid;
                     try {
                         userid = data.getString("user_id");
-                        if(userid.compareToIgnoreCase(msg_to)!=0)
+                        if (userid.compareToIgnoreCase(msg_to) != 0)
                             return;
                     } catch (JSONException e) {
                         return;
@@ -1194,7 +1212,7 @@ public class SendMessageActivity extends AppCompatActivity {
                     String userid;
                     try {
                         userid = data.getString("user_id");
-                        if(userid.compareToIgnoreCase(msg_to)!=0)
+                        if (userid.compareToIgnoreCase(msg_to) != 0)
                             return;
                     } catch (JSONException e) {
                         return;

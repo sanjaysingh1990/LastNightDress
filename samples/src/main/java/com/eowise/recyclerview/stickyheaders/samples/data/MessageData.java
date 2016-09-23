@@ -13,6 +13,24 @@ public class MessageData {
     private String color;
     private String price;
 
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public int getMsg_id() {
+        return msg_id;
+    }
+
+    public void setMsg_id(int msg_id) {
+        this.msg_id = msg_id;
+    }
+
+    private int status;
+    private int msg_id;
     public String getPostid() {
         return postid;
     }

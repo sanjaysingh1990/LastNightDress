@@ -242,6 +242,8 @@ public class SendMsgListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 MessageData chatres = items.get(pos);
                 chatres.setUserMessageType(UserMessageType.SELF_IMAGE_LOCAL_UPLOADED);
                 chatres.setTime(curr_date_time_format);
+                chatres.setDatetime(SingleTon.getCurrentTimeStamp());
+                chatres.setMessage("image");
 
                 notifyItemChanged(pos);
                 //Log.e("imageurl", jobj.getString("image_url"));
