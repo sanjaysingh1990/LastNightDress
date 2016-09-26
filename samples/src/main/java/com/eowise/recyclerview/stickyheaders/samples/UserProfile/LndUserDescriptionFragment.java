@@ -90,92 +90,24 @@ public class LndUserDescriptionFragment extends Fragment implements View.OnClick
            if(profiletype==1) {
                jsonprivate.put("description", descText.getText().toString());
               // Log.e("privatedata", jsonprivate.toString());
-               registerprivateUser(jsonprivate.toString());
            }
             else if(profiletype==2)
            {
                jsonshop.put("description", descText.getText().toString());
-              registerprivateUser(jsonshop.toString());
                //Log.e("json", jsonshop.toString());
 
            }
+            //move to referal code page
+            LndLoginSignup.currentpage = 6;
+            //current page value on stack;
+            LndLoginSignup.currenttab.push(5);
+            LndLoginSignup.mViewPager.setCurrentItem(6);
+
            } catch (JSONException ex) {
             Log.e("error", ex.getMessage() + "");
         }
 
     }
-    public  void registerprivateUser(final String data){
-        final ProgressDialog pDialog = new ProgressDialog(getActivity());
-        pDialog.setMessage("wait creating profile...");
-        pDialog.show();
 
-        RequestQueue queue = Volley.newRequestQueue(getActivity());
-        StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_USER, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                pDialog.dismiss();
-               Log.e("json", response.toString());
-                try
-                {
-                    JSONObject jobj=new JSONObject(response.toString());
-                    if(jobj.getBoolean("status"))
-                    {
-                        SharedPreferences.Editor edit= SingleTon.pref.edit();
-                        edit.putString("uname", jobj.getString("uname"));
-                        edit.putString("user_id",jobj.getString("user_id"));
-                        edit.putString("utype",jobj.getString("type"));
-                        edit.putString("country",jobj.getString("country"));
-                        edit.putString("imageurl", jobj.getString("imageurl"));
-                        edit.putInt("user_position", jobj.getInt("user_position"));
-                        edit.putString("ref_code",jobj.getString("ref_code"));
-                       // Log.e("code",jobj.getString("ref_code"));
-                        edit.commit();
-                        LndUserReferalCodeFragment.ref_code.setText(jobj.getString("ref_code"));
-                        LndLoginSignup.currentpage = 6;
-                        //current page value on stack;
-                        LndLoginSignup.currenttab.push(5);
-                        LndLoginSignup.mViewPager.setCurrentItem(6);
-
-                    }
-                    else
-                    {
-                       Toast.makeText(getActivity(),jobj.getString("message")+"",Toast.LENGTH_SHORT).show();
-                    }
-                }
-                catch(Exception ex)
-                {
-                    Log.e("json parsing error", ex.getMessage());
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                pDialog.dismiss();
-                Log.e("response",error.getMessage()+"");
-            }
-        }){
-            @Override
-            protected Map<String,String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("rqid","5");
-                params.put("data",data);
-
-
-                return params;
-            }
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("Content-Type","application/x-www-form-urlencoded");
-                return params;
-            }
-        };
-        int socketTimeout = 60000;//30 seconds - change to what you want
-        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-        sr.setRetryPolicy(policy);
-
-        queue.add(sr);
-    }
 
 }

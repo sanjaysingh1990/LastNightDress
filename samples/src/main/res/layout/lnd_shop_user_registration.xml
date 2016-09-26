@@ -275,6 +275,7 @@
                 android:paddingLeft="10dp"
                 android:textSize="16sp"
                 android:inputType="number"
+                android:visibility="gone"
 
                 />
             <View
@@ -282,6 +283,7 @@
                 android:layout_height="1dp"
                 android:background="@color/lnd_home_gray"
                 android:layout_marginTop="10dp"
+                android:visibility="gone"
                 />
 <TextView
     android:layout_width="wrap_content"

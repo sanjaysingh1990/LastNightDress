@@ -722,7 +722,7 @@ public class LndProfile extends AppCompatActivity {
                 } catch (Exception ex) {
 
                 }
-                // Log.e("response user profile", response.toString());
+                 Log.e("response user profile", response.toString());
 
 
             }

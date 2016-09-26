@@ -433,6 +433,13 @@ public class ShopFragment extends Fragment {
             this.username.setError(null);
         }
 
+        if (username.contains(" ")) {
+            this.username.requestFocus();
+            this.username.setError("user name shouldn't contain space");
+        } else {
+            this.username.setError(null);
+        }
+
         if (email.length() == 0) {
             // Toast.makeText(this, "Name field is empty", Toast.LENGTH_SHORT).show();
             this.email.requestFocus();
@@ -529,19 +536,17 @@ public class ShopFragment extends Fragment {
             LndUserDescriptionFragment.jsonshop.put("zipcode", posttalzip.getText().toString());
             LndUserDescriptionFragment.jsonshop.put("country", this.country.getSelectedItemPosition());
             if (this.refcodeedittext.getText().length() == 0)
-                LndUserDescriptionFragment.jsonshop.put("refcode",0);
+                LndUserDescriptionFragment.jsonshop.put("refcode", 0);
             else
                 LndUserDescriptionFragment.jsonshop.put("refcode", this.refcodeedittext.getText());
 
 
-            if (picfrom == 2 || picfrom == 3 || picfrom == 1)
-            {
+            if (picfrom == 2 || picfrom == 3 || picfrom == 1) {
 
                 LndUserDescriptionFragment.jsonshop.put("imageurl", imageurl);
                 LndUserDescriptionFragment.jsonshop.put("filename", "lnd" + System.currentTimeMillis() + ".jpg");
 
-            } else
-            {
+            } else {
 
                 LndUserDescriptionFragment.jsonshop.put("imageurl", "");
 

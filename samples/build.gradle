@@ -35,9 +35,7 @@ dependencies {
     compile('com.twitter.sdk.android:twitter:1.13.1@aar') {
         transitive = true;
     }
-    compile('com.crashlytics.sdk.android:crashlytics:2.6.1@aar') {
-        transitive = true;
-    }
+
 
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:recyclerview-v7:23.1.1'
@@ -60,7 +58,11 @@ dependencies {
         exclude group: 'org.json', module: 'json'
     }
     compile 'com.github.lzyzsd:circleprogress:1.1.0@aar'
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.4@aar') {
+        transitive = true;
+    }
 
+    compile project(path: ':uploadservice')
 }
 
 android {

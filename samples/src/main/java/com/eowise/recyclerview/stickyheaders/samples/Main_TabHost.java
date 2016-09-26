@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TabWidget;
@@ -34,7 +35,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.crashlytics.android.Crashlytics;
-import com.eowise.recyclerview.stickyheaders.samples.Utils.ApplicationConstants;
 import com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage.LndNotificationMessageActivity;
 import com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage.MessageFragment;
 import com.eowise.recyclerview.stickyheaders.samples.LndNotificationMessage.NotificationFragment;
@@ -42,6 +42,7 @@ import com.eowise.recyclerview.stickyheaders.samples.LndUserProfile.LndProfile;
 import com.eowise.recyclerview.stickyheaders.samples.StickyHeader.StickyActivity;
 import com.eowise.recyclerview.stickyheaders.samples.TabDemo.LndFragment;
 import com.eowise.recyclerview.stickyheaders.samples.TabDemo.LndShopActivity;
+import com.eowise.recyclerview.stickyheaders.samples.Utils.ApplicationConstants;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.BlankActivity;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.LndUtils;
 import com.eowise.recyclerview.stickyheaders.samples.data.NotificationData;
@@ -62,17 +63,31 @@ import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 
+import net.gotev.uploadservice.MultipartUploadRequest;
+import net.gotev.uploadservice.ServerResponse;
+import net.gotev.uploadservice.UploadInfo;
+import net.gotev.uploadservice.UploadNotificationConfig;
+import net.gotev.uploadservice.UploadService;
+import net.gotev.uploadservice.UploadStatusDelegate;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Stack;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.fabric.sdk.android.Fabric;
 
-public class Main_TabHost extends AppCompatActivity {
+public class Main_TabHost extends AppCompatActivity implements UploadStatusDelegate {
     public static TabWidget tabWidget;
     public static TabHost tabHost;
     public static Activity activity;
@@ -92,10 +107,14 @@ public class Main_TabHost extends AppCompatActivity {
     private GoogleCloudMessaging gcmObj;
     private String regId = "";
     public static final String REG_ID = "regId";
-    private static final String TWITTER_KEY = "4OuMi2Mc6KRBSrRpMskHyhWqh";
-    private static final String TWITTER_SECRET = "X7642MPH314iPB04eZEiNiqjdAixj7lS8OglLeD8AUFr0TP1F1";
     public static TwitterLoginButton loginButton;
     TwitterSession session;
+
+    private static final String TAG = "UploadServicelnd";
+
+    private static final String USER_AGENT = "UploadServiceDemo/" + BuildConfig.VERSION_NAME;
+
+    private Map<String, UploadProgressViewHolder> uploadProgressHolders = new HashMap<>();
 
     /**
      * Called when the activity is first created.
@@ -104,11 +123,10 @@ public class Main_TabHost extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
-        Fabric.with(this, new Twitter(authConfig));
-        Fabric.with(this, new Crashlytics());
+
 
         setContentView(R.layout.tabhost_main);
+      //  upload();
         activity = this;
         tabHost = (TabHost) findViewById(R.id.tabhost);
         tabWidget = (TabWidget) findViewById(android.R.id.tabs);
@@ -763,5 +781,163 @@ public class Main_TabHost extends AppCompatActivity {
             appInviteDialog.show(content);
         }
 
+    }
+
+
+    @Override
+    public void onProgress(UploadInfo uploadInfo) {
+        Log.i(TAG, String.format(Locale.getDefault(), "ID: %1$s (%2$d%%) at %3$.2f Kbit/s",
+                uploadInfo.getUploadId(), uploadInfo.getProgressPercent(),
+                uploadInfo.getUploadRate()));
+        logSuccessfullyUploadedFiles(uploadInfo.getSuccessfullyUploadedFiles());
+
+        if (uploadProgressHolders.get(uploadInfo.getUploadId()) == null)
+            return;
+
+        uploadProgressHolders.get(uploadInfo.getUploadId())
+                .progressBar.setProgress(uploadInfo.getProgressPercent());
+    }
+
+    @Override
+    public void onError(UploadInfo uploadInfo, Exception exception) {
+        Log.e(TAG, "Error with ID: " + uploadInfo.getUploadId() + ": "
+                + exception.getLocalizedMessage(), exception);
+        logSuccessfullyUploadedFiles(uploadInfo.getSuccessfullyUploadedFiles());
+
+        if (uploadProgressHolders.get(uploadInfo.getUploadId()) == null)
+            return;
+
+
+    }
+
+    @Override
+    public void onCompleted(UploadInfo uploadInfo, ServerResponse serverResponse) {
+        Log.i(TAG, String.format(Locale.getDefault(),
+                "ID %1$s: completed in %2$ds at %3$.2f Kbit/s. Response code: %4$d, body:[%5$s]",
+                uploadInfo.getUploadId(), uploadInfo.getElapsedTime() / 1000,
+                uploadInfo.getUploadRate(), serverResponse.getHttpCode(),
+                serverResponse.getBodyAsString()));
+        logSuccessfullyUploadedFiles(uploadInfo.getSuccessfullyUploadedFiles());
+        for (Map.Entry<String, String> header : serverResponse.getHeaders().entrySet()) {
+            Log.i("Header", header.getKey() + ": " + header.getValue());
+        }
+
+        Log.e(TAG, "Printing response body bytes");
+        byte[] ba = serverResponse.getBody();
+        for (int j = 0; j < ba.length; j++) {
+            Log.e(TAG, String.format("%02X ", ba[j]));
+        }
+
+        String res=new String(ba);
+        Log.e("response",res);
+        if (uploadProgressHolders.get(uploadInfo.getUploadId()) == null)
+            return;
+
+
+    }
+
+    @Override
+    public void onCancelled(UploadInfo uploadInfo) {
+        Log.i(TAG, "Upload with ID " + uploadInfo.getUploadId() + " is cancelled");
+        logSuccessfullyUploadedFiles(uploadInfo.getSuccessfullyUploadedFiles());
+
+        if (uploadProgressHolders.get(uploadInfo.getUploadId()) == null)
+            return;
+
+    }
+
+
+
+    //for upload service
+    private void logSuccessfullyUploadedFiles(List<String> files) {
+        for (String file : files) {
+            Log.e(TAG, "Success:" + file);
+        }
+    }
+
+    private UploadNotificationConfig getNotificationConfig(String filename) {
+        if (!true) return null;
+
+        return new UploadNotificationConfig()
+                .setIcon(R.drawable.ic_upload)
+                .setCompletedIcon(R.drawable.ic_upload_success)
+                .setErrorIcon(R.drawable.ic_upload_error)
+                .setTitle(filename)
+                .setInProgressMessage(getString(R.string.uploading))
+                .setCompletedMessage(getString(R.string.upload_success))
+                .setErrorMessage(getString(R.string.upload_error))
+                .setAutoClearOnSuccess(false)
+                .setClickIntent(new Intent(this, MainActivity.class))
+                .setClearOnAction(true)
+                .setRingToneEnabled(true);
+    }
+private void upload()
+{
+    final String serverUrlString = "http://52.76.68.122/lnd/uploadpostimage.php";//serverUrl.getText().toString();
+    final String paramNameString = "uploadfile";
+
+    final String filesToUploadString = "/storage/emulated/0/Download/BMS M-Ticket PCCH-WAFR6QH.jpg";
+    final String[] filesToUploadArray = filesToUploadString.split(",");
+
+    for (String fileToUploadPath : filesToUploadArray) {
+        try {
+            final String filename = getFilename(fileToUploadPath);
+
+            MultipartUploadRequest req = new MultipartUploadRequest(this, serverUrlString)
+                    .addFileToUpload(fileToUploadPath, paramNameString)
+                    .setNotificationConfig(getNotificationConfig(filename))
+                    .setCustomUserAgent(USER_AGENT)
+                    .setAutoDeleteFilesAfterSuccessfulUpload(false)
+                    .setUsesFixedLengthStreamingMode(false)
+                    .setMaxRetries(3);
+
+
+
+            String uploadID = req.setDelegate(this).startUpload();
+
+
+            // these are the different exceptions that may be thrown
+        } catch (FileNotFoundException exc) {
+            showToast(exc.getMessage());
+        } catch (IllegalArgumentException exc) {
+            showToast("Missing some arguments. " + exc.getMessage());
+        } catch (MalformedURLException exc) {
+            showToast(exc.getMessage());
+        }
+    }
+}
+    private void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
+
+    class UploadProgressViewHolder {
+        View itemView;
+
+        @Bind(R.id.uploadTitle)
+        TextView uploadTitle;
+        @Bind(R.id.uploadProgress)
+        ProgressBar progressBar;
+
+        String uploadId;
+
+        UploadProgressViewHolder(View view, String filename) {
+            itemView = view;
+            ButterKnife.bind(this, itemView);
+
+            progressBar.setMax(100);
+            progressBar.setProgress(0);
+
+            uploadTitle.setText(getString(R.string.upload_progress, filename));
+        }
+    }
+
+
+    private String getFilename(String filepath) {
+        if (filepath == null)
+            return null;
+
+        final String[] filepathParts = filepath.split("/");
+
+        return filepathParts[filepathParts.length - 1];
     }
 }

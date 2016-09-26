@@ -80,15 +80,16 @@ public class FillUserInfo extends AppCompatActivity {
                 return new UserNameFragment();
             } else if(position==1)
                 return new UserDescriptionFragment();
-            else
+            else if(position==2)
                 return new UserTypeFragment();
-
+            else
+                return new LndUserReferalCodeFragment();
         }
 
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 3;
+            return 4;
         }
 
 
@@ -104,4 +105,7 @@ public class FillUserInfo extends AppCompatActivity {
         else
         finish();
     }
+
+
+
 }

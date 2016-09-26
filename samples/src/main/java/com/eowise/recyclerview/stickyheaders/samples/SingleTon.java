@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
-
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -23,6 +22,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
 import com.crashlytics.android.Crashlytics;
 import com.eowise.recyclerview.stickyheaders.samples.SQLDB.DatabaseHandler;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ApplicationConstants;
@@ -31,9 +31,10 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.twitter.sdk.android.Twitter;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
 
 import org.json.JSONObject;
-
 
 import java.net.URISyntaxException;
 import java.text.NumberFormat;
@@ -42,11 +43,14 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+
+import io.fabric.sdk.android.Fabric;
 import io.socket.client.IO;
 import io.socket.client.Socket;
-import io.fabric.sdk.android.Fabric;
 
 public class SingleTon extends Application {
+    private static final String TWITTER_KEY = "4OuMi2Mc6KRBSrRpMskHyhWqh";
+    private static final String TWITTER_SECRET = "X7642MPH314iPB04eZEiNiqjdAixj7lS8OglLeD8AUFr0TP1F1";
 
     // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
 
@@ -81,7 +85,16 @@ public class SingleTon extends Application {
     public void onCreate()
     {
         super.onCreate();
-        Fabric.with(this, new Crashlytics());
+
+        //fabric kit initialization
+        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
+
+        Fabric.with(this, new Twitter(authConfig));
+
+        // Example: multiple kits
+        Fabric.with(this, new Twitter(authConfig),
+                         new Crashlytics());
+
 
 
                displayMetrics = getResources().getDisplayMetrics();

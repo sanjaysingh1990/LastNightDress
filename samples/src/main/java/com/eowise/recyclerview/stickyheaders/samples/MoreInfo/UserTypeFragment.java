@@ -64,77 +64,13 @@ public class UserTypeFragment extends Fragment implements View.OnClickListener {
                 FillUserInfo.jobj.put("utype", "private");
 
 
-            Log.e("data", FillUserInfo.jobj.toString());
-            registeruser(FillUserInfo.jobj.toString());
+           // Log.e("data", FillUserInfo.jobj.toString());
+            FillUserInfo.mViewPager.setCurrentItem(3);
         } catch (JSONException ex) {
             Log.e("error", ex.getMessage() + "");
         }
 
     }
 
-    public void registeruser(final String data) {
-        final ProgressDialog pDialog = new ProgressDialog(getActivity());
-        pDialog.setMessage("wait creating profile...");
-        pDialog.show();
 
-        RequestQueue queue = Volley.newRequestQueue(getActivity());
-        StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/lndusers.php", new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                pDialog.dismiss();
-                Log.e("afterlogin", response.toString());
-                try {
-                    JSONObject jobj = new JSONObject(response.toString());
-                    if (jobj.getBoolean("status")) {
-                        SharedPreferences.Editor edit = SingleTon.pref.edit();
-                        edit.putString("uname", jobj.getString("uname"));
-                        edit.putString("upass", jobj.getString("logintype"));
-                        edit.putString("utype", jobj.getString("type"));
-                        edit.putString("user_id", jobj.getString("user_id"));
-
-                        edit.putString("country", jobj.getString("country"));
-
-                        edit.putString("imageurl", jobj.getString("imageurl"));
-                        edit.commit();
-
-                        Intent i = new Intent(getActivity(), Main_TabHost.class);
-                        startActivity(i);
-                        getActivity().finish();
-                    } else {
-                        Log.e("error", "error");
-                    }
-                } catch (Exception ex) {
-                    Log.e("json parsing error", ex.getMessage());
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                pDialog.dismiss();
-                Log.e("response", error.getMessage() + "");
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("rqid", "2");
-                params.put("data", data);
-
-
-                return params;
-            }
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Content-Type", "application/x-www-form-urlencoded");
-                return params;
-            }
-        };
-        int socketTimeout = 60000;//30 seconds - change to what you want
-        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-        sr.setRetryPolicy(policy);
-
-        queue.add(sr);
-    }
 }

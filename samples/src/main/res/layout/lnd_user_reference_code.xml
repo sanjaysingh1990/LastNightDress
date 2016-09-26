@@ -25,13 +25,13 @@
             android:orientation="vertical">
 
 
-            <TextView
+            <EditText
                 android:id="@+id/ref_code"
-                android:layout_width="150dp"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/edittext_rounded_corners"
-                android:hint="****"
+                android:hint="Referral code (optional)"
                 android:textColor="#fff"
                 android:textColorHint="@color/user_registration_hint_color"
                 android:textSize="13sp" />
@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="5dp"
-                android:text="your referral code is"
+                android:text="your referral code if any"
                 android:textColor="#fff"
                 android:textSize="14sp" />
 

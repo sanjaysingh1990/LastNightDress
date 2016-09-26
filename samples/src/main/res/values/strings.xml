@@ -8,6 +8,7 @@
         <item>Top</item>
         <item>Overlay</item>
     </string-array>
+
     <string name="loginFacebookButton">Log in with Facebook</string>
     <string name="title_activity_lnd_shop">LndShop</string>
     <string name="tab_2">FILTER</string>
@@ -547,4 +548,11 @@ If you choose fixed price shipping, it’s a good idea to research average shipp
         <attr name="customFont" format="string" />
     </declare-styleable>
     <string name="add_a_comment">Add a comment</string>
+
+    <!-- for image upload service -->
+    <string name="uploading">Uploaded [[UPLOADED_FILES]] of [[TOTAL_FILES]] at [[UPLOAD_RATE]] - [[PROGRESS]]</string>
+    <string name="upload_success">Upload completed successfully in [[ELAPSED_TIME]]</string>
+    <string name="upload_error">Error while uploading</string>
+    <string name="upload_progress">Upload progress: %s</string>
+
 </resources>

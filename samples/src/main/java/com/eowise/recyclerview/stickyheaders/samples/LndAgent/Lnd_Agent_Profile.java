@@ -92,7 +92,10 @@ public class Lnd_Agent_Profile extends LndShareActivity implements View.OnClickL
     private void setHeader() {
 
         LndAgentBean header = new LndAgentBean();
+
         header.setType(0);
+        header.setUsertotalagents("0");
+        header.setUsertotalshops("0");
         data.add(header);
 
         adapter.notifyDataSetChanged();

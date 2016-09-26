@@ -1,4 +1,4 @@
-package com.eowise.recyclerview.stickyheaders.samples.UserProfile;
+package com.eowise.recyclerview.stickyheaders.samples.MoreInfo;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -27,6 +27,7 @@ import com.android.volley.toolbox.Volley;
 import com.eowise.recyclerview.stickyheaders.samples.Main_TabHost;
 import com.eowise.recyclerview.stickyheaders.samples.R;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
+import com.eowise.recyclerview.stickyheaders.samples.UserProfile.LndUserDescriptionFragment;
 import com.eowise.recyclerview.stickyheaders.samples.Utils.ApplicationConstants;
 
 import org.json.JSONException;
@@ -72,11 +73,10 @@ public class LndUserReferalCodeFragment extends Fragment implements View.OnClick
 
         try {
             if (ref_code.getText().length() == 0) {
-                LndUserDescriptionFragment.jsonshop.put("refcode", 0);
+                FillUserInfo.jobj.put("refcode", 0);
                 registeruser();
-            }
-                else {
-                LndUserDescriptionFragment.jsonshop.put("refcode", ref_code.getText());
+            } else {
+                FillUserInfo.jobj.put("refcode", ref_code.getText());
                 checkingrefcode(ref_code.getText().toString());
 
             }
@@ -87,47 +87,41 @@ public class LndUserReferalCodeFragment extends Fragment implements View.OnClick
 
     }
 
-    private void registeruser() {
-        if (LndUserDescriptionFragment.profiletype == 1) {
-
-            registerUser(LndUserDescriptionFragment.jsonprivate.toString());
-        } else if (LndUserDescriptionFragment.profiletype == 2) {
-            registerUser(LndUserDescriptionFragment.jsonshop.toString());
-            //Log.e("json", jsonshop.toString());
-
-        }
+    private void registeruser()
+    {
+        registeruser(FillUserInfo.jobj.toString());
     }
 
-    public void registerUser(final String data) {
+    public void registeruser(final String data) {
         final ProgressDialog pDialog = new ProgressDialog(getActivity());
         pDialog.setMessage("wait creating profile...");
         pDialog.show();
 
         RequestQueue queue = Volley.newRequestQueue(getActivity());
-        StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_USER, new Response.Listener<String>() {
+        StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/lndusers.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 pDialog.dismiss();
-               // Log.e("json", response.toString());
+                Log.e("afterlogin", response.toString());
                 try {
                     JSONObject jobj = new JSONObject(response.toString());
                     if (jobj.getBoolean("status")) {
                         SharedPreferences.Editor edit = SingleTon.pref.edit();
                         edit.putString("uname", jobj.getString("uname"));
-                        edit.putString("user_id", jobj.getString("user_id"));
+                        edit.putString("upass", jobj.getString("logintype"));
                         edit.putString("utype", jobj.getString("type"));
+                        edit.putString("user_id", jobj.getString("user_id"));
                         edit.putString("country", jobj.getString("country"));
-                        edit.putString("imageurl", jobj.getString("imageurl"));
                         edit.putInt("user_position", jobj.getInt("user_position"));
                         edit.putString("ref_code", jobj.getString("ref_code"));
-                        // Log.e("code",jobj.getString("ref_code"));
+                        edit.putString("imageurl", jobj.getString("imageurl"));
                         edit.commit();
+
                         Intent i = new Intent(getActivity(), Main_TabHost.class);
                         startActivity(i);
-                        ActivityCompat.finishAffinity(getActivity());
-
+                        getActivity().finish();
                     } else {
-                        Toast.makeText(getActivity(), jobj.getString("message") + "", Toast.LENGTH_SHORT).show();
+                        Log.e("error", "error");
                     }
                 } catch (Exception ex) {
                     Log.e("json parsing error", ex.getMessage());
@@ -143,7 +137,7 @@ public class LndUserReferalCodeFragment extends Fragment implements View.OnClick
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("rqid", "5");
+                params.put("rqid", "2");
                 params.put("data", data);
 
 

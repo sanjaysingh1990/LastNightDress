@@ -31,11 +31,15 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class UserNameFragment extends Fragment implements View.OnClickListener {
-    @Bind(R.id.next)TextView next;
-    @Bind(R.id.uname)EditText uname;
-    @Bind(R.id.loader)AVLoadingIndicatorView loader;
-    @Bind(R.id.notipropic)ImageView profilepic;
-    public static String imageurl="";
+    @Bind(R.id.next)
+    TextView next;
+    @Bind(R.id.uname)
+    EditText uname;
+    @Bind(R.id.loader)
+    AVLoadingIndicatorView loader;
+    @Bind(R.id.notipropic)
+    ImageView profilepic;
+    public static String imageurl = "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,9 +51,7 @@ public class UserNameFragment extends Fragment implements View.OnClickListener {
         next.setOnClickListener(this);
         try {
             imageurl = "http://graph.facebook.com/" + FillUserInfo.jobj.getString("fbid") + "/picture?type=large";
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
 
         }
 
@@ -58,53 +60,55 @@ public class UserNameFragment extends Fragment implements View.OnClickListener {
 
 
         return rootView;
-   }
+    }
 
     @Override
     public void onClick(View view) {
-        if(uname.getText().length()==0) {
+        String username = uname.getText().toString();
+        if (username.length() == 0) {
             uname.setError("username field can't be empty");
             return;
+        } else
+            uname.setError(null);
+
+        if (username.contains(" ")) {
+            this.uname.requestFocus();
+            this.uname.setError("user name shouldn't contain space");
+        } else {
+            this.uname.setError(null);
         }
-            loader.setVisibility(View.VISIBLE);
-            check(uname.getText().toString());
+        loader.setVisibility(View.VISIBLE);
+        check(uname.getText().toString());
 
     }
 
-    public  void check(final String username){
+    public void check(final String username) {
 
 
         RequestQueue queue = Volley.newRequestQueue(getActivity());
-        StringRequest sr = new StringRequest(Request.Method.POST,"http://52.76.68.122/lnd/androidiosphpfiles/lndusers.php", new Response.Listener<String>() {
+        StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/lndusers.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
                 loader.setVisibility(View.GONE);
                 // Log.e("response private", response.toString());
                 try {
-                    JSONObject jobj=new JSONObject(response.toString());
-                    boolean status=jobj.getBoolean("status");
-                    if(status)
-                    {
-                      uname.setError("user name already taken");
+                    JSONObject jobj = new JSONObject(response.toString());
+                    boolean status = jobj.getBoolean("status");
+                    if (status) {
+                        uname.setError("user name already taken");
 
-                     }
-                    else
-                    {
+                    } else {
                         try {
-                            FillUserInfo.jobj.put("uname",uname.getText().toString());
-                        }
-                        catch(JSONException ex)
-                        {
-                            Log.e("error",ex.getMessage()+"");
+                            FillUserInfo.jobj.put("uname", uname.getText().toString());
+                        } catch (JSONException ex) {
+                            Log.e("error", ex.getMessage() + "");
                         }
 
                         FillUserInfo.mViewPager.setCurrentItem(1);
 
                     }
-                }
-                catch(Exception ex)
-                {
+                } catch (Exception ex) {
                     Log.e("json parsing error", ex.getMessage());
                 }
             }
@@ -112,22 +116,22 @@ public class UserNameFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onErrorResponse(VolleyError error) {
                 loader.setVisibility(View.GONE);
-                Log.e("response",error.getMessage()+"");
+                Log.e("response", error.getMessage() + "");
             }
-        }){
+        }) {
             @Override
-            protected Map<String,String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("rqid","7");
-                params.put("uname",username);
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("rqid", "7");
+                params.put("uname", username);
 
                 return params;
             }
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("Content-Type","application/x-www-form-urlencoded");
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/x-www-form-urlencoded");
                 return params;
             }
         };

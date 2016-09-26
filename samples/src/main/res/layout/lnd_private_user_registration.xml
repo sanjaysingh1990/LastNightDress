@@ -203,13 +203,10 @@
                     android:paddingLeft="10dp"
                     android:textColor="@color/white"
                     android:textColorHint="@color/white"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:visibility="gone"
+                    />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@color/lnd_home_gray" />
 
                 <TextView
                     android:id="@+id/next"
@@ -220,7 +217,8 @@
                     android:clickable="true"
                     android:text="Next"
                     android:textColor="@color/white"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                     />
 
 
             </LinearLayout>

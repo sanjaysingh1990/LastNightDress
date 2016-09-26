@@ -458,6 +458,16 @@ public class PrivateFragment extends Fragment {
             this.username.setError("field is empty");
             return;
         }
+        else
+            this.username.setError(null);
+
+        if (username.contains(" ")) {
+            this.username.requestFocus();
+            this.username.setError("user name shouldn't contain space");
+        } else {
+            this.username.setError(null);
+        }
+
         if (email.length() == 0) {
             // Toast.makeText(this,"Email field is empty",Toast.LENGTH_SHORT).show();
             this.email.requestFocus();
@@ -510,18 +520,21 @@ public class PrivateFragment extends Fragment {
             LndUserDescriptionFragment.jsonprivate.put("email", email.getText().toString());
             LndUserDescriptionFragment.jsonprivate.put("password", password.getText().toString());
             LndUserDescriptionFragment.jsonprivate.put("country", this.country.getSelectedItemPosition());
+
             if (this.refcodeedittext.getText().length() == 0)
                 LndUserDescriptionFragment.jsonprivate.put("refcode",0);
             else
                 LndUserDescriptionFragment.jsonprivate.put("refcode", this.refcodeedittext.getText());
 
 
-            if (picfrom == 2 || picfrom == 3 || picfrom == 1) {
-
+            if (picfrom == 2 || picfrom == 3 || picfrom == 1)
+            {
                 LndUserDescriptionFragment.jsonprivate.put("imageurl", imageurl);
                 LndUserDescriptionFragment.jsonprivate.put("filename", "lnd" + System.currentTimeMillis() + ".jpg");
 
-            } else {
+            }
+            else
+            {
                 LndUserDescriptionFragment.jsonprivate.put("imageurl", "");
                 LndUserDescriptionFragment.jsonprivate.put("filename", "");
             }
@@ -529,7 +542,9 @@ public class PrivateFragment extends Fragment {
             LndLoginSignup.currenttab.push(3);
             LndLoginSignup.mViewPager.setCurrentItem(5);
 
-        } catch (JSONException ex) {
+        }
+        catch (JSONException ex)
+        {
             Log.e("error", ex.getMessage() + "");
         }
 
