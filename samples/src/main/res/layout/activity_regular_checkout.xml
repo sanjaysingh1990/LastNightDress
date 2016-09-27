@@ -758,14 +758,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#be4d66"
+            android:background="@color/gray"
             android:clickable="true"
             android:gravity="center"
             android:onClick="completePurchase"
             android:padding="10dp"
             android:text="Complete My Purchase"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/sale_purchase_lable_color"
             android:textSize="16sp"
+            android:id="@+id/complete"
+
 
             />
 

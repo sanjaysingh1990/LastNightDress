@@ -102,6 +102,9 @@ public class RegularCheckoutActivity extends LndBaseActivity {
     ImageView productimage;
     @Bind(R.id.authentication)
     RadioButton authenticate;
+    @Bind(R.id.complete)
+    TextView completetransaction;
+
 
     //end here
 
@@ -585,6 +588,9 @@ public class RegularCheckoutActivity extends LndBaseActivity {
                         //JSONArray jarray = datajsonobj.getJSONArray("Packages");
                         //JSONObject jsonpackageinfo = jarray.getJSONObject(0);
 
+                        completetransaction.setClickable(true);
+                        completetransaction.setBackgroundColor(Color.parseColor("#be4d66"));
+                        completetransaction.setTextColor(Color.parseColor("#ffffff"));
 
                     }
                 } catch (Exception ex) {
@@ -642,7 +648,7 @@ return -1;
         StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_SHIPPINGINFO, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.e("json", response + "");
+           //     Log.e("json", response + "");
                 try {
 
                     JSONObject jobj = new JSONObject(response);
@@ -652,6 +658,7 @@ return -1;
                                 + "\n" + jobj.getString("city") + "\n" + jobj.getString("zipcode");
                         sameaddress.setText(address);
                         cardno.setText(jobj.getString("card_no"));
+                        ordernumber.setText(jobj.getString("order_number"));
                      int pos=   check(getResources().getStringArray(R.array.card_type),jobj.getString("payment_method"));
                          if(pos>=0)
                         cardspinner.setSelection(pos);
@@ -701,6 +708,10 @@ return -1;
         onBackPressed();
     }
 
+    @Override
+    public void onBackPressed() {
+    showConfirmationDialog();
+    }
 
     private void placeOrder() {
         showProgress("wait processing");
@@ -760,4 +771,82 @@ return -1;
         queue.add(sr);
 
     }
+
+    private void cancelOrder(final String orderid) {
+
+        showProgress("wait cancelling order");
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        StringRequest sr = new StringRequest(Request.Method.POST, ApplicationConstants.APP_SERVER_URL_LND_SHIPPINGINFO, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                dismissProgress();
+                finish();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                dismissProgress();
+                Log.e("response", error.getMessage() + "");
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+
+                params.put("order_id", orderid);
+                params.put("rqid", "17");
+
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                return params;
+            }
+        };
+        int socketTimeout = 60000;
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        sr.setRetryPolicy(policy);
+
+        queue.add(sr);
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.e("requestcdoe",requestCode+"");
+
+        if (requestCode == 300 && data != null) {
+            Intent intent = new Intent();
+            intent.putExtra("MESSAGE", "cancelled");
+            setResult(11, intent);
+            // finish();
+        }
+    }
+    private void showConfirmationDialog() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        View view = LayoutInflater.from(this).inflate(R.layout.swap_cancel_confirmation_dialog_layout, null);
+
+        dialog.setView(view);
+        final AlertDialog alert = dialog.create();
+        alert.show();
+        view.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alert.dismiss();
+            }
+        });
+        view.findViewById(R.id.swapcontinue).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alert.dismiss();
+                cancelOrder(ordernumber.getText().toString());
+            }
+        });
+    }
+
 }

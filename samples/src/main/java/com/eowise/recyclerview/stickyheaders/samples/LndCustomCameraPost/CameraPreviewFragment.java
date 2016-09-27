@@ -80,9 +80,10 @@ public class CameraPreviewFragment extends Fragment
     private static int second = 0;
     public ImageView gallery, image1, image2, image3, image4;
     private ImageButton cancel1, cancel2, cancel3, cancel4;
+    public ImageButton add1, add2, add3, add4;
     private Bitmap capturedImage;
     private static ImageButton camera_flash;
-    public ImageButton add1, add2, add3, add4;
+
     public static int GALLERY_INTENT_CALLED = 200;
     SoundPool soundPool;
     int shutterSound;

@@ -45,6 +45,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost.CustomCamera;
+import com.eowise.recyclerview.stickyheaders.samples.Main_TabHost;
 import com.eowise.recyclerview.stickyheaders.samples.SingleTon;
 import com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost.CameraReviewFragment;
 import com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost.CompressImage;
@@ -218,7 +219,7 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
     PopupWindow popupWindow;
     int dresstype = 0;
     int condition = 0;
-   InstructionDialogs lndcommistiondialog;
+    InstructionDialogs lndcommistiondialog;
     Home_List_Data hld;
     private Bundle extra;
 
@@ -228,7 +229,7 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.dress_post_page);
         //intialiaing dialog
 
-
+        //Main_TabHost.main.upload();
         ButterKnife.bind(this);
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
 
@@ -276,27 +277,26 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
                         ((TextView) parent.getChildAt(0)).setBackgroundColor(Color.parseColor("#be4d66"));
 
 
-                    conditionspinner.setBackgroundColor(Color.parseColor("#be4d66"));
-                    condition = pos;
-                    lnditemcondition.setText(ConstantValues.conditiondesciptions[pos]);
-                    condition();
-                }else{
-                    lnditemcondition.setText(ConstantValues.conditiondesciptions[pos]);
-
-                    ((TextView) parent.getChildAt(0)).setTextColor(Color.parseColor("#ffffff"));
-                    ((TextView) parent.getChildAt(0)).setBackgroundColor(Color.parseColor("#1d1f21"));
-
-                    conditionspinner.setBackgroundColor(Color.parseColor("#1d1f21"));
-                    if (condition != 11 || condition != 12&&pos!=0)
+                        conditionspinner.setBackgroundColor(Color.parseColor("#be4d66"));
                         condition = pos;
-                }
+                        lnditemcondition.setText(ConstantValues.conditiondesciptions[pos]);
+                        condition();
+                    } else {
+                        lnditemcondition.setText(ConstantValues.conditiondesciptions[pos]);
 
-                ((TextView) parent.getChildAt(0)).setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow, 0);
+                        ((TextView) parent.getChildAt(0)).setTextColor(Color.parseColor("#ffffff"));
+                        ((TextView) parent.getChildAt(0)).setBackgroundColor(Color.parseColor("#1d1f21"));
+
+                        conditionspinner.setBackgroundColor(Color.parseColor("#1d1f21"));
+                        if (condition != 11 || condition != 12 && pos != 0)
+                            condition = pos;
+                    }
+
+                    ((TextView) parent.getChildAt(0)).setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow, 0);
+                } catch (Exception ex) {
+
+                }
             }
-                catch (Exception ex) {
-
-                }
-             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
@@ -401,7 +401,7 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
         // condition
         try {
             int val = Integer.parseInt(hld.getConditon());
-             if (val >= 1 && val <= 10)
+            if (val >= 1 && val <= 10)
                 conditionspinner.setSelection(val);
             else if (val == 12)
                 lastnightdress.setChecked(true);
@@ -827,8 +827,8 @@ public class DressEditPost extends AppCompatActivity implements View.OnClickList
             }
             //end query here
 
-          //  Log.e("json", mainObj.toString());
-           // Log.e("json2", querypart1 + querypart2);
+            //  Log.e("json", mainObj.toString());
+            // Log.e("json2", querypart1 + querypart2);
         } catch (Exception ex) {
             Log.e("json error", ex.getMessage() + "");
         }

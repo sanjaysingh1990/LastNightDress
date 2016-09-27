@@ -188,9 +188,7 @@ public class SwapCheckOutActivity extends LndBaseActivity {
         grandtotalprice.setTypeface(SingleTon.robotobold);
         orderdate.setTypeface(SingleTon.robotobold);
         ordernumber.setTypeface(SingleTon.robotobold);
-        completetransaction.setClickable(false);
-        completetransaction.setBackgroundColor(Color.parseColor("#dadada"));
-        completetransaction.setTextColor(Color.parseColor("#757575"));
+
         fullDialogLoader();
     }
 

@@ -126,7 +126,7 @@ public class Main_TabHost extends AppCompatActivity implements UploadStatusDeleg
 
 
         setContentView(R.layout.tabhost_main);
-      //  upload();
+
         activity = this;
         tabHost = (TabHost) findViewById(R.id.tabhost);
         tabWidget = (TabWidget) findViewById(android.R.id.tabs);
@@ -871,7 +871,7 @@ public class Main_TabHost extends AppCompatActivity implements UploadStatusDeleg
                 .setClearOnAction(true)
                 .setRingToneEnabled(true);
     }
-private void upload()
+public void upload()
 {
     final String serverUrlString = "http://52.76.68.122/lnd/uploadpostimage.php";//serverUrl.getText().toString();
     final String paramNameString = "uploadfile";
