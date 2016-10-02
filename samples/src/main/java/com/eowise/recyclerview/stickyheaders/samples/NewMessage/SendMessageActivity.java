@@ -430,6 +430,10 @@ public class SendMessageActivity extends AppCompatActivity {
                             md.setSize(jo.getString("size"));
                             md.setPrice(jo.getString("price_now"));
                             md.setUserMessageType(UserMessageType.BANNER);
+                            if (jo.getInt("msg_status") == 0)
+                            {
+                                ids=ids+jo.getInt("msg_id")+",";
+                            }
                         }
 
                         Date testDate = getDate(md.getTime());

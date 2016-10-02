@@ -4,11 +4,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.eowise.recyclerview.stickyheaders.samples.UserProfile.LndLoginSignup;
 import com.facebook.FacebookSdk;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 
 public class Splash extends AppCompatActivity {
 
@@ -60,6 +65,8 @@ public class Splash extends AppCompatActivity {
                }
                }
         }).start();
+
+
 
     }
 

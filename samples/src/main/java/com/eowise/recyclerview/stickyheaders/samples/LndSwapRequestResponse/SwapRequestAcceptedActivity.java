@@ -213,7 +213,6 @@ public class SwapRequestAcceptedActivity extends AppCompatActivity {
                         pdb.setPrice(jo.getString("price_now"));
                         pdb.setPostid(jo.getString("post_id"));
                         pdb.setItemchecked(false);
-
                         pdb.setUname(jo.getString("uname"));
                         pdb.setImageurl(jo.getString("image_url"));
                         shopdata.add(pdb);

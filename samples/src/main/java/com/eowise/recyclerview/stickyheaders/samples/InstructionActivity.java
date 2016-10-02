@@ -11,6 +11,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.desmond.squarecamera.CameraActivity;
 import com.eowise.recyclerview.stickyheaders.samples.LndCustomCameraPost.CustomCamera;
 
 public class InstructionActivity extends AppCompatActivity {
@@ -75,7 +76,7 @@ public void capture(View v)
         edit.putBoolean("next",true);
         edit.commit();
     }
-        Intent cap=new Intent(InstructionActivity.this, CustomCamera.class);
+        Intent cap=new Intent(InstructionActivity.this, CameraActivity.class);
         startActivity(cap);
         finish();
 }

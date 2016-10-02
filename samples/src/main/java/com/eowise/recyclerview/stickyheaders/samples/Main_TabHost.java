@@ -63,11 +63,11 @@ import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 
+
 import net.gotev.uploadservice.MultipartUploadRequest;
 import net.gotev.uploadservice.ServerResponse;
 import net.gotev.uploadservice.UploadInfo;
 import net.gotev.uploadservice.UploadNotificationConfig;
-import net.gotev.uploadservice.UploadService;
 import net.gotev.uploadservice.UploadStatusDelegate;
 
 import org.json.JSONException;
@@ -86,6 +86,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.fabric.sdk.android.Fabric;
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 
 public class Main_TabHost extends AppCompatActivity implements UploadStatusDelegate {
     public static TabWidget tabWidget;
@@ -584,7 +586,7 @@ public class Main_TabHost extends AppCompatActivity implements UploadStatusDeleg
             NotificationFragment.notification.refreshlist(LndUtils.lastnotificationid);
             return;
         }
-        RequestQueue queue = Volley.newRequestQueue(this);
+       /* RequestQueue queue = Volley.newRequestQueue(this);
         StringRequest sr = new StringRequest(Request.Method.POST, "http://52.76.68.122/lnd/androidiosphpfiles/inboxope.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -621,9 +623,18 @@ public class Main_TabHost extends AppCompatActivity implements UploadStatusDeleg
                 return params;
             }
         };
-        queue.add(sr);
-    }
+        queue.add(sr);*/
+        //setting up socket
+        SingleTon app = (SingleTon) getApplication();
+        mSocket = app.getSocket();
 
+        // mSocket.on("message read", msgread);
+        mSocket.on("get noti", getnotifications);
+
+        mSocket.connect();
+        mSocket.emit("get noti",3);
+    }
+    private Socket mSocket;
     private boolean checkPlayServices() {
         int resultCode = GooglePlayServicesUtil
                 .isGooglePlayServicesAvailable(this);
@@ -940,4 +951,30 @@ public void upload()
 
         return filepathParts[filepathParts.length - 1];
     }
+    //to receive notifications using socket
+    private Emitter.Listener getnotifications = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            final JSONObject jobj = (JSONObject) args[0];
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                      //  JSONObject jobj = new JSONObject(response.toString());
+                       Log.e("data",jobj.toString());
+                       data=jobj.toString();
+                        if (jobj.getBoolean("status")) {
+                            Toast.makeText(Main_TabHost.this,"called",Toast.LENGTH_LONG).show();
+                            showpopup.performClick();
+                        }
+                    } catch (Exception ex) {
+                        Log.e("error", ex.getMessage());
+                    }
+
+                }
+
+            });
+        }
+    };
 }

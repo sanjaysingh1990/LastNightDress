@@ -30,7 +30,8 @@ dependencies {
     compile project(':pullrefresh')
     compile project(':ViewPagerIndicator-Library')
     compile project(':lndswipedeletelibrary')
-
+    compile project(':uploadservice')
+    compile project(':squarecamera')
 
     compile('com.twitter.sdk.android:twitter:1.13.1@aar') {
         transitive = true;
@@ -63,7 +64,8 @@ dependencies {
     }
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
     compile 'com.squareup.okhttp3:okhttp-ws:3.4.1'
-    compile project(path: ':uploadservice')
+
+
 }
 
 android {

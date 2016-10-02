@@ -76,8 +76,14 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden" />
+
         <activity
             android:name=".LndPostFullView.LndFullStickyActivity"
+            android:label="@string/title_activity_lnd_full_post"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name="com.desmond.squarecamera.CameraActivity"
             android:label="@string/title_activity_lnd_full_post"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
